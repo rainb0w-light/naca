@@ -530,7 +530,7 @@ public class NacaToolBox extends CJMapObject
 			if (diffYears > 0)
 			{
 				calendar.add(GregorianCalendar.YEAR, diffYears);
-				//int DiffDayOfYear = elapsedTime(calendar, calendarEnd, GregorianCalendar.DATE);				
+                // int DiffDayOfYear = elapsedTime(calendar, calendarEnd, GregorianCalendar.DATE);
 				diffMillis = calendarEnd.getTimeInMillis() - calendar.getTimeInMillis();
 				long DiffDayOfYear = diffMillis/(24*60*60*1000);
 				csDiffDayOfYear = StringUtil.leftPad(String.valueOf(DiffDayOfYear), 3, '0');
@@ -859,17 +859,27 @@ public class NacaToolBox extends CJMapObject
 	}
 	
 	/*
-	 * Var p2_Loce = declare.level(1).var() ;                                   // (46)  01  P2-LOCE.                                                     
-		Var p2_Adrpayn = declare.level(5).picX(3).var() ;                       // (47)      05 P2-ADRPAYN           PIC X(3).                            
-		Var p2_Adrnpe = declare.level(5).picX(8).var() ;                        // (48)      05 P2-ADRNPE            PIC X(8).                            
-		Var p2_Adrloce = declare.level(5).picX(20).var() ;                      // (49)      05 P2-ADRLOCE           PIC X(20).                           
-		Var p2_Adrpays = declare.level(5).picX(3).var() ;                       // (50)      05 P2-ADRPAYS           PIC X(3).                            
-		Var p2_Adrpayl = declare.level(5).picX(20).var() ;                      // (51)      05 P2-ADRPAYL           PIC X(20).                           
-		Var filler$0 = declare.level(5).picX(6).valueSpaces().var() ;           // (52)      05 FILLER               PIC X(6)      VALUE SPACE.           
-	   Var filler$1 = declare.level(1).redefines(p2_Loce).var() ;               // (53)  01  FILLER REDEFINES P2-LOCE.                                    
-		Var p2_Ligloce1 = declare.level(5).var() ;                              // (54)      05 P2-LIGLOCE1.                                              
-			Var p2_Cdretn = declare.level(10).picX(1).var() ;                   // (55)         10 P2-CDRETN         PIC X.                               
-			Var filler$2 = declare.level(10).picX(29).var() ;                   // (56)         10 FILLER            PIC X(29).                           
+     * Var p2_Loce = declare.level(1).var() ; // (46) 01 P2-LOCE.
+        // (47) 05 P2-ADRPAYN PIC X(3).
+		Var p2_Adrpayn = declare.level(5).picX(3).var() ;
+        // (48) 05 P2-ADRNPE PIC X(8).
+		Var p2_Adrnpe = declare.level(5).picX(8).var() ;
+        // (49) 05 P2-ADRLOCE PIC X(20).
+		Var p2_Adrloce = declare.level(5).picX(20).var() ;
+        // (50) 05 P2-ADRPAYS PIC X(3).
+		Var p2_Adrpays = declare.level(5).picX(3).var() ;
+        // (51) 05 P2-ADRPAYL PIC X(20).
+		Var p2_Adrpayl = declare.level(5).picX(20).var() ;
+        // (52) 05 FILLER PIC X(6) VALUE SPACE.
+		Var filler$0 = declare.level(5).picX(6).valueSpaces().var() ;
+       // (53) 01 FILLER REDEFINES P2-LOCE.
+	   Var filler$1 = declare.level(1).redefines(p2_Loce).var() ;
+        // (54) 05 P2-LIGLOCE1.
+		Var p2_Ligloce1 = declare.level(5).var() ;
+            // (55) 10 P2-CDRETN PIC X.
+			Var p2_Cdretn = declare.level(10).picX(1).var() ;
+            // (56) 10 FILLER PIC X(29).
+			Var filler$2 = declare.level(10).picX(29).var() ;
 		Var p2_Ligloce2 = declare.level(5).picX(30).var() ;                     // (57)      05 P2-LIGLOCE2          PIC X(30).
 	 */
 	public void formatForeignAddress(Var param)
@@ -1577,17 +1587,17 @@ public class NacaToolBox extends CJMapObject
 	{
 		//TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
 
-//		Var s31_Regle = declare.level(5).var() ;                                // (1443)     05 S31-REGLE.                                                 
-//			Var s31_Colonne = declare.level(10).occurs(4).var() ;               // (1444)        10 S31-COLONNE OCCURS 4.                                   
-//				Var s31_Pos = declare.level(15).picS9(9).comp().var() ;         // (1445)           15 S31-POS            PIC S9(9) COMP.                   
-//				Var s31_Large = declare.level(15).picS9(9).comp().var() ;       // (1446)           15 S31-LARGE          PIC S9(9) COMP.                   
-//				Var s31_Flags = declare.level(15).picS9(9).comp().var() ;       // (1447)           15 S31-FLAGS          PIC S9(9) COMP.                   
-//				Var s31_Aligne = declare.level(15).picS9(9).comp().var() ;      // (1448)           15 S31-ALIGNE         PIC S9(9) COMP.                   
-//				Var s31_Lmode = declare.level(15).picS9(9).comp().var() ;       // (1449)           15 S31-LMODE          PIC S9(9) COMP.                   
-//				Var s31_Yline = declare.level(15).picS9(9).comp().var() ;       // (1450)           15 S31-YLINE          PIC S9(9) COMP.                   
-//				Var s31_Cyline = declare.level(15).picS9(9).comp().var() ;      // (1451)           15 S31-CYLINE         PIC S9(9) COMP.                   
-//				Var s31_Trc = declare.level(15).picX(1).var() ;                 // (1452)           15 S31-TRC            PIC X.                            
-//				Var filler$273 = declare.level(15).picX(3).filler() ;           // (1453)           15 FILLER             PIC XXX.
+// Var s31_Regle = declare.level(5).var() ; // (1443) 05 S31-REGLE.
+// Var s31_Colonne = declare.level(10).occurs(4).var() ; // (1444) 10 S31-COLONNE OCCURS 4.
+// Var s31_Pos = declare.level(15).picS9(9).comp().var() ; // (1445) 15 S31-POS PIC S9(9) COMP.
+// Var s31_Large = declare.level(15).picS9(9).comp().var() ; // (1446) 15 S31-LARGE PIC S9(9) COMP.
+// Var s31_Flags = declare.level(15).picS9(9).comp().var() ; // (1447) 15 S31-FLAGS PIC S9(9) COMP.
+// Var s31_Aligne = declare.level(15).picS9(9).comp().var() ; // (1448) 15 S31-ALIGNE PIC S9(9) COMP.
+// Var s31_Lmode = declare.level(15).picS9(9).comp().var() ; // (1449) 15 S31-LMODE PIC S9(9) COMP.
+// Var s31_Yline = declare.level(15).picS9(9).comp().var() ; // (1450) 15 S31-YLINE PIC S9(9) COMP.
+// Var s31_Cyline = declare.level(15).picS9(9).comp().var() ; // (1451) 15 S31-CYLINE PIC S9(9) COMP.
+// Var s31_Trc = declare.level(15).picX(1).var() ; // (1452) 15 S31-TRC PIC X.
+// Var filler$273 = declare.level(15).picX(3).filler() ; // (1453) 15 FILLER PIC XXX.
 		/*Var varColonne = rule.getVarChildAt(1);
 		Var varPos = varColonne.getVarChildAt(1);
 		Var varLarge = varColonne.getVarChildAt(2);
@@ -1677,11 +1687,11 @@ public class NacaToolBox extends CJMapObject
 	{
 		//TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
 		
-//		Var s32_Input = declare.level(5).var() ;                                // (2497)      05 S32-INPUT.                                                
-//			Var s32_Inbch = declare.level(10).picS9(9).comp().var() ;           // (2498)         10 S32-INBCH             PIC S9(9) COMP.                  
-//			Var s32_Imaxch = declare.level(10).picS9(9).comp().value(4001).var() ; // (2499)      10 S32-IMAXCH            PIC S9(9) COMP VALUE 4001.
-//			Var s32_Intxt = declare.level(10).var() ;                           // (2500)         10 S32-INTXT.                                             
-//				Var s32_Ichar = declare.level(15).occurs(4001).picX(1).var() ;  // (2501)            15 S32-ICHAR OCCURS 4001 PIC X.
+// Var s32_Input = declare.level(5).var() ; // (2497) 05 S32-INPUT.
+// Var s32_Inbch = declare.level(10).picS9(9).comp().var() ; // (2498) 10 S32-INBCH PIC S9(9) COMP.
+// Var s32_Imaxch = declare.level(10).picS9(9).comp().value(4001).var() ; // (2499) 10 S32-IMAXCH PIC S9(9) COMP VALUE 4001.
+// Var s32_Intxt = declare.level(10).var() ; // (2500) 10 S32-INTXT.
+// Var s32_Ichar = declare.level(15).occurs(4001).picX(1).var() ; // (2501) 15 S32-ICHAR OCCURS 4001 PIC X.
 		
 		/*ReturnCode rc;
 		PSFOutputBuffer psf = new PSFOutputBuffer(4001);
@@ -1690,11 +1700,11 @@ public class NacaToolBox extends CJMapObject
 		else
 			rc = textPrintHelper.printText(input.getVarChildAt(3).getString().substring(0, input.getVarChildAt(1).getInt()), TextBlockMode.BLKM_ENDOFBLOCK, psf);
 		
-//		Var s32_Output = declare.level(5).var() ;                               // (2493)      05 S32-OUTPUT.                                               
-//			Var s32_Onbch = declare.level(10).picS9(9).comp().var() ;           // (2494)         10 S32-ONBCH             PIC S9(9) COMP.                  
-//			Var s32_Omaxch =declare.level(10).picS9(9).comp().value(4001).var();// (2495)         10 S32-OMAXCH            PIC S9(9) COMP VALUE 4001.       
-//			Var s32_Outxt = declare.level(10).var() ;                           // (2496)         10 S32-OUTXT.                                             
-//				Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ;  // (2497)            15 S32-OCHAR OCCURS 4001 PIC X.
+// Var s32_Output = declare.level(5).var() ; // (2493) 05 S32-OUTPUT.
+// Var s32_Onbch = declare.level(10).picS9(9).comp().var() ; // (2494) 10 S32-ONBCH PIC S9(9) COMP.
+// Var s32_Omaxch =declare.level(10).picS9(9).comp().value(4001).var();// (2495) 10 S32-OMAXCH PIC S9(9) COMP VALUE 4001.
+// Var s32_Outxt = declare.level(10).var() ; // (2496) 10 S32-OUTXT.
+// Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ; // (2497) 15 S32-OCHAR OCCURS 4001 PIC X.
 		output.getVarChildAt(1).set(psf.getLength() - 1);
 		output.getVarChildAt(3).importFromByteArray(psf.getBytes(), psf.getLength());		
 		blockHeight.set(psf.getHeight());
@@ -1704,11 +1714,11 @@ public class NacaToolBox extends CJMapObject
 	{
 		//TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
 		
-//		Var s33_Input = declare.level(5).var() ;                                // (2508)      05 S33-INPUT.                                                
-//			Var s33_Pos = declare.level(10).picS9(9).comp().var() ;             // (2509)         10 S33-POS               PIC S9(9) COMP.                  
-//			Var s33_Large = declare.level(10).picS9(9).comp().var() ;           // (2510)         10 S33-LARGE             PIC S9(9) COMP.                  
-//			Var s33_Yline = declare.level(10).picS9(9).comp().var() ;           // (2511)         10 S33-YLINE             PIC S9(9) COMP.                  
-//			Var s33_Cyline = declare.level(10).picS9(9).comp().var() ;          // (2512)         10 S33-CYLINE            PIC S9(9) COMP.
+// Var s33_Input = declare.level(5).var() ; // (2508) 05 S33-INPUT.
+// Var s33_Pos = declare.level(10).picS9(9).comp().var() ; // (2509) 10 S33-POS PIC S9(9) COMP.
+// Var s33_Large = declare.level(10).picS9(9).comp().var() ; // (2510) 10 S33-LARGE PIC S9(9) COMP.
+// Var s33_Yline = declare.level(10).picS9(9).comp().var() ; // (2511) 10 S33-YLINE PIC S9(9) COMP.
+// Var s33_Cyline = declare.level(10).picS9(9).comp().var() ; // (2512) 10 S33-CYLINE PIC S9(9) COMP.
 		/*LineDef lineDef = new LineDef(input.getVarChildAt(1).getInt(), input.getVarChildAt(2).getInt(), input.getVarChildAt(3).getInt(), input.getVarChildAt(4).getInt());
 		
 		ReturnCode rc;
@@ -1718,11 +1728,11 @@ public class NacaToolBox extends CJMapObject
 		else
 			rc = textPrintHelper.drawLine(lineDef, TextBlockMode.BLKM_ENDOFBLOCK, psf);
 
-//		Var s32_Output = declare.level(5).var() ;                               // (2493)      05 S32-OUTPUT.                                               
-//			Var s32_Onbch = declare.level(10).picS9(9).comp().var() ;           // (2494)         10 S32-ONBCH             PIC S9(9) COMP.                  
-//			Var s32_Omaxch =declare.level(10).picS9(9).comp().value(4001).var();// (2495)         10 S32-OMAXCH            PIC S9(9) COMP VALUE 4001.       
-//			Var s32_Outxt = declare.level(10).var() ;                           // (2496)         10 S32-OUTXT.                                             
-//				Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ;  // (2497)            15 S32-OCHAR OCCURS 4001 PIC X.
+// Var s32_Output = declare.level(5).var() ; // (2493) 05 S32-OUTPUT.
+// Var s32_Onbch = declare.level(10).picS9(9).comp().var() ; // (2494) 10 S32-ONBCH PIC S9(9) COMP.
+// Var s32_Omaxch =declare.level(10).picS9(9).comp().value(4001).var();// (2495) 10 S32-OMAXCH PIC S9(9) COMP VALUE 4001.
+// Var s32_Outxt = declare.level(10).var() ; // (2496) 10 S32-OUTXT.
+// Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ; // (2497) 15 S32-OCHAR OCCURS 4001 PIC X.
 		output.getVarChildAt(1).set(psf.getLength() - 1);
 		output.getVarChildAt(3).setFromByteArray(psf.getBytes(), 0, psf.getLength());		
 		blockHeight.set(psf.getHeight());

@@ -128,7 +128,8 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		return false;
 	}
 	
-	public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)	// Read a vairable length line (length is given in record header 4 bytes)
+    // Read a vairable length line (length is given in record header 4 bytes)
+	public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)
 	{
 		LineRead recordHeader = readBuffer(4, false);
 		if(recordHeader != null)
@@ -139,8 +140,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 			else
 			{
 				// VH Mode
-				//nLength = recordHeader.getAsLittleEndingUnsignBinaryShort();	// The header is 2 bytes long, with the next 2 bytes at 0
-				nLength = recordHeader.readAndConvertHeaderVHToVBMode();	// The header is converted in the buffer as a VB header 
+                // nLength = recordHeader.getAsLittleEndingUnsignBinaryShort(); // The header is 2 bytes long, with the next 2 bytes at 0
+                // The header is converted in the buffer as a VB header
+				nLength = recordHeader.readAndConvertHeaderVHToVBMode();
 			}
 			
 			if(lineOut == null)
@@ -182,7 +184,8 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		int nFullLength = nLength;
 		if(bTryReadNextLF)
 			nFullLength++;
-		if(isPositionAtOffsetInReadAHead(nFullLength))	// The next recoprd, including optional LF is already read the in read ahead buffer  
+        // The next recoprd, including optional LF is already read the in read ahead buffer
+		if(isPositionAtOffsetInReadAHead(nFullLength))
 		{
 			lineRead.set(tReadBytesAHead, nFirstPositionInReadAHead, nFullLength, nReservedHeaderSpace);
 			nFirstPositionInReadAHead += nFullLength;
@@ -220,7 +223,8 @@ public class DataFileLineReader extends BaseDataFileBuffered
 			{
 				nLastPositionInReadAHead += nNBytesRead;
 				// Read some data from readAhead buffer
-				if(isPositionAtOffsetInReadAHead(nFullLength))	// The next recoprd, including optional LF is already read the in read ahead buffer  
+                // The next recoprd, including optional LF is already read the in read ahead buffer
+				if(isPositionAtOffsetInReadAHead(nFullLength))
 				{
 					lineRead.set(tReadBytesAHead, nFirstPositionInReadAHead, nFullLength, nReservedHeaderSpace);
 					nFirstPositionInReadAHead += nFullLength;

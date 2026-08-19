@@ -28,15 +28,18 @@ import jlib.sql.SQLClause;
   
    DbConnectionBase mainConnection = clause.getAlternateConnection();
    Asserter.assertIfNotNull(mainConnection); // mainConnection is null as it's not an alternate connection
-   // L a connection principale est gérée dans le TLS. Il n'y a pas besoin de la passer explicitement d'une méthode à l'autre; elle n'est pas accessible publiquement
+   // L a connection principale est gérée dans le TLS. Il n'y a pas besoin de la passer explicitement d'une méthode à l'autre; elle n'est
+   // pas accessible publiquement
    
    clause.set("SELECT * FROM RSGV43");
    clause.prepareAndExecute();
    clause.next();
    
-   P2000Clause clauseAlternate = new P2000Clause(P2000Accessor.accessor, null);    // 1st call to establish an alternate connection; it's identified by the null parameter
+   // 1st call to establish an alternate connection; it's identified by the null parameter
+   P2000Clause clauseAlternate = new P2000Clause(P2000Accessor.accessor, null);
    DbConnectionBase alternateConnection = clauseAlternate.getAlternateConnection(); // Access to the alternate connection
-   Asserter.assertIfNull(alternateConnection);                             // alternateConnection is not null as it's an alternate connection
+   // alternateConnection is not null as it's an alternate connection
+   Asserter.assertIfNull(alternateConnection);
 
    // Do some actions on the alternate connection
    clauseAlternate.set("SELECT count(*) FROM RSGV00");
@@ -45,7 +48,8 @@ import jlib.sql.SQLClause;
    clauseAlternate.close();
 
    // Open another clause with the same alternate connection
-   P2000Clause clauseAlternate2 = new P2000Clause(P2000Accessor.accessor, alternateConnection);    // The previously allocated alternate connection is given in second parameter
+   // The previously allocated alternate connection is given in second parameter
+   P2000Clause clauseAlternate2 = new P2000Clause(P2000Accessor.accessor, alternateConnection);
    // Do some actions on the seond clause, using the alternate connection
    clauseAlternate2.set("SELECT count(*) FROM RSGV01"); 
    clauseAlternate2.prepareAndExecute();
@@ -75,8 +79,8 @@ public class P2000Clause extends SQLClause
 	
 	/**
 	 * @param connection: Valid conection already established
-	 * Use this ctor to create a new specific SQLClause, without automatic connection allocation.
-	 * The TLS is not used in that case.
+	 *     Use this ctor to create a new specific SQLClause, without automatic connection allocation.
+	 *     The TLS is not used in that case.
 	 */
 	public P2000Clause(DbAccessor accessor)
 	{
@@ -259,7 +263,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
  * with the following format:
  * <pre>HHMMSS</pre>
  * @param bVal A <code>Date</code> parameter, where only the <code>Time</code>
- * is taken (see {@link #paramDate}).
+ *     is taken (see {@link #paramDate}).
  * @return See {@link #param(int)}.
  */
 	public String paramTime(Date bVal)
@@ -283,7 +287,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
  * with the following format:
  * <pre>HHMMSS</pre>
  * @param bVal A <code>Date</code> parameter, where only the <code>Time</code>
- * is taken (see {@link #paramDate}).
+ *     is taken (see {@link #paramDate}).
  * @return See {@link #param(int)}.
  */
 	public P2000Clause paramInsertTime(String csName, Date bVal)

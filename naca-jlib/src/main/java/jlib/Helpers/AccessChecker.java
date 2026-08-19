@@ -85,7 +85,7 @@ import java.util.Map;
  * 	<li>When the function tree exploration is finished, the current value of <code>hasAccess</code>
  * 	determines whether or not the user has access.</li>
  * </ul>
- * </p>
+ *
  * <p>This base class has no serialization / deserialization functionalities. It can be extended
  * to implement these tasks in the most suitable way.</p>
  * @author U930GN
@@ -151,8 +151,8 @@ public class AccessChecker {
  * in the class:
  * <ul>
  * 	<li>Declaring users and groups of users with {@link #declareUser}, {@link #declareGroup}.</li>
- * 	<li>Grant access to functions with {@link #grantWriteAccessToUsersOrGroups and {@link #grantReadAccessToUsersOrGroups}.</li>
- * 	<li>Deny access to functions with {@link #denyWriteAccessToUsersOrGroups and {@link #denyReadAccessToUsersOrGroups}.</li>
+ * <li>Grant access to functions with {@link #grantWriteAccessToUsersOrGroups} and {@link #grantReadAccessToUsersOrGroups}.</li>
+ * 	<li>Deny access to functions with {@link #denyWriteAccessToUsersOrGroups} and {@link #denyReadAccessToUsersOrGroups}.</li>
  * </ul>
  * Class can be extended to implement automatic population from external data, like a database,
  * a file, a stream...
@@ -170,9 +170,9 @@ public class AccessChecker {
  * Declares a new user in the access structure.
  * @param userName The user name.
  * @param groupsList The list of groups where the user has to be included. If <code>null</code> or
- * empty, the user is not included in any group. All specified groups have to be previously declared
- * in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or 
- * {@link #AccessChecker(InputStream)}). The <code>groupsList</code> parameter can be a comma-separated
+ *     empty, the user is not included in any group. All specified groups have to be previously declared
+ *     in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or
+ *     {@link #AccessChecker(InputStream)}). The <code>groupsList</code> parameter can be a comma-separated
  * list of group names as: <pre>"users,administrators,backup"</pre>
  * @exception Exception if the specified <code>userName</code> already exists.
  * @exception Exception if any of the specified groups in the <code>groupsList</code> parameter isn't declared.
@@ -207,9 +207,9 @@ public class AccessChecker {
  * Includes the specified user in the specified list of groups.
  * @param userName The user name.
  * @param groups The list of groups where the user has to be included. If <code>null</code> or
- * empty, the user is not included in any group. All specified groups have to be previously declared
- * in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or 
- * {@link #AccessChecker(InputStream)}). The parameter can be a comma-separated
+ *     empty, the user is not included in any group. All specified groups have to be previously declared
+ *     in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or
+ *     {@link #AccessChecker(InputStream)}). The parameter can be a comma-separated
  * list of group names as: <pre>"users,administrators,backup"</pre>
  * @exception Exception if the specified <code>userName</code> isn't declared.
  * @exception Exception if any of the specified groups in the <code>groups</code> parameter isn't declared.
@@ -314,9 +314,9 @@ public class AccessChecker {
  * Includes the specified user in the specified list of groups.
  * @param userName The user name.
  * @param groupsList The list of groups where the user has to be included. If <code>null</code> or
- * empty, the user is not included in any group. All specified groups have to be previously declared
- * in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or 
- * {@link #AccessChecker(InputStream)}). The <code>groupsList</code> parameter can be a comma-separated
+ *     empty, the user is not included in any group. All specified groups have to be previously declared
+ *     in the <code>groups</code> section ({@link #declareGroup}, or loaded with {@link #load} or
+ *     {@link #AccessChecker(InputStream)}). The <code>groupsList</code> parameter can be a comma-separated
  * list of group names as: <pre>"users,administrators,backup"</pre>
  * @exception Exception if the specified <code>userName</code> isn't declared.
  * @exception Exception if any of the specified groups in the <code>groupsList</code> parameter isn't declared.
@@ -375,7 +375,7 @@ public class AccessChecker {
  * Grants <code>write</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -396,11 +396,11 @@ public class AccessChecker {
  * Grants <code>write</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
  * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
- * particular parameter and value.
+ *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
  * @exception Exception if <code>functionPath</code> is empty or null.
@@ -420,7 +420,7 @@ public class AccessChecker {
  * Grants <code>read</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -441,11 +441,11 @@ public class AccessChecker {
  * Grants <code>read</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
  * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
- * particular parameter and value.
+ *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
  * @exception Exception if <code>functionPath</code> is empty or null.
@@ -468,7 +468,7 @@ public class AccessChecker {
  * Denies <code>write</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -489,11 +489,11 @@ public class AccessChecker {
  * Denies <code>write</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
  * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
- * particular parameter and value.
+ *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
  * @exception Exception if <code>functionPath</code> is empty or null.
@@ -513,7 +513,7 @@ public class AccessChecker {
  * Denies <code>read</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -534,11 +534,11 @@ public class AccessChecker {
  * Denies <code>read</code> access to a function to a list of users and groups.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
  * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
- * particular parameter and value.
+ *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
  * @exception Exception if <code>functionPath</code> is empty or null.
@@ -564,11 +564,11 @@ public class AccessChecker {
  * @param access Can be <code>"read"</code> or <code>"write"</code>. Specifies the type of access to establish.
  * @param functionPath The path to the function the access is granted. Can be on the form 
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
- * it is created by this call.
+ *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
  * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
- * particular parameter and value.
+ *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
  * @exception Exception if <code>action</code> is not one of the allowed values.
@@ -715,11 +715,11 @@ public class AccessChecker {
  * form of a relative path, like: <pre>"userManager/userProfile/userChangePassword"</pre>
  * @param accessType Can be <code>read</code> or <code>write</code>.
  * @param parameterName The parameter name to check. If not <code>null</code>, then the
- * <code>parameterValue</code> is mandatory.
+ *     <code>parameterValue</code> is mandatory.
  * @param parameterValue The parameter value to check.
  * @exception If <code>functionPath</code> is null or empty.
  * @exception If <code>parameterValue</code> is null or empty but <code>parameterName</code> is
- * not empty. 
+ *     not empty.
  */
 	public boolean hasUserAccessTo(String userName,String accessType,String functionPath,String parameterName,String parameterValue) throws Exception {
 		try {
@@ -734,7 +734,8 @@ public class AccessChecker {
 				throw new Exception("Specified access can be 'read' or 'write', but not '"+accessType+"'");
 
 //****************************** If the user is not declared, then he has no access *************
-			List<String> userGroups=retrieveUserGroups(userName);    // Returns the list of groups, and appends the specified user name as one of the groups.
+            // Returns the list of groups, and appends the specified user name as one of the groups.
+			List<String> userGroups=retrieveUserGroups(userName);
 			if (userGroups.size()==0)
 				return false;
 

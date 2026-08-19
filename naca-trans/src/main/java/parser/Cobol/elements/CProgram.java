@@ -371,13 +371,14 @@ public class CProgram extends CCommentContainer
 //				CBaseToken tokSection = GetNext(); // consume first token, expect SECTION token
 //				if (tokSection.GetKeyword() != CCobolKeywordList.SECTION)
 //				{
-//					m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString());
+// m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString());
 //					return false ;
 //				}
 //				CBaseToken tokDot = GetNext() ; // consume SECTION token, expecting DOT token
 //				if (tokDot.GetType() != CTokenType.DOT)
 //				{
-//					m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString() + tokDot.toString());
+// m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString() +
+// tokDot.toString());
 //					return false ;
 //				}
 //				tokDot = GetNext() ; // consume DOT
@@ -412,7 +413,8 @@ public class CProgram extends CCommentContainer
 //				}
 //				else
 //				{
-//					m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString() + tokDot.toString());
+// m_Logger.error("ERROR Line " +getLine()+ " : " + "Unexpected sequence : " + tokVar.toString() + tokSection.toString() +
+// tokDot.toString());
 //					return false ;
 //				}
 //

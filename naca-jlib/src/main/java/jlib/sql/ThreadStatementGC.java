@@ -130,7 +130,7 @@ public class ThreadStatementGC extends Thread
 //				}
 //				nNbStatementAggressiveRemoved = aggressiveRemoveObsoleteStatements(mapStatements);
 //				if(nNbStatementAggressiveRemoved != 0)
-//					Log.logNormal("Aggressivelly removed " + nNbStatementAggressiveRemoved + " SQL statements, because mem usage is too high");
+// Log.logNormal("Aggressivelly removed " + nNbStatementAggressiveRemoved + " SQL statements, because mem usage is too high");
 //			}
 //			nNbTotalStatementRemoved += nNbStatementAggressiveRemoved;
 //			if(nNbTotalStatementRemoved >= nNbStatementsToRemoveBeforeGC)

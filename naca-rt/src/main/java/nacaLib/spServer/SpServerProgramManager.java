@@ -12,7 +12,8 @@ package nacaLib.spServer;
 
 public class SpServerProgramManager //extends BaseProgramManager
 {
-//	public SpServerProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
+// public SpServerProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean
+// bInheritedSharedProgramInstanceData)
 //	{
 //		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
 //		

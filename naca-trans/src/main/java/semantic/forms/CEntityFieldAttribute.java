@@ -145,7 +145,8 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
 		}
 		else if (type != CBaseEntityCondition.EConditionType.IS_EQUAL)
 		{
-			throw new NacaTransAssertException("Unexpecting situation in CEntityFieldAttribute.GetSpecialCondition()") ; // ASSERT
+            // ASSERT
+			throw new NacaTransAssertException("Unexpecting situation in CEntityFieldAttribute.GetSpecialCondition()") ;
 		}
 		eCond.SetVariable(ref);
 		if      (v.equals("H")) {eCond.IsUnprotected() ; eCond.IsBright() ;}

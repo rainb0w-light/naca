@@ -20,7 +20,7 @@ public class LogFlowRegister
  * Returns the registered flow corresponding to the specified name.
  * @param csFlow The name of the desired flow.
  * @return A reference to the registered flow corresponding to the specified name.
- * <i>null</i> if none of the registered flows correspond to the specified name.
+ *     <i>null</i> if none of the registered flows correspond to the specified name.
  */
 	public static LogFlow getFlow(String csFlow)
 	{

@@ -106,7 +106,8 @@ public abstract class CBaseLexer
 				}
 			}
 			else  if (nbStringMarks % 2 == 0)
-			{ // the string is ended at the end of this line, the next line is a whole line, the \n char marks the en of the line,
+            // the string is ended at the end of this line, the next line is a whole line, the \n char marks the en of the line,
+			{
 				// but the string is not finnished yet, the next line contains the end of the string
 				if (!ContinueLine(nextline))
 				{ // other cases not handleled

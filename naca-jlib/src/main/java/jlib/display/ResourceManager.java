@@ -59,7 +59,8 @@ public class ResourceManager extends BaseCloseMBean
 		if(tabXSLTransformerCache != null)
 			tabXSLTransformerCache.clear();		
 		
-		unloadRWLock.writeLock().unlock();	// Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
+        // Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
+		unloadRWLock.writeLock().unlock();
 		Log.logImportant("unloadCachedResources ended");
 	}
 

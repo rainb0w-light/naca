@@ -92,7 +92,8 @@ public class InitializeCache
 		for(int n=0; n<nSize; n++)
 		{
 			InitializeCachedItem initializeCachedItem = arr.get(n);
-			initializeCachedItem.apply(nBaseAbsolutePosition, varBufferPos, nCurrentAbsolutePosition);	//, nOffset);			
+            // , nOffset);
+			initializeCachedItem.apply(nBaseAbsolutePosition, varBufferPos, nCurrentAbsolutePosition);
 		}
 	}
 	

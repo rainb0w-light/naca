@@ -223,11 +223,11 @@ public class BTreeCommandSort
 //			while(lineRead != null && b == true)
 //			{
 ////				if(bFileInEbcdic)
-////					AsciiEbcdicConverter.swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
+// // AsciiEbcdicConverter.swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
 //				
 //				//String cs = lineRead.getChunkAsString();
 //				
-//				b = btreeFile.externalSortInsertWithRecordIndexAtEnd(btreeEnv.getEnv(), lineRead, nNbRecordRead, bFileInEbcdic);
+// b = btreeFile.externalSortInsertWithRecordIndexAtEnd(btreeEnv.getEnv(), lineRead, nNbRecordRead, bFileInEbcdic);
 //				lineRead = dataFileIn.readNextUnixLine();
 //				nNbRecordRead++;
 //			}

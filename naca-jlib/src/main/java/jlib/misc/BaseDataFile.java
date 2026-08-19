@@ -68,7 +68,8 @@ public abstract class BaseDataFile
 	public abstract void write(byte[] tBytes, int nOffset, int nLength);
 	public abstract void writeRecord(String cs);
 	
-	public abstract LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut);	// Read a vairable length line (length is given in record header 4 bytes)
+    // Read a vairable length line (length is given in record header 4 bytes)
+	public abstract LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut);
 	public abstract LineRead readNextUnixLine();
 	public abstract LineRead readBuffer(int nLineLength, boolean bTryReadNextLF);
 	public abstract byte[] read(int nSize);

@@ -51,7 +51,8 @@ public class CGlobalCatalog
 	}
 
 	protected Hashtable<String, CEntityExternalDataStructure> tabIncludedStructures = new Hashtable<String, CEntityExternalDataStructure>() ;
-	//protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
+    // protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>()
+    // ;
 	protected Hashtable<String, CIgnoreExternalEntity> tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
 	//private Logger m_logger = Transcoder.ms_logger ;
 	protected Transcoder transcoder ;

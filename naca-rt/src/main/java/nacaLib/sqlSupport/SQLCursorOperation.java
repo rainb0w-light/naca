@@ -19,7 +19,7 @@ import nacaLib.varEx.Var;
  */
 public class SQLCursorOperation
 {
-//	public SQLCursorOperation(CSQLConnection sqlConnection, VarBuffer Working, SQLCursor sqlCursor, String csClause, CSQLStatus sqlStatus)
+// public SQLCursorOperation(CSQLConnection sqlConnection, VarBuffer Working, SQLCursor sqlCursor, String csClause, CSQLStatus sqlStatus)
 	public SQLCursorOperation(BaseProgramManager programManager, SQLCursor sqlCursor, String csClause)
 	{
 		DbConnectionBase sqlConnection = programManager.getEnv().getSQLConnection();

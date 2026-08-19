@@ -17,7 +17,8 @@ public class SqlMapperManagedTable
 {
 	private String csTableName = null;
 	//private Hashtable<String, RecordId> m_hashRecordIdByName = null;	// map of all recordId indexed by their names
-	private Hashtable<String, SqlMapperRecordsCollection> hashRecords = null;	// map of all records indexed by their name, given by their RecordId
+    // map of all records indexed by their name, given by their RecordId
+	private Hashtable<String, SqlMapperRecordsCollection> hashRecords = null;
 	
 	private ArrayList<RecordId> arrRecordIds = null;	// Array of the record id filled; it's in the insertion order
 	
@@ -315,7 +316,8 @@ public class SqlMapperManagedTable
 				if(recordId != null)
 				{
 					String csRecordName = recordId.getName();
-					SqlMapperRecordsCollection records = hashRecords.get(csRecordName);	// Find the values of all columns 
+                    // Find the values of all columns
+					SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
 					if(records != null)
 					{
 						int nNbRecords = records.getNbRecords();

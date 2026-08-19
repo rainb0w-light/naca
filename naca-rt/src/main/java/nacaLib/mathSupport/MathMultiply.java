@@ -19,7 +19,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var1
 	 * @param Var var2
-	 * Set current object to var1*var2 (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1*var2 (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -34,7 +34,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var1
 	 * @param int n
-	 * Set current object to var1*n (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1*n (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, int n)
 	{
@@ -48,7 +48,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param int a
 	 * @param int n
-	 * Set current object to a*n
+	 *     Set current object to a*n
 	 */
 	public MathMultiply(int a, int n)
 	{
@@ -62,7 +62,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var1
 	 * @param double d
-	 * Set current object to var1*d (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1*d (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, double d)
 	{
@@ -76,7 +76,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var1
 	 * @param String s, treated as a number
-	 * Set current object to var1*s (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1*s (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, String s)
 	{
@@ -90,7 +90,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var1
 	 * @param MathBase mathBase
-	 * Set current object to var1*mathBase (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1*mathBase (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathMultiply(VarAndEdit var1, MathBase mathBase)
 	{
@@ -103,7 +103,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param int n
 	 * @param MathBase mathBase
-	 * Set current object to n*mathBase
+	 *     Set current object to n*mathBase
 	 */
 	public MathMultiply(int n, MathBase mathBase)
 	{
@@ -116,7 +116,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param double d
 	 * @param MathBase mathBase
-	 * Set current object to d*mathBase
+	 *     Set current object to d*mathBase
 	 */
 	public MathMultiply(double d, MathBase mathBase)
 	{
@@ -127,7 +127,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param MathBase mathBase1
 	 * @param MathBase mathBase2
-	 * Set current object to mathBase1*mathBase2
+	 *     Set current object to mathBase1*mathBase2
 	 */
 	public MathMultiply(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -140,7 +140,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param Var var
 	 * @return this
-	 * Set current object to current objet * var
+	 *     Set current object to current objet * var
 	 */
 	public MathMultiply multiply(VarAndEdit var)
 	{
@@ -154,7 +154,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param String s; treated as a number
 	 * @return this
-	 * Set current object to current objet * s
+	 *     Set current object to current objet * s
 	 */
 	public MathMultiply multiply(String s)
 	{
@@ -166,7 +166,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param int n
 	 * @return this
-	 * Set current object to current objet * n
+	 *     Set current object to current objet * n
 	 */
 	public MathMultiply multiply(int n)
 	{
@@ -178,7 +178,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param double d
 	 * @return this
-	 * Set current object to current objet * d
+	 *     Set current object to current objet * d
 	 */
 	public MathMultiply multiply(double d)
 	{
@@ -190,7 +190,7 @@ public class MathMultiply extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @return this
-	 * Set current object to current objet * mathBase
+	 *     Set current object to current objet * mathBase
 	 */
 	public MathMultiply multiply(MathBase mathBase)
 	{

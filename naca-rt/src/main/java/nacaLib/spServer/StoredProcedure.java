@@ -50,7 +50,8 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 	{
 		if(!bContainerSimulated)	// Executed in a normal SP container (in UDB)
 		{
-			Connection connection = DriverManager.getConnection("jdbc:default:connection");	// get the caller's connection to the database
+            // get the caller's connection to the database
+			Connection connection = DriverManager.getConnection("jdbc:default:connection");
 			return connection;
 		}
 		// Allocate a new connection
@@ -85,7 +86,8 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 
 		try
 		{
-			// We must have a table "NacaRTSP" with 1 record of 1 column "CONFIGFILE"; It's value is the path and file name of the config file
+            // We must have a table "NacaRTSP" with 1 record of 1 column "CONFIGFILE"; It's value is the path and file name of the config
+            // file
 			String csPathFileNameConfig = null;
 			String csCurrentSqlid = "";
 			PreparedStatement statement = connection.prepareStatement("Select CONFIGFILE, current sqlid FROM naca.NacaRTSP");

@@ -39,7 +39,8 @@ public abstract class BaseSQLUtils
 
 	int executeSQLClause(String csClause)
 	{
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
+        // cursor clause not supported
+		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
 
 		// Remove ending ';' as it is not supported by UDB
 		if(csClause.endsWith(";"))
@@ -65,7 +66,8 @@ public abstract class BaseSQLUtils
 
 	boolean executeSQLClause(String csClause, ArrayList<ColValueGeneric> arrColValues, int nRecordId)
 	{
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
+        // cursor clause not supported
+		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
 
 		// Remove ending ';' as it is not supported by UDB
 		if(csClause.endsWith(";"))

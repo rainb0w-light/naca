@@ -156,7 +156,8 @@ public class ClassDynLoader extends ClassLoader
 	    return null;
 	}
 
-    // This is the required version of loadClass which is called both from loadClass above and from the internal function FindClassFromClass.
+    // This is the required version of loadClass which is called both from loadClass above and from the internal function
+    // FindClassFromClass.
 	@SuppressWarnings("unchecked")
 	public Class loadClass(String csClassName)
     {

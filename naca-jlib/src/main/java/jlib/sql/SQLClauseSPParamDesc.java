@@ -34,7 +34,7 @@ public class SQLClauseSPParamDesc extends StoredProcParamDescBase
 //			{
 //				String csState = e.getSQLState();
 //				String csReason = e.getMessage();
-//				Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
+// Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
 //				sqlStatus.setSQLCode("StoredProc", e.getErrorCode(), csReason, csState);
 //
 //				sqlStatus.setSQLCode(e);

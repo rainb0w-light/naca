@@ -50,7 +50,8 @@ public class MapFieldAttrModified extends MapFieldBaseAttr
 
 	public static MapFieldAttrModified MODIFIED = new MapFieldAttrModified(1, "modified");
 	public static MapFieldAttrModified TO_BE_MODIFIED = new MapFieldAttrModified(1, "toBeModified");
-	public static MapFieldAttrModified CLEARED = new MapFieldAttrModified(2, "cleared");		// Modified + empty field: CTOJ extension
+    // Modified + empty field: CTOJ extension
+	public static MapFieldAttrModified CLEARED = new MapFieldAttrModified(2, "cleared");
 	public static MapFieldAttrModified UNMODIFIED = new MapFieldAttrModified(3, "unmodified");
 	/**
 	 * @param nValue

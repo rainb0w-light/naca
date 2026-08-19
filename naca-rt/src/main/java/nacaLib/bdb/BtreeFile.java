@@ -70,7 +70,7 @@ public class BtreeFile
 		{
 			byte tbyKey[] = keyDescription.fillKeyBuffer(tbyData, 0, nNbRecordRead, bVariableLength);
 
-			//LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, keyDescription.nKeyLength-4);	// Intel format
+            // LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, keyDescription.nKeyLength-4); // Intel format
 
 			data.setData(tbyData, 0, nTotalLength);
 			key.setData(tbyKey);
@@ -151,7 +151,8 @@ public class BtreeFile
 		{
 			byte tbyKey[] = keyDescription.fillKeyBufferExceptRecordId(lineRead, bFileInVariableLength);	//, bFileInEbcdic);
 
-			LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, keyDescription.nKeyLength-4);	// Write record id at the end of the key
+            // Write record id at the end of the key
+			LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, keyDescription.nKeyLength-4);
 
 			data.setData(tbyData, nOffset, nTotalLength);
 			key.setData(tbyKey);
@@ -175,7 +176,8 @@ public class BtreeFile
 				item = new MultiThreadedSortAddItem(this, tbyData, nOffset, nTotalLength, nNbRecordRead, bFileInVariableLength);
 			else
 				item.fill(this, tbyData, nOffset, nTotalLength, nNbRecordRead, bFileInVariableLength);
-			//MultiThreadedSortAddItem item = new MultiThreadedSortAddItem(this, tbyData, nOffset, nTotalLength, nNbRecordRead, bFileInVariableLength);
+            // MultiThreadedSortAddItem item = new MultiThreadedSortAddItem(this, tbyData, nOffset, nTotalLength, nNbRecordRead,
+            // bFileInVariableLength);
 			threadsPoolWriter.enqueue(item);
 			return true;
 		}
@@ -183,7 +185,8 @@ public class BtreeFile
 
 	public boolean tryLaunchAsyncSortReader()
 	{
-		if(threadsPoolWriter != null)	// We are using a pool of threads for adding items for sorting; wait until all items have been completly added
+        // We are using a pool of threads for adding items for sorting; wait until all items have been completly added
+		if(threadsPoolWriter != null)
 		{
 			Exception expThrownByPooledThread = threadsPoolWriter.stop();
 			if (expThrownByPooledThread != null)    // One of the threads has crashed

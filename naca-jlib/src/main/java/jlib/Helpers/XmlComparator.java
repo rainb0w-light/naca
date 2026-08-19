@@ -55,8 +55,8 @@ public class XmlComparator {
  * @param x1 One of the nodes to be compared.
  * @param x2 The other of the nodes to be compared.
  * @param checkAttributes When <i>true</i> the method checks the upper level
- * attributes (upper level attributes are attributes present directly in
- * <i>x1</i> and <i>x2</i>; attributes in child nodes are always compared)
+ *     attributes (upper level attributes are attributes present directly in
+ *     <i>x1</i> and <i>x2</i>; attributes in child nodes are always compared)
  * @return <i>true</i> If both nodes contain the same information.
  */
 	public boolean CompareXml(Node x1,Node x2,boolean ignoreBlankSpaces,boolean checkAttributes,boolean ignoreEmptyNodes) throws Exception {
@@ -86,7 +86,7 @@ public class XmlComparator {
  * @param x1 The first node to compare.
  * @param x2 The second node to compare.
  * @return <i>true</i> if all information contained in <b>x1</b> is present in <b>x2</b>.
- * <b>x2</b> may contain more information.
+ *     <b>x2</b> may contain more information.
  */
 	private boolean IsAllInfoPresent(Node x1,Node x2,boolean ignoreBlankSpaces,boolean checkAttributes,boolean ignoreEmptyNodes) throws Exception {
 		Node x1Attr;                              // Un des attributs de x1.
@@ -200,7 +200,8 @@ public class XmlComparator {
 						break;
 					}
 				}
-				if (m==x2Nodes.getLength()) return false;           // Si il n'y en a aucun, x1<>x2.					
+                // Si il n'y en a aucun, x1<>x2.
+				if (m==x2Nodes.getLength()) return false;
 			}
 
 //***************** Si on arrive jusqu'ici, c'est que le nodes sont identiques ************

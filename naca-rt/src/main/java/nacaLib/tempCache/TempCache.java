@@ -60,7 +60,8 @@ public class TempCache
 	private BaseProgram currentBaseProgram = null;
 
 
-	private static final int INC_ALMOST_CURRENT_TIME_PERIOD = 10000;	// increment current only every 1000 getAlomostCurrentTime() request
+    // increment current only every 1000 getAlomostCurrentTime() request
+	private static final int INC_ALMOST_CURRENT_TIME_PERIOD = 10000;
 	private int nCurrentTimeTryCounter = INC_ALMOST_CURRENT_TIME_PERIOD;
 
 	TempCache()

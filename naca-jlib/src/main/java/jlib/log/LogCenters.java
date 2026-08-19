@@ -40,13 +40,13 @@ public class LogCenters
  * the specified configuration are registered to the {@link Log} singleton.
  *  
  * @param csChannelRestriction If not <i>null</i>, the method will only load
- * [LogCenter] belonging to the specified channel.
+ *     [LogCenter] belonging to the specified channel.
  * @param tagOrganisation The [Organisation] tag to be read (comming from a JLib.log
- * xml configuration file loaded through a {@link Tag} class).
+ *     xml configuration file loaded through a {@link Tag} class).
  * @param arrIncludePath If additional [LogCenter] can be found in external
- * files, a "File" attribute is placed in the [LogCenters] tag. This attribute
- * contains the path to another xml file. The external file will be searched
- * in the list of path specified in <b>arrIncludePath</b>.
+ *     files, a "File" attribute is placed in the [LogCenters] tag. This attribute
+ *     contains the path to another xml file. The external file will be searched
+ *     in the list of path specified in <b>arrIncludePath</b>.
  * @return <i>true</i> if the [Organisation] tag has been correctly read.
  */
 	public boolean loadDefinition(String csChannelRestriction, Tag tagOrganisation, ArrayList<String> arrIncludePath)
@@ -94,7 +94,7 @@ public class LogCenters
  * Saves the configuration of all {@link LogCenterLoader} instances into
  * the provided {@link Tag} object.
  * @param tagOrganisation The <i>Tag</i> where save the <i>LogCenterLoader</i>
- * configuration.
+ *     configuration.
  * @return <i>true</i> if the operation terminated correctly.
  */
 	public boolean saveDefinition(Tag tagOrganisation)
@@ -116,7 +116,7 @@ public class LogCenters
 /**
  * Returns a reference to the specified <i>LogCenterLoader</i>.
  * @param n The item ordinal to retrieve. Has to be smaller than the
- * maximum number of items (see {@link #getNbLogCenterloader}). 
+ *     maximum number of items (see {@link #getNbLogCenterloader}).
  * @return A reference to the specified <i>LogCenterLoader</i>.
  */
 	public LogCenterLoader getLogCenterloader(int n)

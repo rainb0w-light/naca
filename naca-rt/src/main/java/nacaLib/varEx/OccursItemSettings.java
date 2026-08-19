@@ -43,5 +43,6 @@ public class OccursItemSettings
 	}
 	
 	protected OccursOwnerLocation aOccursOwnerLocation[] = null;
-	protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;	// Array of VarDefBase; That is all occurs owner; may include ourself
+    // Array of VarDefBase; That is all occurs owner; may include ourself
+	protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;
 }

@@ -133,7 +133,7 @@ public class LogLevel
  * 	LogLevel ll=new LogLevel(LogLevel.getLevel(s));
  * </pre>
  * @param logLevel An existing <i>LogLevel</i> instance. The new <i>LogLevel</i>
- * will have the same level. 
+ *     will have the same level.
  */
 	LogLevel(LogLevel logLevel)
 	{
@@ -217,9 +217,9 @@ public class LogLevel
 /**
  * Compares the current log level to the specified. 
  * @param minLogLevel A <i>LogLevel</i> instance to compare with the
- * current one.
+ *     current one.
  * @return <i>true</i> if the level of the specified instance is
- * greater or equal to the level of the current instance.
+ *     greater or equal to the level of the current instance.
  */
 	boolean isGreaterOrEqual(LogLevel minLogLevel)
 	{

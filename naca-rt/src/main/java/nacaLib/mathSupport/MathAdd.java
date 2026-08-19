@@ -32,7 +32,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param VarAndEdit VarAndEdit2
-	 * Set current object to VarAndEdit1+VarAndEdit2 (VarAndEdit are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to VarAndEdit1+VarAndEdit2 (VarAndEdit are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathAdd(VarAndEdit VarAndEdit1, VarAndEdit VarAndEdit2)
 	{
@@ -47,7 +47,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param int n
-	 * Set current object to VarAndEdit1+n
+	 *     Set current object to VarAndEdit1+n
 	 */
 	public MathAdd(VarAndEdit VarAndEdit1, int n)
 	{
@@ -61,7 +61,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param int m
 	 * @param int n
-	 * Set current object to m+n
+	 *     Set current object to m+n
 	 */
 	public MathAdd(int m, int n)
 	{
@@ -73,7 +73,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param int n
-	 * Set current object to n
+	 *     Set current object to n
 	 */
 	public MathAdd(int n)
 	{
@@ -82,7 +82,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param double
-	 * Set current object to d
+	 *     Set current object to d
 	 */
 	public MathAdd(double d)
 	{
@@ -149,7 +149,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param double d
-	 * Set current object to VarAndEdit1+d
+	 *     Set current object to VarAndEdit1+d
 	 */
 	public MathAdd(VarAndEdit VarAndEdit1, double d)
 	{
@@ -163,7 +163,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param String s, will be converted to a number
-	 * Set current object to VarAndEdit1+s
+	 *     Set current object to VarAndEdit1+s
 	 */
 	public MathAdd(VarAndEdit VarAndEdit1, String s)
 	{
@@ -177,7 +177,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param MathBase mathBase
-	 * Set current object to VarAndEdit1+mathBase
+	 *     Set current object to VarAndEdit1+mathBase
 	 */
 	public MathAdd(VarAndEdit VarAndEdit1, MathBase mathBase)
 	{
@@ -190,7 +190,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param VarAndEdit VarAndEdit1
 	 * @param MathBase mathBase
-	 * Set current object to VarAndEdit1+mathBase
+	 *     Set current object to VarAndEdit1+mathBase
 	 */
 	public MathAdd(MathBase VarAndEdit1, MathBase mathBase)
 	{
@@ -202,7 +202,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param int n
-	 * Set current object to mathBase+n
+	 *     Set current object to mathBase+n
 	 */
 	public MathAdd(MathBase mathBase, int n)
 	{
@@ -215,7 +215,7 @@ public class MathAdd extends MathBase
 	/**
 	 * @param int n
 	 * @param MathBase mathBase
-	 * Set current object to mathBase+n
+	 *     Set current object to mathBase+n
 	 */
 	public MathAdd(int n, MathBase mathBase)
 	{
@@ -227,7 +227,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param VarAndEdit VarAndEdit; treated as a number
-	 * Set current object's value to current object+VarAndEdit
+	 *     Set current object's value to current object+VarAndEdit
 	 */
 	public MathAdd add(VarAndEdit VarAndEdit)
 	{
@@ -240,7 +240,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param String cs; treated as a number
-	 * Set current object's value to current object+cs
+	 *     Set current object's value to current object+cs
 	 */
 	public MathAdd add(String cs)
 	{
@@ -251,7 +251,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param int n
-	 * Set current object's value to current object+n
+	 *     Set current object's value to current object+n
 	 */
 	public MathAdd add(int n)
 	{
@@ -262,7 +262,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param double d
-	 * Set current object's value to current object+d
+	 *     Set current object's value to current object+d
 	 */
 	public MathAdd add(double d)
 	{
@@ -273,7 +273,7 @@ public class MathAdd extends MathBase
 
 	/**
 	 * @param MathBase mathBase
-	 * Set current object's value to current object+mathBase
+	 *     Set current object's value to current object+mathBase
 	 */
 	public MathAdd add(MathBase mathBase)
 	{

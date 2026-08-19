@@ -22,7 +22,7 @@ import nacaLib.varEx.*;
 /**
 * @author PJD
 *
-* Window - Preferences - Java - Code Style - Code Templates
+*     Window - Preferences - Java - Code Style - Code Templates
 */
 public class OnlineProgram extends BaseProgram
 {
@@ -73,10 +73,10 @@ public class OnlineProgram extends BaseProgram
 	
 	/**
 	 * @return String
-	 * This EIB field contains the time at which the task is started
-	 * (this field is updated by the ASKTIME command).
-	 * The time is in packed decimal form (0HHMMSS+).
-	 * For COBOL: PIC S9(7) COMP-3
+	 *     This EIB field contains the time at which the task is started
+	 *     (this field is updated by the ASKTIME command).
+	 *     The time is in packed decimal form (0HHMMSS+).
+	 *     For COBOL: PIC S9(7) COMP-3
 	 */
 
 	
@@ -202,7 +202,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttrIntensity intens: Intensity attribute
 	 * @param Edit e: Destination edit
-	 * Set the edit e intensity attribute's value the intens's value.
+	 *     Set the edit e intensity attribute's value the intens's value.
 	 */
 	protected void moveAttribute(MapFieldAttrIntensity intens, Edit e)
 	{
@@ -229,7 +229,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttribute att: Contains all edit attribute values (
 	 * @param Edit e: Destination edit
-	 * Set the edit e attributes to all values contained in att
+	 *     Set the edit e attributes to all values contained in att
 	 */
 	protected void moveAttribute(MapFieldAttribute att, Edit e)
 	{
@@ -297,7 +297,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttrProtection att: Protectection attribute to set to e
 	 * @param Edit e: Destination edit
-	 * Set the edit it's protection attribute value
+	 *     Set the edit it's protection attribute value
 	 */
 	protected void moveAttribute(MapFieldAttrProtection att, Edit e)
 	{
@@ -369,7 +369,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttrModified att: Modified attribute to set to e
 	 * @param Edit e: Destination edit
-	 * Set the edit it's modified attribute value
+	 *     Set the edit it's modified attribute value
 	 */
 	protected void moveAttribute(MapFieldAttrModified att, Edit e)
 	{
@@ -562,7 +562,7 @@ public class OnlineProgram extends BaseProgram
 
 	/**
 	 * @param Edit e
-	 * Set the cursor on the edit e
+	 *     Set the cursor on the edit e
 	 */
 	protected void setCursor(Edit e)
 	{
@@ -643,7 +643,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttrColor color: Source color attribute
 	 * @param Edit e: Destination edit
-	 * Set the edit it's color attribute value
+	 *     Set the edit it's color attribute value
 	 */
 	protected boolean isColored(Edit e, MapFieldAttrColor color)
 	{
@@ -750,7 +750,7 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param MapFieldAttrHighlighting att: Source highligt attribute 
 	 * @param Edit e: Destination edit
-	 * Set the edit it's highlighting attribute's value
+	 *     Set the edit it's highlighting attribute's value
 	 */
 	protected void moveHighLighting(MapFieldAttrHighlighting att, Edit e)
 	{
@@ -764,7 +764,7 @@ public class OnlineProgram extends BaseProgram
 	
 	/**
 	 * @param Edit e: Destination edit
-	 * Set the edit highlight attribute as normal
+	 *     Set the edit highlight attribute as normal
 	 */
 	protected void setFieldUnhighlighted(Edit e)
 	{
@@ -777,7 +777,7 @@ public class OnlineProgram extends BaseProgram
 	
 	/**
 	 * @param Edit e: Destination edit
-	 * Set the edit highlight attribute as reverse
+	 *     Set the edit highlight attribute as reverse
 	 */
 	protected void setFieldReverse(Edit e)
 	{
@@ -790,7 +790,7 @@ public class OnlineProgram extends BaseProgram
 	
 	/**
 	 * @param Edit e: Destination edit
-	 * Set the edit highlight attribute as blink
+	 *     Set the edit highlight attribute as blink
 	 */
 	protected void setFieldBlink(Edit e)
 	{
@@ -803,7 +803,7 @@ public class OnlineProgram extends BaseProgram
 	
 	/**
 	 * @param Edit e: Destination edit
-	 * Set the edit highlight attribute as underline
+	 *     Set the edit highlight attribute as underline
 	 */
 	protected void setFieldUnderline(Edit e)
 	{
@@ -819,7 +819,8 @@ public class OnlineProgram extends BaseProgram
 	/**
 	 * @param Var varDest: Destination variable
 	 * @param String csValue: Semantic context value
-	 * Associates the semantic context value csVlaue, to the variable varDest. It is also associated to all variables that share it's position and length in storage buffer (redefines, ...)
+     *     Associates the semantic context value csVlaue, to the variable varDest. It is also associated to all variables that share it's
+     *     position and length in storage buffer (redefines, ...)
 	 */
 	public void setSemanticContextValue(Var varDest, String csValue)
 	{

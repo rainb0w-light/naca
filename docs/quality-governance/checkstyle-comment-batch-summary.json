@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "checkstyle": {
+    "before": 16902,
+    "after": 14646,
+    "reduced": 2256
+  },
+  "lineLength": {
+    "before": 1928,
+    "after": 787,
+    "reduced": 1141
+  },
+  "javadocTagContinuationIndentation": {
+    "before": 1073,
+    "after": 0,
+    "reduced": 1073
+  },
+  "activeHungarianMIdentifiers": {
+    "before": 0,
+    "after": 0
+  },
+  "pmd": {
+    "growth": 0
+  },
+  "spotbugs": {
+    "growth": 0
+  }
+}

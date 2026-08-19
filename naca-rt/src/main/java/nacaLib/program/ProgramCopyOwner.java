@@ -95,7 +95,8 @@ public class ProgramCopyOwner extends BaseCloseMBean
 //			if(m_hashPrograms.size() == 0)
 //				Log.logNormal("unloadCopy; Correctly unload " + nNbPrograms + " programs using copy "+csCopyName);
 //			else
-//				Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+csCopyName + " but " + m_hashPrograms.size() + " remains uncorrectly loaded");
+// Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+csCopyName + " but " + m_hashPrograms.size() + "
+// remains uncorrectly loaded");
 		}
 		else
 			Log.logImportant("unloadCopy; ERROR: No program to unload");

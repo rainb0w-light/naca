@@ -32,7 +32,8 @@ import jlib.misc.Time_ms;
  */
 public class DbConnectionColl
 {
-	private LinkedList<DbConnectionBase> collFreeConnections = null;		// Collection of the connections currently not in use
+    // Collection of the connections currently not in use
+	private LinkedList<DbConnectionBase> collFreeConnections = null;
 	private LinkedList<DbConnectionBase> collUsedConnections = null;		// Collection of the connections currently in use
 
 	private DbConnectionParam dbConnectionParam = null;
@@ -89,7 +90,8 @@ public class DbConnectionColl
 		{
 			if(collFreeConnections.size() > 0)
 			{
-				DbConnectionBase connection = collFreeConnections.remove(nIndex);	// The connection is not free anymore
+                // The connection is not free anymore
+				DbConnectionBase connection = collFreeConnections.remove(nIndex);
 				collUsedConnections.add(connection);		// It's then in use
 				connection.showHideJMXBean(isshowRunningConnections);
 				return connection;
@@ -111,7 +113,7 @@ public class DbConnectionColl
 			{
 				if(sqlConnection.canBeUsed(nTimeBeforeRemoveConnection_ms, csValidationQuery))
 				{
-//					Log.logNormal("Re-using validated db connection from cache. "+ getNbFreeConnection()+" still available.");
+// Log.logNormal("Re-using validated db connection from cache. "+ getNbFreeConnection()+" still available.");
 					return sqlConnection;
 				}
 				removeConnection(sqlConnection);
@@ -198,18 +200,21 @@ public class DbConnectionColl
 
 					connection = dbConnectionParam.driver.connect(url, propertiesUserPassword);
 //					if(connection != null)
-//						Log.logNormal("Correctly created new DB connection with crypted user/password. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logNormal("Correctly created new DB connection with crypted user/password. "+ tscNbConnectionCreated.get()+" created connections, out
+// of "+nNbMaxConnection+" allowed.");
 
 				}
 				else
 				{
 					connection = dbConnectionParam.driver.connect(url, dbConnectionParam.propertiesUserPassword);
 //					if(connection != null)
-//						Log.logNormal("Correctly created new DB connection. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logNormal("Correctly created new DB connection. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+"
+// allowed.");
 				}
 				if(connection == null)
 				{
-//					Log.logCritical("ERROR: Could not create new DB connection. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logCritical("ERROR: Could not create new DB connection. "+ tscNbConnectionCreated.get()+" existing connections, out of
+// "+nNbMaxConnection+" allowed.");
 					throw new DbConnectionException("Could not get valid DB Connection");
 				}
 
@@ -283,7 +288,8 @@ public class DbConnectionColl
 		connection.dbConnectionColl = null;
 		connection.dbConnection = null;
 		tscNbConnectionCreated.dec();
-//		Log.logNormal("Removing DB connection from pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logNormal("Removing DB connection from pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+"
+// allowed.");
 
 		return n;
 	}
@@ -312,13 +318,15 @@ public class DbConnectionColl
 			}
 			else
 				sqlConnection.resetReservedStatements();
-//			Log.logNormal("Returning DB connection to pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logNormal("Returning DB connection to pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+"
+// allowed.");
 			collFreeConnections.addFirst(sqlConnection);
 		}
 		else
 		{
 			// The connection generation has changed and connection can't be kept
-//			Log.logNormal("DB Connection generation changed; DB connection is not returned to pool and removed. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+" allowed.");
+// Log.logNormal("DB Connection generation changed; DB connection is not returned to pool and removed. "+ tscNbConnectionCreated.get()+"
+// existing connections, out of "+nNbMaxConnection+" allowed.");
 			removeConnection(sqlConnection);
 			sqlConnection = null;
 		}

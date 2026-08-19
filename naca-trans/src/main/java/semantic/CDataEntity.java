@@ -87,7 +87,8 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 		return null ;
 	}
 
-//	abstract public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory);
+// abstract public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type,
+// CBaseEntityFactory factory);
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
 	{
 		if(this instanceof CEntityUnknownReference)
@@ -124,13 +125,20 @@ public abstract class CDataEntity extends CBaseLanguageEntity
 	}
 
 	// algorythmic analysis
-	protected Vector<CBaseActionEntity> arrActionsWriting = new Vector<CBaseActionEntity>() ; // when this var is accessed in write mode : MOVE a TO THIS
-	protected Vector<CBaseActionEntity> arrActionsReading = new Vector<CBaseActionEntity>() ; // when this var is accessed in read mode : MOVE THIS TO a
-	protected Vector<CGenericDataEntityReference> writeReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in write mode : MOVE a TO THIS
-	protected Vector<CGenericDataEntityReference> readReference = new Vector<CGenericDataEntityReference>() ; // when this var is accessed in read mode : MOVE THIS TO a
-	protected Vector<CBaseEntityCondition> arrTestsAsVar = new Vector<CBaseEntityCondition>() ; // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
-	protected Vector<CBaseEntityCondExpr> accessAsValue = new Vector<CBaseEntityCondExpr>() ; // when the value of this var occures in a test : IF a = THIS
-	protected Vector<CEntityFileDescriptor> fileDescriptorDepending = new Vector<CEntityFileDescriptor>() ; // when this var is used in a file descriptor : DEPENDING ON THIS
+    // when this var is accessed in write mode : MOVE a TO THIS
+	protected Vector<CBaseActionEntity> arrActionsWriting = new Vector<CBaseActionEntity>() ;
+    // when this var is accessed in read mode : MOVE THIS TO a
+	protected Vector<CBaseActionEntity> arrActionsReading = new Vector<CBaseActionEntity>() ;
+    // when this var is accessed in write mode : MOVE a TO THIS
+	protected Vector<CGenericDataEntityReference> writeReference = new Vector<CGenericDataEntityReference>() ;
+    // when this var is accessed in read mode : MOVE THIS TO a
+	protected Vector<CGenericDataEntityReference> readReference = new Vector<CGenericDataEntityReference>() ;
+    // when this var is tested : IF THIS = a / IF IS NUMERIC(THIS)
+	protected Vector<CBaseEntityCondition> arrTestsAsVar = new Vector<CBaseEntityCondition>() ;
+    // when the value of this var occures in a test : IF a = THIS
+	protected Vector<CBaseEntityCondExpr> accessAsValue = new Vector<CBaseEntityCondExpr>() ;
+    // when this var is used in a file descriptor : DEPENDING ON THIS
+	protected Vector<CEntityFileDescriptor> fileDescriptorDepending = new Vector<CEntityFileDescriptor>() ;
 
 	public void RegisterReadReference(CGenericDataEntityReference ent)
 	{

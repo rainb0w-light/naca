@@ -31,7 +31,8 @@ import jlib.jmxMBean.BaseCloseMBean;
  */
 public class DbAccessor extends BaseCloseMBean
 {
-	private String key = null;	// Gives the section name within the app.properties file. This section is used to provide DB parameters
+    // Gives the section name within the app.properties file. This section is used to provide DB parameters
+	private String key = null;
 
 	public DbAccessor(String csKey)
 	{
@@ -47,15 +48,16 @@ public class DbAccessor extends BaseCloseMBean
 	/**
 	 * DbConnectionBase getConnection()
 	 * @return a database connection corresponding to the Db identified by DbId passed
-	 * in the constructor.
-	 * The connection is created if it is not establed yet; It's managed from the pool and
-	 * cannot be accessed publicly
+	 *     in the constructor.
+	 *     The connection is created if it is not establed yet; It's managed from the pool and
+	 *     cannot be accessed publicly
 	 **/
 	DbConnectionBase getConnection()
 	{
 		// Try to get the connection from the Thread Local Storage
 		DbConnectionBase dbConnectionBase = DbTLSConnectionStorage.get(this);
-		if(dbConnectionBase == null)	// The connection doesn't exist in the TLS: This is the 1st clause created within this thread since laste returnConnectionToPool
+        // The connection doesn't exist in the TLS: This is the 1st clause created within this thread since laste returnConnectionToPool
+		if(dbConnectionBase == null)
 		{
 			// Establish a connection: It can be either got form the pool (of one is available) or created.
 			dbConnectionBase = DbAccessorConnectionManager.getConnection(this);
@@ -72,7 +74,7 @@ public class DbAccessor extends BaseCloseMBean
 	/**
 	 * DbConnectionBase getAlternateConnection()
 	 * @return a database connection NOT managed in the TLS
-	 * It's taken from the pool
+	 *     It's taken from the pool
 	 **/
 	public DbConnectionBase getAlternateConnection()
 	{

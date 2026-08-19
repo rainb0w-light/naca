@@ -191,8 +191,8 @@ public class Db {
  * </pre>
  * This method is called by {@link #getResultSet}, {@link #getResultSetCount} and {@link #executeSQL}.
  * @return The precompiled statement corresponding to the specified <code>sql</code> statement.
- * @exception {@link SQLException} When an exception is returned by the database.
- * @exception {@link Exception} When an unexpected error happens.
+ * @throws SQLException When an exception is returned by the database.
+ * @throws Exception When an unexpected error happens.
  */
 	protected PreparedStatement prepareStatement(String sql) throws Exception {
 		int n0,n1,n2;
@@ -419,9 +419,9 @@ public class Db {
  * </ul> 
  * @param sql A <code>SELECT</code> sql statement.
  * @return The number of rows selected by the specified <code>SELECT</code> statement.
- * use the {@link #closeResultSet} method.
- * @exception {@link SQLException} When an exception is returned by the database.
- * @exception {@link Exception} When an unexpected error happens.
+ *     use the {@link #closeResultSet} method.
+ * @throws SQLException When an exception is returned by the database.
+ * @throws Exception When an unexpected error happens.
  */
 	public int getResultSetCount(String sql) throws Exception {
 		String countSql;
@@ -475,9 +475,9 @@ public class Db {
  * </pre>
  * @param A <code>SELECT</code> sql statement.
  * @return A result set open on the specified sql request. To close the cursor,
- * use the {@link #closeResultSet} method.
- * @exception {@link SQLException} When an exception is returned by the database.
- * @exception {@link Exception} When an unexpected error happens.
+ *     use the {@link #closeResultSet} method.
+ * @throws SQLException When an exception is returned by the database.
+ * @throws Exception When an unexpected error happens.
  */
 	public ResultSet getResultSet(String sql) throws Exception {
 		PreparedStatement preparedStatement;
@@ -515,8 +515,8 @@ public class Db {
  * 	db.closeResultSet(rcs);
  * </pre>
  * @param rcs A result set opened with {@link #getResultSet}.
- * @exception {@link SQLException} When an exception is returned by the database.
- * @exception {@link Exception} When an unexpected error happens.
+ * @throws SQLException When an exception is returned by the database.
+ * @throws Exception When an unexpected error happens.
  */
 	public void closeResultSet(ResultSet rcs) throws Exception {
 		try {
@@ -561,8 +561,8 @@ public class Db {
  * use {@link #startTransaction} and {@link #commitTransaction}.
  * @param A <code>UPDATE</code>, <code>DELETE</code>, <code>INSERT</code> sql statement.
  * @return The number of rows affected by the sql command.
- * @exception {@link SQLException} When an exception is returned by the database.
- * @exception {@link Exception} When an unexpected error happens.
+ * @throws SQLException When an exception is returned by the database.
+ * @throws Exception When an unexpected error happens.
  */
 	public int executeSQL(String sql) throws Exception {
 		PreparedStatement preparedStatement;

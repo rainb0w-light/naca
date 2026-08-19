@@ -111,14 +111,16 @@ public class SemanticManager extends CJMapObject
 						if(listoptions != null)
 						{
 							int nOptions = 0;
-							Element elOptions = (Element) listoptions.item(nOptions);	// Enum all conditions
+                            // Enum all conditions
+							Element elOptions = (Element) listoptions.item(nOptions);
 							if(elOptions != null)	// Only 1 tag conditions
 							{
 								NodeList listoption = elOptions.getElementsByTagName("Option") ;
 								if(listoption != null)
 								{
 									int nOption = 0;
-									Element elOption = (Element) listoption.item(nOption);	// Enum all conditions
+                                    // Enum all conditions
+									Element elOption = (Element) listoption.item(nOption);
 									while(elOption != null)
 									{
 										String csLabel = elOption.getAttribute("Label") ;
@@ -129,7 +131,8 @@ public class SemanticManager extends CJMapObject
 										MenuOptionDef.setLabel(csLabel);
 
 										nOption++;
-										elOption = (Element) listoption.item(nOption);	// Enum all conditions
+                                        // Enum all conditions
+										elOption = (Element) listoption.item(nOption);
 									}
 								}
 							}
@@ -171,7 +174,8 @@ public class SemanticManager extends CJMapObject
 							if(listconditions != null)
 							{
 								int nConditions = 0;
-								Element elConditions = (Element) listconditions.item(nConditions);	// Enum all conditions
+                                // Enum all conditions
+								Element elConditions = (Element) listconditions.item(nConditions);
 								if(elConditions != null)	// Only 1 tag conditions
 								{
 									NodeList listcondition = elConditions.getElementsByTagName("Condition") ;
@@ -236,6 +240,8 @@ public class SemanticManager extends CJMapObject
 		return null;
 	}
 
-	HashMap<String, CMenuDef>  hashMenus= new HashMap<String, CMenuDef> ();			// Array of CMenuDef, indexed by String csMenuId
-	HashMap<String, CSemanticItem> hashSemanticItems = new HashMap<String, CSemanticItem>();	// Array of CSemanticItem, indexed by String csSemanticId
+    // Array of CMenuDef, indexed by String csMenuId
+	HashMap<String, CMenuDef>  hashMenus= new HashMap<String, CMenuDef> ();
+    // Array of CSemanticItem, indexed by String csSemanticId
+	HashMap<String, CSemanticItem> hashSemanticItems = new HashMap<String, CSemanticItem>();
 }

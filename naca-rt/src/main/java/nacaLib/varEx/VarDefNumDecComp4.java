@@ -216,7 +216,9 @@ public class VarDefNumDecComp4 extends VarDefNum
 	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
 	{
 		// http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#alpha_elem_move_sec
-		// If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the sending item's data
+        // If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item
+        // description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the
+        // sending item's data
 		internalPhysicalWrite(buffer, varSource, bufferSource);
 	}
 
@@ -816,7 +818,8 @@ public class VarDefNumDecComp4 extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefX varDef1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		int n1 = varDef1.getUnsignedInt(buffer1);
 		Dec dec2 = getAsDecodedDec(buffer2);
@@ -825,7 +828,8 @@ public class VarDefNumDecComp4 extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacAlphaNum varDef1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		int n1 = varDef1.getUnsignedInt(buffer1);
 		Dec dec2 = getAsDecodedDec(buffer2);
@@ -834,7 +838,8 @@ public class VarDefNumDecComp4 extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacRaw varDef1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		int n1 = varDef1.getUnsignedInt(buffer1);
 		Dec dec2 = getAsDecodedDec(buffer2);
@@ -843,7 +848,8 @@ public class VarDefNumDecComp4 extends VarDefNum
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefG varDef1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		int n1 = varDef1.getAsDecodedInt(buffer1);
 		Dec dec2 = getAsDecodedDec(buffer2);

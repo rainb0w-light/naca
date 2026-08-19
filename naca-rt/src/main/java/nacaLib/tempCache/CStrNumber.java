@@ -199,7 +199,8 @@ public class CStrNumber extends CStr
 		}
 		if(isevenNumberOfDigits)
 		{
-			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
+            // Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles;
+            // the leading compensated that odd number
 			removeLeft(1);
 		}
 	}
@@ -242,7 +243,8 @@ public class CStrNumber extends CStr
 		}
 		if(isevenNumberOfDigits)
 		{
-			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
+            // Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles;
+            // the leading compensated that odd number
 			removeLeft(1);		
 		}
 	}

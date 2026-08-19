@@ -41,7 +41,7 @@ import utils.CTransApplicationGroup;
  *       backend's {@code ExportReference == formatIdentifier(GetName())});</li>
  *   <li><b>skeleton byte-parity</b> — driving the production legacy traversal protocol
  *       ({@code LegacyLanguageRenderer.invokeExport}, exactly what the BMS transcoder calls on the
- *       mapset root) renders the imports, the {@code class <name> extends Map { } header through the
+ *       mapset root) renders the imports, the {@code class <name> extends Map &#123;&#125;} header through the
  *       {@code recursiveFormContainerDeclarationEntity} template (reading the RAW {@code GetName()} —
  *       the retired backend did NOT format the class name), the two {@code Copy} factory methods and
  *       the constructor, then the class-body {@code { ... }} block over the mapset's maps — which the

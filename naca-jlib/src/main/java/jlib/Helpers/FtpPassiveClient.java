@@ -94,9 +94,9 @@ public class FtpPassiveClient {
  * Connects to a FTP server using the port number 21. 
  * @param url Address or IP to the FTP server.
  * @param user User name (warning, the user name and password are
- * transmitted unencrypted in the FTP protocol).
+ *     transmitted unencrypted in the FTP protocol).
  * @param password Password for the specified user name (warning, the user
- * name and password are transmitted unecrypted in the FTP protocol).
+ *     name and password are transmitted unecrypted in the FTP protocol).
  */
 	public void connectToFTPServer(String host,String user,String password) throws FtpException,UnknownHostException {
 		connectToFTPServer(host,user,password,21);
@@ -107,25 +107,27 @@ public class FtpPassiveClient {
  * port number for FTP protocol is 21). 
  * @param host Address or IP to the FTP server.
  * @param user User name (warning, the user name and password are
- * transmitted unencrypted in the FTP protocol).
+ *     transmitted unencrypted in the FTP protocol).
  * @param password Password for the specified user name (warning, the user
- * name and password are transmitted unecrypted in the FTP protocol).
+ *     name and password are transmitted unecrypted in the FTP protocol).
  * @param port The port number.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>120</b>:  Service ready in nnn minutes.</li>
- * 	<li><b>202</b>:  Command not implemented, superfluous at this site.</li>
- * 	<li><b>220</b>:  Service ready for new user.</li>
- * 	<li><b>230</b>:  User logged in, proceed.</li>
- * 	<li><b>331</b>:  User name okay, need password.</li>
- * 	<li><b>332</b>:  Need account for login.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>503</b>:  Bad sequence of commands.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>120</b>:  Service ready in nnn minutes.</li>
+ *     <li><b>202</b>:  Command not implemented, superfluous at this site.</li>
+ *     <li><b>220</b>:  Service ready for new user.</li>
+ *     <li><b>230</b>:  User logged in, proceed.</li>
+ *     <li><b>331</b>:  User name okay, need password.</li>
+ *     <li><b>332</b>:  Need account for login.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>503</b>:  Bad sequence of commands.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void connectToFTPServer(String host,String user,String password,int port) throws FtpException, UnknownHostException {
@@ -219,17 +221,19 @@ public class FtpPassiveClient {
 /**
  * Changes the current working directory.
  * @param remoteFolder The name of the new working directory. To specify an
- * absolute path, start with '/'.
+ *     absolute path, start with '/'.
  * @exception FtpException if the FTP server returns an error. Error codes
- * can be any of:
- * <ul>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>502</b>:  Command not implemented.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * </ul>
+ *     can be any of:
+ *     <ul>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>502</b>:  Command not implemented.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void changeCurrentDirectory(String remoteFolder) throws FtpException {
@@ -265,25 +269,27 @@ public class FtpPassiveClient {
  * Retrieves the list of files and folders of the current folder.
  * To change the current folder, use {@link #changeCurrentDirectory}.
  * @param remoteFolder The name of the folder to list the contents from. 
- * To specify an absolute path, start with '/'.
+ *     To specify an absolute path, start with '/'.
  * @return An array of strings, each element containing the simple file name (without its path).
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>502</b>:  Command not implemented.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>502</b>:  Command not implemented.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public String[] getFilesList(String remoteFolder) throws FtpException {
@@ -355,18 +361,18 @@ public class FtpPassiveClient {
 /**
  * Checks the existence of a file.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @return <code>true</code> when the file exists.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>213</b>:  File status.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>213</b>:  File status.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public boolean fileExists(String remoteFileName) throws Exception, FtpException {
@@ -407,18 +413,18 @@ public class FtpPassiveClient {
 /**
  * Returns the size of a file on the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @return The file size in bytes.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>213</b>:  File status.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>213</b>:  File status.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public int fileSize(String remoteFileName) throws FtpException, Exception {
@@ -457,18 +463,18 @@ public class FtpPassiveClient {
 /**
  * Returns the modified date of a file on the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @return The file date.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>213</b>:  File status.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>213</b>:  File status.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public Date fileDate(String remoteFileName) throws FtpException,Exception {
@@ -521,20 +527,22 @@ public class FtpPassiveClient {
 /**
  * Deletes a file on the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>502</b>:  Command not implemented.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>502</b>:  Command not implemented.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void deleteFile(String remoteFileName) throws FtpException, Exception {
@@ -573,18 +581,18 @@ public class FtpPassiveClient {
 /**
  * Creates a new folder on the FTP server.
  * @param newRemoteFolderName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>500</b>: Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>: Syntax error in parameters or arguments.</li>
- * 	<li><b>502</b>: Command not implemented.</li>
- * 	<li><b>421</b>: Service not available, closing control connection.</li>
- * 	<li><b>530</b>: Not logged in.</li>
- * 	<li><b>550</b>: Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>500</b>: Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>: Syntax error in parameters or arguments.</li>
+ *     <li><b>502</b>: Command not implemented.</li>
+ *     <li><b>421</b>: Service not available, closing control connection.</li>
+ *     <li><b>530</b>: Not logged in.</li>
+ *     <li><b>550</b>: Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void createFolder(String newRemoteFolderName) throws FtpException, Exception {
@@ -624,19 +632,21 @@ public class FtpPassiveClient {
  * specified file. When all data is sent through the stream, simply close
  * it.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @return An output stream, ready to accept data.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>227</b>:  Entering Passive Mode (h1,h2,h3,h4,p1,p2).</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>502</b>:  Command not implemented.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>227</b>:  Entering Passive Mode (h1,h2,h3,h4,p1,p2).</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>502</b>:  Command not implemented.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  * @deprecated Use {@link #putFile} instead.
  */
@@ -662,8 +672,8 @@ public class FtpPassiveClient {
  * The data read from this stream is directly obtained from the file on the
  * FTP server. When all data is read, the stream reports an normal End Of File.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @return An input stream, ready to read data from.
  * @deprecated use {@link #getFile} instead.
  */
@@ -686,29 +696,34 @@ public class FtpPassiveClient {
 /**
  * Downloads a file from the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @param localFileName Local file where to store the file retrieved from
- * the FTP server.
+ *     the FTP server.
  * @return The file size.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:
+ *     MARK
+ *     yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ *     "=").</li>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>550</b>:  Requested action not taken. File unavailable (e.g., file not found, no access).</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public int getFile(String remoteFileName,File localFileName) throws FtpException, Exception {
@@ -784,30 +799,35 @@ public class FtpPassiveClient {
  * Uploads a file to the FTP server.
  * @param localFileName Local file to upload on the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>532</b>:  Need account for storing files.</li>
- * 	<li><b>551</b>:  Requested action aborted: page type unknown.</li>
- * 	<li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
- * 	<li><b>553</b>:  Requested action not taken. File name not allowed.
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:
+ *     MARK
+ *     yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ *     "=").</li>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>532</b>:  Need account for storing files.</li>
+ *     <li><b>551</b>:  Requested action aborted: page type unknown.</li>
+ *     <li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
+ *     <li><b>553</b>:  Requested action not taken. File name not allowed.
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void putFile(String localFileName,String remoteFileName) throws FileNotFoundException,FtpException {
@@ -818,32 +838,37 @@ public class FtpPassiveClient {
  * Uploads a file to the FTP server.
  * @param localFileName Local file to upload on the FTP server.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @param binary If <code>true</code>, binary mode is asked to the server before 
- * starting the file transfer.
+ *     starting the file transfer.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>532</b>:  Need account for storing files.</li>
- * 	<li><b>551</b>:  Requested action aborted: page type unknown.</li>
- * 	<li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
- * 	<li><b>553</b>:  Requested action not taken. File name not allowed.
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:
+ *     MARK
+ *     yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ *     "=").</li>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>532</b>:  Need account for storing files.</li>
+ *     <li><b>551</b>:  Requested action aborted: page type unknown.</li>
+ *     <li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
+ *     <li><b>553</b>:  Requested action not taken. File name not allowed.
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void putFile(String localFileName,String remoteFileName,boolean binary) throws FileNotFoundException, FtpException {
@@ -855,30 +880,35 @@ public class FtpPassiveClient {
  * Uploads a file to the FTP server.
  * @param is An input stream opened on the local data.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>532</b>:  Need account for storing files.</li>
- * 	<li><b>551</b>:  Requested action aborted: page type unknown.</li>
- * 	<li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
- * 	<li><b>553</b>:  Requested action not taken. File name not allowed.
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:
+ *     MARK
+ *     yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ *     "=").</li>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>532</b>:  Need account for storing files.</li>
+ *     <li><b>551</b>:  Requested action aborted: page type unknown.</li>
+ *     <li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
+ *     <li><b>553</b>:  Requested action not taken. File name not allowed.
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void putFile(InputStream is,String remoteFileName) throws FtpException {
@@ -889,32 +919,37 @@ public class FtpPassiveClient {
  * Uploads a file to the FTP server.
  * @param is An input stream opened on the local data.
  * @param remoteFileName Remote file on the FTP server. This path
- * is relative to the <code>Current Working Directory</code> (see
- * {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
+ *     is relative to the <code>Current Working Directory</code> (see
+ *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
  * @param binary If <code>true</code>, binary mode is asked to the server before 
- * starting the file transfer.
+ *     starting the file transfer.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
- * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
- * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
- * 	<li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
- * 	<li><b>250</b>:  Requested file action okay, completed.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>425</b>:  Can't open data connection.</li>
- * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
- * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
- * 	<li><b>451</b>:  Requested action aborted: local error in processing.</li>
- * 	<li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * 	<li><b>532</b>:  Need account for storing files.</li>
- * 	<li><b>551</b>:  Requested action aborted: page type unknown.</li>
- * 	<li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
- * 	<li><b>553</b>:  Requested action not taken. File name not allowed.
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:
+ *     MARK
+ *     yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ *     "=").</li>
+ *     <li><b>125</b>:  Data connection already open; transfer starting.</li>
+ *     <li><b>150</b>:  File status okay; about to open data connection.</li>
+ *     <li><b>226</b>:  Closing data connection. Requested file action successful (for example, file transfer or file abort).</li>
+ *     <li><b>250</b>:  Requested file action okay, completed.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>425</b>:  Can't open data connection.</li>
+ *     <li><b>426</b>:  Connection closed; transfer aborted.</li>
+ *     <li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>
+ *     <li><b>451</b>:  Requested action aborted: local error in processing.</li>
+ *     <li><b>452</b>:  Requested action not taken. Insufficient storage space in system.</li>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     <li><b>532</b>:  Need account for storing files.</li>
+ *     <li><b>551</b>:  Requested action aborted: page type unknown.</li>
+ *     <li><b>552</b>:  Requested file action aborted. Exceeded storage allocation (for current directory or dataset).</li>
+ *     <li><b>553</b>:  Requested action not taken. File name not allowed.
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void putFile(InputStream is,String remoteFileName,boolean binary) throws FtpException {
@@ -1115,16 +1150,18 @@ public class FtpPassiveClient {
 /**
  * Sets the transfer type.
  * @param type Specifies the transfert type. Available types are {@link #typeIMAGE}, 
- * {@link #typeASCII}, {@link #typeEBCDIC} and {@link #typeLOCAL}.
+ *     {@link #typeASCII}, {@link #typeEBCDIC} and {@link #typeLOCAL}.
  * @exception FtpException When the FTP returns an error. Error codes can be
- * any of:
- * <ul>
- * 	<li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
- * 	<li><b>501</b>:  Syntax error in parameters or arguments.</li>
- * 	<li><b>504</b>:  Command not implemented for that parameter.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
- * 	<li><b>530</b>:  Not logged in.</li>
- * </ul>
+ *     any of:
+ *     <ul>
+ *     <li><b>500</b>:  Syntax error, command unrecognized. This may include errors such as command line too long.</li>
+ *     <li><b>501</b>:  Syntax error in parameters or arguments.</li>
+ *     <li><b>504</b>:  Command not implemented for that parameter.</li>
+ *     <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must
+ *     shut
+ *     down.</li>
+ *     <li><b>530</b>:  Not logged in.</li>
+ *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
 	public void setTransferType(String type) throws FtpException {

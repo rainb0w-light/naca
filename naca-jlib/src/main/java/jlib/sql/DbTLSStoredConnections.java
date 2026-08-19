@@ -19,7 +19,8 @@ import java.util.Hashtable;
  */
 public class DbTLSStoredConnections
 {
-	private DbConnectionBase foreignDbConnectionBase = null;	// Holds a foreign db connection, that is a connection is has been provided by a caller using setForeignConnection
+    // Holds a foreign db connection, that is a connection is has been provided by a caller using setForeignConnection
+	private DbConnectionBase foreignDbConnectionBase = null;
 	private Hashtable<DbAccessor, DbConnectionBase> hashConById = new Hashtable<DbAccessor, DbConnectionBase>();
 
 	DbConnectionBase getDbId(DbAccessor dbId)	// No need to synchonize: the m_hashConById is private to the current thread
@@ -27,7 +28,8 @@ public class DbTLSStoredConnections
 		return hashConById.get(dbId);
 	}
 
-	void putDbId(DbAccessor dbId, DbConnectionBase connection)	// No need to synchonize: the m_hashConById is private to the current thread
+    // No need to synchonize: the m_hashConById is private to the current thread
+	void putDbId(DbAccessor dbId, DbConnectionBase connection)
 	{
 		hashConById.put(dbId, connection);
 	}

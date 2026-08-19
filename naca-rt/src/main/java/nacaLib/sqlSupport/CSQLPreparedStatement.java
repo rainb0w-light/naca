@@ -102,7 +102,8 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 	
 	public CSQLResultSet executeQueryAndFillInto(SQL sql, int nNbFetch)
 	{
-		CSQLResultSet SQLResultSet = executeQuery(sql);	//sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
+        // sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
+		CSQLResultSet SQLResultSet = executeQuery(sql);
 		if (SQLResultSet != null)
 		{
 			if(SQLResultSet.next())
@@ -120,7 +121,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		this.semanticContextDef = semanticContextDef;
 	}
 	
-	public CSQLResultSet executeQuery(SQL sql)	//CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem> hashParam, HashMap<String, CSQLItem> hashValue)
+    // CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem>
+    // hashParam, HashMap<String, CSQLItem> hashValue)
+	public CSQLResultSet executeQuery(SQL sql)
 	{
 		if(isLogSql())
 			Log.logDebug("CSQLPreparedStatement::executeQuery:"+csQueryString);

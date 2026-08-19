@@ -249,10 +249,10 @@ public class SQL
 			else if (c == '*')
 				isstarFound = true;
 			else if (!Character.isWhitespace(c) && isstarFound) // We have a non
-																// whitespace
+                                        // whitespace
 																// and ha a
-																// star: it's
-																// not a select
+                                        // star: it's
+                                        // not a select
 																// *
 				isstarFound = false;
 		}
@@ -277,21 +277,21 @@ public class SQL
 			nNbWhereParamDeclared = 0;			
 			nNbIntoParamToProvide = getNbIntoParam();
 			if (qLTypeOperation == SQLTypeOperation.CursorSelect && bMustAddRowId) // Add
-																						// to
-																						// ROWID
-																						// Column
-																						// at
-																						// the
-																						// 1st
-																						// position,
-																						// as
-																						// it
-																						// is
-																						// required
-																						// for
-																						// "FOR
-																						// UPDATE"
-																						// support
+                                        // to
+                                        // ROWID
+                                        // Column
+                                        // at
+                                        // the
+                                        // 1st
+                                        // position,
+                                        // as
+                                        // it
+                                        // is
+                                        // required
+                                        // for
+                                        // "FOR
+                                        // UPDATE"
+                                        // support
 			{
 				int nPosSelect = csQueryUpper.indexOf("SELECT");
 				if (nPosSelect == 0)
@@ -357,10 +357,10 @@ public class SQL
 		if (qLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
 			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
-																		// params
-																		// have
-																		// been
-																		// filled
+                                        // params
+                                        // have
+                                        // been
+                                        // filled
 			{
 				if (qLCursorResultSet == null) // 1st step: all params
 													// have been provided;
@@ -388,10 +388,10 @@ public class SQL
 					}
 				}
 				if (nNbIntoParamToProvide == nNbIntoParamDeclared && qLCursorResultSet != null) // All
-																										// into
-																										// have
-																										// been
-																										// specified
+                                        // into
+                                        // have
+                                        // been
+                                        // specified
 				{
 					accountingRecordManager.incFetchCursor();
 					//JmxGeneralStat.incFetchCursor(1);
@@ -414,10 +414,10 @@ public class SQL
 		else if (qLTypeOperation == SQLTypeOperation.Select)
 		{
 			if (nNbWhereParamDeclared == nNbWhereParamToProvide && nNbIntoParamDeclared == nNbIntoParamToProvide) // All
-																															// params
-																															// have
-																															// been
-																															// filled
+                                        // params
+                                        // have
+                                        // been
+                                        // filled
 			{
 				accountingRecordManager.incSelect();
 				if (csExplainQuery != null)
@@ -1420,10 +1420,10 @@ public class SQL
 		if (qLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
 			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
-																		// params
-																		// have
-																		// been
-																		// filled
+                                        // params
+                                        // have
+                                        // been
+                                        // filled
 			{
 				if (qLCursorResultSet == null) // 1st step: all params have
 													// been provided; must now
@@ -1439,10 +1439,10 @@ public class SQL
 					}
 				}
 				else if (nNbIntoParamToProvide == nNbIntoParamDeclared && qLCursorResultSet != null) // All
-																											// into
-																											// have
-																											// been
-																											// specified
+                                        // into
+                                        // have
+                                        // been
+                                        // specified
 				{
 					accountingRecordManager.incFetchCursor();
 					//JmxGeneralStat.incFetchCursor(1);
@@ -1459,20 +1459,20 @@ public class SQL
 		else if (qLTypeOperation == SQLTypeOperation.Select)
 		{
 			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
-																		// params
-																		// have
-																		// been
-																		// filled
+                                        // params
+                                        // have
+                                        // been
+                                        // filled
 			{
 				accountingRecordManager.incSelect();
 				CSQLPreparedStatement SQLStatement = executePrepareSelect();
 				if (SQLStatement != null)
 				{
 					qLCursorResultSet = SQLStatement.executeQuery(this); // sqlStatus,
-																			// arrColSelectType,
-																			// accountingRecordManager,
-																			// m_hashParam,
-																			// m_hashValue);
+                                        // arrColSelectType,
+                                        // accountingRecordManager,
+                                        // m_hashParam,
+                                        // m_hashValue);
 					sQLConnection = null;
 					manageSqlError();
 					return qLCursorResultSet;

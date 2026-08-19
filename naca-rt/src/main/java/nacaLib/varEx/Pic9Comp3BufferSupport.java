@@ -535,7 +535,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 		}
 		if(isevenNumberOfDigits)
 		{
-			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
+            // Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles;
+            // the leading compensated that odd number
 			csOut = csOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);
 		}
 		return csOut;
@@ -548,7 +549,8 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 			// Build a number form int and dec part, with correct alignment
 
 			long unsignedIntValue = decValue.getUnsignedLong();
-			unsignedIntValue = unsignedIntValue % ms_tModulo[nNbDigitInteger];	// Keep only rightmost digits of the int part
+            // Keep only rightmost digits of the int part
+			unsignedIntValue = unsignedIntValue % ms_tModulo[nNbDigitInteger];
 
 			int nUnsignedDecValue = decValue.getLeftMostDigitOfDecPartAsInt(nNbDigitDecimal);
 			long signedValue = (unsignedIntValue * ms_tModulo[nNbDigitDecimal]) + nUnsignedDecValue;

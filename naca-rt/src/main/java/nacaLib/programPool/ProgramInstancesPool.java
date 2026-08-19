@@ -229,7 +229,8 @@ public class ProgramInstancesPool extends BaseCloseMBean
 		// No program instance is running
 		doUnloadProgram();
 
-		unloadProgramRWLock.writeLock().unlock();	// Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
+        // Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
+		unloadProgramRWLock.writeLock().unlock();
 		Log.logImportant("unloadProgram; End unload program "+csProgramName);
 	}
 
@@ -273,7 +274,8 @@ public class ProgramInstancesPool extends BaseCloseMBean
 			stack.push(program);
 			Log.logVerbose("returnProgram: returned program to pool "+csProgramName);
 		}
-		unloadProgramRWLock.readLock().unlock();	// Release read lock: the current thread do not own anymore the program instance
+        // Release read lock: the current thread do not own anymore the program instance
+		unloadProgramRWLock.readLock().unlock();
 	}
 
 	private Stack<BaseProgram> stack = new Stack<BaseProgram>();

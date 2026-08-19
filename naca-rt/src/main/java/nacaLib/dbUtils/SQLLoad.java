@@ -113,7 +113,8 @@ public class SQLLoad extends BaseSQLUtils
 		// Prepare the array of the col values to insert
 		int nNbCols = arrDbColDef.size();		
 		String csInsertClause = BaseDbColDefinitionFactory.makeInsertString(csTableFullName, arrDbColDef);
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csInsertClause, false);	// cursor clause not supported
+        // cursor clause not supported
+		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csInsertClause, false);
 		
 		// Remove ending ';' as it is not supported by UDB
 		if(csInsertClause.endsWith(";"))

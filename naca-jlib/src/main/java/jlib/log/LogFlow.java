@@ -23,7 +23,7 @@ package jlib.log;
  * 	<li>The event <i>LogLevel</i> has to be superior or equal to the <i>LogLevel</i>
  * 	of the <i>LogCenter</i></li>
  * 	<li>The <i>LogCenter</i> flow has to accept the event flow. {@link #isAcceptable}
- * 	is the method checking this second condition.</i>
+ * 	is the method checking this second condition.</li>
  * </ul>
  * @see LogFlowStd
  * @see LogFlowRegister
@@ -62,7 +62,7 @@ public abstract class LogFlow
  * Checks if the flow is named as specified.
  * @param cs The name to be compared with the flow's name.
  * @return <i>true</i> if the specified name corresponds to the
- * flow's name. The comparison is case-insensitive.
+ *     flow's name. The comparison is case-insensitive.
  */
 	boolean hasName(String cs)
 	{
@@ -82,7 +82,7 @@ public abstract class LogFlow
  * The method checks the specified name against the registerd flows
  * (see {@link LogFlowRegister}).
  * @param csFlow The name of the flow to retrieve. The name is case
- * insensitive.
+ *     insensitive.
  * @return The reference to the flow named as specified.
  */
 	public static LogFlow getNamedFlow(String csFlow)
@@ -96,7 +96,7 @@ public abstract class LogFlow
 //	}
 
 /**
- * Should return <i>true</i> if the specified <b>logFlow</i> is accepted
+ *     Should return <i>true</i> if the specified <b>logFlow</b> is accepted
  * by the current flow.
  * @param logFlow The flow to be checked.
  * @return <i>true</i> if the specified flow is accepted by the current flow.

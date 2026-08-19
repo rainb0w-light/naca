@@ -194,7 +194,8 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 				{
 					rbNegative[0] = true;
 					if(nPosDecimalDot != -1)
-						nPosDecimalDot++;	// Right shift decimal dot (if one has been set) as we have added a leading '-'
+                        // Right shift decimal dot (if one has been set) as we have added a leading '-'
+						nPosDecimalDot++;
 					cs.insert(0, '-');
 				}
 			}
@@ -245,7 +246,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //				if(nLow == COMP3_SIGN_MINUS)
 //				{
 //					if(nPosDecimalDot != -1)
-//						nPosDecimalDot++;	// Right shift decimal dot (if one has been set) as we have added a leading '-'
+// nPosDecimalDot++; // Right shift decimal dot (if one has been set) as we have added a leading '-'
 //					cs.insert(0, '-');
 //				}
 //			}

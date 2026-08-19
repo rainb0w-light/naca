@@ -77,7 +77,7 @@ public class XmlHelper {
 		if (_xPathFactory==null) {
 			String magicValue=System.getProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom");
 	    	System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom","net.sf.saxon.xpath.XPathFactoryImpl");
-//	    	System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom","org.apache.xpath.jaxp.XPathFactoryImpl");
+// System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom","org.apache.xpath.jaxp.XPathFactoryImpl");
 //	    	System.setProperty("jaxp.debug","yes");
 	    	_xPathFactory=XPathFactory.newInstance(XPathConstants.DOM_OBJECT_MODEL);
 	    	if (magicValue==null)
@@ -92,10 +92,10 @@ public class XmlHelper {
  * Looks for a single node by using a XPath expression.
  * @param parent The context for the XPath expression.
  * @param expression A XPath expression. As this method returns a {@link Node}
- * object, be sure to specify XPath expression selecting nodes (not text nodes,
- * for example).
+ *     object, be sure to specify XPath expression selecting nodes (not text nodes,
+ *     for example).
  * @return The first node matching the XPath expression in the specified context.
- * Can return null if there are no matching nodes.
+ *     Can return null if there are no matching nodes.
  */
 	public static Node SelectSingleNode(Node parent,String expression) {
 		return SelectSingleNode(parent,expression,false);
@@ -104,15 +104,15 @@ public class XmlHelper {
  * Looks for a single node by using a XPath expression.
  * @param parent The context for the XPath expression.
  * @param expression A XPath expression. As this method returns a {@link Node}
- * object, be sure to specify XPath expression selecting nodes (not text nodes,
- * for example). If you're looking for nodes in the default namespace, prefix the node
- * names with ':'.
+ *     object, be sure to specify XPath expression selecting nodes (not text nodes,
+ *     for example). If you're looking for nodes in the default namespace, prefix the node
+ *     names with ':'.
  * @param defaultNamespaceAware If <i>true</i>, the method will use a namespace
- * context provider ({@link DefaultNamespaceContextProvider}) to handle default
- * namespace. Don't use this feature when not necessary, as it slows down the
- * setup of the {@link XPath} operation.
+ *     context provider ({@link DefaultNamespaceContextProvider}) to handle default
+ *     namespace. Don't use this feature when not necessary, as it slows down the
+ *     setup of the {@link XPath} operation.
  * @return The first node matching the XPath expression in the specified context.
- * Can return null if there are no matching nodes.
+ *     Can return null if there are no matching nodes.
  */
     public static Node SelectSingleNode(Node parent,String expression,boolean defaultNamespaceAware) {
     	try {
@@ -139,10 +139,10 @@ public class XmlHelper {
  * Returns the list of nodes matching an XPath expression.
  * @param parent The context for the XPath expression.
  * @param expression A XPath expression. As this method returns a {@link NodeList}
- * object, be sure to specify XPath expression selecting nodes (not text nodes,
- * for example).
+ *     object, be sure to specify XPath expression selecting nodes (not text nodes,
+ *     for example).
  * @return The list of nodes matching the XPath expression in the specified context.
- * Can return null if there are no matching nodes.
+ *     Can return null if there are no matching nodes.
  */
     public static NodeList SelectNodes(Node parent,String expression) {
     	return SelectNodes(parent,expression,false);
@@ -152,15 +152,15 @@ public class XmlHelper {
  * Returns the list of nodes matching an XPath expression.
  * @param parent The context for the XPath expression.
  * @param expression A XPath expression. As this method returns a {@link NodeList}
- * object, be sure to specify XPath expression selecting nodes (not text nodes,
- * for example). If you're looking for nodes in the default namespace, prefix the node
- * names with ':'.
+ *     object, be sure to specify XPath expression selecting nodes (not text nodes,
+ *     for example). If you're looking for nodes in the default namespace, prefix the node
+ *     names with ':'.
  * @param defaultNamespaceAware If <i>true</i>, the method will use a namespace
- * context provider ({@link DefaultNamespaceContextProvider}) to handle default
- * namespace. Don't use this feature when not necessary, as it slows down the
- * setup of the {@link XPath} operation.
+ *     context provider ({@link DefaultNamespaceContextProvider}) to handle default
+ *     namespace. Don't use this feature when not necessary, as it slows down the
+ *     setup of the {@link XPath} operation.
  * @return The list of nodes matching the XPath expression in the specified context.
- * Can return null if there are no matching nodes.
+ *     Can return null if there are no matching nodes.
  */
 	public static NodeList SelectNodes(Node parent,String expression,boolean defaultNamespaceAware) {
 		try {
@@ -188,7 +188,7 @@ public class XmlHelper {
  * @param node The node containing the desired attribute.
  * @param attributeName The name of the desired attribute.
  * @return The text of the specified attribute. If the attribute doesn't exist
- * in the specified node, the method returns an empty string.
+ *     in the specified node, the method returns an empty string.
  */
 	public static String GetNodeAttribute(Node node,String attributeName) {
 		Element x=(Element)node;
@@ -395,7 +395,7 @@ public class XmlHelper {
  * @param xml Node to serialize.
  * @param encoding The encoding to use to serialize the specified node.
  * @return An InputStream from which the serialization of the specified node
- * can be read.
+ *     can be read.
  */
 	static public InputStream SaveToInputStream(Node xml,String encoding) {
 		return SaveToInputStream(xml,encoding,null);
@@ -423,7 +423,7 @@ public class XmlHelper {
  * @param encoding The encoding to use to serialize the specified node.
  * @param cdataElements CData elements list separated by space to serialize the specified node.
  * @return An InputStream from which the serialization of the specified node
- * can be read.
+ *     can be read.
  */
 	static public InputStream SaveToInputStream(Node xml,String encoding, String cdataElements) {
 //********************** Thread performing the node serialization ***************
@@ -698,19 +698,19 @@ public class XmlHelper {
 //			return (Document)result.getNode();
 //		}
 //		catch (SAXException e) {
-//			throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error creating the xmlReader: "+e.getMessage(),e);			
+// throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error creating the xmlReader: "+e.getMessage(),e);
 //		}
 //		catch (TransformerConfigurationException e) {
-//			throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error creating a new transformer handler: "+e.getMessage(),e);			
+// throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error creating a new transformer handler: "+e.getMessage(),e);
 //		}
 //		catch (TransformerException e) {
 //			Throwable ee=e.getCause();
 //			if (ee instanceof EmptyStreamException)
-//				throw new ProgrammingException(ProgrammingException.DOM_EMPTYFILE,"Specified stream is empty: "+e.getMessage(),e);						
-//    		throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error performing identity transformation: "+e.getMessage(),e);			
+// throw new ProgrammingException(ProgrammingException.DOM_EMPTYFILE,"Specified stream is empty: "+e.getMessage(),e);
+// throw new ProgrammingException(ProgrammingException.DOM_CREATION_ERROR,"Error performing identity transformation: "+e.getMessage(),e);
 //		}
 //		catch (IOException e) {
-//    		throw new ProgrammingException(ProgrammingException.DOM_READING_ERROR,"Error accessing the provided output stream: "+e.getMessage(),e);						
+// throw new ProgrammingException(ProgrammingException.DOM_READING_ERROR,"Error accessing the provided output stream: "+e.getMessage(),e);
 //		}
 //	}
 
@@ -959,8 +959,8 @@ public class XmlHelper {
  * Comment and processing instruction nodes are not considered as content.
  * @param x The node to check. If it is null, the method returns <i>false</i>.
  * @param ignoreBlankSpaces If <i>true</i> text nodes containing
- * only control characters (ascii codes equal or smaller than 32) are considered
- * empty.
+ *     only control characters (ascii codes equal or smaller than 32) are considered
+ *     empty.
  * @return <i>true</i> if the specified node has contents.
  */
 	static public boolean NodeHasContent(Node x,boolean ignoreBlankSpaces) {

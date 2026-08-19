@@ -90,12 +90,14 @@ public class CWorkingValueEntry extends CCobolElement
 				CBaseToken tokNext = GetCurrentToken();
 				if (tokNext.GetType() == CTokenType.COMMA)
 				{
-					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+                    // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					values.addElement(val) ;
 					GetNext(); // consume ","
 				}
 				else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
 				{
-					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+                    // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					values.addElement(val) ;
 				}
 				else if (tokNext.GetKeyword() == CCobolKeywordList.THROUGH || tokNext.GetKeyword() == CCobolKeywordList.THRU)
 				{
@@ -113,7 +115,8 @@ public class CWorkingValueEntry extends CCobolElement
 				}
 				else
 				{
-					values.addElement(val) ; // values are intervals, so for a single value, it is added twice, as an interval of one single value
+                    // values are intervals, so for a single value, it is added twice, as an interval of one single value
+					values.addElement(val) ;
 					isdone = true ;
 				}
 			}

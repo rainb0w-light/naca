@@ -144,7 +144,8 @@ public class SqlMapper
 	public void executeInserts(DbAccessor dbAccessor)
 	{
 		// Insert records for all tables 
-		for(int nTable = 0; nTable< tables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+        // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable = 0; nTable< tables.size(); nTable++)
 		{
 			SqlMapperManagedTable managedTable = tables.get(nTable);
 			managedTable.executeInserts(dbAccessor);	// Execute an insert for the record id in the table 
@@ -155,7 +156,8 @@ public class SqlMapper
 	public void executeSelects(DbAccessor dbAccessor)
 	{
 		// Select records for all tables; The select "where" is given by the values stored in the recordId
-		for(int nTable = 0; nTable< tables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+        // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable = 0; nTable< tables.size(); nTable++)
 		{
 			SqlMapperManagedTable managedTable = tables.get(nTable);
 			managedTable.executeSelects(dbAccessor);	// Execute an insert for the record id in the table 
@@ -166,7 +168,8 @@ public class SqlMapper
 	public void executeDeletes(DbAccessor dbAccessor)
 	{
 		// Delete records for all tables; The select "where" is given by the values stored in the recordId
-		for(int nTable = 0; nTable< tables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+        // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable = 0; nTable< tables.size(); nTable++)
 		{
 			SqlMapperManagedTable managedTable = tables.get(nTable);
 			managedTable.executeDeletes(dbAccessor);	// Execute an insert for the record id in the table 
@@ -176,7 +179,8 @@ public class SqlMapper
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder(); 
-		for(int nTable = 0; nTable< tables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+        // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable = 0; nTable< tables.size(); nTable++)
 		{
 			SqlMapperManagedTable managedTable = tables.get(nTable);
 			String cs = managedTable.toString();
@@ -187,7 +191,8 @@ public class SqlMapper
 	
 	public void clearValues()
 	{
-		for(int nTable = 0; nTable< tables.size(); nTable++)	// A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+        // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id
+		for(int nTable = 0; nTable< tables.size(); nTable++)
 		{
 			SqlMapperManagedTable managedTable = tables.get(nTable);
 			managedTable.clearValues();

@@ -98,7 +98,9 @@ public class DataSection extends CJMapObject
 		int nBufferSize = 0;
 		if(rootVar != null)
 		{
-			if(bFirstInstance)	// The var defs of the catalog have not been already computed: 1st absolute run; the 2nd, 3rd... run of a program alreday loaded have access to the catalog of varDef: No need to recompute var def again.
+            // The var defs of the catalog have not been already computed: 1st absolute run; the 2nd, 3rd... run of a program alreday loaded
+            // have access to the catalog of varDef: No need to recompute var def again.
+			if(bFirstInstance)
 			{
 				VarDefBuffer varDefBuffer = rootVar.getVarDef();
 				

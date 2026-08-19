@@ -214,7 +214,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 		if(varDefFormRedefineOrigin != null)	// Var in a map redefine
 		{
 			n = nNbOccurs * nSumChildrenSize;
-			if(!isEditInMapRedefine())	// do not change the size of the edit in map redefine, only the size of the var groups in an edit of a map redefine
+            // do not change the size of the edit in map redefine, only the size of the var groups in an edit of a map redefine
+			if(!isEditInMapRedefine())
 				nTotalSize = n;
 		}
 		return nTotalSize;
@@ -291,12 +292,13 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 		{
 			if(isVarInMapRedefine() && varDefRedefinOrigin.isEditInMapRedefine())
 			{
-				// We are a var that redefines an edit; The var must point to the text part of the edit, not in the attribute header
+                // We are a var that redefines an edit; The var must point to the text part of the edit, not in the attribute header
 				nDefaultAbsolutePosition = varDefRedefinOrigin.nDefaultAbsolutePosition + varDefRedefinOrigin.getHeaderLength();
 			}
 			else	// no header to skip
 			{
-				nDefaultAbsolutePosition = varDefRedefinOrigin.nDefaultAbsolutePosition;	// Set at the redefine origin position
+                // Set at the redefine origin position
+				nDefaultAbsolutePosition = varDefRedefinOrigin.nDefaultAbsolutePosition;
 			}
 		}
 		else // We are not a redefine
@@ -319,8 +321,10 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 			VarDefBase varDefPrevious = getVarDefPreviousSameLevel(sharedProgramInstanceData);
 			if(varDefPrevious.varDefRedefinOrigin != null)	// The previous is a redefine
 			{
-				if(varDefPrevious.isEditInMapRedefine())		// PJD: previous sibling determination error correction
-					return varDefPrevious;						// PJD: previous sibling determination error correction
+                // PJD: previous sibling determination error correction
+				if(varDefPrevious.isEditInMapRedefine())
+                    // PJD: previous sibling determination error correction
+					return varDefPrevious;
 				return varDefPrevious.getPreviousSameLevelNonRedefine(sharedProgramInstanceData);
 			}
 			return varDefPrevious;	// the previous is not a redefine
@@ -506,7 +510,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 	void adjustSetting(VarDefBuffer varDefBufferCopySingleItem, int nAbsStart, int nDebugIndexes, int nNbDim, VarDefBase varDefOccursParent)
 	{
 		varDefBufferCopySingleItem.varDefParent = null;	//varDefParent;
-		varDefBufferCopySingleItem.arrChildren = arrChildren; // PJD; Was = null, but assigned to children array because of ebcdic comparison of occursed items. We need to have access to the children.
+        // PJD; Was = null, but assigned to children array because of ebcdic comparison of occursed items. We need to have access to the
+        // children.
+		varDefBufferCopySingleItem.arrChildren = arrChildren;
 		varDefBufferCopySingleItem.nTotalSize = getOneEntrySize();
 		varDefBufferCopySingleItem.nDefaultAbsolutePosition = nAbsStart;
 		varDefBufferCopySingleItem.setId(getId());
@@ -1138,11 +1144,13 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 			if(!foundFlag.isFound())
 			{
 				int nNbEditUnderChild = varDefChild.getNbEditUntil(varChildToFind, foundFlag);
-				if(varDefChild.isVarInMapRedefine() && varDefChild.varDefRedefinOrigin != null) // we are a var redefine, and we know what we redefines
+                // we are a var redefine, and we know what we redefines
+				if(varDefChild.isVarInMapRedefine() && varDefChild.varDefRedefinOrigin != null)
 				{
 					if(foundFlag.isFound())	// We found the edit serched as a child of the var redefine
 					{
-						int nNbEditAlredayCounted = varDefChild.varDefRedefinOrigin.getNbEdit();	// Number of items alreday counted in the var redefine origin: it must not be taken into account
+                        // Number of items alreday counted in the var redefine origin: it must not be taken into account
+						int nNbEditAlredayCounted = varDefChild.varDefRedefinOrigin.getNbEdit();
 						nNbEdit = nNbEdit + nNbEditUnderChild - nNbEditAlredayCounted;
 						return nNbEdit;
 					}
@@ -1267,7 +1275,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 //		// TO BE DONE: varDefFormRedefineOrigin
 //	}
 
-//	private void serializeArrayVarDef(ObjectOutputStream out, Hashtable<VarDefBase, Integer> hashVarDefById, ArrayList<VarDefBase> arr) throws IOException
+// private void serializeArrayVarDef(ObjectOutputStream out, Hashtable<VarDefBase, Integer> hashVarDefById, ArrayList<VarDefBase> arr)
+// throws IOException
 //	{
 //		int nNbChildren = 0;
 //		if(arr != null)
@@ -1280,7 +1289,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 //		}
 //	}
 
-//	public void deserializeDetails(ObjectInputStream in, ArrayList<VarDefBuffer> arrVarDef, int nId) throws IOException, ClassNotFoundException
+// public void deserializeDetails(ObjectInputStream in, ArrayList<VarDefBuffer> arrVarDef, int nId) throws IOException,
+// ClassNotFoundException
 //	{
 //		int nVersion = in.readInt();	// Version
 //		if(nVersion == 1)
@@ -1326,7 +1336,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 //	}
 
 
-//	private void serializeVarDefId(ObjectOutputStream out, Hashtable<VarDefBase, Integer> hashVarDefById, VarDefBase varDef) throws IOException
+// private void serializeVarDefId(ObjectOutputStream out, Hashtable<VarDefBase, Integer> hashVarDefById, VarDefBase varDef) throws
+// IOException
 //	{
 //		if(varDef != null)
 //		{
@@ -1501,7 +1512,8 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
 
 	// Grouped by 16 bits id
-	private int n_PreviousSameLevel_Id = 0;	// high short:varDefPreviousSameLevel id; low short: Id of the variable's an index in SharedProgramInstanceData arrVarName array
+    // high short:varDefPreviousSameLevel id; low short: Id of the variable's an index in SharedProgramInstanceData arrVarName array
+	private int n_PreviousSameLevel_Id = 0;
 	// Grouping:
 	//private VarDefBase varDefPreviousSameLevel = null;	// Previous VarDef at the same level
 	//private int nId;

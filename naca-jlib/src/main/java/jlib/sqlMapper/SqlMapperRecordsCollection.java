@@ -94,8 +94,10 @@ public class SqlMapperRecordsCollection
 	
 			clause.prepareAndExecute();	// Execute the statement
 			
-			SqlMapperManagedRecord recordColsTypeMaster = null;	// Just to identify the types of all columns; It's done only for the 1st record of the result set.
-			// A performance enhancement would be to have this recordColsTypeMaster created for only the 1st record of all select sharing the same statement 
+            // Just to identify the types of all columns; It's done only for the 1st record of the result set.
+			SqlMapperManagedRecord recordColsTypeMaster = null;
+            // A performance enhancement would be to have this recordColsTypeMaster created for only the 1st record of all select sharing
+            // the same statement
 			while(clause.next())	// Enum all records
 			{
 				ResultSet resultSet = clause.getResultSet();
@@ -106,14 +108,16 @@ public class SqlMapperRecordsCollection
 					recordColsTypeMaster = new SqlMapperManagedRecord();	
 					recordColsTypeMaster.handleColsType(clause, resultSet);
 				}
-				if(record.fillColValues(clause, resultSet, recordColsTypeMaster))	// Fill the recordCols with the column's value, with typing management
+                // Fill the recordCols with the column's value, with typing management
+				if(record.fillColValues(clause, resultSet, recordColsTypeMaster))
 					arr.add(record);
 			}
 			
 			// Callback to call to inform application code of the records read; it can filter; It must return only 1 record
 	//		RecordsCollection arrRecordsSelected = sqlMapperSelectFilterIntf.filterRecordsSelected(arrRecordsRead);
 	//		if(arrRecordsSelected != null)
-	//			replaceInternalContainer(arrRecordsSelected);	// "this" contains now only the selected record; it can be null if the filter decided so
+    // replaceInternalContainer(arrRecordsSelected); // "this" contains now only the selected record; it can be null if the filter decided
+    // so
 			
 			return true;
 		}

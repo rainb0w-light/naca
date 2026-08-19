@@ -59,7 +59,8 @@ public class CEntityFileBuffer extends CDataEntity
 	}
 
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetSubStringReference(semantic.expression.CBaseEntityExpression, semantic.expression.CBaseEntityExpression, semantic.CBaseEntityFactory)
+     * @see semantic.CDataEntity#GetSubStringReference(semantic.expression.CBaseEntityExpression, semantic.expression.CBaseEntityExpression,
+     * semantic.CBaseEntityFactory)
 	 */
 	@Override
 	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)

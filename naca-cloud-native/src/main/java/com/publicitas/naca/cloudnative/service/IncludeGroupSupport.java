@@ -54,7 +54,7 @@ public final class IncludeGroupSupport {
 
     /**
      * @return the shared include-group {@link Transcoder}, or {@code null} when no
-     * copybook directory has been configured (COPY then resolves to nothing, as before).
+     *     copybook directory has been configured (COPY then resolves to nothing, as before).
      */
     public static Transcoder getIncludeTranscoder() {
         if (copybookDir == null) {

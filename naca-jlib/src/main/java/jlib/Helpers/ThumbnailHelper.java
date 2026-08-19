@@ -40,11 +40,11 @@ public class ThumbnailHelper {
  * @param imageFile Location of the image in the file system.
  * @param thumbnailFile Destination file for the thumbnail.
  * @param maxHeight The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @param maxWidth The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  */
 	public static void createThumbnail(File imageFile,File thumbnailFile,int maxHeight,int maxWidth) {
 		Image image;
@@ -64,11 +64,11 @@ public class ThumbnailHelper {
  * @param imageStream <code>InputStream</code> initialized on the binaries for the image.
  * @param thumbnailFile Destination file for the thumbnail.
  * @param maxHeight The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @param maxWidth The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  */
 	public static void createThumbnail(Image image,File thumbnailFile,int maxHeight,int maxWidth) {
 		FileOutputStream thumbnailStream;
@@ -87,11 +87,11 @@ public class ThumbnailHelper {
  * Returns an <code>InputStream</code> from where retrieve the content of the thumbnail.
  * @param imageStream <code>InputStream</code> initialized on the binaries for the image.
  * @param maxHeight The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @param maxWidth The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @return An <code>InputStream</code> from where retrieve the content of the thumbnail.
  */
 	public static InputStream createThumbnail(Image image,int maxHeight,int maxWidth) {
@@ -148,11 +148,11 @@ public class ThumbnailHelper {
  * @param imageStream <code>InputStream</code> initialized on the binaries for the image.
  * @param thumbnailStream <code>OutputStream</code> initialized and ready to receive the thumbnail's binary content.
  * @param maxHeight The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @param maxWidth The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  */
 	public static void createThumbnail(InputStream imageStream,OutputStream thumbnailStream,int maxHeight,int maxWidth) {
 		Image image;
@@ -172,11 +172,11 @@ public class ThumbnailHelper {
  * @param image A loaded image.
  * @param thumbnailStream <code>OutputStream</code> initialized and ready to receive the thumbnail's binary content.
  * @param maxHeight The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  * @param maxWidth The produced thumbnail fits in a square of <code>maxHeight</code> pixels 
- * height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth 
- * as the original image.
+ *     height and <code>maxWidth</code> pixels width. The produced thumbnail keeps the same height / witdth
+ *     as the original image.
  */
 	public static void createThumbnail(Image image,OutputStream thumbnailStream,int maxHeight,int maxWidth) {
 

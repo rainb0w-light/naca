@@ -38,7 +38,7 @@ public abstract class BaseDbColDefinition
 	
 	public abstract boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement);
 	public abstract byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput);
-	//public abstract int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest);
+    // public abstract int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest);
 	public abstract int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput);
 	public abstract byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput);
 }

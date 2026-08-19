@@ -137,9 +137,9 @@ public class FileHelper implements FilenameFilter
  * The path can contain wildcards in its 'file' section, but
  * not in its 'folder' section.
  * @param path The physical path to the files. If the path is relative,
- * the current user directory is used as default folder.
+ *     the current user directory is used as default folder.
  * @return The list of matching files. If no files match the
- * specified path, the collection will be empty.
+ *     specified path, the collection will be empty.
  */
 	public static File [] getFileList(String path)
 	{
@@ -150,11 +150,11 @@ public class FileHelper implements FilenameFilter
  * Returns a list of files from the specified absolute folder path and
  * whose files end with the extension given in parameter (with or without '.' in the extension)
  * @param path The physical path to the files. If the path is relative,
- * the current user directory is used as default folder.
+ *     the current user directory is used as default folder.
  * @param filesOnly If <i>true</i>, returns only files, not folders.
  * @param endsWith : will only filter files with this extension
  * @return The list of matching files. If no files match the
- * specified path, the collection will be empty.
+ *     specified path, the collection will be empty.
  */
 	public static ArrayList<File> getFileList(String path, boolean filesOnly, String endsWith)
 	{
@@ -177,10 +177,10 @@ public class FileHelper implements FilenameFilter
  * The path can contain wildcards in its 'file' section, but
  * not in its 'folder' section.
  * @param path The physical path to the files. If the path is relative,
- * the current user directory is used as default folder.
+ *     the current user directory is used as default folder.
  * @param filesOnly If <i>true</i>, returns only files, not folders.
  * @return The list of matching files. If no files match the
- * specified path, the collection will be empty.
+ *     specified path, the collection will be empty.
  */
 	public static File [] getFileList(String path,boolean filesOnly)
 	{
@@ -192,12 +192,12 @@ public class FileHelper implements FilenameFilter
  * The path can contain wildcards in its 'file' section, but
  * not in its 'folder' section.
  * @param defaultFolder The default folder is used when the
- * specified path is relative. If this param is left null or empty,
- * the current user directory is used instead.
+ *     specified path is relative. If this param is left null or empty,
+ *     the current user directory is used instead.
  * @param path The physical path to the files.
  * @param filesOnly If <i>true</i>, returns only files, not folders.
  * @return The list of matching files. If no files match the
- * specified path, the collection will be empty.
+ *     specified path, the collection will be empty.
  */
 	public static File [] getFileList(String defaultFolder, String path, boolean filesOnly)
 	{
@@ -322,11 +322,11 @@ public class FileHelper implements FilenameFilter
 /**
  * Copies a file to a folder or to a file.
  * @param origin The source file to copy. The file must exist, and it must be a 
- * file (not a folder).
+ *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
- * it is assumed to be a file.
+ *     it is assumed to be a file.
  * @trows Exception If the source file is not specified (null), doesn't exist, or 
- * is a folder. Also if the destination can't be created. 
+ *     is a folder. Also if the destination can't be created.
  */
 	public static void copyFile(File origin, File destination) {
 		copyFile(origin,destination,null);
@@ -355,11 +355,11 @@ public class FileHelper implements FilenameFilter
 /**
  * Copies a file to a folder or to a file.
  * @param origin The source file to copy. The file must exist, and it must be a 
- * file (not a folder).
+ *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
- * it is assumed to be a file.
+ *     it is assumed to be a file.
  * @trows Exception If the source file is not specified (null), doesn't exist, or 
- * is a folder. Also if the destination can't be created. 
+ *     is a folder. Also if the destination can't be created.
  */
 	public static void copyFile(String origin, String destination)
 	{
@@ -372,12 +372,12 @@ public class FileHelper implements FilenameFilter
  * 
  * Copies a file to a folder or to a file.
  * @param origin The source file to copy. The file must exist, and it must be a 
- * file (not a folder).
+ *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
- * it is assumed to be a file.
+ *     it is assumed to be a file.
  * @newName The name under which we copy the file
  * @trows Exception If the source file is not specified (null), doesn't exist, or 
- * is a folder. Also if the destination can't be created. 
+ *     is a folder. Also if the destination can't be created.
  */		
 	public static void copyFile(File origin, File destination, String newName) {
 		String name;
@@ -580,7 +580,7 @@ public class FileHelper implements FilenameFilter
 	 * Delete the file targeted by the filePath
 	 * @param String filePath
 	 * @return Boolean isDeleted
-	 * !!! the method returns false if :
+	 *     !!! the method returns false if :
 	 *     - the filePath targets a folder
 	 *     - the file does not exist 
 	 *     - the file is locked

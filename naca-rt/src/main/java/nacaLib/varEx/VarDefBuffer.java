@@ -997,7 +997,8 @@ public abstract class VarDefBuffer extends VarDefBase
 //			int nStartPos = nDefaultAbsolutePosition;
 //			if(nStartPos < nStartPosParent)
 //			{
-//				Assert("Child: '" + toString() + "' starts before it's parent variable: " + varDefParent.toString() + "'");	// We are not inside parent range
+// Assert("Child: '" + toString() + "' starts before it's parent variable: " + varDefParent.toString() + "'"); // We are not inside parent
+// range
 //				return false;
 //			}
 //
@@ -1005,7 +1006,8 @@ public abstract class VarDefBuffer extends VarDefBase
 //			int nLastPos = nStartPos + getHeaderLength()+getBodyLength() - 1;
 //			if(nLastPos > nLastPosParent)
 //			{
-//				Assert("Child: '" + toString() + "' ends after it's parent variable ending: '" + varDefParent.toString() + "'");	// We are not inside parent range
+// Assert("Child: '" + toString() + "' ends after it's parent variable ending: '" + varDefParent.toString() + "'"); // We are not inside
+// parent range
 //				return false;
 //			}
 //		}
@@ -1018,7 +1020,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //		{
 //			boolean b = varDefParent.isChildKnown(this);	// Check if our parent known us
 //			if(!b)
-//				Assert("Child: '" + toString() + "' isn't correctly parented by: '" + varDefParent.toString() + "'");	// We are not inside parent range
+// Assert("Child: '" + toString() + "' isn't correctly parented by: '" + varDefParent.toString() + "'"); // We are not inside parent range
 //			b = DEBUGCheckRangeWithinToParentRange();	// Chck if our range is withinparent range
 //			return b;
 //		}
@@ -1120,7 +1122,7 @@ public abstract class VarDefBuffer extends VarDefBase
 		}
 	}
 
-//	public boolean readFromFile(ProgramManager programManager, DataFile dataFile, VarBufferPos bufferPos, boolean bConvertEbcdicToUnicode)
+// public boolean readFromFile(ProgramManager programManager, DataFile dataFile, VarBufferPos bufferPos, boolean bConvertEbcdicToUnicode)
 //	{
 //		// Read the line
 //		VarBase var = programManager.getVarFullName(this);

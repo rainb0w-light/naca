@@ -185,7 +185,8 @@ public class LogicalFileDescriptor
 
 	public boolean writeFileHeader(BaseDataFile dataFile)
 	{
-		if(dataFile != null && dataFile.isOpen() && dataFile.isWritable() && !dataFile.isUpdateable())	// Do not write header for files in rewrite mode
+        // Do not write header for files in rewrite mode
+		if(dataFile != null && dataFile.isOpen() && dataFile.isWritable() && !dataFile.isUpdateable())
 		{
 			String csFileHeader = getAsFileHeaderString();
 			dataFile.writeRecord(csFileHeader);
@@ -353,7 +354,8 @@ public class LogicalFileDescriptor
 			int nNbRecordControled = 0;
 			int nNbRecordHeaderChecked = 0;
 			int nNbRecordHeaderNotOk = 0;
-			for(; nNbRecordHeaderChecked<3; nNbRecordHeaderChecked++)	// Check on 3 records if there is a LF at offset nLength + 1
+            // Check on 3 records if there is a LF at offset nLength + 1
+			for(; nNbRecordHeaderChecked<3; nNbRecordHeaderChecked++)
 			{
 				LineRead recordHeader = dataFile.readBuffer(4, false);
 				if(recordHeader != null)
@@ -373,7 +375,8 @@ public class LogicalFileDescriptor
 					}
 				}
 			}
-			if(nNbRecordHeaderOk == nNbRecordControled && nNbRecordHeaderOk > 0 && nNbRecordHeaderNotOk == 0)	// All record cheked are ok, even if less than 3 records in the file !
+            // All record cheked are ok, even if less than 3 records in the file !
+			if(nNbRecordHeaderOk == nNbRecordControled && nNbRecordHeaderOk > 0 && nNbRecordHeaderNotOk == 0)
 			{
 				recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.AutoDetermination;
 				isvariableLength = true;

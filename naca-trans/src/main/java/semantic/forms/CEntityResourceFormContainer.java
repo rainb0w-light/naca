@@ -49,7 +49,7 @@ import utils.Transcoder;
  *       {@code LegacyDataRenderer.renderReference} ignores a semantic-declared {@code ExportReference}
  *       and falls through to that binding, reproducing the backend's reference exactly.</li>
  *   <li><b>class skeleton</b> — {@code DoExport} emitted the mapset class (imports, {@code class
- *       <name> extends Map {}, the two {@code Copy} methods, the constructor) and then traversed
+ *       <name> extends Map &#123;&#125;}, the two {@code Copy} methods, the constructor) and then traversed
  *       {@code arrForm} via {@code invokeExport}. The class-header declaration LINE now renders
  *       declaratively through the {@code recursiveFormContainerDeclarationEntity} template (reading
  *       only {@code entity.mapClassName}); the surrounding imports / {@code Copy} methods /

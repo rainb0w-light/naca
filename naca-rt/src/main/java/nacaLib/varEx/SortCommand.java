@@ -216,7 +216,8 @@ public class SortCommand
 		boolean isvariableLength = false;
 		if(sortDescriptorDeclared != null)
 		{
-			isvariableLength = sortDescriptorDeclared.hasVarVariableLengthMarker();	// The sort descriptor has a variable length marker: The data is of variable length
+            // The sort descriptor has a variable length marker: The data is of variable length
+			isvariableLength = sortDescriptorDeclared.hasVarVariableLengthMarker();
 			nTotalLength = sortDescriptorDeclared.getRecordLength(varRecord);
 			if(isvariableLength)
 				nTotalLength += 4;	//Reserve space for record header; it will be stored in the data to sort

@@ -198,7 +198,8 @@ public class FileDescriptor extends BaseFileDescriptor
 		byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nMaxSize);
 		varFrom.exportToByteArray(tbyFilebuffer, nVarFromSize);
 		if (varLevel01 != varFrom)
-			varLevel01.setFromByteArray(tbyFilebuffer, 0, nMinSize);	// Used when record buffer is longer than working buffer; we must keep the right part of the record at the initialized values
+            // Used when record buffer is longer than working buffer; we must keep the right part of the record at the initialized values
+			varLevel01.setFromByteArray(tbyFilebuffer, 0, nMinSize);
 		
 		if(fileManagerEntry.isEbcdic())	// Must convert string chunks
 		{
@@ -219,7 +220,8 @@ public class FileDescriptor extends BaseFileDescriptor
 			// write record header
 			if(tbyHeader == null)
 				tbyHeader = new byte[4];
-			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);	// DO not include header length in header !
+            // DO not include header length in header !
+			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);
 			if(bRewriteMode)
 				fileManagerEntry.dataFile.rewrite(tbyHeader, 0, 4);
 			else
@@ -290,13 +292,17 @@ public class FileDescriptor extends BaseFileDescriptor
 
 		if(hasVarVariableLengthMarker())
 		{
-			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+            // Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
-				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
-				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
+                // Length in header doesn't count the header itself
+				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();
+                // Read record body, including trailing LF
+				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);
+                // Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);
 				if(lineRead != null)
 				{
 					fillInto(lineRead, varDest);
@@ -424,7 +430,8 @@ public class FileDescriptor extends BaseFileDescriptor
 		{
 			boolean isreadLF = isVariableLength4BytesHeaderWithLF();
 			boolean isheader4Bytes = isVariableLength4BytesHeaderWithLF();
-			lastLineRead = dataFileIn.readVariableLengthLine(isreadLF, isheader4Bytes, lastLineRead);	// Read a vairable length line (length is given in record header 4 bytes)
+            // Read a vairable length line (length is given in record header 4 bytes)
+			lastLineRead = dataFileIn.readVariableLengthLine(isreadLF, isheader4Bytes, lastLineRead);
 		}
 		else
 		{
@@ -451,9 +458,11 @@ public class FileDescriptor extends BaseFileDescriptor
 	{
 		// the return value is a flag that indicates if we have a valid file position on output 
 		if(isVariableLength())
-			return ;	// We are a variable length file: no need to try to autodetermine record length; file position is valid
+            // We are a variable length file: no need to try to autodetermine record length; file position is valid
+			return ;
 		if(getRecordLengthDefinition() != null)
-			return ;	// we have the record definition: no need to try to autodetermine record length; file position is valid
+            // we have the record definition: no need to try to autodetermine record length; file position is valid
+			return ;
 		
 		// We must try to autodetermine record length
 		LogicalFileDescriptor logicalFileDescriptor = getLogicalFileDescriptor();
@@ -470,7 +479,8 @@ public class FileDescriptor extends BaseFileDescriptor
 			// write record header
 			if(tbyHeader == null)
 				tbyHeader = new byte[4];
-			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);	// DO not include header length in header !
+            // DO not include header length in header !
+			LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);
 			fileManagerEntry.dataFile.write(tbyHeader, 0, 4);
 			
 			byte tbyFilebuffer[] = writeBufferExt.getAsByteArrayWithTrailingLF();
@@ -500,13 +510,17 @@ public class FileDescriptor extends BaseFileDescriptor
 
 		if(isVariableLength())
 		{
-			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+            // Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{				
-				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
-				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read record body, including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
+                // Length in header doesn't count the header itself
+				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();
+                // Read record body, including trailing LF
+				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);
+                // Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);
 				if(lineRead != null)
 				{
 					writeExt.setFromLineRead(lineRead, 0);	

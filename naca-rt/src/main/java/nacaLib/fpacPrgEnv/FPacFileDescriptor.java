@@ -102,14 +102,19 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 		
 		if(fileManagerEntry.isVariableLength())	 // Variable size record
 		{
-			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();	// Keep header start position
+            // Keep header start position
+			long lastHeaderStartPosition = fileManagerEntry.dataFile.getFileCurrentPosition();
 			LineRead header = fileManagerEntry.dataFile.readBuffer(4, false);		// Read header
 			if(header != null)
 			{
-				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();	// Length in header doesn't count the header itself
-				int nHeaderLength = varBuffer.setFromLineRead(header, 0);			// write the record after the record length at the beginning; it includes the length itself
-				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);		// Read including trailing LF
-				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);	// Save current position at the header start
+                // Length in header doesn't count the header itself
+				int nLengthExcludingHeader = header.getAsLittleEndingUnsignBinaryInt();
+                // write the record after the record length at the beginning; it includes the length itself
+				int nHeaderLength = varBuffer.setFromLineRead(header, 0);
+                // Read including trailing LF
+				LineRead lineRead = fileManagerEntry.dataFile.readBuffer(nLengthExcludingHeader, true);
+                // Save current position at the header start
+				fileManagerEntry.dataFile.setLastPosition(lastHeaderStartPosition);
 				if(lineRead != null)
 				{
 					nLastReadRecordLength = varBuffer.setFromLineRead(lineRead, 4) + nHeaderLength;
@@ -175,7 +180,8 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 			}
 			else	// Use header to get record length 
 			{
-				int nRecordLength = varBuffer.getIntAt(0);	// Read record length encoded in the 4 leading bytes; it doesn't includes the record header itself, nor the trailing LF
+                // Read record length encoded in the 4 leading bytes; it doesn't includes the record header itself, nor the trailing LF
+				int nRecordLength = varBuffer.getIntAt(0);
 				int nTotalRecordLength = nRecordLength + 4;
 				fillBuffer(varBuffer.acBuffer, 0, nTotalRecordLength);
 				write(tBytes, 0, nTotalRecordLength, true);

@@ -251,20 +251,20 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
 //				if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
 //				{
 //					CEntityCondEquals cond = factory.NewEntityCondEquals() ;
-//					cond.SetDifferentCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
-//					m_logger.info("line "+getLine()+" : numeric value converted to string to compare with PICX var : " + value) ;
+// cond.SetDifferentCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
+// m_logger.info("line "+getLine()+" : numeric value converted to string to compare with PICX var : " + value) ;
 //					return cond ;
 //				}
 //				else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
 //				{
 //					CEntityCondEquals cond = factory.NewEntityCondEquals() ;
-//					cond.SetEqualCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
-//					m_logger.info("line "+getLine()+" : numeric value converted to string to compare with PICX var : " + value) ;
+// cond.SetEqualCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
+// m_logger.info("line "+getLine()+" : numeric value converted to string to compare with PICX var : " + value) ;
 //					return cond ;
 //				}
 //				else
 //				{
-//					m_logger.info("line "+getLine()+" : numeric value to compare with EDIT var not managed : " + value) ;
+// m_logger.info("line "+getLine()+" : numeric value to compare with EDIT var not managed : " + value) ;
 //					return null ;
 //				}
 //			}

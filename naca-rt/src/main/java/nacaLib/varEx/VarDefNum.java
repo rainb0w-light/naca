@@ -208,7 +208,8 @@ public abstract class VarDefNum extends VarDefVariable
 	// Comp0
 //	protected int internalWriteDecComp0(VarBufferPos buffer, Dec decValue, int nNbDigitInteger, int nNbDigitDecimal)
 //	{
-//		int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.nAbsolutePosition, nNbDigitInteger);
+// int nPosition = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, decValue.getUnsignedLong(), buffer.nAbsolutePosition,
+// nNbDigitInteger);
 //		String csValueDec = decValue.getDecPart();
 //		nPosition = internalWriteRightPadding(buffer, nPosition, nNbDigitDecimal, csValueDec, '0');
 //		return nPosition;

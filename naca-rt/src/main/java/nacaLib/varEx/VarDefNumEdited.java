@@ -202,7 +202,9 @@ public class VarDefNumEdited extends VarDefNum
 	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
 	{
 		// http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#alpha_elem_move_sec
-		// If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the sending item's data
+        // If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item
+        // description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the
+        // sending item's data
 		Dec dec = varSource.getAsDecodedDec(bufferSource);
 		internalFormatAndWrite(buffer, dec);
 	}
@@ -715,8 +717,14 @@ public class VarDefNumEdited extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefX varDef1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDef1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDef1);
 		int n2 = getUnsignedInt(buffer2);
@@ -727,8 +735,14 @@ public class VarDefNumEdited extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacAlphaNum varDef1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDef1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDef1);
 		int n2 = getUnsignedInt(buffer2);
@@ -740,8 +754,14 @@ public class VarDefNumEdited extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacRaw varDef1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDef1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDef1);
 		int n2 = getUnsignedInt(buffer2);
@@ -752,8 +772,12 @@ public class VarDefNumEdited extends VarDefNum
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefG varDef1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is a group item, the compiler treats the numeric operand as if it had been moved into a group item the same size as the numeric operand and then compared. This is equivalent to a group move.
-		// The compiler ignores the description of the numeric item (except for length) and, therefore, includes in its length any operational sign, whether carried as a separate character or as an overpunched character. Overpunched characters are never ASCII numeric digits. They are characters ranging from A to R, left brace ({), or right brace (}). Thus, the sign and the digits, stored as ASCII bytes, take part in the comparison, and zeros are not supplied for P characters in the PICTURE character-string.
+        // If the nonnumeric operand is a group item, the compiler treats the numeric operand as if it had been moved into a group item the
+        // same size as the numeric operand and then compared. This is equivalent to a group move.
+        // The compiler ignores the description of the numeric item (except for length) and, therefore, includes in its length any
+        // operational sign, whether carried as a separate character or as an overpunched character. Overpunched characters are never ASCII
+        // numeric digits. They are characters ranging from A to R, left brace ({), or right brace (}). Thus, the sign and the digits,
+        // stored as ASCII bytes, take part in the comparison, and zeros are not supplied for P characters in the PICTURE character-string.
 		//String cs1 = varDef1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDef1);
 		int n2 = getAsDecodedInt(buffer2);
@@ -774,13 +798,15 @@ public class VarDefNumEdited extends VarDefNum
 	private void internalFormatAndWrite(VarBufferPos buffer, Dec dec)
 	{
 		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
-		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer), getBodyLength(), cs, '\0');	// Padding with \0 on the right
+        // Padding with \0 on the right
+		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer), getBodyLength(), cs, '\0');
 	}
 
 	private void internalFormatAndWrite(VarBufferPos buffer, int nOffset, Dec dec)
 	{
 		String cs = RWNumEdited.internalFormatAndWrite(dec, csFormat, isblankWhenZero);
-		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer)+nOffset, getBodyLength(), cs, '\0');	// Padding with \0 on the right
+        // Padding with \0 on the right
+		internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer)+nOffset, getBodyLength(), cs, '\0');
 	}
 
 	public String digits(VarBufferPos buffer)

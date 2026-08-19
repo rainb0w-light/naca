@@ -139,7 +139,8 @@ public class LineRead
 	public boolean isTrailingLF()
 	{
 		// PJD Next line was if(tbLine[nOffset+nTotalLength-1] == 0x0A);
-		// the -1 is wrong as manageTrailingLF() must have already been called previously on this LineReadObject, so nTotalLength was decremented.
+        // the -1 is wrong as manageTrailingLF() must have already been called previously on this LineReadObject, so nTotalLength was
+        // decremented.
 		if(tbLine[nOffset+nTotalLength] == 0x0A)
 			return true;
 		return false;

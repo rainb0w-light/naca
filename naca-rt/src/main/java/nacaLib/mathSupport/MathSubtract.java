@@ -19,7 +19,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param VarAndEdit var2
-	 * Set current object to var1-var2 (var are treated as numeric optionnaly decimals / signed)
+	 *     Set current object to var1-var2 (var are treated as numeric optionnaly decimals / signed)
 	 */
 	public MathSubtract(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -53,7 +53,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param int n
-	 * Set current object to var1-n
+	 *     Set current object to var1-n
 	 */
 	public MathSubtract(VarAndEdit var1, int n)
 	{
@@ -67,7 +67,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param int n
-	 * Set current object to var1-n
+	 *     Set current object to var1-n
 	 */
 	public MathSubtract(VarAndEdit var1)
 	{
@@ -78,7 +78,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param int n
-	 * Set current object to var1-n
+	 *     Set current object to var1-n
 	 */
 	public MathSubtract(int n)
 	{
@@ -88,7 +88,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param int n
 	 * @param VarAndEdit var1
-	 * Set current object to n-var1
+	 *     Set current object to n-var1
 	 */
 	public MathSubtract(int n, VarAndEdit var1)
 	{
@@ -103,7 +103,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param double d
-	 * Set current object to var1-d
+	 *     Set current object to var1-d
 	 */
 	public MathSubtract(VarAndEdit var1, double d)
 	{
@@ -117,7 +117,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param double d
 	 * @param VarAndEdit var1
-	 * Set current object to d-var1
+	 *     Set current object to d-var1
 	 */
 	public MathSubtract(double d, VarAndEdit var1)
 	{
@@ -131,7 +131,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param String s, treated as a number
-	 * Set current object to var1-s
+	 *     Set current object to var1-s
 	 */
 	public MathSubtract(VarAndEdit var1, String s)
 	{
@@ -145,7 +145,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param String s, treated as a number
 	 * @param VarAndEdit var1
-	 * Set current object to s-var1
+	 *     Set current object to s-var1
 	 */
 	public MathSubtract(String s, VarAndEdit var1)
 	{
@@ -159,7 +159,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var1
 	 * @param MathBase mathBase
-	 * Set current object to var1-mathBase
+	 *     Set current object to var1-mathBase
 	 */
 	public MathSubtract(VarAndEdit var1, MathBase mathBase)
 	{
@@ -172,7 +172,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param VarAndEdit var1
-	 * Set current object to mathBase-var1
+	 *     Set current object to mathBase-var1
 	*/
 	public MathSubtract(MathBase mathBase, VarAndEdit var1)
 	{
@@ -188,7 +188,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param int n
-	 * Set current object to mathBase-n
+	 *     Set current object to mathBase-n
 	*/
 	public MathSubtract(MathBase mathBase, int n)
 	{
@@ -202,7 +202,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param double d
-	 * Set current object to mathBase-d
+	 *     Set current object to mathBase-d
 	*/
 	public MathSubtract(MathBase mathBase, double d)
 	{
@@ -216,7 +216,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param String s
-	 * Set current object to mathBase-s
+	 *     Set current object to mathBase-s
 	*/
 	public MathSubtract(MathBase mathBase, String s)
 	{
@@ -235,7 +235,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param MathBase mathBase1
 	 * @param MathBase mathBase2
-	 * Set current object to mathBase1-mathBase2
+	 *     Set current object to mathBase1-mathBase2
 	*/
 	public MathSubtract(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -248,7 +248,7 @@ public class MathSubtract extends MathBase
 	/**
 	 * @param VarAndEdit var
 	 * @return this
-	 * Set current object to var-current objet
+	 *     Set current object to var-current objet
 	 */
 	public MathSubtract from(VarAndEdit var)
 	{

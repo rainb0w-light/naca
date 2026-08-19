@@ -228,7 +228,8 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		int nPos = filename.lastIndexOf('.') ;
 		if (nPos > 0)
 		{
-			return filename.substring(0, nPos) + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
+            // Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
+			return filename.substring(0, nPos) + "." + ext ;
 		}
 		else
 		{
@@ -241,7 +242,8 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
 		int nPos = filename.lastIndexOf('.') ;
 		if (nPos > 0)
 		{
-			return filename.substring(0, nPos) + csSuffix + "." + ext ;	// Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
+            // Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
+			return filename.substring(0, nPos) + csSuffix + "." + ext ;
 		}
 		else
 		{

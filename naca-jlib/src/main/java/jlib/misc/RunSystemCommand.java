@@ -14,8 +14,8 @@ import java.io.InputStreamReader;
 
 /**
 * @author wharfie
-* 2004-02-27
-* Run a system command 
+*     2004-02-27
+*     Run a system command
 */
 public class RunSystemCommand 
 {

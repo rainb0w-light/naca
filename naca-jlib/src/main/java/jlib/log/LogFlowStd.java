@@ -23,11 +23,11 @@ package jlib.log;
  * There are two more flows, but they're intended only for {@link LogCenter}s:
  * <ul>
  * 	<li>{@link LogFlowAny}, when a <i>LogCenter</i> has this flow, it will accept
- * 	events of any flow.</i>.</li>
+ * 	events of any flow.</li>
  * 	<li>{@link LogFlowNone}, when a <i>LogCenter</i> has this flow, it won't accept
  * 	any event at all. This option can be used for closing a <i>LogCenter</i> from
  * 	the configuration file (see {@link LogCenters}).</li>
- * </ul> 
+ * </ul>
  * @author u930di
  */
 public abstract class LogFlowStd

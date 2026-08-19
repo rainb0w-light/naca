@@ -115,7 +115,8 @@ public class CSQLResultSet extends CJMapObject
 	
 	private String getTableColName(int nColSourceIndex)
 	{
-		// DB2 JDBC Driver supports rsMetaData.getTableName(nColSourceIndex); See http://publib.boulder.ibm.com/infocenter/db2help/index.jsp?topic=/com.ibm.db2.udb.doc/ad/rjvjdapi.htm
+        // DB2 JDBC Driver supports rsMetaData.getTableName(nColSourceIndex); See
+        // http://publib.boulder.ibm.com/infocenter/db2help/index.jsp?topic=/com.ibm.db2.udb.doc/ad/rjvjdapi.htm
 		try
 		{
 			ResultSetMetaData resultSetmetaData = r.getMetaData();
@@ -408,11 +409,13 @@ public class CSQLResultSet extends CJMapObject
 			ArrayList<VarBase> childrenFilled = new ArrayList<VarBase>();
 			//int nDestinationNumber = 1;
 			IntegerRef rnChildIndex = new IntegerRef();
-			for(int nColRecordSet=nNbcolUnitaryLeft; nColRecordSet<nNbColInRecordSet-nNbcolUnitaryRight; nColRecordSet++)	// enum all varing length col form the record set
+            // enum all varing length col form the record set
+			for(int nColRecordSet=nNbcolUnitaryLeft; nColRecordSet<nNbColInRecordSet-nNbcolUnitaryRight; nColRecordSet++)
 			{
 				rnChildIndex.set(-1);
 				String csColName = getColName(nColRecordSet+1);
-				for(int nColDest=nNbcolUnitaryLeft; nColDest<nNbColsDest-nNbcolUnitaryRight; nColDest++)	// Enum all groups
+                // Enum all groups
+				for(int nColDest=nNbcolUnitaryLeft; nColDest<nNbColsDest-nNbcolUnitaryRight; nColDest++)
 				{					
 					CSQLIntoItem sqlIntoItem = sql.arrIntoItems.get(nColDest);
 					VarAndEdit varDestParent = sqlIntoItem.getVarInto();
@@ -426,15 +429,18 @@ public class CSQLResultSet extends CJMapObject
 					}
 					if(varChild != null)
 					{
-						boolean ischildAlreadyFilled = isChilddAlreadyFilled(varChild, childrenFilled);	// Fill a child only once
+                        // Fill a child only once
+						boolean ischildAlreadyFilled = isChilddAlreadyFilled(varChild, childrenFilled);
 						if(!ischildAlreadyFilled)
 						{
 							Var varIndicator = null;
 							if(varDestIndicatorParent != null)
 							{
 								int nDestinationNumber = rnChildIndex.get();
-								if(nDestinationNumber >= 0)	// found the index of the destination column; it's the same as the var indicator  
-									varIndicator = varDestIndicatorParent.getAt(nDestinationNumber+1);	// 1 based
+                                // found the index of the destination column; it's the same as the var indicator
+								if(nDestinationNumber >= 0)
+                                    // 1 based
+									varIndicator = varDestIndicatorParent.getAt(nDestinationNumber+1);
 							}
 
 //							String csValue = getColValueAsString(nColRecordSet, recordSetCacheColTypeType);
@@ -445,7 +451,7 @@ public class CSQLResultSet extends CJMapObject
 							
 //							if(semanticContextDef != null)
 //							{
-//								String csSemanticContext = semanticContextDef.getSemanticContextValueDefinition(csTableColName);
+// String csSemanticContext = semanticContextDef.getSemanticContextValueDefinition(csTableColName);
 //								varChild.setSemanticContextValue(csSemanticContext);
 //							}
 							

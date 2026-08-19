@@ -1,0 +1,10 @@
+{
+  "applied": true,
+  "commentOnly": 24,
+  "filesChanged": 3,
+  "maximum": 140,
+  "observed": 977,
+  "rule": "LineLengthCommentOnly",
+  "skipped": 0,
+  "wrapped": 24
+}

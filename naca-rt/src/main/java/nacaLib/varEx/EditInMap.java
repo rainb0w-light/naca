@@ -29,7 +29,7 @@ public class EditInMap extends Edit
 		declareTypeEdit.registerEditInForm(this);
 
 		csDeclaredEditName = declareTypeEdit.csName;
-		//varDef.setDefaultFullName(declareTypeEdit.csName);	// For debug puropose only; will be replaced by edit's java variable name
+        // varDef.setDefaultFullName(declareTypeEdit.csName); // For debug puropose only; will be replaced by edit's java variable name
 		attrManager = new EditAttributManager();
 
 		attrManager.allocAttributes(declareTypeEdit);
@@ -185,7 +185,7 @@ public class EditInMap extends Edit
 		VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;
 		varDefEdit.saveAttributeManager(attrManager);
 
-		//setSemanticContextValue(attrManager.csSemanticContext);		// Restore original semantic context already saved in attributes
+        // setSemanticContextValue(attrManager.csSemanticContext); // Restore original semantic context already saved in attributes
 	}
 
 	public void restoreEditAttributesInVarDef()
@@ -193,7 +193,8 @@ public class EditInMap extends Edit
 		VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;
 		varDefEdit.restoreAttributeManager(attrManager);
 
-		//setSemanticContextValue(varDefEdit.attrManager.csSemanticContext);		// Restore original semantic context saved in varDef attributes
+        // setSemanticContextValue(varDefEdit.attrManager.csSemanticContext); // Restore original semantic context saved in varDef
+        // attributes
 	}
 
 	EditAttributManager getEditAttributManager()

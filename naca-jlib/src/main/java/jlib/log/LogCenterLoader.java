@@ -28,10 +28,10 @@ public class LogCenterLoader
  * Reads a <i>LogCenter</i> tag, and instantiates, initializes and registers
  * the corresponding {@link LogCenter} to the {@link Log} static collection.
  * @param tagLogCenter The JLib.log xml configuration file should be read
- * with a {@link Tag} object. Then the <i>LogCenter</i> tag should be located,
- * and provided here.
+ *     with a {@link Tag} object. Then the <i>LogCenter</i> tag should be located,
+ *     and provided here.
  * @return <i>true</i> if the <i>LogCenter</i> tag has been successfully
- * processed.
+ *     processed.
  */
 	boolean loadDefinition(Tag tagLogCenter)
 	{

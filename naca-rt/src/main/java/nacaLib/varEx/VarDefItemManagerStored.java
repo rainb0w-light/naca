@@ -91,7 +91,8 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //		return m_aVarDefItems[nStorageIndex];
 //	}
 //
-//	VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int x, int y, int z, VarDefBase varDefOccursParent)
+// VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int x, int y, int z, VarDefBase
+// varDefOccursParent)
 //	{
 //		int nStorageIndex = getStorageIndex(varDefMaster, z, y, x);
 //		m_aVarDefItems[nStorageIndex] = createAt(programManager, varDefMaster, z, y, x, varDefOccursParent);
@@ -119,7 +120,7 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //		return varDefBuffer;
 //	}
 
-//	private VarDefBuffer createAt(ProgramManager programManager, VarDefBase varDef, int nYBase0, int nXBase0, VarDefBase varDefOccursParent)
+// private VarDefBuffer createAt(ProgramManager programManager, VarDefBase varDef, int nYBase0, int nXBase0, VarDefBase varDefOccursParent)
 //	{
 //		int nNbDim = varDef.getNbDim();
 //		if(nNbDim == 2)
@@ -146,7 +147,8 @@ public class VarDefItemManagerStored extends VarDefItemManager
 //		return null;
 //	}
 
-//	private VarDefBuffer createAt(ProgramManager programManager, VarDefBase varDef, int nZBase0, int nYBase0, int nXBase0, VarDefBase varDefOccursParent)
+// private VarDefBuffer createAt(ProgramManager programManager, VarDefBase varDef, int nZBase0, int nYBase0, int nXBase0, VarDefBase
+// varDefOccursParent)
 //	{
 //		int nNbDim = varDef.getNbDim();
 //		if(nNbDim == 3)

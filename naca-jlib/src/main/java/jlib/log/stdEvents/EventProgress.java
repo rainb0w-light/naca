@@ -14,7 +14,7 @@ import jlib.log.*;
  * <ul>
  * 	<li>One (and only one) {@link EventStart} when the application Progresss.</li>
  * 	<li>Any number of {@link EventProgress} events, to log various informations the
- * 	developers found worthwhile to log.</i>
+ * 	developers found worthwhile to log.</li>
  * 	<li>During processing, regularly log {@link EventProgress} events, to log
  * 	the process progressing.</li>
  * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
@@ -62,26 +62,26 @@ public class EventProgress extends LogEvent {
  * For more details about the <i>Product</i>, <i>Process</i>, <i>RunId</i>
  * and <i>RuntimeId</i> identifiers, read the {@link LogCenterDbFlat} overview.
  * @param csChannel The name of the channel where the event is to be sent. If 
- * left <i>null</i> the event is broadcasted to all open channels.
+ *     left <i>null</i> the event is broadcasted to all open channels.
  * @param csProcess The name of the process where the "Progress" has been done. If 
- * left <i>null</i> the {@link LogCenter} accepting the event will assume 
- * the Progress is coming from its channel default process. To set the
- * default process of a channel use {@link Log#setProcess}. 
+ *     left <i>null</i> the {@link LogCenter} accepting the event will assume
+ *     the Progress is coming from its channel default process. To set the
+ *     default process of a channel use {@link Log#setProcess}.
  * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress 
- * refers. If left <i>null</i> the {@link LogCenter} accepting the event will 
- * assume the event refers to its channel default product. To set the 
- * default product of a channel use {@link Log#setProduct}.   
+ *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
+ *     assume the event refers to its channel default product. To set the
+ *     default product of a channel use {@link Log#setProduct}.
  * @param csName The desired name of the event. If left <i>null</i>, the default
- * value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
- * parameter if you have several progress bars (you process items of different nature).
+ *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
+ *     parameter if you have several progress bars (you process items of different nature).
  * @param csRunId The run identifier to stamp the event with. If left <i>null</i> the {@link LogCenter}
- * will use the its current <i>RunId</i> identifier. To set the <i>RunId</i> identifier for a channel
- * use {@link Log#setRunId}. 
+ *     will use the its current <i>RunId</i> identifier. To set the <i>RunId</i> identifier for a channel
+ *     use {@link Log#setRunId}.
  * @param csRuntimeId The execution identifier to stamp the event with. If left <i>null</i> the {@link LogCenter}
- * will use the its current <i>RuntimeId</i> identifier. To set the <i>RuntimeId</i> identifier for a channel
- * use {@link Log#setRuntimeId}. 
+ *     will use the its current <i>RuntimeId</i> identifier. To set the <i>RuntimeId</i> identifier for a channel
+ *     use {@link Log#setRuntimeId}.
  * @param nProcessedItems The number of information elements processed so far (including
- * elements that could not be processed because of some error).
+ *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
 	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, int nProcessedItems, int nTotalItems) 
@@ -95,20 +95,20 @@ public class EventProgress extends LogEvent {
  * For more details about the <i>Product</i> and <i>Process</i> identifiers, 
  * read the {@link LogCenterDbFlat} overview.
  * @param csChannel The name of the channel where the event is to be sent. If 
- * left <i>null</i> the event is broadcasted to all open channels.
+ *     left <i>null</i> the event is broadcasted to all open channels.
  * @param csProcess The name of the process where the "Progress" has been done. If 
- * left <i>null</i> the {@link LogCenter} accepting the event will assume 
- * the Progress is coming from its channel default process. To set the
- * default process of a channel use {@link Log#setProcess}. 
+ *     left <i>null</i> the {@link LogCenter} accepting the event will assume
+ *     the Progress is coming from its channel default process. To set the
+ *     default process of a channel use {@link Log#setProcess}.
  * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress 
- * refers. If left <i>null</i> the {@link LogCenter} accepting the event will 
- * assume the event refers to its channel default product. To set the 
- * default product of a channel use {@link Log#setProduct}.   
+ *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
+ *     assume the event refers to its channel default product. To set the
+ *     default product of a channel use {@link Log#setProduct}.
  * @param csName The desired name of the event. If left <i>null</i>, the default
- * value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
- * parameter if you have several progress bars (you process items of different nature).
+ *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
+ *     parameter if you have several progress bars (you process items of different nature).
  * @param nProcessedItems The number of information elements processed so far (including
- * elements that could not be processed because of some error).
+ *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
 	public static void log(String csChannel, String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems) 
@@ -122,10 +122,10 @@ public class EventProgress extends LogEvent {
  * @param csProcess The name of the process where the "Progress" has been done.
  * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress refers.
  * @param csName The desired name of the event. If left <i>null</i>, the default
- * value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
- * parameter if you have several progress bars (you process items of different nature).
+ *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>. Use this
+ *     parameter if you have several progress bars (you process items of different nature).
  * @param nProcessedItems The number of information elements processed so far (including
- * elements that could not be processed because of some error).
+ *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
 	public EventProgress(String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems) 

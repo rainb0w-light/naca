@@ -126,7 +126,8 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 			factory.programCatalog.RegisterDataEntity(name+"O", this);
 //			CBaseEntityFieldAttribute dataI = factory.NewEntityFieldData(getLine(), name+"I", this);
 //			CBaseEntityFieldAttribute dataO = factory.NewEntityFieldData(getLine(), name+"O", this);
-			//m_Validation = factory.NewEntityFieldValidation(getLine(), name+"V", CBaseEntityFieldAttribute.CEntityFieldAttributeType.VALIDATION, this);
+            // m_Validation = factory.NewEntityFieldValidation(getLine(), name+"V",
+            // CBaseEntityFieldAttribute.CEntityFieldAttributeType.VALIDATION, this);
 		}
 //		ListIterator iter = lstChildren.listIterator() ;
 //		try
@@ -331,20 +332,20 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //					if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
 //					{
 //						CEntityCondEquals cond = factory.NewEntityCondEquals() ;
-//						cond.SetDifferentCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
-//						m_logger.info("line "+getLine()+" : numeric value converted to string to compare with EDIT var : " + value) ;
+// cond.SetDifferentCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
+// m_logger.info("line "+getLine()+" : numeric value converted to string to compare with EDIT var : " + value) ;
 //						return cond ;
 //					}
 //					else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
 //					{
 //						CEntityCondEquals cond = factory.NewEntityCondEquals() ;
-//						cond.SetEqualCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
-//						m_logger.info("line "+getLine()+" : numeric value converted to string to compare with EDIT var : " + value) ;
+// cond.SetEqualCondition(factory.NewEntityExprTerminal(this), factory.NewEntityExprTerminal(factory.NewEntityString(value))) ;
+// m_logger.info("line "+getLine()+" : numeric value converted to string to compare with EDIT var : " + value) ;
 //						return cond ;
 //					}
 //					else
 //					{
-//						m_logger.info("line "+getLine()+" : numeric value to compare with EDIT var not managed : " + value) ;
+// m_logger.info("line "+getLine()+" : numeric value to compare with EDIT var not managed : " + value) ;
 //						return null ;
 //					}
 //				}
@@ -393,7 +394,8 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 	}
 
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetSpecialCondition(semantic.CDataEntity, semantic.expression.CBaseEntityCondition.ConditionType, semantic.CBaseEntityFactory)
+     * @see semantic.CDataEntity#GetSpecialCondition(semantic.CDataEntity, semantic.expression.CBaseEntityCondition.ConditionType,
+     * semantic.CBaseEntityFactory)
 	 */
 	public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
 	{

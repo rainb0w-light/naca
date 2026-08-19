@@ -212,7 +212,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 //		{
 //			Field field = fieldlist[i];
 //			field.setAccessible(true);
-//			String csMember = field.getName();	// By convention, the csMember name must match column name (case insensitive)
+// String csMember = field.getName(); // By convention, the csMember name must match column name (case insensitive)
 //			Class type = field.getType();
 //			Type fieldType = field.getGenericType();
 //			try
@@ -221,9 +221,9 @@ public class SqlMapperManagedRecord extends ColValueCollection
 //				if(oMember != null)
 //				{
 //					ColValue colValue = getColValueByNameCaseInsensitive(csMember);
-//					if(colValue == null)	// Not found; maybe the member used m_<typing> prefix; try without this prefix
+// if(colValue == null) // Not found; maybe the member used m_<typing> prefix; try without this prefix
 //					{	
-//						String csUnprefixedMemberName = StringUtil.getUnprefixedMemberName(csMember, "m_", fieldType);	// 
+// String csUnprefixedMemberName = StringUtil.getUnprefixedMemberName(csMember, "m_", fieldType); //
 //						colValue = getColValueByNameCaseInsensitive(csUnprefixedMemberName);
 //					}
 //					if(colValue != null)

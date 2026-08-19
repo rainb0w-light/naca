@@ -170,9 +170,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 			{
 				JarEntries jarEntries = new JarEntries();
 				boolean b = jarEntries.open(resourceManager.csResourcePath, csJarXMLFile, true, ".res"); // Load
-																												// all
-																												// .res
-																												// entries
+                                        // all
+                                        // .res
+                                        // entries
 				if (b)
 				{
 					Enumeration<String> e = jarEntries.getKeys();

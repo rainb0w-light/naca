@@ -261,9 +261,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         return mBeanInfo;
     }
 
-//	protected void addAttribute(String csName, String csType, String csDescription, boolean bIsReadable, boolean bIsWritable, boolean bIsIs)
+// protected void addAttribute(String csName, String csType, String csDescription, boolean bIsReadable, boolean bIsWritable, boolean bIsIs)
 //	{
-//		MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csName, csType, csDescription, bIsReadable, bIsWritable, bIsIs);
+// MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csName, csType, csDescription, bIsReadable, bIsWritable, bIsIs);
 //		if(arrMBeanAttributeInfosWrapper == null)
 //			arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
 //		arrMBeanAttributeInfosWrapper.add(attr);

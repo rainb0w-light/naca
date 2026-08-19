@@ -22,7 +22,8 @@ public class SpServerProgramManagerFactory //extends BaseProgramManagerFactory
 //		BasicLogger.log("SpServerProgramManagerFactory::SpServerProgramManagerFactory()");
 //	}
 //	
-//	public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
+// public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean
+// bInheritedSharedProgramInstanceData)
 //	{
 //		return new SpServerProgramManager(prg, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
 //	}

@@ -89,7 +89,8 @@ public class ProgramPreloader
 //		return null;		
 //	}
 
-//	private void serialize(String csVarDefCatalogueSerilizationPath, String csProgramName, SharedProgramInstanceData sharedProgramInstanceData)
+// private void serialize(String csVarDefCatalogueSerilizationPath, String csProgramName, SharedProgramInstanceData
+// sharedProgramInstanceData)
 //	{
 //		sharedProgramInstanceData.serialize(csVarDefCatalogueSerilizationPath, csProgramName);
 //	}
@@ -125,7 +126,7 @@ public class ProgramPreloader
 					int hh = 0;
 					SharedProgramInstanceData sharedProgramInstanceData = null;
 //					if(bSerializePreLoadedProgram)
-//						sharedProgramInstanceData = tryDeserialize(csVarDefCatalogueSerilizationPath, csProgramName);
+// sharedProgramInstanceData = tryDeserialize(csVarDefCatalogueSerilizationPath, csProgramName);
 					if(sharedProgramInstanceData == null)// No serialized file, or obsolete one: Must load the class
 						sharedProgramInstanceData = seq.forcePreloadSessionProgram(csProgramName, nQty);
 					if( sharedProgramInstanceData != null)

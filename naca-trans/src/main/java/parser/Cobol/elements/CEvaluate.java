@@ -168,7 +168,8 @@ public class CEvaluate extends CCobolElement
 						else
 						{
 							Transcoder.logError(getLine(), "Expecting 'ALSO' keyword") ;
-							return null ; // there must be a 'also' keyword, because there are more than one eval expressions
+                            // there must be a 'also' keyword, because there are more than one eval expressions
+							return null ;
 						}
 					}
 				}

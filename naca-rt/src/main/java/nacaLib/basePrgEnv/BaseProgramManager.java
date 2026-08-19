@@ -465,7 +465,8 @@ public abstract class BaseProgramManager extends CJMapObject
 										else if(csSuperTypeName.startsWith("nacaLib.varEx.BaseFileDescriptor"))	// Unhandled type
 										{
 										}
-										else if(csSuperTypeName.startsWith("nacaLib"))	// Unhandled type
+                                        // Unhandled type
+										else if(csSuperTypeName.startsWith("nacaLib"))
 										{
 											Log.logImportant("setVarName: Unhandled nacaLib type=" + csSuperTypeName + " SuperType=" + csTypeName);
 										}
@@ -1227,7 +1228,8 @@ public abstract class BaseProgramManager extends CJMapObject
 //	}
 
 	private Hashtable<Integer, SQL> hashSQL = null;		// hash table of the varBase indexed by their full name
-	private Hashtable<Integer, InitializeCache> hashInitializeCache = null;		// hash table of the varBase indexed by their full name
+    // hash table of the varBase indexed by their full name
+	private Hashtable<Integer, InitializeCache> hashInitializeCache = null;
 	private Hashtable<Integer, MoveCorrespondingEntryManager> hashMoveCorrespondingEntryManager = null;
 	private boolean isinheritedSharedProgramInstanceData = false;
 
@@ -1235,7 +1237,8 @@ public abstract class BaseProgramManager extends CJMapObject
 	{
 		int nVarSourceIdWithSolvedDim = varDefSource.getIdSolvedDim();
 		int nVarDestIdWithSolvedDim = varDefDest.getIdSolvedDim();
-		int nVarSourceDest = (nVarSourceIdWithSolvedDim * 1024) + nVarDestIdWithSolvedDim;	// Make a hash value (unique for couple)
+        // Make a hash value (unique for couple)
+		int nVarSourceDest = (nVarSourceIdWithSolvedDim * 1024) + nVarDestIdWithSolvedDim;
 
 		MoveCorrespondingEntryManager manager = hashMoveCorrespondingEntryManager.get(nVarSourceDest);
 		if(manager == null)
@@ -1525,7 +1528,8 @@ public abstract class BaseProgramManager extends CJMapObject
 
 	private boolean isnewInstance = true;
 
-	private SortParagHandler sortParagHandler = null;	// object wrapping a SortCommand for supporting release call with input paragraphs.
+    // object wrapping a SortCommand for supporting release call with input paragraphs.
+	private SortParagHandler sortParagHandler = null;
 	private ArrayFixDyn<SQLCursor> cursor = null;
 
 	public abstract void prepareRunMain(BaseProgram prg);

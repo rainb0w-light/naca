@@ -256,7 +256,8 @@ public abstract class VarBase extends CJMapObject
 //		int nSourceOffset = getInitializeReplacingOffset(tempCache);
 //
 //		SharedProgramInstanceData sharedProgramInstanceData = tempCache.getSharedProgramInstanceData();
-//		varDef.moveCorrespondingItemAndChildren(sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset, nDestOffset);
+// varDef.moveCorrespondingItemAndChildren(sharedProgramInstanceData, tempCache.getProgramManager(), varDefDestGroup, nSourceOffset,
+// nDestOffset);
 //		//varDef.initializeItemAndChildren(bufferPos.getProgramManager(), initializeManagerManager, nOffset);
 //	}
 
@@ -713,16 +714,19 @@ public abstract class VarBase extends CJMapObject
 			nFillLength1 = nDest1Length - nSourceLength;
 
 		if(nSourceLength > nDest1Length)	// More data than buffer: We must limit the data to copy in the buffer1
-			nSourceLength = nDest1Length;	// Source length is limited by number of bytes of the destination1 (that is the variable specified by into() method
+            // Source length is limited by number of bytes of the destination1 (that is the variable specified by into() method
+			nSourceLength = nDest1Length;
 
 
 		int nFillLength2 = 0;
 		int nDest2Length = varDest2.getBodyLength();
 
-		if(nDest1Length < nDest2Length)	// The length of destination variable 2 (file descriptor) is longer than the length of the variable specified by into()
+        // The length of destination variable 2 (file descriptor) is longer than the length of the variable specified by into()
+		if(nDest1Length < nDest2Length)
 			nFillLength2 = nDest1Length - nDest2Length;	// We must fill the remaining bytes of varDest2
 
-		if(nDest1Length > nDest2Length)		// The length of destination variable 2 (file descriptor) is shoreter than the length of the variable specified by into()
+        // The length of destination variable 2 (file descriptor) is shoreter than the length of the variable specified by into()
+		if(nDest1Length > nDest2Length)
 			nDest2Length = nDest1Length;
 
 		bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength, varDest2.bufferPos, nDest2Length);
@@ -828,7 +832,8 @@ public abstract class VarBase extends CJMapObject
 
 
 
-	/*protected*/ public VarDefBuffer varDef = null;		// definition of variable options and memory storage (common with other vars)
+    // definition of variable options and memory storage (common with other vars)
+	/*protected*/ public VarDefBuffer varDef = null;
 	/*protected*/ public VarBufferPos bufferPos = null;		// physical data buffer
 	public abstract VarType getVarType();
 	//private String csSemanticContextValue = null;

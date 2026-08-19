@@ -23,8 +23,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param Var var1
 	 * @param Var var2
-	 * Set current object to var1/var2 (var are treated as numeric optionnaly decimals / signed)
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to var1/var2 (var are treated as numeric optionnaly decimals / signed)
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -49,8 +49,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param Var var1
 	 * @param int n
-	 * Set current object to var1/n (var are treated as numeric optionnaly decimals / signed)
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to var1/n (var are treated as numeric optionnaly decimals / signed)
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(int var1, int n)
 	{
@@ -89,8 +89,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param Var var1
 	 * @param double d
-	 * Set current object to var1/d (var are treated as numeric optionnaly decimals / signed)
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to var1/d (var are treated as numeric optionnaly decimals / signed)
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(VarAndEdit var1, double d)
 	{
@@ -112,8 +112,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param Var var1
 	 * @param String cs; treated as a number
-	 * Set current object to var1/cs
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to var1/cs
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(VarAndEdit var1, String cs)
 	{
@@ -135,8 +135,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param Var var1
 	 * @param MathBase mathBase
-	 * Set current object to var1/mathBase
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to var1/mathBase
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(VarAndEdit var1, MathBase mathBase)
 	{
@@ -157,8 +157,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param Var var2
-	 * Set current object to mathBase/var2
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to mathBase/var2
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(MathBase mathBase, VarAndEdit var2)
 	{
@@ -181,8 +181,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param int n
-	 * Set current object to mathBase/n
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to mathBase/n
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(MathBase mathBase, int n)
 	{
@@ -203,8 +203,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param double d
-	 * Set current object to mathBase/d
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to mathBase/d
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(MathBase mathBase, double d)
 	{
@@ -225,8 +225,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param MathBase mathBase
 	 * @param String cs, treated as a number
-	 * Set current object to mathBase/cs
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to mathBase/cs
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(MathBase mathBase, String cs)
 	{
@@ -247,8 +247,8 @@ public class MathDivide extends MathBase
 	/**
 	 * @param MathBase mathBase1
 	 * @param MathBase mathBase2
-	 * Set current object to mathBase1/mathBase2
-	 * if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+	 *     Set current object to mathBase1/mathBase2
+	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
 	 */
 	public MathDivide(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -279,10 +279,11 @@ public class MathDivide extends MathBase
 	}
 
 	/**
-	 * @param Var varQuotient: destination variable that will receive the quotient of the last divide operation, recomputed as an integer divide
+     * @param Var varQuotient: destination variable that will receive the quotient of the last divide operation, recomputed as an integer
+     *     divide
 	 * @param Var varRest: destination variable that will receive the rest of the last divide operation, recomputed as an integer divide
 	 * @return
-	 * The last division is done again, as an integer one. This to method must follow immediatly the division to do.
+	 *     The last division is done again, as an integer one. This to method must follow immediatly the division to do.
 	 */
 	public MathDivide to(VarAndEdit varQuotient, VarAndEdit varRest)
 	{

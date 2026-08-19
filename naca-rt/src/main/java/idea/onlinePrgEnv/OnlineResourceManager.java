@@ -44,9 +44,13 @@ public class OnlineResourceManager extends BaseResourceManager
 
 	protected int nNbInstanceToPreload = 1;
 	protected boolean bPreLoadAllProgramFromDir = false;	// true if try to load all programs form directory
-	protected boolean iskeepPreloadedProgramList = false;	// true if you want to register into [csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the dir
+    // true if you want to register into [csPreLoadProgramList] the preloaded program list; usefull to build the list of program from the
+    // dir
+	protected boolean iskeepPreloadedProgramList = false;
 	protected boolean bPreLoadAllProgramFromList = false;	// true if load all programs indiciated in [csPreLoadProgramList]
-	protected String csPreLoadProgramList = "";	// Gives the path and name of the file indicating a program list to be loaded in mode bPreLoadAllProgramFromList; it is updated in mode bPreLoadAllProgramFromDir
+    // Gives the path and name of the file indicating a program list to be loaded in mode bPreLoadAllProgramFromList; it is updated in mode
+    // bPreLoadAllProgramFromDir
+	protected String csPreLoadProgramList = "";
 
 	protected String csXMLFrameFilePath = "";
 	protected String csXMLFramePSFilePath = "";

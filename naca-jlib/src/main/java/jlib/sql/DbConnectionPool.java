@@ -111,7 +111,8 @@ public class DbConnectionPool
 			String fullName = makeFullName(csProgramId, csProgramParent);
 			connectionColl = hashConnectionsByProgramId.get(fullName);
 
-			if(connectionColl == null && !StringUtil.isEmpty(csProgramParent))	// Not found with a program parent name; try with only required program name
+            // Not found with a program parent name; try with only required program name
+			if(connectionColl == null && !StringUtil.isEmpty(csProgramParent))
 				connectionColl = hashConnectionsByProgramId.get(csProgramId);
 
 			if(connectionColl == null)	// Still not found; try default naming

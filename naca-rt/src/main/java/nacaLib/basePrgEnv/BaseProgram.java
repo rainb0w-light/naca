@@ -91,7 +91,7 @@ import nacaLib.varEx.VarTypeId;
 /**
  * @author PJD
  *
- * Window - Preferences - Java - Code Style - Code Templates
+ *     Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class BaseProgram extends CJMapObject
 {
@@ -154,7 +154,8 @@ public abstract class BaseProgram extends CJMapObject
 	protected BaseProgramManager baseProgramManager = null;	// Program manager object
 	//private ProgramManager;
 
-	//protected VarSectionDeclaration declare = null;	// Declare Object used for data section and variable declaration inside an application
+    // protected VarSectionDeclaration declare = null; // Declare Object used for data section and variable declaration inside an
+    // application
 
 	// http://www.nwrdc.fsu.edu/contents_support_cics_progguide_general.html#dfhcommarea
 	// CICS LINK: COMMAREA is passed by ref: The linked prog can return values by the Commearea
@@ -166,7 +167,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	// Program code
 	/**Method: procedureDivision
-	 * Virtual method that ca be derived to describe formally an entry point for am application program, that is not at in the first paragraph
+     * Virtual method that ca be derived to describe formally an entry point for am application program, that is not at in the first
+     * paragraph
 	 * Commment <b>It is not mandatory to derived in an app, but it makes life easier</b>
 	 * @param:
 	 * @return:
@@ -180,7 +182,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN Class classPrgToCall: Gives the java class of the sub program to call. It must itself be derived form Program.
 	 * @return: CCallProgram: A internal object, that is used to define a program to be called later
 	 * @see call(String )
-	 * <b>Not intended to be used by applications directly, but they should use call(String) instead</b>
+	 *     <b>Not intended to be used by applications directly, but they should use call(String) instead</b>
 	 */
 	protected CCallProgram call(Class<?> classPrgToCall)
 	{
@@ -219,8 +221,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * 	 * @param: IN Var var1: 1st variable to compare
 	 * @param: IN Var var2: 2nd Variable to compare
 	 * @return: true if var1's value == var2's value, false otherwise.
-	 * The variables can by of different type. A conversion can be done in order to have comparable values.
-	 * The comparison is done in Unicode.
+	 *     The variables can by of different type. A conversion can be done in order to have comparable values.
+	 *     The comparison is done in Unicode.
 	 */
 	protected boolean isEqual(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -327,7 +329,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * Condition value negative evaluation
 	 * @param: IN Cond cond
 	 * @return: true if the Cond evaluates as false
-	 * @ see Class Cond
+	 * @see Class Cond
 	 */
 	protected boolean isNot(Cond cond)
 	{
@@ -340,7 +342,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * Variable value boolean comparison
 	 * @param: IN Variable v
 	 * @return: true if the variable is true.
-	 * @ see Class Cond
+	 * @see Class Cond
 	 */
 	protected boolean isNot(Var v)
 	{
@@ -456,7 +458,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**Method: isHighValue
 	 * @param: IN VarAndEdit var
 	 * @return: true if the var contains only space chars; false otherwise
-	 * If the var is an Edit, then only, it's textual value is taken in account
+	 *     If the var is an Edit, then only, it's textual value is taken in account
 	 */
 	protected boolean isSpace(VarAndEdit var)
 	{
@@ -480,7 +482,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**Method: isHighValue
 	 * @param: IN VarAndEdit var
 	 * @return: false if the var contains only space chars; true otherwise
-	 * If the var is an Edit, then only, it's textual value is taken in account
+	 *     If the var is an Edit, then only, it's textual value is taken in account
 	 */
 	protected boolean isNotSpace(VarAndEdit var)
 	{
@@ -810,8 +812,10 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value < var2's value, false otherwise. The comparison is done using ebcdic ordering
-	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+     *     Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii
+     *     convertered
+     *     data
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isLessInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -829,7 +833,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value <= var2's value, false otherwise.
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account	 */
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account	 */
 	protected boolean isLessOrEqual(VarAndEdit var1, VarAndEdit var2)
 	{
 		if(IsSTCheck)
@@ -848,8 +852,10 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value <= var2's value, false otherwise. The comparison is done using ebcdic ordering
-	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+     *     Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii
+     *     convertered
+     *     data
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isLessOrEqualInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -887,7 +893,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value > var2's value, false otherwise
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreater(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -906,8 +912,10 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise. The comparison is done using ebcdic ordering
-	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+     *     Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii
+     *     convertered
+     *     data
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreaterInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -926,7 +934,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise.
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreater(String cs, int v)
 	{
@@ -943,8 +951,10 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value > var2's value, false otherwise. The comparison is done using ebcdic ordering
-	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+     *     Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii
+     *     convertered
+     *     data
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreaterInEbcdic(String cs1, String cs2)
 	{
@@ -1019,7 +1029,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreaterOrEqual(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -1038,8 +1048,10 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param: IN VarAndEdit var1
 	 * @param: IN VarAndEdit var2
 	 * @return: true if var1's value >= var2's value, false otherwise. The comparison is done using ebcdic ordering
-	 * Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii convertered data
-	 * If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
+     *     Warning: This method is available only for ebcdic compatibility. It should not be used except when dealing with not ascii
+     *     convertered
+     *     data
+	 *     If Var1 or var2 are Edit or dervied from Edit, then only the textual part of the edit is taken in account
 	 */
 	protected boolean isGreaterOrEqualInEbcdic(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -1942,7 +1954,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @param: IN Var var2: same remark than var1
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -1990,7 +2003,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @param: IN int n: integer ot add to var1
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2032,7 +2046,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @param: IN double d: floting point value added to var, giving an operand of the operation
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2049,7 +2064,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @param: IN String s: String that must be able to be converted to a numeric value
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2066,7 +2082,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: add
 	 * addition
-	 * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: 1st operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
@@ -2084,7 +2101,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**Method: add
 	 * addition
 	 * @param: IN MathBase mathBase: Math container giving an operand of the operation
-	 * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be signed or not; it can contain either an integer or decimal value
+     * @param: IN Var var1: operand of the operation; must contain a numeric value, or string that evalues as a numeric value; it can be
+     *     signed or not; it can contain either an integer or decimal value
 	 * @return: MathAdd: wrapper object containg the sum of the 2 parameters; the maximum precision is kept
 	 */
 	protected MathAdd add(MathBase mathBase, VarAndEdit var)
@@ -2432,7 +2450,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN var1 Dividende variable; may be integer or decimal
 	 * @param IN var2 Divisor variable; may be integer or decimal
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, VarAndEdit var2)
 	{
@@ -2448,7 +2467,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN var1 Dividende variable; may be integer or decimal
 	 * @param IN n Divisor variable
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, int n)
 	{
@@ -2487,7 +2507,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN double d Divisor variable
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, double d)
 	{
@@ -2501,7 +2522,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN String s Divisor variable, must contain a numeric value, that may be decimal or not
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, String s)
 	{
@@ -2517,7 +2539,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN Var var1 Dividende variable; may be integer or decimal
 	 * @param IN MathBase mathBase Divisor variable resulting from a previosu operation
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(VarAndEdit var1, MathBase mathBase)
 	{
@@ -2533,7 +2556,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN Var var2  Divisor variable resulting from a previosu operation
-	 * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of var1 / var2. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, VarAndEdit var2)
 	{
@@ -2549,7 +2573,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN int n  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, int n)
 	{
@@ -2563,7 +2588,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN double d  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of mathBase / n. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, double d)
 	{
@@ -2577,7 +2603,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase: Dividende variable; may be integer or decimal
 	 * @param IN String s  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase / s. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of mathBase / s. It's value may also be used as modulo and rest of an
+     *     integer division
 	 */
 	protected MathDivide divide(MathBase mathBase, String s)
 	{
@@ -2591,7 +2618,8 @@ public abstract class BaseProgram extends CJMapObject
 	/** divide
 	 * @param IN MathBase mathBase1: Dividende variable; may be integer or decimal
 	 * @param IN MathBase mathBase2  Divisor variable
-	 * @return Return the MathDivide objet that embed the return of mathBase1 / MathBase2. It's value may also be used as modulo and rest of an integer division
+     * @return Return the MathDivide objet that embed the return of mathBase1 / MathBase2. It's value may also be used as modulo and rest of
+     *     an integer division
 	 */
 	protected MathDivide divide(MathBase mathBase1, MathBase mathBase2)
 	{
@@ -2956,7 +2984,8 @@ public abstract class BaseProgram extends CJMapObject
 	}
 
 	/**Method: move
-	 * move a constant (LowValue, HighValue, Zero, Space) into a var; all data chars of the destination var are filled with the source constant
+     * move a constant (LowValue, HighValue, Zero, Space) into a var; all data chars of the destination var are filled with the source
+     * constant
 	 * @param: CobolConstant constant
 	 * @param: OUT Var varDest
 	 * @return: current program object; enables to chain another Program's method.
@@ -3217,7 +3246,8 @@ public abstract class BaseProgram extends CJMapObject
 
 
 	/**Method: move
-	 * move a var content into all fields of a form (GUI applications only). The var source must have been previously filled by a previous move(Form formSource, Var varDest).
+     * move a var content into all fields of a form (GUI applications only). The var source must have been previously filled by a previous
+     * move(Form formSource, Var varDest).
 	 * Thus this method can be thought of as a deserialization of a var into a form;
 	 * <b>used internally</b>
 	 * @param: IN Var varSource
@@ -3286,7 +3316,8 @@ public abstract class BaseProgram extends CJMapObject
 		if(IsSTCheck)
 			Log.logFineDebug("moveCorresponding_V_V:" + varSource.getSTCheckValue() + ":" + varDestGroup.getSTCheckValue());
 
-		// This method is to help a recursive descent in case the move corresponding manages multi level depth. It seems not to be the case, so it's implemented as signle level depth.
+        // This method is to help a recursive descent in case the move corresponding manages multi level depth. It seems not to be the case,
+        // so it's implemented as signle level depth.
 		if(varSource != null)
 		{
 			MoveCorrespondingEntryManager manager = getProgramManager().getOrCreateMoveCorrespondingEntryManager(varSource.getVarDef(), varDestGroup.getVarDef());
@@ -3306,7 +3337,8 @@ public abstract class BaseProgram extends CJMapObject
 //
 //		CacheMoveCorresponding cacheMoveCorresponding = getCacheMoveCorresponding(varSource, varDestGroup);
 //
-//		// This method is to help a recursive descent in case the move corresponding manages multi level depth. It seems not to be the case, so it's implemented as signle level depth.
+// // This method is to help a recursive descent in case the move corresponding manages multi level depth. It seems not to be the case, so
+// it's implemented as signle level depth.
 //		if(varSource != null)
 //			varSource.moveCorresponding(varDestGroup, cacheMoveCorresponding);
 //		if(varSource.isTempVar() || varDest.isTempVar())
@@ -3351,7 +3383,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**Method: perform
 	 * calls the first paragraph of a section, using the library.
 	 * @param: IN Section section: Functor objet that group multiple paragraphs.
-	 * All paragraphs of the section identified will be called in sequence if no flow breaking (goto StopRun ...) occurs.
+	 *     All paragraphs of the section identified will be called in sequence if no flow breaking (goto StopRun ...) occurs.
 	 * @return:
 	 */
 	protected void perform(Section section)
@@ -3398,7 +3430,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: goTo
 	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs.
-	 * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow control.
+     * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow
+     *     control.
 	 * @return:
 	 */
 	protected void goTo(Section functor)
@@ -3426,7 +3459,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**Method: goTo
 	 * Transfer the flow control the first paragrpaph of the provided section. No stack pushing occurs.
-	 * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow control.
+     * @param: Section section: Functor objet that contains mulpliple paragraphs. The first one is used as the destination of the flow
+     *     control.
 	 * @return:
 	 */
 	protected void goBack() throws CGotoException
@@ -3440,8 +3474,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @throws CGotoException
-	 * Return from the current sub program; do nothing if we are not inside a sub program.
-	 * A sub program is a program that is called explicitly by another application program
+	 *     Return from the current sub program; do nothing if we are not inside a sub program.
+	 *     A sub program is a program that is called explicitly by another application program
 	 */
 	protected void exitProgram() throws CGotoException
 	{
@@ -3459,7 +3493,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * As an IBM extension, the EXIT statement does not need to appear in a
 	 * sentence by itself. Any statements following the EXIT statement are
 	 * executed; the EXIT statement is treated as the CONTINUE statement.
-	 * @see http://publibz.boulder.ibm.com/cgi-bin/bookmgr_OS390/BOOKS/IGYLR205/6.2.14?DT=20000927030801
+	 * @see <a href="http://publibz.boulder.ibm.com/cgi-bin/bookmgr_OS390/BOOKS/IGYLR205/6.2.14?DT=20000927030801">reference</a>
 	 */
 	protected void exit()
 	{
@@ -3477,7 +3511,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @throws CGotoException
-	 * Exit the application
+	 *     Exit the application
 	 */
 	protected void stopRun() throws CGotoException	// Exit the application
 	{
@@ -3623,7 +3657,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param IN MathBase value: Contains a numeric vale, resulting from a previos calculous
-	 * @param OUT Var var: Variable whose value is set on output the value of mathBase; The var's value is rounded upon setting, as opposite of "MathBase compute(MathBase mathBase, Var var)"
+     * @param OUT Var var: Variable whose value is set on output the value of mathBase; The var's value is rounded upon setting, as opposite
+     *     of "MathBase compute(MathBase mathBase, Var var)"
 	 * @return mathBase object, enabling to chain calculous
 	 */
 	protected MathBase computeRounded(MathBase value, Var var)
@@ -3711,17 +3746,18 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param SQLConnection Internal SQL Connection
 	 * @param IN csString Statement; Must be sql valid.
 	 * @return SQLCursor internal object used to chain sql cursor declarations.
-	 * Remark: This method should not be used as it requires a SQLConnection. To use the default SQL connection established in a standard way, use SQL sql(String csStatement)
+     * Remark: This method should not be used as it requires a SQLConnection. To use the default SQL connection established in a standard
+     * way, use SQL sql(String csStatement)
 	 */
 //	protected SQLCursor sqlCursor(CSQLConnection SQLConnection, String csStatement)
 //	{
-//		SQLCursor sqlCursor = new SQLCursor(programManager.dataDivision.getWorkingStorageSectionVarBuffer(), SQLConnection, csStatement);
+// SQLCursor sqlCursor = new SQLCursor(programManager.dataDivision.getWorkingStorageSectionVarBuffer(), SQLConnection, csStatement);
 //		return sqlCursor;
 //	}
 
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
-	 * Opens the cursor in parameter
+	 *     Opens the cursor in parameter
 	 */
 	protected SQLCursor cursorDefine()
 	{
@@ -3738,7 +3774,8 @@ public abstract class BaseProgram extends CJMapObject
 //			Log.logFineDebug("cursorOpen_cs:" + csQuery);
 //
 //
-//		SQLCursor sqlCursor = new SQLCursor(programManager, programManager.dataDivision.getWorkingStorageSectionVarBuffer(), programManager.cESMEnv, csQuery, programManager.getSQLStatus());
+// SQLCursor sqlCursor = new SQLCursor(programManager, programManager.dataDivision.getWorkingStorageSectionVarBuffer(),
+// programManager.cESMEnv, csQuery, programManager.getSQLStatus());
 //		sqlCursor.open();
 //		return sqlCursor;
 //	}
@@ -3788,7 +3825,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
-	 * Closes the cursor in parameter
+	 *     Closes the cursor in parameter
 	 */
 	protected CSQLStatus cursorClose(SQLCursor sqlCursor)
 	{
@@ -3844,7 +3881,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param IN/OUT SQLCursor sqlCursor
 	 * @return Internal SQLCursor object;
-	 * The into parameters are filled with the columns values read during the fetch.
+	 *     The into parameters are filled with the columns values read during the fetch.
 	 */
 	protected SQLCursorFetch cursorFetch(SQLCursor sqlCursor)
 	{
@@ -4090,8 +4127,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param OUT Var vSource
-	 * Intialize the var group in parameter, whatever it's children types
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize the var group in parameter, whatever it's children types
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initialize(VarAndEdit vSource)
 	{
@@ -4151,8 +4188,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN int n
-	 * Intialize all numeric edited children of the group vSource by n
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all numeric edited children of the group vSource by n
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingNumEdited(VarAndEdit vSource, int n)
 	{
@@ -4167,8 +4204,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN double d
-	 * Intialize all numeric children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all numeric children of the group vSource by d
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingNum(VarAndEdit vSource, double d)
 	{
@@ -4183,8 +4220,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN String s
-	 * Intialize all numeric children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all numeric children of the group vSource by d
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingNum(VarAndEdit vSource, String s)
 	{
@@ -4198,8 +4235,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN double d
-	 * Intialize all numeric edited children of the group vSource by d
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all numeric edited children of the group vSource by d
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingNumEdited(VarAndEdit vSource, double d)
 	{
@@ -4214,8 +4251,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN String cs
-	 * Intialize all alphanumeric children of the group vSource by cs
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all alphanumeric children of the group vSource by cs
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingAlphaNum(VarAndEdit vSource, String cs)
 	{
@@ -4230,8 +4267,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param OUT Var vSource
 	 * @param IN String cs
-	 * Intialize all alphanumeric edited children of the group vSource by cs
-	 * @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727 for sample
+	 *     Intialize all alphanumeric edited children of the group vSource by cs
+	 * @see <a href="http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_028.htm#index_x_727">reference</a> for sample
 	 */
 	protected void initializeReplacingAlphaNumEdited(VarAndEdit vSource, String cs)
 	{
@@ -4440,7 +4477,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param IN/OUT Map map
-	 * Fill all forms of a map with low value
+	 *     Fill all forms of a map with low value
 	 */
 	protected void moveLowValue(Map map)
 	{
@@ -4454,7 +4491,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param IN Var var
 	 * @return a pointer on var
-	 * Used internally
+	 *     Used internally
 	 */
 	protected Pointer addressOf(VarAndEdit var)
 	{
@@ -4483,7 +4520,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with 0's
 	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with 0's, from position start up to nNbChar characters
+	 *     Fill the substring of v with 0's, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringZero(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4500,7 +4537,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with space chars
 	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters
+	 *     Fill the substring of v with spaces, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringSpace(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4516,7 +4553,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with low value chars
 	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with low value, from position start up to nNbChar characters
+	 *     Fill the substring of v with low value, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringLowValue(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4544,7 +4581,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with high value chars
 	 * @param int nOffsetPosition Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with high value, from position start up to nNbChar characters
+	 *     Fill the substring of v with high value, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringHighValue(VarAndEdit v, int nOffsetPosition, int nNbChar)
 	{
@@ -4577,7 +4614,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with space chars
 	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters
+	 *     Fill the substring of v with spaces, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringSpace(VarAndEdit v, Var varOffsetPosition, int nNbChar)
 	{
@@ -4594,7 +4631,7 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var v: String whose substring is to be filled with space chars
 	 * @param Var varOffsetPosition: Start position (begining at 1) of the substring to fill
 	 * @param int nNbChar Number of chars to fill
-	 * Fill the substring of v with spaces, from position start up to nNbChar characters
+	 *     Fill the substring of v with spaces, from position start up to nNbChar characters
 	 */
 	protected void moveSubStringSpace(VarAndEdit v, Var varOffsetPosition, Var nNbChar)
 	{
@@ -4613,7 +4650,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, int nNbChar, VarAndEdit varValue)
 	{
@@ -4655,7 +4693,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, Var varNbChar, VarAndEdit varValue)
 	{
@@ -4699,7 +4738,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4716,7 +4756,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, MathBase nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4748,7 +4789,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, int nNbChar, String csValue)
 	{
@@ -4765,7 +4807,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, int nOffsetPosition, int nNbChar, String csPattern)
 	{
@@ -4788,7 +4831,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, String csPattern)
 	{
@@ -4811,7 +4855,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Start position into to source variable
 	 * @param Var nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, int nOffsetPosition, Var varNbChar, String csPattern)
 	{
@@ -4834,7 +4879,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param Var varChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubStringAll(VarAndEdit varDest, Var varOffsetPosition, Var varNbChar, String csPattern)
 	{
@@ -4857,7 +4903,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param int nOffsetPosition: Startposition into to source variable
 	 * @param Var varNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, int nOffsetPosition, Var nNbChar, String csValue)
 	{
@@ -4874,7 +4921,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param String csValue: Source string
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, String csValue)
 	{
@@ -4892,7 +4940,8 @@ public abstract class BaseProgram extends CJMapObject
 	 * @param Var varOffsetPosition: Start position into to source variable
 	 * @param int nNbChar: Number of char to extract form source variable
 	 * @param Var varValue: Source variable
-	 * Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to nNbChar
+     *     Fill the destination variable with the substring of source variable, starting from position nOffsetPosition, and containing up to
+     *     nNbChar
 	 */
 	protected void setSubString(VarAndEdit varDest, Var varOffsetPosition, int nNbChar, VarAndEdit varValue)
 	{
@@ -4909,7 +4958,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @return void
-	 * Placeholder to identify the SLQCursor variable declaration. Can be omitted
+	 *     Placeholder to identify the SLQCursor variable declaration. Can be omitted
 	 */
 	protected DataSection sqlCursorSection()
 	{
@@ -4923,7 +4972,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param Var var: Source variable on which doing inspect replacing operations
 	 * @return InspectReplacing object, enabling options
-	 * see class InspectReplacing
+	 *     see class InspectReplacing
 	 */
 	protected InspectReplacing inspectReplacing(VarAndEdit var)
 	{
@@ -4937,7 +4986,7 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param Var var: Source variable on which doing inspect tallying operations
 	 * @return InspectTallying object, enabling options
-	 * see class InspectTallying
+	 *     see class InspectTallying
 	 */
 	protected InspectTallying inspectTallying(VarAndEdit var)
 	{
@@ -5275,7 +5324,8 @@ public abstract class BaseProgram extends CJMapObject
 	/**
 	 * @param Var varDest: Destination variable
 	 * @param String csValue: Semantic context value
-	 * Associates the semantic context value csVlaue, to the variable varDest. It is also associated to all variables that share it's position and length in storage buffer (redefines, ...)
+     *     Associates the semantic context value csVlaue, to the variable varDest. It is also associated to all variables that share it's
+     *     position and length in storage buffer (redefines, ...)
 	 */
 	public void setSemanticContextValue(Var varDest, String csValue)
 	{
@@ -5747,10 +5797,10 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @return String
-	 * This EIB field contains the date  at which the task is started
-	 * (this field is updated by the ASKTIME command).
-	 * The date is in packed decimal form (0CYYDDD+).  Ex : 0099365 for 31/12/1999 or 0104001 for 01/01/2004
-	 * For COBOL: PIC S9(7) COMP-3
+	 *     This EIB field contains the date  at which the task is started
+	 *     (this field is updated by the ASKTIME command).
+	 *     The date is in packed decimal form (0CYYDDD+).  Ex : 0099365 for 31/12/1999 or 0104001 for 01/01/2004
+	 *     For COBOL: PIC S9(7) COMP-3
 	 */
 	protected String getDate()
 	{
@@ -5856,8 +5906,8 @@ public abstract class BaseProgram extends CJMapObject
 	}
 	/**
 	 * @param Var var
-	 * Internal usage only
-	 * Set the last key pressed as the value of var
+	 *     Internal usage only
+	 *     Set the last key pressed as the value of var
 	 */
 	protected void setKeyPressed(Var v)
 	{
@@ -5871,8 +5921,8 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @param KeyPressed key
-	 * Internal usage only
-	 * * Set the last key pressed as key
+	 *     Internal usage only
+	 *     * Set the last key pressed as key
 	 */
 	protected void setKeyPressed(KeyPressed key)
 	{
@@ -5933,7 +5983,7 @@ public abstract class BaseProgram extends CJMapObject
 
 	/**
 	 * @return String identifying the last CICS command
-	 * @see http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00150.htm ;
+     * @see <a href="http://publib.boulder.ibm.com/infocenter/txen/index.jsp?topic=/com.ibm.txseries510.doc/erzhai00150.htm">reference</a> ;
 	 */
 	protected String getLastCICSCommandExecutedCode()
 	{	 // PIC X(2)

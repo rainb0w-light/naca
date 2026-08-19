@@ -83,7 +83,8 @@ public class DataDivision extends Division
 	
 	public VarBuffer computeLinkageVarBuffer()
 	{
-		return linkageSection.computeStorage(true);	// Compute Linkage section vars that are not already set with an arg provided By Ref
+        // Compute Linkage section vars that are not already set with an arg provided By Ref
+		return linkageSection.computeStorage(true);
 	}
 	
 	public void registerFileVarStruct(Var var)

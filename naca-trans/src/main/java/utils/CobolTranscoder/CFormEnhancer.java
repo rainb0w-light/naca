@@ -36,7 +36,7 @@ import semantic.forms.CEntityResourceFormContainer;
 /**
  * @author sly
  *
- * Window - Preferences - Java - Code Style - Code Templates
+ *     Window - Preferences - Java - Code Style - Code Templates
  */
 public class CFormEnhancer
 {

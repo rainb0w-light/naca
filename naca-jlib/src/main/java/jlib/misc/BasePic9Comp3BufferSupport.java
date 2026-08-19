@@ -62,7 +62,8 @@ public class BasePic9Comp3BufferSupport
 		
 		// arrays for fast decoding
 		ms_tDecodeByteComp3 = new int[256];
-		ms_tDecodeLastByteNegativeComp3 = new boolean[256];	// Normally 160is enough, excpet that a move high value can set all bytes at FF. Thus we need a size of 255 ! 
+        // Normally 160is enough, excpet that a move high value can set all bytes at FF. Thus we need a size of 255 !
+		ms_tDecodeLastByteNegativeComp3 = new boolean[256];
 		ms_tDecodeLastByteDigitComp3 = new int[256];
 		for(int n=0; n<10; n++)
 		{

@@ -77,17 +77,17 @@ import java.security.*;
  * @version 1.2.1 11/05/02
  * @author Marc A. Mnich
  *
- * From www.JavaExchange.com, Open Software licensing
+ *     From www.JavaExchange.com, Open Software licensing
  *
- * 11/05/02 -- Performance enhancement from Mike Dubman.  
+ *     11/05/02 -- Performance enhancement from Mike Dubman.
  *             Moved InetAddr.getLocal to static block.  Mike has measured
  *             a 10 fold improvement in run time.
- * 01/29/02 -- Bug fix: Improper seeding of nonsecure Random object
+ *     01/29/02 -- Bug fix: Improper seeding of nonsecure Random object
  *             caused duplicate GUIDs to be produced.  Random object
  *             is now only created once per JVM.
- * 01/19/02 -- Modified random seeding and added new constructor
+ *     01/19/02 -- Modified random seeding and added new constructor
  *             to allow secure random feature.
- * 01/14/02 -- Added random function seeding with JVM run time
+ *     01/14/02 -- Added random function seeding with JVM run time
  * 
  */
 public class RandomGuid {

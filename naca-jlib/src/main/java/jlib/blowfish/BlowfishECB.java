@@ -9,7 +9,7 @@ package jlib.blowfish;
 
 /**
   * implementation of the Blowfish encryption algorithm in ECB mode
-  * @author Markus Hahn <markus_hahn@gmx.net>
+  * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version Feburary 14, 2001
   */
 

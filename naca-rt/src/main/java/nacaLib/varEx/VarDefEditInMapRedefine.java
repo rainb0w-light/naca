@@ -93,13 +93,13 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 //			destVarDef.writeSubEditAndAttributes(Dest.bufferPos, this, bufferSource);
 //
 //			// Enum all children to transfer their attributes
-//			int nPosAttributes = Dest.getBodyAbsolutePosition() - Dest.getVarDef().getHeaderLength();	// Position of the attributes in the buffer
+// int nPosAttributes = Dest.getBodyAbsolutePosition() - Dest.getVarDef().getHeaderLength(); // Position of the attributes in the buffer
 //			for(int n=0; n<arrChildren.size(); n++)
 //			{
 //				EditInMapRedefine editDestChildTemplate = (EditInMapRedefine)Dest.getEditChildAt(n+1);
 //				EditInMapRedefine subItem = editDestChildTemplate.allocOccursedItem(editDestChildTemplate.getVarDef());
 //
-//				subItem.varDef.adjustSetting(editDestChildTemplate.getVarDef(), Dest.getBodyAbsolutePosition()-7, 0, 1, null);
+// subItem.varDef.adjustSetting(editDestChildTemplate.getVarDef(), Dest.getBodyAbsolutePosition()-7, 0, 1, null);
 //
 //				int nBodyLength = editDestChildTemplate.getBodyLength();
 //				nPosAttributes += Dest.getVarDef().getHeaderLength() + nBodyLength;
@@ -292,7 +292,9 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
 	{
 		// http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#alpha_elem_move_sec
-		// If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the sending item's data
+        // If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item
+        // description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the
+        // sending item's data
 		internalEditPhysicalWrite(buffer, varSource, bufferSource);
 	}
 
@@ -425,10 +427,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
@@ -439,10 +443,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
@@ -453,10 +459,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
@@ -467,10 +475,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
@@ -481,10 +491,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
@@ -496,10 +508,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		//cs.resetManagerCache();
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 
 	}
 
@@ -512,10 +526,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		//cs.resetManagerCache();
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
@@ -527,10 +543,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		//cs.resetManagerCache();
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
  	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
@@ -542,10 +560,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		//cs.resetManagerCache();
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
  	}
 
 
@@ -557,10 +577,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
@@ -571,10 +593,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
@@ -585,10 +609,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
@@ -599,10 +625,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 		else
 			writeEditJustifyRightPadding(buffer, cs, ' ');
 		// @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
-		// parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard Alignment Rules.
-		// If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character position:
+        // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
+        // Alignment Rules.
+        // If lit or src-item is signed numeric, the operational sign is not moved. If the operational sign occupies a separate character
+        // position:
 		// The sign character is not moved.
-		// The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
+        // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
 	}
 
 	private int writeEditRightPadding(VarBufferPos buffer, CStr cs, char cPad)
@@ -771,9 +799,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -782,9 +812,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp3 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -794,7 +826,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp4 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -803,7 +836,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp4 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -812,7 +846,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp0 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -821,7 +856,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -830,7 +866,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -839,7 +876,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -848,7 +886,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -857,7 +896,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0Long varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
 		long l2 = getAsDecodedLong(buffer2);
@@ -867,7 +907,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3 varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		Dec dec1 = varDefNum1.getUnsignedDec(buffer1);
 		int n2 = getUnsignedInt(buffer2);
@@ -876,7 +917,8 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3Long varDefNum1, VarBufferPos buffer1)
 	{
-		// The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare these two items, you receive a diagnostic message at compile time.
+        // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
+        // these two items, you receive a diagnostic message at compile time.
 		// more relax here:
 		long l1 = varDefNum1.getAsDecodedLong(buffer1);
 		long l2 = getAsDecodedLong(buffer2);
@@ -887,8 +929,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -898,8 +946,12 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is a group item, the compiler treats the numeric operand as if it had been moved into a group item the same size as the numeric operand and then compared. This is equivalent to a group move.
-		// The compiler ignores the description of the numeric item (except for length) and, therefore, includes in its length any operational sign, whether carried as a separate character or as an overpunched character. Overpunched characters are never ASCII numeric digits. They are characters ranging from A to R, left brace ({), or right brace (}). Thus, the sign and the digits, stored as ASCII bytes, take part in the comparison, and zeros are not supplied for P characters in the PICTURE character-string.
+        // If the nonnumeric operand is a group item, the compiler treats the numeric operand as if it had been moved into a group item the
+        // same size as the numeric operand and then compared. This is equivalent to a group move.
+        // The compiler ignores the description of the numeric item (except for length) and, therefore, includes in its length any
+        // operational sign, whether carried as a separate character or as an overpunched character. Overpunched characters are never ASCII
+        // numeric digits. They are characters ranging from A to R, left brace ({), or right brace (}). Thus, the sign and the digits,
+        // stored as ASCII bytes, take part in the comparison, and zeros are not supplied for P characters in the PICTURE character-string.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getAsDecodedLong(buffer2);
@@ -910,8 +962,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -921,8 +979,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getUnsignedLong(buffer2);
@@ -932,8 +996,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -943,8 +1013,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -954,8 +1030,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getUnsignedLong(buffer2);
@@ -965,8 +1047,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -976,8 +1064,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getUnsignedLong(buffer2);
@@ -987,8 +1081,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -998,8 +1098,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getUnsignedLong(buffer2);
@@ -1009,8 +1115,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		int n2 = getUnsignedInt(buffer2);
@@ -1020,8 +1132,14 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0Long varDefNum1, VarBufferPos buffer1)
 	{
 		// see http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#group_items_sec
-		// If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an unsigned quantity.
-		// In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321), the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
+        // If the nonnumeric operand is an elementary item or a literal, the compiler treats the numeric operand as if it had been moved
+        // into an alphanumeric data item the same size as the numeric operand and then compared. This causes any operational sign, whether
+        // carried as a separate character or as an overpunched character, to be stripped from the numeric item so that it appears to be an
+        // unsigned quantity.
+        // In addition, if the PICTURE character-string of the numeric item contains trailing P characters, indicating that there are
+        // assumed integer positions that are not actually present, they are filled with zero digits. Thus, an item with a PICTURE
+        // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
+        // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
 		//String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
 		CStr cs1 = buffer1.getBodyCStr(varDefNum1);
 		long l2 = getUnsignedLong(buffer2);

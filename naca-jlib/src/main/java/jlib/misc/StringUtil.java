@@ -121,7 +121,8 @@ public class StringUtil
 		}
 		if(isevenNumberOfDigits)
 		{
-			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
+            // Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles;
+            // the leading compensated that odd number
 			sOut = sOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);
 		}
 		return sOut;
@@ -158,7 +159,8 @@ public class StringUtil
 		}
 		if(isevenNumberOfDigits)
 		{
-			// Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles; the leading compensated that odd number
+            // Remove leading 0 that was there as a placeholder due to the even number of digits + sign -> implies an odd number of nibbles;
+            // the leading compensated that odd number
 			sOut = sOut.substring(1);	//sOut = sOut.substring(1, nNbDigitInteger+1);
 		}
 		return sOut;
@@ -811,9 +813,9 @@ public class StringUtil
 	 * Encode in HTML char the provide string
 	 * @param csInput inout String
 	 * @return encoded string
-	 * Example:
-	 * Input = "ha<toto>&tutu"
-	 * Output= "ha&lt;toto&gt;&amp;tutu"
+	 *     Example:
+	 *     Input = "ha<toto>&tutu"
+	 *     Output= "ha&lt;toto&gt;&amp;tutu"
 	 */
 	public static String encodeAsHTML(String csInput)
 	{
@@ -836,9 +838,9 @@ public class StringUtil
 	 * Decode form HTM format the provded string
 	 * @param csInput string to decode
 	 * @return decoded string
-	 * Example:
-	 * Input = "ha&lt;toto&gt;&amp;tutu"
-	 * Output = "ha<toto>&tutu"
+	 *     Example:
+	 *     Input = "ha&lt;toto&gt;&amp;tutu"
+	 *     Output = "ha<toto>&tutu"
 	 */
 	public static String decodeFROMHTML(String csInput)
 	{
@@ -993,7 +995,8 @@ public class StringUtil
 		return arr;
 	}
 
-	// Returns the number of line of the text. A null string is 0 line length; an empty one is 1 line length a\nb is 2 lines length, a\nb\c\n is 4 line length
+    // Returns the number of line of the text. A null string is 0 line length; an empty one is 1 line length a\nb is 2 lines length,
+    // a\nb\c\n is 4 line length
 	public static int getLineCount(String csText)
 	{
 		int nNblines = 1;

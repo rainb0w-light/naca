@@ -8,7 +8,7 @@ package jlib.blowfish;
 
 /**
   * implementation of the Blowfish encryption algorithm in CBC mode
-  * @author Markus Hahn <markus_hahn@gmx.net>
+  * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
   */
 

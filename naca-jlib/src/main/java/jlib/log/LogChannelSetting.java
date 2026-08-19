@@ -18,8 +18,8 @@ public class LogChannelSetting
 /**
  * Returns the default <i>RunId</i> identifier for the channel.
  * @return The default <i>RunId</i> identifier for the channel.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	String getRunId()
 	{
@@ -28,9 +28,9 @@ public class LogChannelSetting
 /**
  * Sets the default <i>RunId</i> for the channel.
  * @param csRunId Default <i>RunId</i> to be used if events sent to a channel
- * have no <i>RunId</i> specified.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ *     have no <i>RunId</i> specified.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	void setRunId(String csRunId)
 	{
@@ -40,9 +40,9 @@ public class LogChannelSetting
 /**
  * Sets the default <i>RuntimeId</i> for the channel.
  * @param csRuntimeId Default <i>RuntimeId</i> to be used if events sent to a channel
- * have no <i>RuntimeId</i> specified.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ *     have no <i>RuntimeId</i> specified.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	void setRuntimeId(String csRuntimeId)
 	{
@@ -52,8 +52,8 @@ public class LogChannelSetting
 /**
  * Returns the default <i>RuntimeId</i> identifier for the channel.
  * @return The default <i>RuntimeId</i> identifier for the channel.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	String getRuntimeId()
 	{
@@ -63,8 +63,8 @@ public class LogChannelSetting
 /**
  * Returns the default <i>RuntimeId</i> identifier for the channel.
  * @return The default <i>RuntimeId</i> identifier for the channel.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	String getProduct()
 	{
@@ -74,8 +74,8 @@ public class LogChannelSetting
 /**
  * Sets the default <i>Product</i> identifier for the channel.
  * @param csProduct The default <i>Product</i> identifier for the channel.
- * @see {@link Log} for a discussion about the meaning of the <i>RunId</i>,
- * <i>RuntimeId</i>, and <i>Product</i> identifiers.
+ * @see Log for a discussion about the meaning of the <i>RunId</i>,
+ *     <i>RuntimeId</i>, and <i>Product</i> identifiers.
  */
 	void setProduct(String csProduct)
 	{

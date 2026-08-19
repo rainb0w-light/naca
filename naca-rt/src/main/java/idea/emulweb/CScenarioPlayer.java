@@ -585,7 +585,7 @@ public class CScenarioPlayer extends CJMapObject
 				}
 				else
 				{
-//					System.out.println("Label not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
+// System.out.println("Label not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
 				}
 			}
 			lst = xmlOutput.getElementsByTagName("title") ;
@@ -629,7 +629,7 @@ public class CScenarioPlayer extends CJMapObject
 				}
 				else
 				{
-//					System.out.println("title not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
+// System.out.println("title not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
 				}
 			}
 
@@ -639,7 +639,7 @@ public class CScenarioPlayer extends CJMapObject
 				EditedField f = (EditedField)enumere.nextElement() ;
 				while (f != null)
 				{
-//					System.out.println("Field not found in new page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
+// System.out.println("Field not found in new page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
 					f = (EditedField)enumere.nextElement() ;
 				}
 			}

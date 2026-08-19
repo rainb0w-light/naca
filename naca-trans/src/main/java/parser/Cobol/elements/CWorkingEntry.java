@@ -951,7 +951,8 @@ public class CWorkingEntry extends CCobolElement
 					if (e.GetDataType() == CDataEntity.CDataEntityType.VIRTUAL_FORM)
 					{
 						CIgnoredEntity ign = factory.NewIgnoreEntity(getLine(), name) ;
-						bAnalysisDoneForChildren = true ;// this is redefining a ignored structure => ignore children
+                        // this is redefining a ignored structure => ignore children
+						bAnalysisDoneForChildren = true ;
 						return ign ;
 					}
 					else if (e.GetDataType() == CDataEntity.CDataEntityType.FORM)
@@ -1148,7 +1149,8 @@ public class CWorkingEntry extends CCobolElement
 			if (nElementSize <= nRemainingSizeInField // current entry is part of a field
 					&& le.occurs == null   // current entry is not a group
 					&& (le.children.size() == 0   // current entry is not a group
-							|| eForm.getCurrentPositionInField()>0)) // but groups are allowed for DATA attribute field
+                            // but groups are allowed for DATA attribute field
+							|| eForm.getCurrentPositionInField()>0))
 			{ // current entry is an attribute of a field, or a field itself
 				CIdentifier idRedefine = le.redefines ;
 				if (idRedefine != null)
@@ -1202,7 +1204,7 @@ public class CWorkingEntry extends CCobolElement
 					{ // -1 means the first 12 bytes => bypass
 						if (le.children.size()>0)
 						{
-//							CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
+// CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
 							String name = le.name ;
 							if (name.equals(""))
 							{
@@ -1255,8 +1257,10 @@ public class CWorkingEntry extends CCobolElement
 				else
 				{ // not redefine : consume bytes
 					if (eForm.getCurrentPositionInField()>6 && nElementSize<nRemainingSizeInField)
-					{  // the data field is cut into subfields but with no parent explicit : we must create such a parent for all subfields of the data field
-//						CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
+                    // the data field is cut into subfields but with no parent explicit : we must create such a parent for all subfields of
+                    // the data field
+					{
+// CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
 						CEntityResourceField field = eForm.GetCurrentRedefiningField() ;
 						eFieldRedef = factory.NewEntityFieldRedefine(le.getLine(), field.GetName()+"$edit", le.formalLevel) ;
 						eParent.AddChild(eFieldRedef) ;
@@ -1276,7 +1280,7 @@ public class CWorkingEntry extends CCobolElement
 						factory.programCatalog.RegisterFieldRedefine(eFieldRedef) ;
 						if (bSaveMap)
 						{
-							//factory.programCatalog.RegisterSaveField(eFieldRedef, curRedefineStructure.field) ;
+                            // factory.programCatalog.RegisterSaveField(eFieldRedef, curRedefineStructure.field) ;
 						}
 						else
 						{
@@ -1300,7 +1304,7 @@ public class CWorkingEntry extends CCobolElement
 							}
 							else
 							{
-//								CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
+// CBaseTranscoder.ms_logger.info("INFO : Data field splitted into sub-fields, line" + le.getLine()) ;
 								le.DoSemanticAnalysisForChildren(eFieldRedef, factory) ;
 							}
 						}
@@ -1356,8 +1360,8 @@ public class CWorkingEntry extends CCobolElement
 					{
 //						if (!curRedefineStructure.type.equals(curRedefineStructure.OCCURS))
 //						{
-//							Transcoder.logError("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine());
-//							throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ;
+// Transcoder.logError("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine());
+// throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ;
 //						}
 					}
 					else
@@ -1577,7 +1581,7 @@ public class CWorkingEntry extends CCobolElement
 			}
 			if (le.type != CWorkingEntry.CWorkingPicType.STRING && le.type!= null)
 			{
-//				CBaseTranscoder.ms_logger.info("INFO : Data field typed as "+le.type.text+":"+le.format+", line" + le.getLine()) ;
+// CBaseTranscoder.ms_logger.info("INFO : Data field typed as "+le.type.text+":"+le.format+", line" + le.getLine()) ;
 			}
 			le.SetType(eField) ;
 			eField.SetRightJustified(le.isjustifiedRight) ;

@@ -370,7 +370,8 @@ public class DataFileWrite extends BaseDataFileBuffered
 		return null;
 	}
 	
-	public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)	// Read a vairable length line (length is given in record header 4 bytes)
+    // Read a vairable length line (length is given in record header 4 bytes)
+	public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)
 	{
 		return null;
 	}

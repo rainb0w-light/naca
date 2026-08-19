@@ -72,7 +72,9 @@ public class FtpException extends Exception {
  * Returns (if available) the error code returned by the server.
  * Ftp error codes are:
  * <ul>
- * 	<li><b>110</b>:  Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read:      MARK yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and "=").</li>
+ * <li><b>110</b>: Restart marker reply. In this case, the text is exact and not left to the particular implementation; it must read: MARK
+ * yyyy = mmmm Where yyyy is User-process data stream marker, and mmmm server's equivalent marker (note the spaces between markers and
+ * "=").</li>
  * 	<li><b>120</b>:  Service ready in nnn minutes.</li>
  * 	<li><b>125</b>:  Data connection already open; transfer starting.</li>
  * 	<li><b>150</b>:  File status okay; about to open data connection.</li>
@@ -81,7 +83,8 @@ public class FtpException extends Exception {
  * 	<li><b>211</b>:  System status, or system help reply.</li>
  * 	<li><b>212</b>:  Directory status.</li>
  * 	<li><b>213</b>:  File status.</li>
- * 	<li><b>214</b>:  Help message. On how to use the server or the meaning of a particular non-standard command.  This reply is useful only to the human user.</li>
+ * <li><b>214</b>: Help message. On how to use the server or the meaning of a particular non-standard command. This reply is useful only to
+ * the human user.</li>
  * 	<li><b>215</b>:  NAME system type. Where NAME is an official system name from the list in the Assigned Numbers document.</li>
  * 	<li><b>220</b>:  Service ready for new user.</li>
  * 	<li><b>221</b>:  Service closing control connection. Logged out if appropriate.</li>
@@ -94,7 +97,8 @@ public class FtpException extends Exception {
  * 	<li><b>331</b>:  User name okay, need password.</li>
  * 	<li><b>332</b>:  Need account for login.</li>
  * 	<li><b>350</b>:  Requested file action pending further information.</li>
- * 	<li><b>421</b>:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
+ * <li><b>421</b>: Service not available, closing control connection. This may be a reply to any command if the service knows it must shut
+ * down.</li>
  * 	<li><b>425</b>:  Can't open data connection.</li>
  * 	<li><b>426</b>:  Connection closed; transfer aborted.</li>
  * 	<li><b>450</b>:  Requested file action not taken. File unavailable (e.g., file busy).</li>

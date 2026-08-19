@@ -44,18 +44,18 @@ public class Log
  * Initializes all {@link LogCenter}s described in the specified
  * configuration file, configured to listen to the specified channel<p/>
  * @param csChannel Only <i>LogCenter</i> listening to this channel will be
- * initialized.
+ *     initialized.
  * @param csConfigFile The JLib.log xml configuration file containing the description
- * for one or more <i>LogCenter</i> objects.
+ *     for one or more <i>LogCenter</i> objects.
  * @param csRunId The default <i>RunId</i> identifier for the specified channel. This
- * value will be used any time no <i>RunId</i> is specified when receiving an
- * event through a {@link #log} call.
+ *     value will be used any time no <i>RunId</i> is specified when receiving an
+ *     event through a {@link #log} call.
  * @param csProduct The default <i>Product</i> for the specified channel. This value
- * will be used when logging an {@link LogEvent} which doesn't specify a <i>Product</i>.
+ *     will be used when logging an {@link LogEvent} which doesn't specify a <i>Product</i>.
  * @return The <i>LogCenter</i> descriptors.
- * Use the simplest overload of this method. Use {@link #setRunId},
- * {@link #setProduct}, {@link #setProcess} to configure default values for
- * a particular channel. 
+ *     Use the simplest overload of this method. Use {@link #setRunId},
+ *     {@link #setProduct}, {@link #setProcess} to configure default values for
+ *     a particular channel.
  */
 	synchronized public static Tag open(String csChannel, String csConfigFile, String csRunId, String csProduct)
 	{
@@ -68,9 +68,9 @@ public class Log
  * Initializes all {@link LogCenter}s described in the specified
  * configuration file, configured to listen to the specified channel<p/>
  * @param csChannel Only <i>LogCenter</i> listening to this channel will be
- * initialized.
+ *     initialized.
  * @param csConfigFile The JLib.log xml configuration file containing the description
- * for one or more <i>LogCenter</i> objects.
+ *     for one or more <i>LogCenter</i> objects.
  * @return The <i>LogCenter</i> descriptors. 
  */
 	synchronized public static Tag open(String csChannel, String csConfigFile)
@@ -83,9 +83,9 @@ public class Log
  * Initializes all {@link LogCenter}s described in the specified
  * configuration file, configured to listen to the specified channel<p/>
  * @param csChannel Only <i>LogCenter</i> listening to this channel will be
- * initialized.
+ *     initialized.
  * @param isConfigFile An input stream opened on the JLib.log xml configuration file 
- * containing the description for one or more <i>LogCenter</i> objects.
+ *     containing the description for one or more <i>LogCenter</i> objects.
  * @return The <i>LogCenter</i> descriptors. 
  */
 	synchronized public static Tag open(String csChannel, InputStream isConfigFile)
@@ -98,7 +98,7 @@ public class Log
  * Opens the specified channel on all the {@link LogCenter} described in the specified
  * configuration file.<p/>
  * @param csConfigFile The JLib.log xml configuration file containing the description
- * for one or more <i>LogCenter</i> objects.
+ *     for one or more <i>LogCenter</i> objects.
  * @return The <i>LogCenter</i> descriptors. 
  */
 	synchronized public static Tag open(String csConfigFile)
@@ -112,7 +112,7 @@ public class Log
  * Opens the specified channel on all the {@link LogCenter} described in the specified
  * configuration file.<p/>
  * @param isConfigFile An input stream opened on the JLib.log xml configuration file 
- * containing the description for one or more <i>LogCenter</i> objects.
+ *     containing the description for one or more <i>LogCenter</i> objects.
  * @return The <i>LogCenter</i> descriptors. 
  */
 	synchronized public static Tag open(InputStream isConfigFile)
@@ -125,12 +125,12 @@ public class Log
 /**
  * Sets the <i>RunId</i> identifier for the specified channel.
  * @param csChannel The name of the channel. Leave it to <i>null</i>
- * to affect all opened chanels.
+ *     to affect all opened chanels.
  * @param csRunId The specified value is assigned as the default
- * <i>RunId</i> identifier for all <i>LogCenter</i> listening to the
- * channel. Some log centers generate a new unique value 
- * ({@link LogCenterDbFlat} when <i>null is specified. Other log centers 
- * don't use this identifier.  
+ *     <i>RunId</i> identifier for all <i>LogCenter</i> listening to the
+ *     channel. Some log centers generate a new unique value
+ *     ({@link LogCenterDbFlat} when <i>null is specified. Other log centers
+ *     don't use this identifier.
  */
 	synchronized public static void setRunId(String csChannel, String csRunId)
 	{
@@ -149,12 +149,12 @@ public class Log
 /**
  * Sets the <i>RuntimeId</i> identifier for the specified channel.
  * @param csChannel The name of the channel. Leave it
- * to <i>null</i> to affect all opened channels.
+ *     to <i>null</i> to affect all opened channels.
  * @param csRuntimeId The specified value is assigned as the default
- * <i>RunId</i> identifier for all <i>LogCenter</i> listening to the
- * channel. Some log centers generate a new unique value 
- * ({@link LogCenterDbFlat} when <i>null is specified. Other log centers 
- * don't use this identifier.  
+ *     <i>RunId</i> identifier for all <i>LogCenter</i> listening to the
+ *     channel. Some log centers generate a new unique value
+ *     ({@link LogCenterDbFlat} when <i>null is specified. Other log centers
+ *     don't use this identifier.
  */
 	synchronized public static void setRuntimeId(String csChannel, String csRuntimeId)
 	{
@@ -212,7 +212,7 @@ public class Log
 /**
  * Sets the default <i>Product</i> to the specified channel.
  * @param csChannel The channel to which set the defalut <i>Product</i>. Leave it
- * to <i>null</i> to affect all opened channels.
+ *     to <i>null</i> to affect all opened channels.
  * @param csProduct The default <i>Product</i> for the specified channel.
  */	
 	synchronized public static void setProduct(String csChannel, String csProduct)
@@ -251,7 +251,7 @@ public class Log
 /**
  * Sets the default <i>Process</i> to the specified channel.
  * @param csChannel The channel to which set the default <i>Product</i>. Leave it
- * to <i>null</i> to affect all opened channels.
+ *     to <i>null</i> to affect all opened channels.
  * @param csProcess The default <i>Process</i> for the specified channel.
  */	
 	synchronized public static void setProcess(String csChannel, String csProcess)
@@ -291,17 +291,17 @@ public class Log
  * Opens the {@link LogCenter}s described in the specified
  * configuration file.<p/>
  * @param csChannel If not <i>null</i>, only the <i>LogCenter</i> listening
- * to the specified channel will be initialized. The other will be ignored. Usually 
- * the channel name is equal to the application name. "Application name" is used 
- * here in the large sense: it is not the name of the executable file (as 
- * would be <i>winword.exe</i> for the "Microsoft Office Word", but the 
- * application official name (as would be "WORD").
+ *     to the specified channel will be initialized. The other will be ignored. Usually
+ *     the channel name is equal to the application name. "Application name" is used
+ *     here in the large sense: it is not the name of the executable file (as
+ *     would be <i>winword.exe</i> for the "Microsoft Office Word", but the
+ *     application official name (as would be "WORD").
  * @param csRunId If not <i>null</i> contains the <i>RunId</i> identifier to be used
- * by default to the specified channel. If <i>null</i>, a unique <i>RunId</i> will
- * be generated (provided that at least one the <i>LogCenter</i> is able to generate
- * <i>RunId</i> identifiers).
+ *     by default to the specified channel. If <i>null</i>, a unique <i>RunId</i> will
+ *     be generated (provided that at least one the <i>LogCenter</i> is able to generate
+ *     <i>RunId</i> identifiers).
  * @param csConfigFile The JLib.log xml configuration file containing the description
- * for one or more <i>LogCenter</i> objects.
+ *     for one or more <i>LogCenter</i> objects.
  * @return A reference to the <b>tagConfig</b> parameter.
  */
 	synchronized private static Tag open(String csChannel, String csRunId, Tag tagConfig)
@@ -412,7 +412,7 @@ public class Log
  * </ul>
  * Additionally, the <i>LogCenter</i> must be enabled.
  * @param logParams A structure containing all paremeters characterizing
- * one log event.
+ *     one log event.
  */
 	synchronized static void sendLog(LogParams logParams)
 	{
@@ -455,7 +455,7 @@ public class Log
  * @param csChannel The channel to send the event to.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void log(String csChannel, LogEvent logEvent, String csMessage)
 	{
@@ -474,12 +474,12 @@ public class Log
  * @param csChannel The channel to send the event to.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  * @param csRunId Specifies a particular <i>RunId</i> identifier for the event.
- * If <i>null</i>, the default <i>RunId</i> of the specified channel is used.
+ *     If <i>null</i>, the default <i>RunId</i> of the specified channel is used.
  * @param csRuntimeId Specified a particular <i>RuntimeId</i> identifier
- * for the event. If <i>null</i>, the default <i>RuntimeId</i> of the specified
- * channel is used.
+ *     for the event. If <i>null</i>, the default <i>RuntimeId</i> of the specified
+ *     channel is used.
  */	
 	public static void log(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
 	{
@@ -498,10 +498,10 @@ public class Log
  * by the {@link #open} method.
  * @param csChannel The channel to send the event to.
  * @param logFlow If specified, the event's flow will be ignored, and this
- * will be used instead.
+ *     will be used instead.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void log(String csChannel, LogFlow logFlow, LogEvent logEvent, String csMessage)
 	{
@@ -527,7 +527,7 @@ public class Log
  * @param csChannel The channel to send the event to.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void logSystem(String csChannel, LogEvent logEvent, String csMessage)
 	{
@@ -544,7 +544,7 @@ public class Log
  * @param csChannel The channel to send the event to.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void logMonitoring(String csChannel, LogEvent logEvent, String csMessage)
 	{
@@ -562,7 +562,7 @@ public class Log
  * @param logEvent The event to send to the specified channel.
  * @param logLevel Will be used (if specified) instead of the event's level.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void logMonitoring(String csChannel, LogEvent logEvent, LogLevel logLevel, String csMessage)
 	{
@@ -580,7 +580,7 @@ public class Log
  * @param csChannel The channel to send the event to.
  * @param logEvent The event to send to the specified channel.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void logTrace(String csChannel, LogEvent logEvent, String csMessage)
 	{
@@ -598,7 +598,7 @@ public class Log
  * @param logEvent The event to send to the specified channel.
  * @param logLevel Will be used (if specified) instead of the event's level.
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
+ *     this paremeter can be null.
  */
 	public static void logTrace(String csChannel, LogEvent logEvent, LogLevel logLevel, String csMessage)
 	{
@@ -620,9 +620,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logCritical(String csMessage)
 	{
@@ -644,9 +644,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logImportant(String csMessage)
 	{
@@ -667,9 +667,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logNormal(String csMessage)
 	{
@@ -691,9 +691,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logVerbose(String csMessage)
 	{
@@ -715,9 +715,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logDebug(String csMessage)
 	{		
@@ -739,9 +739,9 @@ public class Log
  * 	<li>The event will be sent to all channels.</li>
  * </ul>
  * @param csMessage An additional free text message. If no message is required,
- * this paremeter can be null.
- * With this method it is not possible to specify the event name. Use instead
- * a custom {@link LogEvent}, and send it using the standard {@link Log#log} method. 
+ *     this paremeter can be null.
+ *     With this method it is not possible to specify the event name. Use instead
+ *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
  */	
 	public static void logFineDebug(String csMessage)
 	{		

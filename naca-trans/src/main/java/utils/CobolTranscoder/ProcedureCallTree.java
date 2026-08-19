@@ -326,7 +326,7 @@ public class ProcedureCallTree
 		}
 		
 		boolean isallSectionsAreReduced = true ;  // flag to tell is all sections before the current one have been reduced ;
-												// if so, we can reduce current one, else we can't
+                                        // if so, we can reduce current one, else we can't
 		for (int i = 0; i<root.sections.size(); i++)
 		{
 			NodeSection node = root.sections.get(i) ;
@@ -335,7 +335,8 @@ public class ProcedureCallTree
 			boolean isignoreAllProcedures = true ;
 			boolean iscanReduceCurrentSection = true ;  // flag to tell if current section can be reduced :
 						// -> no procedure in it, or procedures can be ignored (never called or empty)
-						// -> no implicit call between procedures, and all procedures are called by perform : section can be reduce to procedure
+                        // -> no implicit call between procedures, and all procedures are called by perform : section can be reduce to
+                        // procedure
 			int nbValidProcedures = 0 ;
 			NodeProcedure lastValidProcedure = null ;
 			for (int j = 0; j<node.procedures.size(); j++)
@@ -397,7 +398,9 @@ public class ProcedureCallTree
 					}
 				}
 				else if (!nodeP.isexplicitCallAsProcedure && !nodeP.isexplicitCallByGoto && nodeP.isimplicitCall)
-				{  // in this case, the procedure is never called by itself, and can be suppressed, its content added to the previous procedure.
+                // in this case, the procedure is never called by itself, and can be suppressed, its content added to the previous
+                // procedure.
+				{
 					if (nbValidProcedures == 0)
 					{
 						CBaseLanguageEntity[] lst = nodeP.proc.GetChildrenList(null, null) ;
@@ -419,7 +422,8 @@ public class ProcedureCallTree
 					}
 				}
 				else if (nodeP.isexplicitCallAsProcedure && !nodeP.isexplicitCallByGoto && !nodeP.isimplicitCall)
-				{  // in this case, the section can be reduced, because the procedure doesn't need a section and can be alone in the programme.
+                // in this case, the section can be reduced, because the procedure doesn't need a section and can be alone in the programme.
+				{
 					isignoreAllProcedures = false ;
 					lastValidProcedure = nodeP ;
 					nbValidProcedures ++;

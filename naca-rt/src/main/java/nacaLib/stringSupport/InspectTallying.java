@@ -152,7 +152,8 @@ public class InspectTallying
 			}
 			varCount.set(nCount+varCount.getInt());
 		}
-		else if(inspectTallyingType == TypeLeading)	// Count the number of occurences, if the string begins by the search pattern
+        // Count the number of occurences, if the string begins by the search pattern
+		else if(inspectTallyingType == TypeLeading)
 		{
 			int nCount = 0;
 			int nPos = csSource.indexOf(csSearchForAll);

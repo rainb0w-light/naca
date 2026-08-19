@@ -36,7 +36,7 @@ public class VarFPacRaw extends Var
 	public void copy(VarFPacRaw varSource)
 	{
 		int nNbCharToCopy = Math.min(varSource.getLength(), getLength());
-		// bufferPos.copyBytes(bufferPos.nAbsolutePosition, nNbCharToCopy, varSource.getBuffer().nAbsolutePosition, varSource.getBuffer());
+        // bufferPos.copyBytes(bufferPos.nAbsolutePosition, nNbCharToCopy, varSource.getBuffer().nAbsolutePosition, varSource.getBuffer());
 		bufferPos.copy(nNbCharToCopy, varSource.getBuffer());
 	}
 	

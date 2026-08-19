@@ -17,7 +17,7 @@ import jlib.misc.NumberParser;
  *
  * @author Pierre-Jean Ditscheid, Consultas SA
  * @vers
- * ion $Id: DbConnectionManagerContext.java,v 1.9 2008/07/09 06:40:18 u930di Exp $
+ *     ion $Id: DbConnectionManagerContext.java,v 1.9 2008/07/09 06:40:18 u930di Exp $
  */
 public class DbConnectionManagerContext
 {

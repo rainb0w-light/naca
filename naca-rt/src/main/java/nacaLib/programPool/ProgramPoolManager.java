@@ -23,7 +23,8 @@ public class ProgramPoolManager //extends BaseOpenMBean
 	
 	public ProgramPoolManager(boolean bUseJmx)
 	{
-		hashProgramInstancesPool = new Hashtable<String, ProgramInstancesPool>();	// hash table of ProgramInstancePool, indexed by program name
+        // hash table of ProgramInstancePool, indexed by program name
+		hashProgramInstancesPool = new Hashtable<String, ProgramInstancesPool>();
 		if(bUseJmx)
 			JmxGeneralStat.addProgramPoolManager(this);
 	}
@@ -76,7 +77,8 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		Collection<ProgramInstancesPool> collectionprogramInstancesPool = hashProgramInstancesPool.values();
 		if(collectionprogramInstancesPool != null)
 		{
-			// Create another ProgramInstancesPool container, as m_hashProgramInstancesPool will be structurally modified in ProgramInstancesPool::unloadProgram() call
+            // Create another ProgramInstancesPool container, as m_hashProgramInstancesPool will be structurally modified in
+            // ProgramInstancesPool::unloadProgram() call
 			int nNbEntries = 0;
 			ArrayList<ProgramInstancesPool> arrProgramInstancesPool = new ArrayList<ProgramInstancesPool>();
 			Iterator<ProgramInstancesPool> iter = collectionprogramInstancesPool.iterator();

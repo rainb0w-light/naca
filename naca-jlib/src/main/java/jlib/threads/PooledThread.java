@@ -35,7 +35,8 @@ public class PooledThread extends BaseThread
 				ThreadPoolRequest request = owningPool.dequeue();
 				if(request != null)
 				{
-					if(!request.getTerminaisonRequest())		// Treat the request; the parameter pRequest describes the request to do
+                    // Treat the request; the parameter pRequest describes the request to do
+					if(!request.getTerminaisonRequest())
 					{
 						if(ishandleRequest)
 							handleRequest(request);

@@ -88,7 +88,7 @@ public class CEntityInline extends CBaseActionEntity
 			Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+nsub+" ; found "+n) ;
 		}
 		ReplaceParentForChild(e, externalData) ;  // child of INLINE entity must have the external data as parent for name
-													// confict resolution, but must be child of INLINE to be exported
+                                        // confict resolution, but must be child of INLINE to be exported
 		if (!externalData.GetListOfChildren().contains(e))
 		{
 			externalData.AddChildSpecial(e);

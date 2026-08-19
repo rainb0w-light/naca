@@ -14,7 +14,7 @@ import jlib.log.*;
  * <ul>
  * 	<li>One (and only one) {@link EventStart} when the application Progresss.</li>
  * 	<li>Any number of {@link EventRemark} events, to log various informations the
- * 	developers found worthwhile to log.</i>
+ * 	developers found worthwhile to log.</li>
  * 	<li>During processing, regularly log {@link EventProgress} events, to log
  * 	the process progressing.</li>
  * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
@@ -37,24 +37,24 @@ public class EventLaunch extends LogEvent {
  * For more details about the <i>Product</i>, <i>Process</i>, <i>RunId</i>
  * and <i>RuntimeId</i> identifiers, read the {@link LogCenterDbFlat} overview.
  * @param csChannel The name of the channel where the event is to be sent. If 
- * left <i>null</i> the event is broadcasted to all open channels.
+ *     left <i>null</i> the event is broadcasted to all open channels.
  * @param csProcess The name of the process launching another process. If 
- * left <i>null</i> the {@link LogCenter} accepting the event will assume 
- * the Launch is coming from its channel default process. To set the
- * default process of a channel use {@link Log#setProcess}. 
+ *     left <i>null</i> the {@link LogCenter} accepting the event will assume
+ *     the Launch is coming from its channel default process. To set the
+ *     default process of a channel use {@link Log#setProcess}.
  * @param csProduct The name of the product (brand, client, source, etc.) that will
- * be processed by the spawn process. If left <i>null</i> the {@link LogCenter} 
- * accepting the event will assume the event refers to its channel 
- * default product. To set the default product of a channel 
- * use {@link Log#setProduct}.   
+ *     be processed by the spawn process. If left <i>null</i> the {@link LogCenter}
+ *     accepting the event will assume the event refers to its channel
+ *     default product. To set the default product of a channel
+ *     use {@link Log#setProduct}.
  * @param csRunId The run identifier to stamp the event with. If left <i>null</i> the {@link LogCenter}
- * will use the its current <i>RunId</i> identifier. To set the <i>RunId</i> identifier for a channel
- * use {@link Log#setRunId}. 
+ *     will use the its current <i>RunId</i> identifier. To set the <i>RunId</i> identifier for a channel
+ *     use {@link Log#setRunId}.
  * @param csRuntimeId The execution identifier to stamp the event with. If left <i>null</i> the {@link LogCenter}
- * will use the its current <i>RuntimeId</i> identifier. To set the <i>RuntimeId</i> identifier for a channel
- * use {@link Log#setRuntimeId}. 
+ *     will use the its current <i>RuntimeId</i> identifier. To set the <i>RuntimeId</i> identifier for a channel
+ *     use {@link Log#setRuntimeId}.
  * @param csChildProcess The name of the spawn process. It should be the same
- * as the process name used by the child when it will raise a {@link EventStart} event.
+ *     as the process name used by the child when it will raise a {@link EventStart} event.
  */
 	public static void log(String csChannel, String csProcess, String csProduct, String csRunId, String csRuntimeId, String csChildProcess) 
 	{
@@ -67,18 +67,18 @@ public class EventLaunch extends LogEvent {
  * For more details about the <i>Product</i> and <i>Process</i> identifiers, 
  * read the {@link LogCenterDbFlat} overview.
  * @param csChannel The name of the channel where the event is to be sent. If 
- * left <i>null</i> the event is broadcasted to all open channels.
+ *     left <i>null</i> the event is broadcasted to all open channels.
  * @param csProcess The name of the process launching another process. If 
- * left <i>null</i> the {@link LogCenter} accepting the event will assume 
- * the Launch is coming from its channel default process. To set the
- * default process of a channel use {@link Log#setProcess}. 
+ *     left <i>null</i> the {@link LogCenter} accepting the event will assume
+ *     the Launch is coming from its channel default process. To set the
+ *     default process of a channel use {@link Log#setProcess}.
  * @param csProduct The name of the product (brand, client, source, etc.) that will
- * be processed by the spawn process. If left <i>null</i> the {@link LogCenter} 
- * accepting the event will assume the event refers to its channel 
- * default product. To set the default product of a channel 
- * use {@link Log#setProduct}.   
+ *     be processed by the spawn process. If left <i>null</i> the {@link LogCenter}
+ *     accepting the event will assume the event refers to its channel
+ *     default product. To set the default product of a channel
+ *     use {@link Log#setProduct}.
  * @param csChildProcess The name of the spawn process. It should be the same
- * as the process name used by the child when it will raise a {@link EventStart} event.
+ *     as the process name used by the child when it will raise a {@link EventStart} event.
  */
 	public static void log(String csChannel, String csProcess, String csProduct, String csChildProcess) 
 	{
@@ -90,9 +90,9 @@ public class EventLaunch extends LogEvent {
  * Creates a "Launch" event. 
  * @param csProcess The name of the process launching another process.
  * @param csProduct The name of the product (brand, client, source, etc.) that will
- * be processed by the spawn process.
+ *     be processed by the spawn process.
  * @param csChildProcess The name of the spawn process. It should be the same
- * as the process name used by the child when it will raise a {@link EventStart} event.
+ *     as the process name used by the child when it will raise a {@link EventStart} event.
  */
 	public EventLaunch(String csProcess, String csProduct, String csChildProcess) 
 	{

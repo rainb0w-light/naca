@@ -28,9 +28,9 @@ import utils.Transcoder;
 /**
  * @author sly
  *
- * To change the templa
+ *     To change the templa
 te for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CUnstring extends CCobolElement
 {

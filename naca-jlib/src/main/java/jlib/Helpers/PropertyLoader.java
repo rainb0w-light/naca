@@ -84,8 +84,8 @@ public class PropertyLoader
  * This method is normally used internally by the other methods of the class.
  * The file has to be in the standard {@link Properties} format.
  * @param context A pointer to the class requesting the properties file. If the
- * parameter is left to null, the context will be the {@link PropertyLoader} instance
- * itself.
+ *     parameter is left to null, the context will be the {@link PropertyLoader} instance
+ *     itself.
  * @return The content of the properties file.
  */
 	private static Properties getProperties(Object context) 
@@ -106,7 +106,7 @@ public class PropertyLoader
  * The file has to be in the standard {@link Properties} format.
  * @param context A pointer to the class requesting the properties file.
  * @param propertiesFileName The properties file name. If left empty, the default
- * filename is "app.properties".
+ *     filename is "app.properties".
  * @return The content of the properties file.
  */
 	public static Properties getProperties(Object context, String propertiesFileName) 
@@ -164,9 +164,9 @@ public class PropertyLoader
  * @param context A pointer to the class requesting the properties file.
  * @param propertiesFileName The properties file name.
  * @return An initialized <code>InputStream</code> from which the content of the 
- * properties file can be retrieved.
+ *     properties file can be retrieved.
  * @throws FileNotFoundException If the specified properties file is not found in the
- * application's class path.
+ *     application's class path.
  */	
 	public static InputStream getInputStream(Object context, String propertiesFileName) 
 		throws TechnicalException 

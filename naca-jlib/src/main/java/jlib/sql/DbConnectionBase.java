@@ -33,9 +33,12 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	private String prefId = null;
 	private String environment = "" ;
 	protected Connection dbConnection = null;
-	private boolean isuseRowId = false;	// true if must use RowId to support updates in cursors "select for update" (Oracle needs it)
-	private Hashtable<String, DbPreparedStatement> hashStatement = new Hashtable<String, DbPreparedStatement>();	// Hsah collection of statement; Vey=int (hashed statement string), Value=Statement
-	private boolean isuseCachedStatements = true;	// true if a cache of all met statements is kept by the current connection, false if the statement is recreated
+    // true if must use RowId to support updates in cursors "select for update" (Oracle needs it)
+	private boolean isuseRowId = false;
+    // Hsah collection of statement; Vey=int (hashed statement string), Value=Statement
+	private Hashtable<String, DbPreparedStatement> hashStatement = new Hashtable<String, DbPreparedStatement>();
+    // true if a cache of all met statements is kept by the current connection, false if the statement is recreated
+	private boolean isuseCachedStatements = true;
 	private StopWatch stopWatchLastUsage = null;
 	private int nMaxStatementLiveTime_ms = -1;	// INFINITE by default
 	private int nGenerationId = -1;

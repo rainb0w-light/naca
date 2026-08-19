@@ -248,12 +248,14 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 					{
 						cat.RegisterFormContainer(inputFileName, ext) ;
 
-						// PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice beforecorrect generation export by
+                        // PJD 08/08/2007 Uncomment to export xxx.java screen copy file. These are duplicated files generated twice
+                        // beforecorrect generation export by
 						//Transcoder.logInfo("Exporting java file "+csJavaOutFileName);
 						//generate.LegacyLanguageRenderer.startExport(ext) ;
 
 						String fileNameJavaS = FileSystem.appendFilePath(grp.csOutputPath + csApplication, ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java"));
-						//String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile, "S", "java");
+                        // String fileNameJavaS = grp.csOutputPath + csApplication + "/" + ReplaceExtensionFileNameWithSuffix(csOutputFile,
+                        // "S", "java");
 						CJavaExporter outjavaS = new CJavaExporter(
 							generate.LanguageArtifactOutputRegistry.get(ext), fileNameJavaS) ;
 						CJavaEntityFactory factoryS0 = new CJavaEntityFactory(ext.programCatalog, outjavaS) ;
@@ -262,10 +264,13 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 
 						ext.clearSavCopy(factoryS) ;
 
-						CEntityResourceFormContainer eSav = ext.MakeSavCopy(factoryS, true) ;	// we are generating directly form a .res file; the name of variables in *S.java file is not very well managed in taht case, so, the flag ...
+                        // we are generating directly form a .res file; the name of variables in *S.java file is not very well managed in
+                        // taht case, so, the flag ...
+						CEntityResourceFormContainer eSav = ext.MakeSavCopy(factoryS, true) ;
 						if(ext.GetSavCopy() != null)
 						{
-							// PJD 08/08/2007 Uncomment to export xxxS.java screen copy file. These are duplicated files generated twice beforecorrect generation export by
+                            // PJD 08/08/2007 Uncomment to export xxxS.java screen copy file. These are duplicated files generated twice
+                            // beforecorrect generation export by
 //							Transcoder.logInfo("Exporting javaS file "+fileNameJavaS);
 //							generate.LegacyLanguageRenderer.startExport(ext.GetSavCopy()) ;
 						}

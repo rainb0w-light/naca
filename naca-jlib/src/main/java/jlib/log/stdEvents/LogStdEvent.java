@@ -13,10 +13,10 @@ import jlib.log.LogLevel;
 
 /**
  * @deprecated Use one of {@link EventStart}, {@link EventFinish}, {@link EventAbort},
- * {@link EventWarning}, {@link EventError}, {@link EventProgress},
- * {@link EventReport}, {@link EventRemark}. These predefined events have
- * a built-in policy to relate event types ({@link LogEventType}), 
- * event flows ({@link jlib.log.LogFlow})and event levels ({@link jlib.log.LogLevel}).
+ *     {@link EventWarning}, {@link EventError}, {@link EventProgress},
+ *     {@link EventReport}, {@link EventRemark}. These predefined events have
+ *     a built-in policy to relate event types ({@link LogEventType}),
+ *     event flows ({@link jlib.log.LogFlow})and event levels ({@link jlib.log.LogLevel}).
  */
 public class LogStdEvent extends LogEvent
 {

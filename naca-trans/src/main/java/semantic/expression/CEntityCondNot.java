@@ -14,7 +14,7 @@ import semantic.CDataEntity;
 /**
  * @author sly
  *
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ *     Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 public class CEntityCondNot extends CBaseEntityCondition
 {

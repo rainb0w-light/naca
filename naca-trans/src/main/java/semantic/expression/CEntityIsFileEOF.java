@@ -52,7 +52,8 @@ public class CEntityIsFileEOF extends CBaseEntityCondition
 	}
 
 	/**
-	 * @see semantic.expression.CBaseEntityCondition#GetSpecialConditionReplacing(java.lang.String, semantic.CBaseEntityFactory, semantic.CDataEntity)
+     * @see semantic.expression.CBaseEntityCondition#GetSpecialConditionReplacing(java.lang.String, semantic.CBaseEntityFactory,
+     * semantic.CDataEntity)
 	 */
 	@Override
 	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)

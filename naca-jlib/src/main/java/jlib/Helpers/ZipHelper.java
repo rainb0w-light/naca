@@ -29,7 +29,7 @@ public class ZipHelper {
  * @param sourceFolder The folder whose content is to be archived.
  * @param destinationZipArchive The zip archive where to archive the folder content.
  * @param moveFiles If <i>true</i>, archived files are erased from the source folder. The source folder
- * itself is not removed.
+ *     itself is not removed.
  */
 	public static void zipFolder(File sourceFolder,File destinationZipArchive,boolean moveFiles) throws Exception {
 		FileOutputStream fos;        // File stream, open on the zip archive.
@@ -179,11 +179,11 @@ public class ZipHelper {
  * Zips the specified file.
  * @param file The file to archive.
  * @param destinationZipArchive Specifies the zip archive where to store the specified 
- * file. If the zip archive already exists, it is deleted before starting
- * the process. Folders and subfolders are created if needed. If the specified file
- * already exists and it is a folder, an exception is raised.
+ *     file. If the zip archive already exists, it is deleted before starting
+ *     the process. Folders and subfolders are created if needed. If the specified file
+ *     already exists and it is a folder, an exception is raised.
  * @param moveFile If <i>true</i> the specified file is deleted from its original
- * location after the zip archive has been successfully created.
+ *     location after the zip archive has been successfully created.
  */
 	public static void zipFile(File file,File destinationZipArchive,boolean moveFile) throws Exception {
 		try {
@@ -217,16 +217,16 @@ public class ZipHelper {
  * 	ApplicationHelper.zipFiles(list,new File("C:\\MyFolder\MyArchive.zip"),false);
  * </pre>
  * @param files The list of files to add to the zip archive. Entries in the list
- * can be either {@link String} containing full paths to the files, or {@link File}
- * objects. Any other class raise an exception. All files have to exist, and can't be
- * folders (an exception is raised in either case).
+ *     can be either {@link String} containing full paths to the files, or {@link File}
+ *     objects. Any other class raise an exception. All files have to exist, and can't be
+ *     folders (an exception is raised in either case).
  * @param destinationZipArchive Specifies the zip archive where to store the files
- * specified in the list. If the zip archive already exists, it is deleted before starting
- * the process. Folders and subfolders are created if needed. If the specified file
- * already exists and it is a folder, an exception is raised.
+ *     specified in the list. If the zip archive already exists, it is deleted before starting
+ *     the process. Folders and subfolders are created if needed. If the specified file
+ *     already exists and it is a folder, an exception is raised.
  * @param moveFiles If <i>true</i> the specified files are deleted from their original
- * location after the zip archive has been successfully created. No file is deleted
- * before the zip archive is completed. 
+ *     location after the zip archive has been successfully created. No file is deleted
+ *     before the zip archive is completed.
  */
 	public static void zipFiles(List files,File destinationZipArchive,boolean moveFiles) throws Exception {
 		int nFiles,nnFiles;            // To parse the list of files.

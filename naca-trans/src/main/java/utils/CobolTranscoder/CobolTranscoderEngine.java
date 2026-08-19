@@ -61,7 +61,7 @@ import utils.TranscoderEngine;
 /**
  * @author U930CV
  *
- * Window - Preferences - Java - Code Style - Code Templates
+ *     Window - Preferences - Java - Code Style - Code Templates
  */
 public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityClass>
 {

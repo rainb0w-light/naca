@@ -481,7 +481,8 @@ public abstract class BaseResourceManager extends CJMapObject
 			// Load db semantic defintion with the specified connection
 
 			// Hard coded version: To be changed to a DB select
-			defineDBSemanticContext("PR0103", "RECOLL", "recoll");	// associates the semantic context recoll to the col RECOLL of table PR0103
+            // associates the semantic context recoll to the col RECOLL of table PR0103
+			defineDBSemanticContext("PR0103", "RECOLL", "recoll");
 			//sqlConnection.Release() ;
 		}
 	}

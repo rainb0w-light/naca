@@ -74,5 +74,6 @@ public class FixedSizeBlockingQueue<T>
 	private int nIndexSet = 0;
 	private int nIndexGet = 0;
 	private Semaphore semFilledEntries = null;	// Semaphore counting the number of filled entries
-	private Semaphore semNotFilledEntries = null;	// Semaphore counting the number of entries that can still be filled (that are not filled yet)
+    // Semaphore counting the number of entries that can still be filled (that are not filled yet)
+	private Semaphore semNotFilledEntries = null;
 }

@@ -40,7 +40,7 @@ public class MathBase extends CJMapObject
 	/**
 	 * @param Var varDest
 	 * @return this
-	 * Set the destination var to the result of the last math operation, adjusting precision, but without roundings
+	 *     Set the destination var to the result of the last math operation, adjusting precision, but without roundings
 	 */
 	public static Dec toDec(BigDecimal bd)
 	{
@@ -89,7 +89,8 @@ public class MathBase extends CJMapObject
 	/**
 	 * @param Var varDest
 	 * @return this
-	 * Set the destination var to the result of the last math operation, adjusting precision, with roundings if needed by destination variable
+     *     Set the destination var to the result of the last math operation, adjusting precision, with roundings if needed by destination
+     *     variable
 	 */
 	public MathBase toRounded(Var varDest)
 	{
@@ -156,7 +157,7 @@ public class MathBase extends CJMapObject
 
 	/**
 	 * @return true if an error has been set during one of the math operations done on the current objet
-	 * Errors are set for divide by 0
+	 *     Errors are set for divide by 0
 	 */
 	public boolean isError()
 	{
@@ -165,7 +166,7 @@ public class MathBase extends CJMapObject
 
 	/**
 	 * @param boolean b
-	 * Internal usage only
+	 *     Internal usage only
 	 */
 	public void setError(boolean b)
 	{

@@ -436,7 +436,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 
 	/**
 	 * Get children list for template iteration.
-	 * Used by ST4 templates: <entity.children:statement()>
+	 *     Used by ST4 templates: {@code <entity.children:statement()>}
 	 */
 	public LinkedList<CBaseLanguageEntity> getChildren()
 	{

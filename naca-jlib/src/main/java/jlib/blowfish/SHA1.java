@@ -9,7 +9,7 @@ package jlib.blowfish;
 
 /**
   * SHA-1 message digest implementation
-  * @author Markus Hahn <markus_hahn@gmx.net>
+  * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
   */ 
 

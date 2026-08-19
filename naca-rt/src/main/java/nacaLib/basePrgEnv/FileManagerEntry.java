@@ -197,9 +197,12 @@ public class FileManagerEntry extends CJMapObject
 					// StringUtil.rightPad(jobId, 8, ' ')
 					sb.append("#300#");
 					sb.append("PPSSSCCCAANNYYYYMMDDHHMMSSC");
-					sb.append(StringUtil.leftPad(baseSession.getDynamicAllocationInfo("COPIES"), 3, '0'));  // Nb copies suppl�mentaires
-					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("SYSOUT").substring(9), 4, ' '));  // No de formulaire
-					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("DEST"), 8, ' '));  // Nom imprimante
+                    // Nb copies suppl�mentaires
+					sb.append(StringUtil.leftPad(baseSession.getDynamicAllocationInfo("COPIES"), 3, '0'));
+                    // No de formulaire
+					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("SYSOUT").substring(9), 4, ' '));
+                    // Nom imprimante
+					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("DEST"), 8, ' '));
 					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("SYSOUT").substring(0, 1), 1, ' '));  // Classe impression
 					sb.append(StringUtil.rightPad(baseSession.getDynamicAllocationInfo("BURST"), 1, ' '));  // Burst
 					sb.append(StringUtil.rightPad("", 4, ' '));  // Flash

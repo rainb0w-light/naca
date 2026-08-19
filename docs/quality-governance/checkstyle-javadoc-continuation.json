@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "rule": "JavadocTagContinuationIndentation",
+  "sourceFilesChanged": 64,
+  "observed": 1135,
+  "fixedByIndentationBatch": 1133,
+  "fixedMalformedInlineTags": 2,
+  "remainingExpected": 0
+}

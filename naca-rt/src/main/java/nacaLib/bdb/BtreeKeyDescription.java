@@ -150,7 +150,8 @@ public class BtreeKeyDescription
 		return fillKeyBuffer(lineRead, 0, bFileInVariableLength);	//, bConvertKeyToAscii);
 	}
 	
-	private byte[] fillKeyBuffer(LineRead lineRead, int nNbSegmentToExclude, boolean bFileInVariableLength)	//, boolean bConvertKeyToAscii)
+    // , boolean bConvertKeyToAscii)
+	private byte[] fillKeyBuffer(LineRead lineRead, int nNbSegmentToExclude, boolean bFileInVariableLength)
 	{
 		int nOffset = lineRead.getOffset();
 //		if(bFileInVariableLength)	// exclude record header from the key

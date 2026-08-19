@@ -162,14 +162,15 @@ class UnstringManager
 				String csChunk = csCurrentSource.substring(nPointer0Based, nPositionEndSepartorUsed);
 				fillChunk(csChunk, varDelimiterDest, varCountDest, varDelimiterIn, delimiterUsed.cs);
 				incTallyingCount();
-				nPointer0Based = delimiterUsed.removeDelimiterString(csCurrentSource, nPositionEndSepartorUsed);	// Remove delimiter string, optionnally managing all occurences
+                // Remove delimiter string, optionnally managing all occurences
+				nPointer0Based = delimiterUsed.removeDelimiterString(csCurrentSource, nPositionEndSepartorUsed);
 
 				fillOutPointer(nPointer0Based);
 
 				return;
 
 //				csCurrentSource = csCurrentSource.substring(nPosSep);
-//				csCurrentSource = delimiterUsed.getRemaingStringAfterSeparator(csCurrentSource);	// Keep only right part, after all separators
+// csCurrentSource = delimiterUsed.getRemaingStringAfterSeparator(csCurrentSource); // Keep only right part, after all separators
 			}
 
 			// Maybe sone source chars remains
@@ -230,6 +231,7 @@ class UnstringManager
 	{
 		if(isfailed)
 			return isfailed;
-		return checkIfRemainingUnfilledChunks();	// If we have some chunks left that have not been conummed by into calls(), then we have an error
+        // If we have some chunks left that have not been conummed by into calls(), then we have an error
+		return checkIfRemainingUnfilledChunks();
 	}
 }

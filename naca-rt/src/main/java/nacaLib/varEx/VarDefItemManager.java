@@ -18,9 +18,11 @@ public abstract class VarDefItemManager
 	{
 	}
 
-//	abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int x, VarDefBase varDefOccursParent);
-//	abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int y, int x, VarDefBase varDefOccursParent);
-//	abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int z, int y, int x, VarDefBase varDefOccursParent);
+// abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int x, VarDefBase varDefOccursParent);
+// abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int y, int x, VarDefBase
+// varDefOccursParent);
+// abstract VarDefBuffer createVarDefItems(ProgramManager programManager, VarDefBase varDefMaster, int z, int y, int x, VarDefBase
+// varDefOccursParent);
 
 	abstract VarDefBuffer getAt(VarDefBase varDef, int x);
 	abstract VarDefBuffer getAt(VarDefBase varDef, int y, int x);

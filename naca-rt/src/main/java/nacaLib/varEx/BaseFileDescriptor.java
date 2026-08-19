@@ -20,7 +20,8 @@ public abstract class BaseFileDescriptor extends CJMapObject
 	protected String csLogicalName = null;
 	protected Var varLevel01 = null;
 	private Var varVariableLengthMarker = null;
-	private Var varLengthDependingOn = null;	// Variable declared by a FileDescriptorDepending: it gives the variable whose value give the length of the dynamic part of the record
+    // Variable declared by a FileDescriptorDepending: it gives the variable whose value give the length of the dynamic part of the record
+	private Var varLengthDependingOn = null;
 	private int nSizeConstantRecordLength = 0;
 	private int nSizeOccursDependingOn = 1;
 	

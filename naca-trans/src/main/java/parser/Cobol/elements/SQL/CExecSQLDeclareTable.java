@@ -80,7 +80,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 
 
 	/* (non-Javadoc)
-	 * @see parser.elements.CExecSQL.CBaseExecSQLAction#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     * @see parser.elements.CExecSQL.CBaseExecSQLAction#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
 	 */
 	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
 	{

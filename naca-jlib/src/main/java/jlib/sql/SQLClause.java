@@ -69,7 +69,8 @@ public class SQLClause
 
 	private ResultSet resultSet = null;
 	private DbConnectionBase connection = null;
-	private boolean isalternateconnection = false;	// An alternate connection is not managed in the TLS, but can be accessed form the outside
+    // An alternate connection is not managed in the TLS, but can be accessed form the outside
+	private boolean isalternateconnection = false;
 
 	public SQLClause(DbAccessor dbAccessor)
 	{

@@ -71,7 +71,8 @@ public class RWNumEdited
 
 		// Integer part
 		boolean issuppressLeading0 = false;
-		for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex>=0; nFormatIndex--)	// From right to left for integer part
+        // From right to left for integer part
+		for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex>=0; nFormatIndex--)
 		{
 			char source = getDigitAtPosition(sourceInt, nPosSource);
 			char format = csFormat.charAt(nFormatIndex);
@@ -84,7 +85,8 @@ public class RWNumEdited
 				sDest.setCharAt(nFormatIndex, ' ');
 			else if(format == ' ')
 				sDest.setCharAt(nFormatIndex, ' ');
-			else if(format == '0' || format == '/' || format == ',' || format == '\'')	// Warning, ',' stands for 1000 separator, not decimal dot !!!
+            // Warning, ',' stands for 1000 separator, not decimal dot !!!
+			else if(format == '0' || format == '/' || format == ',' || format == '\'')
 			{
 				if(format == '\'')
 					sDest.setCharAt(nFormatIndex, ',');
@@ -130,7 +132,8 @@ public class RWNumEdited
 			else if(format == 'Z' || format == '*')
 			{
 				issuppressLeading0 = true;
-				sDest.setCharAt(nFormatIndex, source);	// 1st pass: recopy the source char; it will be suppressed in next pass if needed
+                // 1st pass: recopy the source char; it will be suppressed in next pass if needed
+				sDest.setCharAt(nFormatIndex, source);
 				nPosSource--;
 			}
 		}
@@ -187,7 +190,8 @@ public class RWNumEdited
 				sDest.setCharAt(nPosLastSuppress, money);	// set the money sign
 			}
 		}
-		else if(nPos$ != -1)	// special case where there is no place left for the money sign, but we must set it insted of the forst digit
+        // special case where there is no place left for the money sign, but we must set it insted of the forst digit
+		else if(nPos$ != -1)
 		{
 			char money = csFormat.charAt(nPos$);
 			sDest.setCharAt(0, money);	// set the money sign
@@ -198,7 +202,8 @@ public class RWNumEdited
 			// Second part: Decimal
 			String sSourceDecPart = dec.getDecPart();	// String sSourceDecPart = varNumberChunk.getDecString();
 			nPosSource = 0;	// Left to right
-			for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex<nLgFormat; nFormatIndex++)	// From left to right for dec part
+            // From left to right for dec part
+			for(int nFormatIndex=nDecimalSeparatorFormatPos; nFormatIndex<nLgFormat; nFormatIndex++)
 			{
 				format = csFormat.charAt(nFormatIndex);
 
@@ -235,7 +240,7 @@ public class RWNumEdited
 				if(format == '+')
 				{
 					// PJD commented updated because the sign erased the last digit
-	//				sDest = sDest.deleteCharAt(nLgFormat-1);	// Delete first char to have the place to set the sign at the last position
+    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
 	//				if(dec.isNegative())	//	if(varNumberChunk.isNegative())
 	//					sDest.append('-');
 	//				else
@@ -248,7 +253,7 @@ public class RWNumEdited
 				else if(format == '-')
 				{
 					// PJD commented updated because the sign erased the last digit
-	//				sDest = sDest.deleteCharAt(nLgFormat-1);	// Delete first char to have the place to set the sign at the last position
+    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
 	//			 	if(dec.isNegative())	//	if(varNumberChunk.isNegative())
 	//					sDest.append('-');
 	//				else

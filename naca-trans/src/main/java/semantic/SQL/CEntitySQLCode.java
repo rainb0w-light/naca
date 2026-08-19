@@ -50,7 +50,8 @@ public class CEntitySQLCode extends CDataEntity
 		return CDataEntityType.CONSTANT ;
 	}
 	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetSpecialCondition(java.lang.String, semantic.expression.CBaseEntityCondition.ConditionType, semantic.CBaseEntityFactory)
+     * @see semantic.CDataEntity#GetSpecialCondition(java.lang.String, semantic.expression.CBaseEntityCondition.ConditionType,
+     * semantic.CBaseEntityFactory)
 	 */
 	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
 	{

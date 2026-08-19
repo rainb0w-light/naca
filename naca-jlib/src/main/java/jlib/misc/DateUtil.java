@@ -186,108 +186,108 @@ public class DateUtil
 	 * @param String sDateFormat
 	 * @return String sDate
 	 * @Examples :
-	 *  The following pattern letters are defined (all other characters from 'A' to 'Z' and from 'a' to 'z' are reserved):
-	 * <p> 
+	 *     The following pattern letters are defined (all other characters from 'A' to 'Z' and from 'a' to 'z' are reserved):
+	 *     <p>
 	 *        Letter  Date or Time Component  Presentation        Examples
-	 * <p> 
-	 * <ul>
-	 * <li>
+	 *     <p>
+	 *     <ul>
+	 *     <li>
 	 *        G       Era designator          Text                AD
-	 * </li>
-	 * <li>  
+	 *     </li>
+	 *     <li>
 	 *        y       Year                    Year                1996; 96
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        M       Month in year           Month               July; Jul; 07
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        w       Week in year            Number              27 
-	 * </li>
-	 * <li> 
+	 *     </li>
+	 *     <li>
 	 *        W       Week in month           Number              2
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        D       Day in year             Number              189
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        d       Day in month            Number              10
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        F       Day of week in month    Number              2
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        E       Day in week             Text                Tuesday; Tue
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        a       Am/pm marker            Text                PM
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        H       Hour in day (0-23)      Number              0
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        k       Hour in day (1-24)      Number              24
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        K       Hour in am/pm (0-11)    Number              0
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        h       Hour in am/pm (1-12)    Number              12
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        m       Minute in hour          Number              30
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        s       Second in minute        Number              55
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        S       Millisecond             Number              978
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        z       Time zone               General time zone   Pacific Standard Time; PST; GMT-08:00
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        Z       Time zone               RFC 822 time zone   -0800
-	 * </li>
-	 * </ul>   
-	 *  <p>
-	 *  Other examples :
-	 *  The following examples show how date and time patterns are interpreted in the U.S. locale. 
-	 *  The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone. 
-	 *  <p>
+	 *     </li>
+	 *     </ul>
+	 *     <p>
+	 *     Other examples :
+	 *     The following examples show how date and time patterns are interpreted in the U.S. locale.
+	 *     The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone.
+	 *     <p>
 	 *         Date and Time Pattern                        Result  
-	 *  <p>
-	 * <ul>
-	 * <li>
+	 *     <p>
+	 *     <ul>
+	 *     <li>
 	 *         "yyyy.MM.dd G 'at' HH:mm:ss z"               2001.07.04 AD at 12:08:56 PDT
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *         "EEE, MMM d, ''yy"                           Wed, Jul 4, '01
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "h:mm a"                                     12:08 PM
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "hh 'o''clock' a, zzzz"                      12 o'clock PM, Pacific Daylight Time
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "K:mm a, z"                                  0:08 PM, PDT
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyyyy.MMMMM.dd GGG hh:mm aaa"               02001.July.04 AD 12:08 PM
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "EEE, d MMM yyyy HH:mm:ss Z"                 Wed, 4 Jul 2001 12:08:56 -0700
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyMMddHHmmssZ"                              010704120856-0700
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyyy-MM-dd'T'HH:mm:ss.SSSZ"                 2001-07-04T12:08:56.235-0700
-	 * </li>
-	 * </ul>   
-	 *  <p>
-	 *  Synchronization : Date formats are not synchronized. It is recommended to create separate format 
-	 *  instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
+	 *     </li>
+	 *     </ul>
+	 *     <p>
+	 *     Synchronization : Date formats are not synchronized. It is recommended to create separate format
+	 *     instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
 	 */
  	public static String formatDateToString(Date date, String sDateFormat) {
  		
@@ -334,108 +334,108 @@ public class DateUtil
 	 * @param String sDateFormat
 	 * @return Date date
 	 * @Examples :
-	 *  The following pattern letters are defined (all other characters from 'A' to 'Z' and from 'a' to 'z' are reserved):
-	 * <p> 
+	 *     The following pattern letters are defined (all other characters from 'A' to 'Z' and from 'a' to 'z' are reserved):
+	 *     <p>
 	 *        Letter  Date or Time Component  Presentation        Examples
-	 * <p> 
-	 * <ul>
-	 * <li>
+	 *     <p>
+	 *     <ul>
+	 *     <li>
 	 *        G       Era designator          Text                AD
-	 * </li>
-	 * <li>  
+	 *     </li>
+	 *     <li>
 	 *        y       Year                    Year                1996; 96
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        M       Month in year           Month               July; Jul; 07
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        w       Week in year            Number              27 
-	 * </li>
-	 * <li> 
+	 *     </li>
+	 *     <li>
 	 *        W       Week in month           Number              2
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        D       Day in year             Number              189
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        d       Day in month            Number              10
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        F       Day of week in month    Number              2
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        E       Day in week             Text                Tuesday; Tue
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        a       Am/pm marker            Text                PM
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        H       Hour in day (0-23)      Number              0
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        k       Hour in day (1-24)      Number              24
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        K       Hour in am/pm (0-11)    Number              0
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        h       Hour in am/pm (1-12)    Number              12
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        m       Minute in hour          Number              30
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        s       Second in minute        Number              55
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        S       Millisecond             Number              978
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        z       Time zone               General time zone   Pacific Standard Time; PST; GMT-08:00
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *        Z       Time zone               RFC 822 time zone   -0800
-	 * </li>
-	 * </ul>   
-	 *  <p>
-	 *  Other examples :
-	 *  The following examples show how date and time patterns are interpreted in the U.S. locale. 
-	 *  The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone. 
-	 *  <p>
+	 *     </li>
+	 *     </ul>
+	 *     <p>
+	 *     Other examples :
+	 *     The following examples show how date and time patterns are interpreted in the U.S. locale.
+	 *     The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone.
+	 *     <p>
 	 *         Date and Time Pattern                        Result  
-	 *  <p>
-	 * <ul>
-	 * <li>
+	 *     <p>
+	 *     <ul>
+	 *     <li>
 	 *         "yyyy.MM.dd G 'at' HH:mm:ss z"               2001.07.04 AD at 12:08:56 PDT
-	 * </li>
-	 * <li>   
+	 *     </li>
+	 *     <li>
 	 *         "EEE, MMM d, ''yy"                           Wed, Jul 4, '01
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "h:mm a"                                     12:08 PM
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "hh 'o''clock' a, zzzz"                      12 o'clock PM, Pacific Daylight Time
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "K:mm a, z"                                  0:08 PM, PDT
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyyyy.MMMMM.dd GGG hh:mm aaa"               02001.July.04 AD 12:08 PM
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "EEE, d MMM yyyy HH:mm:ss Z"                 Wed, 4 Jul 2001 12:08:56 -0700
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyMMddHHmmssZ"                              010704120856-0700
-	 * </li>
-	 * <li>    
+	 *     </li>
+	 *     <li>
 	 *         "yyyy-MM-dd'T'HH:mm:ss.SSSZ"                 2001-07-04T12:08:56.235-0700
-	 * </li>
-	 * </ul>   
-	 *  <p>
-	 *  Synchronization : Date formats are not synchronized. It is recommended to create separate format 
-	 *  instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
+	 *     </li>
+	 *     </ul>
+	 *     <p>
+	 *     Synchronization : Date formats are not synchronized. It is recommended to create separate format
+	 *     instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
 	 */
  	public static Date parseStringToDate(String sDate, String sDateFormat) {
  		

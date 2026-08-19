@@ -323,7 +323,7 @@ public class EditInMapRedefine extends Edit
 //
 //		sbText.append("\r\n");
 //
-//		SharedProgramInstanceData sharedProgramInstanceData = SharedProgramInstanceDataCatalog.getSharedProgramInstanceData(csSimpleName);
+// SharedProgramInstanceData sharedProgramInstanceData = SharedProgramInstanceDataCatalog.getSharedProgramInstanceData(csSimpleName);
 //		if(sharedProgramInstanceData != null)
 //		{
 //			sbText.append("\r\nsharedProgramInstanceData:\r\n");

@@ -31,7 +31,8 @@ import javax.naming.directory.SearchResult;
  * 		...
  * 		public CLDAPRequester getLDAPRequester()
  *		{
- *			return new CLDAPRequester(csLDAPServer, csLDAPServer2, csLDAPServer3, csLDAPDomain, csLDAPRootOU, csLDAPGenericUser, csLDAPGenericPassword) ;
+ * return new CLDAPRequester(csLDAPServer, csLDAPServer2, csLDAPServer3, csLDAPDomain, csLDAPRootOU, csLDAPGenericUser,
+ * csLDAPGenericPassword) ;
  *		}
  *		...
  *	}
@@ -116,7 +117,8 @@ public class LdapRequester
 	/**
 	 * @param csUser: specific user we want to login
 	 * @param csPassword: specific password
-	 * @param bUseGenericUser: true if connecting using generic user, not the specific user (csUser / csPassword); in that case csUser/csPassword is ignored   
+     * @param bUseGenericUser: true if connecting using generic user, not the specific user (csUser / csPassword); in that case
+     *     csUser/csPassword is ignored
 	 * @return String UserDN; set to null or empty if user did not login correctly.
 	 */
 	public String getUserLogin(String csUser, String csPassword, boolean bUseGenericUser)

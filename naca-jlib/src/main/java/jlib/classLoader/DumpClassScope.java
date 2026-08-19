@@ -42,10 +42,10 @@ abstract class DumpClassScope
      * 
      * @param defining class loader to inspect [may not be null]
      * @return Class array such that every Class has 'loader' as its
-     * defining class loader [never null, may be empty]
+     *     defining class loader [never null, may be empty]
      * 
      * @throws RuntimeException if the "classes" field hack is not possible
-     * in this JRE
+     *     in this JRE
      */
     @SuppressWarnings("unchecked")
 	public static Class [] getLoadedClasses (final ClassLoader loader)
@@ -87,7 +87,7 @@ abstract class DumpClassScope
      * @return Class array [never null, may be empty]
      * 
      * @throws RuntimeException if the "classes" field hack is not possible
-     * in this JRE
+     *     in this JRE
      */
     public static Class [] getLoadedClasses (final ClassLoader[] loaders)
     {
@@ -121,7 +121,7 @@ abstract class DumpClassScope
      * @return ClassLoader array [never null]
      * 
      * @throws RuntimeException if the caller context resolver could not be
-     * instantiated
+     *     instantiated
      */
     public static ClassLoader [] getCallerClassLoaderTree ()
     {

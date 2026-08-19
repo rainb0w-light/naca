@@ -105,7 +105,8 @@ public abstract class VarAndEdit extends VarBase
 		VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
 		if(varDefChild != null)
 		{
-			//VarBase varChild = bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
+            // VarBase varChild =
+            // bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
 			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
 			return varChild;
 		}
@@ -117,7 +118,8 @@ public abstract class VarAndEdit extends VarBase
 		VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
 		if(varDefChild != null)
 		{
-			//VarBase varChild = bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
+            // VarBase varChild =
+            // bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
 			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
 			return varChild;
 		}

@@ -27,7 +27,8 @@ public class DumpProgramException extends NacaRTException
 	
 	public String getMessage()
 	{
-		String cs = "DumpProgramException: Program:" + csProgramName + "; Var1:" + csVar1 + "; Var2:" + csVar2; // + " Stack="+csStack;
+        // + " Stack="+csStack;
+		String cs = "DumpProgramException: Program:" + csProgramName + "; Var1:" + csVar1 + "; Var2:" + csVar2;
 		return cs;
 	}
 }

@@ -38,7 +38,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * which is the method that initializes the {@link Log} static instance containing
  * the collection of <i>LogCenter</i>s.
  * @param logCenterLoader A xml reader which has loaded a [LogCenter] section
- * of the JLib.log xml configuration file.
+ *     of the JLib.log xml configuration file.
  */
 	public LogCenter(LogCenterLoader logCenterLoader)
 	{
@@ -123,7 +123,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * If the events buffer size outpasses its limit, the buffer is flushed
  * via {@link outputAllLogParamsItems}, and all events are stored.
  * @param logParam The description of the event to be stored
- * in the events buffer.
+ *     in the events buffer.
  */
 	synchronized void addLogParamItem(LogParams logParam)
 	{
@@ -254,7 +254,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
  * </ul>
  * @param b If <i>true</i>, it enables the <i>LogCenter</i>. Otherwise
- * it disables it.
+ *     it disables it.
  */
 	public void setEnable(Boolean b)
 	{
@@ -272,7 +272,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i>.
  * @param csLevel The minimal required level. Provided level should be
- * one of the accepted by {@link LogLevel}.
+ *     one of the accepted by {@link LogLevel}.
  */
 	public void setLevel(String csLevel)
 	{

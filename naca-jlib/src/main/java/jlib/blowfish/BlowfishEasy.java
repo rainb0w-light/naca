@@ -16,7 +16,7 @@ import java.util.*;
   * now in CBC mode with a SHA-1 key setup and correct padding - the
   * purposes of this module is mainly to show a possible implementation 
   * with Blowfish ...
-  * @author Markus Hahn <markus_hahn@gmx.net>
+  * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
   */
 

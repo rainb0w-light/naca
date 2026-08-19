@@ -10,7 +10,7 @@ package jlib.blowfish;
 /**
   * some helper routines for data conversion,
   * all data is treated in network byte order
-  * @author Markus Hahn <markus_hahn@gmx.net>
+  * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
   */
 

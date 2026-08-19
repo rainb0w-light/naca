@@ -33,7 +33,7 @@ import utils.CobolTranscoder.Notifs.NotifIsUsedCICSPreprocessor;
 /**
  * @author U930CV
  *
- * Window - Preferences - Java - Code Style - Code Templates
+ *     Window - Preferences - Java - Code Style - Code Templates
  */
 public class CSpecialActionContainer
 {

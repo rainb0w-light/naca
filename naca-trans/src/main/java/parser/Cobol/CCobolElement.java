@@ -428,7 +428,7 @@ public abstract class CCobolElement extends CLanguageElement
 //				if ((curCond.IsReference() || curCond.IsConstant())
 //						&& !fstOperand.IsBinaryCondition() && !fstOperand.IsReference())
 //				{
-//					m_Logger.warn("WARNING : be carrefull to Abbreviated combined relation condition ; line "+tok.getLine()) ;
+// m_Logger.warn("WARNING : be carrefull to Abbreviated combined relation condition ; line "+tok.getLine()) ;
 //				}
 				return new CCondOrStatement(tok.getLine(), fstOperand, curCond) ;
 			}
@@ -744,7 +744,8 @@ public abstract class CCobolElement extends CLanguageElement
 //			else
 //			{
 //				CExpression st = null ;
-//				if (tokNext.GetType() == CTokenType.IDENTIFIER || tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.CONSTANT || tokNext.GetType() == CTokenType.NUMBER)
+// if (tokNext.GetType() == CTokenType.IDENTIFIER || tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.CONSTANT ||
+// tokNext.GetType() == CTokenType.NUMBER)
 //				{
 //					CExpression exp2 = ReadCalculExpression();
 //					st = ReadBinaryCondEvaluator(exp2) ;

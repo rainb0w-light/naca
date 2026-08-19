@@ -117,7 +117,8 @@ public class CString extends CCobolElement
 		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 		tok = GetNext();
 		boolean isdone = false ;
-		Vector<CTerminal> terms = new Vector<CTerminal>() ;  // array used to save read terminals before reading the 'delimited by' statement
+        // array used to save read terminals before reading the 'delimited by' statement
+		Vector<CTerminal> terms = new Vector<CTerminal>() ;
 		// TXT-LIB-AA TXT-A DELIMITED BY '*'   <=> TXT-LIB-AA DELIMITED BY '*' TXT-A  DELIMITED BY '*'
 		while (!isdone)
 		{

@@ -12,13 +12,13 @@ import java.io.InputStream;
 /**
  * 
  * @author U930DAN
- * Cette classe permet de supprimer dans un fichier tout ce qui
- * est contenu entre les tags < et >
- * par exemple si on soumet le contenu suivant:
- * <?xml version="1.0" encoding="ISO-8859-1"?>
- * <pic_1 FileName="t0014395.jpg">Hello</pic_1>
- * en output on obtiendra:
- * Hello
+ *     Cette classe permet de supprimer dans un fichier tout ce qui
+ *     est contenu entre les tags < et >
+ *     par exemple si on soumet le contenu suivant:
+ *     <?xml version="1.0" encoding="ISO-8859-1"?>
+ *     <pic_1 FileName="t0014395.jpg">Hello</pic_1>
+ *     en output on obtiendra:
+ *     Hello
  */
 public class TagRemoverInputStream extends InputStream {
 	

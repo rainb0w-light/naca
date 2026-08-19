@@ -56,7 +56,8 @@ public class SQLUnload extends BaseSQLUtils
 		isconnectionValid = true;
 		int nNbRecords = -1;
 
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);	// cursor clause not supported
+        // cursor clause not supported
+		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
 		if(typeOperation == null)
 			return -1;	// Do not manage this order
 

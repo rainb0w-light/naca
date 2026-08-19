@@ -32,7 +32,7 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param CESMEnv Runtime environnement
 	 * @param Class classPrgToCall: class to load dynamically and call
-	 * Internal usage only
+	 *     Internal usage only
 	 */
 	public CCallProgram(BaseEnvironment env, Class classPrgToCall)
 	{
@@ -43,7 +43,7 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param CESMEnv Runtime environnement
 	 * @param String csPrgClassName: class name to load dynamically and call
-	 * Internal usage only
+	 *     Internal usage only
 	 */
 	public CCallProgram(BaseEnvironment env, String csPrgClassName)
 	{
@@ -76,8 +76,8 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass by value to the called program
 	 * @return this
-	 * The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
-	 * They do not share the same variable.
+     *     The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
+	 *     They do not share the same variable.
 	 */
 	public CCallProgram usingValue(Var var)
 	{
@@ -92,8 +92,8 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass by value to the called program
 	 * @return this
-	 * The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
-	 * They do not share the same variable.
+     *     The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
+	 *     They do not share the same variable.
 	 */
 	public CCallProgram usingContent(Var var)
 	{
@@ -108,8 +108,9 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass by reference to the called program
 	 * @return this
-	 * The variable var will be passed by reference, so if it is modified in called prog., it's value will also be modified in caller prog.
-	 * They both share the same variable.
+     *     The variable var will be passed by reference, so if it is modified in called prog., it's value will also be modified in caller
+     *     prog.
+	 *     They both share the same variable.
 	 */
 	public CCallProgram using(Var var)
 	{
@@ -143,7 +144,7 @@ public class CCallProgram extends CJMapObject
 	/**
 	 * @param Var var: Variable to pass whose length if passed by value to the called program
 	 * @return this
-	 * The variable's lengthvar will be passed by value to the called program
+	 *     The variable's lengthvar will be passed by value to the called program
 	 */
 	public CCallProgram usingLengthOf(VarAndEdit var)
 	{

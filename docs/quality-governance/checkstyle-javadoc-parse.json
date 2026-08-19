@@ -1,0 +1,9 @@
+{
+  "applied": true,
+  "filesChanged": 22,
+  "fixed": 43,
+  "maximum": 140,
+  "observed": 43,
+  "rule": "JavadocParse",
+  "skipped": 0
+}

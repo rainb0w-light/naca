@@ -24,7 +24,8 @@ import jlib.log.Log;
 public class LanguageId
 {
 	private String csIsoCode = null;		    // Public ISO code
-	private String csCodeUpper = null;		// Public textual code; Used to select a language id; it's fr, de, it, , ... It has the corresponding value in lower case in csCodeLower
+    // Public textual code; Used to select a language id; it's fr, de, it, , ... It has the corresponding value in lower case in csCodeLower
+	private String csCodeUpper = null;
 	private String csCodeLower = null;		// Public textual code in lowercase matching csCodeUpper
 	private String csNumericCode = null;		// P2000 code; Used to select a language id; It's a numeric value 01, 02, 03, 04
 

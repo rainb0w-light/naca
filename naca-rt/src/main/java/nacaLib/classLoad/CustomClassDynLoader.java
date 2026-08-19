@@ -50,7 +50,8 @@ public class CustomClassDynLoader extends ClassDynLoader
 				return tryLoadWithPrimordialClassLoader(csClassName);
 			if(csClassName.startsWith("idea"))	// All nacalib classes are directly loaded by promordial class loader
 				return tryLoadWithPrimordialClassLoader(csClassName);
-			if(csClassName.startsWith("pub2000Utils"))	// All nacalib classes are directly loaded by promordial class loader
+            // All nacalib classes are directly loaded by promordial class loader
+			if(csClassName.startsWith("pub2000Utils"))
 				return tryLoadWithPrimordialClassLoader(csClassName);
 			if(csClassName.startsWith("sun"))
 				return tryLoadWithPrimordialClassLoader(csClassName);
@@ -78,7 +79,8 @@ public class CustomClassDynLoader extends ClassDynLoader
     	}
     	else
     	{
-    		if(csClassName.equals("Pub2000Routines"))	// Pub2000Routines must be moved into a package of nacaRT, like pub2000Utils 
+            // Pub2000Routines must be moved into a package of nacaRT, like pub2000Utils
+		if(csClassName.equals("Pub2000Routines"))
     			bCopyOrStdClass = true;	// Copy
     		else
     			iscallOrStdClass = true;	// Call

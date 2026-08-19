@@ -367,7 +367,7 @@ public class LogCenterDbFlat extends LogCenter
 					int nRunId = rs.getInt("RunId");
 					nRunId++;
 //					stSelect.close();
-//					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel='"+csOrganisation+"'";
+// String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel='"+csOrganisation+"'";
 					String csUpdate = "update " + csTableRunId + " set RunId=" + nRunId + " where channel=''";
 					DbPreparedStatement stUpdate = dbConnection.prepareStatement(csUpdate, 0, false);
 					int n = stUpdate.executeUpdate();
