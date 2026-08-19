@@ -1,6 +1,5 @@
 package semantic.Verbs;
 
-import semantic.CBaseLanguageEntity;
 import utils.CObjectCatalog;
 
 /** Target-neutral associative tree for ADD's multi-value expression. */

@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Configuration properties for Naca database settings.

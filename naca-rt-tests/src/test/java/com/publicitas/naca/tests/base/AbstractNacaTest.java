@@ -21,15 +21,10 @@ import jlib.log.LogParams;
 import jlib.log.PatternLayoutConsole;
 import jlib.misc.BasePic9Comp3BufferSupport;
 import nacaLib.basePrgEnv.BaseProgramLoader;
-import nacaLib.callPrg.CalledEnvironment;
-import nacaLib.callPrg.CalledProgramLoader;
-import nacaLib.callPrg.CalledResourceManager;
-import nacaLib.callPrg.CalledSession;
 import nacaLib.calledPrgSupport.BaseCalledPrgPublicArgPositioned;
 import nacaLib.tempCache.TempCacheLocator;
 import idea.onlinePrgEnv.OnlineEnvironment;
 import idea.onlinePrgEnv.OnlineProgramLoader;
-import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineSession;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -48,7 +43,7 @@ public abstract class AbstractNacaTest {
         if (!codeManagerInitialized) {
             String classPath = System.getProperty("java.class.path");
             String testClassesPath = findTestClassesPath();
-            
+
             if (testClassesPath != null) {
                 CodeManager.setPath(testClassesPath);
             }
@@ -56,7 +51,7 @@ public abstract class AbstractNacaTest {
             codeManagerInitialized = true;
         }
     }
-    
+
     private static String findTestClassesPath() {
         String userDir = System.getProperty("user.dir");
         if (userDir != null && userDir.contains("naca-rt-tests")) {
@@ -103,10 +98,10 @@ public abstract class AbstractNacaTest {
             if (programLoader == null) {
                 programLoader = new OnlineProgramLoader(null, null);
             }
-            
+
             OnlineSession session = new OnlineSession(false);
             OnlineEnvironment env = (OnlineEnvironment) programLoader.GetEnvironment(session, null, null);
-            
+
             ArrayList<BaseCalledPrgPublicArgPositioned> params = new ArrayList<>();
 
             env.setNextProgramToLoad(fullClassName);
@@ -117,11 +112,11 @@ public abstract class AbstractNacaTest {
             throw new RuntimeException("Failed to run program: " + programName, e);
         }
     }
-    
+
     private String resolveFullClassName(String simpleName) {
         // Capitalize first letter for class name convention
         String className = simpleName.substring(0, 1).toUpperCase() + simpleName.substring(1);
-        
+
         // Try ExtraTests package first (for ExtraTests test cases)
         String extraTestsClass = "nacaTests.ExtraTests." + className;
         try {
@@ -130,7 +125,7 @@ public abstract class AbstractNacaTest {
         } catch (ClassNotFoundException e) {
             // Fall through to CobolLikeSupport
         }
-        
+
         // Try CobolLikeSupport package
         String cobolLikeClass = "nacaTests.CobolLikeSupport." + className;
         try {
@@ -139,7 +134,7 @@ public abstract class AbstractNacaTest {
         } catch (ClassNotFoundException e) {
             // Fall through to return default
         }
-        
+
         // Return default path for error message purposes
         return cobolLikeClass;
     }
@@ -181,7 +176,7 @@ public abstract class AbstractNacaTest {
         }
         return normalized.toString().trim() + "\n";
     }
-    
+
     protected void assertNoFailures() {
         nacaLib.testSupport.TestAssertionCollector collector = nacaLib.testSupport.TestAssertionCollector.getInstance();
         if (collector.hasFailures()) {
@@ -190,7 +185,7 @@ public abstract class AbstractNacaTest {
             );
         }
     }
-    
+
     protected int getFailureCount() {
         return nacaLib.testSupport.TestAssertionCollector.getInstance().getFailureCount();
     }

@@ -10,19 +10,19 @@ import java.util.List;
 
 /** Provides test assertion collector behavior. */
 public final class TestAssertionCollector {
-    
+
     private static final ThreadLocal<TestAssertionCollector> INSTANCE = new ThreadLocal<>();
-    
+
     private final List<AssertionResult> results = new ArrayList<>();
     private boolean collecting = false;
-    
+
     /** Provides assertion result behavior. */
     public static final class AssertionResult {
         public final boolean passed;
         public final String message;
         public final String expected;
         public final String actual;
-        
+
         AssertionResult(boolean passed, String message, String expected, String actual) {
             this.passed = passed;
             this.message = message;
@@ -30,9 +30,9 @@ public final class TestAssertionCollector {
             this.actual = actual;
         }
     }
-    
+
     private TestAssertionCollector() {}
-    
+
     /** Returns the instance. */
     public static TestAssertionCollector getInstance() {
         TestAssertionCollector collector = INSTANCE.get();
@@ -42,38 +42,38 @@ public final class TestAssertionCollector {
         }
         return collector;
     }
-    
+
     /** Executes the start collecting operation. */
     public static void startCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.results.clear();
         collector.collecting = true;
     }
-    
+
     /** Executes the stop collecting operation. */
     public static void stopCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.collecting = false;
     }
-    
+
     /** Executes the clear operation. */
     public static void clear() {
         getInstance().results.clear();
     }
-    
+
     /** Returns whether collecting. */
     public static boolean isCollecting() {
         TestAssertionCollector collector = INSTANCE.get();
         return collector != null && collector.collecting;
     }
-    
+
     /** Adds the result. */
     public static void addResult(boolean passed, String message, String expected, String actual) {
         if (isCollecting()) {
             getInstance().results.add(new AssertionResult(passed, message, expected, actual));
         }
     }
-    
+
     /** Executes the assert true operation. */
     public static void assertTrue(boolean condition, String message) {
         if (isCollecting()) {
@@ -82,7 +82,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message);
         }
     }
-    
+
     /** Executes the assert equals operation. */
     public static void assertEquals(String expected, String actual, String message) {
         boolean passed = expected != null ? expected.equals(actual) : actual == null;
@@ -92,7 +92,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
     /** Executes the assert equals operation. */
     public static void assertEquals(int expected, int actual, String message) {
         boolean passed = expected == actual;
@@ -102,7 +102,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
     /** Executes the assert equals operation. */
     public static void assertEquals(double expected, double actual, String message) {
         boolean passed = Double.compare(expected, actual) == 0;
@@ -112,7 +112,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: " + expected + ", Actual: " + actual);
         }
     }
-    
+
     /** Executes the assert not null operation. */
     public static void assertNotNull(Object obj, String message) {
         boolean passed = obj != null;
@@ -122,7 +122,7 @@ public final class TestAssertionCollector {
             throw new AssertionError(message + " - Expected: not null");
         }
     }
-    
+
     /** Executes the fail operation. */
     public static void fail(String message) {
         if (isCollecting()) {
@@ -131,11 +131,11 @@ public final class TestAssertionCollector {
             throw new AssertionError(message);
         }
     }
-    
+
     public List<AssertionResult> getResults() {
         return new ArrayList<>(results);
     }
-    
+
     /** Returns whether s failures. */
     public boolean hasFailures() {
         for (AssertionResult result : results) {
@@ -145,7 +145,7 @@ public final class TestAssertionCollector {
         }
         return false;
     }
-    
+
     /** Returns the failure count. */
     public int getFailureCount() {
         int count = 0;
@@ -156,7 +156,7 @@ public final class TestAssertionCollector {
         }
         return count;
     }
-    
+
     /** Returns the failure summary. */
     public String getFailureSummary() {
         StringBuilder sb = new StringBuilder();

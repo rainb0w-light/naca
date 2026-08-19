@@ -1,6 +1,5 @@
 package generate.java;
 
-import generate.java.CJavaExporter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

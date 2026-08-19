@@ -1,7 +1,6 @@
 package generate.java.st;
 
 import semantic.CEntityBloc;
-import utils.CObjectCatalog;
 import semantic.CBaseLanguageEntity;
 
 /**

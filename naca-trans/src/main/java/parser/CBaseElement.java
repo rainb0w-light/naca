@@ -10,7 +10,6 @@ package parser;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import semantic.CBaseEntityFactory;

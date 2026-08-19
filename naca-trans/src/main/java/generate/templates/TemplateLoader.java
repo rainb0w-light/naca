@@ -34,7 +34,7 @@ public class TemplateLoader {
      * template.add("entity", this);
      * String output = template.render();
      * </pre>
-     * 
+     *
      * @param name Template name (e.g., "condition", "assign", "loop")
      * @return ST template instance ready for attribute population
      */
@@ -44,7 +44,7 @@ public class TemplateLoader {
 
     /**
      * Check if a template exists.
-     * 
+     *
      * @param name Template name
      * @return true if template exists
      */

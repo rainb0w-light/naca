@@ -41,7 +41,7 @@ public class TemplateValidationTest {
     void testAllTemplatesCompile() {
         JavaTemplateCatalog catalog =
             JavaTemplateCatalogFactory.create(JavaTemplateProfile.full());
-        
+
         List<String> templateNames = List.of(
             "condition", "loop", "loopIter", "case", "caseWhen",
             "assign", "addTo", "subtractTo", "multiply", "divide", "compute",
@@ -69,7 +69,7 @@ public class TemplateValidationTest {
             "recursiveAddToDestination", "recursiveSetSubstring",
             "recursiveEnvironmentWrite", "recursiveAdd", "space"
         );
-        
+
         System.out.println("\n=== Template Compilation Check ===");
         for (String name : templateNames) {
             try {
