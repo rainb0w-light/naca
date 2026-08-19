@@ -89,7 +89,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 			Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
 			String nano = intNanos.toString();
 			String nanoPadded = StringUtil.leftPad(nano, 6, '0');
-			value += nanoPadded;			
+			value += nanoPadded;
 			value = "\"" + value + "\"";
 			byte[] aBytes = value.getBytes();	// 26 bytes
 			if(bEbcdicOutput)	// Must outout in ebcdic

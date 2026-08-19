@@ -437,7 +437,7 @@ public class SqlRequest extends DbPreparedStatement
 	 		
 			request += names + " Values " + values;
 		}
-		return request;		
+		return request;
 	}
 	
 	private String buildSelectClause()
@@ -456,7 +456,7 @@ public class SqlRequest extends DbPreparedStatement
 			
 			ColValue col = this.col.get(n);
 			String cs = col.csName + "=?";	// + col.getValueAsString() + "'";
-			request += cs; 
+			request += cs;
 		}
 		if(where != null)
 		{
@@ -489,7 +489,7 @@ public class SqlRequest extends DbPreparedStatement
 			if(nSep != -1)
 			{
 				String left = right.substring(0, nSep);
-				right = right.substring(nSep+1);			
+				right = right.substring(nSep+1);
 	
 				result += left + "? ";
 				int nNext = right.indexOf(' ');
@@ -516,7 +516,7 @@ public class SqlRequest extends DbPreparedStatement
 			}
 			else
 			{
-				result += right; 
+				result += right;
 				right = null;
 			}
 		}		

@@ -91,7 +91,7 @@ public class DbColDefinitionTime extends BaseDbColDefinition
 			String ss = value.substring(6, 8);
 			value = hh + "." + mm + "." + ss;
 			value = "\"" + value + "\"";
-			byte[] aBytes = value.getBytes();			
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;

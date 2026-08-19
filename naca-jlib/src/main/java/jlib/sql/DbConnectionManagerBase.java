@@ -60,7 +60,7 @@ public abstract class DbConnectionManagerBase
 			if(!connectionColl.isInit())
 				connectionColl.init(dbConnectionParam);
 			String poolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(csValidationQuery, poolName, bUseStatementCache, this);
+			DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(csValidationQuery, poolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -89,7 +89,7 @@ public abstract class DbConnectionManagerBase
 			if(!connectionColl.isInit())
 				connectionColl.init(dbConnectionParam);
 			String poolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, poolName, bUseStatementCache, this);
+			DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, poolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -214,8 +214,8 @@ public abstract class DbConnectionManagerBase
 	    }
 	    catch (Exception ex)
 		{
-	    	String params = ListCoupleRender.set("Parameters: ").set("DriverClass", csDriverClass).set("User", csUser).set("CryptedPassword", csCryptedPassword).toString();
-	    	TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, params, ex);
+			String params = ListCoupleRender.set("Parameters: ").set("DriverClass", csDriverClass).set("User", csUser).set("CryptedPassword", csCryptedPassword).toString();
+			TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, params, ex);
 	    }
 //	    if(m_DbConnectionParam.driver == null)
 //	    	Log.logImportant("Could not create driver " + csDriverClass + " for user " + csUser);

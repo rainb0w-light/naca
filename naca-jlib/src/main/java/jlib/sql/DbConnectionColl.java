@@ -175,11 +175,11 @@ public class DbConnectionColl
 		{
 		    try
 			{
-		    	String url = dbConnectionParam.csUrl;
+			String url = dbConnectionParam.csUrl;
 		    	if(dbConnectionParam.csConnectionUrlOptionalParams != null)
-		    		url += dbConnectionParam.csConnectionUrlOptionalParams;
-		    	url = StringUtil.replace(url, "$FoundPoolName", poolName, true);
-		    	url = replaceEnvVarsByValue(url);
+				url += dbConnectionParam.csConnectionUrlOptionalParams;
+			url = StringUtil.replace(url, "$FoundPoolName", poolName, true);
+			url = replaceEnvVarsByValue(url);
 
 				Connection connection = null;
 				String user = (String)dbConnectionParam.propertiesUserPassword.get("user");
@@ -226,7 +226,7 @@ public class DbConnectionColl
 
 		    	DbDriverId dbDriverId = dbConnectionParam.getDbDriverId();
 
-		    	DbConnectionBase sqlConnection = connectionManager.createConnection(connection, poolName, dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
+			DbConnectionBase sqlConnection = connectionManager.createConnection(connection, poolName, dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
 		    	sqlConnection.setDbConnectionColl(this);
 
 		    	sqlConnection.setUseExplain(getUseExplain());

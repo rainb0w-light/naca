@@ -31,7 +31,7 @@ public class BaseDbColDefinitionFactory
 	
 	public static String makeInsertString(String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDefinition)
 	{
-		String insert = "INSERT INTO " + csTableFullName + " VALUES (";  
+		String insert = "INSERT INTO " + csTableFullName + " VALUES (";
 
 		int nNbCols = arrDbColDefinition.size(); 
 		for(int n=0; n<nNbCols; n++)
