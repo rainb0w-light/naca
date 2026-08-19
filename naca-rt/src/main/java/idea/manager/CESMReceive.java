@@ -8,6 +8,7 @@ package idea.manager;
 
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
+import nacaLib.CESM.CESMReturnCode;
 import nacaLib.misc.KeyPressed;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.Form;
@@ -37,17 +38,18 @@ public class CESMReceive extends CJMapObject
 
 
     /** Executes the into operation. */
-    public void into(Form var)
+    public CESMReceive into(Form var)
     {
         this.mapInto = var;
         receiveData() ;
-        //return this;
+        return this;
     }
     /** Executes the into operation. */
-    public void into(Var var)
+    public CESMReceive into(Var var)
     {
         // if this function is called, that means a COPY is missing with the map defined in it
         assertIfFalse(var == null) ;
+        return this;
     }
 
     void receiveData()
@@ -80,5 +82,19 @@ public class CESMReceive extends CJMapObject
     {
         // nothing to do with mapset...
         return this ;
+    }
+
+    /** Writes the RECEIVE completion RESP value. */
+    public CESMReceive resp(Var value)
+    {
+        value.set(CESMReturnCode.NORMAL.getCondition());
+        return this;
+    }
+
+    /** Writes the RECEIVE completion RESP2 value. */
+    public CESMReceive resp2(Var value)
+    {
+        value.set(0);
+        return this;
     }
 }

@@ -63,6 +63,7 @@ import semantic.CICS.CEntityCICSReceiveMap;
 import semantic.CICS.CEntityCICSRetrieve;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSendText;
 import semantic.CICS.CEntityCICSSetTDQueue;
 import semantic.CICS.CEntityCICSStart;
 import semantic.CICS.CEntityCICSStartBrowse;
@@ -1036,6 +1037,10 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         // rendered by the recursive ST4 assembler (recursiveCICSSendMapEntity binding).
         CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
         return e;
+    }
+    /** Creates the entity cicssend text. */
+    public CEntityCICSSendText NewEntityCICSSendText(int l)   {
+        return new CEntityCICSSendText(l, programCatalog);
     }
     /** Creates the entity cicswrite. */
     public CEntityCICSWrite NewEntityCICSWrite(int l)   {

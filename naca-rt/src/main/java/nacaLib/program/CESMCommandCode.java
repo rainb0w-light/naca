@@ -30,6 +30,7 @@ public class CESMCommandCode
     public static String RETRIEVE = "\u0010\r" ;
     public static String RECEIVE_MAP = "\u0018\u0002" ;
     public static String SEND_MAP = "\u0018\u0004" ;
+    public static String SEND_TEXT = "\u0018\u0006" ;
 
     public static String READ_TEMPQUEUE = "" ;
     public static String WRITE_TEMPQUEUE = "" ;

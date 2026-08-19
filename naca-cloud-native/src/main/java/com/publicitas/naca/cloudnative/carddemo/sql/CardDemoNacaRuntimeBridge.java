@@ -1,6 +1,7 @@
 package com.publicitas.naca.cloudnative.carddemo.sql;
 
 import com.publicitas.naca.cloudnative.carddemo.cics.CardDemoCicsProperties;
+import com.publicitas.naca.cloudnative.carddemo.cics.PostgresCicsRecordStore;
 import java.sql.Connection;
 import java.util.Objects;
 import javax.sql.DataSource;
@@ -21,15 +22,18 @@ public class CardDemoNacaRuntimeBridge
     private final JdbcTemplate jdbcTemplate;
     private final PostgresSqlCodeMapper sqlCodeMapper;
     private final CardDemoCicsProperties cicsProperties;
+    private final PostgresCicsRecordStore cicsRecordStore;
 
     /** Creates the request-scoped bridge factory. */
     public CardDemoNacaRuntimeBridge(DataSource dataSource, JdbcTemplate jdbcTemplate,
-        PostgresSqlCodeMapper sqlCodeMapper, CardDemoCicsProperties cicsProperties)
+        PostgresSqlCodeMapper sqlCodeMapper, CardDemoCicsProperties cicsProperties,
+        PostgresCicsRecordStore cicsRecordStore)
     {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
         this.sqlCodeMapper = sqlCodeMapper;
         this.cicsProperties = cicsProperties;
+        this.cicsRecordStore = cicsRecordStore;
     }
 
     /**
@@ -42,6 +46,7 @@ public class CardDemoNacaRuntimeBridge
         Objects.requireNonNull(programManager, "programManager");
         environment.setRuntimeConfigOption("APPLID", cicsProperties.getApplicationId());
         environment.setRuntimeConfigOption("SYSID", cicsProperties.getSystemId());
+        environment.setCicsRecordStore(cicsRecordStore);
         Connection connection = DataSourceUtils.getConnection(dataSource);
         SQLConnection runtimeConnection =
             new SQLConnection(connection, "carddemo", "postgresql", true, false, null);
