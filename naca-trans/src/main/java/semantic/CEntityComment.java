@@ -6,7 +6,7 @@
  */
 package semantic;
 
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -34,6 +34,7 @@ public class CEntityComment extends CBaseLanguageEntity
     }
 
     protected String csComment = "" ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

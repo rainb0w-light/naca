@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 */
 public class RunSystemCommand
 {
+    /** Runs this operation. */
     public static BufferedReader run(String command, String[] args, String directory)
     {
         try
@@ -43,6 +44,7 @@ public class RunSystemCommand
         return null ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String commandLine)
     {
         try
@@ -57,6 +59,7 @@ public class RunSystemCommand
         return null ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String command, String[] args)
     {
         String[] com = new String[args.length+1] ;
@@ -68,11 +71,13 @@ public class RunSystemCommand
         return Launch(com) ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String command, String[] args, String directory)
     {
         return Launch(command, args, new File(directory)) ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String command, String[] args, File directory)
     {
         String[] com = new String[args.length+1] ;
@@ -84,6 +89,7 @@ public class RunSystemCommand
         return Launch(com, directory) ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String[] commandAndArgs)
     {
         try
@@ -98,6 +104,7 @@ public class RunSystemCommand
         return null ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String[] commandAndArgs, File workDir)
     {
         try
@@ -112,6 +119,7 @@ public class RunSystemCommand
         return null ;
     }
 
+    /** Executes the launch operation. */
     public static Process Launch(String commandLine, String directory)
     {
         File workDir = new File(directory);
@@ -140,6 +148,7 @@ public class RunSystemCommand
         return Launch(task.csCommand, args, task.dirRuntimeDir) ;
     }
 
+    /** Executes the run system command operation. */
     public static boolean runSystemCommand(String command, String[] args)
     {
         try
@@ -188,6 +197,7 @@ public class RunSystemCommand
         return true;
     }
 
+    /** Returns whether terminated. */
     public static boolean isTerminated(Process proc)
     {
         try

@@ -16,9 +16,13 @@ package utils;
  */
 public abstract class BasePluginMarker
 {
+    /** Executes the debug operation. */
     public abstract void debug(String csText);
+    /** Executes the info operation. */
     public abstract void info(String csText);
+    /** Executes the warn operation. */
     public abstract void warn(String csText);
+    /** Executes the error operation. */
     public abstract void error(String csText);
 
 }

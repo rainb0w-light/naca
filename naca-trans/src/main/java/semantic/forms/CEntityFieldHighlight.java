@@ -7,12 +7,14 @@
 package semantic.forms;
 
 import java.util.Vector;
-
 import lexer.Cobol.CCobolConstantList;
 import parser.expression.CTerminal;
-import semantic.*;
+import semantic.CBaseActionEntity;
+import semantic.CBaseEntityFactory;
+import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import utils.CObjectCatalog;
+
 
 /**
  * @author sly
@@ -20,6 +22,7 @@ import utils.CObjectCatalog;
  */
 public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
 {
+    /** Creates a new centity field highlight instance. */
     public CEntityFieldHighlight(int l, String name, CObjectCatalog cat, CDataEntity owner)
     {
         super(l, name, cat, CEntityFieldAttributeType.HIGHLIGHT, owner) ;
@@ -33,10 +36,12 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true ;
@@ -45,6 +50,7 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
     {
         return false ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return intGetSpecialAssignment(term.GetValue(), reference, factory, l) ;
@@ -52,6 +58,7 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the int get special assignment operation. */
     public static CBaseActionEntity intGetSpecialAssignment(String v, CDataEntity eField, CBaseEntityFactory factory, int l)
     {
         CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(eField) ;
@@ -93,6 +100,7 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
         ref.RegisterWritingAction(eSet) ;
         return eSet;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity val, CBaseEntityFactory factory, int l)
     {
         CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
@@ -101,6 +109,7 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
         ref.RegisterWritingAction(eSet) ;
         return eSet;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -142,11 +151,13 @@ public class CEntityFieldHighlight extends CBaseEntityFieldAttribute
         }
         return eCond ;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CDataEntity e = reference.GetArrayReference(v, factory) ;
         return factory.NewEntityFieldHighlight(getLine(), "", e);
     };
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

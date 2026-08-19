@@ -14,15 +14,17 @@ import parser.expression.CProdExpression;
  */
 public class CEntityExprProd extends CBaseEntityExpression
 {
-    public void SetProdExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CProdExpression.CProdType Type)
+    /** Sets the prod expression. */
+    public void SetProdExpression(CBaseEntityExpression newOp1, CBaseEntityExpression newOp2, CProdExpression.CProdType newType)
     {
-        op1 = Op1 ;
-        op2 = Op2 ;
-        type = Type ;
+        op1 = newOp1 ;
+        op2 = newOp2 ;
+        type = newType ;
     }
     protected CProdExpression.CProdType type = null ;
     protected CBaseEntityExpression op1 = null ;
     protected CBaseEntityExpression op2 = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -31,6 +33,7 @@ public class CEntityExprProd extends CBaseEntityExpression
         op2.Clear() ;
         op2 = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return op1.ignore() || op2.ignore() ;
@@ -54,12 +57,12 @@ public class CEntityExprProd extends CBaseEntityExpression
 
     public boolean isMultiply()
     {
-        return type != null && "MULT".equals(type.Text);
+        return type != null && "MULT".equals(type.getText());
     }
 
     public boolean isDivide()
     {
-        return type != null && "DIVID".equals(type.Text);
+        return type != null && "DIVID".equals(type.getText());
     }
 
 }

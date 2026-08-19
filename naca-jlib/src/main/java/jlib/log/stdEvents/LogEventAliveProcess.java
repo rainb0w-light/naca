@@ -17,16 +17,19 @@ import jlib.log.LogLevel;
  */
 public class LogEventAliveProcess extends LogEvent
 {
+    /** Creates a new log event alive process instance. */
     public LogEventAliveProcess(String csProduct)
     {
         super(LogEventType.Remark, LogFlowStd.Monitoring, LogLevel.Normal);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel)
     {
         return LogEventAliveProcess.log(null);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct)
     {
         LogEventAliveProcess event = new LogEventAliveProcess(csProduct);

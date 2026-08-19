@@ -15,14 +15,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/** Provides data file read behavior. */
 public class DataFileRead extends BaseDataFileBuffered
 {
     private BufferedInputStream in = null;
 
+    /** Creates a new data file read instance. */
     public DataFileRead()
     {
     }
 
+    /** Creates a new data file read instance. */
     public DataFileRead(String csName)
     {
         this.csName = csName;
@@ -48,6 +51,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the open operation. */
     public boolean open(LogicalFileDescriptor logicalFileDescriptor)
     {
         boolean isopened = doOpen();
@@ -58,6 +62,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return isopened;
     }
 
+    /** Executes the close operation. */
     public boolean  close()
     {
         try
@@ -76,11 +81,13 @@ public class DataFileRead extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the flush operation. */
     public boolean flush()
     {
         return false;
     }
 
+    /** Returns whether open. */
     public boolean isOpen()
     {
         if (in != null) {
@@ -89,6 +96,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return false;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = csName + " (";
@@ -107,30 +115,37 @@ public class DataFileRead extends BaseDataFileBuffered
         return cs;
     }
 
+    /** Executes the write operation. */
     public void write(byte[] tBytes, int nOffset, int nLength)
     {
     }
 
+    /** Writes the record. */
     public void writeRecord(String cs)
     {
     }
 
+    /** Executes the write operation. */
     public void write(byte[] tBytes)
     {
     }
 
+    /** Writes the with eol. */
     public void writeWithEOL(byte[] tBytes, int nSize)
     {
     }
 
+    /** Writes the with eol. */
     public void writeWithEOL(LineRead lineRead)
     {
     }
 
+    /** Writes the end of record marker. */
     public void writeEndOfRecordMarker()
     {
     }
 
+    /** Reads the end of line marker. */
     public boolean readEndOfLineMarker()
     {
         int nByte = 0;
@@ -160,6 +175,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the read operation. */
     public byte[] read(int nSize)
     {
         if(in != null)
@@ -181,6 +197,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return null;
     }
 
+    /** Returns the unix record length. */
     public int getUnixRecordLength()
     {
         int n = 0;
@@ -209,6 +226,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return n;
     }
 
+    /** Reads the unix line. */
     public int readUnixLine(byte tBytes[], int nMaxLineSize)
     {
         int n = 0;
@@ -240,6 +258,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return n;
     }
 
+    /** Reads the unix line. */
     public int readUnixLine(byte tBytes[], int nOffset, int nMaxLineSize)
     {
         int n = nOffset;
@@ -269,6 +288,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return n;
     }
 
+    /** Reads the chunk. */
     public int readChunk(byte tBytes[], int nNbBytes)
     {
         int n = -1;
@@ -290,6 +310,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return n;
     }
 
+    /** Reads the chunk. */
     public int readChunk(byte tBytes[], int nOffset, int nNbBytes)
     {
         int n = -1;
@@ -311,6 +332,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return n;
     }
 
+    /** Reads the whole file as array. */
     public byte[] readWholeFileAsArray()
     {
         if(in != null)
@@ -330,6 +352,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return null;
     }
 
+    /** Reads the next unix line. */
     public LineRead readNextUnixLine()
     {
         // Should use a DataFileLineReader
@@ -337,16 +360,19 @@ public class DataFileRead extends BaseDataFileBuffered
     }
 
 
+    /** Reads the buffer. */
     public LineRead readBuffer(int nLength, boolean bTryReadNextLF)
     {
         // Should use a DataFileLineReader
         return null;
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite(byte[] tBytes, int nOffset, int nLength)
     {
     }
 
+    /** Executes the rewrite with eol operation. */
     public void rewriteWithEOL(byte[] tbyDest, int nSize)
     {
     }
@@ -371,11 +397,13 @@ public class DataFileRead extends BaseDataFileBuffered
         return -1;
     }
 
+    /** Sets the file current position. */
     public boolean setFileCurrentPosition(long lCurrentPosition)
     {
         return false;
     }
 
+    /** Executes the save position operation. */
     public boolean savePosition(int nMaxReadAheadSize)
     {
         if(in != null && in.markSupported())
@@ -386,6 +414,7 @@ public class DataFileRead extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the return at saved position operation. */
     public boolean returnAtSavedPosition()
     {
         if(in != null && in.markSupported())
@@ -403,6 +432,7 @@ public class DataFileRead extends BaseDataFileBuffered
     }
 
     // Read a vairable length line (length is given in record header 4 bytes)
+    /** Reads the variable length line. */
     public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)
     {
         LineRead recordHeader = readBuffer(4, false);

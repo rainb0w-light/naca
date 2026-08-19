@@ -40,6 +40,7 @@ import nacaLib.varEx.Var;
 
 import org.w3c.dom.Document;
 
+/** Provides base environment behavior. */
 public abstract class BaseEnvironment extends CJMapObject implements SessionEnvironmentRequester
 {
     private DbConnectionBase qLConnection = null;
@@ -50,13 +51,14 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private Integer envId = null;
     private static ThreadSafeCounter ms_id = new ThreadSafeCounter();
     private CurrentDateInfo creationDateInfo = null;
-    private int nSumTransactionsExecTime_ms = 0;
+    private int sumTransactionsExecTimeMillis = 0;
     private int nNbTransactionsExecuted = 0;
     private boolean isinitialConnectDb = true;  // true if db conection is established before lauchin 1st program
     private FileManager fileManager = null;
     private boolean isexternalConnection = false;
     private boolean issimulateRealEnvironment = false;
 
+    /** Creates a new base environment instance. */
     public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
     {
         this.baseSession = baseSession;
@@ -89,11 +91,13 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return baseSession;
     }
 
+    /** Resets the session. */
     public void resetSession()
     {
         baseSession = null;
     }
 
+    /** Returns the last screen xmldata. */
     public Document getLastScreenXMLData()
     {
         if (baseSession != null) {
@@ -102,6 +106,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return null;
     }
 
+    /** Sets the current transaction. */
     public void setCurrentTransaction(String csTransactionID, String csProgramID)
     {
         csCurrentTransaction = csTransactionID ;
@@ -113,11 +118,13 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return csCurrentTransaction ;
     }
 
+    /** Executes the debugremove dbconnection operation. */
     public void DEBUGremoveDBConnection()
     {
         qLConnection = null;
     }
 
+    /** Executes the fill env connection with allocated connection operation. */
     public void fillEnvConnectionWithAllocatedConnection(
         Connection spConnection,
         String csPrefId,
@@ -127,6 +134,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         qLConnection = new SQLConnection(spConnection, csPrefId, csEnv, bUseCachedStatements, false, null);
     }
 
+    /** Returns the new sqlconnection. */
     public DbConnectionBase getNewSQLConnection()
     {
         if(connectionManager != null)
@@ -146,6 +154,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return null;
     }
 
+    /** Returns the sqlconnection. */
     public DbConnectionBase getSQLConnection()
     {
         if(qLConnection == null && connectionManager != null)
@@ -167,6 +176,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return qLConnection;
     }
 
+    /** Executes the abort trans when invalid db connection operation. */
     public boolean abortTransWhenInvalidDbConnection()
     {
         if(!hasSQLConnection())
@@ -178,6 +188,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return true;
     }
 
+    /** Returns whether s sqlconnection. */
     public boolean hasSQLConnection()
     {
         if (qLConnection == null) {
@@ -186,6 +197,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return true;
     }
 
+    /** Executes the release sqlconnection operation. */
     public void releaseSQLConnection()
     {
         if (!isexternalConnection)   // Release only internal connection
@@ -209,6 +221,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         tempCache = TempCacheLocator.setTempCache();
     }
 
+    /** Executes the return temp cache to stack operation. */
     public void returnTempCacheToStack()
     {
         if (tempCache != null)
@@ -255,12 +268,14 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return csNextProgramToLoad ;
     }
 
+    /** Sets the next program to load. */
     public void setNextProgramToLoad(String csProgramId)
     {
         csNextProgramToLoad = csProgramId.trim() ;
         csProgramParent = null;
     }
 
+    /** Sets the next program to load. */
     public void setNextProgramToLoad(String csProgramId, String csProgramParent)
     {
         csNextProgramToLoad = csProgramId.trim() ;
@@ -278,6 +293,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     }
 
+    /** Executes the do enqueue program operation. */
     public void doEnqueueProgram(String csProg)
     {
         qPrograms.add(csProg);
@@ -299,6 +315,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         this.commarea = commarea ;
     }
 
+    /** Resets the new transaction. */
     public void resetNewTransaction()
     {
         doResetNewTransaction();
@@ -312,11 +329,13 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     private Date startTime = new Date() ;
 
+    /** Resets the date time. */
     public void resetDateTime()
     {
         startTime = new Date() ;
     }
 
+    /** Returns the time. */
     public String getTime()
     {
         SimpleDateFormat formater = new SimpleDateFormat("'0'HHmmss");
@@ -324,6 +343,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return cs ;
     }
 
+    /** Returns the date. */
     public String getDate()
     {
         SimpleDateFormat formater  ;
@@ -333,11 +353,13 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return cs ;
     }
 
+    /** Returns whether s output. */
     public boolean hasOutput()
     {
         return false;
     }
 
+    /** Executes the register output operation. */
     public void RegisterOutput()
     {
     }
@@ -345,6 +367,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private Tag tagConfig = null ;
 
 
+    /** Executes the init operation. */
     public void Init(Tag tagCESMConfig)
     {
         configInit(tagCESMConfig);
@@ -362,6 +385,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return "";
     }
 
+    /** Returns whether linux. */
     public boolean isLinux()
     {
         String linux = getConfigOption("StartBatchLinux");
@@ -406,7 +430,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     }
 
 
+    /** Creates the cesmmanager. */
     public abstract BaseCESMManager createCESMManager();
+    /** Returns the session. */
     public abstract BaseSession getSession();
 
 
@@ -449,18 +475,21 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     private Queue qData = new SynchronousQueue() ;
 
+    /** Executes the enqueue program operation. */
     public void enqueueProgram(String csTransID, CESMStartData data)
     {
         doEnqueueProgram(csTransID);
         enqueueData(data);
     }
 
+    /** Executes the enqueue data operation. */
     public void enqueueData(CESMStartData data)
     {
         qData.add(data) ;
     }
 
 
+    /** Executes the get enqueued data operation. */
     public CESMStartData GetEnqueuedData()
     {
             if (qData.isEmpty())
@@ -471,6 +500,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
             return v ;
     }
 
+    /** Executes the start asynchronous program operation. */
     public void StartAsynchronousProgram(String transID, String csProgramParent, CESMStartData data, int intervalTimeSeconds)
     {
         BaseProgramLoader.StartAsynchronousProgram(transID, csProgramParent, data, intervalTimeSeconds);
@@ -483,6 +513,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     {
         return csApplicationCredentials ;
     }
+    /** Resets the application credentials. */
     public void resetApplicationCredentials(String cs)
     {
         csApplicationCredentials = cs ;
@@ -516,6 +547,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     }
 
     protected KeyPressed keyPressed = null ;
+    /** Executes the get key pressed operation. */
     public KeyPressed GetKeyPressed()
     {
         if (keyPressed != null)
@@ -528,11 +560,13 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         }
     }
 
+    /** Resets the key pressed. */
     public void resetKeyPressed()
     {
         keyPressed = null ;
     }
 
+    /** Sets the key pressed. */
     public void setKeyPressed(Var v)
     {
         keyPressed = KeyPressed.getKey(v);
@@ -551,6 +585,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         this.isinitialConnectDb = bInitialConnectDb;
     }
 
+    /** Sets the external db connection. */
     public void setExternalDbConnection(DbConnectionBase dbConnection)
     {
         if(dbConnection != null)    // Provide an external db connection by caller
@@ -565,6 +600,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         }
     }
 
+    /** Executes the start run transaction operation. */
     public boolean startRunTransaction()
     {
         if(issimulateRealEnvironment)
@@ -602,6 +638,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return isstarted;
     }
 
+    /** Executes the end run transaction operation. */
     public void endRunTransaction(CriteriaEndRunMain criteria)
     {
         if(accountingRecordManager != null)
@@ -639,22 +676,22 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private void startSessionRequest(String csCurrentTransaction)
     {
         dateStart.setNow();
-        sessionRequestEndBefore_ms = BaseResourceManager.getSessionRequestEndTimeLimit(csCurrentTransaction);
+        sessionRequestEndBeforeMillis = BaseResourceManager.getSessionRequestEndTimeLimit(csCurrentTransaction);
         envStatus = EnvironmentStatus.RUNNING;
     }
 
     void offsetMaxTimeLimit(long lOffsetMs)
     {
-        sessionRequestEndBefore_ms += lOffsetMs;
+        sessionRequestEndBeforeMillis += lOffsetMs;
     }
 
     private void endSessionRequest()
     {
         nNbTransactionsExecuted++;
         dateEnd.setNow();
-        sessionRequestEndBefore_ms = 0; // No running
+        sessionRequestEndBeforeMillis = 0; // No running
         envStatus = EnvironmentStatus.STOPPED;
-        nSumTransactionsExecTime_ms += (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
+        sumTransactionsExecTimeMillis += (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
     }
 
     void requestStopProcessing()
@@ -684,9 +721,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     int getSumTransactionsExecTime_ms()
     {
         if (isRunning()) {
-            return (int) getStartRunTime().getTimeOffset_ms(getEndRunTime()) + nSumTransactionsExecTime_ms;
+            return (int) getStartRunTime().getTimeOffset_ms(getEndRunTime()) + sumTransactionsExecTimeMillis;
         }
-        return (int)nSumTransactionsExecTime_ms;
+        return (int)sumTransactionsExecTimeMillis;
     }
 
     int getNbTransactionsExecuted()
@@ -711,6 +748,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return n;
     }
 
+    /** Executes the break current session if timeout operation. */
     public void breakCurrentSessionIfTimeout()
     {
         if(abStopProcessing.get())  // Forced stop
@@ -721,10 +759,10 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
             throw exp ;
         }
 
-        if(sessionRequestEndBefore_ms != 0)
+        if(sessionRequestEndBeforeMillis != 0)
         {
             long almostCurrentTimeMs = Time_ms.getCurrentTime_ms();
-            if(almostCurrentTimeMs > sessionRequestEndBefore_ms)
+            if(almostCurrentTimeMs > sessionRequestEndBeforeMillis)
             {
                 AbortSessionException exp = new AbortSessionException() ;
                 exp.reason = new Error("SessionTimeoutInternal");
@@ -742,18 +780,21 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return false;
     }
 
+    /** Returns the society code. */
     public String getSocietyCode()
     {
         String cs = "   ";
         return cs ;
     }
 
+    /** Returns the application. */
     public String getApplication()
     {
         String cs = "  ";
         return cs ;
     }
 
+    /** Returns the file manager entry. */
     public FileManagerEntry getFileManagerEntry(String csLogicalName)
     {
         if (fileManager == null) {
@@ -762,6 +803,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         return fileManager.getFileManagerEntry(csLogicalName);
     }
 
+    /** Executes the auto close open file operation. */
     public void autoCloseOpenFile()
     {
         if (fileManager != null) {
@@ -769,6 +811,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         }
     }
 
+    /** Executes the auto flush open file operation. */
     public void autoFlushOpenFile()
     {
         if (fileManager != null) {
@@ -776,6 +819,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         }
     }
 
+    /** Executes the cleanup on exception catched operation. */
     public void cleanupOnExceptionCatched()
     {
         rollbackSQL() ;
@@ -785,6 +829,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     }
 
     private static int ms_LastJobBatchID = 0 ;
+    /** Returns the next job batch id. */
     public static String getNextJobBatchID()
     {
         int n = ms_LastJobBatchID ++ ;
@@ -792,7 +837,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     }
 
     private AtomicBoolean abStopProcessing = new AtomicBoolean(false);
-    private long sessionRequestEndBefore_ms = 0;
+    private long sessionRequestEndBeforeMillis = 0;
     private CurrentDateInfo dateStart = new CurrentDateInfo();
     private CurrentDateInfo dateEnd  = new CurrentDateInfo();
     private EnvironmentStatus envStatus = EnvironmentStatus.UNKNOWN;

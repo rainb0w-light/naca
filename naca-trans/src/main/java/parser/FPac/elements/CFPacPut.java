@@ -22,11 +22,13 @@ import semantic.Verbs.CEntityWriteFile;
 import utils.Transcoder;
 import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
+/** Provides cfpac put behavior. */
 public class CFPacPut extends CFPacElement
 {
 
     private CIdentifier putFile;
 
+    /** Creates a new cfpac put instance. */
     public CFPacPut(int line)
     {
         super(line);

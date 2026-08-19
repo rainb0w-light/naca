@@ -10,12 +10,12 @@ package semantic.Verbs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityExpression;
-import utils.*;
+import utils.CObjectCatalog;
+
 
 /**
  * @author sly
@@ -32,15 +32,18 @@ public class CEntityCalcul extends CBaseActionEntity
         super(l, cat);
     }
 
+    /** Sets the calcul. */
     public void SetCalcul(CBaseEntityExpression exp)
     {
         expression = exp ;
     }
 
+    /** Adds the destination. */
     public void AddDestination(CDataEntity e)
     {
         destinations.add(e) ;
     }
+    /** Adds the rounded destination. */
     public void AddRoundedDestination(CDataEntity e)
     {
         roundedDestinations.add(e) ;
@@ -49,6 +52,7 @@ public class CEntityCalcul extends CBaseActionEntity
     protected Vector<CDataEntity> destinations = new Vector<CDataEntity>();
     protected Vector<CDataEntity> roundedDestinations = new Vector<CDataEntity>();
     protected CBaseLanguageEntity onErrorBloc = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -66,10 +70,12 @@ public class CEntityCalcul extends CBaseActionEntity
         onErrorBloc = null ;
     }
 
+    /** Sets the on error bloc. */
     public void SetOnErrorBloc(CBaseLanguageEntity eBloc)
     {
         onErrorBloc = eBloc ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (expression == null) {
@@ -90,6 +96,7 @@ public class CEntityCalcul extends CBaseActionEntity
         ignore |= b ;
         return ignore ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if  (destinations.contains(data) ||  roundedDestinations.contains(data))
@@ -112,6 +119,7 @@ public class CEntityCalcul extends CBaseActionEntity
         return onErrorBloc;
     }
 
+    /** Returns the calculation destinations. */
     public List<CalculationDestination> getCalculationDestinations()
     {
         List<CalculationDestination> result = new ArrayList<>();
@@ -126,6 +134,7 @@ public class CEntityCalcul extends CBaseActionEntity
         return result;
     }
 
+    /** Provides calculation destination behavior. */
     public static final class CalculationDestination
     {
         private final CDataEntity destination;

@@ -48,10 +48,12 @@ import utils.FPacTranscoder.notifs.NotifGetAllFilesNotOpen;
 import utils.FPacTranscoder.notifs.NotifGetDefaultInputFile;
 import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
+/** Provides cfpac code bloc behavior. */
 public class CFPacCodeBloc extends CFPacElement
 {
     protected int nEndLine = 0 ;
     protected String csName = "" ;
+    /** Creates a new cfpac code bloc instance. */
     public CFPacCodeBloc(int line, String csName)
     {
         super(line);

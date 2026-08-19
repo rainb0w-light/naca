@@ -16,7 +16,10 @@ package nacaLib.varEx;
  */
 public abstract class OccursDefBase
 {
+    /** Returns the nb occurs. */
     public abstract int getNbOccurs();
+    /** Executes the prepare auto removal operation. */
     public abstract void prepareAutoRemoval();
+    /** Returns the record depending var. */
     public abstract Var getRecordDependingVar();
 }

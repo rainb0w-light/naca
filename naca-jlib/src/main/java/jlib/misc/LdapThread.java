@@ -13,17 +13,18 @@ import javax.naming.directory.DirContext;
 
 import jlib.log.Log;
 
+/** Provides ldap thread behavior. */
 public class LdapThread extends Thread
 {
     private ThreadSafeCounter nbThreadCreated = null;
 
-    LdapThread(int nRquestId, String csUserId, String csPassword, String csServer, ThreadSafeCounter NbThreadCreated)
+    LdapThread(int nRquestId, String csUserId, String csPassword, String csServer, ThreadSafeCounter newNbThreadCreated)
     {
         nRequestId = nRquestId;
         this.csUserId = csUserId;
         this.csPassword = csPassword;
         this.csServer = csServer;
-        nbThreadCreated = NbThreadCreated;
+        nbThreadCreated = newNbThreadCreated;
     }
 
     void setLdapThreadOwner(LdapUtil ldapUtil)
@@ -31,6 +32,7 @@ public class LdapThread extends Thread
         this.ldapUtil = ldapUtil;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         Log.logNormal("LDap request " + nRequestId + ": trying to get ldap info from server " + csServer);

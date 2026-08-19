@@ -22,8 +22,10 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
 
+/** Provides called environment behavior. */
 public class CalledEnvironment extends BaseEnvironment
 {
+    /** Creates a new called environment instance. */
     public CalledEnvironment(
         CalledSession calledSession,
         DbConnectionManagerBase connectionManager,
@@ -32,6 +34,7 @@ public class CalledEnvironment extends BaseEnvironment
         super(calledSession, connectionManager, baseResourceManager);
     }
 
+    /** Creates the cesmmanager. */
     public BaseCESMManager createCESMManager()
     {
         return new CESMManager(this);
@@ -42,6 +45,7 @@ public class CalledEnvironment extends BaseEnvironment
         return null;
     }
 
+    /** Executes the break current session if timeout operation. */
     public void breakCurrentSessionIfTimeout()
     {
     }

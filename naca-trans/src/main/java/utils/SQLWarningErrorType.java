@@ -22,6 +22,7 @@ public class SQLWarningErrorType
     {
     }
 
+    /** Returns the sqlwarning error statement. */
     public static String getSQLWarningErrorStatement(SQLWarningErrorType type, String csSQLWarningErrorArg)
     {
         String cs = "";

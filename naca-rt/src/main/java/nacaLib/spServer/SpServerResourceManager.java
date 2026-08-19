@@ -21,6 +21,7 @@ import jlib.xml.Tag;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.misc.LogFlowCustomNacaRT;
 
+/** Provides sp server resource manager behavior. */
 public class SpServerResourceManager extends BaseResourceManager
 {
     private Tag tagRoot = null;
@@ -31,6 +32,7 @@ public class SpServerResourceManager extends BaseResourceManager
         BasicLogger.log("SpServerResourceManager() ended");
     }
 
+    /** Executes the initialize operation. */
     public void initialize(String csINIFilePath)
     {
         BasicLogger.log("SpServerResourceManager::initialize 0");
@@ -106,6 +108,7 @@ public class SpServerResourceManager extends BaseResourceManager
         BasicLogger.log("SpServerResourceManager::initSequenceur() 1");
     }
 
+    /** Executes the do remove resource cache operation. */
     public void doRemoveResourceCache(String csForm)
     {
     }

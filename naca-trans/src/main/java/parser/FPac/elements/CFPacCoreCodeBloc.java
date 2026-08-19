@@ -6,9 +6,11 @@
  */
 package parser.FPac.elements;
 
+/** Provides cfpac core code bloc behavior. */
 public class CFPacCoreCodeBloc extends CFPacCodeBloc
 {
 
+    /** Creates a new cfpac core code bloc instance. */
     public CFPacCoreCodeBloc(int line, String name)
     {
         super(line, name);

@@ -10,48 +10,58 @@ import jlib.misc.EnvironmentVar;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.stringSupport.Concat;
 
+/** Provides console behavior. */
 public class Console
 {
+    /** Creates a new console instance. */
     public Console()
     {
     }
 
+    /** Executes the display operation. */
     public Console display(Concat conc)
     {
         return display(conc.getString());
     }
 
+    /** Executes the display operation. */
     public Console display(int n)
     {
         return display(String.valueOf(n));
     }
 
+    /** Executes the display operation. */
     public Console display(long l)
     {
         return display(String.valueOf(l));
     }
 
+    /** Executes the display operation. */
     public Console display(short s)
     {
         return display(String.valueOf(s));
     }
 
+    /** Executes the display operation. */
     public Console display(double d)
     {
         return display(String.valueOf(d));
     }
 
+    /** Executes the display operation. */
     public Console display(boolean b)
     {
         return display(String.valueOf(b));
     }
 
+    /** Executes the display operation. */
     public Console display(VarAndEdit var)
     {
         String csMessage = var.getDottedSignedStringAsSQLCol();
         return display(csMessage);
     }
 
+    /** Executes the display operation. */
     public Console display(String cs)
     {
         System.out.println(cs);

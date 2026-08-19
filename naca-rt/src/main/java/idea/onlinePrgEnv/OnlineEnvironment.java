@@ -8,27 +8,28 @@ package idea.onlinePrgEnv;
 
 import idea.manager.CESMManager;
 import idea.manager.CESMSendMap;
-
 import java.util.Comparator;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
-
 import jlib.misc.NumberParser;
-
 import nacaLib.basePrgEnv.BaseCESMManager;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseSession;
 import jlib.sql.DbConnectionManagerBase;
-import jlib.xml.*;
+import jlib.xml.Tag;
+import jlib.xml.XMLUtil;
 import nacaLib.program.CESMCommandCode;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+
+
+
+
 
 
 /**
@@ -38,6 +39,7 @@ import org.w3c.dom.Element;
 
 public class OnlineEnvironment extends BaseEnvironment
 {
+    /** Creates a new online environment instance. */
     public OnlineEnvironment(OnlineSession session, DbConnectionManagerBase connectionManager)
     {
         super(session, connectionManager, session.getBaseResourceManager());
@@ -58,6 +60,7 @@ public class OnlineEnvironment extends BaseEnvironment
         return session;
     }
 
+    /** Resets the session. */
     public void resetSession()
     {
         session = null;
@@ -76,6 +79,7 @@ public class OnlineEnvironment extends BaseEnvironment
         return xmlData ;
     }
 
+    /** Returns the xmldisplay. */
     public Document getXMLDisplay()
     {
         Document doc = createNewDocument() ;
@@ -211,31 +215,37 @@ public class OnlineEnvironment extends BaseEnvironment
         }
     }
 
+    /** Adds the map order. */
     public void addMapOrder(CESMSendMap order)
     {
         sendMapOrder = order ;
     }
 
+    /** Adds the output. */
     public void addOutput()
     {
         ishasOutput = true;
     }
 
+    /** Resets the output. */
     public void resetOutput()
     {
         ishasOutput = false;
     }
 
+    /** Resets the new transaction. */
     public void resetNewTransaction()
     {
         doResetNewTransaction();
         sendMapOrder = null  ;
     }
+    /** Returns whether s output. */
     public boolean hasOutput()
     {
         return sendMapOrder != null || ishasOutput;
     }
 
+    /** Executes the register output operation. */
     public void RegisterOutput()
     {
         if (sendMapOrder != null)
@@ -353,6 +363,7 @@ public class OnlineEnvironment extends BaseEnvironment
     protected String csDataRecordFilePath = "" ;
     protected Document docDataRecord = null ;
 
+    /** Executes the record input operation. */
     public void recordInput()
     {
         if (docDataRecord == null)
@@ -396,6 +407,7 @@ public class OnlineEnvironment extends BaseEnvironment
 //      return "";
 //  }
 
+    /** Returns the user ldap id. */
     public String getUserLdapId()
     {
         if (session != null) {
@@ -404,6 +416,7 @@ public class OnlineEnvironment extends BaseEnvironment
         return "";
     }
 
+    /** Creates the cesmmanager. */
     public BaseCESMManager createCESMManager()
     {
         return new CESMManager(this);

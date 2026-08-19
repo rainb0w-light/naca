@@ -58,16 +58,19 @@ public class CEntityAddTo extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the add dest. */
     public void SetAddDest(CDataEntity dest)
     {
         dest.RegisterWritingAction(this);
         this.dest.add(dest);
     }
+    /** Sets the add value. */
     public void SetAddValue(CDataEntity val)
     {
         val.RegisterReadingAction(this);
         values.add(val);
     }
+    /** Sets the rounded. */
     public void SetRounded(boolean b)
     {
         isrounded = b ;
@@ -75,12 +78,14 @@ public class CEntityAddTo extends CBaseActionEntity
     protected Vector<CDataEntity> values = new Vector<CDataEntity>() ;
     protected Vector<CDataEntity> dest = new Vector<CDataEntity>() ;
     protected boolean isrounded = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         values.clear() ;
         dest.clear();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = true ;
@@ -101,6 +106,7 @@ public class CEntityAddTo extends CBaseActionEntity
         }
         return ignore ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (dest.contains(data))
@@ -135,6 +141,7 @@ public class CEntityAddTo extends CBaseActionEntity
         return isrounded;
     }
 
+    /** Returns whether s single value. */
     public boolean hasSingleValue()
     {
         return values.size() == 1;
@@ -144,6 +151,7 @@ public class CEntityAddTo extends CBaseActionEntity
         return hasSingleValue();
     }
 
+    /** Returns the single value. */
     public CDataEntity getSingleValue()
     {
         if (values.size() == 1)
@@ -153,6 +161,7 @@ public class CEntityAddTo extends CBaseActionEntity
         return null;
     }
 
+    /** Returns the single destination. */
     public CDataEntity getSingleDestination()
     {
         if (dest.size() == 1)
@@ -161,6 +170,7 @@ public class CEntityAddTo extends CBaseActionEntity
         }
         return null;
     }
+    /** Returns the combined value tree. */
     public CEntityAddValueTree getCombinedValueTree()
     {
         if (values.size() < 2)
@@ -185,6 +195,7 @@ public class CEntityAddTo extends CBaseActionEntity
         return isSingleConstant("-1");
     }
 
+    /** Returns whether s no values. */
     public boolean hasNoValues()
     {
         return values.isEmpty();
@@ -193,6 +204,7 @@ public class CEntityAddTo extends CBaseActionEntity
     {
         return hasNoValues();
     }
+    /** Returns whether s multiple values. */
     public boolean hasMultipleValues()
     {
         return values.size() > 1;
@@ -201,6 +213,7 @@ public class CEntityAddTo extends CBaseActionEntity
     {
         return hasMultipleValues();
     }
+    /** Executes the single destination has accessors operation. */
     public boolean singleDestinationHasAccessors()
     {
         return getSingleDestination() != null && getSingleDestination().HasAccessors();
@@ -218,6 +231,7 @@ public class CEntityAddTo extends CBaseActionEntity
         }
         return destination;
     }
+    /** Executes the single destination is substring operation. */
     public boolean singleDestinationIsSubstring()
     {
         return unwrappedSingleDestination() instanceof CSubStringAttributReference;
@@ -226,6 +240,7 @@ public class CEntityAddTo extends CBaseActionEntity
     {
         return singleDestinationIsSubstring();
     }
+    /** Executes the single destination is environment variable operation. */
     public boolean singleDestinationIsEnvironmentVariable()
     {
         return unwrappedSingleDestination() instanceof CEntityEnvironmentVariable;
@@ -234,24 +249,28 @@ public class CEntityAddTo extends CBaseActionEntity
     {
         return singleDestinationIsEnvironmentVariable();
     }
+    /** Returns the single destination reference. */
     public CDataEntity getSingleDestinationReference()
     {
         CDataEntity destination = unwrappedSingleDestination();
         return destination instanceof CSubStringAttributReference
             ? ((CSubStringAttributReference) destination).getReference() : null;
     }
+    /** Returns the single destination start. */
     public CDataEntity getSingleDestinationStart()
     {
         CDataEntity destination = unwrappedSingleDestination();
         return destination instanceof CSubStringAttributReference
             ? ((CSubStringAttributReference) destination).getStart() : null;
     }
+    /** Returns the single destination length. */
     public CDataEntity getSingleDestinationLength()
     {
         CDataEntity destination = unwrappedSingleDestination();
         return destination instanceof CSubStringAttributReference
             ? ((CSubStringAttributReference) destination).getLength() : null;
     }
+    /** Returns the single destination write accessor. */
     public String getSingleDestinationWriteAccessor()
     {
         CDataEntity destination = unwrappedSingleDestination();

@@ -17,6 +17,7 @@ public class VarLevelGroup
         this.varLevel = varLevel;
     }
 
+    /** Executes the var operation. */
     public VarGroup var()   // Creates a group
     {
         if (varLevel != null) {
@@ -25,6 +26,7 @@ public class VarLevelGroup
         return null;
     }
 
+    /** Executes the filler operation. */
     public Var filler()
     {
         if (varLevel != null) {

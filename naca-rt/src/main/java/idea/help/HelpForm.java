@@ -101,10 +101,12 @@ public class HelpForm extends ActionForm
     {
         return this ;
     }
+    /** Returns the display. */
     public String getDisplay(String cs)
     {
         return cs ;
     }
+    /** Returns the localized text. */
     public String getLocalizedText(String cs)
     {
         return cs ;

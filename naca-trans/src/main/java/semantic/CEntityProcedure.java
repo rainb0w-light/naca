@@ -6,7 +6,8 @@
  */
 package semantic;
 
-import utils.*;
+import utils.CObjectCatalog;
+import utils.CobolNameUtil;
 
 /**
  * @author sly
@@ -40,6 +41,7 @@ public class CEntityProcedure extends CBaseLanguageEntity
         programCatalog.getCallTree().RegisterProcedure(this) ;
     }
 
+    /** Sets the full name. */
     public void setFullName()
     {
         if (sectionContainer == null)
@@ -62,6 +64,7 @@ public class CEntityProcedure extends CBaseLanguageEntity
     }
 
     protected static int ms_nLastProcedureIndex = 0 ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (isignore)
@@ -71,6 +74,7 @@ public class CEntityProcedure extends CBaseLanguageEntity
         return isignore;
     }
 
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
 //      return sectionContainer.UpdateAction(entity, newCond);
@@ -85,6 +89,7 @@ public class CEntityProcedure extends CBaseLanguageEntity
         }
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

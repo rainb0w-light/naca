@@ -14,12 +14,14 @@ import nacaLib.mapSupport.MapFieldAttribute;
  */
 public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 {
+    /** Creates a new var def edit in map redefine base instance. */
     public VarDefEditInMapRedefineBase(VarDefBase varDefParent, VarLevel varLevel)
     {
         super(varDefParent, varLevel);
         bJustifyRight = varLevel.getJustifyRight();
     }
 
+    /** Executes the map on origin edit operation. */
     public void mapOnOriginEdit()
     {
         VarDefMapRedefine mapRedefine = getMapRedefine();
@@ -53,6 +55,7 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
         return varDefEditOrigin;
     }
 
+    /** Creates a new var def edit in map redefine base instance. */
     public VarDefEditInMapRedefineBase()
     {
         super();

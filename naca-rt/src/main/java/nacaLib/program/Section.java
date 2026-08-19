@@ -9,11 +9,15 @@ package nacaLib.program ;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import jlib.log.Log;
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.exceptions.*;
+import nacaLib.exceptions.CGotoException;
+import nacaLib.exceptions.CGotoOtherSectionException;
+import nacaLib.exceptions.CGotoOtherSectionParagraphException;
+import nacaLib.exceptions.NacaRTException;
 
+
+/** Provides section behavior. */
 public class Section extends CJMapRunnable
 {
     private BaseProgram program = null;
@@ -23,32 +27,37 @@ public class Section extends CJMapRunnable
     private String csName = null;
     private Method method = null;
 
-    public Section(BaseProgram Program)
+    /** Creates a new section instance. */
+    public Section(BaseProgram newProgram)
     {
-        program = Program;
+        program = newProgram;
         isrun = true;
         program.getProgramManager().addSection(this);
     }
-    public Section(BaseProgram Program, boolean bRun)
+    /** Creates a new section instance. */
+    public Section(BaseProgram newProgram, boolean bRun)
     {
-        program = Program;
+        program = newProgram;
         this.isrun = bRun;
         program.getProgramManager().addSection(this);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csName;  //.substring(csName.lastIndexOf('$')+1) ;
     }
 
+    /** Executes the name operation. */
     public void name(String csName)
     {
         this.csName = csName;
     }
 
-    public void addParapgraph(Paragraph Paragraph)
+    /** Adds the parapgraph. */
+    public void addParapgraph(Paragraph newParagraph)
     {
-        paragraph.add(Paragraph);
+        paragraph.add(newParagraph);
     }
 
     private void setNextParagraphCurrent()
@@ -98,6 +107,7 @@ public class Section extends CJMapRunnable
         return -1;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         if (!isrun || csName == null) {
@@ -140,12 +150,14 @@ public class Section extends CJMapRunnable
         }
     }
 
+    /** Executes the run section from paragraph operation. */
     public void runSectionFromParagraph(Paragraph paragraph)
     {
         currentParagraph = paragraph;
         runSectionFromCurrentParagraph();
     }
 
+    /** Executes the run section operation. */
     public void runSection()
     {
         currentParagraph = null;    // The code in the section headser is out of any paragraph
@@ -215,6 +227,7 @@ public class Section extends CJMapRunnable
         }
     }
 
+    /** Returns whether paragraph in current section. */
     public boolean isParagraphInCurrentSection(Paragraph paragraph)
     {
         int nNbParagraph = this.paragraph.size();
@@ -228,6 +241,7 @@ public class Section extends CJMapRunnable
         return false;
     }
 
+    /** Executes the run first paragraph operation. */
     public void runFirstParagraph()
     {
         if(paragraph.size() > 0)

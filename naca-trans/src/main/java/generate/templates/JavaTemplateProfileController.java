@@ -30,16 +30,19 @@ public final class JavaTemplateProfileController
         profiles = Map.copyOf(configured);
     }
 
+    /** Executes the instance operation. */
     public static JavaTemplateProfileController instance()
     {
         return INSTANCE;
     }
 
+    /** Executes the profile operation. */
     public JavaTemplateProfile profile(JavaTemplatePipeline pipeline)
     {
         return profiles.get(Objects.requireNonNull(pipeline, "pipeline"));
     }
 
+    /** Executes the catalog operation. */
     public JavaTemplateCatalog catalog(JavaTemplatePipeline pipeline)
     {
         return catalogs.computeIfAbsent(
@@ -47,6 +50,7 @@ public final class JavaTemplateProfileController
             selected -> JavaTemplateCatalogFactory.create(profile(selected)));
     }
 
+    /** Creates the assembler. */
     public JavaTemplateAssembler newAssembler(JavaTemplatePipeline pipeline)
     {
         JavaTemplateCatalog catalog =
@@ -54,6 +58,7 @@ public final class JavaTemplateProfileController
         return new JavaTemplateAssembler(catalog.group());
     }
 
+    /** Executes the shared assembler operation. */
     public JavaTemplateAssembler sharedAssembler(JavaTemplatePipeline pipeline)
     {
         return assemblers.computeIfAbsent(

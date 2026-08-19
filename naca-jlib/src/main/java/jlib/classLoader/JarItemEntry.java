@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+/** Provides jar item entry behavior. */
 public class JarItemEntry
 {
     JarItemEntry(ZipEntry zipEntry)
@@ -18,6 +19,7 @@ public class JarItemEntry
         this.zipEntry = zipEntry;
     }
 
+    /** Returns the size. */
     public int getSize()
     {
         if (zipEntry != null) {
@@ -26,6 +28,7 @@ public class JarItemEntry
         return 0;
     }
 
+    /** Returns the name. */
     public String getName()
     {
         if (zipEntry != null) {
@@ -39,11 +42,13 @@ public class JarItemEntry
         return zipEntry;
     }
 
+    /** Loads the bytes. */
     public byte[] loadBytes(JarEntries jarEntries)
     {
         return loadBytes(jarEntries.getZipFile());
     }
 
+    /** Loads the bytes. */
     public byte[] loadBytes(ZipFile zipFile)
     {
         try

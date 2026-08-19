@@ -84,15 +84,18 @@ public class CEntityResourceFieldArray extends CEntityResourceField
         super(l, name, cat);
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         return false;
     }
 
+    /** Sets the array. */
     public void SetArray(int nbItems, int nbCol, boolean bVerticalFilling)
     {
         // Fixed latent self-assignment: the legacy body assigned the parameters to themselves
@@ -108,11 +111,13 @@ public class CEntityResourceFieldArray extends CEntityResourceField
     protected int nbColumns = 0 ;
     protected boolean isverticalFilling = false ;
 
+    /** Sets the position. */
     public void SetPosition(int line, int col)
     {
         nPosCol = col ;
         nPosLine = line ;
     }
+    /** Executes the init dependences operation. */
     public void InitDependences(CBaseEntityFactory factory)
     {
         ListIterator iter = lstChildren.listIterator() ;
@@ -130,6 +135,7 @@ public class CEntityResourceFieldArray extends CEntityResourceField
         }
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         // Preserved from the retired backend: a field array bears no type decl.
@@ -145,6 +151,7 @@ public class CEntityResourceFieldArray extends CEntityResourceField
     /* (non-Javadoc)
      * @see semantic.forms.CEntityResourceField#DoXMLExport(org.w3c.dom.Document, semantic.forms.CResourceStrings)
      */
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         // Preserved byte-for-byte from the retired backend, target-neutral: an <array> element

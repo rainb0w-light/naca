@@ -16,11 +16,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondIsKindOf extends CUnitaryEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondIsKindOf opposite = new CEntityCondIsKindOf();
@@ -32,6 +34,7 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
         opposite.reference = reference;
         return opposite;
     }
+    /** Sets the is numeric. */
     public void SetIsNumeric(CDataEntity data)
     {
         SetConditonReference(data) ;
@@ -40,6 +43,7 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
         isisLower = false ;
         isisUpper = false ;
     }
+    /** Sets the is alphabetic. */
     public void SetIsAlphabetic(CDataEntity data)
     {
         SetConditonReference(data) ;
@@ -48,6 +52,7 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
         isisLower = false ;
         isisUpper = false ;
     }
+    /** Sets the is lower. */
     public void SetIsLower(CDataEntity data)
     {
         SetConditonReference(data) ;
@@ -56,6 +61,7 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
         isisLower = true ;
         isisUpper = false ;
     }
+    /** Sets the is upper. */
     public void SetIsUpper(CDataEntity data)
     {
         SetConditonReference(data) ;
@@ -70,14 +76,17 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
     protected boolean isisUpper = false ;
     protected boolean isisAlphabetic = false ;
     protected boolean isopposite = false ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore();
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return null;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -89,6 +98,7 @@ public class CEntityCondIsKindOf extends CUnitaryEntityCondition
         }
         return false ;
     }
+    /** Sets the opposite. */
     public void setOpposite()
     {
         isopposite = !isopposite;

@@ -1,12 +1,15 @@
 package com.publicitas.naca.cloudnative.model;
 
+/** Provides transpile request behavior. */
 public class TranspileRequest {
     private String cobolSource;
     private String programName;
 
+    /** Creates a new transpile request instance. */
     public TranspileRequest() {
     }
 
+    /** Creates a new transpile request instance. */
     public TranspileRequest(String cobolSource, String programName) {
         this.cobolSource = cobolSource;
         this.programName = programName;

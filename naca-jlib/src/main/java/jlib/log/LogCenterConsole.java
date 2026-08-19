@@ -7,9 +7,9 @@
 package jlib.log;
 
 
-import jlib.xml.*;
-
+import jlib.xml.Tag;
 import org.w3c.dom.Element;
+
 
 /**
  * @author U930DI
@@ -17,15 +17,18 @@ import org.w3c.dom.Element;
  */
 public class LogCenterConsole extends LogCenter
 {
+    /** Creates a new log center console instance. */
     public LogCenterConsole(LogCenterLoader logCenterLoader)
     {
         super(logCenterLoader);
     }
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Element el)
     {
     }
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Tag tagLogCenter)
     {
         csFormat = tagLogCenter.getVal("Format");

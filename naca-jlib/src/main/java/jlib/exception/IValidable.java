@@ -81,5 +81,6 @@ package jlib.exception;
  */
 public interface IValidable
 {
+    /** Returns whether valid. */
     public boolean isValid();
 }

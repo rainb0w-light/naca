@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides math subtract behavior. */
 public class MathSubtract extends MathBase
 {
     /**
@@ -32,6 +33,7 @@ public class MathSubtract extends MathBase
         d = d.subtract(val2);
     }
 
+    /** Creates a new math subtract instance. */
     public MathSubtract(int a, int n)
     {
         String s1 = String.valueOf(a);
@@ -41,6 +43,7 @@ public class MathSubtract extends MathBase
         d = d.subtract(val2);
     }
 
+    /** Creates a new math subtract instance. */
     public MathSubtract(int n, MathBase mathBase)
     {
         String s1 = String.valueOf(n) ;
@@ -227,6 +230,7 @@ public class MathSubtract extends MathBase
         d = d.subtract(val2);
     }
 
+    /** Creates a new math subtract instance. */
     public MathSubtract(String s, MathBase mathBase)
     {
         d = new BigDecimal(s).subtract(mathBase.d);

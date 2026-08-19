@@ -6,8 +6,10 @@
  */
 package jlib.log;
 
+/** Provides pattern layout db behavior. */
 public class PatternLayoutDb extends LogPatternLayout
 {
+    /** Creates a new pattern layout db instance. */
     public PatternLayoutDb()
     {
         super();

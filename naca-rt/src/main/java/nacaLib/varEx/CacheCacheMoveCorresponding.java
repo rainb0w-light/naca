@@ -18,16 +18,19 @@ import java.util.Hashtable;
  */
 public class CacheCacheMoveCorresponding
 {
+    /** Creates a new cache cache move corresponding instance. */
     public CacheCacheMoveCorresponding()
     {
         h = new Hashtable<Integer, MoveCorrespondingEntryManager>();
     }
 
+    /** Executes the get operation. */
     public MoveCorrespondingEntryManager get(int nId)
     {
         return h.get(nId);
     }
 
+    /** Executes the add operation. */
     public void add(int nId, MoveCorrespondingEntryManager c)
     {
         h.put(nId, c);

@@ -12,6 +12,7 @@ package lexer;
  */
 public class CTokenKeyword extends CBaseToken
 {
+    /** Creates a new ctoken keyword instance. */
     public CTokenKeyword(CReservedKeyword kw, int line, boolean newline)
     {
         super(line, newline);
@@ -19,11 +20,13 @@ public class CTokenKeyword extends CBaseToken
         value = kw.name ;
     }
 
+    /** Executes the get keyword operation. */
     public CReservedKeyword GetKeyword()
     {
         return kw ;
     }
 
+    /** Executes the get type operation. */
     public CTokenType GetType()
     {
         return CTokenType.KEYWORD ;
@@ -34,6 +37,7 @@ public class CTokenKeyword extends CBaseToken
     /* (non-Javadoc)
      * @see lexer.CBaseToken#GetDisplay()
      */
+    /** Executes the get display operation. */
     public String GetDisplay()
     {
         return kw.name + " ";

@@ -20,15 +20,18 @@ package jlib.classLoader;
  */
 public class DumpClassLoader
 {
+    /** Creates a new dump class loader instance. */
     public DumpClassLoader()
     {
     }
 
+    /** Executes the dump operation. */
     public void dump(Object obj)
     {
         dump(obj.getClass().getClassLoader());
     }
 
+    /** Executes the dump operation. */
     public void dump(ClassLoader classLoader)
     {
         // option (1): manually enumerating class loaders

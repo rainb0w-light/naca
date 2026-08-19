@@ -28,6 +28,7 @@ public class EditInMapRedefineNum extends EditInMapRedefine
         return v;
     }
 
+    /** Executes the alloc occursed item operation. */
     public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
     {
         EditInMapRedefineNum vItem = new EditInMapRedefineNum();

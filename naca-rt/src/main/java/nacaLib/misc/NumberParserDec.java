@@ -18,6 +18,7 @@ import nacaLib.varEx.Dec;
  */
 public class NumberParserDec extends NumberParser
 {
+    /** Returns the as dec. */
     public static Dec getAsDec(int n)
     {
         String cs = String.valueOf(n);
@@ -25,6 +26,7 @@ public class NumberParserDec extends NumberParser
         return dec;
     }
 
+    /** Returns the as dec. */
     public static Dec getAsDec(double d)
     {
         String cs = String.valueOf(d);
@@ -32,12 +34,14 @@ public class NumberParserDec extends NumberParser
         return dec;
     }
 
+    /** Returns the as dec. */
     public static Dec getAsDec(CStr cs)
     {
         String s = cs.getAsString();
         return getAsDec(s);
     }
 
+    /** Returns the as dec. */
     public static Dec getAsDec(String cs)
     {
         int nLength = cs.length();
@@ -110,6 +114,7 @@ public class NumberParserDec extends NumberParser
         }
     }
 
+    /** Returns the as dec. */
     public static Dec getAsDec(BigDecimal bigDecimal)
     {
         // to optimize ...
@@ -145,6 +150,7 @@ public class NumberParserDec extends NumberParser
         }
     }
 */
+    /** Returns the as dec. */
     public static Dec getAsDec(char c)
     {
         String cs = String.valueOf(c);

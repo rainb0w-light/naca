@@ -11,32 +11,38 @@
 package nacaLib.stringSupport;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides inspect tallying behavior. */
 public class InspectTallying
 {
     public static final InspectTallying TypeForAll = new InspectTallying("");
     public static final InspectTallying TypeForChars = new InspectTallying("");
     public static final InspectTallying TypeLeading = new InspectTallying("");
 
+    /** Creates a new inspect tallying instance. */
     public InspectTallying(VarAndEdit var)
     {
         source = var.getString() ;
     }
+    /** Creates a new inspect tallying instance. */
     public InspectTallying(String var)
     {
         this.source = var;
     }
 
 
+    /** Executes the count all operation. */
     public InspectTallying countAll(String csSearchForAll)
     {
         this.csSearchForAll = csSearchForAll;
         inspectTallyingType = TypeForAll;
         return this;
     }
+    /** Executes the count all operation. */
     public InspectTallying countAll(VarAndEdit csSearchForAll, VarAndEdit result)
     {
         return countAll(csSearchForAll.getString(), result);
     }
+    /** Executes the count all operation. */
     public InspectTallying countAll(String csSearchForAll, VarAndEdit result)
     {
         this.csSearchForAll = csSearchForAll;
@@ -44,6 +50,7 @@ public class InspectTallying
         return to(result);
     }
 
+    /** Executes the count all operation. */
     public InspectTallying countAll(VarAndEdit varSearchForAll)
     {
         csSearchForAll = varSearchForAll.getString();
@@ -51,6 +58,7 @@ public class InspectTallying
         return this;
     }
 
+    /** Executes the count leading operation. */
     public InspectTallying countLeading(String csLeading)
     {
         csSearchForAll = csLeading;
@@ -58,6 +66,7 @@ public class InspectTallying
         return this;
     }
 
+    /** Executes the count leading operation. */
     public InspectTallying countLeading(VarAndEdit varLeading)
     {
         csSearchForAll = varLeading.getString();
@@ -65,6 +74,7 @@ public class InspectTallying
         return this;
     }
 
+    /** Executes the count leading operation. */
     public InspectTallying countLeading(String csLeading, VarAndEdit vto)
     {
         csSearchForAll = csLeading;
@@ -72,47 +82,55 @@ public class InspectTallying
         return to(vto) ;
     }
 
+    /** Executes the count chars before operation. */
     public InspectTallying countCharsBefore(VarAndEdit csBefore, VarAndEdit vto)
     {
         return countCharsBefore(csBefore.getString(), vto);
     }
 
+    /** Executes the count chars before operation. */
     public InspectTallying countCharsBefore(String csBefore, VarAndEdit vto) {
         this.csBefore = csBefore;
         inspectTallyingType = TypeForChars;
         return to(vto) ;
     }
 
+    /** Executes the for chars operation. */
     public InspectTallying forChars()
     {
         inspectTallyingType = TypeForChars;
         return this;
     }
 
+    /** Executes the before operation. */
     public InspectTallying before(String csBefore)
     {
         this.csBefore = csBefore;
         return this;
     }
 
+    /** Executes the before operation. */
     public InspectTallying before(VarAndEdit varBefore)
     {
         csBefore = varBefore.getString();
         return this;
     }
 
+    /** Executes the after operation. */
     public InspectTallying after(String csAfter)
     {
         this.csAfter = csAfter;
         return this;
     }
 
+    /** Executes the after operation. */
     public InspectTallying after(VarAndEdit varAfter)
     {
         csAfter = varAfter.getString();
         return this;
     }
 
+    /** Executes the to operation. */
     public InspectTallying to(VarAndEdit varCount)
     {
         String csSource = source ;

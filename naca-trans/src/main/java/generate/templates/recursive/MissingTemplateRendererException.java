@@ -3,6 +3,7 @@ package generate.templates.recursive;
 /** Raised in strict mode when a semantic node has no registered ST renderer. */
 public final class MissingTemplateRendererException extends RuntimeException
 {
+    /** Creates a new missing template renderer exception instance. */
     public MissingTemplateRendererException(Class<?> modelType)
     {
         super("missing ST binding for " + semanticName(modelType)

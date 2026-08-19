@@ -18,6 +18,7 @@ import jlib.misc.LittleEndingSignBinaryBufferStorage;
  */
 public class BtreeKeySegmentSignBinary extends BtreeKeySegment
 {
+    /** Creates a new btree key segment sign binary instance. */
     public BtreeKeySegmentSignBinary(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);

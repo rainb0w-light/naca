@@ -3,6 +3,7 @@ package utils;
 /** Shared Java identifier formatting for COBOL procedure and paragraph names. */
 public class CobolNameUtil
 {
+    /** Executes the fix java name operation. */
     public static String fixJavaName(String name)
     {
         if (name == null || name.isEmpty()) {
@@ -11,6 +12,7 @@ public class CobolNameUtil
         return Character.toUpperCase(name.charAt(0)) + name.substring(1).toLowerCase();
     }
 
+    /** Executes the format procedure name operation. */
     public static String formatProcedureName(String name)
     {
         String formatted = name.replace('-', '_').replace('#', '$');

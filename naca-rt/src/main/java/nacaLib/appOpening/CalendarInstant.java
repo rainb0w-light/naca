@@ -23,6 +23,7 @@ public class CalendarInstant extends SortableItem
     int nMinute = 0;
     int nSecond = 0;
 
+    /** Executes the compare operation. */
     public int compare(SortableItem item)
     {
         CalendarInstant i = (CalendarInstant)item;

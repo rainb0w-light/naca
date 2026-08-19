@@ -11,6 +11,7 @@ import jlib.misc.StopWatch;
 import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineSession;
 
+/** Provides emul web threaded run behavior. */
 public class EmulWebThreadedRun
 {
     EmulWebThreadedRun(

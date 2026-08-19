@@ -14,6 +14,7 @@ import java.util.Hashtable;
 import jlib.xml.Tag;
 
 
+/** Provides base controler task config behavior. */
 public abstract class BaseControlerTaskConfig
 {
     protected BaseControlerTaskConfig(String name)
@@ -27,8 +28,10 @@ public abstract class BaseControlerTaskConfig
     }
     private EGroupMode eMode = EGroupMode.MODE_SITE ;
 
+    /** Returns the nb steps. */
     public abstract int getNbSteps() ;
 
+    /** Returns the step. */
     public abstract BaseControlerStepConfig getStep(int j) ;
 
     public boolean isModeGroup()
@@ -85,6 +88,7 @@ public abstract class BaseControlerTaskConfig
         return nDelayBeforeRestart ;
     }
 
+    /** Returns the log channel. */
     public abstract String getLogChannel() ;
 
     protected abstract BaseControlerStepConfig NewStepConfig(String stepName, int stepIndex) ;
@@ -93,6 +97,7 @@ public abstract class BaseControlerTaskConfig
 
     protected abstract void RemoveStepConfig(BaseControlerStepConfig conf) ;
 
+    /** Creates the controler. */
     public abstract BaseControler NewControler() ;
 
 //  public abstract int FindStepConfig(BaseControlerStepConfig conf) ;

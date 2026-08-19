@@ -23,6 +23,7 @@ import semantic.expression.CEntityCondOr;
  */
 public class CCondOrStatement extends CExpression
 {
+    /** Creates a new ccond or statement instance. */
     public CCondOrStatement(int line, CExpression st1, CExpression st2)
     {
         super(line) ;
@@ -42,6 +43,7 @@ public class CCondOrStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("Or") ;
@@ -65,6 +67,7 @@ public class CCondOrStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -72,6 +75,7 @@ public class CCondOrStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
     {
         CBaseEntityCondition op1 = st1.AnalyseCondition(factory, masterCond);
@@ -89,19 +93,23 @@ public class CCondOrStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return st1.GetFirstConditionOperand() ;
     }
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT(null, null);
         return null;
     }
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "OR(" + st1.toString() + ", " + st2.toString() + ")" ;

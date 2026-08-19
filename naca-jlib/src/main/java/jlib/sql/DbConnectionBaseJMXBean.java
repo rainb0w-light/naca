@@ -46,6 +46,7 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
         addOperation("ShowStatments", getClass(), "setShowStatments");
     }
 
+    /** Returns the nb cached statements. */
     public int getNbCachedStatements()
     {
         if (dbConnectionBase != null) {
@@ -59,6 +60,7 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
         return isshowStatements;
     }
 
+    /** Sets the show statments. */
     public void setShowStatments()
     {
         isshowStatements = !isshowStatements;

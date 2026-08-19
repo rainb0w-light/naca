@@ -15,6 +15,7 @@ import semantic.CDataEntity;
 public abstract class CBaseEntityExpression extends CBaseEntityCondExpr
 {
 
+    /** Enumerates supported centity expression type values. */
     public enum CEntityExpressionType
     {
         NUMERIC, STRING, VARIABLE, MATH, ATTRIBUTE, ADDRESS

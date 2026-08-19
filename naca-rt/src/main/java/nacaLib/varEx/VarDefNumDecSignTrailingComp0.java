@@ -7,14 +7,14 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.NumberParserDec;
 import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -26,6 +26,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
      *
      */
     private static final long serialVersionUID = 1L;
+    /** Creates a new var def num dec sign trailing comp0 instance. */
     public VarDefNumDecSignTrailingComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
     {
         super(varDefParent, declareType9.varLevel);
@@ -93,12 +94,14 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         writeSignSeparatedTrailingDecComp0(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         Dec dec = NumberParserDec.getAsDec(cs);
         writeSignSeparatedTrailingDecComp0(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -106,6 +109,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -113,12 +117,14 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         Dec dec = new Dec(n, "");
         writeSignSeparatedTrailingDecComp0(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         Dec dec = new Dec(l, "");
@@ -136,6 +142,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         writeSignSeparatedTrailingDecComp0(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         Dec dec = NumberParserDec.getAsDec(bigDecimal);
@@ -215,6 +222,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         writeSignSeparatedTrailingDecComp0(buffer, dec);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
@@ -447,6 +455,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 //      writeSignSeparatedTrailingDecComp0(buffer, dec);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         Dec dec = new Dec(0, "");
@@ -694,6 +703,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         return internalCompare(dec1, dec2);
     }
 
+    /** Returns whether equal with same type to. */
     public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
     {
         VarDefNumDecSignTrailingComp0 varDefSourceSignComp0 = (VarDefNumDecSignTrailingComp0)varDefBuffer2;
@@ -889,6 +899,7 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
         return 0;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         CStr cs1 = buffer.getStringAt(buffer.nAbsolutePosition, nNbDigitInteger);

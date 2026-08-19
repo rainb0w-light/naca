@@ -221,6 +221,7 @@ public class XSLTServlet extends HttpServlet
     /* (non-Javadoc)
      * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
      */
+    /** Executes the init operation. */
     public void init(ServletConfig arg0) throws ServletException
     {
         super.init(arg0);

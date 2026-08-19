@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides pic9 comp0 buffer support behavior. */
 public class Pic9Comp0BufferSupport
 {
 //  public Pic9Comp0BufferSupport()
@@ -21,6 +22,7 @@ public class Pic9Comp0BufferSupport
 //  }
 
 
+    /** Sets the from right to left. */
     static public void setFromRightToLeft(
         VarBufferPos buffer,
         int nPosition,
@@ -77,6 +79,7 @@ public class Pic9Comp0BufferSupport
         }
     }
 
+    /** Sets the from right to left. */
     static public void setFromRightToLeft(
         VarBufferPos buffer,
         int nPosition,
@@ -182,6 +185,7 @@ public class Pic9Comp0BufferSupport
     }
     */
 
+    /** Sets the from right to left sign embedded. */
     static public void setFromRightToLeftSignEmbedded(
         VarBufferPos buffer,
         int nPosition,
@@ -233,6 +237,7 @@ public class Pic9Comp0BufferSupport
         }
     }
 
+    /** Sets the from right to left. */
     static public void setFromRightToLeft(VarBufferPos buffer, int nPosition, int nNbDigitInteger, int nTotalSize, int nOffset, int nValue)
     {
         // Fill the buffer with '0' on each byte
@@ -257,6 +262,7 @@ public class Pic9Comp0BufferSupport
         while (nValue != 0 && nNibblePos >= 0);
     }
 
+    /** Returns the as long. */
     static public long getAsLong(byte tbyBuffer[], int nAbsolutePosition, int nTotalSize)
     {
         long lValue = getAsLong_ExceptLastByte(tbyBuffer, nAbsolutePosition, nTotalSize);
@@ -286,6 +292,7 @@ public class Pic9Comp0BufferSupport
         return lValue;
     }
 
+    /** Returns the as long from ebcdic buffer. */
     static public long getAsLongFromEbcdicBuffer(byte tbyBuffer[], int nAbsolutePosition, int nTotalSize)
     {
         long lValue = getAsLong_ExceptLastByte_FromEbcdicBuffer(tbyBuffer, nAbsolutePosition, nTotalSize);

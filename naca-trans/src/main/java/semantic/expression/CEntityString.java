@@ -17,11 +17,13 @@ import utils.CObjectCatalog;
 public class CEntityString extends CDataEntity
 {
     protected char[] carrValue = {} ;
+    /** Creates a new centity string instance. */
     public CEntityString(CObjectCatalog cat, char[] val)
     {
         super(0, "", cat);
         carrValue= val ;
     }
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.STRING;
@@ -30,10 +32,12 @@ public class CEntityString extends CDataEntity
     {
         return new String(carrValue);
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -42,10 +46,12 @@ public class CEntityString extends CDataEntity
     {
         return false;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return new String(carrValue);
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,

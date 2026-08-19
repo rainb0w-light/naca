@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides var type behavior. */
 public class VarType
 {
     private int nId = 0;

@@ -6,7 +6,11 @@
  */
 package jlib.blowfish;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
+
 
 /**
  * An InputStream that reads from a Blowfish encrypted file.
@@ -14,36 +18,36 @@ import java.io.*;
  */
 public class BlowfishInputStream extends InputStream {
 
-   private PushbackInputStream _in;
-   private String _passphrase;
+   private PushbackInputStream in;
+   private String storedPassphrase;
 
-   private BlowfishCBC _cbc;
+   private BlowfishCBC cbc;
    //private long _iv;
 
-   private byte[] _in_buffer;
-   private int _bytes_read = 0;
-   private int _buffer_index = 0;
-   private boolean _started = false;
+   private byte[] inBuffer;
+   private int bytesRead = 0;
+   private int bufferIndex = 0;
+   private boolean started = false;
 
    /**
     * @param passphrase the passphrase that was used to encrypt the original data.
     * @param is the input stream from which bytes will be read
     */
    public BlowfishInputStream(String passphrase, InputStream is) {
-      _passphrase = passphrase;
-      _in = new PushbackInputStream(new BufferedInputStream(is));
+      storedPassphrase = passphrase;
+      in = new PushbackInputStream(new BufferedInputStream(is));
 
       // hash down the password to a 160bit key
       SHA1 hasher = new SHA1();
-      hasher.update(_passphrase);
+      hasher.update(storedPassphrase);
       hasher.finalize();
 
       // setup the encryptor (use a dummy IV)
-      _cbc = new BlowfishCBC(hasher.getDigest(), 0);
+      cbc = new BlowfishCBC(hasher.getDigest(), 0);
       hasher.clear();
 
       // create the input buffer
-      _in_buffer = new byte[BlowfishCBC.BLOCKSIZE];
+      inBuffer = new byte[BlowfishCBC.BLOCKSIZE];
    }
 
    /**
@@ -55,36 +59,36 @@ public class BlowfishInputStream extends InputStream {
     * @return the next byte of data or -1 if the end of the stream has been reached.
     */
    public int read() throws IOException {
-      if ( !_started ) {
+      if ( !started ) {
          decryptBuffer();     // load the iv
-         if ( _bytes_read < BlowfishCBC.BLOCKSIZE ) {
+         if ( bytesRead < BlowfishCBC.BLOCKSIZE ) {
             return -1;
          }
          decryptBuffer();     // load the input buffer
-         if ( _bytes_read == -1 ) {
+         if ( bytesRead == -1 ) {
             return -1;
          }
-         _buffer_index = 0;
+         bufferIndex = 0;
       }
 
       // check that all bytes from input stream have been returned
-      if ( _bytes_read < _in_buffer.length && _buffer_index == _bytes_read ) {
+      if ( bytesRead < inBuffer.length && bufferIndex == bytesRead ) {
          return -1;
       }
 
       // check if all bytes in buffer have been returned, if so,
       // need to refill the buffer
-      if ( _buffer_index == _bytes_read ) {
+      if ( bufferIndex == bytesRead ) {
          decryptBuffer();
-         if ( _bytes_read == -1 ) {
+         if ( bytesRead == -1 ) {
             return -1;
          }
-         _buffer_index = 0;
+         bufferIndex = 0;
       }
 
       // return the next byte from the buffer
-      int rtn = _in_buffer[_buffer_index] & 0xff;
-      ++_buffer_index;
+      int rtn = inBuffer[bufferIndex] & 0xff;
+      ++bufferIndex;
       return rtn;
    }
 
@@ -93,48 +97,48 @@ public class BlowfishInputStream extends InputStream {
     * decrypts it.
     */
    private void decryptBuffer() throws IOException {
-      _bytes_read = _in.read(_in_buffer, 0, _in_buffer.length);
-      if ( _bytes_read == -1 ) {
+      bytesRead = in.read(inBuffer, 0, inBuffer.length);
+      if ( bytesRead == -1 ) {
          return;
       }
 
-      if ( !_started ) {
+      if ( !started ) {
           // did the entire CBC IV get read?
-          if (_bytes_read < _in_buffer.length) {
+          if (bytesRead < inBuffer.length) {
               return;
           }
          // set the CBC IV, it is the first 8 bytes of the input stream
-         long iv = BinConverter.byteArrayToLong(_in_buffer, 0);
-         _cbc.setCBCIV(iv);
-         _started = true;
+         long iv = BinConverter.byteArrayToLong(inBuffer, 0);
+         cbc.setCBCIV(iv);
+         started = true;
          return;
       }
 
       // decrypt the buffer
-      _cbc.decrypt(_in_buffer);
+      cbc.decrypt(inBuffer);
 
       // check for last block -- if the original data did not fit exactly into
       // an 8 byte block, the block was padded with enough bytes to fill the
       // block, then encrypted. The last byte is ALWAYS the number of pad bytes,
       // that means the last block could be eight 8's, which is all padding.
-      int end = _in.read();
+      int end = in.read();
       if ( end == -1 ) {
          // all done
-         int padCount = _in_buffer[_in_buffer.length - 1];
-         if ( padCount > _in_buffer.length || padCount < 1 ) {
+         int padCount = inBuffer[inBuffer.length - 1];
+         if ( padCount > inBuffer.length || padCount < 1 ) {
             // the last byte wasn't a number, so it must be good data
             return;
          }
          else {
             // adjust bytes read to reflect the number of 'good' bytes
-            _bytes_read = _in_buffer.length - padCount;
-            if ( _bytes_read == 0 ) {
-               _bytes_read = -1;
+            bytesRead = inBuffer.length - padCount;
+            if ( bytesRead == 0 ) {
+               bytesRead = -1;
             }
          }
       }
       else {
-         _in.unread(end);
+         in.unread(end);
       }
    }
 
@@ -142,29 +146,29 @@ public class BlowfishInputStream extends InputStream {
     * @see java.io.InputStream
     */
    public boolean markSupported() {
-      return _in.markSupported();
+      return in.markSupported();
    }
 
    /**
     * @see java.io.InputStream
     */
    public void mark(int readlimit) {
-      _in.mark(readlimit);
+      in.mark(readlimit);
    }
 
    /**
     * @see java.io.InputStream
     */
    public int available() throws IOException {
-      return _in.available();
+      return in.available();
    }
 
    /**
     * @see java.io.InputStream
     */
    public void close() throws IOException {
-      _in.close();
-      _cbc.cleanUp();
+      in.close();
+      cbc.cleanUp();
       return;
    }
 }

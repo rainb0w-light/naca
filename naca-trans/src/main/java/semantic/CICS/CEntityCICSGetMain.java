@@ -34,6 +34,7 @@ public class CEntityCICSGetMain extends CBaseActionEntity
         }
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

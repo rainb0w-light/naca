@@ -19,6 +19,7 @@ public class RecordLengthDefinition
     private int nRecordLength = 0;
     //private boolean bRecordLengthForced = false;
 
+    /** Creates a new record length definition instance. */
     public RecordLengthDefinition(int n)
     {
         nRecordLength = n;
@@ -29,6 +30,7 @@ public class RecordLengthDefinition
         return nRecordLength;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return String.valueOf(nRecordLength);

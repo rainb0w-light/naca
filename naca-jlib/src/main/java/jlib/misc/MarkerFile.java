@@ -28,11 +28,13 @@ public class MarkerFile
     private FileLock outLock = null;
     private BufferedOutputStream out = null;
 
+    /** Creates a new marker file instance. */
     public MarkerFile(String csMakerPath)
     {
         this.csMakerPath = csMakerPath;
     }
 
+    /** Executes the exclusive lock file operation. */
     public boolean exclusiveLockFile()
     {
         try
@@ -57,6 +59,7 @@ public class MarkerFile
         }
     }
 
+    /** Executes the unlock file operation. */
     public boolean unlockFile()
     {
         try

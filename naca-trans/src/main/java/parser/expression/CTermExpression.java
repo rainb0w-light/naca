@@ -22,6 +22,7 @@ import semantic.expression.CBaseEntityExpression;
  */
 public class CTermExpression extends CExpression
 {
+    /** Creates a new cterm expression instance. */
     public CTermExpression(int line, CTerminal t)
     {
         super(line) ;
@@ -35,17 +36,20 @@ public class CTermExpression extends CExpression
         return CheckMemberNotNull(term);
     }
 
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("Value");
         term.ExportTo(e, root) ;
         return e;
     }
+    /** Executes the get terminal operation. */
     public CTerminal GetTerminal()
     {
         return term ;
     }
 
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         CDataEntity eData = term.GetDataReference(getLine(), factory);
@@ -61,6 +65,7 @@ public class CTermExpression extends CExpression
         eData.RegisterValueAccess(exp) ;
         return exp ;
     }
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         CDataEntity eData = term.GetDataEntity(getLine(), factory);
@@ -96,19 +101,23 @@ public class CTermExpression extends CExpression
             return null ;
         }
     }
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return term.IsReference() ;
     }
+    /** Executes the is constant operation. */
     public boolean IsConstant()
     {
         return !term.IsReference() ;
     }
+    /** Executes the get reference operation. */
     public CDataEntity GetReference(CBaseEntityFactory factory)
     {
         CDataEntity e = term.GetDataReference(getLine(), factory);
         return e;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         if (term.IsReference())
@@ -123,6 +132,7 @@ public class CTermExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT();
@@ -131,6 +141,7 @@ public class CTermExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
@@ -138,11 +149,13 @@ public class CTermExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         //return this;
         return null ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return term.toString() ;

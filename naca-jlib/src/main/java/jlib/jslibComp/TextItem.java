@@ -22,6 +22,7 @@ public class TextItem implements Serializable
     public String codeId;
     public String valText;
 
+    /** Creates a new text item instance. */
     public TextItem(String csId, String csValue)
     {
         codeId = csId;

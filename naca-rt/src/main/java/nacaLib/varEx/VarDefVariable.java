@@ -19,6 +19,7 @@ public abstract class VarDefVariable extends VarDefBuffer
         super();
     }
 
+    /** Creates a new var def variable instance. */
     public VarDefVariable(VarDefBase varDefParent, VarLevel varLevel)
     {
         super(varDefParent, varLevel);

@@ -19,8 +19,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import jlib.log.Log;
 
+/** Provides base check service servlet behavior. */
 public abstract class BaseCheckServiceServlet extends HttpServlet
 {
+    /** Creates a new base check service servlet instance. */
     public BaseCheckServiceServlet()
     {
     }

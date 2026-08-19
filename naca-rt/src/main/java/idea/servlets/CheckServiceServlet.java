@@ -18,6 +18,7 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.basePrgEnv.BaseResourceManager;
 
+/** Provides check service servlet behavior. */
 public class CheckServiceServlet extends BaseCheckServiceServlet
 {
     private static final long serialVersionUID = 1L;

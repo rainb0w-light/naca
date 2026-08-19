@@ -6,10 +6,11 @@
  */
 package jlib.misc;
 
+/** Provides mutex behavior. */
 public class Mutex
 {
     private Thread  owner = null;  // Owner of mutex, null if nobody
-    private int lock_count = 0;
+    private int lockCount = 0;
 
     /**
      * Acquire the mutex. The mutex can be acquired multiple times
@@ -37,13 +38,13 @@ public class Mutex
         if( owner == null )
         {
             owner = Thread.currentThread();
-            lock_count = 1;
+            lockCount = 1;
             return true;
         }
 
         if(owner == Thread.currentThread())
         {
-            ++lock_count;
+            ++lockCount;
             return true;
         }
 
@@ -65,7 +66,7 @@ public class Mutex
             throw new IllegalStateException("Thread calling release() doesn't own mutex");
         }
 
-        if (--lock_count <= 0)
+        if (--lockCount <= 0)
         {
             owner = null;
             notify();

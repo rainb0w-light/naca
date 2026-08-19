@@ -31,6 +31,7 @@ public class CEntitySQLCursorSection extends CEntityDataSection
     }
 
     protected Vector cursors = null ;
+    /** Sets the cursors. */
     public void SetCursors(Vector v)
     {
         cursors = v ;
@@ -39,6 +40,7 @@ public class CEntitySQLCursorSection extends CEntityDataSection
     {
         return null ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

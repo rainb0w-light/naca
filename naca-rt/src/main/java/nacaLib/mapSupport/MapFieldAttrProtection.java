@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr protection behavior. */
 public class MapFieldAttrProtection extends MapFieldBaseAttr
 {
     private MapFieldAttrProtection(int nValue, String text)

@@ -14,10 +14,12 @@ import java.io.StringWriter;
 public class MockJavaExporter extends CBaseLanguageExporter {
     private final StringWriter outputWriter = new StringWriter();
 
+    /** Creates a new mock java exporter instance. */
     public MockJavaExporter() {
         super(new COriginalLisiting(), new CGlobalCommentContainer());
     }
 
+    /** Creates a new mock java exporter instance. */
     public MockJavaExporter(COriginalLisiting cat, CGlobalCommentContainer commCont) {
         super(cat, commCont);
     }

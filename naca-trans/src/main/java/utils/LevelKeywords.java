@@ -26,11 +26,13 @@ public class LevelKeywords
         managedKeywords = new ArrayList<CReservedKeyword>();
     }
 
+    /** Executes the register managed keyword operation. */
     public void registerManagedKeyword(CReservedKeyword keyword)
     {
         managedKeywords.add(keyword);
     }
 
+    /** Returns whether managing. */
     public boolean isManaging(CBaseToken tok)
     {
         if (tok == null) {

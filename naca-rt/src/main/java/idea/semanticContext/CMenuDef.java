@@ -30,13 +30,14 @@ public class CMenuDef
         return menuOptionDef;
     }
 
+    /** Builds the htmlmenu. */
     public String buildHTMLMenu()
     {
         String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
         for(int n = 0; n< options.size(); n++)
         {
-            CMenuOptionDef MenuOptionDef = options.get(n);
-            cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.csLabel + "</BUTTON></td></tr>";
+            CMenuOptionDef menuOptionDef = options.get(n);
+            cs += "<tr><td><BUTTON TYPE=SUBMIT>" + menuOptionDef.csLabel + "</BUTTON></td></tr>";
             // use MenuOptionDef.csAction to identify option
         }
         cs += "</table>";

@@ -10,11 +10,13 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.FileManagerEntry;
 
+/** Provides var file descriptor behavior. */
 public class VarFileDescriptor extends FileDescriptor {
 
     private final BaseEnvironment env;
     private final Var var;
 
+    /** Creates a new var file descriptor instance. */
     public VarFileDescriptor(BaseEnvironment env, Var var)
     {
         super(env, "");
@@ -36,6 +38,7 @@ public class VarFileDescriptor extends FileDescriptor {
         return super.getLogicalName();
     }
 
+    /** Provides var file manager entry behavior. */
     public class VarFileManagerEntry extends FileManagerEntry
     {
         @Override

@@ -7,8 +7,7 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.StringAsciiEbcdicUtil;
@@ -16,6 +15,7 @@ import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.CStrNumber;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -28,6 +28,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def num int sign comp4 instance. */
     public VarDefNumIntSignComp4(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
     {
         super(varDefParent, declareType9.varLevel, numericValue);
@@ -90,12 +91,14 @@ public class VarDefNumIntSignComp4 extends VarDefNum
         writeIntSignComp4(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         long l = NumberParser.getAsLong(cs);
         writeIntSignComp4AsLong(buffer, l);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         // PJD: Optimization
@@ -109,6 +112,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
     }
 
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -116,11 +120,13 @@ public class VarDefNumIntSignComp4 extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         writeIntSignComp4(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         writeIntSignComp4(buffer, (int)l);
@@ -137,6 +143,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
         writeIntSignComp4(buffer, dec.getSignedInt());
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long lValue = bigDecimal.longValue();
@@ -286,6 +293,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
         writeIntSignComp4AsLong(buffer, l);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
@@ -429,6 +437,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
 //      writeIntSignComp4(buffer, 0);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeIntSignComp4(buffer, nOffset, 0);
@@ -877,6 +886,7 @@ public class VarDefNumIntSignComp4 extends VarDefNum
         return false;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         int nValue = internalReadIntSignComp4(buffer);

@@ -34,16 +34,19 @@ import java.util.Vector;
  */
 public class FileSystem
 {
+    /** Creates a new file system instance. */
     public FileSystem()
     {
     }
 
+    /** Returns the current working dir. */
     public static String getCurrentWorkingDir()
     {
         String cs = System.getProperty("user.dir");
         return cs;
     }
 
+    /** Executes the normalize path operation. */
     public static String normalizePath(String csPath)
     {
         csPath = csPath.replace('\\', '/') ;
@@ -53,12 +56,14 @@ public class FileSystem
         return csPath;
     }
 
+    /** Executes the normalize file name path operation. */
     public static String normalizeFileNamePath(String csPath)
     {
         csPath = csPath.replace('\\', '/') ;
         return csPath;
     }
 
+    /** Builds the file name. */
     public static String buildFileName(String csFilePath, String csFileName, String csFileExt)
     {
         String cs = normalizePath(csFilePath) + csFileName;
@@ -68,6 +73,7 @@ public class FileSystem
         return cs;
     }
 
+    /** Creates the full path. */
     public static String createFullPath(String csDir, String csSubDir, String csFileName)
     {
         csDir = normalizePath(csDir) + csSubDir;
@@ -77,12 +83,14 @@ public class FileSystem
         return csFileName;
     }
 
+    /** Executes the append file path operation. */
     public static String appendFilePath(String csPath, String csFileName)
     {
         String cs = normalizePath(csPath) + csFileName;
         return cs;
     }
 
+    /** Returns the name without extension. */
     public static String getNameWithoutExtension(String csFilePath)
     {
         String csFileName = csFilePath.replace('\\', '/') ;
@@ -106,6 +114,7 @@ public class FileSystem
     String csPath = rcsPath.get();  // "C:/toto/"
     String csExt = rcsExt.get();    // "xml"
     */
+    /** Executes the split file path ext operation. */
     public static String splitFilePathExt(String csFilePath, StringRef rcsPath, StringRef rcsExt)
     {
         String csFileName = csFilePath.replace('\\', '/') ;
@@ -135,6 +144,7 @@ public class FileSystem
         return csFileName;
     }
 
+    /** Creates the path. */
     public static void createPath(String csPath)    // The path can be a path or full file name
     {
         // Check and create path if needed
@@ -154,12 +164,14 @@ public class FileSystem
         }
     }
 
+    /** Executes the exists operation. */
     public static boolean exists(String csFile)
     {
         File f = new File(csFile);
         return f.exists();
     }
 
+    /** Executes the keep more recent file operation. */
     public static void keepMoreRecentFile(String csPath, int nMaxBackupFileCount)
     {
         File path = new File(csPath);
@@ -190,6 +202,7 @@ public class FileSystem
         }
     }
 
+    /** Executes the delete content operation. */
     public static void DeleteContent(String csPath)
     {
         if(csPath != null)
@@ -199,6 +212,7 @@ public class FileSystem
         }
     }
 
+    /** Executes the delete content operation. */
     public static void DeleteContent(File f)
     {
         File[] dir = f.listFiles() ;
@@ -216,6 +230,7 @@ public class FileSystem
     }
 
 
+    /** Executes the delete dir and content operation. */
     public static void DeleteDirAndContent(String csPath)
     {
         if(csPath != null)
@@ -237,6 +252,7 @@ public class FileSystem
         }
     }
 
+    /** Returns the file list. */
     public static File[] getFileList(String csDir)
     {
         csDir = normalizePath(csDir);
@@ -244,6 +260,7 @@ public class FileSystem
         return file.listFiles();
     }
 
+    /** Returns the file list. */
     public static File[] getFileList(String csDir, FilenameFilter filenameFilter)
     {
         csDir = normalizePath(csDir);
@@ -256,6 +273,7 @@ public class FileSystem
         return lst ;
     }
 
+    /** Returns the file list by prefix. */
     public static File[] getFileListByPrefix(String csDir, String csPrefix)
     {
         FileFilterByPrefix filter = new FileFilterByPrefix(csPrefix);
@@ -269,6 +287,7 @@ public class FileSystem
         }
         return lst ;
     }
+    /** Returns the file name list by prefix. */
     public static String[] getFileNameListByPrefix(String csDir, String csPrefix)
     {
         FileFilterByPrefix filter = new FileFilterByPrefix(csPrefix);
@@ -283,6 +302,7 @@ public class FileSystem
         return lst;
     }
 
+    /** Returns the file list by suffix. */
     public static File[] getFileListBySuffix(String csDir, String csSuffix)
     {
         FileFilterBySuffix filter = new FileFilterBySuffix(csSuffix);
@@ -296,6 +316,7 @@ public class FileSystem
         }
         return lst ;
     }
+    /** Returns the file name list by suffix. */
     public static String[] getFileNameListBySuffix(String csDir, String csSuffix)
     {
         FileFilterBySuffix filter = new FileFilterBySuffix(csSuffix);
@@ -310,12 +331,14 @@ public class FileSystem
         return lst;
     }
 
+    /** Executes the delete operation. */
     public static boolean delete(String csFile)
     {
         File file = new File(csFile);
         return file.delete();
     }
 
+    /** Executes the move or copy operation. */
     public static boolean moveOrCopy(String csFileSource, String csFileDest)
     {
         File fileSource = new File(csFileSource);
@@ -323,6 +346,7 @@ public class FileSystem
         return moveOrCopy(fileSource, fileDest) ;
     }
 
+    /** Executes the move or copy operation. */
     public static boolean moveOrCopy(File fileSource, File fileDest)
     {
         if(fileSource.exists())
@@ -342,6 +366,7 @@ public class FileSystem
         return false ;
     }
 
+    /** Executes the copy operation. */
     public static boolean copy(String csSource, String csDestination)
     {
         createPath(csDestination);  // The path can be a path or full file name
@@ -350,6 +375,7 @@ public class FileSystem
         return copy(source, destination);
     }
 
+    /** Executes the copy operation. */
     public static boolean copy(File source, File destination)
     {
         boolean resultat = false;
@@ -416,6 +442,7 @@ public class FileSystem
         return resultat;
     }
 
+    /** Writes the eol. */
     public static void WriteEOL(OutputStream stream)
     {
         try
@@ -429,11 +456,13 @@ public class FileSystem
         }
     }
 
+    /** Executes the count lines operation. */
     public static int countLines(String csFilename)
     {
         return countLines(csFilename, null, 0);
     }
 
+    /** Executes the count lines operation. */
     public static int countLines(String csFilename, String csFormat, int nLength)
     {
         int nLines = 0;
@@ -478,12 +507,14 @@ public class FileSystem
         return nLines;
     }
 
+    /** Executes the compare files operation. */
     public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos,
             boolean bAsciiLeft, boolean bAsciiRight)
     {
         return compareFiles(csFilenameLeft, csFilenameRight, vFilterPos, bAsciiLeft, bAsciiRight, null, 0);
     }
 
+    /** Executes the compare files operation. */
     public static FileCompareStat compareFiles(String csFilenameLeft, String csFilenameRight, Vector<Integer> vFilterPos,
             boolean bAsciiLeft, boolean bAsciiRight, String csFormat, int nLength)
     {
@@ -696,12 +727,14 @@ public class FileSystem
         return true;
     }
 
+    /** Returns the temp file name. */
     public static String getTempFileName()
     {
          RandomGuid guid = new RandomGuid();
          return guid.formatAsFilename();
     }
 
+    /** Executes the copy directory operation. */
     public static void copyDirectory(File source, File destination)
     {
         File[] list = source.listFiles();
@@ -721,6 +754,7 @@ public class FileSystem
         }
     }
 
+    /** Returns the bytes from file. */
     public static byte[] getBytesFromFile(File file) throws IOException
     {
         InputStream is = new FileInputStream(file);
@@ -757,6 +791,7 @@ public class FileSystem
         return bytes;
     }
 
+    /** Executes the open read operation. */
     public static BufferedInputStream openRead(String csFile)
     {
         BufferedInputStream bufStreamIn;
@@ -772,6 +807,7 @@ public class FileSystem
         return null;
     }
 
+    /** Reads the whole file. */
     public static StringBuilder readWholeFile(String csFile)
     {
         BufferedInputStream buf = openRead(csFile);
@@ -807,6 +843,7 @@ public class FileSystem
         return sbOut;
     }
 
+    /** Executes the open write operation. */
     public static DataOutputStream openWrite(String csFile)
     {
         DataOutputStream streamOut;
@@ -822,6 +859,7 @@ public class FileSystem
         return null;
     }
 
+    /** Closes the file. */
     public static boolean closeFile(BufferedInputStream bufStreamIn)
     {
         try
@@ -839,6 +877,7 @@ public class FileSystem
         return false;
     }
 
+    /** Closes the file. */
     public static boolean closeFile(DataOutputStream streamOut)
     {
         try
@@ -856,6 +895,7 @@ public class FileSystem
         return false;
     }
 
+    /** Reads the file. */
     public static StringBuilder readFile(String csFile)
     {
         try
@@ -868,6 +908,7 @@ public class FileSystem
         }
         return null;
     }
+    /** Reads the file. */
     public static StringBuilder readFile(FileInputStream is)
     {
         try
@@ -899,6 +940,7 @@ public class FileSystem
         return null;
     }
 
+    /** Reads the file utf8. */
     public static StringBuilder readFileUtf8(String csFile)
     {
         try
@@ -911,6 +953,7 @@ public class FileSystem
         }
         return null;
     }
+    /** Reads the file utf8. */
     public static StringBuilder readFileUtf8(FileInputStream is)
     {
         try
@@ -941,10 +984,12 @@ public class FileSystem
         return null;
     }
 
+    /** Writes the file. */
     public static boolean writeFile(String csFile, StringBuilder sb)
     {
         return writeFile(csFile, sb.toString());
     }
+    /** Writes the file. */
     public static boolean writeFile(String csFile, String csContent)
     {
         try
@@ -969,10 +1014,12 @@ public class FileSystem
         return false;
     }
 
+    /** Writes the file utf8. */
     public static boolean writeFileUtf8(String csFile, StringBuilder sb)
     {
         return writeFileUtf8(csFile, sb.toString());
     }
+    /** Writes the file utf8. */
     public static boolean writeFileUtf8(String csFile, String csContent)
     {
         try

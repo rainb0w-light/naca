@@ -37,6 +37,7 @@ public class PreallocatedFileBufferManager
         return tBytes;
     }
 
+    /** Returns the byte buffer. */
     public byte[] getByteBuffer(int nSize)
     {
         checkBuffer(nSize);

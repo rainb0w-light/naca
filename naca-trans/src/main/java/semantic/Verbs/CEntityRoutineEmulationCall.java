@@ -50,15 +50,18 @@ public class CEntityRoutineEmulationCall extends CBaseActionEntity
 
     protected String csDisplay = "" ;
     protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         parameters.clear() ;
     }
+    /** Sets the display. */
     public void SetDisplay(String disp)
     {
         csDisplay = disp ;
     }
+    /** Adds the parameter. */
     public void AddParameter(CDataEntity e)
     {
         parameters.add(e) ;
@@ -69,6 +72,7 @@ public class CEntityRoutineEmulationCall extends CBaseActionEntity
     public boolean isDynamicAllocation() {
         return "tools.dynamicAllocation".equals(csDisplay);
     }
+    /** Returns the emulation parameters. */
     public List<CDataEntity> getEmulationParameters() {
         List<CDataEntity> result = new ArrayList<>();
         for (CDataEntity e : parameters) {

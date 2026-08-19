@@ -9,9 +9,13 @@ package jlib.display;
 
 
 import java.io.IOException;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
 
 /**
  * @author U930CV
@@ -75,10 +79,11 @@ public class RequestHandlerServlet extends HttpServlet
     }
 
 
-    public void doPost(HttpServletRequest req, HttpServletResponse Res)
+    /** Executes the do post operation. */
+    public void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException
     {
-        doGet(req, Res) ;
+        doGet(req, res) ;
     }
 
     /**

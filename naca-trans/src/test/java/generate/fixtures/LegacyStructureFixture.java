@@ -8,6 +8,7 @@ import utils.CObjectCatalog;
 /** Test-only snapshot of the retired structure backend. */
 public final class LegacyStructureFixture extends CEntityStructure
 {
+    /** Creates a new legacy structure fixture instance. */
     public LegacyStructureFixture(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, String level)
@@ -142,6 +143,7 @@ public final class LegacyStructureFixture extends CEntityStructure
         generate.LegacyLanguageRenderer.endBlock(this);
     }
 
+        /** Exports the reference. */
         public String ExportReference(int line)
     {
         String reference = "";
@@ -152,6 +154,7 @@ public final class LegacyStructureFixture extends CEntityStructure
         return reference + generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName());
     }
 
+        /** Exports the write accessor to. */
         public String ExportWriteAccessorTo(String value)
     {
         return "";

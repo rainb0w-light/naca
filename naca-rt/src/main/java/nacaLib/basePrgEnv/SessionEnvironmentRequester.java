@@ -6,11 +6,17 @@
  */
 package nacaLib.basePrgEnv;
 
+/** Defines the contract for session environment requester. */
 public interface SessionEnvironmentRequester
 {
+    /** Returns the user language id. */
     String getUserLanguageId();
+    /** Returns the profit center. */
     String getProfitCenter();
+    /** Returns the cmp session. */
     String getCmpSession();
+    /** Returns the user id. */
     String getUserId();
+    /** Returns the user ldap id. */
     String getUserLdapId();
 }

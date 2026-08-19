@@ -12,6 +12,7 @@ package jlib.log;
  */
 public class PatternLayoutFileChunk extends LogPatternLayout
 {
+    /** Creates a new pattern layout file chunk instance. */
     public PatternLayoutFileChunk()
     {
         super();

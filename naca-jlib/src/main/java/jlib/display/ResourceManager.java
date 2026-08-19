@@ -15,8 +15,10 @@ import jlib.jmxMBean.BaseCloseMBean;
 import jlib.log.Log;
 import jlib.xml.XSLTransformer;
 
+/** Provides resource manager behavior. */
 public class ResourceManager extends BaseCloseMBean
 {
+    /** Creates a new resource manager instance. */
     public ResourceManager()
     {
         super("_ XSLTResources", "_ XSLTResources");
@@ -31,6 +33,7 @@ public class ResourceManager extends BaseCloseMBean
 
     //public static ArrayList<DbPreparedStatement> arrDEBUG = null; // To be removed
 
+    /** Returns the nb resources files. */
     public int getNbResourcesFiles()
     {
         int n = 0;
@@ -42,6 +45,7 @@ public class ResourceManager extends BaseCloseMBean
         return n;
     }
 
+    /** Returns the nb resources cached. */
     public int getNbResourcesCached()
     {
         int n = 0;
@@ -53,6 +57,7 @@ public class ResourceManager extends BaseCloseMBean
         return n;
     }
 
+    /** Executes the unload cached resources operation. */
     public void unloadCachedResources()
     {
         Log.logImportant("unloadCachedResources started");
@@ -67,33 +72,36 @@ public class ResourceManager extends BaseCloseMBean
         Log.logImportant("unloadCachedResources ended");
     }
 
+    /** Sets the xslfile path. */
     public void setXSLFilePath(String id, File filePath)
     {
         tabXSLFiles.put(id, filePath) ;
     }
 
-    public void setXSLFilePath(String ID, String csXSLFilePath)
+    /** Sets the xslfile path. */
+    public void setXSLFilePath(String id, String csXSLFilePath)
     {
-        setXSLFilePath(ID, new File(csXSLFilePath)) ;
+        setXSLFilePath(id, new File(csXSLFilePath)) ;
     }
 
-    public XSLTransformer getXSLTransformer(String ID)
+    /** Returns the xsltransformer. */
+    public XSLTransformer getXSLTransformer(String id)
     {
         unloadRWLock.readLock().lock();
-        if (!tabXSLTransformerCache.containsKey(ID))
+        if (!tabXSLTransformerCache.containsKey(id))
         {
-            File f = tabXSLFiles.get(ID) ;
+            File f = tabXSLFiles.get(id) ;
             if (f == null)
             {
                 unloadRWLock.readLock().unlock();
                 return null;
             }
             XSLTransformer tr = XSLTransformer.loadFromFile(f, true) ;
-            tabXSLTransformerCache.put(ID, tr) ;
+            tabXSLTransformerCache.put(id, tr) ;
             unloadRWLock.readLock().unlock();
             return tr ;
         }
-        XSLTransformer tr = tabXSLTransformerCache.get(ID) ;
+        XSLTransformer tr = tabXSLTransformerCache.get(id) ;
         unloadRWLock.readLock().unlock();
         return tr;
     }

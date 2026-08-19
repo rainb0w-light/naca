@@ -7,7 +7,7 @@
 package semantic.SQL;
 
 import semantic.CBaseActionEntity;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * Semantic node for {@code EXEC SQL WHENEVER SQLERROR|SQLWARNING ...} (the
@@ -40,6 +40,7 @@ public class CEntitySqlOnErrorGoto extends CBaseActionEntity
 
     protected String csRef = "" ;
     protected boolean isonWarning = false ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

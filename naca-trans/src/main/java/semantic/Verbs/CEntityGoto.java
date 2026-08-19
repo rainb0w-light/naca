@@ -55,16 +55,19 @@ public class CEntityGoto extends CBaseActionEntity
     }
 
     protected CProcedureReference reference = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         reference.Clear() ;
         reference= null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         return true ;

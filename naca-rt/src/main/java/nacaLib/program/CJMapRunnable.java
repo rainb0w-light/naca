@@ -14,5 +14,6 @@ import nacaLib.base.CJMapObject;
  */
 public abstract class CJMapRunnable extends CJMapObject
 {
+    /** Runs this operation. */
     abstract public void run();
 }

@@ -36,6 +36,7 @@ public class DbAccessor extends BaseCloseMBean
     // Gives the section name within the app.properties file. This section is used to provide DB parameters
     private String key = null;
 
+    /** Creates a new db accessor instance. */
     public DbAccessor(String csKey)
     {
         super("DbAccessor_" + csKey, csKey);
@@ -105,6 +106,7 @@ public class DbAccessor extends BaseCloseMBean
     }
 
     // Number of currently unused connections
+    /** Returns the nb unused connections. */
     public int getNbUnusedConnections()
     {
         int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnectionsForDbAccessor(this);
@@ -112,12 +114,14 @@ public class DbAccessor extends BaseCloseMBean
     }
 
     // Number of currently allocated connections
+    /** Returns the nb alloc connections. */
     public int getNbAllocConnections()
     {
         int nNbAllocConnections = DbAccessorConnectionManager.getNbAllocConnnectionsForAccessor(this);
         return nNbAllocConnections;
     }
 
+    /** Returns the nb running connections. */
     public int getNbRunningConnections()
     {
         int n = DbAccessorConnectionManager.getNbRunningConnectionsForDbAccessor(this);
@@ -125,12 +129,14 @@ public class DbAccessor extends BaseCloseMBean
     }
 
     // Max number of connections
+    /** Returns the nb max connections. */
     public int getNbMaxConnections()
     {
         int nNbUnusedConnections = DbAccessorConnectionManager.getNbMaxConnectionForAccessor(this);
         return nNbUnusedConnections;
     }
 
+    /** Returns the nb unused cached stmts. */
     public int getNbUnusedCachedStmts()
     {
         int n = DbAccessorConnectionManager.getNbCachedStatementsForAccessor(this);
@@ -140,6 +146,7 @@ public class DbAccessor extends BaseCloseMBean
     private boolean isshowRunningCon = false;
 
     // Operation
+    /** Sets the show running con. */
     public void setShowRunningCon()
     {
         isshowRunningCon = !isshowRunningCon;
@@ -151,6 +158,7 @@ public class DbAccessor extends BaseCloseMBean
         return isshowRunningCon;
     }
 
+    /** Executes the dump connections for all accessors operation. */
     public static String dumpConnectionsForAllAccessors()
     {
         StringBuilder sbText = new StringBuilder();
@@ -159,6 +167,7 @@ public class DbAccessor extends BaseCloseMBean
         return sbText.toString();
     }
 
+    /** Executes the dump connections operation. */
     public static String dumpConnections(DbAccessor accessor)
     {
         StringBuilder sbText = new StringBuilder();
@@ -166,6 +175,7 @@ public class DbAccessor extends BaseCloseMBean
         return sbText.toString();
     }
 
+    /** Executes the dump connections operation. */
     public void dumpConnections(StringBuilder sbText)
     {
         sbText.append("DbAccessor: "+getKey()+"\n");
@@ -177,6 +187,7 @@ public class DbAccessor extends BaseCloseMBean
         DbAccessorConnectionManager.dumpConnections(this, sbText);
     }
 
+    /** Executes the return all accessors connections to pool operation. */
     public static void returnAllAccessorsConnectionsToPool()
     {
         DbTLSConnectionStorage.returnAllConnectionsToPool();

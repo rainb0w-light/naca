@@ -9,10 +9,12 @@ package nacaLib.CESM;
 import nacaLib.varEx.InternalCharBuffer;
 import nacaLib.varEx.Var;
 
+/** Provides cesmstart data behavior. */
 public class CESMStartData
 {
     private InternalCharBuffer buffer = null;
 
+    /** Creates a new cesmstart data instance. */
     public CESMStartData(Var var, Var varLength)
     {
         int nSize = var.getLength();

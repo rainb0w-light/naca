@@ -10,9 +10,11 @@ package semantic.expression;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity address behavior. */
 public class CEntityAddress extends CDataEntity
 {
 
+    /** Creates a new centity address instance. */
     public CEntityAddress(CObjectCatalog cat, String address)
     {
         super(0, "", cat);

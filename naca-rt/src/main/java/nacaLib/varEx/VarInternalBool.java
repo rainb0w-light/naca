@@ -53,11 +53,13 @@ public class VarInternalBool extends Var
     /* (non-Javadoc)
      * @see nacaLib.varEx.VarBase#hasType(nacaLib.varEx.VarTypeEnum)
      */
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         return false;
     }
 
+    /** Executes the set operation. */
     public void set(int n)
     {
         if (n == 0) {
@@ -67,6 +69,7 @@ public class VarInternalBool extends Var
         }
     }
 
+    /** Executes the set operation. */
     public void set(long l)
     {
         if (l == 0) {
@@ -76,6 +79,7 @@ public class VarInternalBool extends Var
         }
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         if (cs.equalsIgnoreCase("false") || cs.equalsIgnoreCase("0")) {
@@ -85,11 +89,13 @@ public class VarInternalBool extends Var
         }
     }
 
+    /** Executes the set operation. */
     public void set(boolean b)
     {
         isvalue = b ;
     }
 
+    /** Executes the compare to operation. */
     public boolean compareTo(boolean b)
     {
         return (isvalue && b) || (!isvalue && !b);
@@ -100,6 +106,7 @@ public class VarInternalBool extends Var
         return isvalue;
     }
 
+    /** Returns the int. */
     public int getInt()
     {
         if (isvalue) {
@@ -108,6 +115,7 @@ public class VarInternalBool extends Var
         return 0;
     }
 
+    /** Returns the long. */
     public long getLong()
     {
         if (isvalue) {
@@ -116,6 +124,7 @@ public class VarInternalBool extends Var
         return 0L;
     }
 
+    /** Returns the double. */
     public double getDouble()
     {
         if (isvalue) {
@@ -124,6 +133,7 @@ public class VarInternalBool extends Var
         return 0.0;
     }
 
+    /** Returns the string. */
     public String getString()
     {
         if (isvalue) {
@@ -132,6 +142,7 @@ public class VarInternalBool extends Var
         return "0";
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (isvalue) {
@@ -140,6 +151,7 @@ public class VarInternalBool extends Var
         return "false";
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
@@ -147,6 +159,7 @@ public class VarInternalBool extends Var
     }
 
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

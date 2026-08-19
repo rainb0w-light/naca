@@ -7,13 +7,51 @@
 package parser.Cobol.elements;
 
 
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
-import parser.*;
+import parser.CCommentContainer;
+import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
-import parser.Cobol.elements.CICS.*;
-import parser.Cobol.elements.SQL.*;
+import parser.Cobol.elements.CICS.CExecCICSAbend;
+import parser.Cobol.elements.CICS.CExecCICSAddress;
+import parser.Cobol.elements.CICS.CExecCICSAllocate;
+import parser.Cobol.elements.CICS.CExecCICSAskTime;
+import parser.Cobol.elements.CICS.CExecCICSAssign;
+import parser.Cobol.elements.CICS.CExecCICSBif;
+import parser.Cobol.elements.CICS.CExecCICSConnect;
+import parser.Cobol.elements.CICS.CExecCICSConverse;
+import parser.Cobol.elements.CICS.CExecCICSDeQ;
+import parser.Cobol.elements.CICS.CExecCICSDelay;
+import parser.Cobol.elements.CICS.CExecCICSDelete;
+import parser.Cobol.elements.CICS.CExecCICSDeleteQ;
+import parser.Cobol.elements.CICS.CExecCICSEnable;
+import parser.Cobol.elements.CICS.CExecCICSEndBR;
+import parser.Cobol.elements.CICS.CExecCICSEnq;
+import parser.Cobol.elements.CICS.CExecCICSFree;
+import parser.Cobol.elements.CICS.CExecCICSGetMain;
+import parser.Cobol.elements.CICS.CExecCICSHandle;
+import parser.Cobol.elements.CICS.CExecCICSIgnore;
+import parser.Cobol.elements.CICS.CExecCICSInquire;
+import parser.Cobol.elements.CICS.CExecCICSLink;
+import parser.Cobol.elements.CICS.CExecCICSReWrite;
+import parser.Cobol.elements.CICS.CExecCICSRead;
+import parser.Cobol.elements.CICS.CExecCICSReadNext;
+import parser.Cobol.elements.CICS.CExecCICSReadPrev;
+import parser.Cobol.elements.CICS.CExecCICSReadQ;
+import parser.Cobol.elements.CICS.CExecCICSReceive;
+import parser.Cobol.elements.CICS.CExecCICSRetrieve;
+import parser.Cobol.elements.CICS.CExecCICSReturn;
+import parser.Cobol.elements.CICS.CExecCICSSend;
+import parser.Cobol.elements.CICS.CExecCICSSet;
+import parser.Cobol.elements.CICS.CExecCICSStart;
+import parser.Cobol.elements.CICS.CExecCICSStartBR;
+import parser.Cobol.elements.CICS.CExecCICSSyncPoint;
+import parser.Cobol.elements.CICS.CExecCICSUnLock;
+import parser.Cobol.elements.CICS.CExecCICSWrite;
+import parser.Cobol.elements.CICS.CExecCICSWriteQ;
+import parser.Cobol.elements.CICS.CExecCICSXctl;
+import parser.Cobol.elements.SQL.CExecSQL;
 import parser.expression.CIdentifierTerminal;
 import parser.expression.CTerminal;
 import semantic.CBaseLanguageEntity;
@@ -21,6 +59,7 @@ import semantic.CBaseEntityFactory;
 import semantic.CEntityBloc;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
+
 
 /**
  * @author U930CV
@@ -684,6 +723,7 @@ public abstract class CBlocElement extends CCommentContainer
 //  }
     protected CFlag checkForNextSentence = new CFlag();
     protected int nEndLine = 0 ;
+    /** Sets the end line. */
     public void SetEndLine(int n)
     {
         nEndLine = n ;

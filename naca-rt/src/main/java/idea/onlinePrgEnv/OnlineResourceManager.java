@@ -157,6 +157,7 @@ public class OnlineResourceManager extends BaseResourceManager
         }
     }
 
+    /** Executes the asynchronously preload programs operation. */
     public void AsynchronouslyPreloadPrograms(
         ArrayList<PreloadProgramSettings> arrProgramToPreload,
         ProgramPreloader programPreloader,
@@ -194,16 +195,19 @@ public class OnlineResourceManager extends BaseResourceManager
         return stdResourceManager.getXSLTransformer("IDEA_ZOOM_BOLD") ;
     }
 
+    /** Executes the get xmlpage operation. */
     public Document GetXMLPage(String csIdPageupperCase)
     {
         return resourceBeanManager.GetXMLPage(csIdPageupperCase);
     }
 
+    /** Executes the get xmlstructure operation. */
     public Document GetXMLStructure(String idPage)
     {
         return resourceBeanManager.GetXMLStructure(idPage);
     }
 
+    /** Executes the get xmlstructure for print screen operation. */
     public Document GetXMLStructureForPrintScreen(String idPage)
     {
         if (csXMLFramePSFilePath == null || csXMLFramePSFilePath.equals(""))
@@ -362,6 +366,7 @@ public class OnlineResourceManager extends BaseResourceManager
         }
     }
 
+    /** Removes the session. */
     public void removeSession(OnlineSession session)
     {
         sequencer.removeSession(session);
@@ -381,11 +386,13 @@ public class OnlineResourceManager extends BaseResourceManager
         return csSemanticContextPathFile;
     }
 
+    /** Executes the register semantic manager operation. */
     public void registerSemanticManager(SemanticManager semanticManager)
     {
         this.semanticManager = semanticManager;
     }
 
+    /** Returns the menu for semantic context. */
     public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)
     {
         if (semanticManager != null) {
@@ -404,6 +411,7 @@ public class OnlineResourceManager extends BaseResourceManager
         return csScenarioFilePath ;
     }
 
+    /** Returns the scenario dir. */
     public String getScenarioDir()
     {
         if (csScenarioDir == null || csScenarioDir.equals(""))
@@ -417,6 +425,7 @@ public class OnlineResourceManager extends BaseResourceManager
             return csScenarioDir ;
         }
     }
+    /** Returns the output dir. */
     public String getOutputDir()
     {
         if (csScenarioOutputDir.equals(""))
@@ -532,6 +541,7 @@ public class OnlineResourceManager extends BaseResourceManager
         return Tag.createFromFile(csCustomApplicationLauncherConfigFilePath) ;
     }
 
+    /** Executes the do remove resource cache operation. */
     public void doRemoveResourceCache(String csForm)
     {
         resourceBeanManager.removeResourceCache(csForm);

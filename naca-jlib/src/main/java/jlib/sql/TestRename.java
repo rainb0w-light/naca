@@ -1,5 +1,6 @@
 package jlib.sql;
 
+/** Provides test rename behavior. */
 public class TestRename {
     private String testField = "test";
     

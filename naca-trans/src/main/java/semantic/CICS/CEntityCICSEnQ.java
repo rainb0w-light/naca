@@ -35,6 +35,7 @@ public class CEntityCICSEnQ extends CBaseActionEntity
             }
     }
 
+    /** Sets the resource. */
     public void SetResource(CDataEntity eRes, CDataEntity eLen)
     {
         resource = eRes ;
@@ -44,10 +45,12 @@ public class CEntityCICSEnQ extends CBaseActionEntity
     protected CDataEntity resource = null   ;
     protected CDataEntity length = null ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

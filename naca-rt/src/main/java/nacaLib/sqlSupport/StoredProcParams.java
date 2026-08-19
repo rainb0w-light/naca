@@ -25,11 +25,13 @@ public class StoredProcParams
 {
     private ArrayList<StoredProcParamDesc> paramDesc = null;
 
+    /** Creates a new stored proc params instance. */
     public StoredProcParams()
     {
         paramDesc = new ArrayList<StoredProcParamDesc>();
     }
 
+    /** Adds the aparam. */
     public void addAParam(ResultSet rsParams)
     {
         StoredProcParamDesc param = new StoredProcParamDesc();
@@ -43,11 +45,13 @@ public class StoredProcParams
         return paramDesc.size();
     }
 
+    /** Executes the get operation. */
     public StoredProcParamDesc get(int nParamId)
     {
         return paramDesc.get(nParamId);
     }
 
+    /** Executes the register in out parameters operation. */
     public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
     {
         boolean b = true;

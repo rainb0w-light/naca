@@ -37,6 +37,24 @@ def summary(programs: list[dict[str, object]]) -> dict[str, object]:
     }
 
 
+def automation_summary(programs: list[dict[str, object]]) -> dict[str, object]:
+    strict = sum(program.get("status") == "strictComplete" for program in programs)
+    expected_blockers = sum(
+        program.get("status") == "blocked"
+        and bool(program.get("probeEvidence", {}).get("automatedRegression"))
+        for program in programs
+    )
+    return {
+        "definition": (
+            "JUnit scenarios in CardDemoEndToEndAcceptanceTest: strict successes "
+            "plus deterministic expected-blocker regressions."
+        ),
+        "executableScenarios": strict + expected_blockers,
+        "strictSuccessScenarios": strict,
+        "expectedBlockerScenarios": expected_blockers,
+    }
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as source:
@@ -89,6 +107,8 @@ def validate(report: dict[str, object], provenance: dict[str, object],
     require(set(statuses) <= STATUSES, "unknown program status", errors)
     require(report.get("summary") == summary(programs),
             "summary/count/rate fields are not generated from programs", errors)
+    require(report.get("automation") == automation_summary(programs),
+            "automation counts are not generated from program evidence", errors)
     require(report.get("denominator", {}).get("total") == len(programs),
             "denominator.total does not match programs", errors)
 
@@ -131,6 +151,12 @@ def validate(report: dict[str, object], provenance: dict[str, object],
         elif program.get("status") == "notStarted":
             require(blocker.get("code") == "NOT_PROBED",
                     f"{name} notStarted blocker must be NOT_PROBED", errors)
+        elif program.get("status") == "blocked":
+            evidence = program.get("probeEvidence", {})
+            for asset in evidence.get("assets", []):
+                require(asset in hashes,
+                        f"{name} blocker asset is absent from provenance: {asset}",
+                        errors)
 
     if upstream is not None:
         validate_upstream(report, upstream.resolve(), errors)
@@ -152,6 +178,7 @@ def main() -> int:
     report = json.loads(INVENTORY.read_text(encoding="utf-8"))
     if args.write:
         report["summary"] = summary(report["programs"])
+        report["automation"] = automation_summary(report["programs"])
         report["denominator"]["total"] = len(report["programs"])
         INVENTORY.write_text(
             json.dumps(report, indent=2, ensure_ascii=False) + "\n",
@@ -165,12 +192,16 @@ def main() -> int:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
     counts = report["summary"]
+    automation = report["automation"]
     print(
         "CardDemo inventory valid: "
         f"strict={counts['strictComplete']}/{counts['total']} "
         f"({counts['completionRate']['percent']:.2f}%), "
         f"stageFeasible={counts['stageFeasible']}, "
-        f"blocked={counts['blocked']}, notStarted={counts['notStarted']}"
+        f"blocked={counts['blocked']}, notStarted={counts['notStarted']}, "
+        f"automated={automation['executableScenarios']} "
+        f"(strict={automation['strictSuccessScenarios']}, "
+        f"expectedBlocker={automation['expectedBlockerScenarios']})"
     )
     return 0
 

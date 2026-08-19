@@ -9,6 +9,7 @@ package lexer.FPac;
 import lexer.CConstantList;
 import lexer.CReservedConstant;
 
+/** Provides cfpac constant list behavior. */
 public class CFPacConstantList extends CConstantList
 {
 

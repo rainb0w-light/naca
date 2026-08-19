@@ -19,6 +19,7 @@ import nacaLib.basePrgEnv.BaseResourceManager;
  */
 public class JmxAppOpener extends BaseCloseMBean
 {
+    /** Creates a new jmx app opener instance. */
     public JmxAppOpener()
     {
         super("# App_Open", "# App_Open");
@@ -39,11 +40,13 @@ public class JmxAppOpener extends BaseCloseMBean
         return !BaseResourceManager.isAppManuallyClosed();
     }
 
+    /** Sets the open. */
     public void setOpen()
     {
         BaseResourceManager.setAppManuallyClosed(false);
     }
 
+    /** Sets the reload calendar files. */
     public void setReloadCalendarFiles()
     {
         BaseResourceManager.reloadCalendarFiles();
@@ -60,18 +63,21 @@ public class JmxAppOpener extends BaseCloseMBean
         return BaseResourceManager.getAppManualStatusState().getString();
     }
 
+    /** Returns the b0 application custom status. */
     public String getB0_ApplicationCustomStatus()
     {
         CalendarOpenState state = BaseResourceManager.getAppCustomOpenState();
         return state.getString();
     }
 
+    /** Returns the b1 application standard status. */
     public String getB1_ApplicationStandardStatus()
     {
         CalendarOpenState state = BaseResourceManager.getAppStandardOpenState();
         return state.getString();
     }
 
+    /** Returns the c application current status. */
     public String getC_ApplicationCurrentStatus()
     {
         if (BaseResourceManager.isAppManuallyClosed()) {

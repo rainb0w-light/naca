@@ -21,6 +21,7 @@ public class SQLClauseSPParamInOutInt extends SQLClauseSPParamInOut
 {
     private int tnVal[] = null;
 
+    /** Creates a new sqlclause spparam in out int instance. */
     public SQLClauseSPParamInOutInt(SQLClauseSPParamWay wayInOut, int tnVal[])
     {
         super(wayInOut);

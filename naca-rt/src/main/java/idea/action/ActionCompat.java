@@ -44,6 +44,7 @@ import org.w3c.dom.Element;
 
 public class ActionCompat extends Action
 {
+    /** Creates a new action compat instance. */
     public ActionCompat()
     {
         super();
@@ -52,6 +53,7 @@ public class ActionCompat extends Action
     InputAnalyser inputAnalyser = new InputAnalyser() ;
     BaseProgramLoader prgseq = BaseProgramLoader.GetInstance() ;
 
+    /** Executes the execute operation. */
     public ActionForward execute(
         ActionMapping mapping,
         ActionForm form,
@@ -398,6 +400,7 @@ public class ActionCompat extends Action
     /*
      * used by EmulWeb
      */
+    /** Executes the run client request operation. */
     public void RunClientRequest(OnlineSession appSession, Document xmlData) throws AbortSessionException
     {
         appSession.setXMLData(xmlData) ;
@@ -409,6 +412,7 @@ public class ActionCompat extends Action
 //      inputAnalyser.BuildXMLData(appSession) ;
 //      doRunClientRequest(appSession) ;
 //  }
+    /** Executes the do run client request operation. */
     public void doRunClientRequest(OnlineSession appSession) throws AbortSessionException
     {
         // call programm
@@ -419,6 +423,7 @@ public class ActionCompat extends Action
         view.mergeOutput(appSession);
     }
 
+    /** Executes the run client request with render operation. */
     public void runClientRequestWithRender(
         OnlineResourceManager resourceManager,
         CScenarioPlayer player,

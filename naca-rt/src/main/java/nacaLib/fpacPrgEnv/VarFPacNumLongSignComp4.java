@@ -11,8 +11,10 @@ import nacaLib.varEx.VarBuffer;
 import nacaLib.varEx.VarBufferPos;
 import nacaLib.varEx.VarNumIntSignComp4Long;
 
+/** Provides var fpac num long sign comp4 behavior. */
 public class VarFPacNumLongSignComp4 extends VarNumIntSignComp4Long
 {
+    /** Creates a new var fpac num long sign comp4 instance. */
     public VarFPacNumLongSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
     {
         super(type);

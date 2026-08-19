@@ -3,6 +3,7 @@ package com.publicitas.naca.config;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Provides sequencer config behavior. */
 public class SequencerConfig {
 
     private String transIdMappingFilePath = "";
@@ -26,6 +27,7 @@ public class SequencerConfig {
     public List<StartProgram> getStartPrograms() { return startPrograms; }
     public void setStartPrograms(List<StartProgram> startPrograms) { this.startPrograms = startPrograms; }
 
+    /** Provides mail config behavior. */
     public static class MailConfig {
         private String addressFrom = "alert-naca@domain.com";
         private String smtpServer = "smtp.domain.com";
@@ -42,6 +44,7 @@ public class SequencerConfig {
         public void setAddressesTo(List<String> addressesTo) { this.addressesTo = addressesTo; }
     }
 
+    /** Provides sql config behavior. */
     public static class SqlConfig {
         private String dbUrl = "";
         private String dbUser = "";
@@ -79,6 +82,7 @@ public class SequencerConfig {
         public void setPools(List<PoolConfig> pools) { this.pools = pools; }
     }
 
+    /** Provides pool config behavior. */
     public static class PoolConfig {
         private String name = "Generic";
         private String programId = "";
@@ -104,6 +108,7 @@ public class SequencerConfig {
         public void setUseExplain(boolean useExplain) { this.useExplain = useExplain; }
     }
 
+    /** Provides start program behavior. */
     public static class StartProgram {
         private String name;
         private int delaySeconds;

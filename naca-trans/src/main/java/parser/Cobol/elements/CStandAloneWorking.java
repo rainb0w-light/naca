@@ -30,6 +30,7 @@ public class CStandAloneWorking extends CWorking
         CEntityExternalDataStructure e = factory.NewEntityExternalDataStructure(getLine(), "") ;
         return e ;
     }
+    /** Executes the do semantic analysis operation. */
     public CEntityExternalDataStructure DoSemanticAnalysis(CJavaEntityFactory factory)
     {
         return (CEntityExternalDataStructure)DoSemanticAnalysis(null, factory);

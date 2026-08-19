@@ -16,6 +16,7 @@ package nacaLib.varEx;
  */
 public class CallParamFpac extends CCallParam
 {
+    /** Creates a new call param fpac instance. */
     public CallParamFpac(InternalCharBuffer charBufferSource)
     {
         int nLength = charBufferSource.getBufferSize() - 2; // Exclude commeara length header
@@ -23,6 +24,7 @@ public class CallParamFpac extends CCallParam
         charBuffer.copyBytes(0, nLength, 2, charBufferSource);
     }
 
+    /** Returns the param length. */
     public int getParamLength()
     {
         if (charBuffer != null) {
@@ -31,6 +33,7 @@ public class CallParamFpac extends CCallParam
         return 0;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         int nNbCharsToCopy = charBuffer.getBufferSize();

@@ -29,6 +29,7 @@ public class CEntityInternalBool extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.VAR ;
@@ -37,6 +38,7 @@ public class CEntityInternalBool extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -45,6 +47,7 @@ public class CEntityInternalBool extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetConstantValue()
      */
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

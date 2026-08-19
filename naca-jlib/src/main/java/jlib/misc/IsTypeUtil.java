@@ -8,6 +8,7 @@ package jlib.misc;
 
 import java.text.SimpleDateFormat;
 
+/** Provides is type util behavior. */
 public class IsTypeUtil {
 
     //private static Logger _logger = Logger.getLogger(IsTypeUtil.class.getName());
@@ -21,6 +22,7 @@ public class IsTypeUtil {
 
 //--------------------------------------------------------------------------
 
+    /** Returns whether numeric. */
     public static boolean isNumeric(String s){
 
         if ("".equalsIgnoreCase(s)) {
@@ -44,6 +46,7 @@ public class IsTypeUtil {
 
 //  ---------------------------------------------------------
 
+    /** Returns whether date. */
     public static boolean isDate(String strDate, SimpleDateFormat sdf) {
 
       boolean isDate = false;

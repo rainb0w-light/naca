@@ -8,8 +8,10 @@ package jlib.jmxMBean;
 
 import jlib.xml.Tag;
 
+/** Provides jmxdumper gui behavior. */
 public class JMXDumperGui extends BaseCloseMBean
 {
+    /** Creates a new jmxdumper gui instance. */
     public JMXDumperGui(String csOutputFile)
     {
         super("# JMX Dump","# JMX Dump");
@@ -22,6 +24,7 @@ public class JMXDumperGui extends BaseCloseMBean
         addAttribute("OutputFile", getClass(), "OutputFile", String.class);
     }
 
+    /** Sets the dump. */
     public void setDump()
     {
         JMXDumper dumper = new JMXDumper(JmxRegistration.getMBeanServer());

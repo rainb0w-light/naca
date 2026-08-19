@@ -20,6 +20,7 @@ import jlib.misc.ArrayFixDyn;
  */
 public class InitializeCache
 {
+    /** Creates a new initialize cache instance. */
     public InitializeCache()
     {
         arr = new ArrayDyn<InitializeCachedItem>();

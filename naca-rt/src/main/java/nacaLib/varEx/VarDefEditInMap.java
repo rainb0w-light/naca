@@ -24,6 +24,7 @@ import nacaLib.tempCache.CStr;
 
 public class VarDefEditInMap extends VarDefEdit
 {
+    /** Creates a new var def edit in map instance. */
     public VarDefEditInMap(VarDefBase varDefParent, DeclareTypeEditInMap declareTypeEdit)
     {
         super(varDefParent, declareTypeEdit.varLevel);
@@ -31,6 +32,7 @@ public class VarDefEditInMap extends VarDefEdit
         nSize = declareTypeEdit.nSize;
     }
 
+    /** Creates a new var def edit in map instance. */
     public VarDefEditInMap()
     {
         super();
@@ -88,6 +90,7 @@ public class VarDefEditInMap extends VarDefEdit
         write(buffer, cs);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
@@ -172,6 +175,7 @@ public class VarDefEditInMap extends VarDefEdit
         writeEditRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         writeEditRightPadding(buffer, cs, ' ');
@@ -182,6 +186,7 @@ public class VarDefEditInMap extends VarDefEdit
         writeEditRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         int nVal = getAsDecodedInt(buffer);
@@ -189,6 +194,7 @@ public class VarDefEditInMap extends VarDefEdit
         write(buffer, nVal);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -196,6 +202,7 @@ public class VarDefEditInMap extends VarDefEdit
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         if (n < 0) {
@@ -205,6 +212,7 @@ public class VarDefEditInMap extends VarDefEdit
         writeEditRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         if (l < 0) {
@@ -228,6 +236,7 @@ public class VarDefEditInMap extends VarDefEdit
         // Parag 9.c: A noninteger numeric literal or data item cannot be moved to an alphanumeric or alphanumeric edited data item.
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         assertIfFalse(false);
@@ -649,6 +658,7 @@ public class VarDefEditInMap extends VarDefEdit
 //      writeEditRightPadding(buffer, " ", ' ');
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         //initializeCache.setNotManaged();
@@ -1108,6 +1118,7 @@ public class VarDefEditInMap extends VarDefEdit
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
@@ -1155,6 +1166,7 @@ public class VarDefEditInMap extends VarDefEdit
         }
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

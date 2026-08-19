@@ -21,6 +21,7 @@ public class SQLClauseSPParamInOutDouble extends SQLClauseSPParamInOut
 {
     private double tdVal[] = null;
 
+    /** Creates a new sqlclause spparam in out double instance. */
     public SQLClauseSPParamInOutDouble(SQLClauseSPParamWay wayInOut, double tdVal[])
     {
         super(wayInOut);

@@ -6,10 +6,12 @@
  */
 package nacaLib.batchPrgEnv;
 
+/** Provides batch resource manager factory behavior. */
 public class BatchResourceManagerFactory
 {
     private static BatchResourceManager ms_instance = null;
 
+    /** Executes the get instance operation. */
     public static BatchResourceManager GetInstance(String csIniFilePath)
     {
         if(ms_instance == null)
@@ -20,6 +22,7 @@ public class BatchResourceManagerFactory
         return ms_instance;
     }
 
+    /** Executes the get instance operation. */
     public static BatchResourceManager GetInstance(String csIniFilePath, String csDBParameterPrefix)
     {
         if(ms_instance == null)

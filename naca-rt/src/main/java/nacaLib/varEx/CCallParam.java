@@ -12,12 +12,16 @@ package nacaLib.varEx;
 
 import nacaLib.base.CJMapObject;
 
+/** Provides ccall param behavior. */
 public abstract class CCallParam extends CJMapObject
 {
+    /** Creates a new ccall param instance. */
     public CCallParam()
     {
     }
 
+    /** Returns the param length. */
     public abstract int getParamLength();
+    /** Executes the map on operation. */
     public abstract void MapOn(Var varLinkageSection);
 }

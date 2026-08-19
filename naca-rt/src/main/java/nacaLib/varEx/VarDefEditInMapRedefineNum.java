@@ -28,6 +28,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def edit in map redefine num instance. */
     public VarDefEditInMapRedefineNum(VarDefBase varDefParent, DeclareTypeEditInMapRedefineNum declareTypeEditInMapRedefineNum)
     {
         super(varDefParent, declareTypeEditInMapRedefineNum.varLevel);
@@ -74,6 +75,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         write(buffer, n);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         int n = varSource.getUnsignedInt(bufferSource);
@@ -148,11 +150,13 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         writeEditLeftPadding(buffer, c);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         writeEditLeftPadding(buffer, cs);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         int nVal = getAsDecodedInt(buffer);
@@ -160,6 +164,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         write(buffer, nVal);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -167,11 +172,13 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         writeEditLeftPadding(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         writeEditLeftPadding(buffer, l);
@@ -189,6 +196,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         writeEditLeftPadding(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long lValue = bigDecimal.longValue();
@@ -484,6 +492,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
 //      writeEditRightPadding(buffer, "0", '0');
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeEditRightPaddingBlankInit0(buffer, nOffset, initializeCache);
@@ -934,6 +943,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
@@ -996,6 +1006,7 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
         writeEditLeftPadding(buffer, nValue);
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

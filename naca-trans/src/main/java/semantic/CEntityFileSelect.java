@@ -8,8 +8,10 @@ package semantic;
 
 import utils.CObjectCatalog;
 
+/** Provides centity file select behavior. */
 public class CEntityFileSelect extends CBaseLanguageEntity
 {
+    /** Enumerates supported access mode values. */
     public enum AccessMode
     {
         DYNAMIC,
@@ -17,12 +19,14 @@ public class CEntityFileSelect extends CBaseLanguageEntity
         SEQUENTIAL
     }
 
+    /** Enumerates supported organization mode values. */
     public enum OrganizationMode
     {
         INDEXED,
         SEQUENTIAL
     }
 
+    /** Creates a new centity file select instance. */
     public CEntityFileSelect(String name, CObjectCatalog cat)
     {
         super(0, name, cat);
@@ -49,6 +53,7 @@ public class CEntityFileSelect extends CBaseLanguageEntity
         csFileName = fileName ;
     }
     protected CDataEntity csFileName ;
+    /** Executes the get file name operation. */
     public CDataEntity GetFileName()
     {
         return csFileName ;

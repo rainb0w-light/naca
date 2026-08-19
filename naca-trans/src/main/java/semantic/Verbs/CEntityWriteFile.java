@@ -11,19 +11,23 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity write file behavior. */
 public class CEntityWriteFile extends CBaseActionEntity
 {
 
+    /** Creates a new centity write file instance. */
     public CEntityWriteFile(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
 
+    /** Sets the file descriptor. */
     public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
     {
         eFileDescriptor = efd ;
         eDataFrom = data ;
     }
+    /** Sets the after. */
     public void SetAfter(CDataEntity after)
     {
         this.after = after;

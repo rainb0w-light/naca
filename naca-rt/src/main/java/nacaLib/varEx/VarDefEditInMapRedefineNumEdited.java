@@ -23,6 +23,7 @@ import nacaLib.tempCache.CStr;
  */
 public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBase
 {
+    /** Creates a new var def edit in map redefine num edited instance. */
     public VarDefEditInMapRedefineNumEdited(
         VarDefBase varDefParent,
         DeclareTypeEditInMapRedefineNumEdited declareTypeEditInMapRedefineNumEdited)
@@ -71,6 +72,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         writeEditRightPadding(buffer, csFormatted, ' ');
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
@@ -156,6 +158,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         writeEditRightPadding(buffer, csFormatted, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         Dec dec = NumberParserDec.getAsDec(cs);
@@ -163,6 +166,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         writeEditRightPadding(buffer, csFormatted, ' ');
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         int nVal = getAsDecodedInt(buffer);
@@ -170,6 +174,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         write(buffer, nVal);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -177,6 +182,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         Dec dec = NumberParserDec.getAsDec(n);
@@ -184,6 +190,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         writeEditRightPadding(buffer, csFormatted, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         Dec dec = NumberParserDec.getAsDec(l);
@@ -205,6 +212,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         writeEditRightPadding(buffer, csFormatted, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         Dec dec = NumberParserDec.getAsDec(bigDecimal);
@@ -532,6 +540,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
 //      writeEditRightPadding(buffer, " ", ' ');
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         //writeEditRightPadding(buffer, nOffset, " ", ' ');
@@ -983,6 +992,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
@@ -994,6 +1004,7 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         varDefDest.isblankWhenZero = isblankWhenZero;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

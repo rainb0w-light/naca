@@ -34,4 +34,4 @@ public class TestWorking2Copy extends Copy
 				public 	Var Item1$GOccursed = declare.level(15).picX(1).var() ;
 				public 	Var Item2$GOccursed = declare.level(15).pic9(2).var() ;
 				
-} 
+}

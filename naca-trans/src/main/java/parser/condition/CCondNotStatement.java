@@ -8,13 +8,14 @@ package parser.condition;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import parser.expression.*;
+import parser.expression.CDefaultConditionManager;
+import parser.expression.CExpression;
 import semantic.CBaseEntityFactory;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondNot;
 import utils.Transcoder;
+
 
 /**
  * @author U930CV
@@ -22,6 +23,7 @@ import utils.Transcoder;
  */
 public class CCondNotStatement extends CExpression
 {
+    /** Creates a new ccond not statement instance. */
     public CCondNotStatement(int line, CExpression cond)
     {
         super(line) ;
@@ -49,6 +51,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("Not") ;
@@ -61,6 +64,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return cond;
@@ -68,6 +72,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -75,6 +80,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         CBaseEntityCondition eCond = cond.AnalyseCondition(factory, condMaster);
@@ -89,6 +95,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return cond.GetFirstConditionOperand() ;
@@ -96,6 +103,7 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         CCondNotStatement not = new CCondNotStatement(getLine(), cond.GetSimilarExpression(operand));
@@ -104,10 +112,12 @@ public class CCondNotStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return cond.IsBinaryCondition() ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "NOT(" + cond.toString() + ")" ;

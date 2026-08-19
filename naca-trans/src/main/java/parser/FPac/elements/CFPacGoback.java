@@ -17,9 +17,11 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.Verbs.CEntityContinue;
 
+/** Provides cfpac goback behavior. */
 public class CFPacGoback extends CFPacElement
 {
 
+    /** Creates a new cfpac goback instance. */
     public CFPacGoback(int line)
     {
         super(line);

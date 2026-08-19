@@ -8,14 +8,14 @@ package semantic.Verbs;
 
 
 import java.util.Vector;
-
 import parser.expression.CStringTerminal;
 import parser.expression.CTerminal;
-
 import semantic.CBaseActionEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
-import utils.*;
+import utils.CObjectCatalog;
+
+
 
 /**
  * @author sly
@@ -40,6 +40,7 @@ public class CEntityAssign extends CBaseActionEntity
         return true ;
     }
 
+    /** Adds the ref to. */
     public void AddRefTo(CDataEntity id)
     {
         refTo.add(id) ;
@@ -64,22 +65,26 @@ public class CEntityAssign extends CBaseActionEntity
     protected boolean isfillAll = false ;
     protected boolean ismoveCorresponding = false ;
     private Vector<CDataEntity> refTo = new Vector<CDataEntity>() ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         refTo.clear() ;
     }
 
+    /** Sets the fill all. */
     public void SetFillAll(boolean bFillAll)
     {
         isfillAll = bFillAll ;
     }
 
+    /** Sets the assign corresponding. */
     public void SetAssignCorresponding(boolean bCorr)
     {
         ismoveCorresponding = bCorr ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (value == null || value.ignore())
@@ -101,6 +106,7 @@ public class CEntityAssign extends CBaseActionEntity
             return ignore ;
         }
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (value == data)
@@ -119,6 +125,7 @@ public class CEntityAssign extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (value == field)
@@ -153,6 +160,7 @@ public class CEntityAssign extends CBaseActionEntity
         return false ;
     }
 
+    /** Executes the get special assignement operation. */
     public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
     {
         if (refTo.size() == 1)

@@ -9,15 +9,22 @@
 
 package jlib.log.stdEvents;
 
-import jlib.log.*;
+import jlib.log.Log;
+import jlib.log.LogEvent;
+import jlib.log.LogEventType;
+import jlib.log.LogFlowStd;
+import jlib.log.LogLevel;
 
+/** Provides load config error behavior. */
 public class LoadConfigError extends LogEvent
 {
+    /** Creates a new load config error instance. */
     public LoadConfigError(String csProduct)
     {
         super(LogEventType.Error, LogFlowStd.Monitoring, LogLevel.Critical, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csName, String csMessage)
     {
         LoadConfigError event = new LoadConfigError(csProduct);
@@ -27,6 +34,7 @@ public class LoadConfigError extends LogEvent
     }
 
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csName, String csMessage)
     {
         return LoadConfigError.log(csChannel, null, csName, csMessage);

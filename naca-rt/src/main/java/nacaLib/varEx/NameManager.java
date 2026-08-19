@@ -12,6 +12,7 @@ package nacaLib.varEx;
  */
 public class NameManager
 {
+    /** Returns the unprefixed name. */
     static public String getUnprefixedName(String csName)
     {
         int nPosSep = csName.indexOf('.');
@@ -27,6 +28,7 @@ public class NameManager
         return csName;
     }
 
+    /** Returns the unprefixed unindexed name. */
     static public String getUnprefixedUnindexedName(String csName)
     {
         String cs = getUnprefixedName(csName);

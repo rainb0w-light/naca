@@ -7,13 +7,11 @@
 package parser.Cobol.elements;
 
 import java.util.Vector;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import parser.expression.CExpression;
@@ -25,6 +23,9 @@ import semantic.Verbs.CEntityCalcul;
 import semantic.expression.CBaseEntityExpression;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
+
+
+
 
 /**
  * @author U930CV

@@ -21,6 +21,7 @@ import idea.onlinePrgEnv.OnlineProgramLoader;
 import idea.onlinePrgEnv.OnlineSession;
 import nacaLib.calledPrgSupport.BaseCalledPrgPublicArgPositioned;
 
+/** Provides runner service behavior. */
 @Service
 public class RunnerService {
 
@@ -28,6 +29,7 @@ public class RunnerService {
     private final StringBuilder logOutput;
     private LogCenterConsole currentLogCenter;
 
+    /** Creates a new runner service instance. */
     public RunnerService() {
         this.logOutput = new StringBuilder();
         initializeCodeManager();
@@ -211,10 +213,12 @@ public class RunnerService {
             this.errors = errors;
         }
 
+        /** Executes the success operation. */
         public static RunResult success(String output) {
             return new RunResult(true, output, new ArrayList<>());
         }
 
+        /** Executes the failure operation. */
         public static RunResult failure(String error) {
             List<String> errors = new ArrayList<>();
             errors.add(error);

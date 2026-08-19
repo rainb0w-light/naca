@@ -135,6 +135,7 @@ public class CEntityConvertReference extends CBaseDataReference
     protected boolean isconvertToPacked = false ;
     protected boolean isconvertToAlphaNum = false ;
 
+    /** Converts the to alpha num. */
     public void convertToAlphaNum(CDataEntity working) {
         isconvertToAlphaNum = true ;
         isconvertToPacked = false ;

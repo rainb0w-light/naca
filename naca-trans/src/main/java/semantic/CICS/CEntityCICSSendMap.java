@@ -33,15 +33,18 @@ public class CEntityCICSSendMap extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Sets the name. */
     public void SetName(CDataEntity name)
     {
         this.name = name ;
     }
+    /** Sets the map set. */
     public void SetMapSet(CDataEntity name)
     {
         setName = name ;
     }
 
+    /** Sets the data from. */
     public void SetDataFrom(CDataEntity from, CDataEntity len, boolean b)
     {
         if (from.GetDataType() == CDataEntity.CDataEntityType.FORM)
@@ -66,36 +69,43 @@ public class CEntityCICSSendMap extends CBaseActionEntity
         isdataOnly = b ;
     }
 
+    /** Sets the accum. */
     public void SetAccum(boolean b)
     {
         isaccum = b ;
     }
 
+    /** Sets the alarm. */
     public void SetAlarm(boolean b)
     {
         isalarm = b ;
     }
 
+    /** Sets the erase. */
     public void SetErase(boolean b)
     {
         iserase = b ;
     }
 
+    /** Sets the free kb. */
     public void SetFreeKB(boolean b)
     {
         isfreeKB = b ;
     }
 
+    /** Sets the paging. */
     public void SetPaging(boolean b)
     {
         ispaging = b ;
     }
 
+    /** Sets the wait. */
     public void SetWait(boolean b)
     {
         iswait = b ;
     }
 
+    /** Sets the cursor. */
     public void SetCursor(CDataEntity e)
     {
         bCursor = true ;
@@ -115,6 +125,7 @@ public class CEntityCICSSendMap extends CBaseActionEntity
     protected boolean iswait = false ;
     protected boolean isaccum = false ;
     protected boolean ispaging = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -124,10 +135,12 @@ public class CEntityCICSSendMap extends CBaseActionEntity
         dataLength = null ;
         cursorValue = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (dataFrom == field)

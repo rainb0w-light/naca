@@ -14,12 +14,14 @@ import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 import nacaLib.varEx.VarBufferPos;
 
+/** Provides pack working behavior. */
 public class PackWorking extends FPacVarManager
 {
     static private final int WORKING_SIZE = 10001;  // Nb bytes in preallocated working
     private int nBufferId = 0;
     private FPacVarCacheManager fpacVarCacheManager = null;
 
+    /** Creates a new pack working instance. */
     public PackWorking(FPacProgram program)
     {
         super(program);
@@ -165,6 +167,7 @@ public class PackWorking extends FPacVarManager
         return varBuffer;
     }
 
+    /** Executes the dump hexa operation. */
     public void dumpHexa(int nPosition, int nLength)
     {
         varBuffer.dumpHexa(nPosition, nLength);

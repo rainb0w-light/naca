@@ -12,6 +12,7 @@ package nacaLib.varEx;
  */
 public class InitializeManagerNone extends InitializeManager
 {
+    /** Creates a new initialize manager none instance. */
     public InitializeManagerNone()
     {
     }
@@ -22,6 +23,7 @@ public class InitializeManagerNone extends InitializeManager
 //  }
 
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache)
     {
         varDefBuffer.initializeAtOffset(buffer, nOffset, initializeCache);

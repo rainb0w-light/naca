@@ -33,6 +33,7 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLOpenStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlopen statement instance. */
     public CEntitySQLOpenStatement(int line, CObjectCatalog cat, CEntitySQLCursor cur)
     {
         super(line, cat);
@@ -40,6 +41,7 @@ public class CEntitySQLOpenStatement extends CBaseActionEntity
     }
     protected CEntitySQLCursor cursor = null ;
     protected CDataEntity variableStatement = null ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

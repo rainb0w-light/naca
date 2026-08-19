@@ -106,7 +106,7 @@ public class AccessChecker {
 
 //.......................... Represents the users ............................................
         s.append("\t<users>\r\n");
-        Iterator<Map.Entry<String, List<String>>>  usersIterator=_users.entrySet().iterator();
+        Iterator<Map.Entry<String, List<String>>>  usersIterator=users.entrySet().iterator();
         while(usersIterator.hasNext()) {
             Map.Entry<String, List<String>> userEntry=usersIterator.next();
             s.append("\t\t<user name=\""+userEntry.getKey()+"\">\r\n");
@@ -119,7 +119,7 @@ public class AccessChecker {
 
 //.......................... Represents the groups ...........................................
         s.append("\t<groups>\r\n");
-        Iterator<Map.Entry<String, List<String>>>  groupsIterator=_groups.entrySet().iterator();
+        Iterator<Map.Entry<String, List<String>>>  groupsIterator=storedGroups.entrySet().iterator();
         while(groupsIterator.hasNext()) {
             Map.Entry<String, List<String>> groupEntry=groupsIterator.next();
             s.append("\t\t<group name=\""+groupEntry.getKey()+"\">\r\n");
@@ -132,7 +132,7 @@ public class AccessChecker {
 
 //.......................... Represents the functions ........................................
         s.append("\t<functions>\r\n");
-        s.append(_functions.toString());
+        s.append(functions.toString());
         s.append("\t</functions>\r\n");
 //.......................... Returns the string representation ...............................
         s.append("</accessTree>\r\n");
@@ -143,9 +143,9 @@ public class AccessChecker {
 //**********************************************************************************************
 //**                             Class constructor.                                           **
 //**********************************************************************************************
-    private Hashtable<String,List<String>> _users;        // Contains the list of users, and the list of groups the users belong to.
-    private Hashtable<String,List<String>> _groups;       // Contains the list of groups, and the list of groups the groups belong to.
-    private AccessCheckerFunction _functions;             // Contains the function tree.
+    private Hashtable<String,List<String>> users;        // Contains the list of users, and the list of groups the users belong to.
+    private Hashtable<String,List<String>> storedGroups;       // Contains the list of groups, and the list of groups the groups belong to.
+    private AccessCheckerFunction functions;             // Contains the function tree.
 
 //********************************* Default class constructor **********************************
 /**
@@ -161,9 +161,9 @@ public class AccessChecker {
  * a file, a stream...
  */
     public AccessChecker() throws Exception {
-        _users=new Hashtable<String,List<String>>();
-        _groups=new Hashtable<String,List<String>>();
-        _functions=new AccessCheckerFunction();
+        users=new Hashtable<String,List<String>>();
+        storedGroups=new Hashtable<String,List<String>>();
+        functions=new AccessCheckerFunction();
     }
 
 //************************************************************************************************
@@ -191,11 +191,11 @@ public class AccessChecker {
             }
 
 //******************************** Adds the user to the 'users' section ***************************
-            if (_users.containsKey(userName)) {
+            if (users.containsKey(userName)) {
                 throw new Exception("User '" + userName + "' is already declared.");
             }
 
-            _users.put(userName,new ArrayList<String>());
+            users.put(userName,new ArrayList<String>());
 
 //******************************** Adds the user to the specified list of groups ******************
             includeUserInGroups(userName,groupsList);
@@ -238,22 +238,22 @@ public class AccessChecker {
                 throw new Exception("'userName' parameter cannot be null or empty.");
             }
 
-            if (_groups.size() == 0) {
+            if (storedGroups.size() == 0) {
                 throw new Exception("No group has been declared yet in the 'groups' section.");
             }
 
-            if (!_users.containsKey(userName)) {
+            if (!users.containsKey(userName)) {
                 throw new Exception("User '" + userName + "' isn't declared in the 'users' section.");
             }
 
 //........................... Retrieves the list of groups the user is already in .................
-            List<String> groupsList=_users.get(userName);
+            List<String> groupsList=users.get(userName);
 
 // If the user isn't in any group yet, initializes a new list of groups:
             if (groupsList==null) {
                 groupsList=new ArrayList<String>();
-                _users.remove(userName);
-                _users.put(userName, groupsList);
+                users.remove(userName);
+                users.put(userName, groupsList);
             }
 
 //******************************** Adds the user to the specified list of groups ******************
@@ -262,7 +262,7 @@ public class AccessChecker {
             for(int n=0;n<nn;n++) {
 
 //................................ Checks if the group exists .....................................
-                if (!_groups.containsKey(group[n])) {
+                if (!storedGroups.containsKey(group[n])) {
                     throw new Exception("Cannot include user '" + userName + "' in group '" + group[n]
                         + "' because this group is not declared.");
                 }
@@ -314,8 +314,8 @@ public class AccessChecker {
             }
 
 //************************** Creates the new group *******************************************
-            if (!_groups.containsKey(groupName)) {
-                _groups.put(groupName,new ArrayList<String>());
+            if (!storedGroups.containsKey(groupName)) {
+                storedGroups.put(groupName,new ArrayList<String>());
             }
 
 //***************************** Sets or adds the parent group ********************************
@@ -359,22 +359,22 @@ public class AccessChecker {
                 throw new Exception("'groupName' parameter cannot be null or empty.");
             }
 
-            if (_groups.size() == 0) {
+            if (storedGroups.size() == 0) {
                 throw new Exception("No group has been declared yet in the 'groups' section.");
             }
 
-            if (!_groups.containsKey(groupName)) {
+            if (!storedGroups.containsKey(groupName)) {
                 throw new Exception("Group '" + groupName + "' isn't declared in the 'groups' section.");
             }
 
 //........................... Retrieves the list of groups the group is already in ................
-            List<String> groupsList=_groups.get(groupName);
+            List<String> groupsList=storedGroups.get(groupName);
 
 // If the group isn't in any group yet, initializes a new list of groups:
             if (groupsList==null) {
                 groupsList=new ArrayList<String>();
-                _users.remove(groupName);
-                _users.put(groupName, groupsList);
+                users.remove(groupName);
+                users.put(groupName, groupsList);
             }
 
 //******************************** Adds the user to the specified list of groups ******************
@@ -383,7 +383,7 @@ public class AccessChecker {
             for(int n=0;n<nn;n++) {
 
 //................................ Checks if the group exists .....................................
-                if (!_groups.containsKey(group[n])) {
+                if (!storedGroups.containsKey(group[n])) {
                     throw new Exception("Cannot include group '" + groupName + "' in group '" + group[n] + "' because '" + group[n]
                             + "' is not declared.");
                 }
@@ -677,12 +677,12 @@ public class AccessChecker {
             int nn=userOrGroup.length;
             for(int n=0;n<nn;n++) {
 // Maybe it is a user?
-                if (_users.containsKey(userOrGroup[n])) {
+                if (users.containsKey(userOrGroup[n])) {
                     continue;
                 }
 
 // Maybe it is a group?
-                if (_groups.containsKey(userOrGroup[n])) {
+                if (storedGroups.containsKey(userOrGroup[n])) {
                     continue;
                 }
 
@@ -697,7 +697,7 @@ public class AccessChecker {
 
 //......................... Creates the function path .........................................
             nn=functionName.length;
-            AccessCheckerFunction function=_functions;
+            AccessCheckerFunction function=functions;
             for(int n=0;n<nn;n++) {
                 if (!function.tree.containsKey(functionName[n])) {
                     AccessCheckerFunction childFunction=new AccessCheckerFunction();
@@ -842,7 +842,7 @@ public class AccessChecker {
             String[] functionName=functionPath.split("/");
             int nn=functionName.length;
 
-            AccessCheckerFunction function=_functions;
+            AccessCheckerFunction function=functions;
             for(int n=0;n<nn;n++) {
 //................ If the function is not in the tree, method exits .......................
 // (With the current permission)
@@ -907,7 +907,7 @@ public class AccessChecker {
         try {
 
 //********************** If the user doesn't exist, then the list is empty *****************
-            if (!_users.containsKey(userName)) {
+            if (!users.containsKey(userName)) {
                 return new ArrayList<String>();
             }
 
@@ -916,7 +916,7 @@ public class AccessChecker {
             userGroups.add(userName);
 
 //************************** Retrieves the list of groups the user belongs to **************
-            List<String> groupsList=_users.get(userName);
+            List<String> groupsList=users.get(userName);
 
             Iterator<String> groupsIterator=groupsList.iterator();
             while (groupsIterator.hasNext()) {
@@ -947,7 +947,7 @@ public class AccessChecker {
             if (groupName.length() == 0) {
                 return new ArrayList<String>();
             }
-            if (!_groups.containsKey(groupName)) {
+            if (!storedGroups.containsKey(groupName)) {
                 return new ArrayList<String>();
             }
 
@@ -955,7 +955,7 @@ public class AccessChecker {
             List<String> groupGroups=new ArrayList<String>();
 
 //*********************** Retrieves the list of groups the group belongs to ***************
-            List<String> groupsList=_groups.get(groupName);
+            List<String> groupsList=storedGroups.get(groupName);
             Iterator<String> groupsIterator=groupsList.iterator();
             while(groupsIterator.hasNext()) {
                 groupName=groupsIterator.next();

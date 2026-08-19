@@ -7,7 +7,7 @@
 package semantic.Verbs;
 
 import semantic.CBaseActionEntity;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -24,11 +24,13 @@ public class CEntityReturn extends CBaseActionEntity
         super(l, cat);
     }
 
+    /** Sets the stop program. */
     public void SetStopProgram(int returning)
     {
         isstopAllStackCalls = returning;
     }
 
+    /** Sets the only return from procedure. */
     public void SetOnlyReturnFromProcedure()
     {
         bonlyLeaveParagraph = true;
@@ -41,10 +43,12 @@ public class CEntityReturn extends CBaseActionEntity
     public boolean getBonlyLeaveParagraph() { return bonlyLeaveParagraph; }
     /** Target-neutral semantic flag: true when this is a STOP RUN (return-code >= 0). */
     public boolean isStopProgram() { return isstopAllStackCalls >= 0; }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         return true ;

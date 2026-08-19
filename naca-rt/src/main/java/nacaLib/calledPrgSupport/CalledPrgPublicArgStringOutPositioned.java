@@ -21,11 +21,13 @@ public class CalledPrgPublicArgStringOutPositioned extends BaseCalledPrgPublicAr
         this.csValue = csValue;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         varLinkageSection.set(csValue[0]);
     }
 
+    /** Executes the do fill with var operation. */
     public void doFillWithVar(Var varSource)
     {
         csValue[0] = varSource.getString();

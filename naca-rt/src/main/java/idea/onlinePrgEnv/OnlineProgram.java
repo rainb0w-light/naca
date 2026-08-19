@@ -8,15 +8,24 @@ package idea.onlinePrgEnv;
 
 
 import jlib.log.Log;
-
 import idea.manager.CESMManager;
 import nacaLib.basePrgEnv.BaseCESMManager;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.mapSupport.*;
-import nacaLib.misc.*;
+import nacaLib.mapSupport.MapFieldAttrColor;
+import nacaLib.mapSupport.MapFieldAttrHighlighting;
+import nacaLib.mapSupport.MapFieldAttrIntensity;
+import nacaLib.mapSupport.MapFieldAttrModified;
+import nacaLib.mapSupport.MapFieldAttrProtection;
+import nacaLib.mapSupport.MapFieldAttribute;
+import nacaLib.misc.KeyPressed;
 import nacaLib.tempCache.TempCache;
-import nacaLib.varEx.*;
+import nacaLib.varEx.ComparisonMode;
+import nacaLib.varEx.Edit;
+import nacaLib.varEx.Var;
+import nacaLib.varEx.VarAndEdit;
+import nacaLib.varEx.VarSectionDeclaration;
+
 
 
 /**
@@ -29,6 +38,7 @@ public class OnlineProgram extends BaseProgram
     //private OnlineProgramManager programManager = null;
     private static OnlineProgramManagerFactory ms_onlineProgramManagerFactory = new OnlineProgramManagerFactory();
 
+    /** Creates a new online program instance. */
     public OnlineProgram()
     {
         super(ms_onlineProgramManagerFactory);
@@ -888,6 +898,7 @@ public class OnlineProgram extends BaseProgram
         varDest.setSemanticContextValue(csValue);
     }
 
+    /** Sets the semantic context value. */
     public void setSemanticContextValue(Edit editDest, String csValue)
     {
         if (IsSTCheck) {

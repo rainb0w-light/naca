@@ -13,16 +13,19 @@ import nacaLib.exceptions.CXctlException;
 import nacaLib.misc.CCommarea;
 import nacaLib.varEx.Var;
 
+/** Provides cesmxctl behavior. */
 public class CESMXctl extends CJMapObject
 {
     protected BaseEnvironment environment = null;
 
+    /** Creates a new cesmxctl instance. */
     public CESMXctl(BaseEnvironment env, String csProgramName)
     {
         environment = env ;
         environment.setNextProgramToLoad(csProgramName);
     }
 
+    /** Executes the go operation. */
     public void go()
     {
         if (isLogCESM) {
@@ -32,6 +35,7 @@ public class CESMXctl extends CJMapObject
         throw exp ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, int length)
     {
         CCommarea comm = new CCommarea() ;
@@ -44,22 +48,26 @@ public class CESMXctl extends CJMapObject
         throw exp ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var)
     {
         commarea(var, -1) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var v, Var length)
     {
         int l = length.getInt() ;
         commarea(v, l) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, int length, int datalength)
     {
         commarea(var, length) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, Var length, int datalength)
     {
         int l = length.getInt() ;

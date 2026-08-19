@@ -10,8 +10,10 @@ import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity accept behavior. */
 public class CEntityAccept extends CBaseActionEntity
 {
+    /** Enumerates supported accept mode values. */
     public enum AcceptMode
     {
         FROM_INPUT,
@@ -23,6 +25,7 @@ public class CEntityAccept extends CBaseActionEntity
         FROM_ENVIRONMENT_VALUE,
     }
 
+    /** Creates a new centity accept instance. */
     public CEntityAccept(int line, CObjectCatalog cat)
     {
         super(line, cat);
@@ -32,12 +35,14 @@ public class CEntityAccept extends CBaseActionEntity
     protected CDataEntity eSource = null ;
     protected AcceptMode eMode ;
 
+    /** Executes the accept from operation. */
     public void AcceptFrom(AcceptMode mode, CDataEntity var)
     {
         eMode = mode ;
         eVariable = var ;
     }
 
+    /** Executes the accept from variable operation. */
     public void AcceptFromVariable(CDataEntity var, CDataEntity source)
     {
         eMode = AcceptMode.FROM_VARIABLE;

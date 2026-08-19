@@ -39,6 +39,7 @@ public class CFieldArray extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetType()
      */
+    /** Executes the get type operation. */
     public EBMSElementType GetType()
     {
         return EBMSElementType.ARRAY ;
@@ -66,6 +67,7 @@ public class CFieldArray extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetResourceStrings()
      */
+    /** Executes the get resource strings operation. */
     public CResourceStrings GetResourceStrings()
     {
         return null;
@@ -73,6 +75,7 @@ public class CFieldArray extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#SetResourceStrings(semantic.forms.CResourceStrings)
      */
+    /** Sets the resource strings. */
     public void SetResourceStrings(CResourceStrings res)
     {
     }
@@ -83,6 +86,7 @@ public class CFieldArray extends CFieldElement
     protected int nLastColIndexStart = 0 ;
     protected int nbItems = 0 ;
 
+    /** Reads the field. */
     public boolean ReadField(CFieldElement field)
     {
         String fullName = field.getName() ;
@@ -189,6 +193,7 @@ public class CFieldArray extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
      */
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         CEntityResourceFieldArray eArray = factory.NewEntityFieldArray() ;

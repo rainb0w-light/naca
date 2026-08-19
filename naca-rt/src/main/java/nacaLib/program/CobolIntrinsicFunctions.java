@@ -28,6 +28,7 @@ public final class CobolIntrinsicFunctions
         return (value.charAt(0) & 0xff) + 1;
     }
 
+    /** Executes the ord operation. */
     public static int ord(VarAndEdit value)
     {
         if (value == null)

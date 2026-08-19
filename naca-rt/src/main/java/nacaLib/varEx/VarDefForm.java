@@ -7,13 +7,15 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.ArrayDyn;
+import jlib.misc.ArrayFix;
+import jlib.misc.ArrayFixDyn;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -21,6 +23,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class VarDefForm extends VarDefBuffer
 {
+    /** Creates a new var def form instance. */
     public VarDefForm(VarDefBase varDefParent, DeclareTypeForm declareTypeForm)
     {
         super(varDefParent, declareTypeForm.varLevel);
@@ -145,6 +148,7 @@ public class VarDefForm extends VarDefBuffer
     {
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         writeRightPadding(buffer, cs, ' ');
@@ -155,21 +159,25 @@ public class VarDefForm extends VarDefBuffer
         return internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, cPad);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         assertIfFalse(false);
@@ -186,6 +194,7 @@ public class VarDefForm extends VarDefBuffer
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         assertIfFalse(false);
@@ -431,6 +440,7 @@ public class VarDefForm extends VarDefBuffer
 //  {
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
     }
@@ -664,11 +674,13 @@ public class VarDefForm extends VarDefBuffer
         return false;
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return false;
     }
 
+    /** Adds the field. */
     public void addField(VarDefBuffer varDefEdit)
     {
         arrFields.add(varDefEdit);
@@ -690,6 +702,7 @@ public class VarDefForm extends VarDefBuffer
         return null;
     }
 
+    /** Executes the encode to var operation. */
     public void encodeToVar(VarBufferPos bufferSource, VarAndEdit varDest)
     {
         int nDestLength = varDest.getBodyLength();
@@ -699,6 +712,7 @@ public class VarDefForm extends VarDefBuffer
         //varDest.bufferPos.inheritSemanticContext(tempCharBuffer, nOffset);
     }
 
+    /** Executes the encode to char buffer operation. */
     public InternalCharBuffer encodeToCharBuffer(int nDestLength)
     {
         BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -767,6 +781,7 @@ public class VarDefForm extends VarDefBuffer
         return charBuffer;
     }
 
+    /** Executes the decode from var operation. */
     public void decodeFromVar(VarBufferPos bufferDest, VarBase varSource)
     {
         BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -820,6 +835,7 @@ public class VarDefForm extends VarDefBuffer
         }
     }
 
+    /** Executes the decode from char buffer operation. */
     public void decodeFromCharBuffer(VarBufferPos bufferDest, InternalCharBuffer charBuffer)
     {
         BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -889,11 +905,13 @@ public class VarDefForm extends VarDefBuffer
         return null;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();
     }
 
+    /** Executes the compress operation. */
     public void compress()
     {
         if(arrFields != null)
@@ -912,6 +930,7 @@ public class VarDefForm extends VarDefBuffer
         super.compress();
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         arrFields = null;
@@ -951,6 +970,7 @@ public class VarDefForm extends VarDefBuffer
     }
 
     // Should never be called
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
     }

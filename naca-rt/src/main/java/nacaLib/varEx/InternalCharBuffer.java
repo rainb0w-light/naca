@@ -17,21 +17,25 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class InternalCharBuffer extends CJMapObject
 {
+    /** Creates a new internal char buffer instance. */
     public InternalCharBuffer()
     {
         acBuffer = null;
     }
 
+    /** Creates a new internal char buffer instance. */
     public InternalCharBuffer(int nBufferSize)
     {
         alloc(nBufferSize);
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         acBuffer = null;
     }
 
+    /** Creates a new internal char buffer instance. */
     public InternalCharBuffer(char [] acBuffer)
     {
         this.acBuffer = acBuffer;
@@ -42,11 +46,13 @@ public class InternalCharBuffer extends CJMapObject
 //      copyFrom(internalCharBufferOriginal);
 //  }
 
+    /** Creates a new internal char buffer instance. */
     public InternalCharBuffer(InternalCharBuffer internalCharBufferOriginal, int nAbsolutePosition, int nTotalSize)
     {
         copyFrom(internalCharBufferOriginal, nAbsolutePosition, nTotalSize);
     }
 
+    /** Executes the alloc buffer storage operation. */
     public void allocBufferStorage(int nBufferSize)
     {
         alloc(nBufferSize);
@@ -72,6 +78,7 @@ public class InternalCharBuffer extends CJMapObject
 //      }
 //  }
 
+    /** Executes the copy from operation. */
     public void copyFrom(InternalCharBufferCompressedBackup internalCharBufferCompressedBackup)
     {
         if (internalCharBufferCompressedBackup == null) {
@@ -94,6 +101,7 @@ public class InternalCharBuffer extends CJMapObject
     }
 
 
+    /** Executes the copy from operation. */
     public void copyFrom(InternalCharBuffer internalCharBufferOriginal, int nAbsolutePosition, int nTotalSize)
     {
         if(!isLargeEnough(internalCharBufferOriginal.getBufferSize()))
@@ -147,6 +155,7 @@ public class InternalCharBuffer extends CJMapObject
 //      return true;
 //  }
 
+    /** Writes the int. */
     public int writeInt(int nValue, int nPos)
     {
         if(nPos+4 <= acBuffer.length)
@@ -158,6 +167,7 @@ public class InternalCharBuffer extends CJMapObject
         return -1;
     }
 
+    /** Writes the short. */
     public int writeShort(short sValue, int nPos)
     {
         if(nPos+2 <= acBuffer.length)
@@ -169,6 +179,7 @@ public class InternalCharBuffer extends CJMapObject
         return -1;
     }
 
+    /** Writes the char. */
     public int writeChar(char cValue, int nPos)
     {
         if(nPos < acBuffer.length)
@@ -181,6 +192,7 @@ public class InternalCharBuffer extends CJMapObject
         return -1;
     }
 
+    /** Writes the repeating char at. */
     public int writeRepeatingCharAt(int nPosition, char c, int nNbChars)
     {
         for (int n = 0; n < nNbChars; n++, nPosition++) {
@@ -189,6 +201,7 @@ public class InternalCharBuffer extends CJMapObject
         return nPosition;
     }
 
+    /** Executes the copy bytes operation. */
     public void copyBytes(int nPositionDest, int nNbCharsToCopy, int nPositionSource, InternalCharBuffer sourceCharBuffer)
     {
         for(int n=0; n<nNbCharsToCopy; n++, nPositionDest++, nPositionSource++)
@@ -197,6 +210,7 @@ public class InternalCharBuffer extends CJMapObject
         }
     }
 
+    /** Writes the string. */
     public int writeString(String csValue, int nPos)
     {
         int nLength = csValue.length();
@@ -217,11 +231,13 @@ public class InternalCharBuffer extends CJMapObject
 //  }
 
     // Usage is discouraged as it should be inlined for perf reasons
+    /** Sets the char at. */
     public void setCharAt(int nPosition, char c)
     {
         acBuffer[nPosition] = c;
     }
 
+    /** Sets the int sign comp3 at. */
     public void setIntSignComp3At(VarBufferPos varBufferPos, long lValue, int nNbDigitInteger, int nTotalSize)
     {
         Pic9Comp3BufferSupport.setFromRightToLeft(varBufferPos, nNbDigitInteger, nTotalSize, 0, true, lValue);
@@ -243,6 +259,7 @@ public class InternalCharBuffer extends CJMapObject
 //      return nAbsoluteStartPosition;
 //  }
 
+    /** Sets the string at. */
     public int setStringAt(int nAbsoluteStartPosition, String cs, int nLength)
     {
         int nStringLength = cs.length();
@@ -268,6 +285,7 @@ public class InternalCharBuffer extends CJMapObject
         return nAbsoluteStartPosition + nStringLength;
     }
 
+    /** Writes the string. */
     public int writeString(String csValue, int nLength, int nPos)
     {
         int nNbChars = acBuffer.length - nPos;
@@ -295,6 +313,7 @@ public class InternalCharBuffer extends CJMapObject
     }
 
 
+    /** Sets the string at. */
     public int setStringAt(int nAbsoluteStartPosition, CStr cs, int nLength)
     {
         int nStringLength = cs.length();
@@ -312,12 +331,14 @@ public class InternalCharBuffer extends CJMapObject
         return nAbsoluteStartPosition;
     }
 
+    /** Returns the string. */
     public String getString()
     {
         String cs = new String(acBuffer);
         return cs;
     }
 
+    /** Returns the buf chunk at. */
     public CStr getBufChunkAt(int nAbsolutePosition, int nSize)
     {
         if (nSize < 0) {
@@ -333,6 +354,7 @@ public class InternalCharBuffer extends CJMapObject
         return cs;
     }
 
+    /** Returns the string at. */
     public CStr getStringAt(int nAbsolutePosition, int nSize)
     {
         CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
@@ -363,6 +385,7 @@ public class InternalCharBuffer extends CJMapObject
         return cs;
     }
 
+    /** Sets the short at. */
     public void setShortAt(int nPosition, short s)
     {
         int n = s;
@@ -393,6 +416,7 @@ public class InternalCharBuffer extends CJMapObject
 //      //return nChecksum;
     }
 
+    /** Returns the short at. */
     public short getShortAt(int nPosition)
     {
         int n = acBuffer[nPosition] & 0xFF;
@@ -419,6 +443,7 @@ public class InternalCharBuffer extends CJMapObject
 //      return s;
     }
 
+    /** Sets the int at. */
     public void setIntAt(int nPosition, int n)
     {
         for (int nByte=3; nByte>=0; nByte--)
@@ -445,6 +470,7 @@ public class InternalCharBuffer extends CJMapObject
 //      }
     }
 
+    /** Returns the int at. */
     public int getIntAt(int nPosition)
     {
         int n = acBuffer[nPosition++] & 0xFF;
@@ -474,6 +500,7 @@ public class InternalCharBuffer extends CJMapObject
 //      return nVal;
     }
 
+    /** Sets the long at. */
     public void setLongAt(int nPosition, long l)
     {
         for (int nByte=7; nByte>=0; nByte--)
@@ -500,6 +527,7 @@ public class InternalCharBuffer extends CJMapObject
 //      }
     }
 
+    /** Returns the long at. */
     public long getLongAt(int nPosition)
     {
         long l = acBuffer[nPosition++] & 0xFF;
@@ -538,11 +566,13 @@ public class InternalCharBuffer extends CJMapObject
     }
 
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "Size="+getBufferSize()+" Value=\""+getString()+"\"";
     }
 
+    /** Returns the buffer size. */
     public int getBufferSize()
     {
         if (acBuffer != null) {

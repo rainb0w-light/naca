@@ -22,6 +22,7 @@ public class TempFileManager
     private String csTempPath = null;
     private String csLastTempFilePathName = null;
 
+    /** Creates a new temp file manager instance. */
     public TempFileManager(String csTempPath)
     {
         csTempPath = FileSystem.normalizePath(csTempPath);
@@ -29,12 +30,14 @@ public class TempFileManager
         cleanupTempPath(csTempPath);
     }
 
+    /** Executes the cleanup temp path operation. */
     public void cleanupTempPath(String csTempPath)
     {
         csTempPath = FileSystem.normalizePath(csTempPath);
         FileSystem.DeleteContent(csTempPath);
     }
 
+    /** Executes the make temp file name operation. */
     public String makeTempFileName(String csFileName, String csTmpExt)
     {
         csFileName = FileSystem.getNameWithoutExtension(csFileName);
@@ -60,6 +63,7 @@ public class TempFileManager
 
     // PJD: Sometimes calling saveIndentedTmpFile wites lots of huge xmlcomment with the grammar of the DTD; it's not the case when using
     // saveNotIndentedTmpFile; Why ?
+    /** Executes the save not indented tmp file operation. */
     public void saveNotIndentedTmpFile(Tag tag, String csFile, String csExt, int nStep)
     {
         String csFullExt = "" + nStep + "." + csExt + "." + nStep;
@@ -92,6 +96,7 @@ public class TempFileManager
 //      return b;
 //  }
 
+    /** Executes the save tmp file operation. */
     public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
     {
         String csFullExt = "" + nStep + "." + csExt + "." + nStep;

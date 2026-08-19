@@ -13,19 +13,22 @@
 package nacaLib.program;
 
 import java.util.ArrayList;
+import nacaLib.base.CJMapObject;
 
-import nacaLib.base.*;
 
+/** Provides copy replacing behavior. */
 public class CopyReplacing extends CJMapObject
 {
     private ArrayList<CopyReplacingItem> arr = null;
 
+    /** Creates a new copy replacing instance. */
     public CopyReplacing(int nOldLevel, int nNewLevel)
     {
         arr = new ArrayList<CopyReplacingItem>();
         replacing(nOldLevel, nNewLevel);
     }
 
+    /** Executes the replacing operation. */
     public CopyReplacing replacing(int nOldLevel, int nNewLevel)
     {
         CopyReplacingItem item = new CopyReplacingItem(nOldLevel, nNewLevel);
@@ -33,6 +36,7 @@ public class CopyReplacing extends CJMapObject
         return this;
     }
 
+    /** Returns the replaced level. */
     public int getReplacedLevel(int nLevel)
     {
         int nNbItems = arr.size();
@@ -45,16 +49,4 @@ public class CopyReplacing extends CJMapObject
         }
         return nLevel;
     }
-}
-
-class CopyReplacingItem
-{
-    CopyReplacingItem(int nOldLevel, int nNewLevel)
-    {
-        this.nOldLevel = nOldLevel;
-        this.nNewLevel = nNewLevel;
-    }
-
-    int nOldLevel = 0;
-    int nNewLevel = 0;
 }

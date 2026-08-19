@@ -20,6 +20,7 @@ public final class LegacyExpressionRenderer
     {
     }
 
+    /** Executes the render operation. */
     public static String render(CBaseEntityCondExpr expression)
     {
         if (expression == null)

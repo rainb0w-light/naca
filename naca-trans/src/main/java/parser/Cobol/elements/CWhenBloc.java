@@ -22,6 +22,7 @@ import semantic.expression.CBaseEntityCondition;
  */
 public class CWhenBloc extends CBlocElement
 {
+    /** Creates a new cwhen bloc instance. */
     public CWhenBloc(CExpression cond, int line)
     {
         super(line);

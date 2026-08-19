@@ -12,6 +12,7 @@ package idea.emulweb;
  */
 public class IDEAEmulWeb
 {
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         EmulWebRunner emulWebRunner  = new EmulWebRunner();

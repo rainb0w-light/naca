@@ -37,6 +37,7 @@ public class DbDriverId
         ms_hashDriverByClass.put(className, dbDriver);
     }
 
+    /** Returns the by class name. */
     public static synchronized DbDriverId getByClassName(String csFullyQualifiedClassName)
     {
         String className = csFullyQualifiedClassName;
@@ -52,6 +53,7 @@ public class DbDriverId
         return UDB;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return name;

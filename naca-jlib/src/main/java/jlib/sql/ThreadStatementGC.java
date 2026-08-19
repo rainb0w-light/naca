@@ -24,33 +24,34 @@ import jlib.xml.Tag;
  */
 public class ThreadStatementGC extends Thread
 {
-    private int nPeriod_ms = 0;
+    private int periodMillis = 0;
     private ArrayDbConnectionPool arrayDbConnectionPool = null;
     private MemoryPoolMXBean tenuredPool = null;
     private int nNbStatementForcedRemoved = 0;
     private boolean isactive = false;
     private int nNbStatementsToRemoveBeforeGC = 0;
     private int nNbSystemGCCall = 0;
-    private int nMaxPermanentHeap_Mo = 0;
-    private boolean ismaxPermanentHeap_MoSet = false;
+    private int maxPermanentHeapMegabytes = 0;
+    private boolean maxPermanentHeapMegabytesSet = false;
 
+    /** Creates a new thread statement gc instance. */
     public ThreadStatementGC(Tag tagGCThread, ArrayDbConnectionPool arrayDbConnectionPool)
     {
         this.arrayDbConnectionPool = arrayDbConnectionPool;
         isactive = tagGCThread.getValAsBoolean("ActivateThreadGarbageCollectorStatement");
         if(isactive)
         {
-            nPeriod_ms = tagGCThread.getValAsInt("GarbageCollectorStatement_ms");
-            if (nPeriod_ms <= 30000) {
-                nPeriod_ms = 30000; // Cannot be less than 30 seconds
+            periodMillis = tagGCThread.getValAsInt("GarbageCollectorStatement_ms");
+            if (periodMillis <= 30000) {
+                periodMillis = 30000; // Cannot be less than 30 seconds
             }
             nNbStatementForcedRemoved = tagGCThread.getValAsInt("NbStatementForcedRemoved");
-            nMaxPermanentHeap_Mo = tagGCThread.getValAsInt("MaxPermanentHeap_Mo");
+            maxPermanentHeapMegabytes = tagGCThread.getValAsInt("MaxPermanentHeap_Mo");
 
             nNbStatementsToRemoveBeforeGC = tagGCThread.getValAsInt("NbStatementsToRemoveBeforeGC", -1);
             nNbSystemGCCall = tagGCThread.getValAsInt("NbSystemGCCall", 0);
 
-            if (nMaxPermanentHeap_Mo > 0 && nNbStatementForcedRemoved > 0)
+            if (maxPermanentHeapMegabytes > 0 && nNbStatementForcedRemoved > 0)
             {
                 setMemThreshold();
             }
@@ -59,7 +60,7 @@ public class ThreadStatementGC extends Thread
 
     private void setMemThreshold()
     {
-        ismaxPermanentHeap_MoSet = false;
+        maxPermanentHeapMegabytesSet = false;
 
         List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
         for (MemoryPoolMXBean p: pools)
@@ -69,7 +70,7 @@ public class ThreadStatementGC extends Thread
                 String cs = p.getName();
                 if(cs.equalsIgnoreCase("Tenured gen"))
                 {
-                    long l = 1024L * 1024L * (long)nMaxPermanentHeap_Mo;
+                    long l = 1024L * 1024L * (long)maxPermanentHeapMegabytes;
                     p.setUsageThreshold(l);
                     tenuredPool = p;
                 }
@@ -77,15 +78,16 @@ public class ThreadStatementGC extends Thread
         }
     }
 
+    /** Sets the current max permanent heap mo. */
     public synchronized void setCurrentMaxPermanentHeap_Mo(int nMaxPermanentHeapMo)
     {
-        this.nMaxPermanentHeap_Mo = nMaxPermanentHeapMo;
-        ismaxPermanentHeap_MoSet = true;
+        this.maxPermanentHeapMegabytes = nMaxPermanentHeapMo;
+        maxPermanentHeapMegabytesSet = true;
     }
 
     public synchronized int getCurrentMaxPermanentHeap_Mo()
     {
-        return nMaxPermanentHeap_Mo;
+        return maxPermanentHeapMegabytes;
     }
 
 //  public void addDbConnectionPool(DbConnectionPool dbConnectionPool)
@@ -95,12 +97,13 @@ public class ThreadStatementGC extends Thread
 //      arrDbConnectionPool.add(dbConnectionPool);
 //  }
 
+    /** Runs this operation. */
     public void run()
     {
         while(isactive && waitPeriod())
         {
             BaseJmxGeneralStat.incCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbRunThreadGC);
-            if(ismaxPermanentHeap_MoSet)    // Mem threshhold has changed
+            if(maxPermanentHeapMegabytesSet)    // Mem threshhold has changed
             {
                 setMemThreshold();
             }
@@ -152,7 +155,7 @@ public class ThreadStatementGC extends Thread
     {
         try
         {
-            Thread.sleep(nPeriod_ms);
+            Thread.sleep(periodMillis);
             return true;
         }
         catch (InterruptedException e)

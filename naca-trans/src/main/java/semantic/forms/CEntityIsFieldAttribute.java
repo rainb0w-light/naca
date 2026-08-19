@@ -18,6 +18,7 @@ import semantic.expression.CUnitaryEntityCondition;
 public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
 {
     protected CDataEntity varValue = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -114,6 +115,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     // Legacy isaddBracket: parentheses are added once a second (or third) group term is
     // appended, i.e. when two or more of the three groups are present.
+    /** Returns whether bracketed. */
     public boolean isBracketed()
     {
         int present = (isGroup1Present() ? 1 : 0)
@@ -140,6 +142,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.expression.CBaseEntityCondition#GetPriorityLevel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         if (nbConditions <= 1)
@@ -155,6 +158,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.expression.CBaseEntityCondition#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsFieldAttribute cond = new CEntityIsFieldAttribute() ;
@@ -175,11 +179,13 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
         return cond ;
     }
 
+    /** Executes the is attribute operation. */
     public void IsAttribute(CDataEntity data, CDataEntity var)
     {
         varValue = data ;
         reference = var ;
     }
+    /** Executes the is auto skip operation. */
     public void IsAutoSkip()
     {
         isisAutoSkip = true ;
@@ -187,6 +193,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     protected boolean isisAutoSkip = false ;
 
+    /** Executes the is bright operation. */
     public void IsBright()
     {
         isisBright = true ;
@@ -194,6 +201,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     protected boolean isisBright = false ;
 
+    /** Executes the is numeric operation. */
     public void IsNumeric()
     {
         isisNumeric = true ;
@@ -201,6 +209,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     protected boolean isisNumeric = false ;
 
+    /** Executes the is protected operation. */
     public void IsProtected()
     {
         isisProtected = true;
@@ -208,6 +217,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     protected boolean isisProtected = false ;
 
+    /** Executes the is unprotected operation. */
     public void IsUnprotected()
     {
         isisUnprotected = true ;
@@ -215,16 +225,19 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     }
     protected boolean isisUnprotected = false ;
 
+    /** Executes the is modified operation. */
     public void IsModified()
     {
         isisModified = true ;
         nbConditions ++ ;
     }
+    /** Executes the is unmodified operation. */
     public void IsUnmodified()
     {
         isisUnmodified = true ;
         nbConditions ++ ;
     }
+    /** Executes the is cleared operation. */
     public void IsCleared()
     {
         isisCleared = true ;
@@ -234,6 +247,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     protected boolean isisUnmodified = false ;
     protected boolean isisCleared = false ;
 
+    /** Executes the is dark operation. */
     public void IsDark()
     {
         isisDark = true ;
@@ -242,10 +256,12 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     protected boolean isisDark = false ;
     protected int nbConditions = 0;
 
+    /** Sets the variable. */
     public void SetVariable(CDataEntity field)
     {
         reference = field ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;
@@ -254,6 +270,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.expression.CBaseEntityCondition#GetSpecialCondition(java.lang.String, semantic.CBaseEntityFactory)
      */
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         CBaseEntityCondition cond = reference.GetSpecialCondition(getLine(), val, EConditionType.IS_FIELD_ATTRIBUTE, fact);
@@ -263,6 +280,7 @@ public class CEntityIsFieldAttribute extends CUnitaryEntityCondition
         }
         return cond ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)

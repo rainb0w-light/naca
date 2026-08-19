@@ -20,11 +20,13 @@ public class CEntityCondIsSQLCode extends CUnitaryEntityCondition
     protected boolean isisEqual = true ;
     protected int nValue = 0 ;
 
+    /** Sets the is equal. */
     public void setIsEqual(int n)
     {
         isisEqual = true ;
         nValue = n ;
     }
+    /** Sets the is not equal. */
     public void setIsNotEqual(int n)
     {
         isisEqual = false ;
@@ -32,11 +34,13 @@ public class CEntityCondIsSQLCode extends CUnitaryEntityCondition
     }
 
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondIsSQLCode cond = new CEntityCondIsSQLCode() ;
@@ -48,12 +52,14 @@ public class CEntityCondIsSQLCode extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.expression.CBaseEntityCondition#GetSpecialCondition(java.lang.String, semantic.CBaseEntityFactory)
      */
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         // nothing
         return null;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

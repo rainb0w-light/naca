@@ -10,14 +10,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Provides col value behavior. */
 public abstract class ColValue
 {
+    /** Creates a new col value instance. */
     public ColValue(String csName, String csReplacement)
     {
         this.csName = csName;
         this.csReplacement = csReplacement;
     }
 
+    /** Creates a new col value instance. */
     public ColValue(String csName)
     {
         this.csName = csName;
@@ -25,14 +28,19 @@ public abstract class ColValue
     }
 
     abstract String getDumpValueAsString();
+    /** Returns the value as string. */
     public abstract String getValueAsString();
+    /** Returns the value as int. */
     public abstract int getValueAsInt();
     abstract double getValueAsDouble();
     abstract Object getValue();
     abstract String getType();
     abstract int getSQLType();
+    /** Executes the duplicate operation. */
     public abstract ColValue duplicate();
+    /** Sets the param sqlclause. */
     public abstract void setParamSQLClause(SQLClause clause);
+    /** Executes the do fill with resurlt set col operation. */
     public abstract void doFillWithResurltSetCol(ResultSet resultSet, int nCol) throws SQLException;
 
 //  void setIntoObject(Object oMember)
@@ -47,6 +55,7 @@ public abstract class ColValue
 //      }
 //  }
 
+    /** Executes the fill with resurlt set col operation. */
     public void fillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
@@ -74,6 +83,7 @@ public abstract class ColValue
         nOrder = n;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "[" + getType() + "] " + csName + "='" + getValueAsString() + "'";
@@ -94,11 +104,13 @@ public abstract class ColValue
         return csReplacement;
     }
 
+    /** Returns whether set col param. */
     public boolean canSetColParam()
     {
         return false;
     }
 
+    /** Sets the param into stmt. */
     public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
     {
         return false;

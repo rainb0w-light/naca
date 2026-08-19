@@ -34,6 +34,7 @@ public class SmojolController {
 
     private final SmojolService smojolService;
 
+    /** Creates a new smojol controller instance. */
     public SmojolController(SmojolService smojolService) {
         this.smojolService = smojolService;
     }
@@ -219,6 +220,7 @@ public class SmojolController {
 
     // Request/Response DTOs
 
+    /** Provides interpret request behavior. */
     public static class InterpretRequest {
         private String cobolSource;
         private String inputData;
@@ -229,6 +231,7 @@ public class SmojolController {
         public void setInputData(String inputData) { this.inputData = inputData; }
     }
 
+    /** Provides interpret response behavior. */
     public static class InterpretResponse {
         private boolean success;
         private String output;
@@ -245,6 +248,7 @@ public class SmojolController {
         public void setExecutedSteps(int executedSteps) { this.executedSteps = executedSteps; }
     }
 
+    /** Provides ast request behavior. */
     public static class AstRequest {
         private String cobolSource;
 
@@ -252,6 +256,7 @@ public class SmojolController {
         public void setCobolSource(String cobolSource) { this.cobolSource = cobolSource; }
     }
 
+    /** Provides cfg request behavior. */
     public static class CfgRequest {
         private String cobolSource;
 
@@ -259,6 +264,7 @@ public class SmojolController {
         public void setCobolSource(String cobolSource) { this.cobolSource = cobolSource; }
     }
 
+    /** Provides cfg response behavior. */
     public static class CfgResponse {
         private boolean success;
         private Set<String> nodes;
@@ -278,6 +284,7 @@ public class SmojolController {
         public void setError(String error) { this.error = error; }
     }
 
+    /** Provides analyze request behavior. */
     public static class AnalyzeRequest {
         private String cobolSource;
 
@@ -285,6 +292,7 @@ public class SmojolController {
         public void setCobolSource(String cobolSource) { this.cobolSource = cobolSource; }
     }
 
+    /** Provides analyze response behavior. */
     public static class AnalyzeResponse {
         private boolean success;
         private Map<String, Object> analysis;

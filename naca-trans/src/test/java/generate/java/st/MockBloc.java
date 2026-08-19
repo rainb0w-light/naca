@@ -9,6 +9,7 @@ import semantic.CBaseLanguageEntity;
  * Contains configurable child statements for template rendering.
  */
 public class MockBloc extends CEntityBloc {
+    /** Creates a new mock bloc instance. */
     public MockBloc(int line) {
         super(line, null);
     }

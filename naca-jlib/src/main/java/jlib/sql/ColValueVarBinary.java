@@ -21,22 +21,26 @@ import java.sql.Types;
  */
 public class ColValueVarBinary extends ColValue
 {
+    /** Creates a new col value var binary instance. */
     public ColValueVarBinary(String csName, VarBinary vbValue)
     {
         super(csName);
         this.vbValue = vbValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueVarBinary(csName, vbValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(vbValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
@@ -81,11 +85,13 @@ public class ColValueVarBinary extends ColValue
         return vbValue;
     }
 
+    /** Returns whether set col param. */
     public boolean canSetColParam()
     {
         return true;
     }
 
+    /** Sets the param into stmt. */
     public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
     {
         byte tb[] = vbValue.getBytes();

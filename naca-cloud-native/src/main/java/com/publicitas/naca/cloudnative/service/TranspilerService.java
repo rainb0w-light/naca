@@ -22,12 +22,14 @@ import utils.CTransApplicationGroup;
 import utils.Transcoder;
 import jlib.misc.AsciiEbcdicConverter;
 
+/** Provides transpiler service behavior. */
 @Service
 public class TranspilerService {
 
     private static boolean autoCompileEnabled = false;
     private static String compileOutputPath = null;
 
+    /** Creates a new transpiler service instance. */
     public TranspilerService() {
         // No initialization needed
     }
@@ -306,10 +308,12 @@ public class TranspilerService {
             this.errors = errors;
         }
 
+        /** Executes the success operation. */
         public static TranspileResult success(String javaSource) {
             return new TranspileResult(true, javaSource, new ArrayList<>());
         }
 
+        /** Executes the failure operation. */
         public static TranspileResult failure(String error) {
             List<String> errors = new ArrayList<>();
             errors.add(error);

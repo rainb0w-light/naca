@@ -7,7 +7,7 @@
 package semantic.Verbs;
 
 import semantic.CBaseActionEntity;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -26,6 +26,7 @@ public class CEntityExec extends CBaseActionEntity
     }
 
     protected String csStatement = "" ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

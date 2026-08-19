@@ -31,6 +31,7 @@ public class CNameConflictSolver
 
     protected Hashtable<String, CNameConflictItem> tabConflicts = new Hashtable<String, CNameConflictItem>() ;
 
+    /** Adds the conflicted entity. */
     public void AddConflictedEntity(String name, CDataEntity eCont)
     {
         CNameConflictItem item = tabConflicts.get(name) ;
@@ -117,10 +118,12 @@ public class CNameConflictSolver
         }
     }
 
+    /** Executes the has conflict for name operation. */
     public boolean HasConflictForName(String name)
     {
         return tabConflicts.containsKey(name) ;
     }
+    /** Executes the has conflict for name operation. */
     public boolean HasConflictForName(String name, String memberOf)
     {
         CNameConflictItem item = tabConflicts.get(name) ;
@@ -158,6 +161,7 @@ public class CNameConflictSolver
         }
     }
 
+    /** Executes the is existing data entity operation. */
     public boolean IsExistingDataEntity(String name, String of)
     {
         CNameConflictItem item = tabConflicts.get(name) ;
@@ -214,6 +218,7 @@ public class CNameConflictSolver
             }
         }
     }
+    /** Executes the get qualified reference operation. */
     public CDataEntity GetQualifiedReference(String name, String of)
     {
         CNameConflictItem item = tabConflicts.get(name) ;

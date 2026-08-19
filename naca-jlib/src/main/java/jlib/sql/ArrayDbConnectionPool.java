@@ -30,6 +30,7 @@ public class ArrayDbConnectionPool
     private ArrayList<DbConnectionPool> dbConnectionPool = new ArrayList<DbConnectionPool>();
     private int nNbTotalStatementRemoved = 0;
 
+    /** Adds the db connection pool. */
     public synchronized void addDbConnectionPool(DbConnectionPool dbConnectionPool)
     {
         this.dbConnectionPool.add(dbConnectionPool);
@@ -127,6 +128,7 @@ public class ArrayDbConnectionPool
     }
 
     // Normally executed in the context of the JMX Thread
+    /** Executes the force remove all dbconnections operation. */
     public synchronized void forceRemoveAllDBConnections()
     {
         ConnectionGenerationManager.incCurrentGenerationId();   // Change current generation of connection

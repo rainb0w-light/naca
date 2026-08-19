@@ -18,8 +18,10 @@ import jlib.misc.BasicLogger;
 import nacaLib.basePrgEnv.CBaseProgramLoaderFactory;
 import nacaLib.basePrgEnv.ProgramSequencer;
 
+/** Provides sp server program loader factory behavior. */
 public class SpServerProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
+    /** Creates the sequencer. */
     public ProgramSequencer NewSequencer()
     {
         BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer() (with exception handler)");

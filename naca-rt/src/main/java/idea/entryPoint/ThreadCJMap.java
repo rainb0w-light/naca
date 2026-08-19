@@ -8,20 +8,24 @@ package idea.entryPoint;
 
 import jlib.misc.ThreadSafeCounter;
 
+/** Provides thread cjmap behavior. */
 public class ThreadCJMap extends Thread
 {
+    /** Creates a new thread cjmap instance. */
     public ThreadCJMap(ThreadSafeCounter counter, CJMapThreadedRun cjmapRun)
     {
         this.counter = counter;
         this.cjmapRun = cjmapRun;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         cjmapRun.run();
         counter.dec();
     }
 
+    /** Executes the request stop operation. */
     public void requestStop()
     {
         interrupt();

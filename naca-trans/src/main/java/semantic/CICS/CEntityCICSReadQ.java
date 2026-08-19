@@ -18,6 +18,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSReadQ extends CBaseActionEntity
 {
 
+    /** Creates a new centity cicsread q instance. */
     public CEntityCICSReadQ(int line, CObjectCatalog cat, boolean bPersistant)
     {
         super(line, cat);
@@ -36,6 +37,7 @@ public class CEntityCICSReadQ extends CBaseActionEntity
     protected CDataEntity numItem = null ;
     protected CDataEntity item = null ;
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -47,34 +49,41 @@ public class CEntityCICSReadQ extends CBaseActionEntity
         bReadNext = false;
     }
 
+    /** Sets the name. */
     public void SetName(CDataEntity entity)
     {
         queueName = entity ;
     }
+    /** Sets the data ref. */
     public void SetDataRef(CDataEntity entity, CDataEntity len)
     {
         dataRef = entity ;
         dataLength = len ;
     }
 
+    /** Reads the next. */
     public void ReadNext()
     {
         bReadNext = true ;
     }
 
+    /** Reads the num item. */
     public void ReadNumItem(CDataEntity entity)
     {
         numItem = entity ;
     }
 
+    /** Reads the item. */
     public void ReadItem(CDataEntity entity)
     {
         item = entity ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (dataRef == field)

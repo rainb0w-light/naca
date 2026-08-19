@@ -9,6 +9,7 @@ package utils.FPacTranscoder.notifs;
 import semantic.CEntityFileBuffer;
 import jlib.engine.BaseNotification;
 
+/** Provides notif register output file behavior. */
 public class NotifRegisterOutputFile extends BaseNotification
 {
     public String id;

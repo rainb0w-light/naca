@@ -22,6 +22,7 @@ public class PollingTimer extends Timer
 {
     private ArrayList<BaseDirectoryPoller> dirsPollers = null;
 
+    /** Adds the directory poller. */
     synchronized public void addDirectoryPoller(BaseDirectoryPoller dirPoller)
     {
         if (dirsPollers == null) {
@@ -30,6 +31,7 @@ public class PollingTimer extends Timer
         dirsPollers.add(dirPoller);
     }
 
+    /** Executes the poll at load time operation. */
     public boolean PollAtLoadTime()
     {
         return doPulse();

@@ -9,8 +9,9 @@
  */
 package jlib.sql;
 
-import java.sql.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import jlib.misc.AsciiEbcdicConverter;
 
 /**
@@ -28,6 +29,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
         nLength = colDescription.getPrecision();
     }
 
+    /** Returns the byte value. */
     public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try
@@ -55,6 +57,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 //      return nLength;
 //  }
 
+    /** Sets the byte value in stmt col. */
     public int setByteValueInStmtCol(
         DbColDefErrorManager dbColDefErrorManager,
         DbPreparedStatement stmt,
@@ -72,6 +75,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
         return nLength;
     }
 
+    /** Executes the fill callable statement param operation. */
     public boolean fillCallableStatementParam(
         int nParamId,
         StoredProcParamDescBase storedProcParamDescBase,
@@ -81,6 +85,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
         return callableStatement.setInValue(nParamId, cs);
     }
 
+    /** Returns the excel value. */
     public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try

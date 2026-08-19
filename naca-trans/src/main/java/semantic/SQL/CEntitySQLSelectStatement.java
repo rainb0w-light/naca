@@ -32,6 +32,7 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLSelectStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlselect statement instance. */
     public CEntitySQLSelectStatement(
         int line,
         CObjectCatalog cat,
@@ -50,16 +51,19 @@ public class CEntitySQLSelectStatement extends CBaseActionEntity
     protected Vector<CDataEntity> parameters = null;
     protected Vector<CDataEntity> into = null;
     protected Vector<CDataEntity> ind = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         parameters = null ;
         into = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return csStatement.equals("") ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (parameters.contains(data) || into.contains(data))
@@ -75,6 +79,7 @@ public class CEntitySQLSelectStatement extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
      */
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         int n = parameters.indexOf(field) ;

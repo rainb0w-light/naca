@@ -12,13 +12,16 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+/** Provides sql request behavior. */
 public class SqlRequest extends DbPreparedStatement
 {
+    /** Creates a new sql request instance. */
     public SqlRequest(/*DbConnectionBase con*/)
     {
         super(/*con*/);
     }
 
+    /** Returns the next seq. */
     synchronized public static int getNextSeq(DbConnectionBase con, String csTableSequence, String csSequence)
     {
         SqlRequest sq = new SqlRequest(/*con*/);
@@ -55,12 +58,14 @@ public class SqlRequest extends DbPreparedStatement
         }
     }
 
+    /** Executes the cmd insert operation. */
     public void cmdInsert(String csTable)
     {
         this.table = csTable;
         operation = "Insert";
     }
 
+    /** Executes the cmd update operation. */
     public void cmdUpdate(String csTable, String csWhere)
     {
         this.table = csTable;
@@ -68,6 +73,7 @@ public class SqlRequest extends DbPreparedStatement
         operation = "Update";
     }
 
+    /** Executes the cmd update operation. */
     public void cmdUpdate(String csTable, String csWhere, String csOrder)
     {
         this.table = csTable;
@@ -76,6 +82,7 @@ public class SqlRequest extends DbPreparedStatement
         operation = "Update";
     }
 
+    /** Executes the cmd update operation. */
     public void cmdUpdate(String csTable, String csWhere, String csOrder, int nNbRows)
     {
         this.table = csTable;
@@ -85,12 +92,14 @@ public class SqlRequest extends DbPreparedStatement
         operation = "Update";
     }
 
+    /** Executes the cmd select operation. */
     public void cmdSelect(String csSelect)
     {
         this.select = csSelect;
         operation = "Select";
     }
 
+    /** Sets the col. */
     public void setCol(String csColName, String csValue)
     {
         checkArrCol();
@@ -98,6 +107,7 @@ public class SqlRequest extends DbPreparedStatement
         this.col.add(col);
     }
 
+    /** Sets the col. */
     public void setCol(String csColName, int nValue)
     {
         checkArrCol();
@@ -105,6 +115,7 @@ public class SqlRequest extends DbPreparedStatement
         this.col.add(col);
     }
 
+    /** Sets the col now. */
     public void setColNow(String csColName)
     {
         checkArrCol();
@@ -112,6 +123,7 @@ public class SqlRequest extends DbPreparedStatement
         this.col.add(col);
     }
 
+    /** Sets the col. */
     public void setCol(String csColName, boolean bValue)
     {
         checkArrCol();
@@ -119,6 +131,7 @@ public class SqlRequest extends DbPreparedStatement
         this.col.add(col);
     }
 
+    /** Sets the col. */
     public void setCol(String csColName, double dValue)
     {
         checkArrCol();
@@ -126,6 +139,7 @@ public class SqlRequest extends DbPreparedStatement
         this.col.add(col);
     }
 
+    /** Sets the param. */
     public void setParam(String csId, String csValue)
     {
         checkArrParam();
@@ -133,6 +147,7 @@ public class SqlRequest extends DbPreparedStatement
         param.add(col);
     }
 
+    /** Sets the param. */
     public void setParam(String csId, int nValue)
     {
         checkArrParam();
@@ -160,6 +175,7 @@ public class SqlRequest extends DbPreparedStatement
 //      }
 //  }
 
+    /** Executes the exec sql operation. */
     public boolean execSQL(DbConnectionBase con)
     {
         resultSet = null;
@@ -240,6 +256,7 @@ public class SqlRequest extends DbPreparedStatement
         return false;
     }
 
+    /** Executes the fetch operation. */
     public boolean fetch()
     {
         if(resultSet != null)
@@ -255,6 +272,7 @@ public class SqlRequest extends DbPreparedStatement
         return false;
     }
 
+    /** Returns the col. */
     public String getCol(String csName)
     {
         String cs = null;
@@ -271,6 +289,7 @@ public class SqlRequest extends DbPreparedStatement
         return cs;
     }
 
+    /** Returns the col. */
     public String getCol(int n0BasedColId)
     {
         String cs = null;
@@ -287,6 +306,7 @@ public class SqlRequest extends DbPreparedStatement
         return cs;
     }
 
+    /** Returns the col as int. */
     public int getColAsInt(String csName)
     {
         int n = 0;
@@ -303,6 +323,7 @@ public class SqlRequest extends DbPreparedStatement
         return n;
     }
 
+    /** Returns the col as date. */
     public Date getColAsDate(String csName)
     {
         Date date = null;
@@ -320,6 +341,7 @@ public class SqlRequest extends DbPreparedStatement
         return date;
     }
 
+    /** Returns the col as date. */
     public Date getColAsDate(int n0BasedColId)
     {
         Date date = null;
@@ -336,6 +358,7 @@ public class SqlRequest extends DbPreparedStatement
         return date;
     }
 
+    /** Returns the col as timestamp. */
     public Timestamp getColAsTimestamp(String csName)
     {
         Timestamp timestamp = null;
@@ -353,6 +376,7 @@ public class SqlRequest extends DbPreparedStatement
         return timestamp;
     }
 
+    /** Returns the col as time. */
     public Timestamp getColAsTime(int n0BasedColId)
     {
         Timestamp timestamp = null;
@@ -370,6 +394,7 @@ public class SqlRequest extends DbPreparedStatement
     }
 
 
+    /** Returns the col as int. */
     public int getColAsInt(int n0BasedColId)
     {
         int n = 0;
@@ -386,6 +411,7 @@ public class SqlRequest extends DbPreparedStatement
         return n;
     }
 
+    /** Returns the col as boolean. */
     public boolean getColAsBoolean(String csName)
     {
         boolean b = false;
@@ -402,6 +428,7 @@ public class SqlRequest extends DbPreparedStatement
         return b;
     }
 
+    /** Returns the col as boolean. */
     public boolean getColAsBoolean(int n0BasedColId)
     {
         boolean b = false;

@@ -9,6 +9,7 @@ public final class CEntityAddValueTree
     private final Object left;
     private final Object right;
 
+    /** Creates a new centity add value tree instance. */
     public CEntityAddValueTree(
         Object left,
         Object right,

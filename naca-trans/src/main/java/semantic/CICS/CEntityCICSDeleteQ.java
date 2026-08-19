@@ -32,10 +32,12 @@ public class CEntityCICSDeleteQ extends CBaseActionEntity
         }
     }
 
+    /** Sets the name. */
     public void SetName(CDataEntity name)
     {
         this.name = name ;
     }
+    /** Sets the sys id. */
     public void SetSysID(CDataEntity sys)
     {
         sysID = sys ;
@@ -45,10 +47,12 @@ public class CEntityCICSDeleteQ extends CBaseActionEntity
     protected CDataEntity name = null ;
     protected CDataEntity sysID = null ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

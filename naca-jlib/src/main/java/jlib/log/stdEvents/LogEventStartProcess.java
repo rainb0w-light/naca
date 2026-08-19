@@ -19,16 +19,19 @@ import jlib.log.LogLevel;
  */
 public class LogEventStartProcess extends LogEvent
 {
+    /** Creates a new log event start process instance. */
     public LogEventStartProcess(String csProduct)
     {
         super(LogEventType.Start, LogFlowStd.Any, LogLevel.Critical, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel)
     {
         return LogEventStartProcess.log(csChannel, null);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct)
     {
         LogEventStartProcess event = new LogEventStartProcess(csProduct);
@@ -36,6 +39,7 @@ public class LogEventStartProcess extends LogEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csRunId, String csRuntimeId)
     {
         LogEventStartProcess event = new LogEventStartProcess(null);
@@ -43,6 +47,7 @@ public class LogEventStartProcess extends LogEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csRunId, String csRuntimeId)
     {
         LogEventStartProcess event = new LogEventStartProcess(csProduct);

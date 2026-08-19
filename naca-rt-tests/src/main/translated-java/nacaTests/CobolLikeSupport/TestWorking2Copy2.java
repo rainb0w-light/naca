@@ -32,4 +32,4 @@ public class TestWorking2Copy2 extends Copy
 		public Var v25b = declare.level(5).picX(5).var();
 		public Var v26a$v1 = declare.level(5).picX(6).var();
 		public Var v28a = declare.level(5).picX(8).var();
-} 
+}

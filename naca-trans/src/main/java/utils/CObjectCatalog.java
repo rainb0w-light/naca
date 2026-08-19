@@ -60,6 +60,7 @@ public class CObjectCatalog
     protected boolean isuseCICSPreprocessor = false ;
     private NotificationEngine engine;
 
+    /** Creates a new cobject catalog instance. */
     public CObjectCatalog(
         CGlobalCatalog cat,
         COriginalLisiting listing,
@@ -78,11 +79,13 @@ public class CObjectCatalog
         return global;
     }
 
+    /** Executes the get external data reference operation. */
     public CBaseExternalEntity GetExternalDataReference(String id, CBaseEntityFactory factory)
     {
         return GetExternalDataReference(id, "", factory) ;
     }
 
+    /** Executes the get external data reference operation. */
     public CBaseExternalEntity GetExternalDataReference(String id, String csRenamePattern, CBaseEntityFactory factory)
     {
         Transcoder.setCurrentObjectCatalog(this);
@@ -147,6 +150,7 @@ public class CObjectCatalog
     }
 
     // PJD: Management of save maps
+    /** Clears the save maps. */
     public void clearSaveMaps()
     {
         saveMaps.clear();
@@ -155,6 +159,7 @@ public class CObjectCatalog
         tabSaveFields.clear();
     }
 
+    /** Exports the registered form container. */
     public void ExportRegisteredFormContainer(boolean bResources)
     {
         if (formContainer != null)
@@ -263,16 +268,19 @@ public class CObjectCatalog
 
     }
     // container
+    /** Executes the register container operation. */
     public void RegisterContainer(String name, CEntityClass eCont)
     {
         tabContainers.put(name, eCont) ;
     }
+    /** Executes the get container operation. */
     public CEntityClass GetContainer(String name)
     {
         return tabContainers.get(name) ;
     }
 
     // data entity
+    /** Executes the register data entity operation. */
     public void RegisterDataEntity(String name, CDataEntity eCont)
     {
         if (!name.equals(""))
@@ -298,11 +306,13 @@ public class CObjectCatalog
         }
     }
 
+    /** Executes the get data entity operation. */
     public CDataEntity GetDataEntity(String name, String of)
     {
         return GetDataEntity(0, name, of);
     }
 
+    /** Executes the get data entity operation. */
     public CDataEntity GetDataEntity(int nLine, String name, String of)
     {
         CDataEntity eData = tabDataEntities.get(name) ;
@@ -364,6 +374,7 @@ public class CObjectCatalog
     }
 
     // Procedure
+    /** Executes the register procedure operation. */
     public void RegisterProcedure(String name, CEntityProcedure eCont, CEntityProcedureSection section)
     {
         CEntityProcedure proc = tabProcedures.get(name) ;
@@ -382,6 +393,7 @@ public class CObjectCatalog
             procedures.add(eCont) ;
         }
     }
+    /** Executes the get procedure operation. */
     public CEntityProcedure GetProcedure(String name, String section)
     {
         CEntityProcedure proc = tabProcedures.get(name) ;
@@ -392,6 +404,7 @@ public class CObjectCatalog
         }
         return proc ;
     }
+    /** Executes the get procedure from thru operation. */
     public void GetProcedureFromThru(String from, String to, Vector<String> arr)
     {
         boolean isok = false ;
@@ -416,18 +429,21 @@ public class CObjectCatalog
         }
     }
     // Form container
+    /** Executes the get form container operation. */
     public CEntityResourceFormContainer GetFormContainer(String name, CBaseEntityFactory factory)
     {
         CEntityResourceFormContainer cont = global.GetFormContainer(name, factory) ;
         return cont ;
     }
 
+    /** Executes the check program reference operation. */
     public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
     {
         return global.CheckProgramReference(prg, bWithDFHCommarea, nbParameters, bRegisterSubProgram) ;
     }
 
     // general
+    /** Removes the object. */
     public void RemoveObject(CBaseLanguageEntity e)
     {
         String name = e.GetName();
@@ -466,35 +482,42 @@ public class CObjectCatalog
     protected Vector<CEntitySQLCursor> qLCursors = new Vector<CEntitySQLCursor>() ;
     protected CNameConflictSolver conflictSolver = new CNameConflictSolver() ;
 
+    /** Executes the register sqlcursor operation. */
     public void RegisterSQLCursor(CEntitySQLCursor cur)
     {
         addImportDeclaration("SQL") ;
         tabSQLCursors.put(cur.GetName(), cur) ;
         qLCursors.add(cur) ;
     }
+    /** Executes the register sqlcursor operation. */
     public void RegisterSQLCursor(String alias, CEntitySQLCursor cur)
     {
         tabSQLCursors.put(alias, cur) ;
     }
+    /** Executes the get sqlcursor list operation. */
     public Vector GetSQLCursorList()
     {
         return qLCursors;
     }
+    /** Executes the get sqlcursor operation. */
     public CEntitySQLCursor GetSQLCursor(String csCursorName)
     {
         return tabSQLCursors.get(csCursorName);
     }
 
+    /** Executes the register sqltable operation. */
     public void RegisterSQLTable(String csTableName, CEntitySQLDeclareTable table)
     {
         tabSQLTables.put(csTableName, table);
     }
 
+    /** Executes the get sqltable operation. */
     public CEntitySQLDeclareTable GetSQLTable(String cs)
     {
         return tabSQLTables.get(cs);
     }
 
+    /** Executes the is existing data entity operation. */
     public boolean IsExistingDataEntity(String name, String of)
     {
         CDataEntity eData = tabDataEntities.get(name) ;
@@ -532,10 +555,12 @@ public class CObjectCatalog
 
     // algorythmic analysis : attributes
     protected Vector<CEntityAttribute> attributes = new Vector<CEntityAttribute>() ;
+    /** Executes the register attribute operation. */
     public void RegisterAttribute(CEntityAttribute att)
     {
         attributes.add(att) ;
     }
+    /** Executes the get attribute operation. */
     public CEntityAttribute GetAttribute(int i)
     {
         if (i< attributes.size())
@@ -547,6 +572,7 @@ public class CObjectCatalog
             return null ;
         }
     }
+    /** Executes the get nb attributes operation. */
     public int GetNbAttributes()
     {
         return attributes.size();
@@ -564,10 +590,12 @@ public class CObjectCatalog
     protected Vector<CBaseActionEntity> copy = new Vector<CBaseActionEntity>() ;
     protected Vector<CBaseActionEntity> send = new Vector<CBaseActionEntity>() ;
     protected Hashtable<String, CEntityFieldRedefine> tabFieldRedefine = new Hashtable<String, CEntityFieldRedefine>() ;
+    /** Executes the register field redefine operation. */
     public void RegisterFieldRedefine(CEntityFieldRedefine f)
     {
         tabFieldRedefine.put(f.GetName(), f) ;
     }
+    /** Executes the register symbolic field operation. */
     public void RegisterSymbolicField(CEntityResourceField f)
     {
         if (f != null)
@@ -576,10 +604,12 @@ public class CObjectCatalog
             tabFields.put(f.GetName(), f) ;
         }
     }
+    /** Executes the is existing field redefine operation. */
     public boolean IsExistingFieldRedefine(String name)
     {
         return tabFieldRedefine.containsKey(name) ;
     }
+    /** Executes the register save field operation. */
     public void RegisterSaveField(CEntityResourceField sav, CEntityResourceField f)
     {
         saveFields.add(sav) ;
@@ -589,51 +619,62 @@ public class CObjectCatalog
             tabSaveFields.put(sav, f) ;
         }
     }
+    /** Executes the register map operation. */
     public void RegisterMap(CEntityResourceForm f)
     {
         maps.add(f) ;
     }
 
+    /** Clears the sav copy. */
     public void ClearSavCopy()
     {
         saveMaps.clear();
         tabSaveMaps.clear();
     }
 
+    /** Executes the register save map operation. */
     public void RegisterSaveMap(CEntityResourceForm f, CEntityResourceForm associated)
     {
         saveMaps.add(f) ;
         tabSaveMaps.put(f, associated);
     }
+    /** Executes the register map copy operation. */
     public void RegisterMapCopy(CBaseActionEntity act)
     {
         copy.add(act);
     }
+    /** Executes the register map send operation. */
     public void RegisterMapSend(CBaseActionEntity act)
     {
         send.add(act);
     }
 
+    /** Executes the get nb map copy operation. */
     public int GetNbMapCopy()
     {
         return copy.size() ;
     }
+    /** Returns the map copy. */
     public CBaseActionEntity getMapCopy(int i)
     {
         return copy.get(i) ;
     }
+    /** Executes the get nb map send operation. */
     public int GetNbMapSend()
     {
         return send.size() ;
     }
+    /** Returns the map send. */
     public CBaseActionEntity getMapSend(int i)
     {
         return send.get(i) ;
     }
+    /** Executes the get nb symbolic fields operation. */
     public int GetNbSymbolicFields()
     {
         return symbolicFields.size();
     }
+    /** Executes the get symbolic field operation. */
     public CEntityResourceField GetSymbolicField(int i)
     {
         if (i< symbolicFields.size())
@@ -645,10 +686,12 @@ public class CObjectCatalog
             return null;
         }
     }
+    /** Executes the get nb save fields operation. */
     public int GetNbSaveFields()
     {
         return saveFields.size();
     }
+    /** Executes the get save field operation. */
     public CEntityResourceField GetSaveField(int i)
     {
         if (i< saveFields.size())
@@ -660,19 +703,23 @@ public class CObjectCatalog
             return null;
         }
     }
+    /** Executes the get associated field operation. */
     public CEntityResourceField GetAssociatedField(CEntityResourceField savfield)
     {
         return tabSaveFields.get(savfield);
     }
 
+    /** Executes the get nb save map operation. */
     public int GetNbSaveMap()
     {
         return saveMaps.size();
     }
+    /** Executes the get nb map operation. */
     public int GetNbMap()
     {
         return maps.size();
     }
+    /** Executes the get save map operation. */
     public CEntityResourceForm GetSaveMap(int i)
     {
         if (i< saveMaps.size())
@@ -684,6 +731,7 @@ public class CObjectCatalog
             return null ;
         }
     }
+    /** Executes the get map operation. */
     public CEntityResourceForm GetMap(int i)
     {
         if (i< maps.size())
@@ -695,11 +743,13 @@ public class CObjectCatalog
             return null ;
         }
     }
+    /** Executes the get associated map operation. */
     public CEntityResourceForm GetAssociatedMap(CEntityResourceForm map)
     {
         return tabSaveMaps.get(map);
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         attributes.clear() ;
@@ -734,20 +784,24 @@ public class CObjectCatalog
         workingSection = null ;
     }
 
+    /** Executes the get program for transaction operation. */
     public String GetProgramForTransaction(String transID)
     {
         return global.GetProgramForTransaction(transID);
     }
 
     protected Vector<CDataEntity> transID = new Vector<CDataEntity>();
+    /** Executes the register variable trans id operation. */
     public void RegisterVariableTransID(CDataEntity tid)
     {
         transID.add(tid) ;
     }
+    /** Executes the get nb variable trans id operation. */
     public int GetNbVariableTransID()
     {
         return transID.size() ;
     }
+    /** Executes the get variable trans id operation. */
     public CDataEntity GetVariableTransID(int i)
     {
         if (i < transID.size())
@@ -769,6 +823,7 @@ public class CObjectCatalog
         CEntityRoutineEmulation emul = new CEntityRoutineEmulation(alias, display) ;
         tabRoutineEmulation.put(alias, emul) ;
     }
+    /** Returns the routine emulation. */
     public CEntityRoutineEmulation getRoutineEmulation(String alias)
     {
         return tabRoutineEmulation.get(alias) ;
@@ -776,6 +831,7 @@ public class CObjectCatalog
     protected Hashtable<String, CEntityRoutineEmulation> tabRoutineEmulation = new Hashtable<String, CEntityRoutineEmulation>() ;
 
     protected Vector<String> importDeclarations = new Vector<String>() ;
+    /** Adds the import declaration. */
     public void addImportDeclaration(String cs)
     {
         if (!importDeclarations.contains(cs))
@@ -787,11 +843,13 @@ public class CObjectCatalog
     {
         return importDeclarations.size() ;
     }
+    /** Returns the import declaration. */
     public String getImportDeclaration(int i)
     {
         return importDeclarations.get(i) ;
     }
 
+    /** Sets the missing include structure. */
     public void setMissingIncludeStructure()
     {
         ismissingIncludeStructure = true ;
@@ -802,30 +860,35 @@ public class CObjectCatalog
         return ismissingIncludeStructure;
     }
 
+    /** Executes the register sqlwarning continue operation. */
     public void registerSQLWarningContinue(String csArg)
     {
         qLWarning = SQLWarningErrorType.WarningContinue;
         csSQLWarningArg = csArg;
     }
 
+    /** Executes the register sqlwarning goto operation. */
     public void registerSQLWarningGoto(String csArg)
     {
         qLWarning = SQLWarningErrorType.WarningGoto;
         csSQLWarningArg = csArg;
     }
 
+    /** Executes the register sqlerror continue operation. */
     public void RegisterSQLErrorContinue(String csArg)
     {
         qLError = SQLWarningErrorType.ErrorContinue;
         csSQLErrorArg = csArg;
     }
 
+    /** Executes the register sqlerror goto operation. */
     public void registerSQLErrorGoto(String csArg)
     {
         qLError = SQLWarningErrorType.ErrorGoto;
         csSQLErrorArg = csArg;
     }
 
+    /** Returns the sqlwarning error statement. */
     public String getSQLWarningErrorStatement()
     {
         String cs = "" ;
@@ -857,6 +920,7 @@ public class CObjectCatalog
     {
         return linkageSection ;
     }
+    /** Executes the register working section operation. */
     public void RegisterWorkingSection(CEntityDataSection section)
     {
         workingSection = section ;
@@ -905,6 +969,7 @@ public class CObjectCatalog
     }
     protected Vector<CEntityCICSLink> iCSLink = new Vector<CEntityCICSLink>() ;
     protected Vector<CEntityCallProgram> callProgram = new Vector<CEntityCallProgram>() ;
+    /** Returns the cicslink. */
     public CEntityCICSLink getCICSLink(int n)
     {
         if (n< iCSLink.size())
@@ -913,6 +978,7 @@ public class CObjectCatalog
         }
         return null ;
     }
+    /** Returns the call program. */
     public CEntityCallProgram getCallProgram(int n)
     {
         if (n< callProgram.size())
@@ -921,10 +987,12 @@ public class CObjectCatalog
         }
         return null ;
     }
+    /** Executes the register cicslink operation. */
     public void RegisterCICSLink(CEntityCICSLink l)
     {
         iCSLink.add(l);
     }
+    /** Executes the register call program operation. */
     public void RegisterCallProgram(CEntityCallProgram l)
     {
         callProgram.add(l);
@@ -1005,6 +1073,7 @@ public class CObjectCatalog
     {
         return performThrough.size() ;
     }
+    /** Returns the perform through. */
     public CEntityCallFunction getPerformThrough(int i)
     {
         if (i< performThrough.size())
@@ -1029,6 +1098,7 @@ public class CObjectCatalog
     {
         return initializedStructure.size() ;
     }
+    /** Returns the initialized structure. */
     public CEntityAttribute getInitializedStructure(int i)
     {
         return initializedStructure.get(i) ;
@@ -1042,10 +1112,12 @@ public class CObjectCatalog
         return sections.size() ;
     }
     protected Vector<CEntityProcedureSection> sections = new Vector<CEntityProcedureSection>() ;
+    /** Executes the register procedure section operation. */
     public void RegisterProcedureSection(CEntityProcedureSection sec)
     {
         sections.add(sec) ;
     }
+    /** Returns the procedure section. */
     public CEntityProcedureSection getProcedureSection(int n)
     {
         if (n>=0 && n< sections.size())
@@ -1063,15 +1135,18 @@ public class CObjectCatalog
         return callTree;
     }
 
+    /** Executes the register file select operation. */
     public void RegisterFileSelect(CEntityFileSelect select)
     {
         tabFileSelect.put(select.GetName(), select) ;
     }
+    /** Returns the file select. */
     public CEntityFileSelect getFileSelect(String name)
     {
         return tabFileSelect.get(name) ;
     }
     protected Hashtable<String, CEntityFileSelect> tabFileSelect = new Hashtable<String, CEntityFileSelect>() ;
+    /** Executes the register file descriptor operation. */
     public void RegisterFileDescriptor(CEntityFileDescriptor descriptor)
     {
         String name = descriptor.GetName() ;
@@ -1104,6 +1179,7 @@ public class CObjectCatalog
         }
         tabFileDescriptor.put(name, descriptor) ;
     }
+    /** Executes the register file descriptor operation. */
     public void RegisterFileDescriptor(String name, CEntityFileDescriptor descriptor)
     {
         tabFileDescriptor.put(name, descriptor) ;
@@ -1113,6 +1189,7 @@ public class CObjectCatalog
     {
         return tabFileDescriptor.values() ;
     }
+    /** Returns the file descriptor. */
     public CEntityFileDescriptor getFileDescriptor(String name)
     {
         CEntityFileDescriptor eFD = tabFileDescriptor.get(name) ;
@@ -1150,15 +1227,18 @@ public class CObjectCatalog
     protected CTransApplicationGroup.EProgramType eProgType = null ;
 
 
+    /** Executes the get global catalog operation. */
     public CGlobalCatalog GetGlobalCatalog()
     {
         return global ;
     }
 
+    /** Executes the send notif request operation. */
     public void SendNotifRequest(BaseNotification notif)
     {
         engine.SendNotification(notif) ;
     }
+    /** Executes the register notif handler operation. */
     public void RegisterNotifHandler(BaseNotificationHandler handler)
     {
         engine.RegisterNotificationHandler(handler) ;

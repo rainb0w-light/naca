@@ -10,9 +10,11 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 
+/** Provides initialize manager behavior. */
 public abstract class InitializeManager extends CJMapObject
 {
+    /** Executes the initialize operation. */
     public abstract void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache);
 }

@@ -6,7 +6,11 @@
  */
 package jlib.log.stdEvents;
 
-import jlib.log.*;
+import jlib.log.Log;
+import jlib.log.LogEvent;
+import jlib.log.LogEventType;
+import jlib.log.LogFlowStd;
+import jlib.log.LogLevel;
 /**
  * Generates an event to inform that the current process is about to
  * spawn a new process.

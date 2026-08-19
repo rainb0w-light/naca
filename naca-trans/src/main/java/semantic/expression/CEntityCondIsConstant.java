@@ -15,11 +15,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondIsConstant extends CUnitaryEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondIsConstant opposite = new CEntityCondIsConstant();
@@ -37,6 +39,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
 //      super(nLine);
 //  }
 
+    /** Sets the is zero. */
     public void SetIsZero(CDataEntity eData)
     {
         isisZero = true ;
@@ -46,6 +49,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
         SetConditonReference(eData) ;
     }
 
+    /** Sets the is space. */
     public void SetIsSpace(CDataEntity eData)
     {
         isisZero = false ;
@@ -55,6 +59,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
         SetConditonReference(eData) ;
     }
 
+    /** Sets the is high value. */
     public void SetIsHighValue(CDataEntity eData)
     {
         isisZero = false ;
@@ -63,6 +68,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
         isisHighValue = true;
         SetConditonReference(eData) ;
     }
+    /** Sets the is low value. */
     public void SetIsLowValue(CDataEntity eData)
     {
         isisZero = false ;
@@ -71,6 +77,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
         isisHighValue = false ;
         SetConditonReference(eData) ;
     }
+    /** Sets the opposite. */
     public void SetOpposite()
     {
         bIsOpposite = true ;
@@ -107,10 +114,12 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
         return isisHighValue;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -168,6 +177,7 @@ public class CEntityCondIsConstant extends CUnitaryEntityCondition
 //          return cond ;
 //      }
 //  }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return null;

@@ -34,16 +34,19 @@ public class CEntityCICSAbend extends CBaseActionEntity
         }
     }
 
+    /** Sets the abcode. */
     public void SetABCode(CDataEntity ab)
     {
         aBCode = ab ;
     }
 
     protected CDataEntity aBCode = null ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -53,6 +56,7 @@ public class CEntityCICSAbend extends CBaseActionEntity
         }
         aBCode = null ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         return true ;

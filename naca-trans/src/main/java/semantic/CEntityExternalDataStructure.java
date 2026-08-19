@@ -7,9 +7,9 @@
 package semantic;
 
 import java.util.NoSuchElementException;
-
 import parser.expression.CTerminal;
-import utils.*;
+import utils.CObjectCatalog;
+
 
 /**
  * @author sly
@@ -21,6 +21,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
         /* (non-Javadoc)
      * @see semantic.CBaseExternalEntity#IsNeedDeclarationInClass()
      */
+    /** Executes the is need declaration in class operation. */
     public boolean IsNeedDeclarationInClass()
     {
         return !isinline;
@@ -30,6 +31,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
      * @param cat
      */
     protected String csClassName = "" ;
+    /** Creates a new centity external data structure instance. */
     public CEntityExternalDataStructure(int l, String name, CObjectCatalog cat)
     {
         super(l, name, cat);
@@ -59,6 +61,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return null;
@@ -66,10 +69,12 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         try
@@ -106,6 +111,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#SetName(java.lang.String)
      */
+    /** Executes the rename operation. */
     public void Rename(String name)
     {
         super.Rename(name);
@@ -114,6 +120,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
             csClassName = name ;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -124,6 +131,7 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
     }
 
     protected boolean isinline = false ;
+    /** Sets the inline. */
     public void SetInline(boolean bInline)
     {
         this.isinline = bInline;
@@ -159,11 +167,13 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
         }
         return 0 ;
     }
+    /** Executes the apply alias pattern operation. */
     public void ApplyAliasPattern(String csRenamePattern)
     {
         ApplyAliasPatternToChildren(csRenamePattern) ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -174,11 +184,13 @@ public class CEntityExternalDataStructure extends CBaseExternalEntity
         return false;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.EXTERNAL_REFERENCE;
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         return getTypeDecl();

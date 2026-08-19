@@ -26,6 +26,7 @@ public class AsynchronousProgramPreloaderThread extends Thread
     private ArrayList<PreloadProgramSettings> programToPreload = null;
     private String csProgramListToKeep = null;
 
+    /** Creates a new asynchronous program preloader thread instance. */
     public AsynchronousProgramPreloaderThread(
         OnlineResourceManager onlineResourceManager,
         ProgramPreloader programPreloader,
@@ -38,6 +39,7 @@ public class AsynchronousProgramPreloaderThread extends Thread
         this.csProgramListToKeep = csProgramListToKeep;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         onlineResourceManager.AsynchronouslyPreloadPrograms(programToPreload, programPreloader, csProgramListToKeep);

@@ -9,18 +9,22 @@ package nacaLib.fpacPrgEnv;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 
+/** Provides var fpac raw length undef behavior. */
 public class VarFPacRawLengthUndef extends VarFPacLengthUndef
 {
+    /** Creates a new var fpac raw length undef instance. */
     public VarFPacRawLengthUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition1Based)
     {
         super(fpacVarManager, varBuffer, nAbsolutePosition1Based);
     }
 
+    /** Creates the var. */
     public Var createVar(int nBufferSize)
     {
         return fpacVarManager.createFPacVarRaw(varBuffer, nAbsolutePosition1Based, nBufferSize);
     }
 
+    /** Creates the var. */
     public Var createVar()
     {
         return fpacVarManager.createFPacVarRaw(varBuffer, nAbsolutePosition1Based, 100);

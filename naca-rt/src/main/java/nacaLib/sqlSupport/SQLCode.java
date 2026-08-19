@@ -30,6 +30,7 @@ public class SQLCode
     private static final int NB_MAXI_SQLCODE = 100000;  // Maxi SQLCode
 
 
+    /** Executes the init operation. */
     public static void init()
     {
         int nMax = NB_MAXI_SQLCODE / 32;
@@ -48,6 +49,7 @@ public class SQLCode
 //      }
     }
 
+    /** Executes the select operation. */
     public static int Select(int i)
     {
         switch (i)
@@ -72,6 +74,7 @@ public class SQLCode
     }
 
     // @see http://publib.boulder.ibm.com/infocenter/db2help/index.jsp?topic=/com.ibm.db2.udb.doc/ad/c0004672.htm
+    /** Returns whether error. */
     public static boolean isError(int n)
     {
         /*
@@ -86,6 +89,7 @@ public class SQLCode
         return false;
     }
 
+    /** Returns whether not found. */
     public static boolean isNotFound(int n)
     {
         if (n == 100) {
@@ -94,6 +98,7 @@ public class SQLCode
         return false;
     }
 
+    /** Returns whether warning. */
     public static boolean isWarning(int n)
     {
         if (n > 0 && n != 100) {
@@ -102,6 +107,7 @@ public class SQLCode
         return false;
     }
 
+    /** Returns whether normal. */
     public static boolean isNormal(int n)
     {
         if (n == 0) {
@@ -110,6 +116,7 @@ public class SQLCode
         return false;
     }
 
+    /** Executes the fill connection killer sqlcodes operation. */
     public static void fillConnectionKillerSQLCodes(Tag tagConnectionKillerSQLCodes)
     {
         Tag tagEntry = tagConnectionKillerSQLCodes.getEnumChild("ConnectionKillerSQLCode");
@@ -129,6 +136,7 @@ public class SQLCode
         }
     }
 
+    /** Sets the bit for code id. */
     public static void setBitForCodeId(int nCodeId)
     {
         int nIntIndex = nCodeId / 32;
@@ -137,6 +145,7 @@ public class SQLCode
         ms_tnFlagIsKillerSQLCode[nIntIndex] |= nBitValue;
     }
 
+    /** Returns whether connection killer sqlcode. */
     public static boolean isConnectionKillerSQLCode(int nCodeId)
     {
 //      if(n == 100)

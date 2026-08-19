@@ -20,6 +20,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public abstract class Var extends VarAndEdit
 {
+    /** Creates a new var instance. */
     public Var(DeclareTypeBase declareTypeBase)
     {
         super(declareTypeBase);
@@ -35,6 +36,7 @@ public abstract class Var extends VarAndEdit
         return false;
     }
 
+    /** Executes the assign buffer ext operation. */
     public void assignBufferExt(VarBuffer bufferSource)
     {
         if (bufferPos == null) {
@@ -44,32 +46,38 @@ public abstract class Var extends VarAndEdit
         }
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantZero cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantSpace cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantHighValue cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantLowValue cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Sets the string at position. */
     public void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar)
     {
         varDef.write(bufferPos, csValue, nOffsetPosition, nNbChar);
     }
 
 
+    /** Sets the and fill. */
     public void setAndFill(String csValue)
     {
         if (csValue.length() > 0) {
@@ -88,18 +96,21 @@ public abstract class Var extends VarAndEdit
 //      varDef.write(buffer, gv);
 //  }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit varX)
     {
         int x = varX.getInt();
         return getAt(x);
     }
 
+    /** Returns the at. */
     public Var getAt(MathBase math)
     {
         int x = math.d.intValue() ;
         return getAt(x);
     }
 
+    /** Returns the at. */
     public Var getAt(int x)
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
@@ -173,6 +184,7 @@ public abstract class Var extends VarAndEdit
         return var;
     }
 
+    /** Returns the at. */
     public Var getAt(int x, VarAndEdit varY)
     {
         int y = varY.getInt();
@@ -184,6 +196,7 @@ public abstract class Var extends VarAndEdit
 //      return var;
     }
 
+    /** Returns the at. */
     public Var getAt(MathBase math, VarAndEdit varIndexY)
     {
         int x = math.d.intValue() ;
@@ -191,6 +204,7 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y);
     }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit vx, VarAndEdit varIndexY)
     {
         int x = vx.getInt() ;
@@ -198,18 +212,21 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y);
     }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit varIndexY, MathBase math)
     {
         int x = math.d.intValue() ;
         int y = varIndexY.getInt();
         return getAt(y, x);
     }
+    /** Returns the at. */
     public Var getAt(VarAndEdit varIndexY, int x)
     {
         int y = varIndexY.getInt();
         return getAt(y, x);
     }
 
+    /** Returns the at. */
     public Var getAt(int y, int x)
     {
         int nYBase0 = y-1;
@@ -253,6 +270,7 @@ public abstract class Var extends VarAndEdit
         return var;
     }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit varIndexX, VarAndEdit varIndexY, int z)
     {
         int x = varIndexX.getInt();
@@ -260,12 +278,14 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y, z);
     }
 
+    /** Returns the at. */
     public Var getAt(int x, VarAndEdit varIndexY, int z)
     {
         int y = varIndexY.getInt();
         return getAt(x, y, z);
     }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit varIndexX, VarAndEdit varIndexY, VarAndEdit varIndexZ)
     {
         int x = varIndexX.getInt();
@@ -274,6 +294,7 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y, z);
     }
 
+    /** Returns the at. */
     public Var getAt(int x, VarAndEdit varIndexY, VarAndEdit varIndexZ)
     {
         int y = varIndexY.getInt();
@@ -281,6 +302,7 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y, z);
     }
 
+    /** Returns the at. */
     public Var getAt(VarAndEdit varIndexX, int y, VarAndEdit varIndexZ)
     {
         int x = varIndexX.getInt();
@@ -288,6 +310,7 @@ public abstract class Var extends VarAndEdit
         return getAt(x, y, z);
     }
 
+    /** Returns the at. */
     public Var getAt(int z, int y, int x)
     {
         int nZBase0 = z-1;
@@ -332,24 +355,28 @@ public abstract class Var extends VarAndEdit
         return var;
     }
 
+    /** Returns the string at. */
     public String getStringAt(int x)
     {
         Var var = getAt(x);
         return var.getString();
     }
 
+    /** Returns the string at. */
     public String getStringAt(int x, int y)
     {
         Var var = getAt(x, y);
         return var.getString();
     }
 
+    /** Returns the string at. */
     public String getStringAt(int x, int y, int z)
     {
         Var var = getAt(x, y, z);
         return var.getString();
     }
 
+    /** Executes the adjust operation. */
     public void adjust(VarDefBuffer varDefGetAt, Var varGetAt)
     {
         // Fill varGetAt with custom setting of this
@@ -360,6 +387,7 @@ public abstract class Var extends VarAndEdit
 //      varGetAt.bufferPos.nAbsolutePosition = varDefGetAt.nDefaultAbsolutePosition + nOffset;
     }
 
+    /** Executes the adjust operation. */
     public void adjust(VarDefBuffer varDefGetAt, VarBufferPos varBufferPos)
     {
         // Fill varGetAt with custom setting of this
@@ -370,6 +398,7 @@ public abstract class Var extends VarAndEdit
     }
 
 
+    /** Executes the alloc copy operation. */
     public Var allocCopy(VarDefBuffer varDefItem)
     {
         VarBase varItem = allocCopy();
@@ -386,6 +415,7 @@ public abstract class Var extends VarAndEdit
 
     protected abstract VarBase allocCopy();
 
+    /** Returns the string. */
     public String getString()
     {
         CStr cstr = getOwnCStr();
@@ -400,12 +430,14 @@ public abstract class Var extends VarAndEdit
 //      return cstr;
 //  }
 
+    /** Returns the own cstr. */
     public CStr getOwnCStr()
     {
         CStr cstr = bufferPos.getOwnCStr(varDef.getBodyLength());
         return cstr;
     }
 
+    /** Returns the string including header. */
     public String getStringIncludingHeader()
     {
         //return varDef.getRawStringIncludingHeader(bufferPos);
@@ -425,12 +457,14 @@ public abstract class Var extends VarAndEdit
 //  }
 
 
+    /** Executes the transfer to operation. */
     public void transferTo(Var varDest)
     {
         varDef.transfer(bufferPos, varDest);
         //varDest.inheritSemanticContext(this);
     }
 
+    /** Executes the set operation. */
     public void set(Edit varSource)
     {
         if (varSource.isEditInMap()) {
@@ -440,6 +474,7 @@ public abstract class Var extends VarAndEdit
         }
     }
 
+    /** Executes the set operation. */
     public void set(VarBase varSource)
     {
         if (varSource.isEdit()) {
@@ -451,12 +486,14 @@ public abstract class Var extends VarAndEdit
         }
     }
 
+    /** Executes the set operation. */
     public void set(EditInMap varSource)
     {
         varSource.varDef.transfer(varSource.bufferPos, this);
         //inheritSemanticContext(varSource);
     }
 
+    /** Executes the set operation. */
     public void set(EditInMapRedefine varSource)
     {
         //varSource.var2EditInMap.varDef.transfer(varSource.var2EditInMap.buffer, this);
@@ -466,12 +503,14 @@ public abstract class Var extends VarAndEdit
 
 
 
+    /** Executes the transfer to operation. */
     public void transferTo(Edit varDest)
     {
         varDef.transfer(bufferPos, varDest);    // PJD Var TO EditInMapRedefine; // PJD Var TO EditInMap
         //varDest.inheritSemanticContext(this);
     }
 
+    /** Executes the equals operation. */
     public boolean equals(VarAndEdit varValue)
     {
         if (compareTo(ComparisonMode.Unicode, varValue) == 0) {
@@ -480,6 +519,7 @@ public abstract class Var extends VarAndEdit
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, VarAndEdit varValue)
     {
         return varDef.compare(mode, bufferPos, varValue);
@@ -487,6 +527,7 @@ public abstract class Var extends VarAndEdit
 
 
 
+    /** Executes the equals operation. */
     public boolean equals(int nValue)
     {
         if (compareTo(nValue) == 0) {
@@ -495,6 +536,7 @@ public abstract class Var extends VarAndEdit
         return false;
     }
 
+    /** Executes the equals operation. */
     public boolean equals(double dValue)
     {
         if (compareTo(dValue) == 0) {
@@ -504,6 +546,7 @@ public abstract class Var extends VarAndEdit
     }
 
 
+    /** Executes the equals operation. */
     public boolean equals(String csValue)
     {
         if (compareTo(ComparisonMode.Unicode, csValue) == 0) {
@@ -512,6 +555,7 @@ public abstract class Var extends VarAndEdit
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String sValue)
     {
 //       PJD removed for Batch optimization
@@ -527,6 +571,7 @@ public abstract class Var extends VarAndEdit
         return n;
     }
 
+    /** Executes the equals operation. */
     public boolean equals(MathBase mathValue)
     {
         if (compareTo(mathValue) == 0) {
@@ -535,9 +580,10 @@ public abstract class Var extends VarAndEdit
         return false;
     }
 
-    public int compareTo(MathBase MathValue)
+    /** Executes the compare to operation. */
+    public int compareTo(MathBase mathValue)
     {
-        int n = MathValue.compareTo(this);
+        int n = mathValue.compareTo(this);
         // Return opposite sign, as we changed the operand order
         if (n < 0) {
             return 1;
@@ -548,27 +594,32 @@ public abstract class Var extends VarAndEdit
         return 0;
     }
 
+    /** Executes the inc operation. */
     public void inc()
     {
         varDef.inc(bufferPos, 1);
     }
 
+    /** Executes the inc operation. */
     public void inc(int nStep)
     {
         varDef.inc(bufferPos, nStep);
     }
+    /** Executes the inc operation. */
     public void inc(double dStep)
     {
         BigDecimal bdStep = new BigDecimal(dStep);
         varDef.inc(bufferPos, bdStep);
     }
 
+    /** Executes the inc operation. */
     public void inc(String csStep)
     {
         BigDecimal bdStep = new BigDecimal(csStep);
         varDef.inc(bufferPos, bdStep);
     }
 
+    /** Executes the inc operation. */
     public void inc(Var varStep)
     {
         String csStep = varStep.getDottedSignedString();
@@ -576,16 +627,19 @@ public abstract class Var extends VarAndEdit
         varDef.inc(bufferPos, bdStep);
     }
 
+    /** Executes the dec operation. */
     public void dec()
     {
         varDef.inc(bufferPos, -1);
     }
 
+    /** Executes the dec operation. */
     public void dec(int nStep)
     {
         varDef.inc(bufferPos, -nStep);
     }
 
+    /** Executes the dec operation. */
     public void dec(Var varStep)
     {
         String csStep = varStep.getDottedSignedString();
@@ -594,6 +648,7 @@ public abstract class Var extends VarAndEdit
         varDef.inc(bufferPos, bdStep);
     }
 
+    /** Executes the dec operation. */
     public void dec(String csStep)
     {
         BigDecimal bdStep = new BigDecimal(csStep);
@@ -601,18 +656,21 @@ public abstract class Var extends VarAndEdit
         varDef.inc(bufferPos, bdStep);
     }
 
+    /** Returns the dotted signed string. */
     public String getDottedSignedString()
     {
         String cs = varDef.getDottedSignedString(bufferPos).getAsString();
         return cs;
     }
 
+    /** Returns the dotted signed string as sqlcol. */
     public String getDottedSignedStringAsSQLCol()
     {
         String cs = varDef.getDottedSignedStringAsSQLCol(bufferPos).getAsString();
         return cs;
     }
 
+    /** Returns the as alpha num string. */
     public String getAsAlphaNumString()
     {
         String cs = varDef.getAsAlphaNumString(bufferPos).getAsString();
@@ -624,6 +682,7 @@ public abstract class Var extends VarAndEdit
         return bufferPos.nAbsolutePosition; //varDef.DEBUGgetAbsolutePosition();
     }
 
+    /** Executes the debugget absolute position operation. */
     public int DEBUGgetAbsolutePosition()
     {
         return bufferPos.nAbsolutePosition; //varDef.DEBUGgetAbsolutePosition();
@@ -634,11 +693,13 @@ public abstract class Var extends VarAndEdit
         return null;
     }
 
+    /** Executes the set operation. */
     public void set(boolean b)
     {
         Assert("Var.set(boolean) not implemented") ;
     }
 
+    /** Executes the compare to operation. */
     public boolean compareTo(boolean b)
     {
         Assert("Var.compareTo(boolean) not implemented") ;
@@ -650,6 +711,7 @@ public abstract class Var extends VarAndEdit
         return varDef.getOffsetFromLevel01();
     }
 
+    /** Executes the sub string operation. */
     public Var subString(int start, int length)
     {
         Var num = (Var) allocCopy();

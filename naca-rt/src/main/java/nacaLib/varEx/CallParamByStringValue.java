@@ -12,11 +12,13 @@ package nacaLib.varEx;
  */
 public class CallParamByStringValue extends CCallParam
 {
+ /** Creates a new call param by string value instance. */
  public CallParamByStringValue(String cs)
  {
   this.cs = cs;
  }
 
+ /** Returns the param length. */
  public int getParamLength()
  {
      if (cs != null) {
@@ -25,6 +27,7 @@ public class CallParamByStringValue extends CCallParam
   return 0;
  }
 
+ /** Executes the map on operation. */
  public void MapOn(Var varLinkageSection)
  {
   varLinkageSection.set(cs);

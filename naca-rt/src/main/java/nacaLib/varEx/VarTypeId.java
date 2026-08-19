@@ -9,7 +9,12 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.bdb.*;
+import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
+import nacaLib.bdb.SegmentKeyTypeFactoryAlphaNum;
+import nacaLib.bdb.SegmentKeyTypeFactoryComp0;
+import nacaLib.bdb.SegmentKeyTypeFactoryComp3;
+import nacaLib.bdb.SegmentKeyTypeFactorySignBinary;
+import nacaLib.bdb.SegmentKeyTypeFactoryUnsignBinary;
 
 /**
  *

@@ -9,11 +9,13 @@ package semantic;
 import lexer.Cobol.CCobolConstantList;
 import parser.Cobol.elements.CWorkingEntry.CWorkingSignType;
 import parser.expression.CTerminal;
-import semantic.Verbs.*;
+import semantic.Verbs.CEntityAssign;
+import semantic.Verbs.CEntitySetConstant;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CEntityCondIsConstant;
-import utils.*;
+import utils.CObjectCatalog;
+import utils.Transcoder;
 
 /**
  * @author sly
@@ -55,6 +57,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         }
     }
     protected boolean isfiller = false;
+    /** Sets the level. */
     public void SetLevel(String level)
     {
         csLevel = level;
@@ -63,27 +66,32 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
     {
         return csLevel;
     }
+    /** Sets the comp. */
     public void SetComp(String s)
     {
         comp = s ;
     }
+    /** Sets the type string. */
     public void SetTypeString(int length)
     {
         type = "picX" ;
         this.length = length ;
     };
+    /** Sets the type num. */
     public void SetTypeNum(int length, int dec)
     {
         type = "pic9" ;
         this.length = length ;
         decimals = dec ;
     };
+    /** Sets the type signed. */
     public void SetTypeSigned(int length, int dec)
     {
         type = "picS9" ;
         this.length = length ;
         decimals = dec ;
     };
+    /** Sets the initial value spaces. */
     public void SetInitialValueSpaces()
     {
         isinitialValueIsSpaces = true ;
@@ -92,6 +100,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsHighValue = false ;
         value = null ;
     }
+    /** Sets the initial value zeros. */
     public void SetInitialValueZeros()
     {
         isinitialValueIsSpaces = false ;
@@ -100,6 +109,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsHighValue = false ;
         value = null ;
     }
+    /** Sets the initial low value. */
     public void SetInitialLowValue()
     {
         value = null ;
@@ -108,6 +118,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsLowValue = true ;
         isinitialValueIsHighValue = false ;
     }
+    /** Sets the initial high value. */
     public void SetInitialHighValue()
     {
         value = null ;
@@ -116,6 +127,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsLowValue = false ;
         isinitialValueIsHighValue = true ;
     }
+    /** Sets the initial value all. */
     public void SetInitialValueAll(CDataEntity s)
     {
         value = s ;
@@ -125,6 +137,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsLowValue = false ;
         isinitialValueIsHighValue = false ;
     }
+    /** Sets the initial value. */
     public void SetInitialValue(CDataEntity s)
     {
         value = s ;
@@ -133,6 +146,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         isinitialValueIsLowValue = false ;
         isinitialValueIsHighValue = false ;
     }
+    /** Sets the type edited. */
     public void SetTypeEdited(String f)
     {
         type = "pic" ;
@@ -141,6 +155,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         format =f ;
     }
 
+    /** Executes the get sub string reference operation. */
     public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
     {
         CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
@@ -161,6 +176,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
     protected boolean issync = false ;
     protected boolean isfillWithValue = false ;
     protected String csLevel = "77";
+    /** Sets the sync. */
     public void SetSync(boolean b)
     {
         issync = b ;
@@ -169,6 +185,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -213,11 +230,13 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
 
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -308,10 +327,12 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
             return null ;
         }
     }
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         return jlib.misc.NumberParser.getAsInt(csLevel) ;
     }
+    /** Executes the get initial value operation. */
     public String GetInitialValue()
     {
         if (value != null)
@@ -323,6 +344,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
             return "" ;
         }
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         if (value == null)
@@ -337,22 +359,26 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#Clear()
      */
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         value = null ;
     }
+    /** Sets the justified right. */
     public void SetJustifiedRight(boolean bJustifiedRight)
     {
         isjustifiedRight = bJustifiedRight ;
     }
     protected boolean isjustifiedRight = false ;
 
+    /** Sets the blank when zero. */
     public void SetBlankWhenZero(boolean blankWhenZero)
     {
         isblankWhenZero = blankWhenZero ;
     }
     protected boolean isblankWhenZero = false ;
+    /** Sets the sign separate type. */
     public void SetSignSeparateType(CWorkingSignType signSeparateType)
     {
         issignSeparateType = signSeparateType ;
@@ -545,6 +571,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         return length;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -555,6 +582,7 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         return true;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         if (type.equals("picS9") || type.equals("pic9"))

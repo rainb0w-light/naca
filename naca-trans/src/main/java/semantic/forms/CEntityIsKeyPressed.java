@@ -50,11 +50,13 @@ import semantic.expression.CBaseEntityCondition;
 public class CEntityIsKeyPressed extends CBaseEntityCondition
 {
 
+    /** Returns whether key pressed. */
     public void isKeyPressed(CDataEntity key)
     {
         keyPressed = key ;
         bIsNot = false ;
     }
+    /** Returns whether not key pressed. */
     public void isNotKeyPressed(CDataEntity key)
     {
         keyPressed = key ;
@@ -63,11 +65,13 @@ public class CEntityIsKeyPressed extends CBaseEntityCondition
     protected CDataEntity keyPressed = null ;
     protected boolean bIsNot = false ;
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsKeyPressed is = new CEntityIsKeyPressed();
@@ -97,16 +101,19 @@ public class CEntityIsKeyPressed extends CBaseEntityCondition
         return keyPressed ;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         keyPressed = null ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return null;
@@ -123,6 +130,7 @@ public class CEntityIsKeyPressed extends CBaseEntityCondition
     {
         return null;
     }
+    /** Sets the conditon reference. */
     public void SetConditonReference(CDataEntity e)
     {
         ASSERT(null) ;

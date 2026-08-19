@@ -31,23 +31,28 @@ public class CEntityCICSStart extends CBaseActionEntity
         }
     }
 
+    /** Sets the interval. */
     public void SetInterval(CDataEntity inter)
     {
         interval = inter ;
     }
+    /** Sets the time. */
     public void SetTime(CDataEntity time)
     {
         this.time = time ;
     }
+    /** Sets the data from. */
     public void SetDataFrom(CDataEntity from, CDataEntity len)
     {
         dataFrom = from ;
         dataLength = len ;
     }
+    /** Sets the sys id. */
     public void SetSysID(CDataEntity sys)
     {
         sysID = sys ;
     }
+    /** Sets the term id. */
     public void SetTermID(CDataEntity term)
     {
         termID = term ;
@@ -62,6 +67,7 @@ public class CEntityCICSStart extends CBaseActionEntity
 
     protected CDataEntity dataFrom = null ;
     protected CDataEntity dataLength = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -73,6 +79,7 @@ public class CEntityCICSStart extends CBaseActionEntity
         dataFrom = null ;
         dataLength = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

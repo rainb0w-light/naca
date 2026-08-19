@@ -38,6 +38,7 @@ public class TranscoderAction
         return isgeneration;
     }
 
+    /** Returns the as string. */
     public String getAsString()
     {
         String cs = "";

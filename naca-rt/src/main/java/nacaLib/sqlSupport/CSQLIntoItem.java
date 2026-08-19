@@ -19,11 +19,13 @@ import nacaLib.varEx.VarAndEdit;
 
 public class CSQLIntoItem extends CJMapObject
 {
+    /** Creates a new csqlinto item instance. */
     public CSQLIntoItem(VarAndEdit varInto, Var varIndicator)
     {
         this.varInto = varInto;
         this.varIndicator = varIndicator;
     }
+    /** Executes the set operation. */
     public void set(VarAndEdit varInto, Var varIndicator)
     {
         this.varInto = varInto;
@@ -36,6 +38,7 @@ public class CSQLIntoItem extends CJMapObject
 //      varIndicator = null;
 //  }
 
+    /** Sets the col value. */
     public void setColValue(String csValue, boolean bNull)  //, String csSemanticContext)
     {
         if(varInto != null)
@@ -58,6 +61,7 @@ public class CSQLIntoItem extends CJMapObject
         }
     }
 
+    /** Sets the col value null. */
     public void setColValueNull(boolean bNull)
     {
         if(varIndicator != null)
@@ -78,6 +82,7 @@ public class CSQLIntoItem extends CJMapObject
     }
     */
 
+    /** Returns the indicator null. */
     public boolean getIndicatorNull()
     {
         if(varIndicator != null)
@@ -100,6 +105,7 @@ public class CSQLIntoItem extends CJMapObject
         return varIndicator;
     }
 
+    /** Returns the loggable value. */
     public String getLoggableValue()
     {
         if(varInto != null)
@@ -113,6 +119,7 @@ public class CSQLIntoItem extends CJMapObject
         return "into=Null";
     }
 
+    /** Returns the unique hashed id. */
     public long getUniqueHashedId()
     {
         long l = 0;

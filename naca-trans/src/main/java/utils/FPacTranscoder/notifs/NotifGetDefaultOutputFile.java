@@ -9,6 +9,7 @@ package utils.FPacTranscoder.notifs;
 import semantic.CEntityFileBuffer;
 import jlib.engine.BaseNotification;
 
+/** Provides notif get default output file behavior. */
 public class NotifGetDefaultOutputFile extends BaseNotification
 {
     public CEntityFileBuffer fileBuffer = null ;

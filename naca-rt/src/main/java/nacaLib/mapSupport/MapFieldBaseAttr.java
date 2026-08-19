@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field base attr behavior. */
 public abstract class MapFieldBaseAttr
 {
     protected MapFieldBaseAttr(int nValue, String text)
@@ -35,6 +36,7 @@ public abstract class MapFieldBaseAttr
     {
         return nValue ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return getText();

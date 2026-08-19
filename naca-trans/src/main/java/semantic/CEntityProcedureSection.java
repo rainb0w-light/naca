@@ -9,7 +9,7 @@ package semantic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -28,6 +28,7 @@ public class CEntityProcedureSection extends CEntityProcedure
     }
 
     protected CEntityBloc sectionBloc =null ;
+    /** Sets the section bloc. */
     public void SetSectionBloc(CEntityBloc b)
     {
         sectionBloc = b ;
@@ -41,6 +42,7 @@ public class CEntityProcedureSection extends CEntityProcedure
     {
         return this ;
     }
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
         if (sectionBloc!=null && sectionBloc.UpdateAction(entity, newCond))
@@ -57,6 +59,7 @@ public class CEntityProcedureSection extends CEntityProcedure
         }
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -66,6 +69,7 @@ public class CEntityProcedureSection extends CEntityProcedure
         }
         sectionBloc = null ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         if (sectionBloc == null)
@@ -101,6 +105,7 @@ public class CEntityProcedureSection extends CEntityProcedure
         }
         return Collections.unmodifiableList(children);
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (isignore)

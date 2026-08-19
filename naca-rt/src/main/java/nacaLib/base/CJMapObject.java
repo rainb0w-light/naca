@@ -8,17 +8,20 @@ package nacaLib.base;
 
 import jlib.log.Asserter;
 
+/** Provides cjmap object behavior. */
 public class CJMapObject //extends BaseObject
 {
     protected CJMapObject()
     {
     }
 
+    /** Sets the assert active. */
     public static void setAssertActive(boolean b)
     {
         Asserter.setAssertActive(b);
     }
 
+    /** Executes the assert operation. */
     public static void Assert(String csMessage)
     {
         Asserter.assertAlways(csMessage);

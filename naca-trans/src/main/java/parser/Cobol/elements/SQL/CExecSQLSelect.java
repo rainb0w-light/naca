@@ -48,6 +48,7 @@ public class CExecSQLSelect extends CBaseExecSQLAction
     /* (non-Javadoc)
      * @see parser.elements.CExecSQL.CBaseExecSQLAction#Export(org.w3c.dom.Document)
      */
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eSelect = null;
@@ -736,11 +737,13 @@ public class CExecSQLSelect extends CBaseExecSQLAction
         return true ;
     }
 
+    /** Executes the append required space operation. */
     public void AppendRequiredSpace()
     {
         AppendRequiredSpace("") ;
     }
 
+    /** Executes the append required space operation. */
     public void AppendRequiredSpace(String cs)
     {
         if (clause.endsWith(" ") || clause.endsWith(":") || clause.endsWith(".") || clause.endsWith("!") || clause.endsWith("(")) {

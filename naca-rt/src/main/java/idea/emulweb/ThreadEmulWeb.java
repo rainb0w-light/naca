@@ -8,20 +8,24 @@ package idea.emulweb;
 
 import jlib.misc.ThreadSafeCounter;
 
+/** Provides thread emul web behavior. */
 public class ThreadEmulWeb extends Thread
 {
+    /** Creates a new thread emul web instance. */
     public ThreadEmulWeb(ThreadSafeCounter counter, EmulWebThreadedRun emulWebRun)
     {
         this.counter = counter;
         this.emulWebRun = emulWebRun;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         emulWebRun.run();
         counter.dec();
     }
 
+    /** Executes the request stop operation. */
     public void requestStop()
     {
         interrupt();

@@ -12,28 +12,33 @@ import java.lang.reflect.Method;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.exceptions.NacaRTException;
 
+/** Provides paragraph behavior. */
 public class Paragraph extends CJMapRunnable
 {
     private BaseProgram program;
     private String csName = null;
     private Method method = null;
 
-    public Paragraph(BaseProgram Program)
+    /** Creates a new paragraph instance. */
+    public Paragraph(BaseProgram newProgram)
     {
-        program = Program;
-        Program.getProgramManager().addParagraphToCurrentSection(this);
+        program = newProgram;
+        newProgram.getProgramManager().addParagraphToCurrentSection(this);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csName;
     }
 
+    /** Executes the name operation. */
     public void name(String csName)
     {
         this.csName = csName;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         if (csName == null) {

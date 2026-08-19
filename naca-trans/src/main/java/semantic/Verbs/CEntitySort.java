@@ -16,9 +16,11 @@ import semantic.CEntityFileDescriptor;
 import semantic.CEntityProcedure;
 import utils.CObjectCatalog;
 
+/** Provides centity sort behavior. */
 public class CEntitySort extends CBaseActionEntity
 {
 
+    /** Creates a new centity sort instance. */
     public CEntitySort(int line, CObjectCatalog cat)
     {
         super(line, cat);
@@ -37,6 +39,7 @@ public class CEntitySort extends CBaseActionEntity
     }
     protected Vector<CEntitySortKey> sortKey = new Vector<CEntitySortKey>() ;
 
+    /** Adds the key. */
     public void AddKey(boolean ascending, CDataEntity key)
     {
         CEntitySortKey sk = new CEntitySortKey() ;
@@ -107,12 +110,14 @@ public class CEntitySort extends CBaseActionEntity
         return resolveProcedure(pOutputProcedure, csOutputProcedureName);
     }
 
+    /** Returns the input procedure name. */
     public String getInputProcedureName()
     {
         CEntityProcedure procedure = getInputProcedure();
         return procedure == null ? null : procedure.GetName();
     }
 
+    /** Returns the output procedure name. */
     public String getOutputProcedureName()
     {
         CEntityProcedure procedure = getOutputProcedure();
@@ -140,6 +145,7 @@ public class CEntitySort extends CBaseActionEntity
         return programCatalog.GetProcedure(procedureName, "");
     }
 
+    /** Returns the sort keys. */
     public List<SortKeyModel> getSortKeys()
     {
         List<SortKeyModel> result = new ArrayList<SortKeyModel>();
@@ -150,11 +156,13 @@ public class CEntitySort extends CBaseActionEntity
         return result;
     }
 
+    /** Provides sort key model behavior. */
     public static class SortKeyModel
     {
         private final CDataEntity key;
         private final boolean ascending;
 
+        /** Creates a new sort key model instance. */
         public SortKeyModel(CDataEntity key, boolean ascending)
         {
             this.key = key;

@@ -21,6 +21,7 @@ public class SQLClauseSPParamInOutShort extends SQLClauseSPParamInOut
 {
     private short tsVal[] = null;
 
+    /** Creates a new sqlclause spparam in out short instance. */
     public SQLClauseSPParamInOutShort(SQLClauseSPParamWay wayInOut, short tsVal[])
     {
         super(wayInOut);

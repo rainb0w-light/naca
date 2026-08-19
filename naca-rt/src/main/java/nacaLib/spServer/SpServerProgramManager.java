@@ -10,6 +10,7 @@
 package nacaLib.spServer;
 
 
+/** Provides sp server program manager behavior. */
 public class SpServerProgramManager //extends BaseProgramManager
 {
 // public SpServerProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean

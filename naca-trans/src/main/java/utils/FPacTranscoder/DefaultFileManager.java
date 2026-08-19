@@ -9,12 +9,23 @@ package utils.FPacTranscoder;
 import java.util.Hashtable;
 import java.util.Set;
 import java.util.Map.Entry;
-
 import semantic.CEntityFileBuffer;
 import semantic.CEntityFileDescriptor;
-import utils.FPacTranscoder.notifs.*;
+import utils.FPacTranscoder.notifs.NotifGetAllFilesNotClosed;
+import utils.FPacTranscoder.notifs.NotifGetAllFilesNotOpen;
+import utils.FPacTranscoder.notifs.NotifGetDefaultInputFile;
+import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
+import utils.FPacTranscoder.notifs.NotifRegisterFileClose;
+import utils.FPacTranscoder.notifs.NotifRegisterFileOpen;
+import utils.FPacTranscoder.notifs.NotifRegisterInputFile;
+import utils.FPacTranscoder.notifs.NotifRegisterOutputFile;
+import utils.FPacTranscoder.notifs.NotifRegisterUpdateFile;
+import utils.FPacTranscoder.notifs.NotifSetDefaultInputFile;
+import utils.FPacTranscoder.notifs.NotifSetDefaultOutputFile;
 import jlib.engine.BaseNotificationHandler;
 
+
+/** Provides default file manager behavior. */
 public class DefaultFileManager extends BaseNotificationHandler
 {
 
@@ -26,6 +37,7 @@ public class DefaultFileManager extends BaseNotificationHandler
     private Hashtable<CEntityFileDescriptor, Boolean> tabOpenFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
     private Hashtable<CEntityFileDescriptor, Boolean> tabCloseFiles = new Hashtable<CEntityFileDescriptor, Boolean>() ;
 
+    /** Executes the on register input file operation. */
     public boolean onRegisterInputFile(NotifRegisterInputFile notif)
     {
         tabInputFiles.put(notif.id, notif.fileBuffer) ;
@@ -34,6 +46,7 @@ public class DefaultFileManager extends BaseNotificationHandler
         tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
         return true ;
     }
+    /** Executes the on register output file operation. */
     public boolean onRegisterOutputFile(NotifRegisterOutputFile notif)
     {
         tabOutputFiles.put(notif.id, notif.fileBuffer) ;
@@ -42,6 +55,7 @@ public class DefaultFileManager extends BaseNotificationHandler
         tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
         return true ;
     }
+    /** Executes the on register update file operation. */
     public boolean onRegisterUpdateFile(NotifRegisterUpdateFile notif)
     {
         tabUpdateFiles.put(notif.id, notif.fileBuffer) ;
@@ -50,6 +64,7 @@ public class DefaultFileManager extends BaseNotificationHandler
         tabCloseFiles.put(notif.fileBuffer.GetFileDescriptor(), Boolean.FALSE) ;
         return true ;
     }
+    /** Executes the on get default input file operation. */
     public boolean onGetDefaultInputFile(NotifGetDefaultInputFile notif)
     {
         if (!csDefaultInputFile.equals(""))
@@ -72,6 +87,7 @@ public class DefaultFileManager extends BaseNotificationHandler
             return false ;
         }
     }
+    /** Executes the on get default output file operation. */
     public boolean onGetDefaultOutputFile(NotifGetDefaultOutputFile notif)
     {
         if (!csDefaultOutputFile.equals(""))
@@ -95,12 +111,14 @@ public class DefaultFileManager extends BaseNotificationHandler
         }
     }
 
+    /** Executes the on set default output file operation. */
     public boolean onSetDefaultOutputFile(NotifSetDefaultOutputFile notif)
     {
         csDefaultOutputFile = notif.fileRef ;
         return true ;
     }
 
+    /** Executes the on set default input file operation. */
     public boolean onSetDefaultInputFile(NotifSetDefaultInputFile notif)
     {
         csDefaultInputFile = notif.fileRef ;
@@ -122,17 +140,20 @@ public class DefaultFileManager extends BaseNotificationHandler
 //      return true ;
 //  }
 
+    /** Executes the on register open file operation. */
     public boolean onRegisterOpenFile(NotifRegisterFileOpen notif)
     {
         tabOpenFiles.put(notif.fileDesc, Boolean.TRUE) ;
         return true ;
     }
+    /** Executes the on register close file operation. */
     public boolean onRegisterCloseFile(NotifRegisterFileClose notif)
     {
         tabCloseFiles.put(notif.fileDesc, Boolean.TRUE) ;
         return true ;
     }
 
+    /** Executes the on get all files not open operation. */
     public boolean onGetAllFilesNotOpen(NotifGetAllFilesNotOpen notif)
     {
         Set<Entry<CEntityFileDescriptor, Boolean>> set = tabOpenFiles.entrySet();
@@ -145,6 +166,7 @@ public class DefaultFileManager extends BaseNotificationHandler
         }
         return true ;
     }
+    /** Executes the on get all files not closed operation. */
     public boolean onGetAllFilesNotClosed(NotifGetAllFilesNotClosed notif)
     {
         Set<Entry<CEntityFileDescriptor, Boolean>> set = tabCloseFiles.entrySet();

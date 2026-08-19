@@ -6,7 +6,9 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.tempCache.*;
+import nacaLib.tempCache.CStr;
+import nacaLib.tempCache.TempCache;
+import nacaLib.tempCache.TempCacheLocator;
 
 
 /**
@@ -15,6 +17,7 @@ import nacaLib.tempCache.*;
  */
 public class VarGroup extends Var
 {
+    /** Creates a new var group instance. */
     public VarGroup(DeclareTypeG declareTypeG)
     {
         super(declareTypeG);
@@ -43,6 +46,7 @@ public class VarGroup extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeGroup) {
@@ -51,6 +55,7 @@ public class VarGroup extends Var
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue;
@@ -63,6 +68,7 @@ public class VarGroup extends Var
     }
 
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();
@@ -92,6 +98,7 @@ public class VarGroup extends Var
         return VarType.VarGroup;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(InitializeCache initializeCache)
     {
         if(initializeCache != null && initializeCache.isFilled())   // initializeCache may be null

@@ -329,6 +329,7 @@ public class CobolSqlTemplate {
      */
     @FunctionalInterface
     public interface ParamSetter {
+        /** Sets the parameters. */
         void setParameters(java.sql.PreparedStatement ps) throws SQLException;
     }
 
@@ -337,6 +338,7 @@ public class CobolSqlTemplate {
      */
     @FunctionalInterface
     public interface ResultMapper {
+        /** Executes the map results operation. */
         void mapResults(ResultContext ctx) throws SQLException;
     }
 
@@ -347,30 +349,36 @@ public class CobolSqlTemplate {
         private final List<Object> values;
         private int index = 0;
 
+        /** Creates a new result context instance. */
         public ResultContext(List<Object> values) {
             this.values = values;
         }
 
+        /** Returns the string. */
         public String getString(int index) {
             Object val = values.get(index - 1);
             return val != null ? val.toString() : null;
         }
 
+        /** Returns the int. */
         public int getInt(int index) {
             Object val = values.get(index - 1);
             return val != null ? Integer.parseInt(val.toString()) : 0;
         }
 
+        /** Returns the long. */
         public long getLong(int index) {
             Object val = values.get(index - 1);
             return val != null ? Long.parseLong(val.toString()) : 0L;
         }
 
+        /** Returns the double. */
         public double getDouble(int index) {
             Object val = values.get(index - 1);
             return val != null ? Double.parseDouble(val.toString()) : 0.0;
         }
 
+        /** Returns the object. */
         public Object getObject(int index) {
             return values.get(index - 1);
         }

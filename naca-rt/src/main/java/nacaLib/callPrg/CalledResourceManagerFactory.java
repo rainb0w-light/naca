@@ -19,6 +19,7 @@ public class CalledResourceManagerFactory
 {
     private static CalledResourceManager ms_instance = null;
 
+    /** Executes the get instance operation. */
     public static CalledResourceManager GetInstance(String csIniFilePath)
     {
         if(ms_instance == null)
@@ -29,6 +30,7 @@ public class CalledResourceManagerFactory
         return ms_instance;
     }
 
+    /** Executes the get instance operation. */
     public static CalledResourceManager GetInstance(String csIniFilePath, String csDBParameterPrefix)
     {
         if(ms_instance == null)

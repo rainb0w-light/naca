@@ -59,11 +59,13 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
         return value ;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsFieldFlag not = new CEntityIsFieldFlag() ;
@@ -75,6 +77,7 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
         return not;
     }
 
+    /** Sets the is flag. */
     public void SetIsFlag(CDataEntity eData, String cs)
     {
         value = cs ;
@@ -85,12 +88,14 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
     protected boolean isisSet = false ;
     //protected CDataEntity reference = null ;
     protected boolean isopposite = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         reference = null ;
         isisSet = false ;
     }
+    /** Returns the similar condition. */
     public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
     {
         if (term.IsReference())
@@ -105,18 +110,22 @@ public class CEntityIsFieldFlag extends CUnitaryEntityCondition
             return eCond;
         }
     }
+    /** Sets the opposite. */
     public void SetOpposite()
     {
         isopposite = !isopposite;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)

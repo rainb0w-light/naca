@@ -372,7 +372,7 @@ public class CFileDescriptor extends CCobolElement
                 if (!Parse(eExec))
                 {
                     return false ;
-                } ;
+                }
             }
             else if (tok.GetType() == CTokenType.NUMBER)
             {

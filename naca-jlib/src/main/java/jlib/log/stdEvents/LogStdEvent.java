@@ -31,6 +31,7 @@ public class LogStdEvent extends LogEvent
     public static LogStdEvent Rem = new LogStdEvent(LogLevel.Normal);
 
 
+    /** Creates a new log std event instance. */
     public LogStdEvent(LogLevel logLevel)
     {
         super(LogEventType.Remark, LogFlowStd.Any, logLevel);

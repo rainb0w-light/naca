@@ -18,11 +18,13 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
 {
     T arr[] = null;
 
+    /** Creates a new array fix instance. */
     public ArrayFix(T arr[])
     {
         this.arr = arr;
     }
 
+    /** Executes the size operation. */
     public int size()
     {
         if (arr != null) {
@@ -31,6 +33,7 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
         return 0;
     }
 
+    /** Executes the get operation. */
     public T get(int n)
     {
         //if(arr != null)
@@ -38,6 +41,7 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
         //return null;
     }
 
+    /** Executes the add operation. */
     public void add(T t)
     {
         //assertIfFalse(false);
@@ -49,6 +53,7 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
 //  }
 
 
+    /** Executes the transfer into operation. */
     public void transferInto(T[] arr)
     {
         this.arr = arr;
@@ -59,10 +64,12 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
         return false;
     }
 
+    /** Sets the size. */
     public void setSize(int n)
     {
     }
 
+    /** Executes the set operation. */
     public void set(int n, T t)
     {
         arr[n] = t;

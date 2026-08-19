@@ -16,17 +16,21 @@ import nacaLib.varEx.VarAndEdit;
 
 import java.util.ArrayList;
 
+/** Provides concat behavior. */
 public class Concat
 {
+    /** Creates a new concat instance. */
     public Concat()
     {
     }
 
+    /** Executes the concat operation. */
     public Concat concat(VarAndEdit var)
     {
         String cs = var.getString();
         return concat(cs);
     }
+    /** Executes the concat operation. */
     public Concat concat(KeyPressed key)
     {
         if (key != null)
@@ -37,18 +41,21 @@ public class Concat
         return this ;
     }
 
+    /** Executes the concat operation. */
     public Concat concat(String cs)
     {
         arrChunks.add(cs);
         return this;
     }
 
+    /** Executes the concat delimited decimal point operation. */
     public Concat concatDelimitedDecimalPoint(Var var)
     {
         String cs = var.getString();
         return concatDelimitedDecimalPoint(cs);
     }
 
+    /** Executes the concat delimited decimal point operation. */
     public Concat concatDelimitedDecimalPoint(String cs)
     {
         int nPos = cs.lastIndexOf('.');
@@ -59,12 +66,14 @@ public class Concat
         return this;
     }
 
+    /** Executes the concat delimited by spaces operation. */
     public Concat concatDelimitedBySpaces(Var var)
     {
         String cs = var.getString();
         return concatDelimitedBySpaces(cs);
     }
 
+    /** Executes the concat delimited by spaces operation. */
     public Concat concatDelimitedBySpaces(String cs)
     {
         int nSpacePos = cs.indexOf(' ');
@@ -75,24 +84,28 @@ public class Concat
         return this;
     }
 
+    /** Executes the concat delimited by size operation. */
     public Concat concatDelimitedBySize(Var var)
     {
         String cs = var.getString();
         return concatDelimitedBySize(cs);
     }
 
+    /** Executes the concat delimited by size operation. */
     public Concat concatDelimitedBySize(String cs)
     {
         arrChunks.add(cs);
         return this;
     }
 
+    /** Executes the concat delimited by operation. */
     public Concat concatDelimitedBy(Var var)
     {
         String cs = var.getString();
         return concatDelimitedBy(cs);
     }
 
+    /** Executes the concat delimited by operation. */
     public Concat concatDelimitedBy(String cs)
     {
         cs = cs.trim();
@@ -100,18 +113,21 @@ public class Concat
         return this;
     }
 
+    /** Executes the concat delimited by operation. */
     public Concat concatDelimitedBy(Var var, String csDelimiter)
     {
         String cs = var.getString();
         return concatDelimitedBy(cs, csDelimiter);
     }
 
+    /** Executes the concat delimited by operation. */
     public Concat concatDelimitedBy(Var var, Var varDelimiter)
     {
         String cs = var.getString();
         return concatDelimitedBy(cs, varDelimiter.getString());
     }
 
+    /** Executes the concat delimited by operation. */
     public Concat concatDelimitedBy(String cs, String csDelimiter)
     {
         int nPos = cs.indexOf(csDelimiter);
@@ -122,12 +138,14 @@ public class Concat
         return this;
     }
 
+    /** Executes the with pointer operation. */
     public Concat withPointer(Var varPointer)
     {
         this.varPointer = varPointer;
         return this;
     }
 
+    /** Executes the into operation. */
     public ConcatTo into(VarAndEdit var)
     {
         String csOut = null;
@@ -169,6 +187,7 @@ public class Concat
         return concatTo;
     }
 
+    /** Returns the string. */
     public String getString()
     {
         String csOut = new String();

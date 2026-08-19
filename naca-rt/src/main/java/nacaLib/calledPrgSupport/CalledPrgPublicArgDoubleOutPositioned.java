@@ -21,11 +21,13 @@ public class CalledPrgPublicArgDoubleOutPositioned extends BaseCalledPrgPublicAr
         this.dValue = dValue;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         varLinkageSection.set(dValue[0]);
     }
 
+    /** Executes the do fill with var operation. */
     public void doFillWithVar(Var varSource)
     {
         dValue[0] = varSource.getDouble();

@@ -29,6 +29,7 @@ import utils.Transcoder;
 import utils.NacaTransAssertException;
 import utils.FPacTranscoder.OperandDescription;
 
+/** Provides cfpac move behavior. */
 public class CFPacMove extends CFPacElement
 {
     private Vector<CExpression> terms;
@@ -38,6 +39,7 @@ public class CFPacMove extends CFPacElement
     private boolean isunpack = false ;
     private String unsupportedCommand = null ;
 
+    /** Creates a new cfpac move instance. */
     public CFPacMove(int line, Vector<CExpression> arrTerms)
     {
         super(line);
@@ -274,6 +276,7 @@ public class CFPacMove extends CFPacElement
         this.isunpack = true ;
     }
 
+    /** Executes the reject unsupported command operation. */
     public void rejectUnsupportedCommand(String command)
     {
         unsupportedCommand = command ;

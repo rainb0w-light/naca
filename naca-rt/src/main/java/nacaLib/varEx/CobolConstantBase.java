@@ -10,8 +10,11 @@
  */
 package nacaLib.varEx;
 
+/** Provides cobol constant base behavior. */
 public abstract class CobolConstantBase
 {
+    /** Returns the value. */
     public abstract char getValue();
+    /** Returns the stcheck value. */
     public abstract String getSTCheckValue();
 }

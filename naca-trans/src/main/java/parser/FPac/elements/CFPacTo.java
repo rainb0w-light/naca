@@ -20,11 +20,13 @@ import semantic.CBaseLanguageEntity;
 import utils.Transcoder;
 import utils.FPacTranscoder.notifs.NotifSetDefaultOutputFile;
 
+/** Provides cfpac to behavior. */
 public class CFPacTo extends CFPacElement
 {
 
     private CIdentifier idFile;
 
+    /** Creates a new cfpac to instance. */
     public CFPacTo(int line)
     {
         super(line);

@@ -19,11 +19,13 @@ public class OpenCalendarManager
     public final static int Standard = 0;
     public final static int Custom = 1;
 
+    /** Creates a new open calendar manager instance. */
     public OpenCalendarManager()
     {
         cacheManager = new CalendarCacheManager();
     }
 
+    /** Sets the reload calendar files. */
     synchronized public void setReloadCalendarFiles()
     {
         cacheManager.flush();
@@ -38,6 +40,7 @@ public class OpenCalendarManager
         }
     }
 
+    /** Adds the calendar definition. */
     synchronized public void addCalendarDefinition(int nCalendardId, String csCalendarFilePath)
     {
         if (tCalendar == null) {
@@ -49,12 +52,14 @@ public class OpenCalendarManager
         tCalendar[nCalendardId] = calendar;
     }
 
+    /** Returns whether service open. */
     public boolean isServiceOpen()
     {
         CalendarOpenState state = getServiceOpenState();
         return state.isOpen();
     }
 
+    /** Returns the app custom open state. */
     synchronized public CalendarOpenState getAppCustomOpenState()
     {
         if(tCalendar == null)   // No def: Always open
@@ -75,6 +80,7 @@ public class OpenCalendarManager
         return CalendarOpenState.Unknown;
     }
 
+    /** Returns the app standard open state. */
     synchronized public CalendarOpenState getAppStandardOpenState()
     {
         if(tCalendar == null)   // No def: Always open
@@ -97,6 +103,7 @@ public class OpenCalendarManager
         return CalendarOpenState.AppOpened;
     }
 
+    /** Returns the service open state. */
     synchronized public CalendarOpenState getServiceOpenState()
     {
         if(tCalendar == null)   // No def: Always open
@@ -140,6 +147,7 @@ public class OpenCalendarManager
         return cacheManager.getCurrentOpenCalendarRangeString();
     }
 
+    /** Executes the flush calendar cache operation. */
     public void flushCalendarCache()
     {
         cacheManager.flush();

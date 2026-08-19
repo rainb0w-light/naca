@@ -18,6 +18,7 @@ import nacaLib.varEx.Pic9Comp0BufferSupport;
  */
 public class BtreeKeySegmentComp0 extends BtreeKeySegment
 {
+    /** Creates a new btree key segment comp0 instance. */
     public BtreeKeySegmentComp0(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);

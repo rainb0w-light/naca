@@ -24,6 +24,7 @@ import jlib.xml.TagCursor;
 public abstract class BaseDialog
 {
     private DisplayContext context = null ;
+    /** Creates a new base dialog instance. */
     public BaseDialog(DisplayContext context)
     {
         csDisplayFile = context.getRootPath() + DeclareDispalyFile() ;

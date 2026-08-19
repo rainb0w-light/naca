@@ -21,19 +21,23 @@ import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.ReflectionException;
 
+/** Provides base close mbean behavior. */
 public abstract class BaseCloseMBean extends BaseDynamicMBean
 {
     private boolean iscreated = false;
 
+    /** Creates a new base close mbean instance. */
     public BaseCloseMBean()
     {
     }
 
+    /** Creates a new base close mbean instance. */
     public BaseCloseMBean(String csName, String csDescription)
     {
         createMBean(csName, csDescription);
     }
 
+    /** Creates the mbean. */
     public void createMBean(String csName, String csDescription)
     {
         csMBeanName = csName;
@@ -46,6 +50,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         iscreated = true;
     }
 
+    /** Executes the unregister mbean operation. */
     public void unregisterMBean()
     {
         if (csMBeanName != null) {
@@ -62,6 +67,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         return true;
     }
 
+    /** Returns the attribute. */
     public Object getAttribute(String csName)
     {
         if (csName == null || arrMBeanAttributeInfosWrapper == null)
@@ -103,6 +109,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         return null;
     }
 
+    /** Sets the attribute. */
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
     {
@@ -148,6 +155,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         }
     }
 
+    /** Returns the attributes. */
     public AttributeList getAttributes(String[] attributeNames)
     {
         if(attributeNames != null)
@@ -175,6 +183,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         return null;
     }
 
+     /** Sets the attributes. */
      public AttributeList setAttributes(AttributeList attributes)
      {
         // Check attributes is not null to avoid NullPointerException later on
@@ -213,6 +222,7 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     }
 
 
+    /** Executes the invoke operation. */
     public Object invoke(String csOperationName,
                          Object params[],
                          String signature[])

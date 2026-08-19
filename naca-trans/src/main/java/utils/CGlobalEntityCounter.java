@@ -43,6 +43,7 @@ public class CGlobalEntityCounter
     private static String NB_COPY_FILES = "CopyFiles";
     private static String NB_DATA_TABLES = "DataTables";
 
+    /** Provides citem counter behavior. */
     public class CItemCounter
     {
         public String itemName = "" ;
@@ -52,6 +53,7 @@ public class CGlobalEntityCounter
         public int nItemTotal = 0 ;
         public Hashtable<String, Integer> tabOptions = new Hashtable<String, Integer>() ;
     }
+    /** Provides cdep counter behavior. */
     public class CDepCounter
     {
         public String itemName = "" ;
@@ -75,6 +77,7 @@ public class CGlobalEntityCounter
 
     protected static CGlobalEntityCounter ms_Instance = null ;
 
+    /** Executes the get instance operation. */
     public static CGlobalEntityCounter GetInstance()
     {
         if (ms_Instance == null)
@@ -87,6 +90,7 @@ public class CGlobalEntityCounter
     {
     }
 
+    /** Executes the export operation. */
     public void Export(String path)
     {
         try
@@ -501,16 +505,19 @@ public class CGlobalEntityCounter
         }
         return ic ;
     }
+    /** Executes the count cobol file operation. */
     public void CountCobolFile()
     {
         CItemCounter ic = GetIC(tabProperties, NB_COBOL_FILES);
         ic.nItemCount ++ ;
     }
+    /** Executes the count bmsfile operation. */
     public void CountBMSFile()
     {
         CItemCounter ic = GetIC(tabProperties, NB_BMS_FILES);
         ic.nItemCount ++ ;
     }
+    /** Executes the count data table operation. */
     public void CountDataTable(String table)
     {
         CItemCounter ic1 = GetIC(tabDataTables, table) ;
@@ -521,11 +528,13 @@ public class CGlobalEntityCounter
         }
         ic1.nItemCount ++ ;
     }
+    /** Executes the count sqlcommand operation. */
     public void CountSQLCommand(String cmd)
     {
         CItemCounter ic = GetIC(tabSQLCommands, cmd);
         ic.nItemCount ++ ;
     }
+    /** Executes the count sqltable access operation. */
     public void CountSQLTableAccess(String cmd, String table, String programName)
     {
         CSQLTableAccessCounter tc = tabSQLTableAccess.get(table);
@@ -593,11 +602,13 @@ public class CGlobalEntityCounter
         public int nbDelete = 0;
         public int nbUpdate = 0 ;
     }
+    /** Executes the count copy file operation. */
     public void CountCopyFile()
     {
         CItemCounter ic = GetIC(tabProperties, NB_COPY_FILES);
         ic.nItemCount ++ ;
     }
+    /** Executes the count lines operation. */
     public void CountLines(int nbLines, int nbLinesComments, int nbLinesCode)
     {
         CItemCounter ic = GetIC(tabProperties, NB_LINES);
@@ -624,6 +635,7 @@ public class CGlobalEntityCounter
         ic.nItemTotal += val ;
     }
 
+    /** Executes the count cobol verb operation. */
     public void CountCobolVerb(String vb)
     {
         if (!vb.equals(""))
@@ -632,6 +644,7 @@ public class CGlobalEntityCounter
             ic.nItemCount ++ ;
         }
     }
+    /** Executes the count cobol verb options operation. */
     public void CountCobolVerbOptions(String vb, String option)
     {
         if (!vb.equals("") && !option.equals(""))
@@ -650,6 +663,7 @@ public class CGlobalEntityCounter
             ic.tabOptions.put(option, i2);
         }
     }
+    /** Executes the count cicscommand operation. */
     public void CountCICSCommand(String vb)
     {
         if (!vb.equals(""))
@@ -658,6 +672,7 @@ public class CGlobalEntityCounter
             ic.nItemCount ++ ;
         }
     }
+    /** Executes the count cicscommand options operation. */
     public void CountCICSCommandOptions(String vb, String option)
     {
         if (!vb.equals("") && !option.equals(""))
@@ -677,6 +692,7 @@ public class CGlobalEntityCounter
         }
     }
 
+    /** Executes the register copy operation. */
     public void RegisterCopy(String programName, String copyName)
     {
         // register program for copy
@@ -717,6 +733,7 @@ public class CGlobalEntityCounter
             dep.tabCount.put(copyName, 1) ;
         }
     }
+    /** Executes the register missing copy operation. */
     public void RegisterMissingCopy(String programName, String copyName)
     {
         CDepCounter dep = tabMissingCopy.get(copyName);
@@ -737,6 +754,7 @@ public class CGlobalEntityCounter
             dep.tabCount.put(programName, 1) ;
         }
     }
+    /** Executes the register missing sub program operation. */
     public void RegisterMissingSubProgram(String programName, String prg)
     {
         CDepCounter dep = tabMissingSubProgram.get(prg);
@@ -757,6 +775,7 @@ public class CGlobalEntityCounter
             dep.tabCount.put(programName, 1) ;
         }
     }
+    /** Executes the register sub program operation. */
     public void RegisterSubProgram(String programName, String prg)
     {
         if (prg.equals("") || programName.equals(""))
@@ -802,6 +821,7 @@ public class CGlobalEntityCounter
         }
     }
 
+    /** Executes the register program to rewrite operation. */
     public void RegisterProgramToRewrite(String progName, int line, String reason)
     {
         programLinesToRewrite.add(line);

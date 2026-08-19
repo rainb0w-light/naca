@@ -12,18 +12,21 @@ package nacaLib.varEx;
  */
 public class CallParamByRef extends CCallParam
 {
+    /** Creates a new call param by ref instance. */
     public CallParamByRef(Var var)
     {
         this.var = var;
         edit = null;
     }
 
+    /** Creates a new call param by ref instance. */
     public CallParamByRef(Edit edit)
     {
         var = null;
         this.edit = edit;
     }
 
+    /** Returns the param length. */
     public int getParamLength()
     {
         if (var != null) {
@@ -35,6 +38,7 @@ public class CallParamByRef extends CCallParam
         return 0;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         if (var != null) {

@@ -23,18 +23,22 @@ public class CEntityCurrentDate extends CBaseEntityFunction
     {
         super(cat, null);
     }
+    /** Executes the register reading action operation. */
     public void RegisterReadingAction(CBaseActionEntity act)
     {
         arrActionsReading.add(act) ;
     }
+    /** Executes the register value access operation. */
     public void RegisterValueAccess(CBaseEntityCondExpr cond)
     {
         accessAsValue.add(cond) ;
     }
+    /** Executes the register var testing operation. */
     public void RegisterVarTesting(CBaseEntityCondition cond)
     {
         arrTestsAsVar.add(cond) ;
     }
+    /** Executes the register writing action operation. */
     public void RegisterWritingAction(CBaseActionEntity act)
     {
         arrActionsWriting.add(act) ;

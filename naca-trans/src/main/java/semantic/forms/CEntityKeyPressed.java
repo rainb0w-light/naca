@@ -38,16 +38,19 @@ import utils.CObjectCatalog;
  */
 public class CEntityKeyPressed extends CDataEntity
 {
+    /** Executes the register reading action operation. */
     public void RegisterReadingAction(CBaseActionEntity act)
     {
         super.RegisterReadingAction(act);
         programCatalog.addImportDeclaration("KEYPRESSED") ;
     }
+    /** Executes the register read reference operation. */
     public void RegisterReadReference(CBaseDataReference ent)
     {
         programCatalog.addImportDeclaration("KEYPRESSED") ;
         super.RegisterReadReference(ent);
     }
+    /** Executes the register value access operation. */
     public void RegisterValueAccess(CBaseEntityCondExpr cond)
     {
         programCatalog.addImportDeclaration("KEYPRESSED") ;
@@ -66,11 +69,13 @@ public class CEntityKeyPressed extends CDataEntity
     }
     protected String csPublicName = "" ;
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.CONSOLE_KEY ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // A console key is a pseudo-constant reference, never an accessor-bearing variable.
@@ -83,10 +88,12 @@ public class CEntityKeyPressed extends CDataEntity
         return false;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

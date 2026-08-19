@@ -6,7 +6,7 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.tempCache.*;
+import nacaLib.tempCache.CStr;
 
 
 
@@ -40,6 +40,7 @@ public abstract class VarNum extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.Type9) {

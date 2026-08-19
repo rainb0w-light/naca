@@ -11,8 +11,10 @@ import java.sql.Connection;
 
 import jlib.exception.TechnicalException;
 
+/** Provides db connection behavior. */
 public class DbConnection extends DbConnectionBase
 {
+    /** Creates a new db connection instance. */
     public DbConnection(
         Connection conn,
         String csPrefId,
@@ -24,11 +26,13 @@ public class DbConnection extends DbConnectionBase
         super(conn, csPrefId, csEnv, bUseCachedStatements, bUseJmx, dbDriverId);
     }
 
+    /** Creates a new db connection instance. */
     public DbConnection(Connection conn, String csEnv, boolean bUseCachedStatements)
     {
         super(conn, "", csEnv, bUseCachedStatements, false, null);
     }
 
+    /** Creates the and prepare. */
     public DbPreparedStatement createAndPrepare(String csQuery, boolean bHoldability)
     {
         DbPreparedStatement preparedStatement = new DbPreparedStatement();
@@ -38,6 +42,7 @@ public class DbConnection extends DbConnectionBase
         return null;
     }
 
+    /** Creates the and prepare with exception. */
     public DbPreparedStatement createAndPrepareWithException(String csQuery, boolean bHoldability)
         throws TechnicalException
     {
@@ -48,6 +53,7 @@ public class DbConnection extends DbConnectionBase
         return null;
     }
 
+    /** Executes the prepare callable statement operation. */
     public boolean prepareCallableStatement(
         DbPreparedCallableStatement preparedCallableStatement,
         String csStoredProcName,

@@ -21,16 +21,19 @@ import jlib.log.LogLevel;
  */
 public class StdInfo extends LogEvent
 {
+    /** Creates a new std info instance. */
     public StdInfo(String csProduct)
     {
         super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Verbose, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csContext, String csMessage)
     {
         return StdInfo.log(csChannel, null, csContext, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csContext, String csMessage)
     {
         StdInfo event = new StdInfo(csProduct);

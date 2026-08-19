@@ -12,9 +12,13 @@
 
 package nacaLib.basePrgEnv;
 
+/** Provides cbase map field loader behavior. */
 public abstract class CBaseMapFieldLoader
 {
+    /** Returns the field value. */
     public abstract String getFieldValue(String fieldName);
+    /** Returns the idpage. */
     public abstract String getIDPage() ;
+    /** Returns whether field modified. */
     public abstract boolean isFieldModified(String fieldName);
 }

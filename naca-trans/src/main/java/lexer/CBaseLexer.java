@@ -38,6 +38,7 @@ public abstract class CBaseLexer
     private CKeywordList listkW;
     private CConstantList listcste;
 
+    /** Creates a new cbase lexer instance. */
     public CBaseLexer(int ignored, int utils, CKeywordList lstKW, CConstantList lstCste)
     {
         nbCharsIgnoredAtBegining = ignored;
@@ -265,6 +266,7 @@ public abstract class CBaseLexer
         }
     }
 
+    /** Executes the start lexer operation. */
     public boolean StartLexer(String input, COriginalLisiting prgmCatalog)
     {
         if (input == null || input.equals(""))
@@ -286,6 +288,7 @@ public abstract class CBaseLexer
         return true ;
     }
 
+    /** Executes the start lexer operation. */
     public boolean StartLexer(InputStream buffer, COriginalLisiting prgmCatalog)
     {
         prgmListing = prgmCatalog ;
@@ -528,12 +531,14 @@ public abstract class CBaseLexer
     protected int nbLines = 0 ;
     protected int nbCommentLines = 0 ;
     protected int nbCodeLines = 0;
+    /** Executes the do count operation. */
     public void DoCount()
     {
         CGlobalEntityCounter ec = CGlobalEntityCounter.GetInstance();
         ec.CountLines(nbLines, nbCommentLines, nbCodeLines);
     }
 
+    /** Executes the export operation. */
     public String Export()
     {
         return lstTokens.toString() ;
@@ -910,6 +915,7 @@ public abstract class CBaseLexer
         return val ;
     }
 
+    /** Executes the get token list operation. */
     public CTokenList GetTokenList()
     {
         return lstTokens ;

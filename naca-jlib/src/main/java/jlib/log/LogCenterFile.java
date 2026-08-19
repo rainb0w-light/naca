@@ -24,11 +24,13 @@ import jlib.xml.Tag;
  */
 public class LogCenterFile extends LogCenter
 {
+    /** Creates a new log center file instance. */
     public LogCenterFile(LogCenterLoader logCenterLoader)
     {
         super(logCenterLoader);
     }
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Tag tagLogCenter)  // Special values for file appenders
     {
         csFormat = tagLogCenter.getVal("Format");

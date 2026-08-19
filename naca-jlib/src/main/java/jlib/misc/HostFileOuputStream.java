@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
+/** Provides host file ouput stream behavior. */
 public class HostFileOuputStream extends OutputStream
 {
     protected OutputStream stream = null ;
@@ -19,6 +20,7 @@ public class HostFileOuputStream extends OutputStream
     protected Vector<Integer> recordHeader = new Vector<Integer>();
     private byte[] tbyHeader = new byte[4];
 
+    /** Creates a new host file ouput stream instance. */
     public HostFileOuputStream(OutputStream stream, String csFormat, boolean bHeaderEbcdic)
     {
         this.stream = stream ;
@@ -38,6 +40,7 @@ public class HostFileOuputStream extends OutputStream
         }
     }
 
+    /** Executes the write operation. */
     public void write(int arg0) throws IOException
     {
         if  (nCurrentRecordLength == 0)
@@ -75,11 +78,13 @@ public class HostFileOuputStream extends OutputStream
         }
     }
 
+    /** Executes the close operation. */
     public void close() throws IOException
     {
         stream.close() ;
     }
 
+    /** Executes the flush operation. */
     public void flush() throws IOException
     {
         stream.flush()  ;

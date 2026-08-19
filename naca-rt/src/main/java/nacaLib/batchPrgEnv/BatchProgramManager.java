@@ -12,8 +12,10 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides batch program manager behavior. */
 public class BatchProgramManager extends BaseProgramManager
 {
+    /** Creates a new batch program manager instance. */
     public BatchProgramManager(
         BaseProgram program,
         SharedProgramInstanceData sharedProgramInstanceData,
@@ -35,6 +37,7 @@ public class BatchProgramManager extends BaseProgramManager
         this.env = env;
     }
 
+    /** Executes the detach from env operation. */
     public void detachFromEnv()
     {
         env = null;
@@ -45,6 +48,7 @@ public class BatchProgramManager extends BaseProgramManager
         return env;
     }
 
+    /** Executes the prepare run main operation. */
     public void prepareRunMain(BaseProgram prg)
     {
         if (prg instanceof BatchProgram) {

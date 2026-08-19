@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
+/** Provides host file input stream behavior. */
 public class HostFileInputStream extends InputStream
 {
     protected InputStream stream = null ;
@@ -19,6 +20,7 @@ public class HostFileInputStream extends InputStream
     protected int nCurrentRecordRead = 0;
     private byte[] tbyHeader = new byte[4];
 
+    /** Creates a new host file input stream instance. */
     public HostFileInputStream(InputStream is, String csFormat, int nLength)
     {
         stream = is;
@@ -28,6 +30,7 @@ public class HostFileInputStream extends InputStream
         this.nLength = nLength;
     }
 
+    /** Executes the read operation. */
     public int read() throws IOException
     {
         if (record == null)
@@ -100,11 +103,13 @@ public class HostFileInputStream extends InputStream
         return b;
     }
 
+    /** Executes the available operation. */
     public int available() throws IOException
     {
         return stream.available() + record.length-nCurrentRecordRead ;
     }
 
+    /** Executes the close operation. */
     public void close() throws IOException
     {
         stream.close() ;

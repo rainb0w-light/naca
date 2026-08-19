@@ -36,6 +36,7 @@ public class CEntityDataSection extends CBaseLanguageEntity
         // nothing
     }
 
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         return 0 ;
@@ -44,6 +45,7 @@ public class CEntityDataSection extends CBaseLanguageEntity
     {
         return null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return lstChildren.isEmpty() ;

@@ -17,6 +17,7 @@ import jlib.misc.StringUtil;
 
 // import nacaLib.base.*;
 
+/** Provides sqltype operation behavior. */
 public class SQLTypeOperation
 {
     public static final SQLTypeOperation Select = new SQLTypeOperation(true);
@@ -39,11 +40,13 @@ public class SQLTypeOperation
         this.isexecuteWithStatement = bExecuteWithStatement;
     }
 
+    /** Executes the execute with statement operation. */
     public boolean executeWithStatement()
     {
         return isexecuteWithStatement;
     }
 
+    /** Executes the determine operation type operation. */
     public static SQLTypeOperation determineOperationType(String csQuery, boolean bCursor)
     {
         String sqlOperation = StringUtil.getFirstWordWithStopList(csQuery, ";");
@@ -90,6 +93,7 @@ public class SQLTypeOperation
         return null;
     }
 
+    /** Executes the min positive operation. */
     public static int minPositive(int nEnd1, int nEnd2)
     {
         if(nEnd1 >= 0 && nEnd2 >= 0)
@@ -316,6 +320,7 @@ public class SQLTypeOperation
     // Not prefixed table name are prefixed by env
     // Table names prefixed by csForcedReplacedPrefix are also prefixed by env
     // Table names prefixed by another prefix are unchanged
+    /** Adds the environment prefix. */
     public static String addEnvironmentPrefix(String env, String csQuery, SQLTypeOperation typeOperation, String csForcedReplacedPrefix)
     {
         if (env.equals(""))
@@ -473,6 +478,7 @@ public class SQLTypeOperation
         return right;
     }
 
+    /** Updates the markers. */
     public static String updateMarkers(String csQuery)
     {
         int nPosStart = csQuery.indexOf('#', 0);

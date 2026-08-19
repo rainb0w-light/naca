@@ -33,6 +33,7 @@ public class FileManager
         return entry;
     }
 
+    /** Returns the file manager entry. */
     public FileManagerEntry getFileManagerEntry(String csLogicalName)
     {
         FileManagerEntry entry = hashFileManagerEntry.get(csLogicalName);
@@ -42,6 +43,7 @@ public class FileManager
         return entry;
     }
 
+    /** Executes the auto close open file operation. */
     public void autoCloseOpenFile()
     {
         if(hashFileManagerEntry != null)
@@ -60,6 +62,7 @@ public class FileManager
     }
 
 
+    /** Executes the auto flush open file operation. */
     public void autoFlushOpenFile()
     {
         if(hashFileManagerEntry != null)

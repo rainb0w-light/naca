@@ -10,6 +10,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides cobol constant behavior. */
 public class CobolConstant
 {
     public static final CobolConstantSpace Space = new CobolConstantSpace();

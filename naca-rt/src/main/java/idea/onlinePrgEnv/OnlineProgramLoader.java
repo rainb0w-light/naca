@@ -14,13 +14,16 @@ import nacaLib.basePrgEnv.CBaseMapFieldLoader;
 import nacaLib.misc.CLocalizedTextManager;
 
 
+/** Provides online program loader behavior. */
 public class OnlineProgramLoader extends BaseProgramLoader
 {
+    /** Creates a new online program loader instance. */
     public OnlineProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
     {
         super(connectionManager, tagSequencerConfig, true);
     }
 
+    /** Executes the init operation. */
     public void init(Tag tagSequencerConfig)
     {
         String csTransIDMappingFilePath = tagSequencerConfig.getVal("TransIDMappingFilePath");
@@ -76,6 +79,7 @@ public class OnlineProgramLoader extends BaseProgramLoader
         csHelpCenter = tagCESMConfig.getVal("HelpCenterClassName") ;
     }
 
+    /** Executes the do help operation. */
     public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
     {
         /*if(csHelpCenter != null)

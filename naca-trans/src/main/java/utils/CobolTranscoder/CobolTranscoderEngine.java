@@ -66,6 +66,7 @@ import utils.TranscoderEngine;
 public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityClass>
 {
 
+    /** Executes the custom init operation. */
     public boolean CustomInit(Tag eConf)
     {
         Transcoder.logDebug("Do CSD Registering...");

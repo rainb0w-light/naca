@@ -85,14 +85,17 @@ public class CEntitySetHighligh extends CBaseActionEntity
             && highLightValue == null ;
     }
 
+    /** Sets the blink. */
     public void SetBlink()
     {
         isisBlink = true ;
     }
+    /** Sets the reverse. */
     public void SetReverse()
     {
         isisReverse = true ;
     }
+    /** Sets the underlined. */
     public void SetUnderlined()
     {
         isisUnderlined = true ;
@@ -104,6 +107,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
     protected boolean isisNormal = false ;
     protected CDataEntity refField = null ;
     protected CDataEntity highLightValue = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -111,15 +115,18 @@ public class CEntitySetHighligh extends CBaseActionEntity
         highLightValue = null ;
     }
 
+    /** Sets the high light. */
     public void SetHighLight(CDataEntity entity)
     {
         highLightValue = entity ;
     }
 
+    /** Sets the normal. */
     public void SetNormal()
     {
         isisNormal = true ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (refField == null || refField.ignore())
@@ -132,6 +139,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == refField)
@@ -142,6 +150,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (refField == field)
@@ -153,6 +162,7 @@ public class CEntitySetHighligh extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the get special assignement operation. */
     public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
     {
         return CEntityFieldHighlight.intGetSpecialAssignment(val, refField, factory, getLine());

@@ -21,6 +21,7 @@ import utils.CObjectCatalog;
  */
 public class CEntityStringConcat extends CBaseActionEntity
 {
+    /** Provides concat item behavior. */
     public static final class ConcatItem
     {
         private CDataEntity value;
@@ -95,6 +96,7 @@ public class CEntityStringConcat extends CBaseActionEntity
     protected List<ConcatItem> items = new ArrayList<ConcatItem>() ;
     protected CDataEntity eVariable = null ;
     protected CDataEntity eStartIndex = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -102,19 +104,23 @@ public class CEntityStringConcat extends CBaseActionEntity
         eStartIndex = null ;
         eVariable = null;
     }
+    /** Sets the variable. */
     public void SetVariable(CDataEntity e)
     {
         eVariable = e ;
     }
+    /** Sets the variable. */
     public void SetVariable(CDataEntity e, CDataEntity s)
     {
         eVariable = e ;
         eStartIndex = s ;
     }
+    /** Adds the item. */
     public void AddItem(CDataEntity eItem, CDataEntity eUntil)
     {
         items.add(new ConcatItem(eItem, eUntil));
     }
+    /** Adds the item. */
     public void AddItem(CDataEntity eItem)
     {
         items.add(new ConcatItem(eItem, null));
@@ -135,6 +141,7 @@ public class CEntityStringConcat extends CBaseActionEntity
     {
         return !lstChildren.isEmpty();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = eVariable.ignore();

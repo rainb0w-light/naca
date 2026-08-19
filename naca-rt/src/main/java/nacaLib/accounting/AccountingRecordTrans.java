@@ -19,10 +19,12 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.CurrentUserInfo;
 
+/** Provides accounting record trans behavior. */
 public class AccountingRecordTrans
 {
     private BaseResourceManager baseResourceManager = null;
 
+    /** Creates a new accounting record trans instance. */
     public AccountingRecordTrans(BaseResourceManager baseResourceManager)
     {
         this.baseResourceManager = baseResourceManager;
@@ -35,6 +37,7 @@ public class AccountingRecordTrans
         }
     }
 
+    /** Executes the start run transaction operation. */
     public void startRunTransaction(String csCurrentTransaction)
     {
         isfilled = false;
@@ -51,17 +54,19 @@ public class AccountingRecordTrans
         createNewAccountingRecord(csCurrentTransaction, "");
     }
 
+    /** Executes the end run transaction operation. */
     public void endRunTransaction(String csCurrentTransaction, CriteriaEndRunMain criteria)
     {
         if(BaseResourceManager.getUsingJmx())
         {
             long runtimeTransNs = swnDbTimeRunTransaction.getElapsedTime();
-            JmxGeneralStat.endRunTransaction(criteria, runtimeTransNs / 1000000, sumDbTimeIO_ns / 1000000);
+            JmxGeneralStat.endRunTransaction(criteria, runtimeTransNs / 1000000, sumDbTimeIONanos / 1000000);
         }
 
         endRunProgram(criteria);
     }
 
+    /** Creates the new accounting record. */
     public AccountingRecordProgram createNewAccountingRecord(String csCurrentTransaction, String csTermId)
     {
         this.csCurrentTransaction = csCurrentTransaction;
@@ -71,6 +76,7 @@ public class AccountingRecordTrans
         return accountingRecord;
     }
 
+    /** Executes the end run program operation. */
     public void endRunProgram(CriteriaEndRunMain criteria)
     {
         if(accountingRessourceDesc != null)
@@ -85,6 +91,7 @@ public class AccountingRecordTrans
         }
     }
 
+    /** Executes the write operation. */
     public void write(AccountingRecordProgram accountingRecordProgram, int nDepthLevel)
     {
         DbConnectionBase dbConnection = accountingRessourceDesc.getConnection();
@@ -128,7 +135,7 @@ public class AccountingRecordTrans
                     stInsert.setColParam(nCol++, currentUserInfo.csPub2000ProfitCenter);    // PROFITCENTERPUB2000,
                     stInsert.setColParam(nCol++, currentUserInfo.csPub2000UserId);  // USERIDPUB2000
                     stInsert.setColParam(nCol++, StopWatchNano.getMilliSecond(accountingRecordProgram.getRunTimeIO_ns()));
-                    stInsert.setColParam(nCol++, nNetwork_ms);
+                    stInsert.setColParam(nCol++, networkMillis);
                     int n = stInsert.executeInsert();
                     if(n != 1)
                     {
@@ -145,51 +152,59 @@ public class AccountingRecordTrans
     }
 
 
+    /** Executes the inc delete operation. */
     public void incDelete()
     {
         nNbDelete++;
     }
 
+    /** Executes the inc select operation. */
     public void incSelect()
     {
         nNbSelect++;
     }
 
+    /** Executes the inc cursor open operation. */
     public void incCursorOpen()
     {
         nNbCursorOpen++;
     }
 
+    /** Executes the inc fetch cursor operation. */
     public void incFetchCursor()
     {
         nNbFetchCursor++;
     }
 
+    /** Executes the inc update operation. */
     public void incUpdate()
     {
         nNbUpdate++;
     }
 
+    /** Executes the inc insert operation. */
     public void incInsert()
     {
         nNbInsert++;
     }
 
+    /** Executes the start db io operation. */
     public void startDbIO()
     {
         swnDbTimeIO.reset();
     }
 
+    /** Executes the end db io operation. */
     public void endDbIO()
     {
-        lDbTimeIO_ns = swnDbTimeIO.getElapsedTimeReset();
-        sumDbTimeIO_ns += lDbTimeIO_ns;
+        dbTimeIONanos = swnDbTimeIO.getElapsedTimeReset();
+        sumDbTimeIONanos += dbTimeIONanos;
         //JmxGeneralStat.reportDbTimeIo_ns(lDbTimeIO_ns / 1000000);
         try
         {
             AccountingRecordProgram prg = accountingStack.firstElement();
             if (prg != null) {
-                prg.reportDBIOTime(lDbTimeIO_ns);
+                prg.reportDBIOTime(dbTimeIONanos);
             }
         }
         catch (NoSuchElementException e)
@@ -197,6 +212,7 @@ public class AccountingRecordTrans
         }
     }
 
+    /** Sets the session pub2000 info. */
     public void setSessionPub2000Info(BaseSession session, String csProfitCenter, String csUserId)
     {
         currentUserInfo.csPub2000ProfitCenter = csProfitCenter;
@@ -206,7 +222,7 @@ public class AccountingRecordTrans
         {
             session.fillCurrentUserInfo(currentUserInfo);
             csSessionType = session.getType();
-            nNetwork_ms = session.getNetwork_ms();
+            networkMillis = session.getNetwork_ms();
         }
         else
         {
@@ -226,8 +242,8 @@ public class AccountingRecordTrans
     private int nNbDelete = 0;
     private int nNbFetchCursor = 0;
     private int nNbCursorOpen = 0;
-    private long lDbTimeIO_ns = 0;  // Time in nano seconds
-    private long sumDbTimeIO_ns = 0;
+    private long dbTimeIONanos = 0;  // Time in nano seconds
+    private long sumDbTimeIONanos = 0;
     private StopWatchNano swnDbTimeIO = new StopWatchNano();
     private StopWatchNano swnDbTimeRunTransaction = new StopWatchNano();
 
@@ -248,5 +264,5 @@ public class AccountingRecordTrans
     private int nTransactionId = 0;
     private boolean isfilled = false;
 
-    private int nNetwork_ms = 0;
+    private int networkMillis = 0;
 }

@@ -22,6 +22,7 @@ public class CESMQueue extends CJMapObject
     protected int nbElements = 0;
     protected int nbLastRead = 0 ;
 
+    /** Executes the add operation. */
     public int Add(Var data)
     {
         queue.add(data);
@@ -29,11 +30,13 @@ public class CESMQueue extends CJMapObject
         return nbElements ;
     }
 
+    /** Executes the length operation. */
     public int length()
     {
         return nbElements ;
     }
 
+    /** Executes the read operation. */
     public int read(Var data)
     {
         if (nbLastRead < nbElements)

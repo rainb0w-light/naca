@@ -37,6 +37,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 
+/** Provides abstract naca test behavior. */
 public abstract class AbstractNacaTest {
 
     private static boolean codeManagerInitialized = false;

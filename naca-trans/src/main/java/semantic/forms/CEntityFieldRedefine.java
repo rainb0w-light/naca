@@ -73,11 +73,13 @@ public class CEntityFieldRedefine extends CEntityResourceField
      * @param cat
      */
     public String csLevel = "" ;
+    /** Creates a new centity field redefine instance. */
     public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, String level)
     {
         super(l, name, cat);
         csLevel = level;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CEntityFieldArrayReference e = factory.NewEntityFieldArrayReference(getLine()) ;
@@ -91,12 +93,14 @@ public class CEntityFieldRedefine extends CEntityResourceField
         return e ;
     }
 
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         // Preserved from the retired backend: a redefining edit field is always an entry field.
         return true ;
     }
 
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         // Preserved from the retired backend: a redefining field contributes no XML/.res node
@@ -104,6 +108,7 @@ public class CEntityFieldRedefine extends CEntityResourceField
         return null ;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         // Preserved from the retired backend.
@@ -116,6 +121,7 @@ public class CEntityFieldRedefine extends CEntityResourceField
         return false ;
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         // Preserved from the retired backend: unused.
@@ -139,6 +145,7 @@ public class CEntityFieldRedefine extends CEntityResourceField
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)

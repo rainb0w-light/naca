@@ -29,6 +29,7 @@ import utils.CobolNameUtil;
 import utils.Transcoder;
 import utils.TranscoderEngine;
 
+/** Provides cobol include transcoder engine behavior. */
 public class CobolIncludeTranscoderEngine extends TranscoderEngine<CStandAloneWorking, CEntityExternalDataStructure>
 {
 

@@ -8,9 +8,11 @@ package jlib.misc;
 
 
 
+/** Provides basic logger behavior. */
 public class BasicLogger
 {
 //  private static String ms_csFileOut = "/tmp/logNacaSPServer.txt";
+    /** Sets the file out. */
     static public void setFileOut(String csFileOut)
     {
 //      ms_csFileOut = csFileOut;
@@ -25,6 +27,7 @@ public class BasicLogger
 //      }
     }
 
+    /** Executes the log operation. */
     static public void log(String csText)
     {
 //      try

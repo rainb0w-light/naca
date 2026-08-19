@@ -34,6 +34,7 @@ public class CEntityCICSSyncPoint extends CBaseActionEntity
     }
 
     protected boolean isrollback = false ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

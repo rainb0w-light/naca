@@ -21,16 +21,19 @@ import jlib.log.LogLevel;
  */
 public class StdDebug extends LogEvent
 {
+    /** Creates a new std debug instance. */
     public StdDebug(String csProduct)
     {
         super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Debug, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csContext, String csMessage)
     {
         return StdDebug.log(csChannel, null, csContext, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csContext, String csMessage)
     {
         StdDebug event = new StdDebug(csProduct);

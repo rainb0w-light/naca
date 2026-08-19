@@ -38,6 +38,7 @@ import nacaLib.sqlSupport.SQLCode;
 import nacaLib.varEx.Pic9Comp3BufferSupport;
 
 
+/** Provides base resource manager behavior. */
 public abstract class BaseResourceManager extends CJMapObject
 {
     private static BaseResourceManager ms_Instance = null;
@@ -45,6 +46,7 @@ public abstract class BaseResourceManager extends CJMapObject
     private static JmxGeneralStat ms_baseJmxGeneralStat = null;
     private static ArrayDbConnectionPool ms_arrayDbConnectionPool = null;
 
+    /** Executes the unload program operation. */
     static public void unloadProgram(String csProgramName)
     {
         if (ms_Instance != null) {
@@ -77,6 +79,7 @@ public abstract class BaseResourceManager extends CJMapObject
         }
     }
 
+    /** Returns the using jmx. */
     static public boolean getUsingJmx()
     {
         if (ms_baseJmxGeneralStat == null) {
@@ -85,6 +88,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return true;
     }
 
+    /** Sets the xmlconfig file path. */
     public Tag setXMLConfigFilePath(String csINIFilePath)
     {
         csIniFilePath = csINIFilePath ;
@@ -215,11 +219,13 @@ public abstract class BaseResourceManager extends CJMapObject
         return tagRoot;
     }
 
+    /** Removes the all dbconnections. */
     public synchronized static void removeAllDBConnections()
     {
         ms_arrayDbConnectionPool.forceRemoveAllDBConnections();
     }
 
+    /** Sets the current max permanent heap mo. */
     static public void setCurrentMaxPermanentHeap_Mo(int currentMaxPermanentHeapMo)
     {
         if (ms_threadStatementGC != null) {
@@ -227,6 +233,7 @@ public abstract class BaseResourceManager extends CJMapObject
         }
     }
 
+    /** Returns the current max permanent heap mo. */
     static public int getCurrentMaxPermanentHeap_Mo()
     {
         if (ms_threadStatementGC != null) {
@@ -235,6 +242,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return 0;
     }
 
+    /** Executes the init copy converter class loader operation. */
     static public void initCopyConverterClassLoader()
     {
         ms_Instance.doInitCopyConverterClassLoader();
@@ -248,6 +256,7 @@ public abstract class BaseResourceManager extends CJMapObject
     private AccountingRessourceDesc accountingRessourceDesc = null;
     private static ThreadStatementGC ms_threadStatementGC = null;
 
+    /** Adds the db connection pool. */
     public static void addDbConnectionPool(DbConnectionPool dbConnectionPool)
     {
         ms_arrayDbConnectionPool.addDbConnectionPool(dbConnectionPool);
@@ -322,6 +331,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return null;
     }
 
+    /** Returns the session request end time limit. */
     public static long getSessionRequestEndTimeLimit(String csTransactionId)
     {
         Long lMaxSessionExecTimeMs = ms_hashMaxExecutionTimeByTrans.get(csTransactionId);
@@ -334,11 +344,13 @@ public abstract class BaseResourceManager extends CJMapObject
         return l;
     }
 
+    /** Executes the dump stat operation. */
     public static void dumpStat()
     {
         ms_JMXDumperGui.setDump();
     }
 
+    /** Sets the dump stat output. */
     public static void setDumpStatOutput(String csPathFileStat)
     {
         ms_JMXDumperGui.setOutputFile(csPathFileStat);
@@ -405,6 +417,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return ms_bUseSQLObjectCache;
     }
 
+    /** Executes the debugdisable sqlcache operation. */
     public static void DEBUGdisableSQLCache()
     {
         ms_bUseSQLObjectCache = false;
@@ -461,15 +474,18 @@ public abstract class BaseResourceManager extends CJMapObject
         return ms_nSQLInsertStatementBatchCommitSize;
     }
 
+    /** Removes the resource cache. */
     public static void removeResourceCache(String csForm)
     {
         ms_Instance.doRemoveResourceCache(csForm);
     }
 
+    /** Updates the code java to db. */
     public static String updateCodeJavaToDb(String csValue)
     {
         return ms_CodeJavaToDb.convert(csValue);
     }
+    /** Updates the code db to java. */
     public static String updateCodeDbToJava(String csValue)
     {
         return ms_CodeDbToJava.convert(csValue);
@@ -485,6 +501,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return ms_bUpdateCodeJavaToDb;
     }
 
+    /** Executes the do remove resource cache operation. */
     public abstract void doRemoveResourceCache(String csForm);
 
     protected void loadDBSemanticContextDef()
@@ -512,6 +529,7 @@ public abstract class BaseResourceManager extends CJMapObject
         semanticContextDef.setSemanticContextValueDefinition(csTable, csCol, csSemanticContext);
     }
 
+    /** Returns the dbsemantic context. */
     public String getDBSemanticContext(String csTable, String csCol)
     {
         return semanticContextDef.getSemanticContextValueDefinition(csTable, csCol);
@@ -542,6 +560,7 @@ public abstract class BaseResourceManager extends CJMapObject
     {
         return ms_updateTime;
     }
+    /** Returns the update time formated. */
     public static String getUpdateTimeFormated()
     {
         if (ms_updateTime == null) {
@@ -551,6 +570,7 @@ public abstract class BaseResourceManager extends CJMapObject
         String cs = formater.format(ms_updateTime);
         return cs;
     }
+    /** Returns the update time auto refresh. */
     public static String getUpdateTimeAutoRefresh()
     {
         if (ms_updateTime == null || !isInUpdateMode()) {
@@ -567,6 +587,7 @@ public abstract class BaseResourceManager extends CJMapObject
 
     private static Date ms_updateTime = null;
 
+    /** Sets the app manually closed. */
     public static void setAppManuallyClosed(boolean bClosed)
     {
         ms_bAppManuallyClosed = bClosed;
@@ -597,6 +618,7 @@ public abstract class BaseResourceManager extends CJMapObject
         }
     }
 
+    /** Returns the app manual status state. */
     public static CalendarOpenState getAppManualStatusState()
     {
         if (ms_bAppManuallyClosed) {
@@ -605,6 +627,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return CalendarOpenState.AppOpened;
     }
 
+    /** Executes the reload calendar files operation. */
     public static void reloadCalendarFiles()
     {
         if (ms_calendarManager != null) {
@@ -620,6 +643,7 @@ public abstract class BaseResourceManager extends CJMapObject
         ms_calendarManager.addCalendarDefinition(nCalendardId, csCalendarFilePath);
     }
 
+    /** Returns the app open state. */
     public static CalendarOpenState getAppOpenState()
     {
         if (ms_bAppManuallyClosed) {
@@ -629,6 +653,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return state;
     }
 
+    /** Returns the app planified open state. */
     public static CalendarOpenState getAppPlanifiedOpenState()
     {
         if (ms_calendarManager != null) {
@@ -637,6 +662,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return CalendarOpenState.AppOpened;
     }
 
+    /** Returns the app custom open state. */
     public static CalendarOpenState getAppCustomOpenState()
     {
         if (ms_calendarManager != null) {
@@ -645,6 +671,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return CalendarOpenState.AppOpened;
     }
 
+    /** Returns the app standard open state. */
     public static CalendarOpenState getAppStandardOpenState()
     {
         if (ms_calendarManager != null) {
@@ -668,6 +695,7 @@ public abstract class BaseResourceManager extends CJMapObject
         ms_csManualCloseReason = csManualCloseReason;
     }
 
+    /** Returns the current open calendar range string. */
     public static String getCurrentOpenCalendarRangeString()
     {
         if (ms_calendarManager != null) {
@@ -676,6 +704,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return "Undefined calendar";
     }
 
+    /** Executes the flush calendar cache operation. */
     public static void flushCalendarCache()
     {
         if (ms_calendarManager != null) {
@@ -688,6 +717,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return iscomparisonInEbcdic;
     }
 
+    /** Sets the forced comparison in ebcdic. */
     public static void setForcedComparisonInEbcdic(boolean bComparisonInEbcdic)
     {
         ms_bForcedComparisonInEbcdic = true;
@@ -714,6 +744,7 @@ public abstract class BaseResourceManager extends CJMapObject
         return ms_bLoadCopyByPrimordialLoader;
     }
 
+    /** Executes the register transaction max exec time operation. */
     public static void registerTransactionMaxExecTime(String csTransactionId, String csMaxExecutionTimeMs)
     {
         if (StringUtil.isEmpty(csMaxExecutionTimeMs)) {

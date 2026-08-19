@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
  */
 public class InputAnalyser
 {
+    /** Builds the xmldata. */
     public boolean BuildXMLData(OnlineSession appSession)
     {
         CMapFieldLoader reqLoader = appSession.getInputWrapper() ;
@@ -75,6 +76,7 @@ public class InputAnalyser
 
         return true;
     }
+    /** Builds the xmldata for print screen. */
     public void BuildXMLDataForPrintScreen(OnlineSession appSession)
     {
         Document eRoot = appSession.getXMLData();

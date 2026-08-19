@@ -16,12 +16,14 @@ package jlib.misc;
  */
 public class ListCoupleRender
 {
+    /** Executes the set operation. */
     public static ListCoupleRender set()
     {
         ListCoupleRender l = new ListCoupleRender();
         return l;
     }
 
+    /** Executes the set operation. */
     public static ListCoupleRender set(String csTitle)
     {
         ListCoupleRender l = new ListCoupleRender(csTitle);
@@ -40,6 +42,7 @@ public class ListCoupleRender
         csValue = csTitle + ": ";
     }
 
+    /** Executes the set operation. */
     public ListCoupleRender set(String csName, String csValue)
     {
         if (csValue != null) {
@@ -49,6 +52,7 @@ public class ListCoupleRender
         return this;
     }
 
+    /** Executes the set operation. */
     public ListCoupleRender set(String csName, Integer nValue)
     {
         if (csValue != null) {
@@ -58,6 +62,7 @@ public class ListCoupleRender
         return this;
     }
 
+    /** Executes the set operation. */
     public ListCoupleRender set(String csName, Short sValue)
     {
         if (csValue != null) {
@@ -67,6 +72,7 @@ public class ListCoupleRender
         return this;
     }
 
+    /** Executes the set operation. */
     public ListCoupleRender set(String csName, Double dValue)
     {
         if (csValue != null) {
@@ -76,6 +82,7 @@ public class ListCoupleRender
         return this;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (csValue != null) {

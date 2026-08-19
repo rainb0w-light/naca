@@ -9,17 +9,19 @@ import jlib.threads.BaseThread;
 import jlib.threads.Threadutil;
 import jlib.xml.Tag;
 
+/** Provides persistent dequeue tag thread behavior. */
 public abstract class PersistentDequeueTagThread extends BaseThread
 {
     private PersistantQueue persistantQueue = null;
-    private int nLoopWait_ms = 0;
+    private int loopWaitMillis = 0;
 
     protected PersistentDequeueTagThread(PersistantQueue persistantQueue, int nLoopWaitMs)
     {
         this.persistantQueue = persistantQueue;
-        this.nLoopWait_ms = nLoopWaitMs;
+        this.loopWaitMillis = nLoopWaitMs;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         boolean iscontinue = true;
@@ -28,7 +30,7 @@ public abstract class PersistentDequeueTagThread extends BaseThread
             Tag tagItem = persistantQueue.getFirstAsTag();
             if(tagItem == null)
             {
-                iscontinue = Threadutil.wait(nLoopWait_ms);
+                iscontinue = Threadutil.wait(loopWaitMillis);
             }
             else
             {

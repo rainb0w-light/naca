@@ -12,6 +12,7 @@ package nacaLib.varEx;
  */
 public class InitializeManagerLowValue extends InitializeManager
 {
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache)
     {
         varDefBuffer.writeRepeatingcharAtOffset(buffer, nOffset, '\0') ;

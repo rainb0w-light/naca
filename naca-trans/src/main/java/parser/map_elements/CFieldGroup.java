@@ -41,6 +41,7 @@ public class CFieldGroup extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetType()
      */
+    /** Executes the get type operation. */
     public EBMSElementType GetType()
     {
         return EBMSElementType.GROUP ;
@@ -70,6 +71,7 @@ public class CFieldGroup extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetResourceStrings()
      */
+    /** Executes the get resource strings operation. */
     public CResourceStrings GetResourceStrings()
     {
         // nothing
@@ -79,12 +81,14 @@ public class CFieldGroup extends CFieldElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#SetResourceStrings(semantic.forms.CResourceStrings)
      */
+    /** Sets the resource strings. */
     public void SetResourceStrings(CResourceStrings res)
     {
         // nothing
     }
 
 
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         CEntityResourceField ef ;
@@ -160,12 +164,14 @@ public class CFieldGroup extends CFieldElement
         return ef;
     }
 
+    /** Sets the position. */
     public void setPosition(CFieldElement eField)
     {
         posCol = eField.posCol ;
         posLine = eField.posLine ;
     }
 
+    /** Adds the child field. */
     public void AddChildField(CFieldElement e)
     {
         AddChild(e) ;

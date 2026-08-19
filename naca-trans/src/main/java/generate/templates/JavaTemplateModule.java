@@ -6,6 +6,7 @@ import java.util.Objects;
 /** One explicitly configured ST4 resource and its module dependencies. */
 public record JavaTemplateModule(String id, String resourcePath, List<String> dependencies)
 {
+    /** Executes the java template module operation. */
     public JavaTemplateModule
     {
         id = requireText(id, "id");
@@ -18,6 +19,7 @@ public record JavaTemplateModule(String id, String resourcePath, List<String> de
         dependencies = List.copyOf(Objects.requireNonNull(dependencies, "dependencies"));
     }
 
+    /** Creates a new java template module instance. */
     public JavaTemplateModule(String id, String resourcePath)
     {
         this(id, resourcePath, List.of());

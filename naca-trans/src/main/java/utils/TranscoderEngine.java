@@ -45,6 +45,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
     {
     }
 
+    /** Executes the main init operation. */
     public boolean MainInit(Tag eConf)
     {
         String csCallGroupName  = eConf.getVal("ReferenceGroupName") ;
@@ -116,6 +117,7 @@ public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity ext
         }
     }
 
+    /** Executes the do all analysis operation. */
     public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
     {
         String outname = generateOutputFileName(filename) ;

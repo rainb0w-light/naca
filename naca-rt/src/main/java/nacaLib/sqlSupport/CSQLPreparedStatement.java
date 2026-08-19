@@ -18,6 +18,7 @@ import nacaLib.base.JmxGeneralStat;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.misc.SemanticContextDef;
 
+/** Provides csqlprepared statement behavior. */
 public class CSQLPreparedStatement extends DbPreparedStatement
 {
     SemanticContextDef semanticContextDef = null;
@@ -28,17 +29,20 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         JmxGeneralStat.incNbPreparedStatement(1);
     }
 
+    /** Executes the finalize operation. */
     public void finalize()
     {
         JmxGeneralStat.decNbNonFinalizedPreparedStatement(1);
     }
 
+    /** Executes the close operation. */
     public boolean close()
     {
         JmxGeneralStat.decNbActivePreparedStatement(1);
         return doClose();
     }
 
+    /** Sets the var param value. */
     public void setVarParamValue(SQL sql, int nParamIndex, CSQLItem param)
     {
         if(preparedStatement != null)
@@ -104,6 +108,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         }
     }
 
+    /** Executes the execute query and fill into operation. */
     public CSQLResultSet executeQueryAndFillInto(SQL sql, int nNbFetch)
     {
         // sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
@@ -127,6 +132,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     // CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem>
     // hashParam, HashMap<String, CSQLItem> hashValue)
+    /** Executes the execute query operation. */
     public CSQLResultSet executeQuery(SQL sql)
     {
         if (isLogSql()) {
@@ -161,6 +167,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return null;
     }
 
+    /** Executes the execute query cursor operation. */
     public CSQLResultSet executeQueryCursor(SQL sql)
     {
         if (isLogSql()) {
@@ -209,6 +216,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         }
     }
 
+    /** Executes the execute delete operation. */
     public int executeDelete(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -241,6 +249,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute update operation. */
     public int executeUpdate(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -273,6 +282,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute insert operation. */
     public int executeInsert(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -297,6 +307,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute lock operation. */
     public int executeLock(SQL sql)
     {
         if (isLogSql()) {
@@ -319,6 +330,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute create table operation. */
     public int executeCreateTable(SQL sql)
     {
         if (isLogSql()) {
@@ -341,6 +353,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute drop table operation. */
     public int executeDropTable(SQL sql)
     {
         if (isLogSql()) {
@@ -363,6 +376,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute declare order operation. */
     public int executeDeclareOrder(SQL sql)
     {
         if (isLogSql()) {
@@ -385,6 +399,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
         return -1;
     }
 
+    /** Sets the cursor name. */
     public void setCursorName(String csName, SQL sql)
     {
         try

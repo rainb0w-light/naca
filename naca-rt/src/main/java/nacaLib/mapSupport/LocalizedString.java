@@ -14,6 +14,7 @@ import jlib.misc.MapStringByString;
  */
 public class LocalizedString
 {
+    /** Creates a new localized string instance. */
     public LocalizedString()
     {
     }
@@ -23,12 +24,14 @@ public class LocalizedString
         csName = cs ;
     }
         */
+    /** Returns the text for language. */
     public String getTextForLanguage(String csLangId)
     {
         String cs = tabTexts.get(csLangId.trim());
         return cs;
     }
 
+    /** Executes the text operation. */
     public LocalizedString text(String csId, String text)
     {
         tabTexts.put(csId, text);

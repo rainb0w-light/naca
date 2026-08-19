@@ -11,6 +11,7 @@ import jlib.xml.Tag;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.misc.LogFlowCustomNacaRT;
 
+/** Provides batch resource manager behavior. */
 public class BatchResourceManager extends BaseResourceManager
 {
     BatchResourceManager()
@@ -18,11 +19,13 @@ public class BatchResourceManager extends BaseResourceManager
         super(true);
     }
 
+    /** Executes the initialize operation. */
     public void initialize(String csINIFilePath)
     {
         setXMLConfigFilePath(csINIFilePath) ;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(String csINIFilePath, String csDBParameterPrefix)
     {
         initialize(csINIFilePath);
@@ -56,6 +59,7 @@ public class BatchResourceManager extends BaseResourceManager
         baseInitSequenceur(csDBParameterPrefix);
     }
 
+    /** Executes the do remove resource cache operation. */
     public void doRemoveResourceCache(String csForm)
     {
     }

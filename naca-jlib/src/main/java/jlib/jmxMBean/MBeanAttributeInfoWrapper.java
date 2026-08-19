@@ -11,8 +11,10 @@ import java.lang.reflect.Method;
 import javax.management.IntrospectionException;
 import javax.management.MBeanAttributeInfo;
 
+/** Provides mbean attribute info wrapper behavior. */
 public class MBeanAttributeInfoWrapper
 {
+    /** Creates a new mbean attribute info wrapper instance. */
     public MBeanAttributeInfoWrapper(String csName, String csDescription, Method getter, Method setter)
     {
         try

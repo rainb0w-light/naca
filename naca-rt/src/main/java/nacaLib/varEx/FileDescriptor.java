@@ -18,6 +18,7 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.batchOOApi.WriteBufferExt;
 
+/** Provides file descriptor behavior. */
 public class FileDescriptor extends BaseFileDescriptor
 {
     private static final int PAGE_LINES = 60;
@@ -26,22 +27,26 @@ public class FileDescriptor extends BaseFileDescriptor
     private Var status;
     private int count;
 
+    /** Creates a new file descriptor instance. */
     public FileDescriptor(String csLogicalName)
     {
         super(null, csLogicalName);
     }
 
+    /** Creates a new file descriptor instance. */
     public FileDescriptor(String csLogicalName, BaseSession session)
     {
         super(null, csLogicalName);
         setSession(session);
     }
 
+    /** Creates a new file descriptor instance. */
     public FileDescriptor(BaseEnvironment env, String csLogicalName)
     {
         super(env, csLogicalName);
     }
 
+    /** Returns whether existing file descriptor. */
     public static boolean isExistingFileDescriptor(String csLogicalName, BaseSession baseSession)
     {
         if(baseSession != null && csLogicalName != null)
@@ -66,6 +71,7 @@ public class FileDescriptor extends BaseFileDescriptor
         return false;
     }
 
+    /** Executes the status operation. */
     public FileDescriptor status(Var status)
     {
         this.status = status;
@@ -96,6 +102,7 @@ public class FileDescriptor extends BaseFileDescriptor
         setStatus("00");
     }
 
+    /** Executes the inherit settings operation. */
     public void inheritSettings(FileDescriptor fileDescSource)
     {
         fileManagerEntry.inheritSettings(fileDescSource.fileManagerEntry);
@@ -121,17 +128,20 @@ public class FileDescriptor extends BaseFileDescriptor
         return fileManagerEntry.getRecordLengthDefinition();
     }
 
+    /** Executes the length depending on operation. */
     public FileDescriptor lengthDependingOn(Var varLengthDependingOn)
     {
         setVarLengthDependingOn(varLengthDependingOn);
         return this;
     }
 
+    /** Executes the write operation. */
     public void write()
     {
         writeFrom(varLevel01, false);
     }
 
+    /** Writes the after. */
     public void writeAfter(int after)
     {
         after(after);
@@ -153,16 +163,19 @@ public class FileDescriptor extends BaseFileDescriptor
         }
     }
 
+    /** Writes the from. */
     public void writeFrom(VarBase varWorking)
     {
         writeFrom(varWorking, false);
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite()
     {
         writeFrom(varLevel01, true);
     }
 
+    /** Executes the rewrite from operation. */
     public void rewriteFrom(VarBase varWorking)
     {
         writeFrom(varWorking, true);
@@ -258,17 +271,20 @@ public class FileDescriptor extends BaseFileDescriptor
         super.incNbRecordWrite();
     }
 
+    /** Returns the write buffer. */
     public byte [] getWriteBuffer(int nMaxSize)
     {
         byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nMaxSize);
         return tbyFilebuffer;
     }
 
+    /** Writes the from. */
     public void writeFrom(LineRead lineRead)
     {
         fileManagerEntry.dataFile.writeWithEOL(lineRead);
     }
 
+    /** Executes the read operation. */
     public RecordDescriptorAtEnd read()
     {
         return readInto(varLevel01);
@@ -296,6 +312,7 @@ public class FileDescriptor extends BaseFileDescriptor
         varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varLevel01);
     }
 
+    /** Reads the into. */
     public RecordDescriptorAtEnd readInto(Var varDest)
     {
         if(fileManagerEntry.isDummyFile())
@@ -427,6 +444,7 @@ public class FileDescriptor extends BaseFileDescriptor
 //  }
 
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if(fileManagerEntry != null)
@@ -437,6 +455,7 @@ public class FileDescriptor extends BaseFileDescriptor
         return "Unknown FileManagerEntry";
     }
 
+    /** Reads the aline. */
     public LineRead readALine(BaseDataFileBuffered dataFileIn, LineRead lastLineRead)
     {
         if (fileManagerEntry.isDummyFile()) {
@@ -464,6 +483,7 @@ public class FileDescriptor extends BaseFileDescriptor
         return lastLineRead;
     }
 
+    /** Returns the logical file descriptor. */
     public LogicalFileDescriptor getLogicalFileDescriptor()
     {
         if (fileManagerEntry != null) {
@@ -472,6 +492,7 @@ public class FileDescriptor extends BaseFileDescriptor
         return null;
     }
 
+    /** Executes the try auto determine record length if required operation. */
     public void tryAutoDetermineRecordLengthIfRequired(BaseDataFile dataFileIn)
     {
         // the return value is a flag that indicates if we have a valid file position on output
@@ -492,6 +513,7 @@ public class FileDescriptor extends BaseFileDescriptor
     }
 
     // New OO API support
+    /** Executes the write operation. */
     public void write(WriteBufferExt writeBufferExt, boolean bForcedVariableLenght)
     {
         if(fileManagerEntry.isVariableLength() || bForcedVariableLenght)
@@ -518,6 +540,7 @@ public class FileDescriptor extends BaseFileDescriptor
         }
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite(WriteBufferExt writeBufferExt)
     {
         byte tbyFilebuffer[] = writeBufferExt.getAsByteArrayWithTrailingLF();
@@ -525,6 +548,7 @@ public class FileDescriptor extends BaseFileDescriptor
         incNbRecordWrite();
     }
 
+    /** Executes the read operation. */
     public boolean read(WriteBufferExt writeExt)
     {
         if (fileManagerEntry.isDummyFile()) {

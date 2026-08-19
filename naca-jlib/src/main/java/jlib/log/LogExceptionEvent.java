@@ -7,6 +7,7 @@
 package jlib.log;
 
 
+/** Provides log exception event behavior. */
 public class LogExceptionEvent extends LogEvent
 {
     protected LogExceptionEvent(LogEventType type, LogFlow flow, LogLevel level)

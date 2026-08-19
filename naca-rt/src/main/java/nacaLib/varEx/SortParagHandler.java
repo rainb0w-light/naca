@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides sort parag handler behavior. */
 public class SortParagHandler
 {
     SortParagHandler(SortCommand sortCommand)
@@ -13,11 +14,13 @@ public class SortParagHandler
         this.sortCommand = sortCommand;
     }
 
+    /** Executes the release operation. */
     public void release(Var varRecord)
     {
         sortCommand.release(varRecord);
     }
 
+    /** Executes the return sort operation. */
     public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
     {
         return sortCommand.returnSort(sortDescriptor);

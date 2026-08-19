@@ -16,16 +16,19 @@ import nacaLib.basePrgEnv.BaseResourceManager;
  */
 public class SharedProgramInstanceDataCatalog
 {
+    /** Creates a new shared program instance data catalog instance. */
     public SharedProgramInstanceDataCatalog()
     {
     }
 
+    /** Returns the shared program instance data. */
     static synchronized public SharedProgramInstanceData getSharedProgramInstanceData(String csSimpleName)
     {
         SharedProgramInstanceData s = ms_hashSharedProgramInstanceData.get(csSimpleName);
         return s;
     }
 
+    /** Removes the shared program instance data. */
     static synchronized public void removeSharedProgramInstanceData(String csSimpleName)
     {
         SharedProgramInstanceData s = ms_hashSharedProgramInstanceData.get(csSimpleName);
@@ -45,6 +48,7 @@ public class SharedProgramInstanceDataCatalog
         s.prepareAutoRemoval();
     }
 
+    /** Executes the put shared program instance data operation. */
     static synchronized public void putSharedProgramInstanceData(String csSimpleName, SharedProgramInstanceData s)
     {
         ms_hashSharedProgramInstanceData.put(csSimpleName, s);

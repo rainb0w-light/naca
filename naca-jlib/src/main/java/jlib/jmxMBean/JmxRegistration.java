@@ -6,12 +6,21 @@
  */
 package jlib.jmxMBean;
 
-import java.lang.management.*;
-import javax.management.*;
+import java.lang.management.ManagementFactory;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
 
 
+
+/** Provides jmx registration behavior. */
 public class JmxRegistration
 {
+    /** Executes the register operation. */
     static public void register()
     {
         if(ms_MBeanServer == null)
@@ -26,6 +35,7 @@ public class JmxRegistration
     }
 
 
+    /** Executes the unregister mbean operation. */
     static public boolean unregisterMBean(String csName)
     {
         register();
@@ -58,6 +68,7 @@ public class JmxRegistration
         return true;
     }
 
+    /** Executes the register mbean operation. */
     static public boolean registerMBean(String csName, Object mBeanObject)
     {
         register();

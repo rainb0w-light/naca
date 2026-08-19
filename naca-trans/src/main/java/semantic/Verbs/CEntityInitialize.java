@@ -9,7 +9,7 @@ package semantic.Verbs;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.SQL.CEntitySQLCode;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -30,28 +30,33 @@ public class CEntityInitialize extends CBaseActionEntity
     protected CDataEntity data = null ;
 
     protected CDataEntity repNumWith = null ;
+    /** Executes the replace num with operation. */
     public void ReplaceNumWith(CDataEntity d)
     {
         repNumWith = d ;
     }
 
     protected CDataEntity repNumEditedWith = null ;
+    /** Executes the replace num edited with operation. */
     public void ReplaceNumEditedWith(CDataEntity d)
     {
         repNumEditedWith = d ;
     }
 
     protected CDataEntity repAlphaWith = null ;
+    /** Executes the replace alpha num with operation. */
     public void ReplaceAlphaNumWith(CDataEntity d)
     {
         repAlphaWith = d ;
     }
 
     protected CDataEntity fillAlphaWith = null ;
+    /** Executes the fill alpha num with operation. */
     public void FillAlphaNumWith(CDataEntity d)
     {
         fillAlphaWith = d ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -61,6 +66,7 @@ public class CEntityInitialize extends CBaseActionEntity
         repNumEditedWith = null ;
         repNumWith = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return data == null || data.ignore();
@@ -69,6 +75,7 @@ public class CEntityInitialize extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
      */
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (data == field)
@@ -112,6 +119,7 @@ public class CEntityInitialize extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseActionEntity#IgnoreVariable(semantic.CDataEntity)
      */
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity field)
     {
         if (data == field)

@@ -6,6 +6,7 @@
  */
 package jlib.engine;
 
+/** Provides base notification behavior. */
 public abstract class BaseNotification
 {
 

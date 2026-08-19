@@ -11,10 +11,12 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.varEx.VarSectionDeclaration;
 
+/** Provides called program behavior. */
 public class CalledProgram extends BaseProgram
 {
     private static CalledProgramManagerFactory ms_callProgramManagerFactory = new CalledProgramManagerFactory();
 
+    /** Creates a new called program instance. */
     public CalledProgram()
     {
         super(ms_callProgramManagerFactory);

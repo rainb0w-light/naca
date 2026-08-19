@@ -20,6 +20,7 @@ public class SQLClauseSPParamInShort extends SQLClauseSPParamIn
 {
     private short val = 0;
 
+    /** Creates a new sqlclause spparam in short instance. */
     public SQLClauseSPParamInShort(short val)
     {
         this.val = val;

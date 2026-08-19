@@ -23,6 +23,7 @@ public class ColDescriptionInfo
     public int nPrecision = 0;
     public int nScale = 0;
 
+    /** Creates a new col description info instance. */
     public ColDescriptionInfo()
     {
     }
@@ -42,6 +43,7 @@ public class ColDescriptionInfo
         return nScale;
     }
 
+    /** Executes the make db col definition operation. */
     public BaseDbColDefinition makeDbColDefinition()
     {
         BaseDbColDefinition dbColDef = null;
@@ -89,6 +91,7 @@ public class ColDescriptionInfo
         return dbColDef;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csColName + ";" + nTypeId + ";" + nPrecision + ";" + nScale;

@@ -14,6 +14,7 @@ import jlib.log.stdEvents.StdInfo;
 
 
 
+/** Provides controler thread behavior. */
 public class ControlerThread extends Thread
 {
     private BaseControler controler = null ;
@@ -24,6 +25,7 @@ public class ControlerThread extends Thread
     private boolean bForceStarting = false ;
     private boolean isstopASAP = false ;       //Un flag qui permet d'arr�ter le crawl en urgence.
 
+    /** Creates a new controler thread instance. */
     public ControlerThread(BaseControler ctrl)
     {
         controler = ctrl ;
@@ -31,12 +33,14 @@ public class ControlerThread extends Thread
         csControlerName = grpConfig.getName() ;
     }
 
+    /** Executes the auto start operation. */
     public void AutoStart(int nStepId)
     {
         bForceStarting = false ;
         DoStart(nStepId) ;
     }
 
+    /** Executes the stop controler operation. */
     public void StopControler(boolean bForce)
     {
         if (nCurrentSite>=0)
@@ -76,6 +80,7 @@ public class ControlerThread extends Thread
         }
         start() ;
     }
+    /** Executes the start controler operation. */
     public void StartControler(int nStepId)
     {
         bForceStarting = true ;
@@ -87,6 +92,7 @@ public class ControlerThread extends Thread
      * M�thode principale du thread.
      * Cette m�thode v�rifie l'�tat dans lequel se trouve le crawling et agit en cons�quence.
      */
+    /** Runs this operation. */
     public void run()
     {
         if (nCurrentSite<0 && nCurrentSite >= grpConfig.getNbSteps())
@@ -261,6 +267,7 @@ public class ControlerThread extends Thread
         }
     }
 
+    /** Executes the stop controler operation. */
     public void StopControler(boolean bRestart, boolean bForce)
     {
         this.isDaemon() ;
@@ -268,6 +275,7 @@ public class ControlerThread extends Thread
         StopControler(bForce) ;
     }
 
+    /** Executes the auto start operation. */
     public void AutoStart()
     {
         AutoStart(-1) ;

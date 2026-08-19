@@ -1,11 +1,9 @@
 package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,13 +13,16 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.publicitas.naca.cloudnative.service.TranspilerService;
 import com.publicitas.naca.cloudnative.service.TranspilerService.TranspileResult;
 import com.publicitas.naca.cloudnative.service.RunnerService;
 import com.publicitas.naca.cloudnative.service.RunnerService.RunResult;
 import com.publicitas.naca.cloudnative.util.InMemoryJavaCompiler;
 
+
+
+
+/** Provides t01 execution test behavior. */
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class T01ExecutionTest {

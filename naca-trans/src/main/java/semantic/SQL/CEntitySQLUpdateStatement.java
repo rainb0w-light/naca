@@ -32,6 +32,7 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLUpdateStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlupdate statement instance. */
     public CEntitySQLUpdateStatement(
         int line,
         CObjectCatalog cat,
@@ -47,16 +48,19 @@ public class CEntitySQLUpdateStatement extends CBaseActionEntity
     protected String csStatement = "" ;
     protected Vector<CDataEntity> sets = null;
     protected Vector<CDataEntity> parameters = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         sets.clear() ;
         parameters.clear() ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         int n = parameters.indexOf(field);

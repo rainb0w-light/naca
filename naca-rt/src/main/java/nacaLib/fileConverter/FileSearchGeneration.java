@@ -12,12 +12,15 @@ import jlib.log.Log;
 import jlib.misc.FileSystem;
 import jlib.misc.StringUtil;
 
+/** Provides file search generation behavior. */
 public class FileSearchGeneration
 {
+    /** Executes the search operation. */
     public String search(String csParameter)
     {
         return search(csParameter, 0);
     }
+    /** Executes the search operation. */
     public String search(String csParameter, int nGeneration)
     {
         if (nGeneration > 1)

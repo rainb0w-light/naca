@@ -6,8 +6,10 @@
  */
 package jlib.classLoader;
 
+/** Provides base object behavior. */
 public class BaseObject
 {
+    /** Executes the debug test execute operation. */
     public void DebugTestExecute()
     {
 

@@ -31,8 +31,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/** Provides action show screen behavior. */
 public class ActionShowScreen extends Action
 {
+    /** Executes the execute operation. */
     public ActionForward execute(
             ActionMapping mapping,
             ActionForm form,

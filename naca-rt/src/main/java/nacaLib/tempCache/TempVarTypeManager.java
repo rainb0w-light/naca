@@ -10,9 +10,10 @@
 package nacaLib.tempCache;
 
 import java.util.ArrayList;
-
-import nacaLib.varEx.*;
+import nacaLib.varEx.CoupleVar;
+import nacaLib.varEx.VarBase;
 import nacaLib.varEx.VarDefBuffer;
+
 
 /**
  *
@@ -63,6 +64,7 @@ public class TempVarTypeManager
         arrCoupleVar = new ArrayList<CoupleVar>();
     }
 
+    /** Adds the temp var. */
     public CoupleVar addTempVar(VarDefBuffer varDefItem, VarBase var)
     {
         CoupleVar coupleVar = new CoupleVar(varDefItem, var);

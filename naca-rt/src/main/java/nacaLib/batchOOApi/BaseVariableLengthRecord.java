@@ -20,5 +20,6 @@ public abstract class BaseVariableLengthRecord extends BaseRecord
         super(file);
     }
 
+    /** Executes the fill rw operation. */
     public abstract void fillRW();
 }

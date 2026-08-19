@@ -30,6 +30,7 @@ public class PooledThreadDbTransferFactory extends BasePooledThreadFactory
         this.env = env;
     }
 
+    /** Executes the make operation. */
     public PooledThreadDbTransfer make(PoolOfThreads owningPool)
     {
         DbConnectionBase dbConnectionSource = env.getNewSQLConnection();

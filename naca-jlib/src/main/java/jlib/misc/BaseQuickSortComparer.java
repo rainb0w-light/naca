@@ -16,5 +16,6 @@ package jlib.misc;
  */
 public abstract class BaseQuickSortComparer<Item>
 {
+    /** Executes the compare operation. */
     public abstract int compare(Item i1, Item i2);
 }

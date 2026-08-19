@@ -54,12 +54,10 @@ public class TestCallLinkageRef extends OnlineProgram
 				.using(WNumber1)		// Explicitly used in the called program !
 				.using(WNumber2)
 				.executeCall();
-		}
-		
+}
 		
 		
 //		if(nNbRecurs == 2)
 			
 	}	
 }
-

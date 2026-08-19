@@ -21,6 +21,7 @@ public class JSonCoupleItemType
     public static JSonCoupleItemType TypeDouble = new JSonCoupleItemType();
     public static JSonCoupleItemType TypeBoolean = new JSonCoupleItemType();
 
+    /** Creates a new json couple item type instance. */
     public JSonCoupleItemType()
     {
     }

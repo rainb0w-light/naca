@@ -37,6 +37,7 @@ public class SQLCall
     CSQLStatus sqlStatus = null;
     private SQLErrorManager errorManager = null;
 
+    /** Creates a new sqlcall instance. */
     public SQLCall(BaseProgramManager programManager, String csStoredProcName)
     {
         this.programManager = programManager;
@@ -65,6 +66,7 @@ public class SQLCall
         }
     }
 
+    /** Executes the param operation. */
     public SQLCall param(int nParamId, Var var)
     {
         nParamId--; // 0 based
@@ -80,36 +82,42 @@ public class SQLCall
     }
 
     // Fake methods
+    /** Executes the on error goto operation. */
     public SQLCall onErrorGoto(Paragraph paragraphSQGErrorGoto)
     {
         errorManager.manageOnErrorGoto(paragraphSQGErrorGoto, sqlStatus);
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public SQLCall onErrorGoto(Section section)
     {
         errorManager.manageOnErrorGoto(section, sqlStatus);
         return this;
     }
 
+    /** Executes the on error continue operation. */
     public SQLCall onErrorContinue()
     {
         errorManager.manageOnErrorContinue(sqlStatus);
         return this;
     }
 
+    /** Executes the on warning goto operation. */
     public SQLCall onWarningGoto(Paragraph paragraphSQGErrorGoto)
     {
         // TODO
         return this;
     }
 
+    /** Executes the on warning goto operation. */
     public SQLCall onWarningGoto(Section section)
     {
         // TODO
         return this;
     }
 
+    /** Executes the on warning continue operation. */
     public SQLCall onWarningContinue()
     {
         // TODO

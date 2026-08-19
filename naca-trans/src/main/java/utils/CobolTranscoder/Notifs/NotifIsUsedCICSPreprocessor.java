@@ -8,6 +8,7 @@ package utils.CobolTranscoder.Notifs;
 
 import jlib.engine.BaseNotification;
 
+/** Provides notif is used cicspreprocessor behavior. */
 public class NotifIsUsedCICSPreprocessor extends BaseNotification
 {
 

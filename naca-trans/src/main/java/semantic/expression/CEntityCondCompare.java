@@ -17,11 +17,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondCompare extends CBinaryEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondCompare newCond = new CEntityCondCompare();
@@ -33,6 +35,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
     }
 
 
+    /** Sets the less than. */
     public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         this.op1 = op1 ;
@@ -40,6 +43,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         isisOrEquals = false ;
         isisGreater = false ;
     }
+    /** Sets the less or equal than. */
     public void SetLessOrEqualThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         this.op1 = op1 ;
@@ -47,6 +51,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         isisOrEquals = true ;
         isisGreater = false ;
     }
+    /** Sets the greater than. */
     public void SetGreaterThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         this.op1 = op1 ;
@@ -54,6 +59,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         isisOrEquals = false ;
         isisGreater = true ;
     }
+    /** Sets the greater or equals than. */
     public void SetGreaterOrEqualsThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         this.op1 = op1 ;
@@ -87,6 +93,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         return isisOrEquals;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -96,10 +103,12 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         op2 = null ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return (op1 != null && op1.ignore()) || (op2 != null && op2.ignore());
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         //CBaseEntityCondition cond = op1.GetSpecialCondition(val, type, fact) ;
@@ -115,6 +124,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         }
         return null;
     }
+    /** Executes the get type operation. */
     public CBaseEntityCondition.EConditionType GetType()
     {
         EConditionType type = null ;
@@ -136,6 +146,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         }
         return type ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         boolean b1 = op1.ReplaceVariable(field, var) ;
@@ -143,6 +154,7 @@ public class CEntityCondCompare extends CBinaryEntityCondition
         return b1 || b2 ;
     }
 
+    /** Returns the operator. */
     public String getOperator()
     {
         if (isisGreater && isisOrEquals)

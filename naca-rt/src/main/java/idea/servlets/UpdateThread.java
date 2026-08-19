@@ -15,8 +15,10 @@ import jlib.misc.RunSystemCommand;
 import jlib.misc.Time_ms;
 import nacaLib.basePrgEnv.BaseResourceManager;
 
+/** Provides update thread behavior. */
 public class UpdateThread extends Thread
 {
+    /** Runs this operation. */
     public void run()
     {
         String csTomcatStartCommand = BaseResourceManager.getTomcatStartCommand();

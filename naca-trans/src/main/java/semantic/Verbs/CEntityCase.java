@@ -9,7 +9,7 @@ package semantic.Verbs;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -27,6 +27,7 @@ public class CEntityCase extends CBaseActionEntity
         super(l, cat);
         nEndBlocLine = nEndLine ;
     }
+    /** Sets the condition. */
     public void SetCondition(CBaseEntityCondition exp)
     {
         //ASSERT(exp);
@@ -45,6 +46,7 @@ public class CEntityCase extends CBaseActionEntity
     {
         return condition == null;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -55,6 +57,7 @@ public class CEntityCase extends CBaseActionEntity
         condition = null ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (condition != null)
@@ -68,11 +71,13 @@ public class CEntityCase extends CBaseActionEntity
             return isChildrenIgnored() ;
         }
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         return false ;
     }
 
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
         for (int i=0; i<lstChildren.size(); i++)

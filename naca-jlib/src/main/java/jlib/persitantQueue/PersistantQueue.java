@@ -74,6 +74,7 @@ public class PersistantQueue
     private String csDir = null;
     private String csIndexFile = null;
 
+    /** Creates a new persistant queue instance. */
     public PersistantQueue(String csDir)
     {
         this.csDir = csDir;
@@ -85,6 +86,7 @@ public class PersistantQueue
         buildIndexes();
     }
 
+    /** Adds the last. */
     public synchronized void addLast(Serializable object)
     {
         int nLastMax = incMaxIndex();
@@ -93,6 +95,7 @@ public class PersistantQueue
         write(csFileName, object);
     }
 
+    /** Adds the last. */
     public synchronized void addLast(Tag tag)
     {
         int nLastMax = incMaxIndex();
@@ -102,6 +105,7 @@ public class PersistantQueue
         write(csFileName, cs);
     }
 
+    /** Returns the first. */
     public synchronized Object getFirst()
     {
         Object o = null;
@@ -118,6 +122,7 @@ public class PersistantQueue
         return o;
     }
 
+    /** Returns the first as tag. */
     public synchronized Tag getFirstAsTag()
     {
         boolean b = false;
@@ -142,6 +147,7 @@ public class PersistantQueue
         return null;
     }
 
+    /** Returns the last. */
     public synchronized Object getLast()
     {
         Object o = null;
@@ -158,6 +164,7 @@ public class PersistantQueue
         return o;
     }
 
+    /** Returns the last as tag. */
     public synchronized Object getLastAsTag()
     {
         Object o = null;
@@ -174,6 +181,7 @@ public class PersistantQueue
         return (Tag)o;
     }
 
+    /** Returns the first. */
     public synchronized Object getFirst(BaseQueueItemFactory baseQueueItemFactory)
     {
         Object o = null;
@@ -190,6 +198,7 @@ public class PersistantQueue
         return o;
     }
 
+    /** Returns the last. */
     public synchronized Object getLast(BaseQueueItemFactory baseQueueItemFactory)
     {
         Object o = null;

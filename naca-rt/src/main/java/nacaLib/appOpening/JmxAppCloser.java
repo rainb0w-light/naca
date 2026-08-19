@@ -19,6 +19,7 @@ import nacaLib.basePrgEnv.BaseResourceManager;
  */
 public class JmxAppCloser extends BaseCloseMBean
 {
+    /** Creates a new jmx app closer instance. */
     public JmxAppCloser()
     {
         super("# App_Close", "# App_Close");
@@ -40,21 +41,25 @@ public class JmxAppCloser extends BaseCloseMBean
         return BaseResourceManager.isAppManuallyClosed();
     }
 
+    /** Sets the manual close. */
     public void setManualClose()
     {
         BaseResourceManager.setAppManuallyClosed(true);
     }
 
+    /** Returns the manual close reason. */
     public String get__ManualCloseReason()
     {
         return BaseResourceManager.getManualCloseReason();
     }
 
+    /** Sets the manual close reason. */
     public void set__ManualCloseReason(String csManualCloseReason)
     {
         BaseResourceManager.setManualCloseReason(csManualCloseReason);
     }
 
+    /** Sets the reload calendar files. */
     public void setReloadCalendarFiles()
     {
         BaseResourceManager.reloadCalendarFiles();
@@ -70,18 +75,21 @@ public class JmxAppCloser extends BaseCloseMBean
         return BaseResourceManager.getAppManualStatusState().getString();
     }
 
+    /** Returns the b0 application custom status. */
     public String getB0_ApplicationCustomStatus()
     {
         CalendarOpenState state = BaseResourceManager.getAppCustomOpenState();
         return state.getString();
     }
 
+    /** Returns the b1 application standard status. */
     public String getB1_ApplicationStandardStatus()
     {
         CalendarOpenState state = BaseResourceManager.getAppStandardOpenState();
         return state.getString();
     }
 
+    /** Returns the c application current status. */
     public String getC_ApplicationCurrentStatus()
     {
         if (BaseResourceManager.isAppManuallyClosed()) {

@@ -18,11 +18,13 @@ public class CConstantList
     {
     }
 
+    /** Executes the register operation. */
     public void Register(CReservedConstant cste)
     {
         tabConstants.put(cste.name, cste) ;
     }
 
+    /** Executes the get constant operation. */
     public CReservedConstant GetConstant(String name)
     {
         CReservedConstant kw = tabConstants.get(name);

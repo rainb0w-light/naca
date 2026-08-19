@@ -15,22 +15,14 @@ import nacaLib.program.Section;
  * @author U930DI
  *
  */
-class SQLErrorGotoContinueType
-{
-    public static SQLErrorGotoContinueType OnErrorGoto = new SQLErrorGotoContinueType();
-    public static SQLErrorGotoContinueType OnErrorContinue = new SQLErrorGotoContinueType();
-
-    SQLErrorGotoContinueType()
-    {
-    }
-}
-
 public class SQLErrorManager extends CJMapObject
 {
+    /** Creates a new sqlerror manager instance. */
     public SQLErrorManager()
     {
     }
 
+    /** Executes the reuse operation. */
     public void reuse()
     {
         sectionErrorGoto = null;
@@ -38,18 +30,21 @@ public class SQLErrorManager extends CJMapObject
         qLErrorGotoContinueType = null;
     }
 
+    /** Executes the manage on error goto operation. */
     public void manageOnErrorGoto(Paragraph paragraphSQGErrorGoto, CSQLStatus sqlStatus)
     {
         registerOnErrorGoto(paragraphSQGErrorGoto);
         manageSQLError(sqlStatus);
     }
 
+    /** Executes the manage on error goto operation. */
     public void manageOnErrorGoto(Section section, CSQLStatus sqlStatus)
     {
         registerOnErrorGoto(section);
         manageSQLError(sqlStatus);
     }
 
+    /** Executes the manage on error continue operation. */
     public void manageOnErrorContinue(CSQLStatus sqlStatus)
     {
         registerOnErrorContinue();
@@ -80,6 +75,7 @@ public class SQLErrorManager extends CJMapObject
         qLErrorGotoContinueType = SQLErrorGotoContinueType.OnErrorContinue;
     }
 
+    /** Executes the manage sqlerror operation. */
     public void manageSQLError(CSQLStatus sqlStatus)
     {
         if(sqlStatus != null)
@@ -102,7 +98,7 @@ public class SQLErrorManager extends CJMapObject
                 }
                 else if(qLErrorGotoContinueType == SQLErrorGotoContinueType.OnErrorContinue)
                 {
-                    ; // Do nothing
+                    // Intentionally empty.
                 }
                 else
                 {

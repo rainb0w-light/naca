@@ -48,6 +48,7 @@ public class CEntityNamedCondition extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String cs = term.GetValue() ;
@@ -69,10 +70,12 @@ public class CEntityNamedCondition extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
+    /** Executes the get associated condition operation. */
     public CUnitaryEntityCondition GetAssociatedCondition(CBaseEntityFactory factory)
     {
         CEntityIsNamedCondition eCond = factory.NewEntityIsNamedCondition() ;
@@ -80,15 +83,18 @@ public class CEntityNamedCondition extends CDataEntity
         return eCond ;
     }
 
+    /** Adds the interval. */
     public void AddInterval(CDataEntity eStart, CDataEntity eEnd)
     {
         endIntervals.add(eEnd);
         startIntervals.add(eStart);
     }
+    /** Adds the value. */
     public void AddValue(CDataEntity eValue)
     {
         values.add(eValue);
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -105,15 +111,18 @@ public class CEntityNamedCondition extends CDataEntity
     protected Vector<CDataEntity> startIntervals = new Vector<CDataEntity>() ;
     protected Vector<CDataEntity> endIntervals = new Vector<CDataEntity>() ;
     protected Vector<CDataEntity> values = new Vector<CDataEntity>() ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return startIntervals.size() == 0 && endIntervals.size() == 0 && values.size() == 0 ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -124,10 +133,12 @@ public class CEntityNamedCondition extends CDataEntity
         return false;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.CONDITION;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -146,10 +157,12 @@ public class CEntityNamedCondition extends CDataEntity
         return Collections.unmodifiableList(values);
     }
 
+    /** Provides value model behavior. */
     public static final class ValueModel
     {
         private final CDataEntity value;
 
+        /** Creates a new value model instance. */
         public ValueModel(CDataEntity value)
         {
             this.value = value;
@@ -166,6 +179,7 @@ public class CEntityNamedCondition extends CDataEntity
         }
     }
 
+    /** Returns the value models. */
     public List<ValueModel> getValueModels()
     {
         List<ValueModel> models = new ArrayList<>(values.size());
@@ -185,6 +199,7 @@ public class CEntityNamedCondition extends CDataEntity
         private final CDataEntity start;
         private final CDataEntity end;
 
+        /** Creates a new interval model instance. */
         public IntervalModel(CDataEntity start, CDataEntity end)
         {
             this.start = start;

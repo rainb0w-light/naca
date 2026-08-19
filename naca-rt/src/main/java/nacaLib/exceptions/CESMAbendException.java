@@ -6,10 +6,12 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a cesmabend exception condition. */
 public class CESMAbendException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new cesmabend exception instance. */
     public CESMAbendException(String code)
     {
         super("ABend code : " + code);

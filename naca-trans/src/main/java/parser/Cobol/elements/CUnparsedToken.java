@@ -6,13 +6,14 @@
  */
 package parser.Cobol.elements;
 
-import lexer.*;
+import lexer.CBaseToken;
 import parser.Cobol.CCobolElement;
 import semantic.CBaseLanguageEntity;
 import semantic.CBaseEntityFactory;
 import utils.Transcoder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import org.w3c.dom.*;
 
 
 /**
@@ -38,6 +39,7 @@ public class CUnparsedToken extends CCobolElement
         return true ;
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document rootdoc)
     {
         Element e = rootdoc.createElement("UnparsedToken") ;

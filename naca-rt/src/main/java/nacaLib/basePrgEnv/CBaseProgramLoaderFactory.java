@@ -14,18 +14,22 @@ import jlib.xml.Tag;
 import nacaLib.sqlSupport.SQLCode;
 import nacaLib.sqlSupport.SQLConnectionManager;
 
+/** Provides cbase program loader factory behavior. */
 public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
 {
     protected SQLConnectionManager connectionManager = null;
     protected Tag tagSequencerConfig = null ;
 
+    /** Creates the sequencer. */
     public abstract ProgramSequencer NewSequencer() ;
 
+    /** Creates a new cbase program loader factory instance. */
     public CBaseProgramLoaderFactory()
     {
         connectionManager = new SQLConnectionManager();
     }
 
+    /** Executes the init operation. */
     public void init(String csDBParameterPrefix, Tag tagSequencerConfig)    //, ClassLoaderUnloader loader)
     {
         if (tagSequencerConfig != null)
@@ -48,6 +52,7 @@ public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
         }
     }
 
+    /** Returns the connection. */
     public DbConnectionBase getConnection(String csProgramId, boolean bUseStatementCache)
     {
         if(connectionManager != null)

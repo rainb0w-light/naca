@@ -95,6 +95,7 @@ public class LogParams
         return false;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "";
@@ -106,11 +107,13 @@ public class LogParams
         return cs;
     }
 
+    /** Returns the text item. */
     public String getTextItem(int n)
     {
         return logEvent.getTextAsString(n);
     }
 
+    /** Returns the item value. */
     public String getItemValue(int n)
     {
         return logEvent.getItemValue(n);

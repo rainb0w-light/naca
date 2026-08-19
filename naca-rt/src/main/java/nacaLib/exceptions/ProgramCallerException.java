@@ -6,10 +6,12 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a program caller exception condition. */
 public class ProgramCallerException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new program caller exception instance. */
     public ProgramCallerException(String message)
     {
         super("Program caller exception : " + message);

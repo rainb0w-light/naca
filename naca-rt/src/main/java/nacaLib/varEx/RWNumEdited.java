@@ -70,9 +70,9 @@ public class RWNumEdited
             isdoDecPart = true;
         }
 
-        int nPos$ = csFormat.indexOf('$');
-        if (nPos$ == -1) {
-            nPos$ = csFormat.indexOf('\u00A3');
+        int nPos = csFormat.indexOf('$');
+        if (nPos == -1) {
+            nPos = csFormat.indexOf('\u00A3');
         }
 
         // Integer part
@@ -190,16 +190,16 @@ public class RWNumEdited
 
         if(nPosLastSuppress != -1)
         {
-            if(nPos$ != -1)
+            if(nPos != -1)
             {
-                char money = csFormat.charAt(nPos$);
+                char money = csFormat.charAt(nPos);
                 sDest.setCharAt(nPosLastSuppress, money);   // set the money sign
             }
         }
         // special case where there is no place left for the money sign, but we must set it insted of the forst digit
-        else if(nPos$ != -1)
+        else if(nPos != -1)
         {
-            char money = csFormat.charAt(nPos$);
+            char money = csFormat.charAt(nPos);
             sDest.setCharAt(0, money);  // set the money sign
         }
 

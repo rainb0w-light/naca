@@ -6,7 +6,7 @@
  */
 package nacaLib.varEx;
 
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 
 /**
  * @author U930DI

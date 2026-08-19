@@ -9,8 +9,10 @@ package idea.onlinePrgEnv;
 import nacaLib.basePrgEnv.CBaseProgramLoaderFactory;
 import nacaLib.basePrgEnv.ProgramSequencer;
 
+/** Provides online program loader factory behavior. */
 public class OnlineProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
+    /** Creates the sequencer. */
     public ProgramSequencer NewSequencer()
     {
         OnlineProgramLoader prog = new OnlineProgramLoader(connectionManager, tagSequencerConfig);

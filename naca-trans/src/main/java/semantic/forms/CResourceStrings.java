@@ -27,6 +27,7 @@ public class CResourceStrings
     public static String LANG_GERMAN = "DE" ;
     public static String LANG_ITALIAN = "IT" ;
     public static String LANG_ENGLISH = "EN" ;
+    /** Returns the official language code. */
     public static String getOfficialLanguageCode(String lang)
     {
         lang = lang.trim() ;
@@ -53,6 +54,7 @@ public class CResourceStrings
     }
 
     protected ArrayList<String> langId = new ArrayList<String>() ;
+    /** Provides clocalized value behavior. */
     public static final class CLocalizedValue
     {
         private final String languageCode;
@@ -68,6 +70,7 @@ public class CResourceStrings
         public String getText() { return text; }
     }
 
+    /** Provides clocalized text behavior. */
     public static final class CLocalizedText
     {
         private String id = "" ;
@@ -76,6 +79,7 @@ public class CResourceStrings
 
         public String getId() { return id; }
         public int getLength() { return length; }
+        /** Returns the texts. */
         public List<CLocalizedValue> getTexts()
         {
             ArrayList<CLocalizedValue> values = new ArrayList<>();
@@ -86,6 +90,7 @@ public class CResourceStrings
             return Collections.unmodifiableList(values);
         }
     }
+    /** Creates a new cresource strings instance. */
     public CResourceStrings(int nbLines, int nbCols)
     {
         this.nbCols = nbCols ;
@@ -93,6 +98,7 @@ public class CResourceStrings
         lines = new CLocalizedText[nbLines+1][];
         tabTexts = new LinkedHashMap<String, CLocalizedText>() ;
     }
+    /** Sets the resource text. */
     public void SetResourceText(int line, int col, String text, String langID, int length)
     {
         String csLang = getOfficialLanguageCode(langID) ;
@@ -104,6 +110,7 @@ public class CResourceStrings
         lText.length = length ;
         lText.textTable.put(csLang, text) ;
     }
+    /** Sets the resource text. */
     public void SetResourceText(int line, int col, String text, String langID, String id, int length)
     {
         String csLang = getOfficialLanguageCode(langID) ;
@@ -135,6 +142,7 @@ public class CResourceStrings
         }
         return text;
     }
+    /** Creates the name. */
     public String CreateName(String radical)
     {
         return radical + "_LABEL_" + lastIndex++;
@@ -145,6 +153,7 @@ public class CResourceStrings
     protected CLocalizedText[][] lines = null ;
     protected LinkedHashMap<String, CLocalizedText> tabTexts = null ;
 
+    /** Returns the localized text. */
     public CLocalizedText getLocalizedText(String name)
     {
         return tabTexts.get(name);
@@ -155,6 +164,7 @@ public class CResourceStrings
         return Collections.unmodifiableList(new ArrayList<>(tabTexts.values()));
     }
 
+    /** Exports the resource. */
     public Node exportResource(String name, Document doc)
     {
         CLocalizedText res = tabTexts.get(name) ;
@@ -184,6 +194,7 @@ public class CResourceStrings
         resource.textTable.replaceAll((language, text) -> text.trim());
     }
 
+    /** Exports the all lang id. */
     public String exportAllLangId()
     {
         String cs = "" ;

@@ -352,6 +352,7 @@ public class Log
         return tagConfig;
     }
 
+    /** Executes the close operation. */
     synchronized public static void close()
     {
         if(logCenter != null)
@@ -359,8 +360,8 @@ public class Log
             int nNbLogCenter = logCenter.size();
             for(int n=0; n<nNbLogCenter; n++)
             {
-                LogCenter LogCenter = logCenter.get(n);
-                LogCenter.close();
+                LogCenter localLogCenter = logCenter.get(n);
+                localLogCenter.close();
             }
         }
     }
@@ -383,6 +384,7 @@ public class Log
         }
     }
 
+    /** Returns the log center plugin console. */
     public synchronized static LogCenterPluginConsole getLogCenterPluginConsole()
     {
         if(logCenter != null)
@@ -432,8 +434,8 @@ public class Log
             int nNbLogCenter = logCenter.size();
             for(int n=0; n<nNbLogCenter; n++)
             {
-                LogCenter LogCenter = logCenter.get(n);
-                LogCenter.output(logParams);
+                LogCenter localLogCenter = logCenter.get(n);
+                localLogCenter.output(logParams);
             }
         }
     }
@@ -525,6 +527,7 @@ public class Log
         sendLog(logParams);
     }
 
+    /** Executes the log operation. */
     public static void log(String csChannel, LogFlow logFlow, LogEvent logEvent, LogLevel logLevel, String csMessage)
     {
         logEvent.setLogFlow(logFlow);
@@ -778,18 +781,21 @@ public class Log
         sendLog(logParams);
     }
 
+    /** Executes the inc counter operation. */
     public static int incCounter(String csName)
     {
         // TODO
         return 0;
     }
 
+    /** Executes the dec counter operation. */
     public static int decCounter(String csName)
     {
         // TODO
         return 0;
     }
 
+    /** Resets the counter. */
     public static void resetCounter(String csName)
     {
         // TODO

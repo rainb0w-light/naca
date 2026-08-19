@@ -7,22 +7,29 @@
 package nacaLib.programStructure;
 
 import java.util.ArrayList;
-
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.FileManagerEntry;
-import nacaLib.varEx.*;
+import nacaLib.varEx.BaseFileDescriptor;
+import nacaLib.varEx.DataSection;
+import nacaLib.varEx.DataSectionType;
+import nacaLib.varEx.SortDescriptor;
+import nacaLib.varEx.Var;
 
 
+
+/** Provides data section file behavior. */
 public class DataSectionFile extends DataSection
 {
+    /** Creates a new data section file instance. */
     public DataSectionFile(BaseProgram prg)
     {
         super(prg, DataSectionType.File);
         isrecordDefSet = false;
     }
 
+    /** Sets the current file def. */
     public void setCurrentFileDef(BaseFileDescriptor fileDescriptor)
     {
         recordDef = fileDescriptor;
@@ -36,6 +43,7 @@ public class DataSectionFile extends DataSection
         }
     }
 
+    /** Sets the current sort def. */
     public void setCurrentSortDef(SortDescriptor sortDescriptor)
     {
         recordDef = sortDescriptor;
@@ -49,6 +57,7 @@ public class DataSectionFile extends DataSection
         }
     }
 
+    /** Executes the assign level01 operation. */
     public void assignLevel01(Var varLevel01)
     {
         if(recordDef != null && !isrecordDefSet)
@@ -72,6 +81,7 @@ public class DataSectionFile extends DataSection
         }
     }
 
+    /** Sets the on session. */
     public void setOnSession(BaseSession session)
     {
         if(fileDefs != null)
@@ -84,6 +94,7 @@ public class DataSectionFile extends DataSection
         }
     }
 
+    /** Executes the restore file manager entries operation. */
     public void restoreFileManagerEntries(BaseEnvironment env)
     {
         if(fileDefs != null)

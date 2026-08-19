@@ -45,11 +45,13 @@ public class CEntityCount extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the count. */
     public void SetCount(CDataEntity var)
     {
         variable = var ;
     }
 
+    /** Sets the to var. */
     public void SetToVar(CDataEntity var)
     {
         toVariable = var ;
@@ -61,6 +63,7 @@ public class CEntityCount extends CBaseActionEntity
     protected Vector<CDataEntity> countAllToken = new Vector<CDataEntity>() ;
     protected Vector<CDataEntity> countAfterToken = new Vector<CDataEntity>() ;
     protected Vector<CDataEntity> countBeforeToken = new Vector<CDataEntity>() ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -71,25 +74,30 @@ public class CEntityCount extends CBaseActionEntity
         toVariable = null ;
     }
 
+    /** Executes the count before operation. */
     public void CountBefore(CDataEntity entity)
     {
         countBeforeToken.add(entity) ;
     }
 
+    /** Executes the count all operation. */
     public void CountAll(CDataEntity entity)
     {
         countAllToken.add(entity) ;
     }
 
+    /** Executes the count leading operation. */
     public void CountLeading(CDataEntity entity)
     {
         countLeadingToken.add(entity) ;
     }
 
+    /** Executes the count after operation. */
     public void CountAfter(CDataEntity entity)
     {
         countAfterToken.add(entity) ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return variable.ignore();

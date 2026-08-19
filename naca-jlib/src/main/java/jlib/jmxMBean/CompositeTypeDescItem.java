@@ -8,6 +8,7 @@ package jlib.jmxMBean;
 
 import javax.management.openmbean.OpenType;
 
+/** Provides composite type desc item behavior. */
 public class CompositeTypeDescItem
 {
     CompositeTypeDescItem(String csName, String csDescription, OpenType openType)

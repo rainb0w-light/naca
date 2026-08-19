@@ -15,10 +15,12 @@ public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
     private String csNumEditedFormat = null;
     private boolean isblankWhenZero = false;
 
+    /** Creates a new declare type edit in map redefine num edited instance. */
     public DeclareTypeEditInMapRedefineNumEdited()
     {
     }
 
+    /** Executes the set operation. */
     public void set(VarLevel varLevel, String csFormat, boolean bBlankWhenZero)
     {
         super.set(varLevel);
@@ -26,6 +28,7 @@ public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
         this.isblankWhenZero = bBlankWhenZero;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefEditInMapRedefineNumEdited(varDefParent, this);

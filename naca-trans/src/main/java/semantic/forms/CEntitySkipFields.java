@@ -97,28 +97,34 @@ public class CEntitySkipFields extends CEntityResourceField
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
 
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         return false;
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         return null;
     }
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         // Preserved from the retired backend: a skip field contributes no XML/.res node of its
@@ -131,6 +137,7 @@ public class CEntitySkipFields extends CEntityResourceField
         programCatalog.RegisterDataEntity(name, this) ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // Preserved from the retired backend: a skip field bears no accessors.
@@ -154,6 +161,7 @@ public class CEntitySkipFields extends CEntityResourceField
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)

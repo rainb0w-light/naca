@@ -9,11 +9,13 @@ package jlib.misc;
 import java.util.Hashtable;
 
 
+/** Provides environment var behavior. */
 public class EnvironmentVar
 {
     private static Hashtable<String, String> ms_tabProgramVars = new Hashtable<String, String>();
     private static String[] ms_tArgs = null;
 
+    /** Executes the register program var operation. */
     public static void registerProgramVar(String key, String value)
     {
         if (ms_tabProgramVars.get(key) != null)
@@ -23,11 +25,13 @@ public class EnvironmentVar
         ms_tabProgramVars.put(key, value);
     }
 
+    /** Executes the register cmd line args operation. */
     public static void registerCmdLineArgs(String[] args)
     {
         ms_tArgs = args;
     }
 
+    /** Returns the param value. */
     public static String getParamValue(String csName)
     {
         String cs = getProgramVariable(csName);
@@ -43,6 +47,7 @@ public class EnvironmentVar
         return cs;
     }
 
+    /** Returns the param value as boolean. */
     public static boolean getParamValueAsBoolean(String csName)
     {
         String cs = getCommandArg(csName);
@@ -52,6 +57,7 @@ public class EnvironmentVar
         return false;
     }
 
+    /** Returns the param value as int. */
     public static int getParamValueAsInt(String csName)
     {
         String cs = getCommandArg(csName);
@@ -63,6 +69,7 @@ public class EnvironmentVar
         return ms_tabProgramVars.get(csName);
     }
 
+    /** Returns the environment variable. */
     public static String getEnvironmentVariable(String csName)
     {
         String cs = System.getenv(csName);  // Pb: It is deprecated in java 1.5, and System.getProperty(csName) is wrong
@@ -92,6 +99,7 @@ public class EnvironmentVar
         return csVal;
     }
 
+    /** Returns whether param defined. */
     public static boolean isParamDefined(String csName)
     {
         csName = csName.toUpperCase();

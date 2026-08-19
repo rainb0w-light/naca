@@ -30,12 +30,14 @@ public final class UnsupportedFeatureException extends RuntimeException
     private final String source;
     private final String reason;
 
+    /** Creates a new unsupported feature exception instance. */
     public UnsupportedFeatureException(String featureId, String dialect, int line, int column,
         String reason)
     {
         this(featureId, dialect, sourceSpan(null, line, column), reason);
     }
 
+    /** Creates a new unsupported feature exception instance. */
     public UnsupportedFeatureException(String featureId, String dialect, String source,
         String reason)
     {
@@ -46,9 +48,13 @@ public final class UnsupportedFeatureException extends RuntimeException
         this.reason = reason;
     }
 
+    /** Executes the feature id operation. */
     public String featureId() { return featureId; }
+    /** Executes the dialect operation. */
     public String dialect() { return dialect; }
+    /** Executes the source operation. */
     public String source() { return source; }
+    /** Executes the reason operation. */
     public String reason() { return reason; }
 
     private static String sourceSpan(String file, int line, int column)

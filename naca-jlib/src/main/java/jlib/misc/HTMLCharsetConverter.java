@@ -24,6 +24,7 @@ public class HTMLCharsetConverter
     private static ArrayList<String> ms_arrCodes = null;
     private static Hashtable<String, Character> ms_hashCodes = null;
 
+    /** Executes the init once operation. */
     public synchronized static void initOnce()
     {
         if (ms_arrCodes != null) { // init only once
@@ -185,6 +186,7 @@ public class HTMLCharsetConverter
         return csHTMLValue;
     }
 
+    /** Executes the encode into custom string operation. */
     public static StringBuilder encodeIntoCustomString(StringBuilder sb)
     {
         initOnce();
@@ -221,6 +223,7 @@ public class HTMLCharsetConverter
         return sb;
     }
 
+    /** Executes the decode from custom string operation. */
     public static StringBuilder decodeFromCustomString(StringBuilder sb)
     {
         initOnce();

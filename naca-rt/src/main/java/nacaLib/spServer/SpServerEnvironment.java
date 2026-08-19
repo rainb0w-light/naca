@@ -21,8 +21,10 @@ import nacaLib.basePrgEnv.BaseCESMManager;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseResourceManager;
 
+/** Provides sp server environment behavior. */
 public class SpServerEnvironment extends BaseEnvironment
 {
+    /** Creates a new sp server environment instance. */
     public SpServerEnvironment(
         SpServerSession spServerSession,
         DbConnectionManagerBase connectionManager,
@@ -31,6 +33,7 @@ public class SpServerEnvironment extends BaseEnvironment
         super(spServerSession, connectionManager, baseResourceManager);
     }
 
+    /** Creates the cesmmanager. */
     public BaseCESMManager createCESMManager()
     {
         return null;
@@ -41,20 +44,24 @@ public class SpServerEnvironment extends BaseEnvironment
         return null;
     }
 
+    /** Executes the break current session if timeout operation. */
     public void breakCurrentSessionIfTimeout()
     {
     }
 
+    /** Executes the commit sql operation. */
     public SQLException commitSQL()
     {
         return null;
     }
 
+    /** Executes the rollback sql operation. */
     public SQLException rollbackSQL()
     {
         return null;
     }
 
+    /** Executes the cleanup on exception catched operation. */
     public void cleanupOnExceptionCatched()
     {
         rollbackSQL() ;
@@ -63,6 +70,7 @@ public class SpServerEnvironment extends BaseEnvironment
         returnTempCacheToStack();
     }
 
+    /** Executes the release sqlconnection operation. */
     public void releaseSQLConnection()
     {
         if (getSQLConnection() != null)

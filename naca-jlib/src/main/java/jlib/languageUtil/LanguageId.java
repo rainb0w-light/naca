@@ -39,10 +39,12 @@ public class LanguageId
     public static LanguageId English = new LanguageId("EN", "04", false);
     public static LanguageId NoLanguage = new LanguageId("XX", "", false);
 
+    /** Creates a new language id instance. */
     public LanguageId()
     {
     }
 
+    /** Executes the choose instance by name operation. */
     public static LanguageId chooseInstanceByName(String csName)
     {
         if (csName.equalsIgnoreCase("DE") || csName.equals("01") || csName.equalsIgnoreCase("German") || csName.equalsIgnoreCase("DE_DE")) {
@@ -106,6 +108,7 @@ public class LanguageId
      * LanguageId lg = LanguageId.get("FR");
      * If the code doesn't exists, then the default language id is returned.
      */
+    /** Executes the get operation. */
     public static LanguageId get(String cs)
     {
         cs = cs.toUpperCase();
@@ -119,6 +122,7 @@ public class LanguageId
         return ms_defaultLanguageId;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csCodeUpper + "/" + csCodeLower + "/" + csNumericCode;

@@ -32,6 +32,7 @@ public class CEntityDivide extends CBaseActionEntity
     protected CDataEntity result = null ;
     protected CDataEntity remainder = null ;
     protected boolean isisRounded = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -41,6 +42,7 @@ public class CEntityDivide extends CBaseActionEntity
         remainder = null ;
     }
 
+    /** Sets the divide. */
     public void SetDivide(CDataEntity what, CDataEntity by, CDataEntity result, boolean isRounded)
     {
         this.what = what ;
@@ -48,6 +50,7 @@ public class CEntityDivide extends CBaseActionEntity
         isisRounded = isRounded ;
         this.result = result ;
     }
+    /** Sets the divide. */
     public void SetDivide(CDataEntity what, CDataEntity by, boolean isRounded)
     {
         this.what = what ;
@@ -55,6 +58,7 @@ public class CEntityDivide extends CBaseActionEntity
         isisRounded = isRounded ;
         this.result = what ;
     }
+    /** Sets the remainder. */
     public void SetRemainder(CDataEntity rem)
     {
         remainder = rem ;
@@ -85,6 +89,7 @@ public class CEntityDivide extends CBaseActionEntity
         return isisRounded;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = what.ignore() ;

@@ -25,10 +25,12 @@ import jlib.log.Log;
  */
 public class BaseDbColDefinitionFactory
 {
+    /** Creates a new base db col definition factory instance. */
     public BaseDbColDefinitionFactory()
     {
     }
 
+    /** Executes the make insert string operation. */
     public static String makeInsertString(String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDefinition)
     {
         String insert = "INSERT INTO " + csTableFullName + " VALUES (";
@@ -47,6 +49,7 @@ public class BaseDbColDefinitionFactory
         return insert;
     }
 
+    /** Executes the make array db col definitions operation. */
     public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(DbConnectionBase dbConnection, String csPrefix, String csTableName)
     {
         int nDebugStep = 0;
@@ -92,6 +95,7 @@ public class BaseDbColDefinitionFactory
         return arrDbColDef;
     }
 
+    /** Executes the make array db col definitions operation. */
     public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(ResultSet resultSet)
     {
         ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();

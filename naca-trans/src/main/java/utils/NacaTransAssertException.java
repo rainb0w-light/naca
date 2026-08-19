@@ -16,6 +16,7 @@ public class NacaTransAssertException extends RuntimeException
      *
      */
     private static final long serialVersionUID = 1L;
+    /** Creates a new naca trans assert exception instance. */
     public NacaTransAssertException(String cs)
     {
         csMessage = cs ;

@@ -10,22 +10,199 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
-
-import semantic.*;
-import semantic.CICS.*;
+import semantic.CBaseEntityFactory;
+import semantic.CBaseExternalEntity;
+import semantic.CDataEntity;
+import semantic.CEntityAddressReference;
+import semantic.CEntityArrayReference;
+import semantic.CEntityAttribute;
+import semantic.CEntityBloc;
+import semantic.CEntityClass;
+import semantic.CEntityComment;
+import semantic.CEntityCondition;
+import semantic.CEntityDataSection;
+import semantic.CEntityEnvironmentVariable;
+import semantic.CEntityExternalDataStructure;
+import semantic.CEntityFileDescriptor;
+import semantic.CEntityFileDescriptorLengthDependency;
+import semantic.CEntityFormatedVarReference;
+import semantic.CEntityIndex;
+import semantic.CEntityInline;
+import semantic.CEntityMoveReference;
+import semantic.CEntityNamedCondition;
+import semantic.CEntityProcedure;
+import semantic.CEntityProcedureDivision;
+import semantic.CEntityProcedureSection;
+import semantic.CEntitySQLCursorSection;
+import semantic.CEntitySortedFileDescriptor;
+import semantic.CEntityStructure;
+import semantic.CEntityUnknownReference;
+import semantic.CFPacUnknownReference;
+import semantic.CPositionedBufferReference;
+import semantic.CSubStringAttributReference;
+import semantic.CICS.CEntityCICSAbend;
+import semantic.CICS.CEntityCICSAddress;
+import semantic.CICS.CEntityCICSAskTime;
+import semantic.CICS.CEntityCICSAssign;
+import semantic.CICS.CEntityCICSDeQ;
+import semantic.CICS.CEntityCICSDelay;
+import semantic.CICS.CEntityCICSDeleteQ;
+import semantic.CICS.CEntityCICSEnQ;
+import semantic.CICS.CEntityCICSGetMain;
+import semantic.CICS.CEntityCICSHandleAID;
+import semantic.CICS.CEntityCICSHandleCondition;
+import semantic.CICS.CEntityCICSIgnoreCondition;
+import semantic.CICS.CEntityCICSInquire;
+import semantic.CICS.CEntityCICSLink;
+import semantic.CICS.CEntityCICSReWrite;
+import semantic.CICS.CEntityCICSRead;
+import semantic.CICS.CEntityCICSReadQ;
+import semantic.CICS.CEntityCICSReceiveMap;
+import semantic.CICS.CEntityCICSRetrieve;
+import semantic.CICS.CEntityCICSReturn;
+import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSetTDQueue;
+import semantic.CICS.CEntityCICSStart;
+import semantic.CICS.CEntityCICSStartBrowse;
+import semantic.CICS.CEntityCICSSyncPoint;
+import semantic.CICS.CEntityCICSWrite;
+import semantic.CICS.CEntityCICSWriteQ;
+import semantic.CICS.CEntityCICSXctl;
 import semantic.CICS.CEntityCICSRead.CEntityCICSReadMode;
-import semantic.SQL.*;
-import semantic.Verbs.*;
+import semantic.SQL.CEntityCondIsSQLCode;
+import semantic.SQL.CEntitySQLCall;
+import semantic.SQL.CEntitySQLCloseStatement;
+import semantic.SQL.CEntitySQLCode;
+import semantic.SQL.CEntitySQLCommit;
+import semantic.SQL.CEntitySQLCursor;
+import semantic.SQL.CEntitySQLCursorSelectStatement;
+import semantic.SQL.CEntitySQLDeclareTable;
+import semantic.SQL.CEntitySQLDeleteStatement;
+import semantic.SQL.CEntitySQLExecute;
+import semantic.SQL.CEntitySQLFetchStatement;
+import semantic.SQL.CEntitySQLInsertStatement;
+import semantic.SQL.CEntitySQLLock;
+import semantic.SQL.CEntitySQLOpenStatement;
+import semantic.SQL.CEntitySQLRollBack;
+import semantic.SQL.CEntitySQLSelectStatement;
+import semantic.SQL.CEntitySQLSessionDeclare;
+import semantic.SQL.CEntitySQLSessionDrop;
+import semantic.SQL.CEntitySQLSingleStatement;
+import semantic.SQL.CEntitySQLUpdateStatement;
+import semantic.SQL.CEntitySqlOnErrorGoto;
+import semantic.Verbs.CEntityAccept;
+import semantic.Verbs.CEntityAddTo;
+import semantic.Verbs.CEntityAssign;
+import semantic.Verbs.CEntityAssignSpecial;
+import semantic.Verbs.CEntityAssignWithAccessor;
+import semantic.Verbs.CEntityBreak;
+import semantic.Verbs.CEntityCalcul;
+import semantic.Verbs.CEntityCallFunction;
+import semantic.Verbs.CEntityCallProgram;
+import semantic.Verbs.CEntityCase;
+import semantic.Verbs.CEntityCloseFile;
+import semantic.Verbs.CEntityContinue;
+import semantic.Verbs.CEntityConvertReference;
+import semantic.Verbs.CEntityCount;
+import semantic.Verbs.CEntityDisplay;
+import semantic.Verbs.CEntityDivide;
+import semantic.Verbs.CEntityExec;
+import semantic.Verbs.CEntityGoto;
+import semantic.Verbs.CEntityInc;
+import semantic.Verbs.CEntityInitialize;
+import semantic.Verbs.CEntityInspectConverting;
+import semantic.Verbs.CEntityLoopIter;
+import semantic.Verbs.CEntityLoopWhile;
+import semantic.Verbs.CEntityMultiply;
+import semantic.Verbs.CEntityNextSentence;
+import semantic.Verbs.CEntityOpenFile;
+import semantic.Verbs.CEntityParseString;
+import semantic.Verbs.CEntityReadFile;
+import semantic.Verbs.CEntityReplace;
+import semantic.Verbs.CEntityReturn;
+import semantic.Verbs.CEntityRewriteFile;
+import semantic.Verbs.CEntityRoutineEmulationCall;
+import semantic.Verbs.CEntitySearch;
+import semantic.Verbs.CEntitySetConstant;
+import semantic.Verbs.CEntitySort;
+import semantic.Verbs.CEntitySortRelease;
+import semantic.Verbs.CEntitySortReturn;
+import semantic.Verbs.CEntityStringConcat;
+import semantic.Verbs.CEntitySubtractTo;
+import semantic.Verbs.CEntitySwitchCase;
+import semantic.Verbs.CEntityWriteFile;
 import semantic.Verbs.CEntityDisplay.Upon;
-import semantic.expression.*;
+import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityAddress;
+import semantic.expression.CEntityAddressOf;
+import semantic.expression.CEntityConcat;
+import semantic.expression.CEntityCondAnd;
+import semantic.expression.CEntityCondCompare;
+import semantic.expression.CEntityCondEquals;
+import semantic.expression.CEntityCondIsAll;
+import semantic.expression.CEntityCondIsBoolean;
+import semantic.expression.CEntityCondIsConstant;
+import semantic.expression.CEntityCondIsKindOf;
+import semantic.expression.CEntityCondNot;
+import semantic.expression.CEntityCondOr;
+import semantic.expression.CEntityConstant;
+import semantic.expression.CEntityCurrentDate;
+import semantic.expression.CEntityDigits;
+import semantic.expression.CEntityExprOpposite;
+import semantic.expression.CEntityExprProd;
+import semantic.expression.CEntityExprSum;
+import semantic.expression.CEntityExprTerminal;
+import semantic.expression.CEntityFunctionCall;
+import semantic.expression.CEntityInternalBool;
+import semantic.expression.CEntityIntrinsicFunction;
+import semantic.expression.CEntityIsFileEOF;
+import semantic.expression.CEntityIsNamedCondition;
+import semantic.expression.CEntityLengthOf;
+import semantic.expression.CEntityList;
+import semantic.expression.CEntityNumber;
+import semantic.expression.CEntityString;
 import semantic.expression.CEntityConstant.Value;
-import semantic.forms.*;
+import semantic.forms.CEntityFieldArrayReference;
+import semantic.forms.CEntityFieldAttribute;
+import semantic.forms.CEntityFieldColor;
+import semantic.forms.CEntityFieldData;
+import semantic.forms.CEntityFieldFlag;
+import semantic.forms.CEntityFieldHighlight;
+import semantic.forms.CEntityFieldLength;
+import semantic.forms.CEntityFieldOccurs;
+import semantic.forms.CEntityFieldRedefine;
+import semantic.forms.CEntityFieldValidated;
+import semantic.forms.CEntityFormRedefine;
+import semantic.forms.CEntityGetKeyPressed;
+import semantic.forms.CEntityIsFieldAttribute;
+import semantic.forms.CEntityIsFieldColor;
+import semantic.forms.CEntityIsFieldCursor;
+import semantic.forms.CEntityIsFieldFlag;
+import semantic.forms.CEntityIsFieldHighlight;
+import semantic.forms.CEntityIsFieldModified;
+import semantic.forms.CEntityIsKeyPressed;
+import semantic.forms.CEntityKeyPressed;
+import semantic.forms.CEntityResetKeyPressed;
+import semantic.forms.CEntityResourceField;
+import semantic.forms.CEntityResourceFieldArray;
+import semantic.forms.CEntityResourceForm;
+import semantic.forms.CEntityResourceFormContainer;
+import semantic.forms.CEntitySetAttribute;
+import semantic.forms.CEntitySetColor;
+import semantic.forms.CEntitySetCursor;
+import semantic.forms.CEntitySetFlag;
+import semantic.forms.CEntitySetHighligh;
+import semantic.forms.CEntitySkipFields;
+import semantic.forms.CResourceStrings;
 import utils.CObjectCatalog;
 import utils.NacaTransAssertException;
 
+
+/** Provides cjava fpac entity factory behavior. */
 public class CJavaFPacEntityFactory extends CBaseEntityFactory
 {
 
+    /** Creates a new cjava fpac entity factory instance. */
     public CJavaFPacEntityFactory(CObjectCatalog cat, CBaseLanguageExporter out)
     {
         super(cat);
@@ -726,7 +903,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
     }
 
     @Override
-    public CEntityStructure NewEntityStructure(int l, String name, String Level)
+    public CEntityStructure NewEntityStructure(int l, String name, String level)
     {
         throw unsupportedOperation() ;
     }
@@ -921,12 +1098,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
     }
 
     @Override
-    public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)
+    public CEntityGoto NewEntityGoto(int l, String reference, CEntityProcedureSection section)
     {
         // FPac GOEND/GOLAST returns the reserved FPacProgram control token. Keep
         // the shared semantic GO TO node, but lower it through the FPAC_REFERENCE
         // override rather than COBOL's goTo(paragraph) template.
-        CEntityGoto entity = new CEntityGoto(l, programCatalog, Reference, section) ;
+        CEntityGoto entity = new CEntityGoto(l, programCatalog, reference, section) ;
         return entity ;
     }
 
@@ -1534,6 +1711,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
         throw unsupportedOperation() ;
     }
 
+    /** Creates the entity assign special. */
     public CEntityAssignSpecial NewEntityAssignSpecial(int l)   {
         // Pure target-neutral semantic entity: a packed FPac move renders through the
         // declarative recursive ST4 binding

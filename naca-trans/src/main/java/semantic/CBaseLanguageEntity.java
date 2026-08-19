@@ -6,10 +6,20 @@
  */
 package semantic;
 
-import java.util.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.Vector;
 import semantic.expression.CBaseEntityCondition;
-import utils.*;
+import utils.CEntityHierarchy;
+import utils.CObjectCatalog;
+import utils.NacaTransAssertException;
+import utils.Transcoder;
 
 
 /**
@@ -31,16 +41,19 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         String name = "Filler$" + (programCatalog != null ? programCatalog.GetLastFillerIndex() : 0) ;
         return name ;
     }
+    /** Executes the get name operation. */
     public String GetName()
     {
         return name ;
     }
     private String name = "" ;
+    /** Sets the name. */
     public void SetName(String name)
     {
         this.name = name ;
         RegisterMySelfToCatalog() ;
     }
+    /** Executes the rename operation. */
     public void Rename(String name)
     {
         if (!name.equals(""))
@@ -55,6 +68,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 
 //  protected CEntityHierarchy m_Hierarchy = null ;
     protected CBaseLanguageEntity parent = null ;
+    /** Sets the parent. */
     public void SetParent(CBaseLanguageEntity e)
     {
         if (parent != null)
@@ -64,10 +78,12 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
         parent = e ;
     }
+    /** Executes the get parent operation. */
     public CBaseLanguageEntity GetParent()
     {
         return parent ;
     }
+    /** Executes the get hierarchy operation. */
     public CEntityHierarchy GetHierarchy()
     {
         CEntityHierarchy hier = null ;
@@ -119,6 +135,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
 
     private int line = 0 ;
 
+    /** Sets the line. */
     public void SetLine(int line)
     {
         this.line = line ;
@@ -143,6 +160,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
             RegisterMySelfToCatalog() ;
         }
     }
+    /** Adds the child. */
     public void AddChild(CBaseLanguageEntity e)
     {
         if (e != this)
@@ -151,6 +169,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
             e.SetParent(this) ;
         }
     }
+    /** Adds the child special. */
     public void AddChildSpecial(CBaseLanguageEntity e)
     {
         if (e != this)
@@ -158,6 +177,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
             lstChildren.add(e) ;
         }
     }
+    /** Executes the get list of children operation. */
     public Vector<CBaseLanguageEntity> GetListOfChildren()
     {
         Vector<CBaseLanguageEntity> v = new Vector<CBaseLanguageEntity>() ;
@@ -178,6 +198,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         return v ;
     }
     protected LinkedList<CBaseLanguageEntity> lstChildren = new LinkedList<CBaseLanguageEntity>() ;
+    /** Executes the has children operation. */
     public boolean HasChildren()
     {
         return ! lstChildren.isEmpty();
@@ -189,11 +210,13 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
             throw new NacaTransAssertException("ASSERT if null") ;
         }
     }
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         return 0 ;
     }
 
+    /** Finds the last entity available for level. */
     public CBaseLanguageEntity FindLastEntityAvailableForLevel(int level)
     {
         CBaseLanguageEntity le = null ;
@@ -227,6 +250,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
     }
 
+    /** Finds the first data entity at level. */
     public CDataEntity FindFirstDataEntityAtLevel(int level)
     {
         CBaseLanguageEntity le = null ;
@@ -247,6 +271,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         return null ;
     }
 
+    /** Executes the get program name operation. */
     public String GetProgramName()
     {
         if (parent != null)
@@ -255,6 +280,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
         return "" ;
     }
+    /** Returns the section container. */
     public CEntityProcedureSection getSectionContainer()
     {
         if (parent != null)
@@ -267,6 +293,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return isignore;
@@ -289,12 +316,14 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
         return ignore ;
     }
+    /** Updates the condition. */
     public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
     {
         int n=0 ;
         n++ ;
         // nothing
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         Iterator i = lstChildren.iterator() ;
@@ -410,6 +439,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
     }
 
+    /** Executes the get display name operation. */
     public String GetDisplayName()
     {
         if (csDisplayName.equals(""))
@@ -422,11 +452,13 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         }
     }
     protected String csDisplayName = "" ;
+    /** Sets the display name. */
     public void SetDisplayName(String name)
     {
         csDisplayName = name ;
     }
 
+    /** Returns whether own table size. */
     public boolean canOwnTableSize()
     {
         return false;
@@ -453,6 +485,7 @@ public abstract class CBaseLanguageEntity //extends CBaseEntity
         return Collections.unmodifiableList(new ArrayList<CBaseLanguageEntity>(lstChildren));
     }
 
+    /** Returns the active children. */
     public List<CBaseLanguageEntity> getActiveChildren()
     {
         List<CBaseLanguageEntity> children = new ArrayList<CBaseLanguageEntity>();

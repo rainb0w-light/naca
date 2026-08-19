@@ -88,6 +88,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the to zero. */
     public void SetToZero(CDataEntity var)
     {
         variable = var ;
@@ -100,6 +101,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         issetToLowValue = false ;
         issetToHighValue = false ;
     }
+    /** Sets the to space. */
     public void SetToSpace(CDataEntity var)
     {
         if (var == null)
@@ -112,6 +114,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         issetToLowValue = false ;
         issetToHighValue = false ;
     }
+    /** Sets the to high value. */
     public void SetToHighValue(CDataEntity var)
     {
         if (var == null)
@@ -124,6 +127,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         issetToLowValue = false ;
         issetToHighValue = true ;
     }
+    /** Sets the to low value. */
     public void SetToLowValue(CDataEntity var)
     {
         if (var == null)
@@ -136,6 +140,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         issetToHighValue = false ;
         issetToLowValue = true ;
     }
+    /** Sets the cste value. */
     public void SetCsteValue(CDataEntity var, CDataEntity val)
     {
         if (var == null)
@@ -150,11 +155,13 @@ public class CEntitySetConstant extends CBaseActionEntity
         csteValue = val ;
     }
 
+    /** Sets the sub string ref. */
     public void SetSubStringRef(CBaseEntityExpression s, CBaseEntityExpression l)
     {
         subStringRefStart = s ;
         subStringRefLength = l ;
     }
+    /** Sets the condition. */
     public void SetCondition(CDataEntity cond, boolean bCond)
     {
         if (cond == null)
@@ -182,6 +189,7 @@ public class CEntitySetConstant extends CBaseActionEntity
     protected CDataEntity csteValue = null ;
     protected CBaseEntityExpression subStringRefStart = null ;
     protected CBaseEntityExpression subStringRefLength = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -198,10 +206,12 @@ public class CEntitySetConstant extends CBaseActionEntity
             subStringRefStart = null ;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return variable == null ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == variable)
@@ -212,6 +222,7 @@ public class CEntitySetConstant extends CBaseActionEntity
         }
         return false  ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity var, CDataEntity by)
     {
         if (variable == var)

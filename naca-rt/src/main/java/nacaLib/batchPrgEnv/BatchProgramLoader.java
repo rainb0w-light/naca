@@ -13,22 +13,27 @@ import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.CBaseMapFieldLoader;
 import nacaLib.exceptions.AbortSessionException;
 
+/** Provides batch program loader behavior. */
 public class BatchProgramLoader extends BaseProgramLoader
 {
+    /** Creates a new batch program loader instance. */
     public BatchProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
     {
         super(connectionManager, tagSequencerConfig, true);
     }
 
+    /** Executes the run program operation. */
     public void RunProgram(BaseSession appSession) throws AbortSessionException
     {
     }
 
+    /** Executes the get program loader instance operation. */
     public static BatchProgramLoader GetProgramLoaderInstance()
     {
         return (BatchProgramLoader)ms_Instance ;
     }
 
+    /** Executes the do help operation. */
     public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
     {
     }

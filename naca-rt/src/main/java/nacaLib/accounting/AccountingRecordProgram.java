@@ -21,31 +21,34 @@ import jlib.misc.StopWatchNano;
  */
 public class AccountingRecordProgram
 {
+    /** Creates a new accounting record program instance. */
     public AccountingRecordProgram()
     {
         dateStart = new Date();
         stopWatchNano.reset();
     }
 
+    /** Executes the begin run program operation. */
     public void beginRunProgram(String csProgramName)
     {
         this.csProgramName = csProgramName;
     }
 
+    /** Executes the end run program operation. */
     public void endRunProgram(CriteriaEndRunMain criteria)
     {
-        nRunTime_ms = (int)StopWatchNano.getMilliSecond(stopWatchNano.getElapsedTime());
+        runTimeMillis = (int)StopWatchNano.getMilliSecond(stopWatchNano.getElapsedTime());
         csCriteriaEnd = criteria.getName();
     }
 
     int getRunTime_ms()
     {
-        return nRunTime_ms;
+        return runTimeMillis;
     }
 
     long getRunTimeIO_ns()
     {
-        return nRunTimeIO_ns;
+        return runTimeIONanos;
     }
 
     long getTimeDateStart()
@@ -58,7 +61,7 @@ public class AccountingRecordProgram
 
     void reportDBIOTime(long lDBIOTimeNs)
     {
-        nRunTimeIO_ns += lDBIOTimeNs;
+        runTimeIONanos += lDBIOTimeNs;
     }
 
     String getProgramName()
@@ -73,8 +76,8 @@ public class AccountingRecordProgram
 
     private Date dateStart = null;
     private String csProgramName = "";
-    private int nRunTime_ms = 0;
-    private long nRunTimeIO_ns = 0;
+    private int runTimeMillis = 0;
+    private long runTimeIONanos = 0;
 
     private String csCriteriaEnd = "";
     private StopWatchNano stopWatchNano = new StopWatchNano();

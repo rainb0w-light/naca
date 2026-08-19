@@ -11,17 +11,20 @@ import generate.CBaseLanguageExporter;
 public class MockDataEntity extends CDataEntity {
     private String mockReferenceValue;
 
+    /** Creates a new mock data entity instance. */
     public MockDataEntity(int line, String referenceValue) {
         super(line, "", null);
         this.mockReferenceValue = referenceValue;
     }
 
+    /** Creates a new mock data entity instance. */
     public MockDataEntity(int line, CObjectCatalog cat, CBaseLanguageExporter out, String referenceValue) {
         super(line, "", cat);
         generate.LegacyLanguageRenderer.bind(this, out);
         this.mockReferenceValue = referenceValue;
     }
 
+        /** Exports the reference. */
         public String ExportReference(int nLine) {
         return mockReferenceValue;
     }
@@ -49,6 +52,7 @@ public class MockDataEntity extends CDataEntity {
         return false;
     }
 
+        /** Exports the write accessor to. */
         public String ExportWriteAccessorTo(String varName) {
         return mockReferenceValue + " = " + varName + ";";
     }

@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 //TODO(quality-governance): replace this class with a JLIB implementation !!!!
+/** Provides stream util behavior. */
 public class StreamUtil {
 
     //private static Logger _logger = Logger.getLogger(StreamUtil.class.getName());
@@ -301,16 +302,16 @@ public static String getStringFromFile(String filePath, String charset) throws E
     File file = new File(filePath);
     String str = null;
     int numRead = 0;
-    final int DATA_BLOCK_SIZE = 2048;
+    final int dataBlockSize = 2048;
 
     InputStreamReader isr = new InputStreamReader(new FileInputStream(file), charset);
 
     if (isr != null) {
 
       // Create the byte array to hold the data
-      char[] charArray = new char[DATA_BLOCK_SIZE];
+      char[] charArray = new char[dataBlockSize];
 
-      while ((numRead = isr.read(charArray, 0, DATA_BLOCK_SIZE)) >= 0) {
+      while ((numRead = isr.read(charArray, 0, dataBlockSize)) >= 0) {
         str += new String(charArray, 0, numRead);
       }
       isr.close();

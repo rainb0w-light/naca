@@ -18,17 +18,20 @@ import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.misc.CCommarea;
 import nacaLib.varEx.Var;
 
+/** Provides cesmlink behavior. */
 public class CESMLink extends CJMapObject
 {
     protected BaseEnvironment environment = null ;
     protected String csProgramClassName = null;
 
+    /** Creates a new cesmlink instance. */
     public CESMLink(BaseEnvironment env, String csProgramClassName)
     {
         environment = env;
         this.csProgramClassName = csProgramClassName;
     }
 
+    /** Executes the go operation. */
     public void go()
     {
         if (isLogCESM) {
@@ -38,6 +41,7 @@ public class CESMLink extends CJMapObject
         baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, int length)
     {
         if (isLogCESM) {
@@ -50,22 +54,26 @@ public class CESMLink extends CJMapObject
         baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var)
     {
         commarea(var, -1) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var v, Var length)
     {
         int l = length.getInt() ;
         commarea(v, l) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, int length, int datalength)
     {
         commarea(var, length) ;
     }
 
+    /** Executes the commarea operation. */
     public void commarea(Var var, Var length, int datalength)
     {
         int l = length.getInt() ;

@@ -27,12 +27,14 @@ import nacaLib.varEx.VarBase;
 
 // PJD ROWID Support: import oracle.sql.ROWID;
 
+/** Provides csqlresult set behavior. */
 public class CSQLResultSet extends CJMapObject
 {
     private SQL sql = null;
     private String csQuery = null;
     private String csProgramName = null;
 
+    /** Creates a new csqlresult set instance. */
     public CSQLResultSet(ResultSet r, SemanticContextDef semanticContextDef, SQL sql)
     {
         this.sql = sql;
@@ -45,6 +47,7 @@ public class CSQLResultSet extends CJMapObject
 
     protected CSQLStatus sqlStatus = null ;
 
+    /** Executes the next operation. */
     public boolean next()
     {
         if(r != null)
@@ -84,6 +87,7 @@ public class CSQLResultSet extends CJMapObject
         return false;
     }
 
+    /** Returns whether the only one. */
     public boolean isTheOnlyOne()
     {
         try
@@ -289,6 +293,7 @@ public class CSQLResultSet extends CJMapObject
         }
     }
 
+    /** Executes the fill into values operation. */
     public void fillIntoValues(SQL sql, boolean bCursor, boolean bRowIdGenerated, int nNbFetch)
     {
         if(BaseResourceManager.ms_bUseVarFillCache)
@@ -518,6 +523,7 @@ public class CSQLResultSet extends CJMapObject
 
     private ResultSet r = null;
 
+    /** Returns the string. */
     public String getString(String string)
     {
         try
@@ -531,6 +537,7 @@ public class CSQLResultSet extends CJMapObject
         }
     }
 
+    /** Returns the int. */
     public int getInt(int i)
     {
         try
@@ -544,6 +551,7 @@ public class CSQLResultSet extends CJMapObject
         }
     }
 
+    /** Returns the int. */
     public int getInt(String string)
     {
         try
@@ -557,6 +565,7 @@ public class CSQLResultSet extends CJMapObject
         }
     }
 
+    /** Executes the close operation. */
     public void close()
     {
         try

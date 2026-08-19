@@ -12,6 +12,7 @@ package lexer;
  */
 public class CReservedKeyword
 {
+    /** Creates a new creserved keyword instance. */
     public CReservedKeyword(CKeywordList list, String name)
     {
         this.name = name;
@@ -19,6 +20,7 @@ public class CReservedKeyword
     }
     public String name ;
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return name;

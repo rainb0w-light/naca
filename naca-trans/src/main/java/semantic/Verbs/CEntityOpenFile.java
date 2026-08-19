@@ -10,8 +10,10 @@ import semantic.CBaseActionEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity open file behavior. */
 public class CEntityOpenFile extends CBaseActionEntity
 {
+    /** Enumerates supported open mode values. */
     public enum OpenMode
     {
         INPUT,
@@ -19,11 +21,13 @@ public class CEntityOpenFile extends CBaseActionEntity
         INPUT_OUTPUT,
         APPEND
     }
+    /** Creates a new centity open file instance. */
     public CEntityOpenFile(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
 
+    /** Sets the file descriptor. */
     public void setFileDescriptor(CEntityFileDescriptor fd, OpenMode mode)
     {
         eFileDescriptor = fd ;

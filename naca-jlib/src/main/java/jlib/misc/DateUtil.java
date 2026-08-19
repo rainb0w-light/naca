@@ -32,13 +32,16 @@ public class DateUtil
     GregorianCalendar calendar = null;
     private String format = "yyyy.MM.dd HH:mm:ss";
 
+    /** Creates a new date util instance. */
     public DateUtil() {
         calendar = new GregorianCalendar();
     }
+    /** Creates a new date util instance. */
     public DateUtil(String format) {
         calendar = new GregorianCalendar();
         this.format = format;
     }
+    /** Creates a new date util instance. */
     public DateUtil(String format, Date date) {
         calendar = new GregorianCalendar();
         calendar.setTime(date);
@@ -82,12 +85,14 @@ public class DateUtil
         this.format = format;
     }
 
+    /** Returns the current date yyyymmdd. */
     public String getCurrentDateYYYYMMDD()
     {
         Calendar calendar = new GregorianCalendar();
         return getCurrentDateYYYYMMDD(calendar);
     }
 
+    /** Executes the get display date hour operation. */
     public static String GetDisplayDateHour(Calendar cal)
     {
         String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR));
@@ -101,6 +106,7 @@ public class DateUtil
         return csD + "/" + csM + "/" + csY + " " + csH + ":" + csm + ":" + csS;
     }
 
+    /** Returns the current date yyyymmdd. */
     public String getCurrentDateYYYYMMDD(Calendar cal)
     {
         String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR));
@@ -109,12 +115,14 @@ public class DateUtil
         return csY + csM + csD;
     }
 
+    /** Returns the current time hhmmss. */
     public String getCurrentTimeHHMMSS()
     {
         Calendar calendar = new GregorianCalendar();
         return getCurrentTimeHHMMSS(calendar);
     }
 
+    /** Returns the current time hhmmss. */
     public String getCurrentTimeHHMMSS(Calendar cal)
     {
         String csH = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY));
@@ -123,6 +131,7 @@ public class DateUtil
         return csH + csM + csS;
     }
 
+    /** Returns the nb second since midnight. */
     public static int getNbSecondSinceMidnight()
     {
         Calendar calendar = new GregorianCalendar();
@@ -133,18 +142,21 @@ public class DateUtil
         return n;
     }
 
+    /** Returns the nb seconds from hour. */
     public static int getNbSecondsFromHour(int hour)
     {
         int n = ((hour/10000) * 3600) + ((hour%10000)/100 * 60) + ((hour%100));
         return n;
     }
 
+    /** Returns the current date time yyyymmdd hhmmss. */
     public String getCurrentDateTimeYYYYMMDD_HHMMSS()
     {
         Calendar calendar = new GregorianCalendar();
         return getCurrentDateYYYYMMDD(calendar) + getCurrentTimeHHMMSS(calendar);
     }
 
+    /** Returns the current date display date time. */
     public String getCurrentDateDisplayDateTime()
     {
         // "Format: yyyy/MM/dd HH:mm:ss
@@ -162,6 +174,7 @@ public class DateUtil
         return formatter.format(calendar.getTime());
     }
 
+    /** Returns the current displayable date time. */
     public static String getCurrentDisplayableDateTime()
     {
         GregorianCalendar calendar = new GregorianCalendar();
@@ -462,6 +475,7 @@ public class DateUtil
         return date;
     }
 
+    /** Executes the format date operation. */
     public static Date formatDate(String csDate, String csFormat, boolean strict)
     {
         Date date = null;
@@ -488,12 +502,14 @@ public class DateUtil
         return date;
     }
 
+    /** Returns the time stamp. */
     public static String getTimeStamp()
     {
         Date date = new Date();
         return getTimeStamp(date);
     }
 
+    /** Returns the time stamp. */
     public static String getTimeStamp(Date date)
     {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -501,6 +517,7 @@ public class DateUtil
         return cs ;
     }
 
+    /** Returns the date now yyyymmdd. */
     public static String getDateNowYYYYMMDD()
     {
         Date date = new Date();
@@ -509,6 +526,7 @@ public class DateUtil
         return cs ;
     }
 
+    /** Returns the display date now. */
     public static String getDisplayDateNow()
     {
         Date date = new Date();
@@ -517,6 +535,7 @@ public class DateUtil
         return cs ;
     }
 
+    /** Returns the time now hhmmss. */
     public static String getTimeNowHHMMSS()
     {
         Date date = new Date();
@@ -525,6 +544,7 @@ public class DateUtil
         return cs ;
     }
 
+    /** Returns the display time now. */
     public static String getDisplayTimeNow()
     {
         Date date = new Date();
@@ -534,6 +554,7 @@ public class DateUtil
     }
 
 
+    /** Returns the display time stamp. */
     public static String getDisplayTimeStamp()
     {
         Date date = new Date();
@@ -541,6 +562,7 @@ public class DateUtil
         String cs = formatter.format(date) ;
         return cs ;
     }
+    /** Returns the display time stamp. */
     public static String getDisplayTimeStamp(Date date)
     {
         if (date != null)
@@ -551,6 +573,7 @@ public class DateUtil
         }
         return "" ;
     }
+    /** Returns the elapsedtime. */
     public static int getElapsedtime(Date dt)
     {
         Date d = new Date() ;

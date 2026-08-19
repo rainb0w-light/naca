@@ -71,84 +71,84 @@ public class Db {
 /**
  * The JDBC connection string to use.
  */
-    protected String _conString;
+    private String storedConString;
 /**
  * The JDBC connection string to use.
  */
     public String getConString() {
-        return _conString;
+        return storedConString;
     }
 /**
  * The JDBC connection string to use.
  */
     public void setConString(String conString) throws Exception {
-        if (!_conString.equals(conString)) {
+        if (!storedConString.equals(conString)) {
             cleanConnection();
         }
-        _conString=conString;
+        storedConString=conString;
     }
 
 //............................ The driver ......................................
 /**
  * The JDBC name of the database driver to use.
  */
-    protected String _driver;
+    private String storedDriver;
 /**
  * The JDBC name of the database driver to use.
  */
     public String getDriver(){
-        return _driver;
+        return storedDriver;
     }
 /**
  * The JDBC name of the database driver to use.
  */
     public void setDriver(String driver) throws Exception {
-        if (!_driver.equals(driver)) {
+        if (!storedDriver.equals(driver)) {
             cleanConnection();
         }
-        _driver=driver;
+        storedDriver=driver;
     }
 
 //............................... The user name ..............................
 /**
  * A user with rights to log in the database.
  */
-    protected String _user;
+    private String storedUser;
 /**
  * A user with rights to log in the database.
  */
     public String getUser(){
-        return _user;
+        return storedUser;
     }
 /**
  * A user with rights to log in the database.
  */
     public void setUser(String user) throws Exception {
-        if (!_user.equals(user)) {
+        if (!storedUser.equals(user)) {
             cleanConnection();
         }
-        _user=user;
+        storedUser=user;
     }
 
 //............................... The password ..................................
 /**
  * The password for the specified <code>user</code>.
  */
-    protected String _password;
+    private String storedPassword;
 /**
  * The password for the specified <code>user</code>.
  */
     public String getPassword() {
-        return _password;
+        return storedPassword;
     }
 /**
  * The password for the specified <code>user</code>.
  */
     public void setPassword(String password) throws Exception {
-        if (!_password.equals(password)) {
+        if (!storedPassword.equals(password)) {
             cleanConnection();
         }
-        _password=password;
+        storedPassword=password;
     }
 
 //******************************************************************************
@@ -158,14 +158,14 @@ public class Db {
  * The current connection to a database.
  * All SQL commands are sent to this connection.
  */
-    protected Connection _connection=null;
+    private Connection storedConnection=null;
 
 /**
  * The current connection to a database.
  * All SQL commands are sent to this connection.
  */
     public Connection getConnection() {
-        return _connection;
+        return storedConnection;
     }
 
 /**
@@ -173,7 +173,7 @@ public class Db {
  * All SQL commands are sent to this connection.
  */
     public void setConnection(Connection connection) {
-        _connection=connection;
+        storedConnection=connection;
     }
 
 //*****************************************************************************
@@ -211,7 +211,7 @@ public class Db {
         char parameterPrefix;
         try {
 //.............................. Initialisation ...............................
-            if (_connection == null) {
+            if (storedConnection == null) {
                 connectTo();
             }
 
@@ -260,7 +260,7 @@ public class Db {
 
 //....................... Compiles the statement .........................................
             sql=parametrizedSql.toString();
-            preparedStatement=_connection.prepareStatement(sql);
+            preparedStatement=storedConnection.prepareStatement(sql);
 
 //.................... Adds the parameters to the prepared statement .....................
             n1=parameters.size();
@@ -330,8 +330,8 @@ public class Db {
 //.................. Constructeur avec param�tres de connection ................
 /**
  * Immediately establishes a connection to the specified database.
- * The specified parameters are copied into the properties {@link #_driver},
- * {@link #_conString}, {@link #_driver} and {@link #_password}.
+ * The specified parameters are copied into the properties {@link #storedDriver},
+ * {@link #storedConString}, {@link #storedDriver} and {@link #storedPassword}.
  */
     public Db(String driver,String conString,String user,String password) throws Exception {
         connectTo(driver,conString,user,password);
@@ -344,36 +344,36 @@ public class Db {
 //*************** Cr�e une connection � partir des propriet�s de la classe *****
 /**
  * Establishes a new connection to a database.
- * The connection parameters are set in the properties {@link #_driver}, {@link #_conString},
- * {@link #_driver} and {@link #_password}.
+ * The connection parameters are set in the properties {@link #storedDriver}, {@link #storedConString},
+ * {@link #storedDriver} and {@link #storedPassword}.
  */
     public void connectTo() throws Exception {
         try {
-            if (_driver == null) {
+            if (storedDriver == null) {
                 throw new Exception("Property \"Driver\" is not initialized.");
             }
-            if (_driver.length() == 0) {
+            if (storedDriver.length() == 0) {
                 throw new Exception("Property \"Driver\" is empty.");
             }
-            if (_conString == null) {
+            if (storedConString == null) {
                 throw new Exception("Property \"ConString\" is not initialized.");
             }
-            if (_conString.length() == 0) {
+            if (storedConString.length() == 0) {
                 throw new Exception("Property \"\" is empty.");
             }
-            if (_user == null) {
+            if (storedUser == null) {
                 throw new Exception("Property \"User\" is not initialized.");
             }
-            if (_user.length() == 0) {
+            if (storedUser.length() == 0) {
                 throw new Exception("Property \"User\" is empty.");
             }
-            if (_password == null) {
+            if (storedPassword == null) {
                 throw new Exception("Property \"Password\" is not initialized.");
             }
-            if (_password.length() == 0) {
+            if (storedPassword.length() == 0) {
                 throw new Exception("Property \"Password\" is empty.");
             }
-            connectTo(_driver,_conString,_user,_password);
+            connectTo(storedDriver,storedConString,storedUser,storedPassword);
         }
         catch(Exception e) {
             throw new Exception(ParseError.parseError("Db.connectTo",e));
@@ -383,8 +383,8 @@ public class Db {
 //*********************************** Cr�e une connection **********************
 /**
  * Establishes a new connection to the specified database.
- * The specified parameters are copied into the properties {@link #_driver},
- * {@link #_conString}, {@link #_driver} and {@link #_password}.
+ * The specified parameters are copied into the properties {@link #storedDriver},
+ * {@link #storedConString}, {@link #storedDriver} and {@link #storedPassword}.
  * @param driver The JDBC name of the database driver to use.
  * @param conString The JDBC connection string to use.
  * @param user A user with rights to log in the database.
@@ -394,10 +394,10 @@ public class Db {
         try {
 //................................. Class initialization .......................
             cleanConnection();
-            _driver=driver;
-            _conString=conString;
-            _user=user;
-            _password=password;
+            storedDriver=driver;
+            storedConString=conString;
+            storedUser=user;
+            storedPassword=password;
 //...................... Loads the driver ......................................
             try {
                 Class.forName(driver);
@@ -407,7 +407,7 @@ public class Db {
 
 //........................ Establishes a new connection ........................
             cleanConnection();
-            _connection=DriverManager.getConnection(_conString,user,password);
+            storedConnection=DriverManager.getConnection(storedConString,user,password);
         }
 
 //****************************** Exception management **************************
@@ -429,9 +429,9 @@ public class Db {
  * Closes the connection to the database.
  */
     public void cleanConnection() throws SQLException {
-        if (_connection!=null) {
-            _connection.close();
-            _connection=null;
+        if (storedConnection!=null) {
+            storedConnection.close();
+            storedConnection=null;
         }
     }
 
@@ -627,10 +627,10 @@ public class Db {
  * in the same transaction.
  */
     public void startTransaction() throws Exception {
-        if (_connection == null) {
+        if (storedConnection == null) {
             connectTo();
         }
-        _connection.setAutoCommit(false);
+        storedConnection.setAutoCommit(false);
     }
 
 //*****************************************************************************
@@ -644,8 +644,8 @@ public class Db {
  * in the same transaction.
  */
     public void commitTransaction() throws Exception {
-        _connection.commit();
-        _connection.setAutoCommit(true);
+        storedConnection.commit();
+        storedConnection.setAutoCommit(true);
     }
 
 /**
@@ -656,8 +656,8 @@ public class Db {
  * in the same transaction.
  */
     public void rollbackTransaction() throws Exception {
-        _connection.rollback();
-        _connection.setAutoCommit(true);
+        storedConnection.rollback();
+        storedConnection.setAutoCommit(true);
     }
 
 //*****************************************************************************

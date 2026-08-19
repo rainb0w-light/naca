@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
-
 import semantic.expression.CBaseEntityCondition;
-import utils.*;
+import utils.CObjectCatalog;
+
 
 /**
  * @author sly
@@ -30,6 +30,7 @@ public class CEntityCondition extends CBaseActionEntity
         super(l, cat);
     }
 
+    /** Sets the condition. */
     public void SetCondition(CBaseEntityCondition exp, CEntityBloc ifyes, CEntityBloc ifnot)
     {
         condition = exp ;
@@ -44,10 +45,12 @@ public class CEntityCondition extends CBaseActionEntity
     protected CEntityBloc thenBloc = null ;
     protected boolean isalternativeCondition = false ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return condition == null || condition.ignore() || ((elseBloc == null || elseBloc.ignore()) && thenBloc.ignore()) ;
     }
+    /** Updates the condition. */
     public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
     {
         if (condition == condition)
@@ -58,6 +61,7 @@ public class CEntityCondition extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#Clear()
      */
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -73,6 +77,7 @@ public class CEntityCondition extends CBaseActionEntity
         elseBloc = null ;
         thenBloc = null ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         boolean isexplicit = thenBloc.hasExplicitGetOut() ;

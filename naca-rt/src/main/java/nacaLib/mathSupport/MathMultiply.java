@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides math multiply behavior. */
 public class MathMultiply extends MathBase
 {
     /**

@@ -17,11 +17,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondOr extends CBaseEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 2;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondAnd eAnd = new CEntityCondAnd();
@@ -29,6 +31,7 @@ public class CEntityCondOr extends CBaseEntityCondition
         return eAnd;
     }
 
+    /** Sets the condition. */
     public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)    {
         this.op1 = op1 ;
         op1.SetParent(this) ;
@@ -80,6 +83,7 @@ public class CEntityCondOr extends CBaseEntityCondition
     }
     protected CBaseEntityCondition op1 = null ;
     protected CBaseEntityCondition op2 = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -88,6 +92,7 @@ public class CEntityCondOr extends CBaseEntityCondition
         op2.Clear() ;
         op2 = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return op1.ignore() && op2.ignore() ;
@@ -101,10 +106,12 @@ public class CEntityCondOr extends CBaseEntityCondition
 //      }
 //      return eCond ;
 //  }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return null;
     }
+    /** Updates the condition. */
     public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
     {
         if (op1 == condition)
@@ -128,6 +135,7 @@ public class CEntityCondOr extends CBaseEntityCondition
     {
         return null;
     }
+    /** Sets the conditon reference. */
     public void SetConditonReference(CDataEntity e)
     {
         ASSERT(null) ;

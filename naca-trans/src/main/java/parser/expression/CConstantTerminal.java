@@ -20,6 +20,7 @@ import semantic.CBaseEntityFactory;
  */
 public class CConstantTerminal extends CTerminal
 {
+    /** Creates a new cconstant terminal instance. */
     public CConstantTerminal(String val)
     {
         csValue = val ;
@@ -31,6 +32,7 @@ public class CConstantTerminal extends CTerminal
 //  {
 //      return "Constant" ;
 //  }
+    /** Executes the get value operation. */
     public String GetValue()
     {
         return csValue;
@@ -39,6 +41,7 @@ public class CConstantTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
      */
+    /** Exports the to. */
     public void ExportTo(Element e, Document root)
     {
         e.setAttribute("Constant", csValue) ;
@@ -46,16 +49,19 @@ public class CConstantTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#IsReference()
      */
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return false;
     }
 
+    /** Executes the is one operation. */
     public boolean IsOne()
     {
         return false;
     }
 
+    /** Executes the is minus one operation. */
     public boolean IsMinusOne()
     {
         return false;
@@ -73,6 +79,7 @@ public class CConstantTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
      */
+    /** Executes the get data entity operation. */
     public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
     {
         if (csValue.equals("ZERO") || csValue.equals("ZEROS") || csValue.equals("ZEROES"))
@@ -104,11 +111,13 @@ public class CConstantTerminal extends CTerminal
 //      CBaseTranscoder.ms_logger.error("ERROR : missing Special test for constant "+csValue);
 //      return factory.NewEntityString(csValue);
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csValue ;
     }
 
+    /** Executes the is number operation. */
     public boolean IsNumber()
     {
         return false ;

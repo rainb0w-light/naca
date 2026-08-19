@@ -36,8 +36,10 @@ import nacaLib.tempCache.TempCacheLocator;
 import nacaLib.varEx.FileDescriptor;
 import nacaLib.varEx.InternalCharBuffer;
 
+/** Provides batch main behavior. */
 public class BatchMain
 {
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         String csPrgClassName = null;
@@ -113,8 +115,8 @@ public class BatchMain
                 }
                 else if(argUpper.startsWith("WAIT_MS="))
                 {
-                    String cs_ms = arg.substring(8);
-                    long l = NumberParser.getAsLong(cs_ms);
+                    String localCsMs = arg.substring(8);
+                    long l = NumberParser.getAsLong(localCsMs);
                     Time_ms.wait_ms(l);
                     JVMReturnCodeManager.exitJVM(0);
                 }
@@ -721,6 +723,7 @@ public class BatchMain
         JVMReturnCodeManager.setExitCode(8);
     }
 
+    /** Executes the execute transcoded program operation. */
     public static int executeTranscodedProgram(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
     {
         BatchResourceManager batchResourceManager = BatchResourceManagerFactory.GetInstance(

@@ -13,8 +13,10 @@ package nacaLib.varEx;
 import java.util.ArrayList;
 import nacaLib.base.CJMapObject;
 
+/** Provides cond behavior. */
 public class Cond extends CJMapObject
 {
+    /** Creates a new cond instance. */
     public Cond(Var varParent, DeclareTypeCond declareTypeCond)
     {
         this.var = varParent;
@@ -32,6 +34,7 @@ public class Cond extends CJMapObject
         values = condValue.values;
     }
 
+    /** Sets the true. */
     public void setTrue()
     {
         int nNbValues = values.size();
@@ -45,6 +48,7 @@ public class Cond extends CJMapObject
         }
     }
 
+    /** Sets the false. */
     public void setFalse()
     {
         String[] candidates = {"0", "1", " ", "__NACA_CONDITION_FALSE__"};
@@ -58,6 +62,7 @@ public class Cond extends CJMapObject
         }
         throw new IllegalStateException("No value outside the level-88 condition range");
     }
+    /** Executes the is operation. */
     public boolean is()
     {
         int nNbValues = values.size();
@@ -71,32 +76,38 @@ public class Cond extends CJMapObject
         return false;
     }
 
+    /** Returns the at. */
     public Cond getAt(Var xCmaj)
     {
         return getAt(xCmaj.getInt());
     }
 
-    public Cond getAt(int x_Cmaj)   // 1 based
+    /** Returns the at. */
+    public Cond getAt(int xCmaj)   // 1 based
     {
-        Var var = this.var.getAt(x_Cmaj);
+        Var var = this.var.getAt(xCmaj);
         return new Cond(var, this);
     }
 
+    /** Returns the at. */
     public Cond getAt(VarAndEdit x, VarAndEdit y)
     {
         return getAt(x.getInt(), y.getInt());
     }
 
+    /** Returns the at. */
     public Cond getAt(VarAndEdit x, int y)
     {
         return getAt(x.getInt(), y);
     }
 
+    /** Returns the at. */
     public Cond getAt(int x, VarAndEdit y)
     {
         return getAt(x, y.getInt());
     }
 
+    /** Returns the at. */
     public Cond getAt(int x, int y)
     {
         return new Cond(var.getAt(x, y), this);
@@ -107,6 +118,7 @@ public class Cond extends CJMapObject
         this.csName = csName;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "Cond {";

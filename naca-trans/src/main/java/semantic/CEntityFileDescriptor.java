@@ -9,8 +9,10 @@ package semantic;
 import semantic.Verbs.CEntityOpenFile;
 import utils.CObjectCatalog;
 
+/** Provides centity file descriptor behavior. */
 public class CEntityFileDescriptor extends CBaseLanguageEntity
 {
+    /** Creates a new centity file descriptor instance. */
     public CEntityFileDescriptor(int line, String name, CObjectCatalog cat)
     {
         super(line, name, cat);
@@ -27,6 +29,7 @@ public class CEntityFileDescriptor extends CBaseLanguageEntity
     protected CEntityFileSelect fileSelect ;
 
 
+    /** Executes the get record operation. */
     public CDataEntity GetRecord()
     {
         if (!lstChildren.isEmpty() && lstChildren.getFirst() != null)
@@ -57,6 +60,7 @@ public class CEntityFileDescriptor extends CBaseLanguageEntity
     {
         isvariableFile = variableFile ;
     }
+    /** Sets the record size variable. */
     public void setRecordSizeVariable(CDataEntity depOn)
     {
         isvariableFile = true ;

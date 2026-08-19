@@ -1,11 +1,12 @@
 package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
 import com.publicitas.naca.cloudnative.util.InMemoryJavaCompiler;
 
+
+
+/** Provides in memory java compiler test behavior. */
 public class InMemoryJavaCompilerTest {
 
     @Test

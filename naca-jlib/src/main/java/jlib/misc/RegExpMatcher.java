@@ -18,6 +18,7 @@ public class RegExpMatcher {
     private Pattern pattern = null ;
     private Matcher matcher = null ;
 
+    /** Returns whether matching. */
     public boolean isMatching(String value, String regEx, boolean caseSensitive)
     {
         int flag = 0 ;
@@ -29,6 +30,7 @@ public class RegExpMatcher {
         this.matcher = this.pattern.matcher(value) ;
         return this.matcher.matches() ;
     }
+    /** Returns whether matching motif. */
     public boolean isMatchingMotif(String value, String regEx)
     {
         int flag = 0 ;
@@ -37,10 +39,12 @@ public class RegExpMatcher {
         this.matcher = this.pattern.matcher(value) ;
         return this.matcher.find() ;
     }
+    /** Returns whether matching. */
     public boolean isMatching(String value, String regEx)
     {
         return isMatching(value, regEx, false) ;
     }
+    /** Returns whether matching. */
     public boolean isMatching(String value)
     {
         if (this.pattern != null)
@@ -50,6 +54,7 @@ public class RegExpMatcher {
         }
         return false  ;
     }
+    /** Executes the group operation. */
     public String group(int i)
     {
         if (this.matcher != null)

@@ -93,6 +93,7 @@ public class CEntityIsFileEOF extends CBaseEntityCondition
     {
         return null;
     }
+    /** Sets the conditon reference. */
     public void SetConditonReference(CDataEntity e)
     {
         ASSERT(null) ;

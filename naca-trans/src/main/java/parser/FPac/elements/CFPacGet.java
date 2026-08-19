@@ -24,12 +24,14 @@ import utils.Transcoder;
 import utils.FPacTranscoder.OperandDescription;
 import utils.FPacTranscoder.notifs.NotifSetDefaultInputFile;
 
+/** Provides cfpac get behavior. */
 public class CFPacGet extends CFPacElement
 {
 
     private CIdentifier getFile;
     private CFPacCodeBloc atEofBloc ;
 
+    /** Creates a new cfpac get instance. */
     public CFPacGet(int line)
     {
         super(line);

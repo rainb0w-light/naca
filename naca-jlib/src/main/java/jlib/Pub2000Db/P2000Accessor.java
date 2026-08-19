@@ -65,6 +65,7 @@ public class P2000Accessor extends DbAccessor
         return DbTLSConnectionStorage.get(accessor);
     }
 
+    /** Executes the dump connections operation. */
     public static String dumpConnections()
     {
         return DbAccessor.dumpConnections(accessor);

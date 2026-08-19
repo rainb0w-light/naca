@@ -21,10 +21,12 @@ public class DbTransfer
 {
     private DbTransferDesc dbTransferDesc = null;
 
+    /** Creates a new db transfer instance. */
     public DbTransfer()
     {
     }
 
+    /** Executes the execute operation. */
     public int execute(BaseEnvironment env, String csConfigFile)
     {
         Tag tagRoot = Tag.createFromFile(csConfigFile);

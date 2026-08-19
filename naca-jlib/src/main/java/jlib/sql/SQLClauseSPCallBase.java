@@ -58,6 +58,7 @@ public class SQLClauseSPCallBase
         return 0;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuilder sb = new StringBuilder("StoredProc: "+name+"\n");
@@ -71,6 +72,7 @@ public class SQLClauseSPCallBase
         return sb.toString();
     }
 
+    /** Executes the dump operation. */
     public String dump(DbConnectionBase connection)
     {
         int nNbParams = params.size();

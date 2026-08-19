@@ -12,9 +12,11 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity sort return behavior. */
 public class CEntitySortReturn extends CBaseActionEntity
 {
 
+    /** Creates a new centity sort return instance. */
     public CEntitySortReturn(int line, CObjectCatalog cat)
     {
         super(line, cat);
@@ -26,6 +28,7 @@ public class CEntitySortReturn extends CBaseActionEntity
         eFileDesc = ref ;
     }
     protected CDataEntity eDataInto = null;
+    /** Sets the data reference. */
     public void setDataReference(CEntityFileDescriptor ref, CDataEntity into)
     {
         eDataInto = into ;
@@ -35,11 +38,13 @@ public class CEntitySortReturn extends CBaseActionEntity
     protected CBaseLanguageEntity blocAtEnd = null ;
     protected CBaseLanguageEntity blocNotAtEnd = null ;
 
+    /** Sets the at end bloc. */
     public void SetAtEndBloc(CBaseLanguageEntity le)
     {
         blocAtEnd = le ;
     }
 
+    /** Sets the not at end bloc. */
     public void SetNotAtEndBloc(CBaseLanguageEntity le)
     {
         blocNotAtEnd = le ;

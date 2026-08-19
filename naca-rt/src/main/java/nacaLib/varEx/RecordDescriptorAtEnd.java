@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides record descriptor at end behavior. */
 public class RecordDescriptorAtEnd
 {
     public static RecordDescriptorAtEnd End = new RecordDescriptorAtEnd(true);
@@ -16,6 +17,7 @@ public class RecordDescriptorAtEnd
         this.isend = isend;
     }
 
+    /** Executes the at end operation. */
     public boolean atEnd()
     {
         return isend;

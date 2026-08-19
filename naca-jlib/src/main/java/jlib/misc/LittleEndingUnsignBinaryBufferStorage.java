@@ -17,6 +17,7 @@ package jlib.misc;
 public class LittleEndingUnsignBinaryBufferStorage
 {
     // Little endian binary storage: reverse byte ordre form intel
+    /** Reads the byte. */
     public final static int readByte(byte buf[], int nPos)
     {
         int n = buf[nPos];
@@ -26,6 +27,7 @@ public class LittleEndingUnsignBinaryBufferStorage
         return n;
     }
 
+    /** Reads the short. */
     public final static int readShort(byte buf[], int nPos)
     {
         int h = buf[nPos];
@@ -40,12 +42,14 @@ public class LittleEndingUnsignBinaryBufferStorage
         return n;
     }
 
+    /** Writes the short. */
     public final static void writeShort(byte buf[], short s, int nPos)
     {
         buf[nPos+1] = (byte)(s >>> 0 & 0xff);
         buf[nPos] = (byte)(s >>> 8 & 0xff);
     }
 
+    /** Writes the unsigned short. */
     public final static void writeUnsignedShort(byte buf[], int n, int nPos)
     {
         buf[nPos+1] = (byte)(n >>> 0 & 0xff);
@@ -53,6 +57,7 @@ public class LittleEndingUnsignBinaryBufferStorage
     }
 
 
+    /** Reads the int. */
     public final static long readInt(byte buf[], int nPos)
     {
         long h = buf[nPos];
@@ -79,6 +84,7 @@ public class LittleEndingUnsignBinaryBufferStorage
         return lValue;
     }
 
+    /** Writes the int. */
     public final static void writeInt(byte buf[], int i, int j)
     {
         buf[j+3] = (byte)(i >>> 0 & 0xff);
@@ -87,6 +93,7 @@ public class LittleEndingUnsignBinaryBufferStorage
         buf[j] = (byte)(i >>> 24 & 0xff);
     }
 
+    /** Reads the long. */
     public final static long readLong(byte buf[], int i)
     {
         long l = buf[i] >= 0 ? buf[i] : buf[i] + 256;
@@ -107,6 +114,7 @@ public class LittleEndingUnsignBinaryBufferStorage
         return (l << 56) + (l1 << 48) + (l2 << 40) + (l3 << 32) + (l4 << 24) + (l5 << 16) + (l6 << 8) + (l7 << 0);
     }
 
+    /** Writes the long. */
     public final static void writeLong(byte buf[], long l, int i)
     {
         buf[i+7] = (byte)(int)(l >>> 0 & 255L);

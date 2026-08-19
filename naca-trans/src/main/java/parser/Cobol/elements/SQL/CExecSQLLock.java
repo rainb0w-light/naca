@@ -32,6 +32,7 @@ public class CExecSQLLock extends CBaseExecSQLAction
     {
         super(line);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eExe = root.createElement("SQLLock");

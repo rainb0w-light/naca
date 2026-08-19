@@ -61,11 +61,13 @@ public class CEntityLabelField extends CEntityResourceField
         super(l, "", cat);
     }
 
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         return false;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
@@ -79,6 +81,7 @@ public class CEntityLabelField extends CEntityResourceField
     /* (non-Javadoc)
      * @see semantic.CBaseExternalEntity#GetTypeDecl()
      */
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         return "" ; // unused
@@ -94,6 +97,7 @@ public class CEntityLabelField extends CEntityResourceField
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)
@@ -113,6 +117,7 @@ public class CEntityLabelField extends CEntityResourceField
         return identifierFormatter.apply(csActiveChoiceValue) ;
     }
 
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         Element ef ;

@@ -6,20 +6,24 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a naca rtexception condition. */
 public class NacaRTException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new naca rtexception instance. */
     public NacaRTException()
     {
         super();
     }
 
+    /** Creates a new naca rtexception instance. */
     public NacaRTException(Throwable t)
     {
         super(t);
     }
 
+    /** Creates a new naca rtexception instance. */
     public NacaRTException(String message)
     {
         super(message);

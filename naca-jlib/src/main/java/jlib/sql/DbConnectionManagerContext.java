@@ -27,16 +27,18 @@ public class DbConnectionManagerContext
     private String dbPassword = null;
     private String environment = null;
     private int nNbMaxConnections = 0;
-    private int nTimeBeforeRemoveConnection_ms = 0;
-    private int nMaxStatementLiveTime_ms = 0;
+    private int timeBeforeRemoveConnectionMillis = 0;
+    private int maxStatementLiveTimeMillis = 0;
     private boolean iscreated = false;
 
     private DbConnectionManagerBase dbConnectionManager = null;
 
+    /** Creates a new db connection manager context instance. */
     public  DbConnectionManagerContext()
     {
     }
 
+    /** Executes the create operation. */
     public boolean create(String csPropertyPrefix)
         throws TechnicalException
     {
@@ -55,16 +57,17 @@ public class DbConnectionManagerContext
         nNbMaxConnections = NumberParser.getAsInt(cs);
 
         cs = pl.getProperty(csPropertyPrefix + "TimeBeforeRemoveConnection_ms", "600000");  // 10 minutes by defaut
-        nTimeBeforeRemoveConnection_ms = NumberParser.getAsInt(cs);
+        timeBeforeRemoveConnectionMillis = NumberParser.getAsInt(cs);
 
         cs = pl.getProperty(csPropertyPrefix + "MaxStatementLiveTime_ms", "600000");    // 10 minutes by defaut
-        nMaxStatementLiveTime_ms = NumberParser.getAsInt(cs);
+        maxStatementLiveTimeMillis = NumberParser.getAsInt(cs);
 
         iscreated = doCreateConnection(csPropertyPrefix);
 
         return iscreated;
     }
 
+    /** Executes the create operation. */
     public boolean create(String csDBProvider, String csUrl, String csUser, String csPassword, String csEnvironment)
         throws TechnicalException
     {
@@ -75,8 +78,8 @@ public class DbConnectionManagerContext
         this.environment = csEnvironment;
 
         nNbMaxConnections = 2;      // Resonable default values; Should be parametrized ???
-        nTimeBeforeRemoveConnection_ms = 10 * 60 * 1000; // 10 minutes
-        nMaxStatementLiveTime_ms = 10 * 60 * 1000;  // 10 minutes too
+        timeBeforeRemoveConnectionMillis = 10 * 60 * 1000; // 10 minutes
+        maxStatementLiveTimeMillis = 10 * 60 * 1000;  // 10 minutes too
 
         iscreated = doCreateConnection("");
         return iscreated;
@@ -95,8 +98,8 @@ public class DbConnectionManagerContext
                 dbUrl,
                 dbProvider,
                 nNbMaxConnections,
-                nTimeBeforeRemoveConnection_ms,
-                nMaxStatementLiveTime_ms);
+                timeBeforeRemoveConnectionMillis,
+                maxStatementLiveTimeMillis);
             if (iscreated) {
                 dbConnectionManager.setEnvironment(environment);
             }
@@ -113,6 +116,7 @@ public class DbConnectionManagerContext
         return iscreated;
     }
 
+    /** Returns whether oracle. */
     public boolean isOracle()
     {
         if (dbProvider.equalsIgnoreCase("Oracle")) {
@@ -121,6 +125,7 @@ public class DbConnectionManagerContext
         return false;
     }
 
+    /** Returns the connection. */
     public DbConnectionBase getConnection()
     {
         if (dbConnectionManager == null) {
@@ -159,6 +164,7 @@ public class DbConnectionManagerContext
         return dbConnectionManager.getNbUnusedConnections();
     }
 
+    /** Returns the nb running connections. */
     public int getNbRunningConnections()
     {
         if (dbConnectionManager == null) {
@@ -167,6 +173,7 @@ public class DbConnectionManagerContext
         return dbConnectionManager.getNbRunningConnections();
     }
 
+    /** Executes the show hide running connections operation. */
     public void showHideRunningConnections(boolean bShowRunningCon)
     {
         if (dbConnectionManager != null) {
@@ -174,6 +181,7 @@ public class DbConnectionManagerContext
         }
     }
 
+    /** Executes the dump connections operation. */
     public void dumpConnections(StringBuilder sbText)
     {
         if (dbConnectionManager != null) {
@@ -181,6 +189,7 @@ public class DbConnectionManagerContext
         }
     }
 
+    /** Returns the nb alloc connnections. */
     public int getNbAllocConnnections()
     {
         if (dbConnectionManager == null) {
@@ -189,6 +198,7 @@ public class DbConnectionManagerContext
         return dbConnectionManager.getNbAllocConnnections();
     }
 
+    /** Returns the nb max connection. */
     public int getNbMaxConnection()
     {
         if (dbConnectionManager == null) {
@@ -197,6 +207,7 @@ public class DbConnectionManagerContext
         return dbConnectionManager.getNbMaxConnection();
     }
 
+    /** Returns the nb cached statements for accessor. */
     public int getNbCachedStatementsForAccessor()
     {
         if (dbConnectionManager == null) {

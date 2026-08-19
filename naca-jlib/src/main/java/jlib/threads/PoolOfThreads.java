@@ -9,8 +9,10 @@ package jlib.threads;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
+/** Provides pool of threads behavior. */
 public class PoolOfThreads
 {
+    /** Creates a new pool of threads instance. */
     public PoolOfThreads(BasePooledThreadFactory pooledThreadFactory, int nNbThreads, int nNbMaxRequestAsyncSortPending)
     {
         isterminationRequested = false;
@@ -20,6 +22,7 @@ public class PoolOfThreads
         addThreadSize(nNbThreads, pooledThreadFactory);
     }
 
+    /** Executes the start all threads operation. */
     public void startAllThreads()
     {
         int nNbThreads = pooledThreads.size();
@@ -30,6 +33,7 @@ public class PoolOfThreads
         }
     }
 
+    /** Executes the stop operation. */
     public Exception stop()
     {
         join(); // Join to do for all CPooledThread
@@ -58,6 +62,7 @@ public class PoolOfThreads
     \note Enqueue a request and a type of request; it will be precced asynchronously
          by a thread allocated in the pool, as soon as one is available
     */
+    /** Executes the enqueue operation. */
     public boolean enqueue(ThreadPoolRequest request)
     {
         if(queueRequests != null)
@@ -73,6 +78,7 @@ public class PoolOfThreads
     \retval CRequest *
     \note Gets (can block) the first request pending
     */
+    /** Executes the dequeue operation. */
     public ThreadPoolRequest dequeue()
     {
         ThreadPoolRequest request = queueRequests.dequeue();
@@ -86,6 +92,7 @@ public class PoolOfThreads
          As soon as this method is lauched, no more enqueing is possible; that is
          Enqueue will return false.
     */
+    /** Executes the enqueue final requests operation. */
     public void enqueueFinalRequests()
     {
         terminate();

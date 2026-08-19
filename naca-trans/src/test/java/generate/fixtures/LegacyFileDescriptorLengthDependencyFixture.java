@@ -8,6 +8,7 @@ import utils.CObjectCatalog;
 public final class LegacyFileDescriptorLengthDependencyFixture
     extends CEntityFileDescriptorLengthDependency
 {
+    /** Creates a new legacy file descriptor length dependency fixture instance. */
     public LegacyFileDescriptorLengthDependencyFixture(
         String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {

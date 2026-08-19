@@ -32,6 +32,7 @@ import utils.Transcoder;
 public class CSort extends CCobolElement
 {
 
+    /** Provides csort key behavior. */
     public class CSortKey
     {
         public CIdentifier id = null ;

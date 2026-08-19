@@ -136,6 +136,7 @@ public class TranspilerProperties {
         this.outputPath = outputPath;
     }
 
+    /** Returns the inter path. */
     public String getInterPath() {
         String envInter = System.getenv("NACA_INTER_PATH");
         if (envInter != null && !envInter.isEmpty()) {
@@ -148,6 +149,7 @@ public class TranspilerProperties {
         this.interPath = interPath;
     }
 
+    /** Returns the log4j config. */
     public String getLog4jConfig() {
         String envLog4j = System.getenv("NACA_LOG4J_CONFIG");
         if (envLog4j != null && !envLog4j.isEmpty()) {

@@ -9,10 +9,12 @@ package semantic;
 import utils.CEntityHierarchy;
 import utils.CObjectCatalog;
 
+/** Provides centity value reference behavior. */
 public class CEntityValueReference extends CBaseDataReference
 {
 
 
+    /** Creates a new centity value reference instance. */
     public CEntityValueReference(CObjectCatalog cat, CDataEntity ref)
     {
         super(0, "", cat);
@@ -43,6 +45,7 @@ public class CEntityValueReference extends CBaseDataReference
         return reference.GetConstantValue() ;
     }
 
+    /** Executes the get name operation. */
     public String GetName()
     {
         return reference.GetName() ;

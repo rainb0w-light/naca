@@ -22,16 +22,22 @@ import semantic.expression.CEntityExprSum;
  */
 public class CSumExpression extends CExpression
 {
+    /** Provides csum type behavior. */
     public static class CSumType
     {
-        public String Text = "" ;
+        private final String text;
         protected CSumType(String t)
         {
-            Text = t ;
+            text = t ;
+        }
+        public String getText()
+        {
+            return text;
         }
         public static CSumType ADD = new CSumType("ADD") ;
         public static CSumType SUB = new CSumType("SUB") ;
     }
+    /** Creates a new csum expression instance. */
     public CSumExpression(int line, CExpression op1, CExpression op2, CSumType t)
     {
         super(line) ;
@@ -50,9 +56,10 @@ public class CSumExpression extends CExpression
         return b;
     }
 
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
-        Element e = root.createElement(type.Text) ;
+        Element e = root.createElement(type.getText()) ;
         Element e1 = op1.Export(root) ;
         e.appendChild(e1) ;
         Element e2 = op2.Export(root) ;
@@ -60,6 +67,7 @@ public class CSumExpression extends CExpression
         return e;
     }
 
+    /** Executes the get type operation. */
     public CSumType GetType()
     {
         return type ;
@@ -67,6 +75,7 @@ public class CSumExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         CEntityExprSum eSum = factory.NewEntityExprSum();
@@ -75,6 +84,7 @@ public class CSumExpression extends CExpression
         eSum.SetSumExpression(op1New, op2New, type) ;
         return eSum;
     }
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         return null;
@@ -83,6 +93,7 @@ public class CSumExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT();
@@ -92,6 +103,7 @@ public class CSumExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
@@ -100,10 +112,12 @@ public class CSumExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return this ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (type == CSumType.ADD)

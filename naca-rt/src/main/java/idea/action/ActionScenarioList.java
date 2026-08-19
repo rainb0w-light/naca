@@ -8,17 +8,13 @@ package idea.action;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
 import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineResourceManagerFactory;
 import idea.onlinePrgEnv.OnlineSession;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import jlib.xml.*;
-
+import jlib.xml.XMLUtil;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -26,20 +22,27 @@ import org.apache.struts.action.ActionMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+
+
+
+
 /**
  * @author U930CV
  *
  */
 public class ActionScenarioList extends Action
 {
+    /** Provides xmlfilter behavior. */
     public static class XMLFilter implements FilenameFilter
     {
+        /** Executes the accept operation. */
         public boolean accept(File arg0, String arg1)
         {
             return arg1.endsWith(".xml");
         }
     }
 
+    /** Executes the execute operation. */
     public ActionForward execute(
             ActionMapping mapping,
             ActionForm form,

@@ -31,10 +31,12 @@ public class CEntityCICSSetTDQueue extends CBaseActionEntity
         }
     }
 
+    /** Sets the queue. */
     public void SetQueue(CDataEntity e)
     {
         queueName = e ;
     }
+    /** Sets the open. */
     public void SetOpen(boolean bOpen)
     {
         isopen = bOpen ;
@@ -44,6 +46,7 @@ public class CEntityCICSSetTDQueue extends CBaseActionEntity
     protected CDataEntity queueName = null ;
     protected boolean isopen = false ;
     protected boolean isclosed = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -51,6 +54,7 @@ public class CEntityCICSSetTDQueue extends CBaseActionEntity
         isopen = false ;
         isclosed = false ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

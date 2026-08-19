@@ -17,8 +17,10 @@ import nacaLib.programStructure.DataSectionFile;
 import nacaLib.programStructure.Division;
 import nacaLib.sqlSupport.SQLCursor;
 
+/** Provides var section declaration behavior. */
 public class VarSectionDeclaration extends VarDeclarationInMap
 {
+    /** Creates a new var section declaration instance. */
     public VarSectionDeclaration(BaseProgram program)
     {
         super(program, null);
@@ -29,37 +31,44 @@ public class VarSectionDeclaration extends VarDeclarationInMap
 
     private BaseProgramManager programManager = null;
 
+    /** Executes the data division operation. */
     public Division dataDivision()
     {
         Division d = programManager.dataDivision();
         return d;
     }
 
+    /** Executes the working storage section operation. */
     public DataSection workingStorageSection()
     {
         return programManager.workingStorageSection();
     }
 
+    /** Executes the local storage section operation. */
     public DataSection localStorageSection()
     {
         return programManager.workingStorageSection();
     }
 
+    /** Executes the linkage section operation. */
     public DataSection linkageSection()
     {
         return programManager.linkageSection();
     }
 
+    /** Executes the file section operation. */
     public DataSectionFile fileSection()
     {
         return programManager.fileSection();
     }
 
+    /** Executes the cursor section operation. */
     public DataSection cursorSection()  // can be omitted
     {
         return null;
     }
 
+    /** Executes the cursor operation. */
     public SQLCursor cursor()
     {
         if (IsSTCheck) {
@@ -70,6 +79,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
         return sqlCursor;
     }
 
+    /** Executes the file operation. */
     public FileDescriptor file(Var varName)
     {
         DataSectionFile fileSection = fileSection();
@@ -78,6 +88,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
         return fileDef;
     }
 
+    /** Executes the file operation. */
     public FileDescriptor file(String varName)
     {
         DataSectionFile fileSection = fileSection();
@@ -86,6 +97,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
         return fileDef;
     }
 
+    /** Executes the file path operation. */
     public FileDescriptor filePath(String csPhysicalName)
     {
         DataSectionFile fileSection = fileSection();
@@ -94,6 +106,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
         return fileDef;
     }
 
+    /** Executes the sort operation. */
     public SortDescriptor sort()
     {
         DataSectionFile fileSection = fileSection();
@@ -102,6 +115,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
         return sortDef;
     }
 
+    /** Executes the variable section operation. */
     public DataSection variableSection()
     {
         // TODO(quality-governance): fake method
@@ -114,12 +128,14 @@ public class VarSectionDeclaration extends VarDeclarationInMap
 //      return null;
 //  }
 
+    /** Executes the file descriptor depending operation. */
     public FileDescriptorDepending fileDescriptorDepending(FileDescriptor fileDesc, Var varLength)
     {
         fileDesc.lengthDependingOn(varLength);
         return null;
     }
 
+    /** Executes the file descriptor depending operation. */
     public FileDescriptorDepending fileDescriptorDepending(SortDescriptor fileDesc, Var varLength)
     {
         fileDesc.lengthDependingOn(varLength);

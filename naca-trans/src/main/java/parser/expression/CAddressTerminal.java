@@ -13,11 +13,13 @@ import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import semantic.expression.CEntityAddress;
 
+/** Provides caddress terminal behavior. */
 public class CAddressTerminal extends CTerminal
 {
 
     protected String csAddresse;
 
+    /** Creates a new caddress terminal instance. */
     public CAddressTerminal(String add)
     {
         super();
@@ -49,6 +51,7 @@ public class CAddressTerminal extends CTerminal
         return ref ;
     }
 
+    /** Executes the is number operation. */
     public boolean IsNumber()
     {
         return false ;

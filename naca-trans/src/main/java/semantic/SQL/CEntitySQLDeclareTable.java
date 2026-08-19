@@ -33,6 +33,7 @@ import utils.CObjectCatalog;
 
 public class CEntitySQLDeclareTable extends CBaseActionEntity
 {
+    /** Creates a new centity sqldeclare table instance. */
     public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
     {
         super(line, cat);
@@ -44,6 +45,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
     protected String csTableName = "";
     protected String csViewName = "" ;
     protected ArrayList arrTableColDescription = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -53,6 +55,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
      * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
      */
 
+    /** Returns the column references. */
     public String getColumnReferences()
     {
         String out = "" ;
@@ -67,6 +70,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
         }
         return out;
     }
+    /** Returns the column references. */
     public String getColumnReferences(String alias)
     {
         String out = "" ;
@@ -85,15 +89,18 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#GetName()
      */
+    /** Executes the get table name operation. */
     public String GetTableName()
     {
         return csTableName ;
     }
 
+    /** Executes the get nb cols operation. */
     public int GetNbCols()
     {
         return arrTableColDescription.size();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -105,6 +112,7 @@ public class CEntitySQLDeclareTable extends CBaseActionEntity
     {
         return csViewName ;
     }
+    /** Executes the get name operation. */
     public String GetName()
     {
         return csViewName ;

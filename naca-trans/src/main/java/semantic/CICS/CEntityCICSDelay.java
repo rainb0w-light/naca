@@ -35,11 +35,13 @@ public class CEntityCICSDelay extends CBaseActionEntity
         }
     }
 
+    /** Sets the seconds. */
     public void SetSeconds(CDataEntity entity)
     {
         seconds = entity;
     }
 
+    /** Sets the interval. */
     public void SetInterval(CDataEntity entity)
     {
         interval = entity ;
@@ -48,10 +50,12 @@ public class CEntityCICSDelay extends CBaseActionEntity
     protected CDataEntity interval = null ;
     protected CDataEntity seconds = null ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

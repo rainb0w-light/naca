@@ -16,11 +16,13 @@ package nacaLib.varEx;
  */
 public class OccursDefVar extends OccursDefBase
 {
+    /** Creates a new occurs def var instance. */
     public OccursDefVar(Var var)
     {
         this.var = var;
     }
 
+    /** Returns the nb occurs. */
     public int getNbOccurs()
     {
         if (var != null) {
@@ -29,6 +31,7 @@ public class OccursDefVar extends OccursDefBase
         return -1;
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         var = null;

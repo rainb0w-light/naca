@@ -21,6 +21,7 @@ import java.util.zip.ZipInputStream;
 
 import jlib.log.Log;
 
+/** Provides class dyn loader behavior. */
 public class ClassDynLoader extends ClassLoader
 {
     protected ClassLoader defaultClassLoader = null ;
@@ -32,6 +33,7 @@ public class ClassDynLoader extends ClassLoader
     protected boolean bCanLoadClass = false;
     protected String csCurrentClassName = null;
 
+    /** Creates a new class dyn loader instance. */
     public ClassDynLoader()
     {
         super();
@@ -40,12 +42,14 @@ public class ClassDynLoader extends ClassLoader
         ms_nActive++;
     }
 
+    /** Executes the finalize operation. */
     public void finalize()
     {
         Log.logDebug("ClassDynLoader finalized: " +toString());
         ms_nActive--;
     }
 
+    /** Creates a new class dyn loader instance. */
     public ClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
     {
         this.arrPaths = arrPaths;
@@ -56,6 +60,7 @@ public class ClassDynLoader extends ClassLoader
         ms_nActive++;
     }
 
+    /** Adds the path url. */
     public void addPathURL(String csSourcePath)
     {
         if (arrPaths == null) {
@@ -64,6 +69,7 @@ public class ClassDynLoader extends ClassLoader
         arrPaths.add(csSourcePath);
     }
 
+    /** Adds the path url. */
     public void addPathURL(ArrayList<String> arrSourcePath)
     {
         if(arrSourcePath != null)
@@ -79,6 +85,7 @@ public class ClassDynLoader extends ClassLoader
         }
     }
 
+    /** Adds the jar entry. */
     public void addJarEntry(JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
     {
         this.jarEntries = jarEntries;
@@ -117,6 +124,7 @@ public class ClassDynLoader extends ClassLoader
         return result;
     }
 
+    /** Executes the do load class operation. */
     public synchronized Class doLoadClass(String csClassName)
     {
         inMakeNewInstance(csClassName);
@@ -160,6 +168,7 @@ public class ClassDynLoader extends ClassLoader
 
     // This is the required version of loadClass which is called both from loadClass above and from the internal function
     // FindClassFromClass.
+    /** Loads the class. */
     @SuppressWarnings("unchecked")
     public Class loadClass(String csClassName)
     {

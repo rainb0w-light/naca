@@ -14,16 +14,19 @@ public class DeclareTypeEditInMapRedefineNum extends DeclareTypeBase
 {
     private NumericValue numericValue = null;
 
+    /** Creates a new declare type edit in map redefine num instance. */
     public DeclareTypeEditInMapRedefineNum()
     {
     }
 
+    /** Executes the set operation. */
     public void set(VarLevel varLevel, NumericValue numericValue)
     {
         super.set(varLevel);
         this.numericValue = numericValue;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefEditInMapRedefineNum(varDefParent, this);

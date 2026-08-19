@@ -10,6 +10,7 @@ import lexer.CTokenList;
 import parser.CParser;
 import parser.Cobol.elements.CStandAloneWorking;
 
+/** Provides ccobol include parser behavior. */
 public class CCobolIncludeParser extends CParser<CStandAloneWorking>
 {
 

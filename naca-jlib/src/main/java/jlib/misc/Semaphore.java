@@ -15,11 +15,13 @@ public class Semaphore
 {
     private int counter;
 
+    /** Creates a new semaphore instance. */
     public Semaphore()
     {
         this(0);
     }
 
+    /** Creates a new semaphore instance. */
     public Semaphore(int n)
     {
         if (n < 0) {
@@ -56,6 +58,7 @@ public class Semaphore
         counter--;
     }
 
+    /** Executes the acquire no interrupt operation. */
     public synchronized boolean acquireNoInterrupt()
     {
         while (counter == 0)

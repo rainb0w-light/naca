@@ -11,6 +11,7 @@ import jlib.misc.BasePic9Comp3BufferSupport;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides pic9 comp3 buffer support behavior. */
 public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 {
     static void forceNegativeSign(VarBufferPos buffer, int totalSize)
@@ -19,6 +20,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         buffer.acBuffer[lastPosition] = (char)((buffer.acBuffer[lastPosition] & 0xF0) | COMP3_SIGN_MINUS);
     }
 
+    /** Sets the from right to left unsigned. */
     static public void setFromRightToLeftUnsigned(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize, int lValue)
     {
         //buffer.resetLastChecksum();
@@ -59,6 +61,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left signed. */
     static public void setFromRightToLeftSigned(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize, int lValue)
     {
         //buffer.resetLastChecksum();
@@ -106,6 +109,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left signed long. */
     static public void setFromRightToLeftSignedLong(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize, long lValue)
     {
         //buffer.resetLastChecksum();
@@ -153,6 +157,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left offset unsigned long. */
     static public void setFromRightToLeftOffsetUnsignedLong(
         VarBufferPos buffer,
         int nNbDigitInteger,
@@ -196,6 +201,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left unsigned long. */
     static public void setFromRightToLeftUnsignedLong(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize, long lValue)
     {
         char c;
@@ -234,6 +240,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left offset signed long. */
     static public void setFromRightToLeftOffsetSignedLong(
         VarBufferPos buffer,
         int nNbDigitInteger,
@@ -283,6 +290,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Sets the from right to left. */
     static public void setFromRightToLeft(
         VarBufferPos buffer,
         int nNbDigitInteger,
@@ -393,6 +401,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         return (int)lValue;
     }
 
+    /** Returns the as int. */
     public static int getAsInt(VarBufferPos buffer, int nNbDigitInteger)
     {
         int nTotalSize = nNbDigitInteger / 2;
@@ -430,6 +439,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         return nValue;
     }
 
+    /** Returns the as unsigned int. */
     public static int getAsUnsignedInt(VarBufferPos buffer, int nNbDigitInteger)
     {
         int nTotalSize = nNbDigitInteger / 2;
@@ -529,6 +539,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
 
 
     // PJD: Not opptimized
+    /** Returns the as signed string. */
     public static String getAsSignedString(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize)
     {
         boolean isevenNumberOfDigits = false;
@@ -572,6 +583,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         return csOut;
     }
 
+    /** Sets the dec. */
     static public void setDec(
         VarBufferPos buffer,
         int nNbDigitInteger,
@@ -604,6 +616,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
     }
 
+    /** Returns the as dec signed. */
     static public Dec getAsDecSigned(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal, int nTotalSize)
     {
         long intDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
@@ -639,6 +652,7 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         return dec;
     }
 
+    /** Returns the as dec unsigned. */
     static public Dec getAsDecUnsigned(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal, int nTotalSize)
     {
         long intDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);

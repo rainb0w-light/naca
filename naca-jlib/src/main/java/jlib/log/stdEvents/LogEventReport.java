@@ -16,16 +16,19 @@ import jlib.log.LogLevel;
  */
 public class LogEventReport extends LogEvent
 {
+    /** Creates a new log event report instance. */
     public LogEventReport(String csProduct)
     {
         super(LogEventType.Report, LogFlowStd.Any, LogLevel.Normal, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
     {
         return LogEventReport.log(csChannel, nNbItemsProcessed, nNbItemsSucessfullyProcess, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
     {
         LogEventReport event = new LogEventReport(csProduct);

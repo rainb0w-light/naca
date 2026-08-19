@@ -37,6 +37,7 @@ public class CEntitySQLCode extends CDataEntity
     {
         super(0, name, cat);
     }
+    /** Creates a new centity sqlcode instance. */
     public CEntitySQLCode(String name, CObjectCatalog cat, CBaseEntityExpression eHistoryItem)
     {
         super(0, name, cat);
@@ -45,6 +46,7 @@ public class CEntitySQLCode extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.CONSTANT ;
@@ -53,6 +55,7 @@ public class CEntitySQLCode extends CDataEntity
      * @see semantic.CDataEntity#GetSpecialCondition(java.lang.String, semantic.expression.CBaseEntityCondition.ConditionType,
      * semantic.CBaseEntityFactory)
      */
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
     {
         if (eHistoryItem != null) {
@@ -91,6 +94,7 @@ public class CEntitySQLCode extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetArrayReference(java.util.Vector, semantic.CBaseEntityFactory)
      */
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
 //       http://publib.boulder.ibm.com/infocenter/iseries/v5r3/ic2924/index.htm?info/db2/rbafzmstfielddescsqlca.htm
@@ -119,6 +123,7 @@ public class CEntitySQLCode extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true;
@@ -126,6 +131,7 @@ public class CEntitySQLCode extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetConstantValue()
      */
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

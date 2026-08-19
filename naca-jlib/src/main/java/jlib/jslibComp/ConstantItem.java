@@ -21,6 +21,7 @@ public class ConstantItem implements Serializable
     public String codeId;
     public String value;
 
+    /** Creates a new constant item instance. */
     public ConstantItem(String csId, String csValue)
     {
         codeId = csId;

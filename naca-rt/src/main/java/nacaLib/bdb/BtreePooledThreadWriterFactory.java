@@ -20,10 +20,12 @@ import jlib.threads.BasePooledThreadFactory;
  */
 public class BtreePooledThreadWriterFactory extends BasePooledThreadFactory
 {
+    /** Creates a new btree pooled thread writer factory instance. */
     public BtreePooledThreadWriterFactory()
     {
     }
 
+    /** Executes the make operation. */
     public BtreePooledWriterThread make(PoolOfThreads owningPool)
     {
         // Key description is stored in the TLS of the current thread (which creates the pool of threads)

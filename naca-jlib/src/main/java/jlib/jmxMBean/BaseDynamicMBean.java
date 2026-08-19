@@ -7,11 +7,15 @@
 package jlib.jmxMBean;
 
 import java.util.Iterator;
-import javax.management.*;
+import javax.management.Attribute;
+import javax.management.AttributeList;
+import javax.management.DynamicMBean;
 
 
+/** Provides base dynamic mbean behavior. */
 public abstract class BaseDynamicMBean implements DynamicMBean
 {
+    /** Returns the attributes. */
     public AttributeList getAttributes(String[] attributeNames)
     {
         if(attributeNames != null)
@@ -39,6 +43,7 @@ public abstract class BaseDynamicMBean implements DynamicMBean
         return null;
     }
 
+     /** Sets the attributes. */
      public AttributeList setAttributes(AttributeList attributes)
      {
         // Check attributes is not null to avoid NullPointerException later on

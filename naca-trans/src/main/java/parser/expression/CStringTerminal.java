@@ -18,11 +18,13 @@ import semantic.CBaseEntityFactory;
  */
 public class CStringTerminal extends CTerminal
 {
+    /** Creates a new cstring terminal instance. */
     public CStringTerminal(char[] arr)
     {
         value = arr ;
         str = new String(value);
     }
+    /** Creates a new cstring terminal instance. */
     public CStringTerminal(String cs)
     {
         value = cs.toCharArray() ;
@@ -32,34 +34,40 @@ public class CStringTerminal extends CTerminal
     protected char[] value = {} ;
     protected String str = "" ;
 
+    /** Exports the to. */
     public void ExportTo(Element e, Document root)
     {
         String cs = new String(value);
         e.setAttribute("String", cs) ;
     }
 
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return false;
     }
 
+    /** Executes the is one operation. */
     public boolean IsOne()
     {
         return false;
     }
 
+    /** Executes the is minus one operation. */
     public boolean IsMinusOne()
     {
         return false;
     }
 
 
+    /** Executes the get value operation. */
     public String GetValue()
     {
         String cs = new String(value);
         return cs ;
     }
 
+    /** Executes the get data entity operation. */
     public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
     {
         String val = new String(value) ;
@@ -73,11 +81,13 @@ public class CStringTerminal extends CTerminal
             return factory.NewEntityString(value);
         }
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "\"" + new String(value) + "\"" ;
     }
 
+    /** Executes the is number operation. */
     public boolean IsNumber()
     {
         return false ;

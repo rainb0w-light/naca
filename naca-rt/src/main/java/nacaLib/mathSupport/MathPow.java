@@ -9,6 +9,7 @@ package nacaLib.mathSupport;
 
 import java.math.BigDecimal;
 
+/** Provides math pow behavior. */
 public class MathPow extends MathBase
 {
     /**

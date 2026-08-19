@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr fill behavior. */
 public class MapFieldAttrFill extends MapFieldBaseAttr
 {
     private MapFieldAttrFill(int nValue, String text)

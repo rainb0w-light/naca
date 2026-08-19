@@ -25,11 +25,13 @@ import jlib.sql.LogSQLException;
  */
 public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 {
+    /** Creates a new record col type manager varchar instance. */
     public RecordColTypeManagerVarchar(int nColSourceIndex)
     {
         super(nColSourceIndex);
     }
 
+    /** Executes the transfer operation. */
     public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
     {
         try

@@ -6,7 +6,9 @@
  */
 package jlib.blowfish;
 
+/** Provides key generator behavior. */
 public class KeyGenerator {
+    /** Executes the main operation. */
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("KeyGenerator <key> <password>");

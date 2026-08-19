@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr highlighting behavior. */
 public class MapFieldAttrHighlighting extends MapFieldBaseAttr
 {
     private MapFieldAttrHighlighting(int nValue, String text)

@@ -336,6 +336,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         setLevel("FineDebug");
     }
 
+    /** Returns the state type. */
     public CompositeType getStateType()
     {
         CompositeTypeDesc compositeTypeDesc = new CompositeTypeDesc("LogCenterCompositeType", "LogCenterCompositeType Desc");
@@ -344,6 +345,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         return compositeTypeDesc.generateCompositeType();
     }
 
+    /** Returns the state. */
     public CompositeData getState()
     {
         CompositeType compositeType = getStateType();
@@ -353,6 +355,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         return compositeDataDesc.generateCompositeData();
     }
 
+    /** Sets the state. */
     public void setState(CompositeData data)
     {
         int n = 0;
@@ -368,6 +371,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         this.csRunId=csRunId;
     }
 
+    /** Returns the run id. */
     public String getRunId()
     {
         if (csRunId==null)
@@ -382,6 +386,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         this.csRuntimeId=csRuntimeId;
     }
 
+    /** Returns the runtime id. */
     public String getRuntimeId()
     {
         if (csRuntimeId==null)
@@ -414,5 +419,6 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         return csProcess;
     }
 
+    /** Returns the type. */
     public abstract String getType();
 }

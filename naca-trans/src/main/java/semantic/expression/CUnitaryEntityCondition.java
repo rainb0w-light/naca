@@ -33,16 +33,19 @@ public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
         }
         return false ;
     }
+    /** Sets the conditon reference. */
     public void SetConditonReference(CDataEntity e)
     {
         ASSERT(e) ;
         reference = e ;
     }
+    /** Executes the get condition reference operation. */
     public CDataEntity GetConditionReference()
     {
         return reference ;
     }
     protected CDataEntity reference = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;

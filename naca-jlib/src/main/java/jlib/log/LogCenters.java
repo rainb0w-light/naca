@@ -27,6 +27,7 @@ import jlib.xml.Tag;
  */
 public class LogCenters
 {
+    /** Creates a new log centers instance. */
     public LogCenters()
     {
     }

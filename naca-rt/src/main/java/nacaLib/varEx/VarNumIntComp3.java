@@ -31,11 +31,13 @@ public class VarNumIntComp3 extends VarNum
         return v;
     }
 
+    /** Executes the debugis storage ascii operation. */
     public boolean DEBUGisStorageAscii()
     {
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String csValue)
     {
         double dValue = 0;
@@ -49,12 +51,14 @@ public class VarNumIntComp3 extends VarNum
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

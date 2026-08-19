@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+/** Provides controler director behavior. */
 public class ControlerDirector
 {
     protected class ControlerItemDescription
@@ -25,6 +26,7 @@ public class ControlerDirector
     private Hashtable<String, BaseControler> tabControlers = null ;
     private Hashtable<String, ControlerThread> tabThreads = null ;
 
+    /** Executes the init operation. */
     public void Init(BaseControlerConfig config)
     {
         desc = new Vector<ControlerItemDescription>() ;
@@ -103,6 +105,7 @@ public class ControlerDirector
     }
 
 
+    /** Executes the start controler operation. */
     public void startControler(int i, boolean bForceStart)
     {
         if (i< desc.size())
@@ -168,11 +171,13 @@ public class ControlerDirector
         return desc.size() ;
     }
 
+    /** Executes the reload config operation. */
     public void ReloadConfig()
     {
         config.LoadConfig(this) ;
     }
 
+    /** Returns the step name. */
     public String getStepName(int i)
     {
         if (i< desc.size())
@@ -188,6 +193,7 @@ public class ControlerDirector
         }
     }
 
+    /** Returns the controler. */
     public BaseControler getControler(int i)
     {
         if (i< desc.size())
@@ -199,6 +205,7 @@ public class ControlerDirector
         return null ;
     }
 
+    /** Returns the thread. */
     public ControlerThread getThread(int i)
     {
         if (i< desc.size())
@@ -209,6 +216,7 @@ public class ControlerDirector
         return null ;
     }
 
+    /** Adds the new task. */
     public void AddNewTask(BaseControlerTaskConfig grpConfig)
     {
         BaseControler ctrl = grpConfig.NewControler() ;
@@ -221,6 +229,7 @@ public class ControlerDirector
     }
     }
 
+    /** Removes the task. */
     public void RemoveTask(BaseControlerTaskConfig conf)
     {
         String name = conf.getName();
@@ -251,6 +260,7 @@ public class ControlerDirector
 
     }
 
+    /** Removes the step from task. */
     public void RemoveStepFromTask(BaseControlerTaskConfig cfg)
     {
         if (!cfg.isModeGroup())
@@ -275,6 +285,7 @@ public class ControlerDirector
         }
     }
 
+    /** Adds the step to task. */
     public void AddStepToTask(BaseControlerTaskConfig cfg)
     {
         if (!cfg.isModeGroup())

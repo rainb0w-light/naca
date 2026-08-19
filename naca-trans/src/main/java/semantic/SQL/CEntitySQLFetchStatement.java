@@ -49,6 +49,7 @@ public class CEntitySQLFetchStatement extends CBaseActionEntity
         }
         return false ;
     }
+    /** Creates a new centity sqlfetch statement instance. */
     public CEntitySQLFetchStatement(int line, CObjectCatalog cat, CEntitySQLCursor cur)
     {
         super(line, cat);
@@ -59,6 +60,7 @@ public class CEntitySQLFetchStatement extends CBaseActionEntity
     protected CEntitySQLCursor cursor = null ;
     protected Vector<CDataEntity> into = null;
     protected Vector<CDataEntity> indicators = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -66,10 +68,12 @@ public class CEntitySQLFetchStatement extends CBaseActionEntity
         cursor.Clear() ;
         cursor = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Adds the fetch into. */
     public void AddFetchInto(CDataEntity e, CDataEntity eInd)
     {
         into.add(e) ;

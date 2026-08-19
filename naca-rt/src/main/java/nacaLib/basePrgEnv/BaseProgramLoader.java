@@ -46,6 +46,7 @@ import nacaLib.varEx.CCallParam;
 
 import org.w3c.dom.Document;
 
+/** Provides base program loader behavior. */
 public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSequencerExt
 {
     private DbConnectionManagerBase connectionManager = null;
@@ -65,16 +66,19 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
     private ProgramPoolManager programPoolManager = null;
 
 
+    /** Executes the get instance operation. */
     public static BaseProgramLoader GetInstance()
     {
         return ms_Instance ;
     }
 
+    /** Executes the get program loader instance operation. */
     public static BaseProgramLoader GetProgramLoaderInstance()
     {
         return ms_Instance ;
     }
 
+    /** Creates a new base program loader instance. */
     public BaseProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig, boolean bUseJmx)
     {
         super();
@@ -118,6 +122,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         //programPoolManager.returnProgramInstanceToPool(currentProgramInstance);
     }
 
+    /** Executes the force preload session program operation. */
     public SharedProgramInstanceData forcePreloadSessionProgram(String csDefaultProgramName, int nNbInstanceToPreload)
     {
         int nNbProgLoaded = 0;
@@ -202,6 +207,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
 //      return null;
 //  }
 
+    /** Executes the unload program operation. */
     public void unloadProgram(String csProgramName)
     {
         ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csProgramName);
@@ -262,6 +268,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
     }
 
+    /** Executes the get environment operation. */
     public BaseEnvironment GetEnvironment(BaseSession appSession, String defaultProgramName, String csProgramParent)
     {
         BaseEnvironment env = tabSyncSessions.get(appSession);
@@ -296,6 +303,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         return env ;
     }
 
+    /** Executes the run top program operation. */
     public void runTopProgram(
         BaseEnvironment env,
         ArrayList<BaseCalledPrgPublicArgPositioned> arrCallerCallParam) throws AbortSessionException
@@ -579,6 +587,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
     }
 
+    /** Executes the run sub program operation. */
     public void runSubProgram(String csProgramID, ArrayList<CCallParam> arrCallerCallParam, BaseEnvironment cesmEnv)
     {
         BaseProgram currentProgram = null ;
@@ -667,6 +676,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         currentProgram = null;
     }
 
+    /** Executes the log mail operation. */
     public void logMail(BaseEnvironment env, String className, String label, Throwable e, CSQLStatus sqlStatus)
     {
         DateUtil date = new DateUtil();
@@ -750,11 +760,13 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
     }
 
+    /** Executes the log mail operation. */
     public static void logMail(String csSubject, String csBodyText)
     {
         logMail(csSubject, csBodyText, null);
     }
 
+    /** Executes the log mail operation. */
     public static void logMail(String csSubject, String csBodyText, Throwable e)
     {
         DateUtil date = new DateUtil();
@@ -790,11 +802,13 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
     }
 
 
+    /** Removes the session. */
     public void removeSession(BaseSession session)
     {
         tabSyncSessions.remove(session);
     }
 
+    /** Returns the environment. */
     public BaseEnvironment getEnvironment(BaseSession appSession)
     {
         return tabSyncSessions.get(appSession);

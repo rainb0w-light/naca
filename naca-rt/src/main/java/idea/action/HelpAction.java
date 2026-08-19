@@ -12,21 +12,21 @@ package idea.action;
 
 import idea.emulweb.CScenarioPlayer;
 import idea.onlinePrgEnv.OnlineSession;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import jlib.xml.*;
-
+import jlib.xml.XMLUtil;
 import nacaLib.basePrgEnv.BaseProgramLoader;
-
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+
+
+
 
 /**
  * HelpAction.java created by EasyStruts - XsltGen.

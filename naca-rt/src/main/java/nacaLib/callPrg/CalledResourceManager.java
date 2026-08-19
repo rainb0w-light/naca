@@ -21,16 +21,19 @@ import nacaLib.misc.LogFlowCustomNacaRT;
  */
 public class CalledResourceManager extends BaseResourceManager
 {
+    /** Creates a new called resource manager instance. */
     public CalledResourceManager()
     {
         super(true);
     }
 
+    /** Executes the initialize operation. */
     public void initialize(String csINIFilePath)
     {
         setXMLConfigFilePath(csINIFilePath) ;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(String csINIFilePath, String csDBParameterPrefix)
     {
         initialize(csINIFilePath);
@@ -64,6 +67,7 @@ public class CalledResourceManager extends BaseResourceManager
         baseInitSequenceur(csDBParameterPrefix);
     }
 
+    /** Executes the do remove resource cache operation. */
     public void doRemoveResourceCache(String csForm)
     {
     }

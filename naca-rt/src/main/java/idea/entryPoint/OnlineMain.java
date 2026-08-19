@@ -12,25 +12,33 @@ package idea.entryPoint;
 
 
 import java.util.ArrayList;
-
 import jlib.log.Log;
-import jlib.misc.*;
+import jlib.misc.EnvironmentVar;
+import jlib.misc.JVMReturnCodeManager;
+import jlib.misc.StringArray;
+import jlib.misc.ThreadSafeCounter;
+import jlib.misc.Time_ms;
 import idea.onlinePrgEnv.OnlineProgramLoader;
 import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineResourceManagerFactory;
 import idea.onlinePrgEnv.OnlineSession;
-//import idea.programUtil.CSession;
-
 import nacaLib.accounting.CriteriaEndRunMain;
 import nacaLib.appOpening.CalendarOpenState;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
-import nacaLib.exceptions.*;
+import nacaLib.exceptions.AbortSessionException;
+import nacaLib.exceptions.CGotoException;
+import nacaLib.exceptions.CStopRunException;
 
+//import idea.programUtil.CSession;
+
+
+/** Provides online main behavior. */
 public class OnlineMain
 {
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         String csPath = null;

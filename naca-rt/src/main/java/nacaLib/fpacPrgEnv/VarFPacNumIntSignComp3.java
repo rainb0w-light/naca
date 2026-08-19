@@ -11,8 +11,10 @@ import nacaLib.varEx.VarBuffer;
 import nacaLib.varEx.VarBufferPos;
 import nacaLib.varEx.VarNumIntSignComp3;
 
+/** Provides var fpac num int sign comp3 behavior. */
 public class VarFPacNumIntSignComp3 extends VarNumIntSignComp3
 {
+    /** Creates a new var fpac num int sign comp3 instance. */
     public VarFPacNumIntSignComp3(DeclareTypeFPacSignIntComp3 type, VarBuffer varBuffer, int nPosition)
     {
         super(type);

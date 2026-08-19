@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides data section type behavior. */
 public class DataSectionType
 {
     public static DataSectionType Working = new DataSectionType();

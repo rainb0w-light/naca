@@ -10,6 +10,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides var type enum behavior. */
 public class VarTypeEnum
 {
     public static final VarTypeEnum TypeNone = new VarTypeEnum(' ');

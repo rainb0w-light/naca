@@ -12,6 +12,7 @@ package lexer;
  */
 public class CTokenConstant extends CBaseToken
 {
+    /** Creates a new ctoken constant instance. */
     public CTokenConstant(CReservedConstant cste, int line, boolean newline)
     {
         super(line, newline) ;
@@ -21,10 +22,12 @@ public class CTokenConstant extends CBaseToken
     /* (non-Javadoc)
      * @see lexer.CBaseToken#GetType()
      */
+    /** Executes the get type operation. */
     public CTokenType GetType()
     {
         return CTokenType.CONSTANT ;
     }
+    /** Executes the get constant operation. */
     public CReservedConstant GetConstant()
     {
         return cste ;
@@ -34,6 +37,7 @@ public class CTokenConstant extends CBaseToken
     /* (non-Javadoc)
      * @see lexer.CBaseToken#GetDisplay()
      */
+    /** Executes the get display operation. */
     public String GetDisplay()
     {
         return cste.name + " ";

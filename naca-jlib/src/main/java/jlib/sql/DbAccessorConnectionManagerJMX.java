@@ -31,6 +31,7 @@ public class DbAccessorConnectionManagerJMX extends BaseCloseMBean
     }
 
     // Number of currently unused connections
+    /** Returns the nb unused con. */
     public int getNbUnusedCon()
     {
         int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnections();
@@ -38,6 +39,7 @@ public class DbAccessorConnectionManagerJMX extends BaseCloseMBean
     }
 
     // Number of connection contexts
+    /** Returns the nb con mgr contexts. */
     public int getNbConMgrContexts()
     {
         int n = DbAccessorConnectionManager.getNbConnectionManagerContexts();

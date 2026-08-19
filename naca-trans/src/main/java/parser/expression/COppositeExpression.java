@@ -22,16 +22,19 @@ public class COppositeExpression extends CExpression
 {
     protected CExpression expression = null ;
 
+    /** Creates a new copposite expression instance. */
     public COppositeExpression(int line, CExpression term)
     {
         super(line) ;
         expression = term ;
     }
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return false;
     }
 
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         CEntityExprOpposite eOpp = factory.NewEntityExprOpposite();
@@ -42,6 +45,7 @@ public class COppositeExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         return null;
@@ -55,6 +59,7 @@ public class COppositeExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element eop = root.createElement("Opposite");
@@ -64,6 +69,7 @@ public class COppositeExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT() ;
@@ -72,6 +78,7 @@ public class COppositeExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
@@ -79,10 +86,12 @@ public class COppositeExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return this;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "MINUS("+expression.toString()+")" ;

@@ -8,14 +8,17 @@ package nacaLib.fpacPrgEnv;
 
 import nacaLib.varEx.VarSectionDeclaration;
 
+/** Provides fpac var section declaration behavior. */
 public class FPacVarSectionDeclaration extends VarSectionDeclaration
 {
 
+    /** Creates a new fpac var section declaration instance. */
     public FPacVarSectionDeclaration(FPacProgram program)
     {
         super(program);
     }
 
+    /** Executes the fpac file operation. */
     public FPacFileDeclaration fpacFile(String csName)
     {
         return new FPacFileDeclaration(this, csName);

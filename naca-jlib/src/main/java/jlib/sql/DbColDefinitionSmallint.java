@@ -32,6 +32,7 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
         nNbDigits = colDescription.getPrecision();
     }
 
+    /** Returns the byte value. */
     public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try
@@ -56,6 +57,7 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
 //      return 2;
 //  }
 
+    /** Sets the byte value in stmt col. */
     public int setByteValueInStmtCol(
         DbColDefErrorManager dbColDefErrorManager,
         DbPreparedStatement stmt,
@@ -74,6 +76,7 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
         return 2;
     }
 
+    /** Executes the fill callable statement param operation. */
     public boolean fillCallableStatementParam(
         int nParamId,
         StoredProcParamDescBase storedProcParamDescBase,
@@ -83,6 +86,7 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
         return callableStatement.setInValue(nParamId, s);
     }
 
+    /** Returns the excel value. */
     public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try

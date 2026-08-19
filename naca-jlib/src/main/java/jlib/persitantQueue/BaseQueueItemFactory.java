@@ -19,5 +19,6 @@ import java.io.ObjectInputStream;
  */
 public abstract class BaseQueueItemFactory
 {
+    /** Executes the read operation. */
     public abstract Object read(ObjectInputStream fileIn) throws ClassNotFoundException, IOException;
 }

@@ -21,6 +21,7 @@ public class CEntityCICSStartBrowse extends CBaseActionEntity
     protected CDataEntity dataSet = null ;
     protected CDataEntity recIDField = null ;
     protected CDataEntity keyLength = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -41,18 +42,22 @@ public class CEntityCICSStartBrowse extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Sets the gteq. */
     public void SetGTEQ()
     {
         isgTEQ = true ;
     }
+    /** Executes the browse data set operation. */
     public void BrowseDataSet(CDataEntity entity)
     {
         dataSet = entity ;
     }
+    /** Sets the rec idfield. */
     public void SetRecIDField(CDataEntity entity)
     {
         recIDField = entity ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

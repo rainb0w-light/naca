@@ -9,15 +9,18 @@ package jlib.misc;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/** Provides file filter by prefix behavior. */
 public class FileFilterByPrefix implements FilenameFilter
 {
     private String csPrefix = null;
 
+    /** Creates a new file filter by prefix instance. */
     public FileFilterByPrefix(String csPrefix)
     {
         csPrefix = csPrefix.toUpperCase();
     }
 
+    /** Executes the accept operation. */
     public boolean accept(File dir, String csName)
     {
         if(csPrefix != null && csName != null)

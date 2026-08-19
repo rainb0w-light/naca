@@ -12,6 +12,7 @@ package lexer;
  */
 public class CTokenString extends CBaseToken
 {
+    /** Creates a new ctoken string instance. */
     public CTokenString(char[] v, int line, boolean newline)
     {
         super(line, newline);
@@ -19,10 +20,12 @@ public class CTokenString extends CBaseToken
         value = new String(v);
     }
 
+    /** Executes the get type operation. */
     public CTokenType GetType()
     {
         return CTokenType.STRING;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "(\"" + value + "\")" ;
@@ -31,10 +34,12 @@ public class CTokenString extends CBaseToken
     /* (non-Javadoc)
      * @see lexer.CBaseToken#GetDisplay()
      */
+    /** Executes the get display operation. */
     public String GetDisplay()
     {
         return "'" + value + "'" ;
     }
+    /** Executes the get char value operation. */
     public char[] GetCharValue()
     {
         return charArrayValue ;

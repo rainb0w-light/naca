@@ -66,6 +66,7 @@ public class KeyPressed
         return csName;
     }
 
+    /** Returns the key from http. */
     public static KeyPressed getKeyFromHttp(String csKey)
     {
         if (csKey == null) {
@@ -157,12 +158,14 @@ public class KeyPressed
         }
     }
 
+    /** Returns the key. */
     public static KeyPressed getKey(Var v)
     {
         String cs = v.getString();
         return getKey(cs);
     }
 
+    /** Returns the key. */
     public static KeyPressed getKey(String cs)
     {
         if (cs.equals(CLEAR.csValue) || cs.equalsIgnoreCase(CLEAR.csName))
@@ -283,6 +286,7 @@ public class KeyPressed
         }
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csName + ": " + csValue;

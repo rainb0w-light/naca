@@ -22,6 +22,7 @@ import nacaLib.basePrgEnv.BaseProgramManager;
  */
 public class MoveCorrespondingEntryManager
 {
+    /** Creates a new move corresponding entry manager instance. */
     public MoveCorrespondingEntryManager()
     {
         entries = new ArrayDyn<MoveCorrespondingEntry>();

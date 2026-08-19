@@ -12,6 +12,7 @@ package jlib.xml;
  */
 public class TagCursor
 {
+    /** Creates a new tag cursor instance. */
     public TagCursor()
     {
     }

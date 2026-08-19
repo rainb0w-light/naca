@@ -41,6 +41,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
         }
     }
 
+    /** Adds the request. */
     public void AddRequest(String param, CDataEntity var)
     {
         parameters.add(param);
@@ -50,6 +51,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
     protected ArrayList<String> parameters = new ArrayList<String>() ;
     protected Vector<CDataEntity> arrVariables = new Vector<CDataEntity>() ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = true ;
@@ -61,6 +63,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
         return ignore;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -75,6 +78,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
     // AddRequest insertion order), preserving the retired backend's request
     // sequence for the template's chained option calls.
 
+    /** Returns the requests. */
     public List<Request> getRequests()
     {
         List<Request> requests = new ArrayList<Request>(parameters.size());

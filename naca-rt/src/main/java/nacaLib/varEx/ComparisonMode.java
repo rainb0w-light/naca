@@ -6,6 +6,7 @@
  */
 package nacaLib.varEx;
 
+/** Provides comparison mode behavior. */
 public class ComparisonMode
 {
     public static ComparisonMode Ebcdic = new ComparisonMode();

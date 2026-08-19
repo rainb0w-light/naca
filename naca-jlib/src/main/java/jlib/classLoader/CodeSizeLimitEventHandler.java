@@ -12,8 +12,10 @@ import javax.management.Notification;
 
 import jlib.log.Log;
 
+/** Provides code size limit event handler behavior. */
 public class CodeSizeLimitEventHandler implements javax.management.NotificationListener
 {
+    /** Executes the handle notification operation. */
     public void handleNotification(Notification notification, Object handback)
     {
         String notifType = notification.getType();

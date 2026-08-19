@@ -7,8 +7,10 @@
 package nacaLib.varEx;
 
 
+/** Provides sort descriptor behavior. */
 public class SortDescriptor extends BaseFileDescriptor
 {
+    /** Creates a new sort descriptor instance. */
     public SortDescriptor()
     {
         super();
@@ -27,6 +29,7 @@ public class SortDescriptor extends BaseFileDescriptor
         varLevel01.setFromByteArray(tBytes, nOffset, nLength);
     }
 
+    /** Executes the move into operation. */
     public void moveInto(Var varInto)
     {
         varLevel01.transferTo(varInto);
@@ -47,6 +50,7 @@ public class SortDescriptor extends BaseFileDescriptor
         return null;
     }
 
+    /** Executes the length depending on operation. */
     public SortDescriptor lengthDependingOn(Var varLengthDependingOn)
     {
         setVarLengthDependingOn(varLengthDependingOn);

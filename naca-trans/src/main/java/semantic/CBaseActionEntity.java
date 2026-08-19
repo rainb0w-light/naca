@@ -7,8 +7,8 @@
 package semantic;
 
 import java.util.Vector;
+import utils.CObjectCatalog;
 
-import utils.*;
 
 /**
  * @author sly
@@ -34,12 +34,14 @@ public abstract class CBaseActionEntity extends CBaseLanguageEntity
         // nothing
     }
 
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         // nothing
         return false ;
     }
 
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         // nothing

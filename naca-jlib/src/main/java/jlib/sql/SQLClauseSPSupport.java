@@ -21,10 +21,12 @@ import java.util.ArrayList;
  */
 public class SQLClauseSPSupport
 {
+    /** Creates a new sqlclause spsupport instance. */
     public SQLClauseSPSupport()
     {
     }
 
+    /** Returns the stored procedures list. */
     public ArrayList<SQLClauseSPInfo> getStoredProceduresList(DbConnectionBase dbConnection)
     {
         ArrayList<SQLClauseSPInfo> arr = new ArrayList<SQLClauseSPInfo>();
@@ -48,6 +50,7 @@ public class SQLClauseSPSupport
         return arr;
     }
 
+    /** Returns the stored procedure params list. */
     public SQLClauseSPParamsDesc getStoredProcedureParamsList(DbConnectionBase dbConnection, String csStoredProcName)
     {
         SQLClauseSPParamsDesc spinnerparamsDesc = new SQLClauseSPParamsDesc();

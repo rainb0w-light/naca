@@ -20,6 +20,7 @@ public class SQLClauseSPParamInString extends SQLClauseSPParamIn
 {
     private String val = null;
 
+    /** Creates a new sqlclause spparam in string instance. */
     public SQLClauseSPParamInString(String csVal)
     {
         this.val = csVal;

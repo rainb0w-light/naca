@@ -119,6 +119,7 @@ public class AsyncThreadMBean extends BaseCloseMBean
         return csProgramParent;
     }
 
+    /** Returns the e wait status. */
     public String getE_WaitStatus()
     {
         String cs;

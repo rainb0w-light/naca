@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class HTTPMapFieldLoader
 {
     protected HttpServletRequest httpRequest = null ;
+    /** Creates a new httpmap field loader instance. */
     public HTTPMapFieldLoader(HttpServletRequest req)
     {
         httpRequest = req ;
@@ -39,6 +40,7 @@ public class HTTPMapFieldLoader
     /* (non-Javadoc)
      * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
      */
+    /** Returns the field value. */
     public String getFieldValue(String fieldName)
     {
         if (httpRequest != null)

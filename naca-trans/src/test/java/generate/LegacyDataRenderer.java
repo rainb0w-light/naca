@@ -19,6 +19,7 @@ public final class LegacyDataRenderer
     {
     }
 
+    /** Renders the reference. */
     public static String renderReference(CDataEntity entity, int line)
     {
         if (entity == null)
@@ -35,6 +36,7 @@ public final class LegacyDataRenderer
             .renderRoot(entity, JavaTemplateRole.REFERENCE) ;
     }
 
+    /** Renders the write accessor. */
     public static String renderWriteAccessor(CDataEntity entity, String value)
     {
         if (entity == null)

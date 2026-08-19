@@ -18,13 +18,16 @@ import nacaLib.varEx.VarBase;
 
 import jlib.sql.LogSQLException;
 
+/** Provides record col type manager date behavior. */
 public class RecordColTypeManagerDate extends RecordColTypeManagerBase
 {
+    /** Creates a new record col type manager date instance. */
     public RecordColTypeManagerDate(int nColSourceIndex)
     {
         super(nColSourceIndex);
     }
 
+    /** Executes the transfer operation. */
     public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
     {
         try

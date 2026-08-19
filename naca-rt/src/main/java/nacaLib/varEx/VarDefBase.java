@@ -24,6 +24,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public abstract class VarDefBase extends CJMapObject //implements Serializable
 {
+    /** Creates a new var def base instance. */
     public VarDefBase(VarDefBase varDefParent, VarLevel varLevel)
     {
         boolean iswSVar = !varLevel.getProgramManager().isLinkageSectionCurrent();
@@ -56,6 +57,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         //JmxGeneralStat.incNbVarDef();
     }
 
+    /** Creates a new var def base instance. */
     public VarDefBase()
     {
         this.setGetAt(true);
@@ -141,10 +143,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         arrChildren.add(varDefChild);
     }
 
+    /** Executes the map on origin edit operation. */
     public void mapOnOriginEdit()
     {
     }
 
+    /** Executes the assign edit in map redefine operation. */
     public void assignEditInMapRedefine()
     {
         if(arrChildren != null)
@@ -159,6 +163,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         }
     }
 
+    /** Executes the calc size operation. */
     public int calcSize()
     {
         nTotalSize = getSumChildrenSize();
@@ -205,6 +210,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return nNbOccurs * nSingleItemSize;
     }
 
+    /** Executes the calc positions into buffer operation. */
     public void calcPositionsIntoBuffer(SharedProgramInstanceData sharedProgramInstanceData)
     {
         if(arrChildren != null)
@@ -218,6 +224,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         }
     }
 
+    /** Executes the calc size var in edit operation. */
     public int calcSizeVarInEdit()
     {
         int n = nTotalSize;
@@ -254,6 +261,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return nSumSize;
     }
 
+    /** Executes the calc occurs owners operation. */
     public void calcOccursOwners()
     {
         if(occursItemSettings != null && occursItemSettings.arrVarDefOccursOwner != null)
@@ -296,6 +304,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return nTotalSize;
     }
 
+    /** Returns whether aredefine. */
     public boolean isARedefine()
     {
         if (varDefRedefinOrigin != null) {
@@ -355,6 +364,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return null;    // No previous at the same level
     }
 
+    /** Returns the children encoding convertible position. */
     public void getChildrenEncodingConvertiblePosition(VarDefEncodingConvertibleManager varDefEncodingConvertibleManager)
     {
         if(arrChildren != null)
@@ -452,6 +462,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return 1;
     }
 
+    /** Executes the to dump operation. */
     public String toDump(SharedProgramInstanceData sharedProgramInstanceData)
     {
         String cs = "#" + getLevel() + " ";
@@ -472,6 +483,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return nTotalSize;
     }
 
+    /** Returns the full name. */
     public String getFullName(SharedProgramInstanceData s)
     {
         if(s != null)
@@ -536,6 +548,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return 0;
     }
 
+    /** Creates the copy single item. */
     public VarDefBuffer createCopySingleItem(int nAbsStart, int nDebugIndexes, int nNbDim, VarDefBase varDefOccursParent)
     {
         VarDefBuffer varDefBufferCopySingleItem = allocCopy();
@@ -590,61 +603,64 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     void setWSVar(boolean bWSVar)
     {
         if (bWSVar) {
-            n_Filler_TempDim_Level |= 0x00000800;   // 00000000 00000000 00001000 00000000
+            fillerTempDimLevel |= 0x00000800;   // 00000000 00000000 00001000 00000000
         } else {
-            n_Filler_TempDim_Level &= ~0x00000800;
+            fillerTempDimLevel &= ~0x00000800;
         }
     }
 
     void setFiller(boolean bFiller)
     {
         if (bFiller) {
-            n_Filler_TempDim_Level |= 0x00000400;       // 00000000 00000000 00000100 00000000
+            fillerTempDimLevel |= 0x00000400;       // 00000000 00000000 00000100 00000000
         } else {
-            n_Filler_TempDim_Level &= ~0x00000400;
+            fillerTempDimLevel &= ~0x00000400;
         }
     }
 
     void setTempNbDim(int nTempDim)
     {
         int n = 0x00000300 & (nTempDim * 256);
-        n_Filler_TempDim_Level &= ~0x00000300;  // 00000000 00000000 00000011 00000000
-        n_Filler_TempDim_Level |= n;
+        fillerTempDimLevel &= ~0x00000300;  // 00000000 00000000 00000011 00000000
+        fillerTempDimLevel |= n;
     }
 
     void setLevel(short sLevel)
     {
         int n = 0x000000FF & sLevel;
-        n_Filler_TempDim_Level &= ~0x000000FF;  // 00000000 00000000 00000000 11111111
-        n_Filler_TempDim_Level |= n;
+        fillerTempDimLevel &= ~0x000000FF;  // 00000000 00000000 00000000 11111111
+        fillerTempDimLevel |= n;
     }
 
     void setGetAt(boolean b)
     {
         if (b) {
-            n_Filler_TempDim_Level |= 0x80000000;       // 10000000 00000000 00000000 00000000
+            fillerTempDimLevel |= 0x80000000;       // 10000000 00000000 00000000 00000000
         } else {
-            n_Filler_TempDim_Level &= ~0x80000000;
+            fillerTempDimLevel &= ~0x80000000;
         }
     }
 
 
+    /** Returns the level. */
     public short getLevel()
     {
-        int n = n_Filler_TempDim_Level & 0xff;      // 00000000 00000000 00000000 11111111
+        int n = fillerTempDimLevel & 0xff;      // 00000000 00000000 00000000 11111111
         return (short)n;
     }
 
+    /** Returns the temp nb dim. */
     public int getTempNbDim()
     {
-        int n = n_Filler_TempDim_Level & 0x00000300;        // 00000000 00000000 00000011 00000000
+        int n = fillerTempDimLevel & 0x00000300;        // 00000000 00000000 00000011 00000000
         n = n >> 8;
         return (short)n;
     }
 
+    /** Returns the wsvar. */
     public boolean getWSVar()
     {
-        int n = n_Filler_TempDim_Level & 0x00000800;        // 00000000 00000000 00001000 00000000
+        int n = fillerTempDimLevel & 0x00000800;        // 00000000 00000000 00001000 00000000
         n = n >> 11;
         if (n == 1) {
             return true;
@@ -652,9 +668,10 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return false;
     }
 
+    /** Returns the filler. */
     public boolean getFiller()
     {
-        int n = n_Filler_TempDim_Level & 0x00000400;        // 00000000 00000000 00000100 00000000
+        int n = fillerTempDimLevel & 0x00000400;        // 00000000 00000000 00000100 00000000
         n = n >> 10;
         if (n == 1) {
             return true;
@@ -662,45 +679,51 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return false;
     }
 
+    /** Returns the is get at. */
     public boolean getIsGetAt()
     {
-        int n = n_Filler_TempDim_Level & 0x80000000;        // 10000000 00000000 00000000 00000000
+        int n = fillerTempDimLevel & 0x80000000;        // 10000000 00000000 00000000 00000000
         if (n != 0) {
             return true;
         }
         return false;
     }
 
+    /** Executes the make debug index operation. */
     public static int makeDebugIndex(int x)
     {
         return (x & 0x40) << 12;        // 6 bits by index for debug display only
     }
 
+    /** Executes the make debug index operation. */
     public static int makeDebugIndex(int x, int y)
     {
         int n = ((y & 0x40 << 6) + (x & 0x40)) << 12;
         return n;
     }
 
+    /** Executes the make debug index operation. */
     public static int makeDebugIndex(int x, int y, int z)
     {
         int n = ((z & 0x40 << 12) + (y & 0x40 << 6) + (x & 0x40)) << 12;
         return n;
     }
 
+    /** Sets the index. */
     public void setIndex(int nDebugIndex)
     {
-        n_Filler_TempDim_Level &= ~0x3FFFF000;  // ~00111111 11111111 11110000 00000000
-        n_Filler_TempDim_Level |= nDebugIndex;
+        fillerTempDimLevel &= ~0x3FFFF000;  // ~00111111 11111111 11110000 00000000
+        fillerTempDimLevel |= nDebugIndex;
     }
 
+    /** Returns the debug index. */
     public String getDebugIndex()
     {
         int nNbDim = getTempNbDim();
         if (nNbDim == 0) {
             return "";
         }
-        int n = n_Filler_TempDim_Level & 0x3FFFF000;    // ~00111111 11111111 11110000 00000000
+        int n = fillerTempDimLevel & 0x3FFFF000;    // ~00111111 11111111 11110000 00000000
         n = n >> 12;
         int x = n | 0x40;
         n = n >> 6;
@@ -1018,6 +1041,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         }
     }
 
+    /** Returns the named child. */
     public VarDefBase getNamedChild(SharedProgramInstanceData sharedProgramInstanceData, String csName)
     {
         int nNbChildren = getNbChildren();
@@ -1040,6 +1064,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return null;
     }
 
+    /** Returns the unprefix named child. */
     public VarDefBase getUnprefixNamedChild(SharedProgramInstanceData sharedProgramInstanceData, String csName, IntegerRef rnChildIndex)
     {
         String csUpperName = csName.toUpperCase();
@@ -1064,6 +1089,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return null;
     }
 
+    /** Returns the un dollar unprefix named child. */
     public VarDefBase getUnDollarUnprefixNamedChild(
         SharedProgramInstanceData sharedProgramInstanceData,
         String csName,
@@ -1106,6 +1132,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return null;
     }
 
+    /** Returns the unprefixed name. */
     public String getUnprefixedName(SharedProgramInstanceData sharedProgramInstanceData)
     {
         String name = getFullName(sharedProgramInstanceData) ;
@@ -1116,6 +1143,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return name;
     }
 
+    /** Adds the redefinition. */
     public void addRedefinition(VarDefBase varDefRedefinition)
     {
         if (arrRedefinition == null) {
@@ -1124,6 +1152,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         arrRedefinition.add(varDefRedefinition);
     }
 
+    /** Returns the nb redefinition. */
     public int getNbRedefinition()
     {
         if (arrRedefinition == null) {
@@ -1132,6 +1161,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return arrRedefinition.size();
     }
 
+    /** Returns the redefinition at. */
     public VarDefBase getRedefinitionAt(int nIndex)
     {
         if (arrRedefinition == null) {
@@ -1142,6 +1172,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
 
 
+    /** Returns the single item required storage size. */
     public abstract int getSingleItemRequiredStorageSize();
     abstract VarDefBuffer allocCopy();
 
@@ -1151,6 +1182,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     protected abstract boolean isVarDefForm();
     protected abstract boolean isEditInMapOrigin();
 
+    /** Returns the body length. */
     public abstract int getBodyLength();
     protected abstract int getHeaderLength();
     protected abstract boolean isEbcdicAsciiConvertible();
@@ -1238,6 +1270,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return nNbEdit;
     }
 
+    /** Executes the debugget default absolute position operation. */
     public int DEBUGgetDefaultAbsolutePosition()
     {
         return nDefaultAbsolutePosition;
@@ -1256,12 +1289,14 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return varDefRedefinOrigin;
     }
 
+    /** Returns the unprefixed unindexed name. */
     public String getUnprefixedUnindexedName(SharedProgramInstanceData sharedProgramInstanceData)
     {
         String csFullName = getFullName(sharedProgramInstanceData);
         return NameManager.getUnprefixedUnindexedName(csFullName);
     }
 
+    /** Executes the compress operation. */
     public void compress()
     {
         if(arrChildren != null)
@@ -1302,12 +1337,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         if (varDefPreviousSameLevel != null) {
             nVarDefPreviousSameLevelId = varDefPreviousSameLevel.getId();
         }
-        n_PreviousSameLevel_Id = setHigh(n_PreviousSameLevel_Id, nVarDefPreviousSameLevelId);
+        previousSameLevelId = setHigh(previousSameLevelId, nVarDefPreviousSameLevelId);
     }
 
     private VarDefBase getVarDefPreviousSameLevel(SharedProgramInstanceData sharedProgramInstanceData)
     {
-        VarDefBase varDefBase = getVarDefBaseAtHigh(sharedProgramInstanceData, n_PreviousSameLevel_Id);
+        VarDefBase varDefBase = getVarDefBaseAtHigh(sharedProgramInstanceData, previousSameLevelId);
         return varDefBase;
     }
 
@@ -1429,6 +1464,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 //      return null;
 //  }
 
+    /** Returns the parent at level01. */
     public VarDefBase getParentAtLevel01()
     {
         VarDefBase varDefLevel01 = this;
@@ -1443,6 +1479,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         return null;
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         //aOccursOwnerLocation = null;
@@ -1501,12 +1538,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     public void setId(int nId)
     {
-        n_PreviousSameLevel_Id = setLow(n_PreviousSameLevel_Id, nId);
+        previousSameLevelId = setLow(previousSameLevelId, nId);
     }
 
     public int getId()
     {
-        return getLow(n_PreviousSameLevel_Id);
+        return getLow(previousSameLevelId);
     }
 
     public int getIdSolvedDim() // Unique id combined with resolved var dimension
@@ -1522,15 +1559,16 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     VarDefBase getVarDefMaster(SharedProgramInstanceData sharedProgramInstanceData)
     {
-        return getVarDefBaseAtHigh(sharedProgramInstanceData, n_varDefMaster_Free);
+        return getVarDefBaseAtHigh(sharedProgramInstanceData, varDefMasterFree);
     }
 
     void setVarDefMaster(VarDefBase varDefBase)
     {
         int nId = varDefBase.getId();
-        n_varDefMaster_Free = setHigh(n_varDefMaster_Free, nId);
+        varDefMasterFree = setHigh(varDefMasterFree, nId);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
@@ -1551,7 +1589,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         InitializeManager initializeManager,
         int nOffset,
         InitializeCache initializeCache);
+    /** Returns the type id. */
     public abstract int getTypeId();
+    /** Returns the segment key type factory. */
     public abstract BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory();
 
     public int getTrailingLengthToNotconvert()
@@ -1571,7 +1611,7 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     protected OccursItemSettings occursItemSettings = null;
 
-    private int n_Filler_TempDim_Level = 0;
+    private int fillerTempDimLevel = 0;
     // 00000000 00000000 00000000 11111111: Level
     // 00000000 00000000 00000011 00000000: Dim
     // 00000000 00000000 00000100 00000000: Filler
@@ -1587,13 +1627,13 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     // Grouped by 16 bits id
     // high short:varDefPreviousSameLevel id; low short: Id of the variable's an index in SharedProgramInstanceData arrVarName array
-    private int n_PreviousSameLevel_Id = 0;
+    private int previousSameLevelId = 0;
     // Grouping:
     //private VarDefBase varDefPreviousSameLevel = null;    // Previous VarDef at the same level
     //private int nId;
 
 
-    private int n_varDefMaster_Free = 0xffff0000;
+    private int varDefMasterFree = 0xffff0000;
     // Grouping:
     //protected VarDefBase varDefMaster = null;
 

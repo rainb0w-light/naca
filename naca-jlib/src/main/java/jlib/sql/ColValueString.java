@@ -12,30 +12,36 @@ import java.sql.Types;
 
 import jlib.misc.NumberParser;
 
+/** Provides col value string behavior. */
 public class ColValueString extends ColValue
 {
+    /** Creates a new col value string instance. */
     public ColValueString(String csName, String csReplacement, String csValue)
     {
         super(csName,csReplacement);
         this.csValue = csValue;
     }
 
+    /** Creates a new col value string instance. */
     public ColValueString(String csName,  String csValue)
     {
         super(csName);
         this.csValue = csValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueString(csName, csValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(csValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {

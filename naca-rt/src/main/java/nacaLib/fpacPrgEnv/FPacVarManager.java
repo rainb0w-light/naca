@@ -16,6 +16,7 @@ import nacaLib.varEx.VarDefNumIntSignComp3;
 import nacaLib.varEx.VarLevel;
 import nacaLib.varEx.VarType;
 
+/** Provides fpac var manager behavior. */
 public class FPacVarManager
 {
     private VarLevel level77 = null;

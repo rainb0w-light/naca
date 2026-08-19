@@ -34,6 +34,7 @@ public class CEntityCICSLink extends CBaseActionEntity
         }
     }
 
+    /** Sets the program name. */
     public void SetProgramName(CDataEntity prgm, boolean bChecked)
     {
         refProgram = prgm ;
@@ -46,16 +47,19 @@ public class CEntityCICSLink extends CBaseActionEntity
     protected CDataEntity commAreaLength = null ;
     protected CDataEntity commAreaDataLength = null ;
 
+    /** Sets the comm area. */
     public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength, CDataEntity eCADataLength)
     {
         refCommArea = eCommArea ;
         commAreaLength = eCALength ;
         commAreaDataLength = eCADataLength ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

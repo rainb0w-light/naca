@@ -8,10 +8,12 @@ package jlib.sql;
 
 import java.util.Hashtable;
 
+/** Provides db data cache manager behavior. */
 public class DbDataCacheManager
 {
     protected Hashtable<String, DbDataCacheTable> tabTables = null;
 
+    /** Creates a new db data cache manager instance. */
     public DbDataCacheManager()
     {
         tabTables = new Hashtable<String, DbDataCacheTable>() ; // hash collection of CSQLDataCacheTable indexed by csTableName
@@ -23,6 +25,7 @@ public class DbDataCacheManager
         public String csTableName = "" ;
     }
 
+    /** Executes the register data operation. */
     public void RegisterData(String csTableName, String csKey, Object val)
     {
         DbDataCacheTable table = tabTables.get(csTableName) ;
@@ -35,6 +38,7 @@ public class DbDataCacheManager
         table.tabData.put(csKey, val) ;
     }
 
+    /** Returns the data. */
     public Object getData(String csTableName, String csKey)
     {
         DbDataCacheTable table = tabTables.get(csTableName) ;

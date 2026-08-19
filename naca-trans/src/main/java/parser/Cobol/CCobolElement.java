@@ -46,11 +46,13 @@ import utils.Transcoder;
  */
 public abstract class CCobolElement extends CLanguageElement
 {
+    /** Creates a new ccobol element instance. */
     public CCobolElement(int line)
     {
         super(line) ;
     };
 
+    /** Reads the identifier. */
     public static CIdentifier ReadIdentifier(CTokenList lstTokens)
     {
         CFakeElement e = new CFakeElement(lstTokens) ;
@@ -63,6 +65,7 @@ public abstract class CCobolElement extends CLanguageElement
         return e.ReadIdentifier() ;
     }
 
+    /** Reads the identifier. */
     public CIdentifier ReadIdentifier()
     {
         CBaseToken tok = GetCurrentToken() ;
@@ -185,6 +188,7 @@ public abstract class CCobolElement extends CLanguageElement
         return ident ;
     }
 
+    /** Reads the terminal. */
     public CTerminal ReadTerminal()
     {
         CBaseToken tok = GetCurrentToken() ;
@@ -248,6 +252,7 @@ public abstract class CCobolElement extends CLanguageElement
         return null ;
     }
 
+    /** Reads the expression. */
     public CExpression ReadExpression()
     {
         CExpression exprGlobal = null ;
@@ -256,6 +261,7 @@ public abstract class CCobolElement extends CLanguageElement
         return exprGlobal ;
     }
 
+    /** Reads the calcul expression. */
     public CExpression ReadCalculExpression()
     {
         CExpression exprGlobal = null ;
@@ -352,6 +358,7 @@ public abstract class CCobolElement extends CLanguageElement
         return exprProd ;
     }
 
+    /** Reads the conditional statement. */
     public CExpression ReadConditionalStatement()
     { // this function is called at the begining of the statment
 //      boolean bDone = false ;

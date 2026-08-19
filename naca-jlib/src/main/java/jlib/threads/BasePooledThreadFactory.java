@@ -16,5 +16,6 @@ package jlib.threads;
  */
 public abstract class BasePooledThreadFactory
 {
+    /** Executes the make operation. */
     public abstract PooledThread make(PoolOfThreads owningPool);
 }

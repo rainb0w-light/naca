@@ -69,16 +69,19 @@ public class CEntityFormAccessor extends CBaseDataReference
         reference = owner ;
         parent = owner ;
     }
+    /** Executes the get form operation. */
     public CEntityResourceForm GetForm()
     {
         return owner ;
     }
     protected CEntityResourceForm owner = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         owner = null ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -105,12 +108,14 @@ public class CEntityFormAccessor extends CBaseDataReference
         owner.RegisterWritingAction(eAssign);
         return eAssign ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
 
     protected boolean isvirtual = false ;
+    /** Sets the virtual. */
     public void setVirtual()
     {
         isvirtual = true ;
@@ -118,6 +123,7 @@ public class CEntityFormAccessor extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         if (isvirtual)
@@ -129,10 +135,12 @@ public class CEntityFormAccessor extends CBaseDataReference
             return CDataEntityType.FORM ;
         }
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         if (term.GetDataType() == CDataEntityType.FORM && !owner.IsSaveCopy())
@@ -146,6 +154,7 @@ public class CEntityFormAccessor extends CBaseDataReference
             return null;
         }
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
     {
         boolean b = super.ReplaceVariable(field, var, bRead) ;
@@ -190,6 +199,7 @@ public class CEntityFormAccessor extends CBaseDataReference
         return owner.getFormReference() ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // Preserved from the retired backend: the accessor bears accessors iff its owner

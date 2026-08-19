@@ -61,6 +61,7 @@ public record JavaTemplateProfile(String id, List<JavaTemplateModule> modules)
     private static final JavaTemplateProfile FPAC_PROFILE = profile(
         "java-fpac", SHARED, List.of(FPAC));
 
+    /** Executes the java template profile operation. */
     public JavaTemplateProfile
     {
         Objects.requireNonNull(id, "id");
@@ -75,21 +76,25 @@ public record JavaTemplateProfile(String id, List<JavaTemplateModule> modules)
         }
     }
 
+    /** Executes the full operation. */
     public static JavaTemplateProfile full()
     {
         return FULL;
     }
 
+    /** Executes the cobol operation. */
     public static JavaTemplateProfile cobol()
     {
         return COBOL;
     }
 
+    /** Executes the bms operation. */
     public static JavaTemplateProfile bms()
     {
         return BMS;
     }
 
+    /** Executes the fpac operation. */
     public static JavaTemplateProfile fpac()
     {
         return FPAC_PROFILE;

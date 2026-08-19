@@ -22,11 +22,13 @@ import semantic.Verbs.CEntityCloseFile;
 import utils.Transcoder;
 import utils.FPacTranscoder.notifs.NotifRegisterFileClose;
 
+/** Provides cfpac close behavior. */
 public class CFPacClose extends CFPacElement
 {
 
     private CIdentifier closeFile;
 
+    /** Creates a new cfpac close instance. */
     public CFPacClose(int line)
     {
         super(line);

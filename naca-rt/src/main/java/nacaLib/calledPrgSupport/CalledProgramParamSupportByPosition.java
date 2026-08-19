@@ -25,18 +25,21 @@ public class CalledProgramParamSupportByPosition
     }
 
     // String
+    /** Sets the in. */
     public void setIn(String csValue)
     {
         CalledPrgPublicArgStringInPositioned arg = new CalledPrgPublicArgStringInPositioned(csValue);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the in out. */
     public void setInOut(String [] csioValue)
     {
         CalledPrgPublicArgStringOutPositioned arg = new CalledPrgPublicArgStringOutPositioned(csioValue, true);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the out. */
     public void setOut(String [] csoValue)
     {
         CalledPrgPublicArgStringOutPositioned arg = new CalledPrgPublicArgStringOutPositioned(csoValue, false);
@@ -44,18 +47,21 @@ public class CalledProgramParamSupportByPosition
     }
 
     // Int
+    /** Sets the in. */
     public void setIn(int nValue)
     {
         CalledPrgPublicArgIntInPositioned arg = new CalledPrgPublicArgIntInPositioned(nValue);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the in out. */
     public void setInOut(int [] nioValue)
     {
         CalledPrgPublicArgIntOutPositioned arg = new CalledPrgPublicArgIntOutPositioned(nioValue, true);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the out. */
     public void setOut(int [] noValue)
     {
         CalledPrgPublicArgIntOutPositioned arg = new CalledPrgPublicArgIntOutPositioned(noValue, false);
@@ -63,24 +69,28 @@ public class CalledProgramParamSupportByPosition
     }
 
     // Double
+    /** Sets the in. */
     public void setIn(double diValue)
     {
         CalledPrgPublicArgDoubleInPositioned arg = new CalledPrgPublicArgDoubleInPositioned(diValue);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the in out. */
     public void setInOut(double [] dioValue)
     {
         CalledPrgPublicArgDoubleOutPositioned arg = new CalledPrgPublicArgDoubleOutPositioned(dioValue, true);
         arrPublicArgs.add(arg);
     }
 
+    /** Sets the out. */
     public void setOut(double [] doValue)
     {
         CalledPrgPublicArgDoubleOutPositioned arg = new CalledPrgPublicArgDoubleOutPositioned(doValue, false);
         arrPublicArgs.add(arg);
     }
 
+    /** Executes the add operation. */
     public void add(BaseCalledPrgPublicArgPositioned arg)
     {
         arrPublicArgs.add(arg);

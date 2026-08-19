@@ -29,6 +29,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
         super(colDescription);
     }
 
+    /** Returns the byte value. */
     public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try
@@ -62,6 +63,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 //      return 26;
 //  }
 
+    /** Sets the byte value in stmt col. */
     public int setByteValueInStmtCol(
         DbColDefErrorManager dbColDefErrorManager,
         DbPreparedStatement stmt,
@@ -79,6 +81,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
     }
 
 
+    /** Executes the fill callable statement param operation. */
     public boolean fillCallableStatementParam(
         int nParamId,
         StoredProcParamDescBase storedProcParamDescBase,
@@ -88,6 +91,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
         return callableStatement.setInValue(nParamId, cs);
     }
 
+    /** Returns the excel value. */
     public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try

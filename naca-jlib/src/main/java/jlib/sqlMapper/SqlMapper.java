@@ -11,15 +11,18 @@ import java.util.Hashtable;
 
 import jlib.sql.DbAccessor;
 
+/** Provides sql mapper behavior. */
 public class SqlMapper
 {
     private Hashtable<String, SqlMapperManagedTable> hashTables = null;     // Hash for get managed table by name
     private ArrayList<SqlMapperManagedTable> tables = null;     // Array for get managed table by dependency order
 
+    /** Creates a new sql mapper instance. */
     public SqlMapper()
     {
     }
 
+    /** Executes the register table operation. */
     public synchronized SqlMapperManagedTable registerTable(String csTableName)
     {
         if (hashTables == null) {
@@ -111,6 +114,7 @@ public class SqlMapper
 //      managedTable.set(recordId, csColName, tsValue);
 //  }
 
+    /** Returns the registered table. */
     public synchronized SqlMapperManagedTable getRegisteredTable(String csTableName)
     {
         SqlMapperManagedTable managedTable = hashTables.get(csTableName);
@@ -143,6 +147,7 @@ public class SqlMapper
 //  }
 //
     // Execute all insert statements for all tables on all records
+    /** Executes the execute inserts operation. */
     public void executeInserts(DbAccessor dbAccessor)
     {
         // Insert records for all tables
@@ -155,6 +160,7 @@ public class SqlMapper
     }
 
     // Execute all select statements for all tables on all records; They are done by keys defined in all RecordId
+    /** Executes the execute selects operation. */
     public void executeSelects(DbAccessor dbAccessor)
     {
         // Select records for all tables; The select "where" is given by the values stored in the recordId
@@ -167,6 +173,7 @@ public class SqlMapper
     }
 
     // Execute all delete statements for all tables on all records; They are done by keys defined in all RecordId
+    /** Executes the execute deletes operation. */
     public void executeDeletes(DbAccessor dbAccessor)
     {
         // Delete records for all tables; The select "where" is given by the values stored in the recordId
@@ -178,6 +185,7 @@ public class SqlMapper
         }
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -191,6 +199,7 @@ public class SqlMapper
         return sb.toString();
     }
 
+    /** Clears the values. */
     public void clearValues()
     {
         // A recordId may concern multiple tables; enum all tables that are potential concerned by a record Id

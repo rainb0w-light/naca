@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class PatternLayoutSTCheck extends LogPatternLayout
 {
+    /** Creates a new pattern layout stcheck instance. */
     public PatternLayoutSTCheck()
     {
         super();

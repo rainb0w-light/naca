@@ -34,7 +34,9 @@ public final class FeatureRegistry
             this.template = template;
         }
 
+        /** Executes the role operation. */
         public String role() { return role; }
+        /** Executes the template operation. */
         public String template() { return template; }
     }
 
@@ -61,12 +63,19 @@ public final class FeatureRegistry
             this.status = status;
         }
 
+        /** Executes the id operation. */
         public String id() { return id; }
+        /** Executes the dialects operation. */
         public List<String> dialects() { return dialects; }
+        /** Executes the semantic type operation. */
         public String semanticType() { return semanticType; }
+        /** Executes the java backend operation. */
         public JavaBackend javaBackend() { return javaBackend; }
+        /** Executes the runtime operations operation. */
         public List<String> runtimeOperations() { return runtimeOperations; }
+        /** Executes the fixtures operation. */
         public List<String> fixtures() { return fixtures; }
+        /** Executes the status operation. */
         public String status() { return status; }
     }
 
@@ -79,7 +88,9 @@ public final class FeatureRegistry
         this.features = Collections.unmodifiableMap(features);
     }
 
+    /** Executes the registry version operation. */
     public int registryVersion() { return registryVersion; }
+    /** Executes the features operation. */
     public Map<String, Feature> features() { return features; }
 
     /** Loads the registry from the classpath ({@code /contract/feature-registry.yaml}). */

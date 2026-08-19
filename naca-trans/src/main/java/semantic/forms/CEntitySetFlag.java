@@ -52,21 +52,25 @@ public class CEntitySetFlag extends CBaseActionEntity
         return flagValue != null ;
     }
 
+    /** Sets the flag. */
     public void SetFlag(String cs)
     {
         flagValue = cs ;
     }
     protected String flagValue = null ;
     protected CDataEntity refField = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         refField = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return refField == null ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == refField)
@@ -78,6 +82,7 @@ public class CEntitySetFlag extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (refField == field)

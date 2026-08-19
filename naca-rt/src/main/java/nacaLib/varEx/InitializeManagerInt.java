@@ -12,16 +12,19 @@ package nacaLib.varEx;
  */
 public class InitializeManagerInt extends InitializeManager
 {
+    /** Creates a new initialize manager int instance. */
     public InitializeManagerInt(int n)
     {
         this.n = n;
     }
 
+    /** Executes the set operation. */
     public void set(int n)
     {
         this.n = n;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeAtOffset(buffer, nOffset, n);

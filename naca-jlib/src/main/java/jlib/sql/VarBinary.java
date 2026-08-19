@@ -18,16 +18,19 @@ import java.io.UnsupportedEncodingException;
  */
 public class VarBinary
 {
+    /** Creates a new var binary instance. */
     public VarBinary()
     {
         tb = null;
     }
 
+    /** Creates a new var binary instance. */
     public VarBinary(byte tb[])
     {
         this.tb = tb;
     }
 
+    /** Returns the as string. */
     public String getAsString()
     {
         if(tb   != null)
@@ -39,6 +42,7 @@ public class VarBinary
         return "";
     }
 
+    /** Returns the as utf8 string. */
     public String getAsUTF8String()
     {
         if(tb   != null)
@@ -58,6 +62,7 @@ public class VarBinary
         return "";
     }
 
+    /** Sets the utf8 from string. */
     public boolean setUTF8FromString(String cs)
     {
         try

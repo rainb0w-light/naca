@@ -16,6 +16,7 @@ package nacaLib.varEx;
  */
 public class OccursDefRecordDependingVar extends OccursDef
 {
+    /** Creates a new occurs def record depending var instance. */
     public OccursDefRecordDependingVar(int n, Var varOccurs)
     {
         super(n);

@@ -46,6 +46,7 @@ public class SQLClauseSPParamDesc extends StoredProcParamDescBase
 //      }
 //  }
 
+    /** Executes the fill in value operation. */
     public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
     {
 //      if(varInOut != null)

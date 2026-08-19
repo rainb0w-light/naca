@@ -6,12 +6,13 @@
  */
 package parser.Cobol.elements;
 
-import org.w3c.dom.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import parser.Cobol.CCobolElement;
 import semantic.CBaseLanguageEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CEntityComment;
+
 
 /**
  * @author U930CV
@@ -37,6 +38,7 @@ public class CComment extends CCobolElement
         return true ;
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document rootdoc)
     {
         Element e = rootdoc.createElement("Comment") ;

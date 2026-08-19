@@ -6,8 +6,10 @@
  */
 package jlib.threads;
 
+/** Provides threadutil behavior. */
 public class Threadutil
 {
+    /** Executes the wait operation. */
     public static boolean wait(int nNbms)
     {
         try
@@ -21,10 +23,11 @@ public class Threadutil
         return false;
     }
 
+    /** Returns the current thread id. */
     public static long getCurrentThreadId()
     {
         Thread thread = Thread.currentThread();
-        long l = thread.getId();;
+        long l = thread.getId();
         return l;
     }
 }

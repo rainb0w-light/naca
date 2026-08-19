@@ -43,6 +43,7 @@ public final class DiagnosticSink
         return sink;
     }
 
+    /** Executes the current operation. */
     public static DiagnosticSink current()
     {
         return CURRENT.get();
@@ -79,6 +80,7 @@ public final class DiagnosticSink
         }
     }
 
+    /** Executes the diagnostics operation. */
     public List<UnsupportedFeatureException> diagnostics()
     {
         return Collections.unmodifiableList(diagnostics);

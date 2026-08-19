@@ -22,21 +22,25 @@ import jlib.misc.NumberParser;
  */
 public class ColValueGeneric extends ColValue
 {
+    /** Creates a new col value generic instance. */
     public ColValueGeneric(String csName)
     {
         super(csName);
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueGeneric(csName);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(value);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {

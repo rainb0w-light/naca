@@ -25,18 +25,21 @@ public class UnstringToManager
         this.unstringManager = unstringManager;
     }
 
+    /** Executes the to operation. */
     public UnstringToManager to(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
     {
         unstringManager.doInto(varDelimiterDest, varDelimiterIn, varCountDest);
         return this;
     }
 
+    /** Executes the to operation. */
     public UnstringToManager to(Var varDelimiterDest)
     {
         unstringManager.doInto(varDelimiterDest, null, null);
         return this;
     }
 
+    /** Executes the failed operation. */
     public boolean failed()
     {
         if (unstringManager == null) {
@@ -45,6 +48,7 @@ public class UnstringToManager
         return unstringManager.failed();
     }
 
+    /** Executes the not failed operation. */
     public boolean notFailed()
     {
         if (unstringManager == null) {

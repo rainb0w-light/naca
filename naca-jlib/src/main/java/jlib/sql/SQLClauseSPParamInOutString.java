@@ -21,6 +21,7 @@ public class SQLClauseSPParamInOutString extends SQLClauseSPParamInOut
 {
     private String tcsVal[] = null;
 
+    /** Creates a new sqlclause spparam in out string instance. */
     public SQLClauseSPParamInOutString(SQLClauseSPParamWay wayInOut, String tcsVal[])
     {
         super(wayInOut);

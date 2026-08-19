@@ -8,8 +8,10 @@ package jlib.classLoader;
 
 import java.util.ArrayList;
 
+/** Provides couple code loader behavior. */
 public class CoupleCodeLoader
 {
+    /** Creates a new couple code loader instance. */
     public CoupleCodeLoader(Class classCode, ClassDynLoader classDynLoader)
     {
         this.classCode = classCode;

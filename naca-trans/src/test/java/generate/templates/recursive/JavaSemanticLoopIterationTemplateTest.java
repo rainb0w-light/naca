@@ -78,6 +78,7 @@ class JavaSemanticLoopIterationTemplateTest
         return new LoopFixture(loop, output);
     }
 
+    @SuppressWarnings("PMD.ExhaustiveSwitchHasDefault")
     private void configure(
         TestJavaLoopIter loop,
         Mode mode,
@@ -90,6 +91,7 @@ class JavaSemanticLoopIterationTemplateTest
             case INCREMENT -> loop.SetLoopIterInc(variable, initialValue);
             case DECREMENT -> loop.SetLoopIterDec(variable, initialValue);
             case EXPLICIT_STEP -> loop.SetLoopIter(variable, initialValue, step);
+            default -> throw new IllegalStateException("Unexpected loop mode: " + mode);
         }
     }
 

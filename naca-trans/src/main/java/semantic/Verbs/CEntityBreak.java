@@ -9,9 +9,11 @@ package semantic.Verbs;
 import semantic.CBaseActionEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity break behavior. */
 public class CEntityBreak extends CBaseActionEntity
 {
 
+    /** Creates a new centity break instance. */
     public CEntityBreak(int line, CObjectCatalog cat)
     {
         super(line, cat);

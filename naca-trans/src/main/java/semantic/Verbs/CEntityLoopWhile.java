@@ -26,21 +26,25 @@ public class CEntityLoopWhile extends CBaseActionEntity
     {
         super(line, cat);
     }
+    /** Sets the while condition. */
     public void SetWhileCondition(CBaseEntityCondition exp)
     {
         whileCondition = exp ;
         isdoBefore = false ;
     }
+    /** Sets the do while condition. */
     public void SetDoWhileCondition(CBaseEntityCondition exp)
     {
         whileCondition = exp ;
         isdoBefore = true ;
     }
+    /** Sets the do until condition. */
     public void SetDoUntilCondition(CBaseEntityCondition exp)
     {
         whileCondition = exp.GetOppositeCondition() ;
         isdoBefore = true;
     }
+    /** Sets the until condition. */
     public void SetUntilCondition(CBaseEntityCondition exp)
     {
         whileCondition = exp.GetOppositeCondition() ;
@@ -48,18 +52,21 @@ public class CEntityLoopWhile extends CBaseActionEntity
     }
     protected CBaseEntityCondition whileCondition = null ;
     protected boolean isdoBefore = false ; // false = WHILE DO / true = DO WHILE
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         whileCondition.Clear() ;
         whileCondition = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = whileCondition.ignore() ;
 //      ignore |= (isChildrenIgnored() && m_;
         return ignore ;
     }
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
         for (int i=0; i<lstChildren.size(); i++)

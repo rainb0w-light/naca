@@ -36,12 +36,14 @@ public class CESMReceive extends CJMapObject
     }
 
 
+    /** Executes the into operation. */
     public void into(Form var)
     {
         this.mapInto = var;
         receiveData() ;
         //return this;
     }
+    /** Executes the into operation. */
     public void into(Var var)
     {
         // if this function is called, that means a COPY is missing with the map defined in it
@@ -67,11 +69,13 @@ public class CESMReceive extends CJMapObject
     private Document xmlData = null;
     private BaseEnvironment env = null ;
 
+    /** Executes the map set operation. */
     public CESMReceive mapSet(String string)
     {
         // nothing to do with mapset...
         return this ;
     }
+    /** Executes the map set operation. */
     public CESMReceive mapSet(Var name)
     {
         // nothing to do with mapset...

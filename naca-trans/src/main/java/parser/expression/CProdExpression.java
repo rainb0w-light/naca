@@ -21,17 +21,23 @@ import semantic.expression.CEntityExprProd;
  */
 public class CProdExpression extends CExpression
 {
+    /** Provides cprod type behavior. */
     public static class CProdType
     {
-        public String Text = "" ;
+        private final String text;
         protected CProdType(String t)
         {
-            Text = t ;
+            text = t ;
+        }
+        public String getText()
+        {
+            return text;
         }
         public static CProdType PROD = new CProdType("MULT") ;
         public static CProdType DIVIDE = new CProdType("DIVID") ;
         public static CProdType POW = new CProdType("POW") ;
     }
+    /** Creates a new cprod expression instance. */
     public CProdExpression(int line, CExpression op1, CExpression op2, CProdType t)
     {
         super(line) ;
@@ -54,19 +60,22 @@ public class CProdExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#Export(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
-        Element e = root.createElement(type.Text) ;
+        Element e = root.createElement(type.getText()) ;
         Element e1 = op1.Export(root) ;
         e.appendChild(e1) ;
         Element e2 = op2.Export(root) ;
         e.appendChild(e2) ;
         return e;
     }
+    /** Executes the get type operation. */
     public CProdType GetType()
     {
         return type ;
     }
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         CEntityExprProd eProd = factory.NewEntityExprProd();
@@ -75,6 +84,7 @@ public class CProdExpression extends CExpression
         eProd.SetProdExpression(op1New, op2New, type) ;
         return eProd;
     }
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         return null;
@@ -82,6 +92,7 @@ public class CProdExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return this;
@@ -89,6 +100,7 @@ public class CProdExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT();
@@ -98,10 +110,12 @@ public class CProdExpression extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (type == CProdType.PROD)

@@ -16,15 +16,18 @@ package parser.Cobol.elements.SQL;
  */
 public class CSQLTableColDescriptor
 {
+    /** Creates a new csqltable col descriptor instance. */
     public CSQLTableColDescriptor()
     {
     }
 
+    /** Sets the name. */
     public void SetName(String csName)
     {
         this.csName = csName;
     }
 
+    /** Executes the get name operation. */
     public String GetName()
     {
         return csName;
@@ -42,11 +45,13 @@ public class CSQLTableColDescriptor
         isdecimalSet = true;
     }
 
+    /** Executes the has size operation. */
     public boolean HasSize()
     {
         return islengthSet;
     }
 
+    /** Executes the get sizes operation. */
     public String GetSizes()
     {
         if(islengthSet)
@@ -64,6 +69,7 @@ public class CSQLTableColDescriptor
         this.csType = csType;
     }
 
+    /** Executes the get type operation. */
     public String GetType()
     {
         return csType;
@@ -74,6 +80,7 @@ public class CSQLTableColDescriptor
         isnull = b;
     }
 
+    /** Executes the is null operation. */
     public boolean IsNull()
     {
         return isnull;

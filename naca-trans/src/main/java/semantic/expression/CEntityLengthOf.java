@@ -15,6 +15,7 @@ import utils.CObjectCatalog;
  */
 public class CEntityLengthOf extends CBaseEntityFunction
 {
+    /** Creates a new centity length of instance. */
     public CEntityLengthOf(CObjectCatalog cat, CDataEntity data)
     {
         super(cat, data);

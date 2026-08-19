@@ -26,18 +26,21 @@ public class RecordId extends ColValueCollection
     private ArrayList<OrderSegment> orderBy = null; // Array of the column for generating the order by statement
     private String csWhereExpression = null;                // Specific where expression
 
+    /** Creates a new record id instance. */
     public RecordId(int nName)
     {
         super();
         csName = "" + nName;
     }
 
+    /** Creates a new record id instance. */
     public RecordId(String csName)
     {
         super();
         this.csName = csName;
     }
 
+    /** Creates a new record id instance. */
     public RecordId(StringBuffer sbName)
     {
         csName = sbName.toString();
@@ -48,6 +51,7 @@ public class RecordId extends ColValueCollection
         return csName;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -66,6 +70,7 @@ public class RecordId extends ColValueCollection
         return false;
     }
 
+    /** Executes the order by ascending operation. */
     public RecordId orderByAscending(String csName)
     {
         OrderSegment orderBy = new OrderSegmentAscending(csName);
@@ -76,6 +81,7 @@ public class RecordId extends ColValueCollection
         return this;
     }
 
+    /** Executes the order by descending operation. */
     public RecordId orderByDescending(String csName)
     {
         OrderSegment orderBy = new OrderSegmentDescending(csName);
@@ -86,6 +92,7 @@ public class RecordId extends ColValueCollection
         return this;
     }
 
+    /** Sets the where expression. */
     public RecordId setWhereExpression(String csWhereExpression)
     {
         this.csWhereExpression = csWhereExpression;

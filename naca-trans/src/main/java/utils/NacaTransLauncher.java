@@ -16,6 +16,7 @@ package utils;
  */
 public class NacaTransLauncher extends Transcoder
 {
+    /** Executes the launch main operation. */
     public static void launchMain(String[] args)
     {
         String csCfg = null;
@@ -69,6 +70,7 @@ public class NacaTransLauncher extends Transcoder
         doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);
     }
 
+    /** Executes the do init for plugin operation. */
     public static NacaTransLauncher doInitForPlugin(String configFilePath)
     {
         NacaTransLauncher transLauncher = new NacaTransLauncher() ;
@@ -76,6 +78,7 @@ public class NacaTransLauncher extends Transcoder
         return transLauncher;
     }
 
+    /** Executes the do start operation. */
     public static void doStart(String csApplication, TranscoderAction transcoderAction, String csCfg, String csGroupToTranscode)
     {
         NacaTransLauncher obj = new NacaTransLauncher() ;

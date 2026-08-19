@@ -32,6 +32,7 @@ public class CEntityCICSReturn extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Sets the trans id. */
     public void SetTransID(CDataEntity tid, CDataEntity comma, CDataEntity comlen, boolean bChecked)
     {
         transID = tid;
@@ -44,6 +45,7 @@ public class CEntityCICSReturn extends CBaseActionEntity
     protected CDataEntity transID = null ;
     protected CDataEntity commArea = null ;
     protected CDataEntity commLenght = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -51,10 +53,12 @@ public class CEntityCICSReturn extends CBaseActionEntity
         commArea = null ;
         commLenght = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (transID == field)
@@ -73,6 +77,7 @@ public class CEntityCICSReturn extends CBaseActionEntity
         }
         return false ;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         return true ;

@@ -7,7 +7,7 @@
 package jlib.log;
 
 
-import jlib.misc.*;
+import jlib.misc.DateUtil;
 
 
 /**
@@ -16,6 +16,7 @@ import jlib.misc.*;
  */
 public class PatternLayoutST6 extends LogPatternLayout
 {
+    /** Creates a new pattern layout st6 instance. */
     public PatternLayoutST6()
     {
         super();

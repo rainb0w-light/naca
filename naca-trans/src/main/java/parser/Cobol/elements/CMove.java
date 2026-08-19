@@ -9,14 +9,12 @@ package parser.Cobol.elements;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
-
 import jlib.misc.StringUtil;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
-import org.w3c.dom.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
@@ -28,6 +26,10 @@ import semantic.Verbs.CEntityAssign;
 import semantic.Verbs.CEntityAssignWithAccessor;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
+
+
+
+
 
 /**
  * @author U930CV

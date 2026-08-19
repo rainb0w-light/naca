@@ -14,19 +14,23 @@ import javax.management.openmbean.CompositeDataSupport;
 import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.OpenDataException;
 
+/** Provides composite data desc behavior. */
 public class CompositeDataDesc
 {
+    /** Creates a new composite data desc instance. */
     public CompositeDataDesc(CompositeType compositeType)
     {
         this.compositeType = compositeType;
         map = new HashMap<String, Object>();
     }
 
+    /** Sets the item value. */
     public void setItemValue(String csKey, Object oValue)
     {
         map.put(csKey, oValue);
     }
 
+    /** Executes the generate composite data operation. */
     public CompositeData generateCompositeData()
     {
         try

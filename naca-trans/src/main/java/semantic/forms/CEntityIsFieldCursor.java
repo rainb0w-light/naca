@@ -25,6 +25,7 @@ public class CEntityIsFieldCursor extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.expression.CBaseEntityCondition#GetSpecialCondition(java.lang.String, semantic.CBaseEntityFactory)
      */
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         if (ishasCursor)
@@ -40,6 +41,7 @@ public class CEntityIsFieldCursor extends CUnitaryEntityCondition
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#ignore()
      */
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore();
@@ -93,11 +95,13 @@ public class CEntityIsFieldCursor extends CUnitaryEntityCondition
         return !ishasCursor ;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsFieldCursor cur = new CEntityIsFieldCursor() ;

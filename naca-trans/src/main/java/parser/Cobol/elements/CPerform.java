@@ -10,12 +10,11 @@
  */
 package parser.Cobol.elements;
 
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.CIdentifier;
 import parser.expression.CIdentifierTerminal;
 import parser.expression.CTerminal;
@@ -25,28 +24,34 @@ import semantic.Verbs.CEntityCallFunction;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
 
+
+
 /**
  * @author U930CV
  *
  */
 public class CPerform extends CBlocElement
 {
+    /** Creates a new cperform instance. */
     public CPerform(CIdentifier ref, int line)
     {
         super(line);
         reference = ref ;
     }
+    /** Creates a new cperform instance. */
     public CPerform(CTerminal ref, int line)
     {
         super(line);
         refRepetitions = ref ;
     }
+    /** Creates a new cperform instance. */
     public CPerform(CIdentifier ref, CIdentifier refThru, int line)
     {
         super(line);
         reference = ref ;
         this.refThru = refThru ;
     }
+    /** Creates a new cperform instance. */
     public CPerform(CIdentifier ref, CIdentifier refThru, CTerminal rep, int line)
     {
         super(line);

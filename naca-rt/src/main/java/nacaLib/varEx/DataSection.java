@@ -16,10 +16,12 @@ import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides data section behavior. */
 public class DataSection extends CJMapObject
 {
     private DataSectionType dataSectionType = null;
 
+    /** Creates a new data section instance. */
     public DataSection(BaseProgram prg, DataSectionType dataSectionType)
     {
         this.dataSectionType = dataSectionType;
@@ -27,6 +29,7 @@ public class DataSection extends CJMapObject
         buffer = new VarBuffer();
     }
 
+    /** Creates the root var of section. */
     public void createRootVarOfSection()
     {
         if (dataSectionType == DataSectionType.Working) {
@@ -62,6 +65,7 @@ public class DataSection extends CJMapObject
         return prg;
     }
 
+    /** Executes the push level operation. */
     public void pushLevel(VarDefBuffer varDef)
     {
         CLevel level = new CLevel(varDef, varDef.getLevel());
@@ -71,6 +75,7 @@ public class DataSection extends CJMapObject
         stackLevel.push(level);
     }
 
+    /** Returns the var def at parent level. */
     public VarDefBuffer getVarDefAtParentLevel(int nLevel)
     {
         VarDefBuffer varDefParent = null;
@@ -93,6 +98,7 @@ public class DataSection extends CJMapObject
         return rootVar;
     }
 
+    /** Executes the compute storage operation. */
     public VarBuffer computeStorage(boolean bFirstInstance)
     {
         stackLevel = null;
@@ -120,6 +126,7 @@ public class DataSection extends CJMapObject
         return buffer;
     }
 
+    /** Executes the fill working initial values operation. */
     public void fillWorkingInitialValues(SharedProgramInstanceData sharedProgramInstanceData)
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
@@ -128,6 +135,7 @@ public class DataSection extends CJMapObject
         }
     }
 
+    /** Executes the dump root var operation. */
     public void dumpRootVar(String csSectionName)
     {
         if(IsSTCheck)
@@ -140,6 +148,7 @@ public class DataSection extends CJMapObject
         }
     }
 
+    /** Executes the map call parameters operation. */
     public void mapCallParameters(ArrayList<CCallParam> arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
     {
         if(arrDeclaredCallArg != null)

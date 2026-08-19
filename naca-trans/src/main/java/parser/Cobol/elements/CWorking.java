@@ -9,21 +9,23 @@ package parser.Cobol.elements;
 
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
-import org.w3c.dom.*;
-
-import parser.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import parser.CCommentContainer;
 import parser.Cobol.CCobolElement;
-import parser.Cobol.elements.SQL.*;
+import parser.Cobol.elements.SQL.CExecSQL;
 import semantic.CBaseLanguageEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CEntityDataSection;
 import utils.LevelKeywordStackManager;
 import utils.LevelKeywords;
 import utils.Transcoder;
+
+
+
 
 /**
  * @author U930CV

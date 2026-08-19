@@ -9,6 +9,7 @@ import utils.CObjectCatalog;
  */
 public class CPositionedBufferReference extends CSubStringAttributReference
 {
+    /** Creates a new cpositioned buffer reference instance. */
     public CPositionedBufferReference(int line, CObjectCatalog catalog)
     {
         super(line, catalog);
@@ -37,6 +38,7 @@ public class CPositionedBufferReference extends CSubStringAttributReference
         return reference != null && reference.HasAccessors();
     }
 
+    /** Returns whether open conversion call. */
     public boolean isOpenConversionCall()
     {
         if (!(reference instanceof CEntityConvertReference conversion))

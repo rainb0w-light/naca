@@ -14,6 +14,7 @@ public final class BmsJavaArtifactWriter
     {
     }
 
+    /** Executes the write operation. */
     public static void write(CEntityResourceFormContainer mapset)
     {
         CBaseLanguageExporter output = LanguageArtifactOutputRegistry.get(mapset);

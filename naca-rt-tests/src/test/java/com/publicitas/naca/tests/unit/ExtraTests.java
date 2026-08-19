@@ -23,60 +23,70 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Tag("legacy-runtime")
 public class ExtraTests extends AbstractNacaTest {
 
+    /** Executes the test msbtst operation. */
     @Test
     @DisplayName("Test MSBTST program")
     public void testMsbtst() {
         assertProgramOutput("msbtst");
     }
 
+    /** Executes the test ifaai operation. */
     @Test
     @DisplayName("Test IFAAI program")
     public void testIfaai() {
         assertProgramOutput("ifaai");
     }
 
+    /** Executes the test math operation. */
     @Test
     @DisplayName("Test Math program")
     public void testMath() {
         assertProgramOutput("math");
     }
 
+    /** Executes the test condtest operation. */
     @Test
     @DisplayName("Test CondTest program")
     public void testCondtest() {
         assertProgramOutput("condtest");
     }
 
+    /** Executes the test leading zeroes operation. */
     @Test
     @DisplayName("Test Leading Zeroes program")
     public void testLeadingZeroes() {
         assertProgramOutput("lz");
     }
 
+    /** Executes the test substring operation. */
     @Test
     @DisplayName("Test Substring program")
     public void testSubstring() {
         assertProgramOutput("substring");
     }
 
+    /** Executes the test goto operation. */
     @Test
     @DisplayName("Test Goto program")
     public void testGoto() {
         assertProgramOutput("goto");
     }
 
+    /** Executes the test goto2 operation. */
     @Test
     @DisplayName("Test Goto2 program")
     public void testGoto2() {
         assertProgramOutput("goto2");
     }
 
+    /** Executes the test after operation. */
     @Test
     @DisplayName("Test After program")
     public void testAfter() {
         assertProgramOutput("after");
     }
 
+    /** Executes the test batch operation. */
     @Test
     @DisplayName("Test Batch program")
     public void testBatch() {

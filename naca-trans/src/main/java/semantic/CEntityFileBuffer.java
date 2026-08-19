@@ -9,6 +9,7 @@ package semantic;
 import semantic.expression.CBaseEntityExpression;
 import utils.CObjectCatalog;
 
+/** Provides centity file buffer behavior. */
 public class CEntityFileBuffer extends CDataEntity
 {
     protected CEntityFileDescriptor fileDescriptor = null ;
@@ -31,6 +32,7 @@ public class CEntityFileBuffer extends CDataEntity
         return fileDescriptor == null ? GetName() : fileDescriptor.GetName();
     }
 
+    /** Executes the get file descriptor operation. */
     public CEntityFileDescriptor GetFileDescriptor()
     {
         return fileDescriptor ;
@@ -70,6 +72,7 @@ public class CEntityFileBuffer extends CDataEntity
         return ref ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

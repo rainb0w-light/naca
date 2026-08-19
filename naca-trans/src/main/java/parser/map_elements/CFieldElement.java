@@ -8,15 +8,16 @@ package parser.map_elements;
 
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CReservedConstant;
+import lexer.CReservedKeyword;
+import lexer.CTokenList;
+import lexer.CTokenType;
 import lexer.BMS.CBMSConstantList;
 import lexer.BMS.CBMSKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import java.util.ArrayList;
-
 import parser.BMS.CBMSElement;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
@@ -24,6 +25,9 @@ import semantic.forms.CEntityResourceField;
 import semantic.forms.CResourceStrings;
 import utils.PosLineCol;
 import utils.Transcoder;
+
+
+
 
 /**
  * @author sly
@@ -298,6 +302,7 @@ public class CFieldElement extends CBMSElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetType()
      */
+    /** Executes the get type operation. */
     public EBMSElementType GetType()
     {
         return EBMSElementType.FIELD ;
@@ -306,6 +311,7 @@ public class CFieldElement extends CBMSElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#DoSemanticAnalysis(semantic.CBaseEntityFactory)
      */
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         CEntityResourceField ef ;
@@ -393,26 +399,31 @@ public class CFieldElement extends CBMSElement
         }
         return ef;
     }
+    /** Executes the get resource strings operation. */
     public CResourceStrings GetResourceStrings()
     {
         return resourceStrings ;
     }
+    /** Sets the resource strings. */
     public void SetResourceStrings(CResourceStrings res)
     {
         resourceStrings = res ;
     }
     protected CResourceStrings resourceStrings = null ;
 
+    /** Sets the name. */
     public void SetName(String csAlias)
     {
         setName(csAlias);
     }
 
+    /** Executes the get group name operation. */
     public String GetGroupName()
     {
         return grpName ;
     }
 
+    /** Loads the tag parameters. */
     public CBMSElement loadTagParameters(Tag tagCurrent)
     {
         int nLine = tagCurrent.getValAsInt("Line");
@@ -456,6 +467,7 @@ public class CFieldElement extends CBMSElement
         return this;
     }
 
+    /** Parses the xmlresource. */
     public CBMSElement parseXMLResource(Tag tag)
     {
         String csName = tag.getName();
@@ -468,6 +480,7 @@ public class CFieldElement extends CBMSElement
         return elem;
     }
 
+    /** Sets the as closing hbox. */
     public boolean setAsClosingHBox(PosLineCol posLineCol)
     {
         color = new CReservedConstant(null, "GREEN");
@@ -510,6 +523,7 @@ public class CFieldElement extends CBMSElement
         return true;
     }
 
+    /** Loads the tag parameters. */
     public boolean loadTagParameters(PosLineCol posLineCol, Tag tag, String csCurrentLanguage)
     {
         String csTagName = tag.getName();

@@ -17,24 +17,29 @@ import java.sql.Types;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
+/** Provides col value blob behavior. */
 public class ColValueBlob extends ColValue
 {
+    /** Creates a new col value blob instance. */
     public ColValueBlob(String csName, SerialBlob blob)
     {
         super(csName);
         blValue = blob;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueBlob(csName, blValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(blValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
@@ -77,11 +82,13 @@ public class ColValueBlob extends ColValue
         return blValue;
     }
 
+    /** Returns whether set col param. */
     public boolean canSetColParam()
     {
         return true;
     }
 
+    /** Sets the param into stmt. */
     public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
     {
         InputStream is;

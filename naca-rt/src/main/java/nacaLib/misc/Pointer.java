@@ -12,11 +12,13 @@
  */
 package nacaLib.misc;
 
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides pointer behavior. */
 public class Pointer extends CJMapObject
 {
+    /** Creates a new pointer instance. */
     public Pointer(VarAndEdit v)
     {
         addressOf = v ;

@@ -11,8 +11,10 @@ import java.lang.reflect.Method;
 import javax.management.openmbean.OpenMBeanAttributeInfo;
 import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 
+/** Provides open mbean attribute info wrapper behavior. */
 public class OpenMBeanAttributeInfoWrapper
 {
+    /** Creates a new open mbean attribute info wrapper instance. */
     public OpenMBeanAttributeInfoWrapper(
         String csName,
         String csDescription,

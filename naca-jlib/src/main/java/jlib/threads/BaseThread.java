@@ -12,12 +12,15 @@ package jlib.threads;
  */
 public abstract class BaseThread extends Thread
 {
+    /** Creates a new base thread instance. */
     public BaseThread()
     {
     }
 
+    /** Runs this operation. */
     public abstract void run();
 
+    /** Executes the request stop operation. */
     public void requestStop()
     {
         interrupt();

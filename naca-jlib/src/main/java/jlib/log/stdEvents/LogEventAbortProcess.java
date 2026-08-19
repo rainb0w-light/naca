@@ -16,22 +16,26 @@ import jlib.log.LogLevel;
  */
 public class LogEventAbortProcess extends LogEvent
 {
+    /** Creates a new log event abort process instance. */
     public LogEventAbortProcess(String csProduct)
     {
         super(LogEventType.Abort, LogFlowStd.Any, LogLevel.Critical, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel)
     {
         return LogEventAbortProcess.log(csChannel);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct)
     {
         LogEventAbortProcess event = new LogEventAbortProcess(csProduct);
         Log.log(csChannel, event, "");
         return event;
     }
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csRunId, String csRuntimeId)
     {
         LogEventAbortProcess event = new LogEventAbortProcess(csProduct);

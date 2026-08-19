@@ -30,11 +30,13 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLCursorSelectStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlcursor select statement instance. */
     public CEntitySQLCursorSelectStatement(int line, CObjectCatalog cat)
     {
         super(line, cat);
 
     }
+    /** Sets the select. */
     public void SetSelect(String csStatement, Vector<CDataEntity> arrParameters, CEntitySQLCursor cur, int nbCol, boolean bWithHold)
     {
         this.csStatement = csStatement ;
@@ -48,6 +50,7 @@ public class CEntitySQLCursorSelectStatement extends CBaseActionEntity
     protected Vector<CDataEntity> parameters = new Vector<CDataEntity>();
     protected CEntitySQLCursor cursor = null;
     protected boolean iswithHold = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -55,15 +58,18 @@ public class CEntitySQLCursorSelectStatement extends CBaseActionEntity
         cursor = null ;
     }
 
+    /** Executes the get nb columns operation. */
     public int GetNbColumns()
     {
         return nbCol ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return true ; // the SELECT declaration is ignore at this point, but exported in place of the OPEN statement
     }
 
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         int i = parameters.indexOf(field) ;

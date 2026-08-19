@@ -23,6 +23,7 @@ import com.publicitas.naca.cloudnative.model.TranspileResponse;
 import com.publicitas.naca.cloudnative.service.GeneratedProgramWorkspace;
 import com.publicitas.naca.cloudnative.service.TranspilerService;
 
+/** Provides transpile controller behavior. */
 @RestController
 @RequestMapping("/api")
 public class TranspileController {
@@ -31,6 +32,7 @@ public class TranspileController {
     private static final List<Path> COBOL_SAMPLE_DIRS = List.of(
         Paths.get("naca-rt-tests/src/test/resources/naca-samples/source/cobol"),
         Paths.get("../naca-rt-tests/src/test/resources/naca-samples/source/cobol"));
+    /** Creates a new transpile controller instance. */
     public TranspileController(TranspilerService transpilerService) {
         this.transpilerService = transpilerService;
         // Generated programs are build artifacts, never source-controlled sample files.

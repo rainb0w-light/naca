@@ -165,7 +165,7 @@ public class DbTransferDesc
 
     synchronized void setTransferGlobalFailure()
     {
-        istransferGlobalStatus = false;;
+        istransferGlobalStatus = false;
     }
 
     int getCommitEveryBatch()

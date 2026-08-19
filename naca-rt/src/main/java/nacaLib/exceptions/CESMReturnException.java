@@ -6,6 +6,7 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a cesmreturn exception condition. */
 public class CESMReturnException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;

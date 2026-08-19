@@ -11,10 +11,12 @@ import java.util.Hashtable;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarType;
 
+/** Provides fpac var cache manager behavior. */
 public class FPacVarCacheManager
 {
     private Hashtable<Long, Var> hashVar = new Hashtable<Long, Var>();
 
+    /** Creates a new fpac var cache manager instance. */
     public FPacVarCacheManager()
     {
     }

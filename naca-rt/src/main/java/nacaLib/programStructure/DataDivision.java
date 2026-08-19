@@ -17,13 +17,16 @@ import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 import nacaLib.varEx.VarDefBuffer;
 
+/** Provides data division behavior. */
 public class DataDivision extends Division
 {
+    /** Creates a new data division instance. */
     public DataDivision(BaseProgram prg)
     {
         super(prg);
     }
 
+    /** Executes the manage working linkage vars operation. */
     public VarBuffer manageWorkingLinkageVars(
         BaseProgram program,
         boolean bFirstInstance,
@@ -87,12 +90,14 @@ public class DataDivision extends Division
         return workingStorageSection.buffer;
     }
 
+    /** Executes the compute linkage var buffer operation. */
     public VarBuffer computeLinkageVarBuffer()
     {
         // Compute Linkage section vars that are not already set with an arg provided By Ref
         return linkageSection.computeStorage(true);
     }
 
+    /** Executes the register file var struct operation. */
     public void registerFileVarStruct(Var var)
     {
         if(isFileSectionCurrent())
@@ -101,6 +106,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Executes the define var dyn length marker operation. */
     public void defineVarDynLengthMarker(Var var)
     {
         if(isFileSectionCurrent())
@@ -109,6 +115,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Executes the map linkage call parameters operation. */
     public void mapLinkageCallParameters(ArrayList arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
     {
         linkageSection.mapCallParameters(arrCallerCallParam, arrDeclaredCallArg);
@@ -117,6 +124,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Executes the map called prg return parameters operation. */
     public void mapCalledPrgReturnParameters(
         ArrayList<BaseCalledPrgPublicArgPositioned> arrSPClientParam,
         ArrayList<Var> arrSPServerDeclaredCallArg)
@@ -140,6 +148,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Returns whether linkage section current. */
     public boolean isLinkageSectionCurrent()
     {
         if (linkageSection != null && currentDataSection == linkageSection) {
@@ -148,6 +157,7 @@ public class DataDivision extends Division
         return false;
     }
 
+    /** Returns whether file section current. */
     public boolean isFileSectionCurrent()
     {
         if (fileSection != null && currentDataSection == fileSection) {
@@ -156,6 +166,7 @@ public class DataDivision extends Division
         return false;
     }
 
+    /** Executes the restore file manager entries operation. */
     public void restoreFileManagerEntries(BaseEnvironment env)
     {
         if(fileSection != null)
@@ -164,6 +175,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Returns whether working section current. */
     public boolean isWorkingSectionCurrent()
     {
         if (workingStorageSection != null && currentDataSection == workingStorageSection) {
@@ -172,6 +184,7 @@ public class DataDivision extends Division
         return false;
     }
 
+    /** Executes the grant and set current working storage section operation. */
     public DataSection grantAndSetCurrentWorkingStorageSection(BaseProgram prg)
     {
         grantWorkingStorageSection(prg);
@@ -181,6 +194,7 @@ public class DataDivision extends Division
         return currentDataSection;
     }
 
+    /** Executes the grant linkage section operation. */
     public void grantLinkageSection(BaseProgram prg)
     {
         if (linkageSection == null) {
@@ -188,6 +202,7 @@ public class DataDivision extends Division
         }
     }
 
+    /** Executes the grant and set current linkage section operation. */
     public DataSection grantAndSetCurrentLinkageSection(BaseProgram prg)
     {
         grantLinkageSection(prg);
@@ -197,6 +212,7 @@ public class DataDivision extends Division
         return currentDataSection;
     }
 
+    /** Executes the grant and set current file section operation. */
     public DataSectionFile grantAndSetCurrentFileSection(BaseProgram prg)
     {
         boolean iscreated = grantFileSection(prg);
@@ -219,6 +235,7 @@ public class DataDivision extends Division
     }
 
 
+    /** Returns the working storage section var buffer. */
     public VarBuffer getWorkingStorageSectionVarBuffer()
     {
         if (workingStorageSection != null) {
@@ -227,6 +244,7 @@ public class DataDivision extends Division
         return null;
     }
 
+    /** Returns the linkage section var buffer. */
     public VarBuffer getLinkageSectionVarBuffer()
     {
         if (linkageSection != null) {
@@ -235,6 +253,7 @@ public class DataDivision extends Division
         return null;
     }
 
+    /** Returns the var def at parent level. */
     public VarDefBuffer getVarDefAtParentLevel(int nLevel)
     {
         if (currentDataSection != null) {
@@ -243,6 +262,7 @@ public class DataDivision extends Division
         return null;
     }
 
+    /** Executes the push level operation. */
     public void pushLevel(VarDefBuffer varDef)
     {
         if (currentDataSection != null) {

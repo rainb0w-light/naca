@@ -16,6 +16,7 @@ import semantic.CEntityNamedCondition;
  */
 public class CEntityIsNamedCondition extends CUnitaryEntityCondition
 {
+    /** Sets the condition. */
     public void SetCondition(CEntityNamedCondition cond)
     {
         reference = cond ;
@@ -27,6 +28,7 @@ public class CEntityIsNamedCondition extends CUnitaryEntityCondition
         return isopposite;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore();
@@ -36,11 +38,13 @@ public class CEntityIsNamedCondition extends CUnitaryEntityCondition
         return false;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsNamedCondition opposite = new CEntityIsNamedCondition();
@@ -49,6 +53,7 @@ public class CEntityIsNamedCondition extends CUnitaryEntityCondition
         return opposite;
     }
 
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(
         String value,
         CBaseEntityFactory factory,

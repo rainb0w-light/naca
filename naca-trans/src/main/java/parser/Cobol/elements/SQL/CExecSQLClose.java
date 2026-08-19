@@ -6,17 +6,18 @@
  */
 package parser.Cobol.elements.SQL;
 
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-
 import semantic.SQL.CEntitySQLCloseStatement;
 import semantic.SQL.CEntitySQLCursor;
+
+
+
 
 /**
  * @author U930DI
@@ -24,11 +25,13 @@ import semantic.SQL.CEntitySQLCursor;
  */
 public class CExecSQLClose extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlclose instance. */
     public CExecSQLClose(int l)
     {
         super(l);
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLCloseCursor") ;

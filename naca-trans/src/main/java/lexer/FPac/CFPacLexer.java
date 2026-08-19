@@ -9,9 +9,11 @@ package lexer.FPac;
 import lexer.CBaseLexer;
 import lexer.CBaseToken;
 
+/** Provides cfpac lexer behavior. */
 public class CFPacLexer extends CBaseLexer
 {
 
+    /** Creates a new cfpac lexer instance. */
     public CFPacLexer()
     {
         super(0, 72, CFPacKeywordList._List_, CFPacConstantList._List_);

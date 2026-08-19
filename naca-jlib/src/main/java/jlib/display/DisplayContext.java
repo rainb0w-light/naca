@@ -24,6 +24,7 @@ public class DisplayContext
     protected DisplayConfig config ;
     protected Stack<DisplayedElement> stackDisplayedElements = new Stack<DisplayedElement>() ;
 
+    /** Creates a new display context instance. */
     public DisplayContext()
     {
         config = DisplayConfig.getInstance() ;

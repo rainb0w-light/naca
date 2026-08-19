@@ -34,10 +34,12 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Executes the handle condition operation. */
     public void HandleCondition(String cond, String label)
     {
         handledConditionEntries.add(new HandledConditionEntry(cond, label));
     }
+    /** Executes the unhandle condition operation. */
     public void UnhandleCondition(String cond)
     {
         unhandledConditionEntries.add(new UnhandledConditionEntry(cond));
@@ -46,6 +48,7 @@ public class CEntityCICSHandleCondition extends CBaseActionEntity
     private final ArrayList<HandledConditionEntry> handledConditionEntries = new ArrayList<>();
     private final ArrayList<UnhandledConditionEntry> unhandledConditionEntries = new ArrayList<>();
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return handledConditionEntries.isEmpty() && unhandledConditionEntries.isEmpty();

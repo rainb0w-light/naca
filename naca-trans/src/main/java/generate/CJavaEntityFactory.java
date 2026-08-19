@@ -210,6 +210,7 @@ import utils.NacaTransAssertException;
 public class CJavaEntityFactory extends CBaseEntityFactory
 {
 
+    /** Executes the init custom global entities operation. */
     public void InitCustomGlobalEntities(CGlobalCatalog cat)
     {
         // manage HEXZONE
@@ -235,6 +236,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         cat.RegisterExternalDataStructure(structure) ;
     }
 
+    /** Executes the init custom cicsentities operation. */
     public void InitCustomCICSEntities()
     {
         // Some entries are supplied directly by the runtime environment.
@@ -260,6 +262,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         return langOutput == null ? "" : langOutput.getOutputDir();
     }
 
+    /** Creates the entity sqlselect statement. */
     public CEntitySQLSelectStatement NewEntitySQLSelectStatement(
         int nLine,
         String csStatement,
@@ -276,6 +279,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLSelectStatement e = new CEntitySQLSelectStatement(nLine, programCatalog, csStatement, arrParameters, arrInto, arrInd);
         return e;
     }
+    /** Creates the entity sqlcursor select statement. */
     public CEntitySQLCursorSelectStatement NewEntitySQLCursorSelectStatement(int nLine) {
         // Direct backend CJavaSQLCursorSelectStatement retired: the pure semantic
         // entity is rendered by the recursive ST4 assembler (the
@@ -286,6 +290,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCursorSelectStatement e = new CEntitySQLCursorSelectStatement(nLine, programCatalog);
         return e;
     }
+    /** Creates the entity sqlfetch statement. */
     public CEntitySQLFetchStatement NewEntitySQLFetchStatement(int nLine, CEntitySQLCursor cur) {
         // Direct backend CJavaSQLFetchStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (the recursiveSQLFetchStatementEntity
@@ -296,6 +301,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLFetchStatement e = new CEntitySQLFetchStatement(nLine, programCatalog, cur);
         return e;
     }
+    /** Creates the entity sqlopen statement. */
     public CEntitySQLOpenStatement NewEntitySQLOpenStatement(int nLine, CEntitySQLCursor cur)   {
         // Direct backend CJavaSQLOpenStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (the recursiveSQLOpenStatementEntity
@@ -307,6 +313,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLOpenStatement e = new CEntitySQLOpenStatement(nLine, programCatalog, cur);
         return e;
     }
+    /** Creates the entity sqlclose statement. */
     public CEntitySQLCloseStatement NewEntitySQLCloseStatement(int nLine, CEntitySQLCursor cur) {
         // Direct backend CJavaSQLCloseStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler. The cursor remains a semantic child
@@ -315,6 +322,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCloseStatement e = new CEntitySQLCloseStatement(nLine, programCatalog, cur);
         return e;
     }
+    /** Creates the entity sqldelete statement. */
     public CEntitySQLDeleteStatement NewEntitySQLDeleteStatement(int nLine, String csStatement, Vector<CDataEntity> arrParameters)  {
         // Direct backend CJavaSQLDeleteStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (the recursiveSQLDeleteStatementEntity
@@ -326,6 +334,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLDeleteStatement e = new CEntitySQLDeleteStatement(nLine, programCatalog, csStatement, arrParameters);
         return e;
     }
+    /** Creates the entity sqlupdate statement. */
     public CEntitySQLUpdateStatement NewEntitySQLUpdateStatement(
         int nLine,
         String csStatement,
@@ -345,6 +354,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLUpdateStatement e = new CEntitySQLUpdateStatement(nLine, programCatalog, csStatement, arrSets, arrParameters);
         return e;
     }
+    /** Creates the entity sqlinsert statement. */
     public CEntitySQLInsertStatement NewEntitySQLInsertStatement(int nLine) {
         // Direct backend CJavaSQLInsertStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (the recursiveSQLInsertStatementEntity
@@ -357,6 +367,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLInsertStatement e = new CEntitySQLInsertStatement(nLine, programCatalog);
         return e;
     }
+    /** Creates the entity sqldeclare table. */
     public CEntitySQLDeclareTable NewEntitySQLDeclareTable(
         int nLine,
         String csTableName,
@@ -371,57 +382,70 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLDeclareTable e = new CEntitySQLDeclareTable(nLine, programCatalog, csTableName, csViewName, arrTableColDescription);
         return e;
     }
+    /** Creates the entity class. */
     public CEntityClass NewEntityClass(int l, String name)  {
         CEntityClass e = new CEntityClass(l, name, programCatalog);
         return e;
     }
+    /** Creates the entity comment. */
     public CEntityComment NewEntityComment(int l, String comment)   {
         CEntityComment e = new CEntityComment(l, programCatalog, comment);
         return e;
     }
+    /** Creates the entity attribute. */
     public CEntityAttribute NewEntityAttribute(int l, String name)  {
         CEntityAttribute e = new CEntityAttribute(l, name, programCatalog);
         return e;
     }
+    /** Creates the entity structure. */
     public CEntityStructure NewEntityStructure(int l, String name, String level)    {
         CEntityStructure entity =
             new CEntityStructure(l, name, programCatalog, level);
         return entity;
     }
+    /** Creates the entity procedure. */
     public CEntityProcedure NewEntityProcedure(int l, String name, CEntityProcedureSection section) {
         CEntityProcedure entity =
             new CEntityProcedure(l, name, programCatalog, section);
         return entity;
     }
+    /** Creates the entity procedure section. */
     public CEntityProcedureSection NewEntityProcedureSection(int l, String name)    {
         CEntityProcedureSection entity =
             new CEntityProcedureSection(l, name, programCatalog);
         return entity;
     }
+    /** Creates the entity assign. */
     public CEntityAssign NewEntityAssign(int l) {
         CEntityAssign e = new CEntityAssign(l, programCatalog);
         return e;
     }
+    /** Creates the entity external data structure. */
     public CEntityExternalDataStructure NewEntityExternalDataStructure(int l, String name)  {
         CEntityExternalDataStructure e =
             new CEntityExternalDataStructure(l, name, programCatalog);
         return e;
     }
+    /** Creates the entity inline. */
     public CEntityInline NewEntityInline(int l, CBaseExternalEntity ext)    {
         CEntityInline entity = new CEntityInline(l, programCatalog, ext);
         programCatalog.RegisterExternalDataStructure(ext);
         return entity;
     }
+    /** Creates the entity condition. */
     public CEntityCondition NewEntityCondition(int l)   {
         return new CEntityCondition(l, programCatalog);
     }
+    /** Creates the entity bloc. */
     public CEntityBloc NewEntityBloc(int l) {
         return new CEntityBloc(l, programCatalog);
     }
+    /** Creates the entity calcul. */
     public CEntityCalcul NewEntityCalcul(int l) {
         CEntityCalcul e = new CEntityCalcul(l, programCatalog);
         return e;
     }
+    /** Creates the entity sqlon error goto. */
     public CEntitySqlOnErrorGoto NewEntitySQLOnErrorGoto(int l, String ref) {
         // Direct backend CJavaSqlOnErrorGoto retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSqlOnErrorGotoEntity
@@ -431,6 +455,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         registerSqlWheneverPolicy(ref, false);
         return e;
     }
+    /** Creates the entity sqlon warning goto. */
     public CEntitySqlOnErrorGoto NewEntitySQLOnWarningGoto(int l, String ref)   {
         // Direct backend CJavaSqlOnErrorGoto retired (see NewEntitySQLOnErrorGoto).
         CEntitySqlOnErrorGoto e = new CEntitySqlOnErrorGoto(l, programCatalog, ref, true) ;
@@ -464,81 +489,102 @@ public class CJavaEntityFactory extends CBaseEntityFactory
             }
         }
     }
+    /** Creates the entity exec. */
     public CEntityExec NewEntityExec(int l, String statement)   {
         CEntityExec e = new CEntityExec(l, programCatalog, statement);
         return e;
     }
+    /** Creates the entity form container. */
     public CEntityResourceFormContainer NewEntityFormContainer(int l, String name, boolean bSave)   {
         return BmsJavaEntities.formContainer(l, name, programCatalog, langOutput, bSave);
     }
+    /** Creates the entity form. */
     public CEntityResourceForm NewEntityForm(int l, String name, boolean bSave) {
         return BmsJavaEntities.form(l, name, programCatalog, langOutput, bSave);
     }
+    /** Creates the entity field attribute. */
     public CEntityFieldAttribute NewEntityFieldAttribute(int l, String name, CDataEntity owner) {
         return BmsJavaEntities.fieldAttribute(l, name, programCatalog, langOutput, owner);
     }
+    /** Creates the entity call function. */
     public CEntityCallFunction NewEntityCallFunction(int l, String reference, String csRefThru, CEntityProcedureSection section)    {
         CEntityCallFunction e = new CEntityCallFunction(
             l, programCatalog, reference, csRefThru, section);
         return e;
     }
+    /** Creates the entity initialize. */
     public CEntityInitialize NewEntityInitialize(int l, CDataEntity data)   {
         CEntityInitialize e = new CEntityInitialize(l, programCatalog, data);
         return e;
     }
+    /** Creates the entity return. */
     public CEntityReturn NewEntityReturn(int l) {
         CEntityReturn e = new CEntityReturn(l, programCatalog);
         return e;
     }
+    /** Creates the entity call program. */
     public CEntityCallProgram NewEntityCallProgram(int l, CDataEntity reference)    {
         CEntityCallProgram e = new CEntityCallProgram(l, programCatalog, reference);
         return e;
     }
+    /** Creates the entity switch case. */
     public CEntitySwitchCase NewEntitySwitchCase(int l) {
         return new CEntitySwitchCase(l, programCatalog) ;
     }
+    /** Creates the entity case. */
     public CEntityCase NewEntityCase(int l, int endline)    {
         return new CEntityCase(l, programCatalog, endline);
     }
+    /** Creates the entity sub string. */
     public CSubStringAttributReference NewEntitySubString(int l)    {
         CSubStringAttributReference entity =
             new CSubStringAttributReference(l, programCatalog);
         return entity;
     }
+    /** Creates the entity array reference. */
     public CEntityArrayReference NewEntityArrayReference(int l) {
         CEntityArrayReference e = new CEntityArrayReference(l, programCatalog);
         return e;
     }
-    public CEntityGoto NewEntityGoto(int l, String Reference, CEntityProcedureSection section)  {
-        CEntityGoto e = new CEntityGoto(l, programCatalog, Reference, section);
+    /** Creates the entity goto. */
+    public CEntityGoto NewEntityGoto(int l, String reference, CEntityProcedureSection section)  {
+        CEntityGoto e = new CEntityGoto(l, programCatalog, reference, section);
         return e;
     }
+    /** Creates the entity goto depending. */
     public CEntityGotoDepending NewEntityGotoDepending(int l, List<String> refs, CDataEntity dep, CEntityProcedureSection section)  {
         CEntityGotoDepending e =
             new CEntityGotoDepending(l, programCatalog, refs, dep, section);
         return e;
     }
+    /** Creates the entity loop while. */
     public CEntityLoopWhile NewEntityLoopWhile(int l)   {
         return new CEntityLoopWhile(l, programCatalog);
     }
+    /** Creates the entity loop iter. */
     public CEntityLoopIter NewEntityLoopIter(int l) {
         return new CEntityLoopIter(l, programCatalog);
     }
+    /** Creates the entity add to. */
     public CEntityAddTo NewEntityAddTo(int l)   {
         return new CEntityAddTo(l, programCatalog);
     }
+    /** Creates the entity continue. */
     public CEntityContinue NewEntityContinue(int l) {
         return new CEntityContinue(l, programCatalog);
     }
+    /** Creates the entity next sentence. */
     public CEntityNextSentence NewEntityNextSentence(int l) {
         CEntityNextSentence e = new CEntityNextSentence(l, programCatalog);
         return e;
     }
+    /** Creates the entity named condition. */
     public CEntityNamedCondition NewEntityNamedCondition(int l, String name)    {
         CEntityNamedCondition entity =
             new CEntityNamedCondition(l, name, programCatalog);
         return entity;
     }
+    /** Creates the entity sqlsingle statement. */
     public CEntitySQLSingleStatement NewEntitySQLSingleStatement(int l, String st)  {
         // Direct backend CJavaSQLSingleStatement retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSQLSingleStatementEntity
@@ -549,6 +595,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLSingleStatement e = new CEntitySQLSingleStatement(l, programCatalog, st);
         return e;
     }
+    /** Creates the entity set color. */
     public CEntitySetColor NewEntitySetColor(int l, CDataEntity field)  {
         // Direct backend CJavaSetColor retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntitySetColor
@@ -564,6 +611,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySetColor e = new CEntitySetColor(l, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity field lengh. */
     public CEntityFieldLength NewEntityFieldLengh(int l, String name, CDataEntity field)    {
         // Direct backend CJavaFieldLength retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldLength
@@ -573,6 +621,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldLength e = new CEntityFieldLength(l, name, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity field color. */
     public CEntityFieldColor NewEntityFieldColor(int l, String name, CDataEntity field) {
         // Direct backend CJavaFieldColor retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldColor
@@ -584,6 +633,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldColor e = new CEntityFieldColor(l, name, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity field highlight. */
     public CEntityFieldHighlight NewEntityFieldHighlight(int l, String name, CDataEntity field) {
         // Direct backend CJavaFieldHighligh retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldHighlight
@@ -597,6 +647,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldHighlight e = new CEntityFieldHighlight(l, name, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity field flag. */
     public CEntityFieldFlag NewEntityFieldFlag(int l, String name, CDataEntity field)   {
         // Direct backend CJavaFieldFlag retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldFlag
@@ -610,6 +661,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldFlag e = new CEntityFieldFlag(l, name, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity set highlight. */
     public CEntitySetHighligh NewEntitySetHighlight(int l, CDataEntity field)   {
         // Direct backend CJavaSetHighlight retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntitySetHighligh
@@ -626,6 +678,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySetHighligh e = new CEntitySetHighligh(l, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity set flag. */
     public CEntitySetFlag NewEntitySetFlag(int l, CDataEntity field)    {
         // Direct backend CJavaSetFlag retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntitySetFlag
@@ -638,6 +691,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySetFlag e = new CEntitySetFlag(l, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity set cursor. */
     public CEntitySetCursor NewEntitySetCursor(int l, CDataEntity field)    {
         // Direct backend CJavaSetCursor retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntitySetCursor
@@ -650,6 +704,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySetCursor e = new CEntitySetCursor(l, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity set attribute. */
     public CEntitySetAttribute NewEntitySetAttribute(int l, CDataEntity field)  {
         // Direct backend CJavaSetAttribute retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntitySetAttribute
@@ -665,83 +720,107 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySetAttribute e = new CEntitySetAttribute(l, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity assign with accessor. */
     public CEntityAssignWithAccessor NewEntityAssignWithAccessor(int l) {
         CEntityAssignWithAccessor e = new CEntityAssignWithAccessor(l, programCatalog);
         return e;
     }
+    /** Creates the entity field data. */
     public CEntityFieldData NewEntityFieldData(int l, String name, CDataEntity field)   {
         return BmsJavaEntities.fieldData(l, name, programCatalog, langOutput, field);
     }
+    /** Creates the resource string. */
     public CResourceStrings NewResourceString(int nbLines, int nbCols)  {
         return BmsJavaEntities.resourceStrings(nbLines, nbCols);
     }
+    /** Creates the entity environment variable. */
     public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, boolean bNumeric)   {
         CEntityEnvironmentVariable e =
             new CEntityEnvironmentVariable(0, name, programCatalog, acc, "", bNumeric);
         return e;
     }
+    /** Creates the entity environment variable. */
     public CEntityEnvironmentVariable NewEntityEnvironmentVariable(String name, String acc, String write, boolean bNumeric) {
         CEntityEnvironmentVariable e =
             new CEntityEnvironmentVariable(0, name, programCatalog, acc, write, bNumeric);
         return e;
     }
+    /** Creates the entity working skip field. */
     public CEntitySkipFields NewEntityWorkingSkipField(int l, String name, int nbFields, String level)  {
         return BmsJavaEntities.skipFields(l, name, programCatalog, langOutput, nbFields, level);
     }
+    /** Creates the entity entry field. */
     public CEntityResourceField NewEntityEntryField(int l, String name) {
         return BmsJavaEntities.entryField(l, name, programCatalog, langOutput);
     }
+    /** Creates the entity label field. */
     public CEntityResourceField NewEntityLabelField(int l)  {
         return BmsJavaEntities.labelField(l, programCatalog, langOutput);
     }
+    /** Creates the entity field redefine. */
     public CEntityFieldRedefine NewEntityFieldRedefine(int l, String name, String level)    {
         return BmsJavaEntities.fieldRedefine(l, name, programCatalog, langOutput, level);
     }
+    /** Creates the entity form redefine. */
     public CEntityFormRedefine NewEntityFormRedefine(int l, String name, CDataEntity eForm, boolean bSaveMap)   {
         //programCatalog.addImportDeclaration("MAP") ;
         return BmsJavaEntities.formRedefine(l, name, programCatalog, langOutput, eForm, bSaveMap);
     }
+    /** Creates the entity string. */
     public CEntityString NewEntityString(char[] value)  {
         CEntityString e = new CEntityString(programCatalog, value) ;
         return e ;
     }
+    /** Creates the entity cond or. */
     public CEntityCondOr NewEntityCondOr()  {
         return new CEntityCondOr();
     }
+    /** Creates the entity number. */
     public CEntityNumber NewEntityNumber(String value)  {
         CEntityNumber e = new CEntityNumber(programCatalog, value);
         return e;
     }
+    /** Creates the entity expr terminal. */
     public CEntityExprTerminal NewEntityExprTerminal(CDataEntity eData) {
         return new CEntityExprTerminal(eData);
     }
+    /** Creates the entity expr sum. */
     public CEntityExprSum NewEntityExprSum()    {
         return new CEntityExprSum();
     }
+    /** Creates the entity expr prod. */
     public CEntityExprProd NewEntityExprProd()  {
         return new CEntityExprProd();
     }
+    /** Creates the entity cond not. */
     public CEntityCondNot NewEntityCondNot()    {
         return new CEntityCondNot();
     }
+    /** Creates the entity cond equals. */
     public CEntityCondEquals NewEntityCondEquals()  {
         return new CEntityCondEquals();
     }
+    /** Creates the entity cond compare. */
     public CEntityCondCompare NewEntityCondCompare()    {
         return new CEntityCondCompare();
     }
+    /** Creates the entity cond and. */
     public CEntityCondAnd NewEntityCondAnd()    {
         return new CEntityCondAnd();
     }
+    /** Creates the entity cond is all. */
     public CEntityCondIsAll NewEntityCondIsAll()    {
         return new CEntityCondIsAll();
     }
+    /** Creates the entity cond is kind of. */
     public CEntityCondIsKindOf NewEntityCondIsKindOf()  {
         return new CEntityCondIsKindOf();
     }
+    /** Creates the entity cond is constant. */
     public CEntityCondIsConstant NewEntityCondIsConstant()  {
         return new CEntityCondIsConstant() ;
     }
+    /** Creates the entity is field flag. */
     public CEntityIsFieldFlag NewEntityIsFieldFlag()    {
         // Direct backend CJavaIsFieldFlag retired: the pure semantic entity is rendered
         // by the recursive ST4 assembly contract
@@ -757,45 +836,56 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         // wiring; the FPac factory still throws for this entity, so no FPac tree holds it.
         return new CEntityIsFieldFlag();
     }
+    /** Creates the entity set constant. */
     public CEntitySetConstant NewEntitySetConstant(int l)   {
         CEntitySetConstant e = new CEntitySetConstant(l, programCatalog);
         return e;
     }
+    /** Creates the entity is field color. */
     public CEntityIsFieldColor NewEntityIsFieldColor()  {
         programCatalog.addImportDeclaration("MAP") ;
         return BmsJavaEntities.isFieldColor();
     }
+    /** Creates the entity is field attribute. */
     public CEntityIsFieldAttribute NewEntityIsFieldAttribute()  {
         programCatalog.addImportDeclaration("MAP") ;
         return BmsJavaEntities.isFieldAttribute() ;
     }
+    /** Creates the entity address reference. */
     public CEntityAddressReference NewEntityAddressReference(CDataEntity ref)   {
         CEntityAddressReference e = new CEntityAddressReference(programCatalog, ref);
         return e;
     }
+    /** Creates the entity move reference. */
     public CEntityMoveReference NewEntityMoveReference(int l)   {
         CEntityMoveReference entity = new CEntityMoveReference(l, programCatalog) ;
         return entity ;
     }
+    /** Creates the entity subtract to. */
     public CEntitySubtractTo NewEntitySubtractTo(int l) {
         CEntitySubtractTo e = new CEntitySubtractTo(l, programCatalog);
         return e;
     }
+    /** Creates the entity is named condition. */
     public CEntityIsNamedCondition NewEntityIsNamedCondition()  {
         return new CEntityIsNamedCondition();
     }
+    /** Creates the entity data section. */
     public CEntityDataSection NewEntityDataSection(int l, String name)  {
         CEntityDataSection e = new CEntityDataSection(l, name, programCatalog);
         return e;
     }
+    /** Creates the entity replace. */
     public CEntityReplace NewEntityReplace(int l)   {
         CEntityReplace e = new CEntityReplace(l, programCatalog);
         return e;
     }
+    /** Creates the entity is field highlight. */
     public CEntityIsFieldHighlight NewEntityIsFieldHighlight(CDataEntity ref)   {
         programCatalog.addImportDeclaration("MAP") ;
         return BmsJavaEntities.isFieldHighlight(ref) ;
     }
+    /** Creates the entity field validated. */
     public CEntityFieldValidated NewEntityFieldValidated(int l, String name, CDataEntity field) {
         // Direct backend CJavaFieldValidated retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldValidated
@@ -809,22 +899,27 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldValidated e = new CEntityFieldValidated(l, name, programCatalog, field) ;
         return e ;
     }
+    /** Creates the entity string concat. */
     public CEntityStringConcat NewEntityStringConcat(int l) {
         CEntityStringConcat e = new CEntityStringConcat(l, programCatalog);
         return e;
     }
+    /** Creates the entity divide. */
     public CEntityDivide NewEntityDivide(int l) {
         CEntityDivide e = new CEntityDivide(l, programCatalog);
         return e;
     }
+    /** Creates the entity multiply. */
     public CEntityMultiply NewEntityMultiply(int l) {
         CEntityMultiply e = new CEntityMultiply(l, programCatalog);
         return e;
     }
+    /** Creates the entity parse string. */
     public CEntityParseString NewEntityParseString(int l)   {
         CEntityParseString e = new CEntityParseString(l, programCatalog);
         return e;
     }
+    /** Creates the entity sqlroll back. */
     public CEntitySQLRollBack NewEntitySQLRollBack(int l)   {
         // Direct backend CJavaSQLRollBack retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSQLRollBackEntity
@@ -834,6 +929,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLRollBack e = new CEntitySQLRollBack(l, programCatalog);
         return e;
     }
+    /** Creates the entity sqlcommit. */
     public CEntitySQLCommit NewEntitySQLCommit(int l)   {
         // Direct backend CJavaSQLCommit retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveSQLCommitEntity binding). The
@@ -843,50 +939,60 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCommit e = new CEntitySQLCommit(l, programCatalog);
         return e;
     }
+    /** Creates the entity expr opposite. */
     public CEntityExprOpposite NewEntityExprOpposite()  {
         return new CEntityExprOpposite();
     }
+    /** Creates the entity cicsxctl. */
     public CEntityCICSXctl NewEntityCICSXctl(int l) {
         // Direct backend CJavaCICSXctl retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSXctlEntity binding).
         CEntityCICSXctl e = new CEntityCICSXctl(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicslink. */
     public CEntityCICSLink NewEntityCICSLink(int l) {
         // Direct backend CJavaCICSLink retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSLinkEntity binding).
         CEntityCICSLink e = new CEntityCICSLink(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsaddress. */
     public CEntityCICSAddress NewEntityCICSAddress(int l) {
         // Direct backend CJavaCICSAddress retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSAddressEntity binding).
         CEntityCICSAddress e = new CEntityCICSAddress(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsask time. */
     public CEntityCICSAskTime NewEntityCICSAskTime(int l)   {
         // Direct backend CJavaCICSAskTime retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSAskTimeEntity binding).
         CEntityCICSAskTime e = new CEntityCICSAskTime(l, programCatalog);
         return e;
     }
+    /** Creates the entity current date. */
     public CEntityCurrentDate NewEntityCurrentDate()    {
         CEntityCurrentDate e = new CEntityCurrentDate(programCatalog);
         return e;
     }
+    /** Creates the entity intrinsic function. */
     public CEntityIntrinsicFunction NewEntityIntrinsicFunction(String functionName, List<CBaseEntityExpression> arguments)  {
         CEntityIntrinsicFunction e =
             new CEntityIntrinsicFunction(programCatalog, functionName, arguments);
         return e;
     }
+    /** Creates the entity address of. */
     public CEntityAddressOf NewEntityAddressOf(CDataEntity data)    {
         CEntityAddressOf e = new CEntityAddressOf(programCatalog, data);
         return e;
     }
+    /** Creates the entity length of. */
     public CEntityLengthOf NewEntityLengthOf(CDataEntity data)  {
         CEntityLengthOf e = new CEntityLengthOf(programCatalog, data);
         return e;
     }
+    /** Creates the entity cicshandle condition. */
     public CEntityCICSHandleCondition NewEntityCICSHandleCondition(int l)   {
         // Direct backend CJavaCICSHandleCondition retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCICSHandleConditionEntity
@@ -894,6 +1000,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityCICSHandleCondition e = new CEntityCICSHandleCondition(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicshandle aid. */
     public CEntityCICSHandleAID NewEntityCICSHandleAID(int l)   {
         // Direct backend CJavaCICSHandleAID retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCICSHandleAIDEntity
@@ -901,40 +1008,48 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityCICSHandleAID e = new CEntityCICSHandleAID(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsignore condition. */
     public CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l)   {
         CEntityCICSIgnoreCondition e = new CEntityCICSIgnoreCondition(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsretreive. */
     public CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer)   {
         CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, bPointer);
         return e;
     }
+    /** Creates the entity cicsstart. */
     public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity tid)  {
         CEntityCICSStart e = new CEntityCICSStart(l, programCatalog, tid);
         return e;
     }
+    /** Creates the entity cicsreturn. */
     public CEntityCICSReturn NewEntityCICSReturn(int l) {
         // Direct backend CJavaCICSReturn retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSReturnEntity binding).
         CEntityCICSReturn e = new CEntityCICSReturn(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicssend map. */
     public CEntityCICSSendMap NewEntityCICSSendMap(int l)   {
         // Direct backend CJavaCICSSendMap retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCICSSendMapEntity binding).
         CEntityCICSSendMap e = new CEntityCICSSendMap(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicswrite. */
     public CEntityCICSWrite NewEntityCICSWrite(int l)   {
         CEntityCICSWrite e = new CEntityCICSWrite(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsreceive map. */
     public CEntityCICSReceiveMap NewEntityCICSReceiveMap(int l, CDataEntity name)   {
         // Direct backend CJavaCICSReceiveMap retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCICSReceiveMapEntity binding).
         CEntityCICSReceiveMap e = new CEntityCICSReceiveMap(l, programCatalog, name);
         return e;
     }
+    /** Creates the entity is field modified. */
     public CEntityIsFieldModified NewEntityIsFieldModified() {
         // Direct backend CJavaIsFieldModified retired: the pure semantic entity is
         // rendered by the recursive ST4 assembly contract
@@ -949,93 +1064,112 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         // tree ever holds it.
         return new CEntityIsFieldModified();
     }
+    /** Creates the entity cicssync point. */
     public CEntityCICSSyncPoint NewEntityCICSSyncPoint(int l, boolean bRollBack)    {
         // Direct backend CJavaCICSSyncPoint retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSSyncPointEntity binding).
         CEntityCICSSyncPoint e = new CEntityCICSSyncPoint(l, programCatalog, bRollBack);
         return e;
     }
+    /** Creates the entity cicsinquire. */
     public CEntityCICSInquire NewEntityCICSInquire(int l)   {
         // Direct backend CJavaCICSInquire retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSInquireEntity binding).
         CEntityCICSInquire e = new CEntityCICSInquire(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsabend. */
     public CEntityCICSAbend NewEntityCICSAbend(int l)   {
         // Direct backend CJavaCICSAbend retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSAbendEntity binding).
         CEntityCICSAbend e = new CEntityCICSAbend(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsread. */
     public CEntityCICSRead NewEntityCICSRead(int l, CEntityCICSRead.CEntityCICSReadMode mode)   {
         CEntityCICSRead e = new CEntityCICSRead(l, programCatalog, mode);
         return e;
     }
+    /** Creates the entity cicsstart browse. */
     public CEntityCICSStartBrowse NewEntityCICSStartBrowse(int l)   {
         CEntityCICSStartBrowse e = new CEntityCICSStartBrowse(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsdelete q. */
     public CEntityCICSDeleteQ NewEntityCICSDeleteQ(int l, boolean b)    {
         CEntityCICSDeleteQ e = new CEntityCICSDeleteQ(l, programCatalog, b);
         return e;
     }
+    /** Creates the entity cicswrite q. */
     public CEntityCICSWriteQ NewEntityCICSWriteQ(int l, boolean b)  {
         CEntityCICSWriteQ e = new CEntityCICSWriteQ(l, programCatalog, b);
         return e;
     }
+    /** Creates the entity cicsread q. */
     public CEntityCICSReadQ NewEntityCICSReadQ(int l, boolean b)    {
         CEntityCICSReadQ e = new CEntityCICSReadQ(l, programCatalog, b);
         return e;
     }
+    /** Creates the entity cicsassign. */
     public CEntityCICSAssign NewEntityCICSAssign(int l) {
         // Direct backend CJavaCICSAssign retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSAssignEntity binding).
         CEntityCICSAssign e = new CEntityCICSAssign(l, programCatalog);
         return e;
     }
+    /** Creates the entity display. */
     public CEntityDisplay NewEntityDisplay(int l, Upon t)   {
         CEntityDisplay e = new CEntityDisplay(l, programCatalog, t);
         return e;
     }
+    /** Creates the entity count. */
     public CEntityCount NewEntityCount(int l)   {
         CEntityCount e = new CEntityCount(l, programCatalog);
         return e;
     }
+    /** Creates the entity inspect converting. */
     public CEntityInspectConverting NewEntityInspectConverting(int l) {
         CEntityInspectConverting e = new CEntityInspectConverting(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsre write. */
     public CEntityCICSReWrite NewEntityCICSReWrite(int l)   {
         CEntityCICSReWrite e = new CEntityCICSReWrite(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsdelay. */
     public CEntityCICSDelay NewEntityCICSDelay(int l)   {
         // Direct backend CJavaCICSDelay retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSDelayEntity binding).
         CEntityCICSDelay e = new CEntityCICSDelay(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsset tdqueue. */
     public CEntityCICSSetTDQueue NewEntityCICSSetTDQueue(int l) {
         CEntityCICSSetTDQueue e = new CEntityCICSSetTDQueue(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsde q. */
     public CEntityCICSDeQ NewEntityCICSDeQ(int l)   {
         // Direct backend CJavaCICSDeQ retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSDeQEntity binding).
         CEntityCICSDeQ e = new CEntityCICSDeQ(l, programCatalog);
         return e;
     }
+    /** Creates the entity cicsen q. */
     public CEntityCICSEnQ NewEntityCICSEnQ(int l)   {
         // Direct backend CJavaCICSEnQ retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveCICSEnQEntity binding).
         CEntityCICSEnQ e = new CEntityCICSEnQ(l, programCatalog);
         return e;
     }
+    /** Creates the entity procedure division. */
     public CEntityProcedureDivision NewEntityProcedureDivision(int l)   {
         CEntityProcedureDivision entity =
             new CEntityProcedureDivision(l, programCatalog);
         return entity;
     }
+    /** Creates the entity sqlcursor section. */
     public CEntitySQLCursorSection NewEntitySQLCursorSection()  {
         // Direct backend CJavaSQLCursorSection retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSQLCursorSectionEntity
@@ -1043,6 +1177,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCursorSection e = new CEntitySQLCursorSection(programCatalog);
         return e;
     }
+    /** Creates the entity field array reference. */
     public CEntityFieldArrayReference NewEntityFieldArrayReference(int l)   {
         // Direct backend CJavaFieldArrayReference retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (semantic.forms.CEntityFieldArrayReference
@@ -1057,10 +1192,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityFieldArrayReference e = new CEntityFieldArrayReference(l, programCatalog);
         return e;
     }
+    /** Creates the entity index. */
     public CEntityIndex NewEntityIndex(String name) {
         CEntityIndex entity = new CEntityIndex(name, programCatalog);
         return entity;
     }
+    /** Creates the entity sqlcursor. */
     public CEntitySQLCursor NewEntitySQLCursor(String name) {
         // Direct backend CJavaSQLCursor retired: the pure semantic entity renders
         // through the recursive ST4 assembler (semantic.SQL.CEntitySQLCursor =
@@ -1069,26 +1206,32 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCursor e = new CEntitySQLCursor(name, programCatalog);
         return e;
     }
+    /** Creates the entity key pressed. */
     public CEntityKeyPressed NewEntityKeyPressed(String name, String caption)   {
         //programCatalog.UseMapSupport() ;
         return BmsJavaEntities.keyPressed(0, name, programCatalog, langOutput, caption);
     }
+    /** Creates the entity get key pressed. */
     public CEntityGetKeyPressed NewEntityGetKeyPressed(String name) {
         return BmsJavaEntities.getKeyPressed(name, programCatalog, langOutput);
     }
+    /** Creates the entity is key pressed. */
     public CEntityIsKeyPressed NewEntityIsKeyPressed()  {
         programCatalog.addImportDeclaration("KEYPRESSED") ;
         return BmsJavaEntities.isKeyPressed();
     }
+    /** Creates the entity field occurs. */
     public CEntityFieldOccurs NewEntityFieldOccurs(int l, String name)  {
         return BmsJavaEntities.fieldOccurs(l, name, programCatalog, langOutput);
     }
+    /** Creates the entity unknown reference. */
     public CEntityUnknownReference NewEntityUnknownReference(int nLine, String csName)
     {
         CEntityUnknownReference entity =
             new CEntityUnknownReference(nLine, csName, programCatalog);
         return entity;
     }
+    /** Creates the entity cicsget main. */
     public CEntityCICSGetMain NewEntityCICSGetMain(int l)   {
         // Direct backend CJavaCICSGetMain retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCICSGetMainEntity
@@ -1096,12 +1239,15 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityCICSGetMain e = new CEntityCICSGetMain(l, programCatalog);
         return e;
     }
+    /** Creates the entity reset key pressed. */
     public CEntityResetKeyPressed NewEntityResetKeyPressed(int l)   {
         return BmsJavaEntities.resetKeyPressed(l, programCatalog, langOutput);
     }
+    /** Creates the entity field array. */
     public CEntityResourceFieldArray NewEntityFieldArray()  {
         return BmsJavaEntities.fieldArray(0, "", programCatalog, langOutput);
     }
+    /** Creates the entity sqlcode. */
     public CEntitySQLCode NewEntitySQLCode(String name) {
         // Direct backend CJavaSQLCode retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveSQLCodeEntity binding) and carries
@@ -1109,10 +1255,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLCode e = new CEntitySQLCode(name, programCatalog);
         return e;
     }
+    /** Creates the entity sqlcode. */
     public CEntitySQLCode NewEntitySQLCode(String name, CBaseEntityExpression eHistoryItem) {
         CEntitySQLCode e = new CEntitySQLCode(name, programCatalog, eHistoryItem);
         return e;
     }
+    /** Creates the entity cond is sqlcode. */
     public CEntityCondIsSQLCode NewEntityCondIsSQLCode()    {
         // Direct backend CJavaCondIsSQLCode retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveCondIsSQLCodeEntity
@@ -1121,16 +1269,19 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         programCatalog.addImportDeclaration("SQL") ;
         return new CEntityCondIsSQLCode();
     }
+    /** Creates the entity routine emulation call. */
     public CEntityRoutineEmulationCall NewEntityRoutineEmulationCall(int l) {
         CEntityRoutineEmulationCall e = new CEntityRoutineEmulationCall(l, programCatalog);
         return e;
     }
 
     protected Hashtable<String, CDataEntity> tabConstantValues = new Hashtable<String, CDataEntity>() ;
+    /** Adds the special constant value. */
     public void addSpecialConstantValue(String value, String constant)
     {
         tabConstantValues.put(value, new CEntityConstantValue(constant));
     }
+    /** Returns the special constant value. */
     public CDataEntity getSpecialConstantValue(String value)
     {
         if (tabConstantValues.containsKey(value))
@@ -1153,6 +1304,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
             return null;
         }
     }
+    /** Returns the all special constant attributes. */
     public Vector<CDataEntity> getAllSpecialConstantAttributes()
     {
         Vector<CDataEntity> arr = new Vector<CDataEntity>() ;
@@ -1163,10 +1315,12 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         }
         return arr ;
     }
+    /** Creates the entity concat. */
     public CEntityConcat NewEntityConcat(CDataEntity e1, CDataEntity e2)    {
         CEntityConcat e = new CEntityConcat(programCatalog, e1, e2);
         return e;
     }
+    /** Creates the entity is field cursor. */
     public CEntityIsFieldCursor NewEntityIsFieldCursor()    {
         // Direct backend CJavaIsFieldCursor retired: the pure semantic entity is rendered
         // by the recursive ST4 assembly contract
@@ -1181,80 +1335,100 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         // wiring; the FPac factory still throws for this entity, so no FPac tree holds it.
         return new CEntityIsFieldCursor();
     }
+    /** Creates the entity list. */
     public CEntityList NewEntityList(String name)   {
         CEntityList e = new CEntityList(name, programCatalog);
         return e;
     }
+    /** Creates the entity digits. */
     public CEntityDigits NewEntityDigits(CDataEntity nel)   {
         CEntityDigits e = new CEntityDigits(programCatalog, nel);
         return e;
     }
+    /** Creates the entity search. */
     public CEntitySearch NewEntitySearch(int line)  {
         CEntitySearch e = new CEntitySearch(line, programCatalog);
         return e;
     }
+    /** Creates the entity internal bool. */
     public CEntityInternalBool NewEntityInternalBool(String name)   {
         CEntityInternalBool e = new CEntityInternalBool(name, programCatalog);
         return e;
     }
+    /** Creates the entity break. */
     public CEntityBreak NewEntityBreak(int line)    {
         return new CEntityBreak(line, programCatalog) ;
     }
+    /** Creates the entity file descriptor. */
     public CEntityFileDescriptor NewEntityFileDescriptor(int line, String name) {
         CEntityFileDescriptor e =
             new CEntityFileDescriptor(line, name, programCatalog);
         return e;
     }
+    /** Creates the entity sorted file descriptor. */
     public CEntitySortedFileDescriptor NewEntitySortedFileDescriptor(int line, String name) {
         CEntitySortedFileDescriptor entity =
             new CEntitySortedFileDescriptor(line, name, programCatalog);
         return entity;
     }
+    /** Creates the entity open file. */
     public CEntityOpenFile NewEntityOpenFile(int line)  {
         CEntityOpenFile e = new CEntityOpenFile(line, programCatalog);
         return e;
     }
+    /** Creates the entity close file. */
     public CEntityCloseFile NewEntityCloseFile(int line)    {
         CEntityCloseFile e = new CEntityCloseFile(line, programCatalog);
         return e;
     }
+    /** Creates the entity read file. */
     public CEntityReadFile NewEntityReadFile(int line)  {
         CEntityReadFile e = new CEntityReadFile(line, programCatalog);
         return e;
     }
+    /** Creates the entity write file. */
     public CEntityWriteFile NewEntityWriteFile(int line) {
         CEntityWriteFile e = new CEntityWriteFile(line, programCatalog);
         return e;
     }
+    /** Creates the entity accept. */
     public CEntityAccept NewEntityAccept(int line){
         CEntityAccept e = new CEntityAccept(line, programCatalog);
         return e;
     }
+    /** Creates the entity sort. */
     public CEntitySort NewEntitySort(int line)  {
         CEntitySort e = new CEntitySort(line, programCatalog);
         return e;
     }
+    /** Creates the entity sort release. */
     public CEntitySortRelease NewEntitySortRelease(int line)    {
         CEntitySortRelease e = new CEntitySortRelease(line, programCatalog);
         return e;
     }
+    /** Creates the entity sort return. */
     public CEntitySortReturn NewEntitySortReturn(int line)  {
         CEntitySortReturn e = new CEntitySortReturn(line, programCatalog);
         return e;
     }
+    /** Creates the entity rewrite file. */
     public CEntityRewriteFile NewEntityRewriteFile(int line)    {
         CEntityRewriteFile e = new CEntityRewriteFile(line, programCatalog);
         return e;
     }
+    /** Creates the entity address. */
     public CEntityAddress NewEntityAddress(String csAddresse)   {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity function call. */
     public CEntityFunctionCall NewEntityFunctionCall(String mehodName, CDataEntity object)  {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity cond is boolean. */
     public CEntityCondIsBoolean NewEntityCondIsBoolean()    {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity sqlsession declare. */
     public CEntitySQLSessionDeclare NewEntitySQLSessionDeclare(int line)    {
         // Direct backend CJavaSQLSessionDeclare retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSQLSessionDeclareEntity
@@ -1266,6 +1440,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLSessionDeclare e = new CEntitySQLSessionDeclare(line, programCatalog);
         return e;
     }
+    /** Creates the entity sqlsession drop. */
     public CEntitySQLSessionDrop NewEntitySQLSessionDrop(int line)  {
         // Direct backend CJavaSQLSessionDrop retired: the pure semantic entity is
         // rendered by the recursive ST4 assembler (recursiveSQLSessionDropEntity
@@ -1277,6 +1452,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLSessionDrop e = new CEntitySQLSessionDrop(line, programCatalog);
         return e;
     }
+    /** Creates the entity sqllock. */
     public CEntitySQLLock NewEntitySQLLock(int line)    {
         // Direct backend CJavaSQLLock retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveSQLLockEntity binding). The full
@@ -1287,6 +1463,7 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLLock e = new CEntitySQLLock(line, programCatalog);
         return e;
     }
+    /** Creates the entity sqlexecute. */
     public CEntitySQLExecute NewEntitySQLExecute(int line)  {
         // Direct backend CJavaSQLExecute retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveSQLExecuteEntity binding). The host
@@ -1297,29 +1474,37 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntitySQLExecute e = new CEntitySQLExecute(line, programCatalog);
         return e;
     }
+    /** Creates the entity formated var reference. */
     public CEntityFormatedVarReference NewEntityFormatedVarReference(CDataEntity object, String format) {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity inc. */
     public CEntityInc NewEntityInc(int line)    {
         return new CEntityInc(line, programCatalog) ;
     }
+    /** Creates the entity convert. */
     public CEntityConvertReference NewEntityConvert(int line)   {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity is file eof. */
     public CEntityIsFileEOF NewEntityIsFileEOF(CEntityFileDescriptor fb)    {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity constant. */
     public CEntityConstant NewEntityConstant(Value val) {
         return new CEntityConstant(val) ;
     }
+    /** Creates the entity file descriptor length dependency. */
     public CEntityFileDescriptorLengthDependency NewEntityFileDescriptorLengthDependency(String name)   {
         CEntityFileDescriptorLengthDependency entity =
             new CEntityFileDescriptorLengthDependency(name, programCatalog) ;
         return entity ;
     }
+    /** Creates the entity assign special. */
     public CEntityAssignSpecial NewEntityAssignSpecial(int l)   {
         throw new NacaTransAssertException("Method not implemented") ;
     }
+    /** Creates the entity sqlcall. */
     public CEntitySQLCall NewEntitySQLCall(int line) {
         // Direct backend CJavaSQLCall retired: the pure semantic entity is rendered
         // by the recursive ST4 assembler (recursiveSQLCallEntity binding). The called

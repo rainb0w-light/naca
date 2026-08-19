@@ -13,14 +13,18 @@ import jlib.sql.DbConnectionManagerBase;
 
 import org.w3c.dom.Document;
 
+/** Provides base session behavior. */
 public abstract class BaseSession
 {
     protected BaseResourceManager baseResourceManager = null;
     private boolean bUseJmx = true;
 
+    /** Executes the fill current user info operation. */
     public abstract void fillCurrentUserInfo(CurrentUserInfo currentUserInfo);
+    /** Returns the last screen xmldata. */
     public abstract Document getLastScreenXMLData();
 
+    /** Creates a new base session instance. */
     public BaseSession(BaseResourceManager baseResourceManager)
     {
         this.baseResourceManager = baseResourceManager;
@@ -40,12 +44,16 @@ public abstract class BaseSession
         return baseResourceManager;
     }
 
+    /** Creates the environment. */
     public abstract BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager);
+    /** Returns the type. */
     public abstract String getType();
 
 
+    /** Executes the run program operation. */
     public abstract void RunProgram(BaseProgramLoader seq);
 
+    /** Sets the help page. */
     public abstract void setHelpPage(Document doc);
 
 
@@ -57,6 +65,7 @@ public abstract class BaseSession
 //      m_hashLogicalFileDescriptors.put(csLogicalName, fd);
 //  }
 
+    /** Returns the logical file descriptor. */
     public LogicalFileDescriptor getLogicalFileDescriptor(String csLogicalName)
     {
         if (hashLogicalFileDescriptors != null) {
@@ -65,6 +74,7 @@ public abstract class BaseSession
         return null;
     }
 
+    /** Executes the put logical file descriptor operation. */
     public void putLogicalFileDescriptor(String csLogicalName, LogicalFileDescriptor logicalFileDescriptor)
     {
         if (hashLogicalFileDescriptors == null) {
@@ -73,6 +83,7 @@ public abstract class BaseSession
         hashLogicalFileDescriptors.put(csLogicalName, logicalFileDescriptor);
     }
 
+    /** Removes the logical file descriptor. */
     public void removeLogicalFileDescriptor(String csLogicalName)
     {
         if (hashLogicalFileDescriptors != null) {
@@ -82,6 +93,7 @@ public abstract class BaseSession
 
     private Hashtable<String, LogicalFileDescriptor> hashLogicalFileDescriptors = null;
 
+    /** Adds the batch info. */
     public void addBatchInfo(String csInfo, String csValue)
     {
         if (hashLogicalJobInfo == null) {
@@ -90,6 +102,7 @@ public abstract class BaseSession
         hashLogicalJobInfo.put(csInfo, csValue);
     }
 
+    /** Returns the logical job info. */
     public String getLogicalJobInfo(String csInfo)
     {
         if (hashLogicalJobInfo != null) {
@@ -112,6 +125,7 @@ public abstract class BaseSession
 
     private boolean isasync = false;
 
+    /** Returns the dynamic allocation info. */
     public String getDynamicAllocationInfo(String csKey)
     {
         if (hashDynamicAllocationInfo != null) {
@@ -120,6 +134,7 @@ public abstract class BaseSession
         return null;
     }
 
+    /** Adds the dynamic allocation info. */
     public void addDynamicAllocationInfo(String csKey, String csValue)
     {
         if (hashDynamicAllocationInfo == null) {
@@ -128,6 +143,7 @@ public abstract class BaseSession
         hashDynamicAllocationInfo.put(csKey, csValue);
     }
 
+    /** Resets the dynamic allocation info. */
     public void resetDynamicAllocationInfo()
     {
         hashDynamicAllocationInfo.clear();
@@ -136,22 +152,24 @@ public abstract class BaseSession
     private Hashtable<String, String> hashDynamicAllocationInfo = null;
 
     private static int ms_LastDynamicAllocationID = 0 ;
+    /** Returns the next dynamic allocation id. */
     public String getNextDynamicAllocationID()
     {
         int n = ms_LastDynamicAllocationID++;
         return "" + (n/100)%10 + (n/10)%10 + (n)%10 ;
     }
 
-    private int nNetwork_ms = 0;
+    private int networkMillis = 0;
     public int getNetwork_ms()
     {
-        return nNetwork_ms;
+        return networkMillis;
     }
     public void setNetwork_ms(int nNetworkMs)
     {
-        this.nNetwork_ms = nNetworkMs;
+        this.networkMillis = nNetworkMs;
     }
 
+    /** Returns the special object. */
     public Object getSpecialObject(String csKey)
     {
         if (hashSpecialObject != null) {
@@ -160,6 +178,7 @@ public abstract class BaseSession
         return null;
     }
 
+    /** Adds the special object. */
     public void addSpecialObject(String csKey, Object object)
     {
         if (hashSpecialObject == null) {
@@ -168,6 +187,7 @@ public abstract class BaseSession
         hashSpecialObject.put(csKey, object);
     }
 
+    /** Removes the special object. */
     public void removeSpecialObject(String csKey)
     {
         if (hashSpecialObject != null) {
@@ -175,6 +195,7 @@ public abstract class BaseSession
         }
     }
 
+    /** Resets the special object. */
     public void resetSpecialObject()
     {
         hashSpecialObject.clear();

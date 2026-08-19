@@ -11,6 +11,7 @@
 package nacaLib.varEx;
 
 
+/** Provides clevel behavior. */
 public class CLevel
 {
     CLevel(VarDefBuffer varDef, int nLevel)

@@ -9,18 +9,22 @@ package nacaLib.fpacPrgEnv;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 
+/** Provides var fpac alpha num length undef behavior. */
 public class VarFPacAlphaNumLengthUndef extends VarFPacLengthUndef
 {
+    /** Creates a new var fpac alpha num length undef instance. */
     public VarFPacAlphaNumLengthUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition1Based)
     {
         super(fpacVarManager, varBuffer, nAbsolutePosition1Based);
     }
 
+    /** Creates the var. */
     public Var createVar(int nBufferSize)
     {
         return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition1Based, nBufferSize);
     }
 
+    /** Creates the var. */
     public Var createVar()
     {
         return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition1Based, 100);

@@ -7,8 +7,7 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.StringAsciiEbcdicUtil;
@@ -16,6 +15,7 @@ import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.CStrNumber;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -28,6 +28,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def num int sign comp0 long instance. */
     public VarDefNumIntSignComp0Long(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
     {
         super(varDefParent, declareType9.varLevel);
@@ -144,12 +145,14 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
         writeSignedIntComp0AsLong(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         long l = NumberParser.getAsLong(cs);
         writeSignedIntComp0AsLong(buffer, l);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         long val = getAsDecodedLong(buffer);
@@ -157,6 +160,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
         write(buffer, val);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -166,11 +170,13 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 
 
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         writeSignedIntComp0AsLong(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         writeSignedIntComp0AsLong(buffer, l);
@@ -187,6 +193,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
         writeSignedIntComp0AsLong(buffer, dec.getSignedLong());
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long lValue = bigDecimal.longValue();
@@ -312,6 +319,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
         writeSignedIntComp0AsLong(buffer, l);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
@@ -486,6 +494,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 //      writeSignedIntComp0AsLong(buffer, 0L);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignedIntComp0AsLong(buffer, nOffset, 0L);
@@ -832,6 +841,7 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
         return 0;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

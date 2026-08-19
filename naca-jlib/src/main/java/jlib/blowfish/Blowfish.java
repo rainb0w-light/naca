@@ -9,10 +9,12 @@ package jlib.blowfish;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/** Provides blowfish behavior. */
 public class Blowfish
 {
     private String csKey = null;
 
+    /** Creates a new blowfish instance. */
     public Blowfish(String csKey, boolean bMixWithIpAdress)
     {
         try
@@ -37,6 +39,7 @@ public class Blowfish
         this.csKey = csKey;
     }
 
+    /** Executes the encrypt operation. */
     public String encrypt(String csClearValue)
     {
         byte[] testkey = csKey.getBytes();
@@ -70,6 +73,7 @@ public class Blowfish
         return csCryptedValue;
     }
 
+    /** Executes the decrypt operation. */
     public String decrypt(String csCryptedValue)
     {
         byte[] testkey = csKey.getBytes();

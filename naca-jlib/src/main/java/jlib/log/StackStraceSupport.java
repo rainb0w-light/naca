@@ -6,8 +6,10 @@
  */
 package jlib.log;
 
+/** Provides stack strace support behavior. */
 public class StackStraceSupport
 {
+    /** Returns the call stack as string. */
     public static String getCallStackAsString()
     {
         Throwable th = new Throwable();
@@ -22,6 +24,7 @@ public class StackStraceSupport
         return sb.toString();
     }
 
+    /** Returns the as string. */
     public static String getAsString(StackTraceElement stack[])
     {
         String cs = new String();
@@ -34,6 +37,7 @@ public class StackStraceSupport
         return cs;
     }
 
+    /** Returns the file line at stack depth. */
     public static String getFileLineAtStackDepth(int nDepth)
     {
         Throwable th = new Throwable();
@@ -47,6 +51,7 @@ public class StackStraceSupport
         return "";
     }
 
+    /** Returns the file line at first app call. */
     public static String getFileLineAtFirstAppCall()
     {
         Throwable th = new Throwable();

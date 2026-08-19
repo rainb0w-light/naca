@@ -22,12 +22,14 @@ public class AsyncThreadJmxManager
     {
     }
 
+    /** Executes the view operation. */
     public static synchronized void view()
     {
         show(false);
         show(true);
     }
 
+    /** Executes the hide operation. */
     public static synchronized void hide()
     {
         show(false);
@@ -46,6 +48,7 @@ public class AsyncThreadJmxManager
     }
 
 
+    /** Executes the start async program operation. */
     public static synchronized void startAsyncProgram(
         String csThreadId,
         String csThreadName,
@@ -66,6 +69,7 @@ public class AsyncThreadJmxManager
         }
     }
 
+    /** Sets the running async program. */
     public static synchronized void setRunningAsyncProgram(String csThreadId, String csThreadName)
     {
         String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
@@ -76,6 +80,7 @@ public class AsyncThreadJmxManager
         }
     }
 
+    /** Executes the end async program operation. */
     public static synchronized void endAsyncProgram(String csThreadId, String csThreadName)
     {
         String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);

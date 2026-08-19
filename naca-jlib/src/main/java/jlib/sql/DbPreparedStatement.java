@@ -18,6 +18,7 @@ import jlib.log.Log;
 import jlib.misc.CurrentDateInfo;
 import jlib.misc.StopWatch;
 
+/** Provides db prepared statement behavior. */
 public class DbPreparedStatement
 {
     protected PreparedStatement preparedStatement = null;
@@ -26,6 +27,7 @@ public class DbPreparedStatement
     private boolean isreserved = true;
     private int nBatchSize = 0;
 
+    /** Creates a new db prepared statement instance. */
     public DbPreparedStatement()
     {
         isreserved = true;
@@ -41,6 +43,7 @@ public class DbPreparedStatement
         return nBatchSize;
     }
 
+    /** Adds the batch. */
     public void addBatch()
     {
         try
@@ -54,6 +57,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Executes the execute batch operation. */
     public SQLLoadStatus executeBatch(int nLineId)
     {
         if(nBatchSize != 0)
@@ -105,6 +109,7 @@ public class DbPreparedStatement
     }
 
 
+    /** Executes the prepare operation. */
     public boolean prepare(DbConnectionBase dbConnection, String csQuery, boolean bHoldability)
     {
         this.csQueryString = csQuery;
@@ -131,6 +136,7 @@ public class DbPreparedStatement
         return false;
     }
 
+    /** Executes the prepare with exception operation. */
     public boolean prepareWithException(DbConnectionBase dbConnection, String csQuery, boolean bHoldability)
         throws TechnicalException
     {
@@ -158,6 +164,7 @@ public class DbPreparedStatement
         return false;
     }
 
+    /** Sets the col param. */
     public boolean setColParam(int nCol, ColValue colValue)
     {
         if(preparedStatement != null)
@@ -235,6 +242,7 @@ public class DbPreparedStatement
         return true;
     }
 
+    /** Sets the date time. */
     public boolean setDateTime(int nCol, Date date)
     {
         try
@@ -248,6 +256,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param. */
     public void setColParam(int nCol, long lValue)
     {
         try
@@ -262,6 +271,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param. */
     public void setColParam(int nCol, short sValue)
     {
         try
@@ -276,6 +286,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param. */
     public void setColParam(int nCol, int nValue)
     {
         try
@@ -290,6 +301,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param. */
     public void setColParam(int nCol, java.util.Date dateValue)
     {
         try
@@ -304,6 +316,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param. */
     public void setColParam(int nCol, String csValue)
     {
         try
@@ -316,6 +329,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Sets the col param string. */
     public void setColParamString(int nCol, String csValue)
     {
         try
@@ -329,6 +343,7 @@ public class DbPreparedStatement
     }
 
 
+    /** Sets the col param object. */
     public void setColParamObject(int nCol, Object oValue)
     {
         try
@@ -343,6 +358,7 @@ public class DbPreparedStatement
         }
     }
 
+    /** Executes the execute operation. */
     public int execute(SQLTypeOperation typeOperation)
     {
         if (typeOperation == SQLTypeOperation.Insert) {
@@ -435,6 +451,7 @@ public class DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute insert operation. */
     public int executeInsert()
     {
         if(preparedStatement != null)
@@ -452,6 +469,7 @@ public class DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute insert with exception operation. */
     public int executeInsertWithException(SQLClause sqlClause)
         throws TechnicalException
     {
@@ -471,6 +489,7 @@ public class DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute update operation. */
     public int executeUpdate()
     {
         if(preparedStatement != null)
@@ -488,6 +507,7 @@ public class DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute update with exception operation. */
     public int executeUpdateWithException(SQLClause sqlClause)
         throws TechnicalException
     {
@@ -515,6 +535,7 @@ public class DbPreparedStatement
         return csQueryString;
     }
 
+    /** Executes the execute delete with exception operation. */
     public int executeDeleteWithException(SQLClause sqlClause)
         throws TechnicalException
     {
@@ -534,6 +555,7 @@ public class DbPreparedStatement
         return -1;
     }
 
+    /** Executes the execute select operation. */
     public ResultSet executeSelect()
     {
         if(preparedStatement != null)
@@ -551,6 +573,7 @@ public class DbPreparedStatement
         return null;
     }
 
+    /** Executes the execute select with exception operation. */
     public ResultSet executeSelectWithException()
         throws TechnicalException
     {
@@ -570,6 +593,7 @@ public class DbPreparedStatement
         return null;
     }
 
+    /** Executes the close operation. */
     public boolean close()
     {
         return doClose();
@@ -580,6 +604,7 @@ public class DbPreparedStatement
         return preparedStatement;
     }
 
+    /** Executes the do close operation. */
     public boolean doClose()
     {
         try
@@ -609,17 +634,20 @@ public class DbPreparedStatement
         return isreserved;
     }
 
+    /** Resets the reserved. */
     synchronized public void resetReserved()
     {
         isreserved = false;
     }
 
+    /** Sets the statement used. */
     public void setStatementUsed()
     {
         isreserved = true;
         swLastTimeUsed.Reset();
     }
 
+    /** Closes the if not reserved. */
     synchronized public boolean closeIfNotReserved()
     {
         if(!isreserved)

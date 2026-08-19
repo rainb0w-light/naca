@@ -10,10 +10,11 @@
  */
 package nacaLib.mapSupport;
 
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
+import org.w3c.dom.Element;
 
-import org.w3c.dom.*;
 
+/** Provides map field attribute behavior. */
 public class MapFieldAttribute extends CJMapObject
 {
     private MapFieldAttrProtection protection = null ; //MapFieldAttrProtection.AUTOSKIP;
@@ -30,11 +31,13 @@ public class MapFieldAttribute extends CJMapObject
     private MapFieldAttrJustify justify = MapFieldAttrJustify.LEFT;
     private MapFieldAttrFill fill = MapFieldAttrFill.BLANK;
 
+    /** Creates a new map field attribute instance. */
     public MapFieldAttribute()
     {
         setJustify(MapFieldAttrJustify.LEFT);
     }
 
+    /** Resets the default values. */
     public void resetDefaultValues()
     {
         protection = null ;
@@ -46,6 +49,7 @@ public class MapFieldAttribute extends CJMapObject
         fill = MapFieldAttrFill.BLANK;
     }
 
+    /** Executes the set operation. */
     public void set(MapFieldAttribute att)
     {
         protection = att.protection ;
@@ -57,6 +61,7 @@ public class MapFieldAttribute extends CJMapObject
         highlighting = att.highlighting;
     }
 
+    /** Executes the duplicate operation. */
     public MapFieldAttribute duplicate()
     {
         MapFieldAttribute copy = new MapFieldAttribute();
@@ -74,6 +79,7 @@ public class MapFieldAttribute extends CJMapObject
         return toString();
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = new String();
@@ -107,9 +113,10 @@ public class MapFieldAttribute extends CJMapObject
 //      nLine = nLine;
 //  }
 //
-    public void setProtection(MapFieldAttrProtection Protection)
+    /** Sets the protection. */
+    public void setProtection(MapFieldAttrProtection newProtection)
     {
-        protection = Protection;
+        protection = newProtection;
         if (protection == MapFieldAttrProtection.NUMERIC)
         {
             if (justify == null)
@@ -129,9 +136,9 @@ public class MapFieldAttribute extends CJMapObject
     }
 
     // Intensity
-    public void setIntensity(MapFieldAttrIntensity Intensity)
+    public void setIntensity(MapFieldAttrIntensity newIntensity)
     {
-        intensity = Intensity;
+        intensity = newIntensity;
     }
 
     public MapFieldAttrIntensity getIntensity()
@@ -151,9 +158,9 @@ public class MapFieldAttribute extends CJMapObject
     }
 
     // Attribut modified
-    public void setAttrModified(MapFieldAttrModified Modified)
+    public void setAttrModified(MapFieldAttrModified newModified)
     {
-        modified = Modified;
+        modified = newModified;
     }
 
     public MapFieldAttrModified getAttrModified()
@@ -162,9 +169,9 @@ public class MapFieldAttribute extends CJMapObject
     }
 
 
-    public void setColor(MapFieldAttrColor Color)
+    public void setColor(MapFieldAttrColor newColor)
     {
-        color = Color;
+        color = newColor;
     }
 
     public MapFieldAttrColor getColor()
@@ -172,6 +179,7 @@ public class MapFieldAttribute extends CJMapObject
         return color;
     }
 
+    /** Exports the all attributes. */
     public void exportAllAttributes(Element eEdit)
     {
         exportColor(eEdit);
@@ -236,9 +244,10 @@ public class MapFieldAttribute extends CJMapObject
 
 
 
-    public void setJustify(MapFieldAttrJustify Justify)
+    /** Sets the justify. */
+    public void setJustify(MapFieldAttrJustify newJustify)
     {
-        justify = Justify;
+        justify = newJustify;
         if (fill == null)
         {
             if (justify == MapFieldAttrJustify.LEFT)
@@ -252,9 +261,10 @@ public class MapFieldAttribute extends CJMapObject
         }
     }
 
-    public void setFill(MapFieldAttrFill Fill)
+    /** Sets the fill. */
+    public void setFill(MapFieldAttrFill newFill)
     {
-        fill = Fill;
+        fill = newFill;
         if (justify == null)
         {
             if (fill == MapFieldAttrFill.BLANK)
@@ -268,6 +278,7 @@ public class MapFieldAttribute extends CJMapObject
         }
     }
 
+    /** Returns whether fill zero. */
     public boolean isFillZero()
     {
         if (fill != null && fill.isFillZero()) {
@@ -276,6 +287,7 @@ public class MapFieldAttribute extends CJMapObject
         return false;
     }
 
+    /** Returns whether fill blank. */
     public boolean isFillBlank()
     {
         if(fill != null)
@@ -289,6 +301,7 @@ public class MapFieldAttribute extends CJMapObject
         return true;    // By default
     }
 
+    /** Returns whether justify right. */
     public boolean isJustifyRight()
     {
         if (justify != null && justify.isJustifyRight()) {
@@ -297,6 +310,7 @@ public class MapFieldAttribute extends CJMapObject
         return false;
     }
 
+    /** Returns whether justify left. */
     public boolean isJustifyLeft()
     {
         if(justify != null)
@@ -310,6 +324,7 @@ public class MapFieldAttribute extends CJMapObject
         return true;    // by default
     }
 
+    /** Returns the encoded value. */
     public int getEncodedValue()
     {
         int nEncodedValue = 0;
@@ -352,6 +367,7 @@ public class MapFieldAttribute extends CJMapObject
         return nEncodedValue;
     }
 
+    /** Sets the encoded value. */
     public void setEncodedValue(int nEncodedValue)
     {
         int nValue;
@@ -385,6 +401,7 @@ public class MapFieldAttribute extends CJMapObject
         nEncodedValue = nEncodedValue >> MapFieldAttrProtection.getNbBitsEncoding();
     }
 
+    /** Executes the initialize operation. */
     public void initialize()
     {
         protection = null ; //MapFieldAttrProtection.AUTOSKIP;

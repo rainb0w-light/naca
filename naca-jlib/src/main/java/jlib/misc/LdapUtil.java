@@ -25,6 +25,7 @@ import javax.naming.directory.SearchControls;
 
 import jlib.log.Log;
 
+/** Provides ldap util behavior. */
 public class LdapUtil
 {
 
@@ -45,6 +46,7 @@ public class LdapUtil
         nbThreadCreated = new ThreadSafeCounter(nNbLdapThread);
     }
 
+    /** Adds the server. */
     public void addServer(int nRequestId, String csUserId, String csPassword, String csServer)
     {
         LdapThread th = new LdapThread(nRequestId, csUserId, csPassword, csServer, nbThreadCreated);
@@ -55,6 +57,7 @@ public class LdapUtil
         thread.add(th);
     }
 
+    /** Executes the connect on any servers operation. */
     public void connectOnAnyServers()
     {
         if(thread != null)
@@ -104,6 +107,7 @@ public class LdapUtil
     }
 
 
+    /** Creates a new ldap util instance. */
     public LdapUtil(String csUserId, String csPassword, String csServer)
     {
         try

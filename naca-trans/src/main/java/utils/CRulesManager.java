@@ -8,8 +8,9 @@ package utils;
 
 import java.util.Hashtable;
 import java.util.Vector;
+import jlib.xml.Tag;
+import jlib.xml.TagCursor;
 
-import jlib.xml.*;
 
 /**
  * @author sly
@@ -19,9 +20,11 @@ public class CRulesManager
 {
     protected static CRulesManager ms_Instance = null ;
 
+    /** Creates a new crules manager instance. */
     public CRulesManager()
     {
     }
+    /** Returns the instance. */
     public static CRulesManager getInstance()
     {
         if (ms_Instance == null)
@@ -31,11 +34,13 @@ public class CRulesManager
         return ms_Instance ;
     }
 
+    /** Loads the rules file. */
     public void LoadRulesFile(String csFilePath)
     {
         LoadRulesFile(Tag.createFromFile(csFilePath));
     }
 
+    /** Loads the rules file. */
     public void LoadRulesFile(Tag tag)
     {
         tagRules = tag;
@@ -83,6 +88,7 @@ public class CRulesManager
     protected Tag tagRules = null ;
     protected Hashtable<String, Vector<Tag>> tabCategories = new Hashtable<String, Vector<Tag>>() ;
 
+    /** Returns the nb rules. */
     public int getNbRules(String category)
     {
         Vector<Tag> lst = tabCategories.get(category);
@@ -92,6 +98,7 @@ public class CRulesManager
         }
         return 0 ;
     }
+    /** Returns the rule. */
     public Tag getRule(String category, int index)
     {
         Vector<Tag> lst = tabCategories.get(category);
@@ -101,6 +108,7 @@ public class CRulesManager
         }
         return null ;
     }
+    /** Returns the rule. */
     public Tag getRule(String category)
     {
         Vector<Tag> lst = tabCategories.get(category);

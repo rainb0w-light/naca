@@ -16,6 +16,7 @@ package jlib.misc;
  */
 public class Dumper
 {
+    /** Executes the dump operation. */
     public static void dump(String cs)
     {
         System.out.println(cs);
@@ -29,6 +30,7 @@ public class Dumper
 01|39 39 38 30 30 30 00 00 00 5C 00 00 1C 00 00 00 |998000
 02|23                                              |#
      */
+    /** Executes the dump operation. */
     public static void dump(byte arr[])
     {
         if(arr != null)
@@ -74,6 +76,7 @@ public class Dumper
         }
     }
 
+    /** Returns whether file records ordered. */
     public static boolean isFileRecordsOrdered(String csFilePath, boolean bAscending)
     {
         DataFileRead file = new DataFileRead(csFilePath);

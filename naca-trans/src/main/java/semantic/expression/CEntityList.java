@@ -33,6 +33,7 @@ public class CEntityList extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return null;
@@ -41,6 +42,7 @@ public class CEntityList extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -49,11 +51,13 @@ public class CEntityList extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetConstantValue()
      */
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return null;
     }
 
+    /** Adds the data. */
     public void AddData(CDataEntity e)
     {
         data.add(e) ;
@@ -85,6 +89,7 @@ public class CEntityList extends CDataEntity
     }
 
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return data.isEmpty() ;

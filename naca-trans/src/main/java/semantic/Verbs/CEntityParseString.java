@@ -15,8 +15,10 @@ import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity parse string behavior. */
 public class CEntityParseString extends CBaseActionEntity
 {
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         boolean isreplace = false;
@@ -84,18 +86,22 @@ public class CEntityParseString extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Parses the string. */
     public void ParseString(CDataEntity e)
     {
         variable = e ;
     }
+    /** Adds the delimiter single. */
     public void AddDelimiterSingle(CDataEntity e)
     {
         delimitersSingle.add(e);
     }
+    /** Adds the delimiter multi. */
     public void AddDelimiterMulti(CDataEntity e)
     {
         delimitersMulti.add(e);
     }
+    /** Adds the destination. */
     public void AddDestination(CDataEntity[] e)
     {
         destinations.add(e);
@@ -115,6 +121,7 @@ public class CEntityParseString extends CBaseActionEntity
     protected CDataEntity tallying = null ;
     protected CDataEntity withPointer = null ;
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -123,6 +130,7 @@ public class CEntityParseString extends CBaseActionEntity
         delimitersSingle.clear() ;
         destinations.clear();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return variable.ignore();
@@ -146,10 +154,12 @@ public class CEntityParseString extends CBaseActionEntity
     public boolean isHasOverflowHandler() {
         return !getActiveChildren().isEmpty();
     }
+    /** Provides unstring destination behavior. */
     public static class UnstringDestination {
         private final CDataEntity to;
         private final CDataEntity delimiterIn;
         private final CDataEntity countIn;
+        /** Creates a new unstring destination instance. */
         public UnstringDestination(CDataEntity to, CDataEntity delimiterIn, CDataEntity countIn) {
             this.to = to;
             this.delimiterIn = delimiterIn;
@@ -168,6 +178,7 @@ public class CEntityParseString extends CBaseActionEntity
             return delimiterIn != null || countIn != null;
         }
     }
+    /** Returns the unstring destinations. */
     public List<UnstringDestination> getUnstringDestinations() {
         List<UnstringDestination> result = new ArrayList<>();
         for (CDataEntity[] arr : destinations) {

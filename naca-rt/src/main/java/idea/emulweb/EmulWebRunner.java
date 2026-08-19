@@ -35,6 +35,7 @@ import jlib.misc.ThreadSafeCounter;
 
 import org.w3c.dom.Element;
 
+/** Provides emul web runner behavior. */
 public class EmulWebRunner extends BaseCloseMBean
 {
     EmulWebRunner()

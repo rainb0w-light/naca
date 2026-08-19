@@ -6,14 +6,17 @@
  */
 package jlib.log;
 
+/** Signals a assert exception condition. */
 public class AssertException extends Error
 {
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new assert exception instance. */
     public AssertException()
     {
     }
 
+    /** Creates a new assert exception instance. */
     public AssertException(String arg0)
     {
         super(arg0);

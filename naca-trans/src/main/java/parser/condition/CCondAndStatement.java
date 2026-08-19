@@ -23,6 +23,7 @@ import semantic.expression.CEntityCondAnd;
  */
 public class CCondAndStatement extends CExpression
 {
+    /** Creates a new ccond and statement instance. */
     public CCondAndStatement(int line, CExpression st1, CExpression st2)
     {
         super(line);
@@ -42,6 +43,7 @@ public class CCondAndStatement extends CExpression
         return b;
     }
 
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("And") ;
@@ -62,6 +64,7 @@ public class CCondAndStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -76,6 +79,7 @@ public class CCondAndStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
     {
         CBaseEntityCondition op1 = st1.AnalyseCondition(factory, masterCond);
@@ -91,6 +95,7 @@ public class CCondAndStatement extends CExpression
         return eAnd ;
     }
 
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return st1.GetFirstConditionOperand() ;
@@ -98,6 +103,7 @@ public class CCondAndStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT(null, null);
@@ -106,10 +112,12 @@ public class CCondAndStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "AND(" + st1.toString() + ", " + st2.toString() + ")" ;

@@ -56,8 +56,8 @@ public class CInitialize extends CCobolElement
             CBaseToken tok = GetCurrentToken() ;
             if (tok.GetType() == CTokenType.IDENTIFIER)
             {
-                CIdentifier ID = ReadIdentifier() ;
-                arrVariables.add(ID) ;
+                CIdentifier id = ReadIdentifier() ;
+                arrVariables.add(id) ;
             }
             else if (tok.GetType() == CTokenType.COMMA)
             {

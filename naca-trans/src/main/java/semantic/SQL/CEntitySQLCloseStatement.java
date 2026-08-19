@@ -26,12 +26,14 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLCloseStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlclose statement instance. */
     public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CEntitySQLCursor cursor)
     {
         super(line, cat);
         this.cursor = cursor ;
     }
     protected CEntitySQLCursor cursor = null ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

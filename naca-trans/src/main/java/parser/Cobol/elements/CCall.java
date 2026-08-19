@@ -7,13 +7,11 @@
 package parser.Cobol.elements;
 
 import java.util.Vector;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import parser.expression.CIdentifierTerminal;
@@ -28,6 +26,9 @@ import semantic.Verbs.CEntityRoutineEmulationCall;
 import semantic.expression.CEntityLengthOf;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
+
+
+
 
 /**
  * @author U930CV
@@ -45,6 +46,7 @@ public class CCall extends CCobolElement
     public CCall(int line) {
         super(line);
     }
+    /** Provides ccall parameter behavior. */
     public class CCallParameter
     {
         public CTerminal term = null ;

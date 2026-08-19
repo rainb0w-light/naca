@@ -11,11 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 
+/** Provides naca rt application behavior. */
 @SpringBootApplication
 @EnableConfigurationProperties(NacaRtProperties.class)
 @ComponentScan(basePackages = {"com.publicitas.naca", "nacaLib", "idea", "jlib"})
 public class NacaRtApplication {
 
+    /** Executes the main operation. */
     public static void main(String[] args) {
         SpringApplication.run(NacaRtApplication.class, args);
     }

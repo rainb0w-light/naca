@@ -34,6 +34,7 @@ public class CEntityCICSDeQ extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Sets the resource. */
     public void SetResource(CDataEntity eRes, CDataEntity eLen)
     {
         resource = eRes ;
@@ -43,10 +44,12 @@ public class CEntityCICSDeQ extends CBaseActionEntity
     protected CDataEntity resource = null   ;
     protected CDataEntity length = null ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

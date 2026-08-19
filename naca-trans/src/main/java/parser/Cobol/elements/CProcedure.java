@@ -21,6 +21,7 @@ import utils.CGlobalEntityCounter;
  */
 public class CProcedure extends CBaseProcedure
 {
+    /** Creates a new cprocedure instance. */
     public CProcedure(String name, int line)
     {
         super(line);

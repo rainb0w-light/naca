@@ -12,11 +12,13 @@ package nacaLib.varEx;
  */
 public class CallParamByCharBuffer extends CCallParam
 {
+    /** Creates a new call param by char buffer instance. */
     public CallParamByCharBuffer(InternalCharBuffer charBuffer)
     {
         this.charBuffer = charBuffer;
     }
 
+    /** Returns the param length. */
     public int getParamLength()
     {
         if (charBuffer != null) {
@@ -25,6 +27,7 @@ public class CallParamByCharBuffer extends CCallParam
         return 0;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         int nNbCharsToCopy = charBuffer.getBufferSize();

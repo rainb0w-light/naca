@@ -12,17 +12,20 @@ package lexer;
  */
 public class CTokenIdentifier extends CBaseToken
 {
+    /** Creates a new ctoken identifier instance. */
     public CTokenIdentifier(String v, int line, boolean newline)
     {
         super(line, newline);
         value = v ;
     }
 
+    /** Executes the get type operation. */
     public CTokenType GetType()
     {
         return CTokenType.IDENTIFIER ;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "[ID:" + value + "]" ;
@@ -31,6 +34,7 @@ public class CTokenIdentifier extends CBaseToken
     /* (non-Javadoc)
      * @see lexer.CBaseToken#GetDisplay()
      */
+    /** Executes the get display operation. */
     public String GetDisplay()
     {
         return value + " ";

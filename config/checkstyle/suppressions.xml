@@ -5,4 +5,8 @@
 <suppressions>
     <suppress files="[/\\]build[/\\]" checks=".*"/>
     <suppress files="[/\\]src[/\\]main[/\\]translated-java[/\\]" checks=".*"/>
+    <!-- Generated CICS programs compile against the historical public CESM field name. -->
+    <suppress files="[/\\](OnlineProgram|BatchProgram|CalledProgram)\.java$" checks="MemberName"/>
+    <!-- PagingInfo field names are the externally serialized JSON wire contract. -->
+    <suppress files="[/\\]jlib[/\\]jslibComp[/\\]PagingInfo\.java$" checks="MemberName"/>
 </suppressions>

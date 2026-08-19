@@ -33,14 +33,17 @@ public class CEntityCICSAddress extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Sets the ref for cwa. */
     public void SetRefForCWA(CDataEntity e)
     {
         refCWA = e ;
     }
+    /** Sets the ref for tctua. */
     public void SetRefForTCTUA(CDataEntity e)
     {
         refTCTUA = e ;
     }
+    /** Sets the ref for twa. */
     public void SetRefForTWA(CDataEntity e)
     {
         refTWA = e ;
@@ -49,6 +52,7 @@ public class CEntityCICSAddress extends CBaseActionEntity
     protected CDataEntity refCWA = null;
     protected CDataEntity refTCTUA = null;
     protected CDataEntity refTWA = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

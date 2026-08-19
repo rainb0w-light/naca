@@ -6,11 +6,16 @@
  */
 package jlib.log;
 
+/** Defines the contract for log center mbean. */
 public interface LogCenterMBean
 {
+    /** Returns the enable. */
     public boolean getEnable();
+    /** Sets the enable. */
     public void setEnable(boolean b);
 
+    /** Returns the level. */
     public String getLevel();
+    /** Sets the level. */
     public void setLevel(String csLevel);
 }

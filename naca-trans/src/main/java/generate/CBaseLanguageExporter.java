@@ -40,21 +40,25 @@ public abstract class CBaseLanguageExporter
     protected int widthBeforeOriginalCode = 80 ;
 
     private int lastFillerIndex = 0 ;
+    /** Resets the filler index. */
     public void ResetFillerIndex()
     {
         lastFillerIndex = 0 ;
     }
+    /** Executes the get last filler index operation. */
     public int GetLastFillerIndex()
     {
         lastFillerIndex++ ;
         return lastFillerIndex ;
     }
 
+    /** Creates a new cbase language exporter instance. */
     public CBaseLanguageExporter(COriginalLisiting cat, CGlobalCommentContainer commCont)
     {
         catalog = cat ;
         commentContainer = commCont ;
     }
+    /** Creates a new cbase language exporter instance. */
     public CBaseLanguageExporter(CBaseLanguageExporter exporter)
     {
         catalog = exporter.catalog ;
@@ -62,6 +66,7 @@ public abstract class CBaseLanguageExporter
     }
     protected COriginalLisiting catalog = null ;
 
+    /** Closes the output. */
     public void closeOutput()
     {
         String csCurrentLine = "" ;
@@ -91,7 +96,9 @@ public abstract class CBaseLanguageExporter
         doCloseOutput() ;
     }
     protected abstract void doCloseOutput() ;
+    /** Closes the bracket. */
     public abstract void CloseBracket() ;
+    /** Executes the open bracket operation. */
     public abstract void OpenBracket() ;
     protected int nLastOriginalLineWritten = 0 ;
     protected abstract void DoWriteLine(String line) ;
@@ -211,10 +218,12 @@ public abstract class CBaseLanguageExporter
             .strip();
     }
 
+    /** Writes the line. */
     public void WriteLine(String line)
     {
         WriteLine(line, nLastOriginalLineWritten) ;
     }
+    /** Writes the line. */
     public void WriteLine(String line, int n)
     {
         if (!currentLine.equals(""))
@@ -225,14 +234,17 @@ public abstract class CBaseLanguageExporter
         WriteWord(line, n); //nLastOriginalLineWritten) ;
         WriteEOL(n) ;
     }
+    /** Writes the comment. */
     public void WriteComment(String line, int n)
     {
         DoWriteComment(line, n) ;
     }
+    /** Writes the eol. */
     public void WriteEOL()
     {
         WriteEOL(nLastOriginalLineWritten) ;
     }
+    /** Writes the eol. */
     public void WriteEOL(int n)
     {
         if (!currentLine.equals(""))
@@ -242,10 +254,12 @@ public abstract class CBaseLanguageExporter
             DoWriteLine(line, n) ;
         }
     }
+    /** Writes the word. */
     public void WriteWord(String word)
     {
         WriteWord(word, nLastOriginalLineWritten) ;
     }
+    /** Writes the word. */
     public void WriteWord(String word, int n)
     {
         if (n > nLastOriginalLineWritten+1)
@@ -273,6 +287,7 @@ public abstract class CBaseLanguageExporter
         }
         currentLine += word ;
     }
+    /** Writes the long string. */
     public void WriteLongString(String string, int n)
     {
         if (n > nLastOriginalLineWritten+1)
@@ -310,10 +325,12 @@ public abstract class CBaseLanguageExporter
         }
     }
 
+    /** Executes the start bloc operation. */
     public void StartBloc()
     {
         indent += indentItem ;
     }
+    /** Executes the end bloc operation. */
     public void EndBloc()
     {
         int index = indent.lastIndexOf(indentItem) ;
@@ -322,6 +339,7 @@ public abstract class CBaseLanguageExporter
     protected String indent = "" ;
     protected String currentLine = "" ;
 
+    /** Executes the format identifier operation. */
     public String FormatIdentifier(String cs)
     {
         cs = cs.replace('-', '_') ;
@@ -343,8 +361,10 @@ public abstract class CBaseLanguageExporter
         return par.getAbsolutePath() + "/~" + cs + "~.tmp" ;
     }
 
+    /** Returns the output dir. */
     public abstract String getOutputDir() ;
 
+    /** Returns whether resources. */
     public abstract boolean isResources() ;
 
 

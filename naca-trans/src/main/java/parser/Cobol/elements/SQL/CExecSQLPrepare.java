@@ -34,6 +34,7 @@ public class CExecSQLPrepare extends CBaseExecSQLAction
     {
         super(l);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eExe = root.createElement("SQLPrepare");

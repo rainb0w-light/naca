@@ -9,14 +9,15 @@
  *
  */
 package nacaLib.programStructure;
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseProgram;
 
+/** Provides division behavior. */
 public class Division extends CJMapObject
 {
-    Division(BaseProgram Program)
+    Division(BaseProgram newProgram)
     {
-        this.program = Program;
+        this.program = newProgram;
     }
 
     public BaseProgram getProgram()

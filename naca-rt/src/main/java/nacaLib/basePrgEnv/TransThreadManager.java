@@ -25,6 +25,7 @@ public class TransThreadManager
     {
     }
 
+    /** Executes the view operation. */
     public static synchronized void view(int nMinRunTimeS)
     {
         show(false, 0);
@@ -36,6 +37,7 @@ public class TransThreadManager
 //      ms_arrShownTransThreadMBean.add(transThreadMBean);
 //  }
 
+    /** Executes the hide operation. */
     public static synchronized void hide()
     {
         show(false, 0);
@@ -47,7 +49,7 @@ public class TransThreadManager
 //      ms_arrShownTransThreadMBean.clear();
     }
 
-    private static void show(boolean bShow, int nMinRunTime_s)
+    private static void show(boolean bShow, int nMinRunTimeS)
     {
         Set<Entry<Integer, TransThreadMBean> > entries =  hashTrans.entrySet();
         Iterator<Entry<Integer, TransThreadMBean> > iter = entries.iterator();
@@ -59,7 +61,7 @@ public class TransThreadManager
                 transThreadMBean.showBean(bShow);
             } else
             {
-                if (transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTime_s) {
+                if (transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTimeS) {
                     transThreadMBean.showBean(bShow);
                 }
             }

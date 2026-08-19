@@ -54,6 +54,7 @@ public class Transcoder
     private static boolean issQLCheck = false;
     private static Connection connection = null;
 
+    /** Executes the init operation. */
     public boolean Init(Tag eConf)
     {
         this.eConf = eConf ;
@@ -232,6 +233,7 @@ public class Transcoder
     {
         return groups.size() ;
     }
+    /** Returns the group name. */
     public String getGroupName(int i)
     {
         if (i< groups.size())
@@ -240,6 +242,7 @@ public class Transcoder
         }
         return "" ;
     }
+    /** Returns the nb applications. */
     public int getNbApplications(String group)
     {
         CTransApplicationGroup grp = tabGroups.get(group) ;
@@ -249,6 +252,7 @@ public class Transcoder
         }
         return 0 ;
     }
+    /** Returns the application name. */
     public String getApplicationName(String group, int i)
     {
         CTransApplicationGroup grp = tabGroups.get(group) ;
@@ -260,6 +264,7 @@ public class Transcoder
         return "" ;
     }
 
+    /** Executes the do all applications operation. */
     @SuppressWarnings("unchecked")
     public void DoAllApplications()
     {
@@ -304,6 +309,7 @@ public class Transcoder
         }
     }
 
+    /** Executes the do application operation. */
     public void DoApplication(String appName, String groupName)
     {
         CTransApplicationGroup grp = tabGroups.get(groupName) ;
@@ -323,6 +329,7 @@ public class Transcoder
         this.transcoderAction = transcoderAction;
     }
 
+    /** Executes the must generate operation. */
     public boolean mustGenerate()
     {
         if (transcoderAction.isGeneration()) {
@@ -331,6 +338,7 @@ public class Transcoder
         return false;
     }
 
+    /** Executes the init for plugin operation. */
     public void initForPlugin(String configFilePath)
     {
         try
@@ -372,6 +380,7 @@ public class Transcoder
         ms_pluginMarker = pluginMarker;
     }
 
+    /** Executes the start for plugin operation. */
     public void startForPlugin(String csSingleFile, String csApplication, String csGroupToTranscode, String csAction, boolean bResources)
     {
         issQLCheck = true;
@@ -400,6 +409,7 @@ public class Transcoder
         releaseConnection();
     }
 
+    /** Executes the start operation. */
     public void Start(String configFilePath, String groupToTranscode)
     {
         Tag eConf = loadConfiguration(configFilePath) ;
@@ -436,6 +446,7 @@ public class Transcoder
         }
     }
 
+    /** Executes the start operation. */
     public void Start(Tag eConf, String groupToTranscode)
     {
         try
@@ -545,6 +556,7 @@ public class Transcoder
         }
     }
 
+    /** Returns the programs for application. */
     public String[] getProgramsForApplication(String group, String appName)
     {
         CTransApplicationGroup grp = tabGroups.get(group) ;
@@ -631,6 +643,7 @@ public class Transcoder
         return ms_logger;
     }
 
+    /** Adds the once unbound reference. */
     public static void addOnceUnboundReference(int nLine, String csName)
     {
         String csFile = Transcoder.getCurrentTranscodedUnit();
@@ -646,6 +659,7 @@ public class Transcoder
         }
     }
 
+    /** Executes the dump unbound references operation. */
     public static int dumpUnboundReferences()
     {
         if(ms_arrUnboundRef != null)
@@ -672,17 +686,20 @@ public class Transcoder
         return 0;
     }
 
+    /** Executes the push transcoded unit operation. */
     public static void pushTranscodedUnit(String csTranscodedUnit, String csPath)
     {
         String cs = csPath + csTranscodedUnit;
         ms_stackTranscodedUnits.push(cs);
     }
 
+    /** Executes the pop transcoded unit operation. */
     public static void popTranscodedUnit()
     {
         ms_stackTranscodedUnits.pop();
     }
 
+    /** Returns the current transcoded unit. */
     public static String getCurrentTranscodedUnit()
     {
         if (ms_stackTranscodedUnits.size() > 0) {
@@ -691,6 +708,7 @@ public class Transcoder
         return "";
     }
 
+    /** Resets the current transcoded unit. */
     public static String resetCurrentTranscodedUnit()
     {
         if (ms_stackTranscodedUnits.size() > 0) {
@@ -699,14 +717,17 @@ public class Transcoder
         return "";
     }
 
+    /** Sets the analyse expression current line. */
     public static void setAnalyseExpressionCurrentLine(int nLine)
     {
     }
 
+    /** Resets the analyse expression current line. */
     public static void resetAnalyseExpressionCurrentLine()
     {
     }
 
+    /** Clears the current transcoded units. */
     public static void clearCurrentTranscodedUnits()
     {
         ms_stackTranscodedUnits = new Stack<String>();
@@ -727,16 +748,19 @@ public class Transcoder
         return cs;
     }
 
+    /** Executes the log error operation. */
     public static void logError(String csText)
     {
         logError(0, csText);
     }
 
+    /** Executes the log error operation. */
     public static void logError(int nLine, String csText)
     {
         logError(null, nLine, csText);
     }
 
+    /** Executes the log error operation. */
     public static void logError(String csFile, int nLine, String csText)
     {
         if (ms_logger == null) {
@@ -745,6 +769,7 @@ public class Transcoder
         ms_logger.error(log(csFile, nLine, csText, "Error"));
     }
 
+    /** Executes the log warn operation. */
     public static void logWarn(int nLine, String csText)
     {
         if (ms_logger == null) {
@@ -753,6 +778,7 @@ public class Transcoder
         ms_logger.warn(log(null, nLine, csText, "Warning"));
     }
 
+    /** Executes the log info operation. */
     public static void logInfo(String csText)
     {
         if (ms_logger == null) {
@@ -761,11 +787,13 @@ public class Transcoder
         ms_logger.info(log(null, 0, csText, "Info"));
     }
 
+    /** Executes the log debug operation. */
     public static void logDebug(String csText)
     {
         logDebug(0, csText);
     }
 
+    /** Executes the log debug operation. */
     public static void logDebug(int nLine, String csText)
     {
         if (ms_logger == null) {
@@ -774,6 +802,7 @@ public class Transcoder
         ms_logger.debug(log(null, nLine, csText, "Debug"));
     }
 
+    /** Executes the log operation. */
     public static String log(String csFile, int nLine, String csText, String type)
     {
         if (csFile == null) {
@@ -786,21 +815,25 @@ public class Transcoder
         return cs;
     }
 
+    /** Returns whether generate check number indexes. */
     public static boolean canGenerateCheckNumberIndexes()
     {
         return ms_bGenerateCheckNumberIndexes;
     }
 
+    /** Executes the enable generate check number indexes operation. */
     public static void enableGenerateCheckNumberIndexes()
     {
         ms_bGenerateCheckNumberIndexes = true;
     }
 
+    /** Executes the disable generate check number indexes operation. */
     public static void disableGenerateCheckNumberIndexes()
     {
         ms_bGenerateCheckNumberIndexes = false;
     }
 
+    /** Resets the report line counter. */
     public static void resetReportLineCounter()
     {
         ms_nReportLineCounter = 0;
@@ -836,11 +869,13 @@ public class Transcoder
         return ms_CurrentObjectCatalog;
     }
 
+    /** Clears the current object catalog. */
     public static void clearCurrentObjectCatalog()
     {
         ms_CurrentObjectCatalog = null;
     }
 
+    /** Executes the check sql operation. */
     public static void checkSQL(int nLine, String csQuery)
     {
         if (issQLCheck)
@@ -870,6 +905,7 @@ public class Transcoder
         }
     }
 
+    /** Returns the connection. */
     public static Connection getConnection()
     {
         if (connection == null)
@@ -892,6 +928,7 @@ public class Transcoder
         return connection;
     }
 
+    /** Executes the release connection operation. */
     public static void releaseConnection()
     {
         if (connection != null)

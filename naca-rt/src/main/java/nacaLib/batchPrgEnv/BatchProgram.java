@@ -10,8 +10,10 @@ import nacaLib.basePrgEnv.BaseCESMManager;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.fpacPrgEnv.FPacProgram;
 
+/** Provides batch program behavior. */
 public class BatchProgram extends FPacProgram
 {
+    /** Creates a new batch program instance. */
     public BatchProgram()
     {
         super();

@@ -48,6 +48,7 @@ public abstract class BaseRecord
         getFiller().setMode(ModeReadWriteExt.Unknown);
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite()
     {
         getFiller().setMode(ModeReadWriteExt.Write);
@@ -59,6 +60,7 @@ public abstract class BaseRecord
         getFiller().setMode(ModeReadWriteExt.Unknown);
     }
 
+    /** Executes the read operation. */
     public boolean read()
     {
         if (file != null)
@@ -83,5 +85,6 @@ public abstract class BaseRecord
         return false;
     }
 
+    /** Executes the fill rw operation. */
     public abstract void fillRW();
 }

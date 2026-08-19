@@ -11,16 +11,17 @@ import java.util.ArrayList;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/** Provides xml comparator behavior. */
 public class XmlComparator {
 
 //******************************************************************************************
 //**                                   Holds the diagnostic.                              **
 //******************************************************************************************
-    private ArrayList<String> _diagnostic;
+    private ArrayList<String> diagnostic;
 
 //*************************** Erases the list of differences *******************************
     private void clearDiagnostic() {
-        _diagnostic=new ArrayList<String>();
+        diagnostic=new ArrayList<String>();
     }
 
 //***************************** Returns the list of differences. ***************************
@@ -29,10 +30,10 @@ public class XmlComparator {
  * If the compared nodes are identical, the list is empty (not null).
  */
     public ArrayList<String> getDiagnostic() {
-        if (_diagnostic == null) {
+        if (diagnostic == null) {
             clearDiagnostic();
         }
-        return _diagnostic;
+        return diagnostic;
     }
 
 //*****************************************************************************************
@@ -141,7 +142,7 @@ public class XmlComparator {
                     x1AttrValue = x1Attr.getNodeValue();
                     x2AttrValue = XmlHelper.GetNodeAttribute(x2, x1AttrName);
                     if (!x2AttrValue.equals(x1AttrValue)) {
-                        _diagnostic.add("Attribute '" + x1AttrName + "' in node '" + x1.getNodeName() + "' is missing or different.");
+                        diagnostic.add("Attribute '" + x1AttrName + "' in node '" + x1.getNodeName() + "' is missing or different.");
                         response = false;
                     }
                 }
@@ -196,7 +197,7 @@ public class XmlComparator {
 
 //............. Si on n'a trouvé aucun node texte dans X2 qui corrésponde .................
                 if (!isTextPresent) {
-                    _diagnostic.add("Text content of node '"+x1.getNodeName()+"' is different.");
+                    diagnostic.add("Text content of node '"+x1.getNodeName()+"' is different.");
                     response=false;
                 }
             }
@@ -221,7 +222,7 @@ public class XmlComparator {
                 }
                 x2Nodes=XmlHelper.SelectNodes(x2,x1NodeName,true);
                 if (x2Nodes.getLength()==0) {
-                    _diagnostic.add("Node '"+x2.getNodeName()+"' doesn't contain any node named '"+x1NodeName+"'");
+                    diagnostic.add("Node '"+x2.getNodeName()+"' doesn't contain any node named '"+x1NodeName+"'");
                     response=false;           // Si il n'y en a aucun, x1<>x2.
                 }
 

@@ -8,6 +8,7 @@ import utils.CObjectCatalog;
 /** Test-only snapshot of the retired inline-copybook backend. */
 public final class LegacyInlineFixture extends CEntityInline
 {
+    /** Creates a new legacy inline fixture instance. */
     public LegacyInlineFixture(int line, CObjectCatalog catalog,
         CBaseLanguageExporter output, CBaseExternalEntity external)
     {

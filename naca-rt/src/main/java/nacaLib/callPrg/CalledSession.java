@@ -24,13 +24,16 @@ import nacaLib.basePrgEnv.CurrentUserInfo;
 
 import org.w3c.dom.Document;
 
+/** Provides called session behavior. */
 public class CalledSession extends BaseSession
 {
+    /** Creates a new called session instance. */
     public CalledSession(BaseResourceManager baseResourceManager)
     {
         super(baseResourceManager);
     }
 
+    /** Creates the environment. */
     public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
     {
         CalledEnvironment env = new CalledEnvironment(this, connectionManager, baseResourceManager);
@@ -42,14 +45,17 @@ public class CalledSession extends BaseSession
         return "Batch";
     }
 
+    /** Executes the run program operation. */
     public void RunProgram(BaseProgramLoader seq)
     {
     }
 
+    /** Sets the help page. */
     public void setHelpPage(Document doc)
     {
     }
 
+    /** Executes the fill current user info operation. */
     public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
     {
         currentUserInfo.reset();

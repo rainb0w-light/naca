@@ -16,6 +16,7 @@ package semantic.expression;
 public class CEntityExprOpposite extends CBaseEntityExpression
 {
 
+    /** Sets the opposite. */
     public void SetOpposite(CBaseEntityExpression e)
     {
         data = e ;
@@ -27,12 +28,14 @@ public class CEntityExprOpposite extends CBaseEntityExpression
         return data;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         data.Clear() ;
         data = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return data.ignore();

@@ -17,12 +17,15 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.SQL.CEntitySQLSessionDrop;
 
+/** Provides cexec sqlsession drop behavior. */
 public class CExecSQLSessionDrop extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlsession drop instance. */
     public CExecSQLSessionDrop(int line)
     {
         super(line);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eExe = root.createElement("SQLSessionDrop");

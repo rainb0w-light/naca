@@ -34,9 +34,11 @@ import utils.CGlobalEntityCounter;
 import utils.Transcoder;
 import utils.FPacTranscoder.OperandDescription;
 
+/** Provides cfpac call behavior. */
 public class CFPacCall extends CFPacElement
 {
 
+    /** Creates a new cfpac call instance. */
     public CFPacCall(int line)
     {
         super(line);

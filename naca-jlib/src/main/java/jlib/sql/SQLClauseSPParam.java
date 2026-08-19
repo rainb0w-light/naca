@@ -77,11 +77,13 @@ public abstract class SQLClauseSPParam
         }
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return wayInOut.toString();
     }
 
+    /** Returns a string representation of this value. */
     public String toString(SQLClauseSPParamDesc paramDesc)
     {
         if (paramDesc != null) {

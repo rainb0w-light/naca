@@ -106,6 +106,7 @@ public class OracleClause extends SQLClause {
         return false;
     }
 
+    /** Returns the date. */
     public Date getDate(String csColName) throws TechnicalException
     {
         if (getResultSet() != null)
@@ -128,6 +129,7 @@ public class OracleClause extends SQLClause {
         return null;
     }
 
+    /** Returns the date. */
     public Date getDate(int nColNumber) throws TechnicalException
     {
         if (getResultSet() != null)

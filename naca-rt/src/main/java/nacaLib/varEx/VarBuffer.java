@@ -17,6 +17,7 @@ import jlib.misc.LineRead;
  */
 public class VarBuffer extends InternalCharBuffer
 {
+    /** Creates a new var buffer instance. */
     public VarBuffer()
     {
     }
@@ -27,11 +28,13 @@ public class VarBuffer extends InternalCharBuffer
         shareDataBufferFrom(varBufferMaster);
     }
 
+    /** Creates a new var buffer instance. */
     public VarBuffer(char [] acBuffer)
     {
         super(acBuffer);
     }
 
+    /** Creates a new var buffer instance. */
     public VarBuffer(int nSize)
     {
         super(nSize);
@@ -72,6 +75,7 @@ public class VarBuffer extends InternalCharBuffer
 //      arrMapAssociatedSemanticContext.add(EditSemanticContextMapAssoc);
 //  }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return acBuffer.toString();
@@ -87,6 +91,7 @@ public class VarBuffer extends InternalCharBuffer
 //      return nPositionDest;
 //  }
 //
+    /** Executes the copy bytes from source operation. */
     public int copyBytesFromSource(int nPositionDest, InternalCharBuffer source, int nPositionSource, int nNbCharsToCopy)
     {
         for(int n=0; n<nNbCharsToCopy; n++)
@@ -105,6 +110,7 @@ public class VarBuffer extends InternalCharBuffer
 //      }
 //  }
 
+    /** Executes the copy bytes from source operation. */
     public void copyBytesFromSource(int nPositionDest, InternalCharBuffer sourceCharBuffer)
     {
         int nNbCharsToCopy = sourceCharBuffer.acBuffer.length;
@@ -136,6 +142,7 @@ public class VarBuffer extends InternalCharBuffer
 //      }
 //  }
 
+    /** Sets the from line read. */
     public int setFromLineRead(LineRead lineRead, int nOffsetDest)
     {
         int nSourceOffset = lineRead.getOffset();
@@ -159,6 +166,7 @@ public class VarBuffer extends InternalCharBuffer
         return nSourceLength;
     }
 
+    /** Returns the first end of line position. */
     public int getFirstEndOfLinePosition(byte byEOL)
     {
         for(int n=0; n<acBuffer.length; n++)
@@ -177,6 +185,7 @@ public class VarBuffer extends InternalCharBuffer
 //  }
 
 
+    /** Executes the dump hexa operation. */
     public void dumpHexa(int nPosition, int nLength)
     {
         System.out.println("dumpHexa from position=" + nPosition + ", length="+nLength);

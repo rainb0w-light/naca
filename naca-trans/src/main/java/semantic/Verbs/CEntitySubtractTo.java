@@ -72,17 +72,20 @@ public class CEntitySubtractTo extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the substract. */
     public void SetSubstract(CDataEntity var, CDataEntity val, CDataEntity dest)
     {
         SetSubstract(var, Arrays.asList(val), Arrays.asList(dest));
     }
 
+    /** Sets the substract. */
     public void SetSubstract(CDataEntity var, List<CDataEntity> val, List<CDataEntity> dest)
     {
         variable = var ;
         values.addAll(val);
         destination.addAll(dest) ;
     }
+    /** Sets the on error bloc. */
     public void SetOnErrorBloc(CBaseLanguageEntity error) {
         onErrorBloc = error;
     }
@@ -91,6 +94,7 @@ public class CEntitySubtractTo extends CBaseActionEntity
     protected CBaseLanguageEntity onErrorBloc ;
     protected final List<CDataEntity> values = new ArrayList<CDataEntity>();
     protected final List<CDataEntity> destination = new ArrayList<CDataEntity>();
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -98,6 +102,7 @@ public class CEntitySubtractTo extends CBaseActionEntity
         values.clear();
         destination.clear() ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = variable.ignore() ;
@@ -129,6 +134,7 @@ public class CEntitySubtractTo extends CBaseActionEntity
         return destination ;
     }
 
+    /** Returns whether s destinations. */
     public boolean hasDestinations()
     {
         return !destination.isEmpty() ;

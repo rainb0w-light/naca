@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "before": 8037,
+  "after": 0,
+  "reduced": 8037,
+  "batches": {
+    "missingJavadocMethod": 7026,
+    "missingJavadocType": 492,
+    "avoidStarImport": 239,
+    "memberName": 111,
+    "parameterName": 84,
+    "localVariableName": 69,
+    "emptyStatement": 5,
+    "missingSwitchDefault": 4,
+    "oneTopLevelClass": 4,
+    "fallThrough": 2,
+    "outerTypeFilename": 1
+  },
+  "compatibilityExceptions": {
+    "generatedCesmField": "The public CESM name remains the generated CICS Java ABI.",
+    "pagingInfoJsonFields": "PagingInfo public field names remain its serialized JSON wire contract."
+  },
+  "verification": {
+    "fileTabCharacter": 0,
+    "lineLength": 0,
+    "activeHungarianMIdentifiers": 0,
+    "checkstyleTotal": 0,
+    "pmdGrowth": 0,
+    "spotbugsGrowth": 0
+  }
+}

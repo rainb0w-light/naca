@@ -7,15 +7,22 @@
 package nacaLib.varEx;
 
 import jlib.log.Log;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import jlib.log.*;
-import nacaLib.mapSupport.*;
+import jlib.log.AssertException;
+import nacaLib.mapSupport.MapFieldAttrColor;
+import nacaLib.mapSupport.MapFieldAttrFill;
+import nacaLib.mapSupport.MapFieldAttrHighlighting;
+import nacaLib.mapSupport.MapFieldAttrIntensity;
+import nacaLib.mapSupport.MapFieldAttrJustify;
+import nacaLib.mapSupport.MapFieldAttrModified;
+import nacaLib.mapSupport.MapFieldAttrProtection;
+import nacaLib.mapSupport.MapFieldAttribute;
 import nacaLib.mathSupport.MathBase;
 import nacaLib.misc.StringAsciiEbcdicUtil;
 import nacaLib.tempCache.CStr;
+
+
 
 /**
  * @author U930DI
@@ -43,11 +50,13 @@ public abstract class Edit extends VarAndEdit
         return bufferPos.nAbsolutePosition; // varDef.nAbsolutePosition;
     }
 
+    /** Executes the debugget absolute position operation. */
     public int DEBUGgetAbsolutePosition()
     {
         return bufferPos.nAbsolutePosition; // varDef.nAbsolutePosition;
     }
 
+    /** Executes the assign buffer ext operation. */
     public void assignBufferExt(VarBuffer bufferSource)
     {
         bufferPos = new VarBufferPos(bufferSource, varDef.nDefaultAbsolutePosition);
@@ -65,6 +74,7 @@ public abstract class Edit extends VarAndEdit
     }
 
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeFieldEdit) {
@@ -73,6 +83,7 @@ public abstract class Edit extends VarAndEdit
         return false;
     }
 
+    /** Returns the string. */
     public String getString()
     {
         CStr cstr = varDef.getAsDecodedString(bufferPos);
@@ -81,6 +92,7 @@ public abstract class Edit extends VarAndEdit
         return cs;
     }
 
+    /** Sets the and fill. */
     public void setAndFill(String csValue)
     {
         if (csValue.length() > 0) {
@@ -88,12 +100,14 @@ public abstract class Edit extends VarAndEdit
         }
     }
 
+    /** Returns the dotted signed string. */
     public String getDottedSignedString()
     {
         String cs = varDef.getDottedSignedString(bufferPos).getAsString();
         return cs;
     }
 
+    /** Returns the dotted signed string as sqlcol. */
     public String getDottedSignedStringAsSQLCol()
     {
         String cs = varDef.getDottedSignedStringAsSQLCol(bufferPos).getAsString();
@@ -115,48 +129,61 @@ public abstract class Edit extends VarAndEdit
         return varDef.getAsDecodedDec(bufferPos);
     }
 
+    /** Returns the edit at. */
     public Edit getEditAt(Var x)
     {
         return getAt(x);
     };
+    /** Returns the edit at. */
     public Edit getEditAt(MathBase x)
     {
         return getAt(x);
     };
+    /** Returns the edit at. */
     public Edit getEditAt(Var x, Var y)
     {
         return getAt(x, y);
     };
+    /** Returns the edit at. */
     public Edit getEditAt(Var x, int y)
     {
         return getAt(x, y);
     };
+    /** Returns the edit at. */
     public Edit getEditAt(int x, Var y)
     {
         return getAt(x, y);
     };
+    /** Returns the edit at. */
     public Edit getEditAt(int x, int y)
     {
         return getAt(x, y);
     };
+    /** Returns the at. */
     public abstract Edit getAt(Var x);
+    /** Returns the edit at. */
     public Edit getEditAt(int x)
     {
         return getAt(x);
     };
+    /** Returns the at. */
     public abstract Edit getAt(int x);
+    /** Returns the at. */
     public Edit getAt(MathBase index)
     {
         int nIndex = index.d.intValue() ;
         return getAt(nIndex) ;
     }
+    /** Returns the at. */
     public abstract Edit getAt(int y, int x);
+    /** Returns the at. */
     public Edit getAt(Var vy, Var vx)
     {
         int y = vy.getInt() ;
         int x = vx.getInt() ;
         return getAt(y, x) ;
     }
+    /** Returns the at. */
     public Edit getAt(Var vy, Var vx, Var vz)
     {
         int z = vz.getInt() ;
@@ -164,25 +191,33 @@ public abstract class Edit extends VarAndEdit
         int x = vx.getInt() ;
         return getAt(y, x, z) ;
     }
+    /** Returns the at. */
     public Edit getAt(Var vy, int x)
     {
         int y = vy.getInt() ;
         return getAt(y, x) ;
     }
+    /** Returns the at. */
     public Edit getAt(int x, Var vy)
     {
         int y = vy.getInt() ;
         return getAt(x, y) ;
     }
+    /** Returns the at. */
     public abstract Edit getAt(int z, int y, int x);
 
+    /** Executes the transfer to operation. */
     public abstract void transferTo(Var varDest);
 
+    /** Executes the set operation. */
     public abstract void set(Var varSource);
+    /** Executes the set operation. */
     public abstract void set(Edit varSource);
 
+    /** Returns whether edit in map. */
     public abstract boolean isEditInMap();
 
+    /** Executes the transfer to operation. */
     public abstract void transferTo(Edit varDest);
 //  public abstract void transferTo(EditInMap varDest);
 //  public abstract void transferTo(EditInMapRedefine varDest);
@@ -236,24 +271,28 @@ public abstract class Edit extends VarAndEdit
 
 
 
+    /** Executes the attrib operation. */
     public Edit attrib(MapFieldAttrModified modified)
     {
         attrManager.attrib(modified);
         return this;
     }
 
-    public Edit setModified(MapFieldAttrModified Modified)
+    /** Sets the modified. */
+    public Edit setModified(MapFieldAttrModified modified)
     {
-        attrManager.setModified(Modified);
+        attrManager.setModified(modified);
         return this;
     }
 
+    /** Executes the color operation. */
     public Edit color(MapFieldAttrColor color)
     {
         attrManager.color(color);
         return this;
     }
 
+    /** Returns whether colored. */
     public boolean isColored(MapFieldAttrColor color)
     {
         return attrManager.isColored(color);
@@ -265,12 +304,14 @@ public abstract class Edit extends VarAndEdit
         return attrManager.getHighlighting();
     }
 
+    /** Executes the high lighting operation. */
     public Edit highLighting(MapFieldAttrHighlighting hl)
     {
         attrManager.highLighting(hl);
         return this;
     }
 
+    /** Executes the intensity operation. */
     public Edit intensity(MapFieldAttrIntensity intensity)
     {
         attrManager.intensity(intensity);
@@ -278,23 +319,27 @@ public abstract class Edit extends VarAndEdit
     }
 
 
+    /** Executes the protection operation. */
     public Edit protection(MapFieldAttrProtection protection)
     {
         attrManager.protection(protection);
         return this;
     }
 
+    /** Sets the modified. */
     public Edit setModified()
     {
         attrManager.setModified();
         return this;
     }
 
+    /** Sets the unmodified. */
     public void setUnmodified()
     {
         attrManager.setUnmodified();
     }
 
+    /** Sets the cleared. */
     public void setCleared()
     {
         attrManager.setCleared();
@@ -315,18 +360,21 @@ public abstract class Edit extends VarAndEdit
         return attrManager.isCleared();
     }
 
+    /** Executes the justify operation. */
     public Edit justify(MapFieldAttrJustify justify)
     {
         attrManager.justify(justify);
         return this;
     }
 
+    /** Executes the justify fill operation. */
     public Edit justifyFill(MapFieldAttrFill fill)
     {
         attrManager.justifyFill(fill);
         return this;
     }
 
+    /** Executes the set operation. */
     public void set(String csValue)
     {
         varDef.write(bufferPos, csValue);
@@ -416,6 +464,7 @@ public abstract class Edit extends VarAndEdit
 //      }
     }
 
+    /** Sets the cursor. */
     public Edit setCursor(boolean b)
     {
         attrManager.setCursor(b);
@@ -423,16 +472,19 @@ public abstract class Edit extends VarAndEdit
     }
 
 
+    /** Sets the flag. */
     public void setFlag(String cs)
     {
         attrManager.setFlag(cs);
     }
 
 
+    /** Resets the flag. */
     public void resetFlag()
     {
         attrManager.resetFlag();
     }
+    /** Returns whether flag. */
     public boolean isFlag(String cs)
     {
         return attrManager.isFlag(cs);
@@ -463,6 +515,7 @@ public abstract class Edit extends VarAndEdit
         return attrManager.isUnmodified();
     }
 
+    /** Executes the is colored operation. */
     public boolean IsColored(MapFieldAttrColor col)
     {
         return attrManager.isColored(col);
@@ -478,16 +531,19 @@ public abstract class Edit extends VarAndEdit
         return attrManager.isReverse();
     }
 
+    /** Executes the is attribute operation. */
     public boolean IsAttribute(MapFieldAttrIntensity intensity)
     {
         return attrManager.IsAttribute(intensity);
     }
 
+    /** Executes the is attribute operation. */
     public boolean IsAttribute(MapFieldAttrProtection protection)
     {
         return attrManager.IsAttribute(protection);
     }
 
+    /** Executes the is highlighting operation. */
     public boolean IsHighlighting(MapFieldAttrHighlighting highlighting)
     {
         return attrManager.IsHighlighting(highlighting);
@@ -499,6 +555,7 @@ public abstract class Edit extends VarAndEdit
         return attrManager.getAttribute();
     }
 
+    /** Sets the attribute. */
     public void setAttribute(MapFieldAttribute att)
     {
         attrManager.setAttribute(att);
@@ -527,16 +584,19 @@ public abstract class Edit extends VarAndEdit
         return attrManager.getEncodedAttr();
     }
 
+    /** Sets the encoded attr. */
     public void setEncodedAttr(int n)
     {
         attrManager.setEncodedAttr(n);
     }
 
+    /** Returns whether s cursor. */
     public boolean hasCursor()
     {
         return attrManager.hasCursor();
     }
 
+    /** Exports the xml. */
     public abstract Element exportXML(Document doc, String csLangId);
 
     public boolean isFlagSet()
@@ -553,6 +613,7 @@ public abstract class Edit extends VarAndEdit
         return attrManager.isHighlightNormal();
     }
 
+    /** Sets the attributes. */
     public void setAttributes(int n)
     {
         attrManager.setAttributes(n);
@@ -563,31 +624,37 @@ public abstract class Edit extends VarAndEdit
         return attrManager.getFlag();
     }
 
+    /** Sets the string at position. */
     public void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar)
     {
         varDef.write(bufferPos, csValue, nOffsetPosition+getVarDef().getHeaderLength(), nNbChar);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantZero cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantSpace cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantHighValue cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the set operation. */
     public void set(CobolConstantLowValue cst)
     {
         varDef.write(bufferPos, cst);
     }
 
+    /** Executes the digits operation. */
     public String digits()
     {
         return "";  // varDef.digits();
@@ -598,6 +665,7 @@ public abstract class Edit extends VarAndEdit
         return getString();
     }
 
+    /** Executes the encode into char buffer operation. */
     public int encodeIntoCharBuffer(InternalCharBuffer charBuffer, String csText, int nTextLength, int nPos)
     {
         int nAttrEncoded = attrManager.getAttributeEncodedValue();  // Will use 4 char position
@@ -626,6 +694,7 @@ public abstract class Edit extends VarAndEdit
         return -1;
     }
 
+    /** Executes the decode from var operation. */
     public int decodeFromVar(VarBase varSource, int nPos, int nDestLength)
     {
         int nPositionSource = varSource.getBodyAbsolutePosition() + nPos;
@@ -646,6 +715,7 @@ public abstract class Edit extends VarAndEdit
         return nPos + 7 + nDestLength;
     }
 
+    /** Executes the decode from char buffer operation. */
     public int decodeFromCharBuffer(InternalCharBuffer charBuffer, int nPos, int nDestLength)
     {
         int nPositionSource = nPos;
@@ -669,12 +739,14 @@ public abstract class Edit extends VarAndEdit
         return varDef.getBodyLength();
     }
 
+    /** Sets the length. */
     public void setLength(int n)
     {
         // TODO(quality-governance): fake method
         throw new AssertException("unsupported action : Edit.setLength()");
     }
 
+    /** Executes the equals operation. */
     public boolean equals(String csValue)
     {
         if (compareTo(ComparisonMode.Unicode, csValue) == 0) {
@@ -683,6 +755,7 @@ public abstract class Edit extends VarAndEdit
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, VarAndEdit var2)
     {
         String cs1 = getString();
@@ -696,6 +769,7 @@ public abstract class Edit extends VarAndEdit
         return 0;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String sValue)
     {
         String s = getString();
@@ -705,6 +779,7 @@ public abstract class Edit extends VarAndEdit
         return StringAsciiEbcdicUtil.compare(mode, s, sValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int n2)
     {
         int n1;
@@ -722,6 +797,7 @@ public abstract class Edit extends VarAndEdit
         return 1;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();
@@ -734,6 +810,7 @@ public abstract class Edit extends VarAndEdit
         return 0;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(InitializeCache initializeCache)
     {
         varDef.write(bufferPos, CobolConstant.Space) ;
@@ -743,18 +820,21 @@ public abstract class Edit extends VarAndEdit
     }
 
 
+    /** Sets the developable mark. */
     public Edit setDevelopableMark(String string)
     {
         attrManager.setDevelopableMark(string);
         return this ;
     }
 
+    /** Sets the format. */
     public Edit setFormat(String string)
     {
         attrManager.setFormat(string);
         return this ;
     }
 
+    /** Executes the initialize attributes operation. */
     public void initializeAttributes()
     {
         attrManager.initialize() ;

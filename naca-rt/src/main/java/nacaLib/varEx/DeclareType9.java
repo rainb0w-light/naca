@@ -14,16 +14,19 @@ import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
 
+/** Provides declare type9 behavior. */
 public class DeclareType9 extends DeclareTypeBase
 {
     protected NumericValue numericValue = new NumericValue();
     private CInitialValue initialValue = null;
     boolean isblankWhenZero = false;
 
+    /** Creates a new declare type9 instance. */
     public DeclareType9()
     {
     }
 
+    /** Executes the set operation. */
     public void set(VarLevel varLevel, boolean bSigned, int nNbDigitInteger, int nNbDigitDecimal)
     {
         super.set(varLevel);
@@ -32,18 +35,21 @@ public class DeclareType9 extends DeclareTypeBase
         this.isblankWhenZero = false;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = numericValue.createVarDef(varDefParent, this);
         return varDef;
     }
 
+    /** Executes the var operation. */
     public VarNum var()
     {
         VarNum var = numericValue.createVar(this);
         return var;
     }
 
+    /** Executes the filler operation. */
     public VarNum filler()
     {
         VarNum var = numericValue.createVar(this);
@@ -51,36 +57,42 @@ public class DeclareType9 extends DeclareTypeBase
         return null;
     }
 
+    /** Executes the sign leading separated operation. */
     public DeclareType9 signLeadingSeparated()
     {
         numericValue.setSignLeadingSeparated(true);
         return this;
     }
 
+    /** Executes the sign trailing separated operation. */
     public DeclareType9 signTrailingSeparated()
     {
         numericValue.setSignLeadingSeparated(false);
         return this;
     }
 
+    /** Executes the comp3 operation. */
     public DeclareType9 comp3()
     {
         numericValue.nComp = -3;
         return this;
     }
 
+    /** Executes the comp operation. */
     public DeclareType9 comp()
     {
         numericValue.nComp = -4;
         return this;
     }
 
+    /** Executes the comp5 operation. */
     public DeclareType9 comp5()
     {
         numericValue.nComp = -5;
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareType9 value(double d)
     {
         if (getProgramManager().isFirstInstance()) {
@@ -89,6 +101,7 @@ public class DeclareType9 extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareType9 value(String s)
     {
         if (getProgramManager().isFirstInstance()) {
@@ -97,6 +110,7 @@ public class DeclareType9 extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareType9 value(int n)
     {
         if (getProgramManager().isFirstInstance()) {
@@ -105,6 +119,7 @@ public class DeclareType9 extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value spaces operation. */
     public DeclareType9 valueSpaces()
     {
         //initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
@@ -118,6 +133,7 @@ public class DeclareType9 extends DeclareTypeBase
 //  // private VarLevelManager varLevelManager = null;
 //
 //
+    /** Executes the value zero operation. */
     public DeclareType9 valueZero()
     {
         //initialValue = new CInitialValue(CobolConstant.Zero.getValue(), false);
@@ -127,6 +143,7 @@ public class DeclareType9 extends DeclareTypeBase
         return this ;
     }
 
+    /** Executes the sync operation. */
     public DeclareType9 sync()
     {
         return this;
@@ -139,6 +156,7 @@ public class DeclareType9 extends DeclareTypeBase
 
 
 
+    /** Executes the blank when zero operation. */
     public DeclareType9 blankWhenZero()
     {
         isblankWhenZero = true;

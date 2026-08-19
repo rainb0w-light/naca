@@ -17,6 +17,7 @@ import nacaLib.varEx.VarBase;
  */
 public class SQLRecordSetVarFiller
 {
+    /** Creates a new sqlrecord set var filler instance. */
     public SQLRecordSetVarFiller()
     {
         recordSetCacheColTypeType = new RecordSetCacheColTypeType();

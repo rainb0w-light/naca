@@ -29,6 +29,7 @@ public class CEntityFileDescriptorLengthDependency extends
         super(0, name, cat);
     }
 
+    /** Sets the dependency. */
     public void setDependency(CEntityFileDescriptor desc, CDataEntity var)
     {
         fileDescriptor = desc ;

@@ -15,6 +15,7 @@ import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 
 
+/** Provides fpac file descriptor behavior. */
 public class FPacFileDescriptor extends BaseFileDescriptor
 {
     private FPacRecordFiller pacRecordFillerInput = null;
@@ -28,6 +29,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
     RecordLengthDefinition forcedRecordLengthDefinition = null;
     private int nLastReadRecordLength = -1;
 
+    /** Creates a new fpac file descriptor instance. */
     public FPacFileDescriptor(FPacProgram program, String csLogicalName)
     {
         super(program.getProgramManager().getEnv(), csLogicalName);
@@ -40,6 +42,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         pacRecordFillerOutput = fPacRecordFillerOutput;
     }
 
+    /** Executes the open output operation. */
     public FPacFileDescriptor openOutput()
     {
         super.openOutput();
@@ -48,6 +51,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         return this;
     }
 
+    /** Executes the open input operation. */
     public FPacFileDescriptor openInput()
     {
         super.openInput();
@@ -55,6 +59,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
     }
 
 
+    /** Executes the open input output operation. */
     public FPacFileDescriptor openInputOutput()
     {
         super.openInputOutput();
@@ -68,6 +73,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         return this;
     }
 
+    /** Executes the variable length operation. */
     public void variableLength()
     {
         fileManagerEntry.setVariableLength();
@@ -97,6 +103,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         }
     }
 
+    /** Executes the read operation. */
     public RecordDescriptorAtEnd read()
     {
         fillInputBuffer();
@@ -199,6 +206,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         fillOutputBuffer();
     }
 
+    /** Executes the write operation. */
     public void write()
     {
         if(fileManagerEntry.dataFile.isWritable())
@@ -255,6 +263,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         forcedRecordLengthDefinition = new RecordLengthDefinition(nRecordLengthForced);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (fileManagerEntry != null) {

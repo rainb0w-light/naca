@@ -13,11 +13,13 @@ package nacaLib.varEx;
  */
 public class EditSupport extends DeclareTypeBase
 {
+    /** Creates a new edit support instance. */
     public EditSupport(VarLevel varLevel)
     {
         super(varLevel);
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
 //      VarDef varDef = new VarDefG(nId, varDefParent, this);

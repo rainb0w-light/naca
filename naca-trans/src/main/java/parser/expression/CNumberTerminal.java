@@ -18,6 +18,7 @@ import semantic.CBaseEntityFactory;
  */
 public class CNumberTerminal extends CTerminal
 {
+    /** Creates a new cnumber terminal instance. */
     public CNumberTerminal(String val)
     {
         csValue = val ;
@@ -46,6 +47,7 @@ public class CNumberTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
      */
+    /** Exports the to. */
     public void ExportTo(Element e, Document root)
     {
         e.setAttribute("Number", csValue)   ;
@@ -53,11 +55,13 @@ public class CNumberTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#IsReference()
      */
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return false;
     }
 
+    /** Executes the is one operation. */
     public boolean IsOne()
     {
         if (Integer.parseInt(csValue) == 1) {
@@ -66,6 +70,7 @@ public class CNumberTerminal extends CTerminal
         return false;
     }
 
+    /** Executes the is minus one operation. */
     public boolean IsMinusOne()
     {
         if (Integer.parseInt(csValue) == -1) {
@@ -84,6 +89,7 @@ public class CNumberTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#GetValue()
      */
+    /** Executes the get value operation. */
     public String GetValue()
     {
         return csValue ;
@@ -91,15 +97,18 @@ public class CNumberTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
      */
+    /** Executes the get data entity operation. */
     public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
     {
         return factory.NewEntityNumber(csValue);
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return csValue ;
     }
 
+    /** Executes the is number operation. */
     public boolean IsNumber()
     {
         return true ;

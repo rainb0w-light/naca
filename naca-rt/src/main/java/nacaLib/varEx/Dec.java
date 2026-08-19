@@ -8,7 +8,9 @@ package nacaLib.varEx;
 
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
-import jlib.misc.*;
+import jlib.misc.DecBase;
+import jlib.misc.NumberParser;
+import jlib.misc.StringUtil;
 
 
 /**
@@ -17,6 +19,7 @@ import jlib.misc.*;
  */
 public class Dec extends DecBase
 {
+    /** Creates a new dec instance. */
     public Dec(Dec dec)
     {
         super();
@@ -25,6 +28,7 @@ public class Dec extends DecBase
         bPositive = dec.bPositive;
     }
 
+    /** Creates a new dec instance. */
     public Dec(long lInt, CStr csDec)
     {
         super();
@@ -32,11 +36,13 @@ public class Dec extends DecBase
         setDecPart(csDec.getAsString());
     }
 
+    /** Creates a new dec instance. */
     public Dec(long lInt, String csDec)
     {
         super(lInt, csDec);
     }
 
+    /** Creates a new dec instance. */
     public Dec(String csInt, String csDec)
     {
         super(csInt, csDec);
@@ -65,6 +71,7 @@ public class Dec extends DecBase
         return (int) -lInt;
     }
 
+    /** Returns the signed long. */
     public long getSignedLong()
     {
         if (bPositive) {
@@ -111,6 +118,7 @@ public class Dec extends DecBase
         return cs;
     }
 
+    /** Executes the compare operation. */
     public int compare(int n)
     {
         long lThis = getSignedLong();
@@ -125,6 +133,7 @@ public class Dec extends DecBase
         return 1;
     }
 
+    /** Executes the compare operation. */
     public int compare(long l)
     {
         long lThis = getSignedLong();
@@ -137,6 +146,7 @@ public class Dec extends DecBase
         return 1;
     }
 
+    /** Executes the compare operation. */
     public int compare(Dec dec2)
     {
         long signedInt = getSignedLong();
@@ -158,6 +168,7 @@ public class Dec extends DecBase
         return 1;
     }
 
+    /** Returns the dec as long. */
     public long getDecAsLong()
     {
         String csDecPadded = StringUtil.rightPad(this.csDec, 14, '0');
@@ -168,6 +179,7 @@ public class Dec extends DecBase
         return -l;
     }
 
+    /** Returns whether zero. */
     public boolean isZero()
     {
         if (lInt == 0 && NumberParser.getAsInt(csDec) == 0) {

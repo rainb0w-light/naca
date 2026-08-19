@@ -7,15 +7,17 @@
 package parser.Cobol.elements;
 
 import generate.CJavaEntityFactory;
-
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
-import org.w3c.dom.*;
-
-import lexer.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import lexer.CBaseToken;
+import lexer.CReservedKeyword;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-import parser.*;
+import parser.CBaseElement;
+import parser.CCommentContainer;
+import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import semantic.CBaseLanguageEntity;
 import semantic.CBaseEntityFactory;
@@ -24,6 +26,9 @@ import semantic.CEntitySQLCursorSection;
 import utils.LevelKeywordStackManager;
 import utils.LevelKeywords;
 import utils.Transcoder;
+
+
+
 
 /**
  * @author U930CV
@@ -646,6 +651,7 @@ public class CProgram extends CCommentContainer
         return true ;
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document rootdoc)
     {
         Element e = rootdoc.createElement("Program") ;
@@ -803,6 +809,7 @@ public class CProgram extends CCommentContainer
     }
 
 
+    /** Executes the do semantic analysis operation. */
     public CEntityClass DoSemanticAnalysis(CJavaEntityFactory factory)
     {
         return (CEntityClass)DoSemanticAnalysis(null, factory);

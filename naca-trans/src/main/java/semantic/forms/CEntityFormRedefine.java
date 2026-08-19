@@ -80,12 +80,14 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
      */
     protected CDataEntity eForm = null ;
     //protected CEntityResourceForm eForm = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         eForm = null ;
     }
 
+    /** Creates a new centity form redefine instance. */
     public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CDataEntity eForm, boolean bSaveMap)
     {
         super(l, name, cat, bSaveMap);
@@ -101,14 +103,17 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
         // (the parameter shadows the field), leaving the field null. Bind the resolved origin form.
         this.eForm = eForm ;
     }
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FORM ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
@@ -123,6 +128,7 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
     // (BmsJavaEntities.formRedefine), so this tree names no generate.* class.
     // ---------------------------------------------------------------------------------------------
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // Preserved from the retired backend: a form redefine bears no accessors.
@@ -135,6 +141,7 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
         return false;
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         // Preserved from the retired backend: a form redefine contributes no type declaration
@@ -142,6 +149,7 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
         return "";
     }
 
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport()
     {
         // Preserved from the retired backend: a form redefine contributes no XML/.res node of its
@@ -174,6 +182,7 @@ public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
      */
     private String redefinesReference = "" ;
 
+    /** Sets the redefines reference. */
     public void setRedefinesReference(String reference)
     {
         if (reference != null)

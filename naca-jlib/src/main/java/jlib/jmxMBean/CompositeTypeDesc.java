@@ -12,20 +12,24 @@ import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.OpenDataException;
 import javax.management.openmbean.OpenType;
 
+/** Provides composite type desc behavior. */
 public class CompositeTypeDesc
 {
+    /** Creates a new composite type desc instance. */
     public CompositeTypeDesc(String csName, String csDescription)
     {
         this.csName = csName;
         this.csDescription = csDescription;
     }
 
+    /** Adds the item. */
     public void addItem(String csName, String csDescription, OpenType openType)
     {
         CompositeTypeDescItem itemDesc = new CompositeTypeDescItem(csName, csDescription, openType);
         this.itemDesc.add(itemDesc);
     }
 
+    /** Executes the generate composite type operation. */
     public CompositeType generateCompositeType()
     {
         try

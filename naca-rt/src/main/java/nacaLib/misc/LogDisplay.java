@@ -6,16 +6,22 @@
  */
 package nacaLib.misc;
 
-import jlib.log.*;
+import jlib.log.Log;
+import jlib.log.LogEvent;
+import jlib.log.LogEventType;
+import jlib.log.LogLevel;
 
 
+/** Provides log display behavior. */
 public class LogDisplay extends LogEvent
 {
+    /** Creates a new log display instance. */
     public LogDisplay()
     {
         super(LogEventType.Start, LogFlowCustomNacaRT.Display, LogLevel.Normal, null);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csMessage)
     {
         LogDisplay event = new LogDisplay();

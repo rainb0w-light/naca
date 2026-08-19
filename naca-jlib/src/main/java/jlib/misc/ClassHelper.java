@@ -16,6 +16,7 @@ package jlib.misc;
  */
 public class ClassHelper
 {
+    /** Returns the local name. */
     public static String getLocalName(Class cls)
     {
         if(cls != null)

@@ -22,12 +22,14 @@ public class MailService
     private String csAddressFrom = null;
     private StringArray addressTo = new StringArray() ;
 
+    /** Creates a new mail service instance. */
     public MailService(String smtp, String from)
     {
         this.csSMTPServer = smtp;
         this.csAddressFrom = from;
     }
 
+    /** Creates the mail. */
     public Mail createMail()
     {
         Mail m = new Mail(this);
@@ -50,6 +52,7 @@ public class MailService
 //      return csAddressFrom;
 //  }
 
+    /** Adds the address to. */
     public void addAddressTo(String add)
     {
         addressTo.add(add);

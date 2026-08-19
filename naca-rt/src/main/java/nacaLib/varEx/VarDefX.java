@@ -23,6 +23,7 @@ public class VarDefX extends VarDefVariable
      *
      */
     private static final long serialVersionUID = 1L;
+    /** Creates a new var def x instance. */
     public VarDefX(VarDefBase varDefParent, DeclareTypeX declareTypeX)
     {
         super(varDefParent, declareTypeX.varLevel);
@@ -156,6 +157,7 @@ public class VarDefX extends VarDefVariable
         }
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         if (!bJustifyRight) {
@@ -165,6 +167,7 @@ public class VarDefX extends VarDefVariable
         }
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
 //      Dec dec = getAsDecodedDec(buffer);
@@ -172,10 +175,12 @@ public class VarDefX extends VarDefVariable
 //      write(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         if (n < 0) {
@@ -189,6 +194,7 @@ public class VarDefX extends VarDefVariable
         }
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         write(buffer, (int)l);
@@ -209,6 +215,7 @@ public class VarDefX extends VarDefVariable
         // Parag 9.c: A noninteger numeric literal or data item cannot be moved to an alphanumeric or alphanumeric edited data item.
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         String cs = bigDecimal.toString();
@@ -238,6 +245,7 @@ public class VarDefX extends VarDefVariable
         //cs.resetManagerCache();
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varDefSource, VarBufferPos bufferSource)
     {
         if(!bJustifyRight)  // data is structured identically
@@ -804,6 +812,7 @@ public class VarDefX extends VarDefVariable
 //      writeRightPadding(buffer, " ", ' ');
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         internalWriteRightPaddingBlankInitSpace(buffer, buffer.nAbsolutePosition+nOffset, nTotalSize, initializeCache);
@@ -1319,6 +1328,7 @@ public class VarDefX extends VarDefVariable
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
@@ -1329,6 +1339,7 @@ public class VarDefX extends VarDefVariable
         return true;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

@@ -31,11 +31,13 @@ import utils.Transcoder;
  */
 public class CExecSQLFetch extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlfetch instance. */
     public CExecSQLFetch(int l)
     {
         super(l);
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLFetch") ;

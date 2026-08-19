@@ -14,15 +14,17 @@ import parser.expression.CSumExpression;
  */
 public class CEntityExprSum extends CBaseEntityExpression
 {
-    public void SetSumExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CSumExpression.CSumType Type)
+    /** Sets the sum expression. */
+    public void SetSumExpression(CBaseEntityExpression newOp1, CBaseEntityExpression newOp2, CSumExpression.CSumType newType)
     {
-        op1 = Op1 ;
-        op2 = Op2 ;
-        type = Type ;
+        op1 = newOp1 ;
+        op2 = newOp2 ;
+        type = newType ;
     }
     protected CSumExpression.CSumType type = null ;
     protected CBaseEntityExpression op1 = null ;
     protected CBaseEntityExpression op2 = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -31,6 +33,7 @@ public class CEntityExprSum extends CBaseEntityExpression
         op2.Clear() ;
         op2 = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return op1.ignore() || op2.ignore();
@@ -54,7 +57,7 @@ public class CEntityExprSum extends CBaseEntityExpression
 
     public boolean isAdd()
     {
-        return type != null && "ADD".equals(type.Text);
+        return type != null && "ADD".equals(type.getText());
     }
 
 }

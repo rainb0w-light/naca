@@ -25,6 +25,7 @@ import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CEntityCondCompare;
 import utils.Transcoder;
 
+/** Provides cfpac do loop behavior. */
 public class CFPacDoLoop extends CFPacElement
 {
 
@@ -33,6 +34,7 @@ public class CFPacDoLoop extends CFPacElement
     private CFPacCodeBloc doBloc;
     private CTerminal termNbLoops;
 
+    /** Creates a new cfpac do loop instance. */
     public CFPacDoLoop(int line)
     {
         super(line);

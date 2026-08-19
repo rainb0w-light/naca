@@ -38,6 +38,7 @@ public class XMLMerger
     private DocumentBuilder docBuilder = null;
     private Hashtable<String, Element> tab = null;
 
+    /** Creates a new xmlmerger instance. */
     public XMLMerger(OnlineSession appSession)
     {
         this.appSession = appSession;
@@ -449,6 +450,7 @@ public class XMLMerger
 
         }
     }
+    /** Builds the xlmstructure. */
     public Document BuildXLMStructure(Document xmlFrame, Element xmlForm)
     {
         Document xmlStruct = docBuilder.newDocument();

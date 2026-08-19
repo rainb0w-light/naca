@@ -6,14 +6,15 @@
  */
 package parser.expression;
 
-import org.w3c.dom.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import utils.NacaTransAssertException;
 import utils.Transcoder;
+
 
 
 /**
@@ -24,6 +25,7 @@ public abstract class CExpression
 {
 //  public abstract void WriteTo(CBaseExpressionExporter exporter);
     //public abstract int GetPriorityLevel() ;
+    /** Creates a new cexpression instance. */
     public CExpression(int line)
     {
         this.line = line ;
@@ -35,17 +37,22 @@ public abstract class CExpression
         return line;
     }
 
+    /** Executes the analyse expression operation. */
     public abstract CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory);
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory)
     {
         return AnalyseCondition(factory, new CDefaultConditionManager(null));
     }
+    /** Executes the analyse condition operation. */
     public abstract CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond);
 
+    /** Creates the copy. */
     public CExpression NewCopy(int line, CExpression term1, CExpression term2)
     { // used by some child classes
         return null ;
     }
+    /** Executes the export operation. */
     public Element Export(Document root)
     {
         boolean b = CheckMembersBeforeExport();
@@ -56,6 +63,7 @@ public abstract class CExpression
         }
         return null;
     }
+    /** Executes the do export operation. */
     public abstract Element DoExport(Document root);
     protected abstract boolean CheckMembersBeforeExport();
 
@@ -70,18 +78,22 @@ public abstract class CExpression
     }
 
 
+    /** Executes the is reference operation. */
     public boolean IsReference()
     {
         return false ;
     }
+    /** Executes the is constant operation. */
     public boolean IsConstant()
     {
         return false ;
     }
+    /** Executes the get reference operation. */
     public CDataEntity GetReference(CBaseEntityFactory factory)
     {
         return null ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
@@ -107,8 +119,11 @@ public abstract class CExpression
         throw new NacaTransAssertException("ASSERT");
     }
 
+    /** Executes the get first condition operand operation. */
     public abstract CExpression GetFirstConditionOperand() ;
+    /** Executes the get similar expression operation. */
     public abstract CExpression GetSimilarExpression(CExpression operand) ;
+    /** Executes the is binary condition operation. */
     public abstract boolean IsBinaryCondition() ;
     /**
      * @return

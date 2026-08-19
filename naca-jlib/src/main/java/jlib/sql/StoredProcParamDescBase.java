@@ -34,10 +34,12 @@ public abstract class StoredProcParamDescBase
     protected String csRemarks = null;
     protected ColDescriptionInfo colDescriptionInfo = null;
 
+    /** Creates a new stored proc param desc base instance. */
     public StoredProcParamDescBase()
     {
     }
 
+    /** Returns whether col out. */
     public boolean isColOut()
     {
         if (sColType == DatabaseMetaData.procedureColumnOut) {
@@ -46,6 +48,7 @@ public abstract class StoredProcParamDescBase
         return false;
     }
 
+    /** Returns whether col in out. */
     public boolean isColInOut()
     {
         if (sColType == DatabaseMetaData.procedureColumnInOut) {
@@ -54,6 +57,7 @@ public abstract class StoredProcParamDescBase
         return false;
     }
 
+    /** Returns whether col in. */
     public boolean isColIn()
     {
         if (sColType == DatabaseMetaData.procedureColumnIn) {
@@ -63,6 +67,7 @@ public abstract class StoredProcParamDescBase
     }
 
 
+    /** Executes the fill operation. */
     public boolean fill(ResultSet rsParam)
     {
         try
@@ -94,6 +99,7 @@ public abstract class StoredProcParamDescBase
         return false;
     }
 
+    /** Executes the register into callable statement operation. */
     public boolean registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement)
     {
         nParamId++; // 1 based
@@ -108,6 +114,7 @@ public abstract class StoredProcParamDescBase
         return fillInValue(nParamId, callableStatement);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         ListCoupleRender lst = ListCoupleRender.set("Column description: ");
@@ -133,9 +140,14 @@ public abstract class StoredProcParamDescBase
         return lst.toString();
     }
 
+    /** Executes the fill in value operation. */
     public abstract boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement);
+    /** Returns the in value as string. */
     public abstract String getInValueAsString();
+    /** Returns the in value as double. */
     public abstract double getInValueAsDouble();
+    /** Returns the in value as int. */
     public abstract int getInValueAsInt();
+    /** Returns the in value as short. */
     public abstract short getInValueAsShort();
 }

@@ -6,6 +6,7 @@
  */
 package nacaLib.program;
 
+/** Provides special code behavior. */
 public class SpecialCode
 {
     public static String CARRIAGE_RETURN = "\r"; // 0D

@@ -13,8 +13,10 @@ import lexer.Cobol.CCobolKeywordList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/** Provides cexception bloc behavior. */
 public class CExceptionBloc extends CBlocElement
 {
+    /** Creates a new cexception bloc instance. */
     public CExceptionBloc(int line) {
         super(line);
     }

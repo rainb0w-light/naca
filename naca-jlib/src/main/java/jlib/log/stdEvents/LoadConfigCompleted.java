@@ -16,13 +16,16 @@ import jlib.log.LogFlowStd;
 import jlib.log.LogLevel;
 
 
+/** Provides load config completed behavior. */
 public class LoadConfigCompleted extends LogEvent
 {
+    /** Creates a new load config completed instance. */
     public LoadConfigCompleted(String csProduct)
     {
         super(LogEventType.Remark, LogFlowStd.Monitoring, LogLevel.Normal, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csMessage)
     {
         LoadConfigCompleted event = new LoadConfigCompleted(csProduct);
@@ -30,6 +33,7 @@ public class LoadConfigCompleted extends LogEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csMessage)
     {
         return LoadConfigCompleted.log(csChannel, null, csMessage);

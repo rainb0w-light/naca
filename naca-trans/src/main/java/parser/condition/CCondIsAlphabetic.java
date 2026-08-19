@@ -29,6 +29,7 @@ import utils.Transcoder;
  */
 public class CCondIsAlphabetic extends CExpression
 {
+    /** Creates a new ccond is alphabetic instance. */
     public CCondIsAlphabetic(int line, CExpression term, int method, boolean bIsOpposite) // method is <0 : lower, =0 : normal, >0 upper
     {
         super(line) ;
@@ -40,6 +41,7 @@ public class CCondIsAlphabetic extends CExpression
     protected boolean bIsOpposite = false ;
     protected int method = 0 ;
     CExpression term = null ;
+    /** Executes the get method operation. */
     public int GetMethod()
     {
         return method;
@@ -60,6 +62,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetPriorityLevel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
@@ -73,6 +76,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("IsAlphabetic");
@@ -83,6 +87,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return new CCondIsAlphabetic(getLine(), term, method, bIsOpposite);
@@ -91,6 +96,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -99,6 +105,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
@@ -135,6 +142,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return term;
@@ -143,6 +151,7 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT(null, null);
@@ -152,10 +161,12 @@ public class CCondIsAlphabetic extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "IS_APHABETIC(" + term.toString() + ")" ;

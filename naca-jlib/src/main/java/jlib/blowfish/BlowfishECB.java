@@ -225,34 +225,50 @@ public class BlowfishECB
     // (we avoid swapping by using nHi and nLo alternating at
     // odd an even loop nubers) and using local references
 
-    int[] _sbox1 = sbox1;
-    int[] _sbox2 = sbox2;
-    int[] _sbox3 = sbox3;
-    int[] _sbox4 = sbox4;
+    int[] localSbox1 = sbox1;
+    int[] localSbox2 = sbox2;
+    int[] localSbox3 = sbox3;
+    int[] localSbox4 = sbox4;
 
-    int[] _pbox = pbox;
+    int[] localPbox = pbox;
 
-    nHi ^= _pbox[0];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[1];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[2];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[3];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[4];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[5];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[6];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[7];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[8];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[9];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[10];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[11];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[12];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[13];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[14];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[15];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[16];
+    nHi ^= localPbox[0];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[1];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[2];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[3];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[4];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[5];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[6];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[7];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[8];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[9];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[10];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[11];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[12];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[13];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[14];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[15];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[16];
 
     // finalize, cross and return the reassembled block
 
-    return BinConverter.makeLong(nHi, nLo ^ _pbox[17]);
+    return BinConverter.makeLong(nHi, nLo ^ localPbox[17]);
   }
 
 
@@ -265,32 +281,48 @@ public class BlowfishECB
     int nHi = BinConverter.longHi32(lCipherBlock);
     int nLo = BinConverter.longLo32(lCipherBlock);
 
-    int[] _sbox1 = sbox1;
-    int[] _sbox2 = sbox2;
-    int[] _sbox3 = sbox3;
-    int[] _sbox4 = sbox4;
+    int[] localSbox1 = sbox1;
+    int[] localSbox2 = sbox2;
+    int[] localSbox3 = sbox3;
+    int[] localSbox4 = sbox4;
 
-    int[] _pbox = pbox;
+    int[] localPbox = pbox;
 
-    nHi ^= _pbox[17];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[16];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[15];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[14];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[13];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[12];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[11];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[10];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[9];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[8];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[7];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[6];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[5];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[4];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[3];
-    nLo ^= (((_sbox1[nHi >>> 24] + _sbox2[(nHi >>> 16) & 0x0ff]) ^ _sbox3[(nHi >>> 8) & 0x0ff]) + _sbox4[nHi & 0x0ff]) ^ _pbox[2];
-    nHi ^= (((_sbox1[nLo >>> 24] + _sbox2[(nLo >>> 16) & 0x0ff]) ^ _sbox3[(nLo >>> 8) & 0x0ff]) + _sbox4[nLo & 0x0ff]) ^ _pbox[1];
+    nHi ^= localPbox[17];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[16];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[15];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[14];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[13];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[12];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[11];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[10];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[9];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[8];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[7];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[6];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[5];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[4];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[3];
+    nLo ^= (((localSbox1[nHi >>> 24] + localSbox2[(nHi >>> 16) & 0x0ff]) ^ localSbox3[(nHi >>> 8) & 0x0ff])
+        + localSbox4[nHi & 0x0ff]) ^ localPbox[2];
+    nHi ^= (((localSbox1[nLo >>> 24] + localSbox2[(nLo >>> 16) & 0x0ff]) ^ localSbox3[(nLo >>> 8) & 0x0ff])
+        + localSbox4[nLo & 0x0ff]) ^ localPbox[1];
 
-    return BinConverter.makeLong(nHi, nLo ^ _pbox[0]);
+    return BinConverter.makeLong(nHi, nLo ^ localPbox[0]);
   }
 
 

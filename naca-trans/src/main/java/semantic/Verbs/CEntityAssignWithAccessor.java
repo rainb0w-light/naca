@@ -28,6 +28,7 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the assign. */
     public void SetAssign(CDataEntity e, CDataEntity val)
     {
         reference = e ;
@@ -36,12 +37,14 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
     protected CDataEntity reference = null ;
     protected CDataEntity value = null ;
     protected boolean isfillAll = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         reference= null ;
         value = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (reference == null || value == null)
@@ -50,6 +53,7 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
         }
         return reference.ignore() || value.ignore() ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (reference == data)
@@ -66,6 +70,7 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -121,6 +126,7 @@ public class CEntityAssignWithAccessor extends CBaseActionEntity
         return isEnvironmentReference()
             ? (CEntityEnvironmentVariable) reference : null;
     }
+    /** Returns the environment write accessor. */
     public String getEnvironmentWriteAccessor()
     {
         CEntityEnvironmentVariable environment = getEnvironmentVariable();

@@ -36,6 +36,7 @@ public class XSLTransformer
         template = trans ;
     }
 
+    /** Loads the from file. */
     public static XSLTransformer loadFromFile(File fSS, boolean bForCache)
     {
         try
@@ -54,6 +55,7 @@ public class XSLTransformer
         }
     }
 
+    /** Executes the do transform operation. */
     public boolean doTransform(Document xmlOutput, OutputStream out)
     {
         try

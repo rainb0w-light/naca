@@ -6,8 +6,10 @@
  */
 package jlib.jmxMBean;
 
+/** Provides check up and running behavior. */
 public class CheckUpAndRunning implements CheckUpAndRunningMBean
 {
+    /** Returns whether up. */
     public boolean isUp()
     {
         if (isinc) {

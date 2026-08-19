@@ -50,6 +50,7 @@ public class CEntitySetColor extends CBaseActionEntity
     {
         return colorVariable ;
     }
+    /** Returns the color constant. */
     public String getColorConstant()
     {
         if (color != null)
@@ -63,17 +64,20 @@ public class CEntitySetColor extends CBaseActionEntity
         return "MapFieldAttrColor.NEUTRAL" ;
     }
 
+    /** Sets the color. */
     public void SetColor(CEntityFieldColor.CFieldColor c)
     {
         color = c ;
     }
     protected CEntityFieldColor.CFieldColor color = null ;
     protected CDataEntity field = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         field = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (field == null || field.ignore())
@@ -86,6 +90,7 @@ public class CEntitySetColor extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == field)
@@ -96,6 +101,7 @@ public class CEntitySetColor extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (this.field == field)

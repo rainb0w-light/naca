@@ -33,6 +33,7 @@ import utils.Transcoder;
 public class CPerformUntil extends CBlocElement
 {
 
+    /** Creates a new cperform until instance. */
     public CPerformUntil(CIdentifier ref, CIdentifier refThru, int line, boolean bBefore)
     {
         super(line) ;

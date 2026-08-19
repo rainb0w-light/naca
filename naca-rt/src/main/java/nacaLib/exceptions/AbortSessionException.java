@@ -6,6 +6,7 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a abort session exception condition. */
 public class AbortSessionException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
@@ -13,16 +14,19 @@ public class AbortSessionException extends NacaRTException
     public Throwable reason = null ;
     public String programName = "" ;
 
+    /** Creates a new abort session exception instance. */
     public AbortSessionException()
     {
         super();
     }
 
+    /** Creates a new abort session exception instance. */
     public AbortSessionException(Throwable e)
     {
         super(e);
     }
 
+    /** Returns the message. */
     public String getMessage()
     {
         String cs = "";
@@ -35,6 +39,7 @@ public class AbortSessionException extends NacaRTException
         return cs;
     }
 
+    /** Returns the reason. */
     public String getReason()
     {
         if(reason != null && reason.getMessage() != null)

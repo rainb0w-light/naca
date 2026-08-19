@@ -8,19 +8,16 @@ package parser.map_elements;
 
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CReservedKeyword;
+import lexer.CTokenList;
 import lexer.BMS.CBMSConstantList;
 import lexer.BMS.CBMSKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import java.util.ArrayList;
-
 import parser.BMS.CBMSElement;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
@@ -29,6 +26,11 @@ import semantic.forms.CEntityResourceForm;
 import semantic.forms.CEntityResourceFormContainer;
 import semantic.forms.CResourceStrings;
 import utils.Transcoder;
+
+
+
+
+
 
 /**
  * @author sly
@@ -45,6 +47,7 @@ public class CMapSetElement extends CBMSElement
         super(name, line);
     }
 
+    /** Executes the do semantic analysis operation. */
     public CBaseResourceEntity DoSemanticAnalysis(CDataEntity parent, CBaseEntityFactory factory)
     {
         CEntityResourceFormContainer eFC = factory.NewEntityFormContainer(getLine(), getName(), false) ;
@@ -212,21 +215,25 @@ public class CMapSetElement extends CBMSElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetType()
      */
+    /** Executes the get type operation. */
     public EBMSElementType GetType()
     {
         return EBMSElementType.MAPSET ;
     }
 
     protected CResourceStrings resStrings = null ;
+    /** Executes the get resource strings operation. */
     public CResourceStrings GetResourceStrings()
     {
         return resStrings ;
     }
+    /** Sets the resource strings. */
     public void SetResourceStrings(CResourceStrings res)
     {
         resStrings = res ;
     }
 
+    /** Loads the tag parameters. */
     public CBMSElement loadTagParameters(Tag tagCurrent)
     {
         language = tagCurrent.getVal("Language");
@@ -238,6 +245,7 @@ public class CMapSetElement extends CBMSElement
         return loadInternalTags(tagCurrent);
     }
 
+    /** Parses the xmlresource. */
     public CBMSElement parseXMLResource(Tag tag)
     {
         String csName = tag.getName();
@@ -267,6 +275,7 @@ public class CMapSetElement extends CBMSElement
     }
 
 
+    /** Loads the from res. */
     public CBMSElement loadFromRES(String csName)
     {
         language = "COBOL";

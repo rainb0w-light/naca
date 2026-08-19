@@ -19,11 +19,13 @@ import lexer.CBaseToken;
 public class CCobolLexer extends CBaseLexer
 {
 
+    /** Creates a new ccobol lexer instance. */
     public CCobolLexer()
     {
         super(6, 66, CCobolKeywordList.List, CCobolConstantList.List) ;
     }
 
+    /** Creates a new ccobol lexer instance. */
     public CCobolLexer(int ignored, int utils)
     {
         super(ignored, utils, CCobolKeywordList.List, CCobolConstantList.List) ;

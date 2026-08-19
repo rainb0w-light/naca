@@ -12,6 +12,7 @@
 
 package nacaLib.program;
 
+/** Provides cesmcommand code behavior. */
 public class CESMCommandCode
 {
     public static String LINK = "\u000E\u0002" ;

@@ -8,13 +8,14 @@ package parser.condition;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import parser.expression.*;
+import parser.expression.CDefaultConditionManager;
+import parser.expression.CExpression;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondCompare;
+
 
 /**
  * @author U930CV
@@ -22,12 +23,14 @@ import semantic.expression.CEntityCondCompare;
  */
 public class CCondGreaterStatement extends CExpression
 {
+    /** Creates a new ccond greater statement instance. */
     public CCondGreaterStatement(int line, CExpression term1,CExpression term2)
     {
         super(line) ;
         this.term1 = term1 ;
         this.term2 = term2 ;
     }
+    /** Creates a new ccond greater statement instance. */
     public CCondGreaterStatement(int line, CExpression term1, CExpression term2, boolean bOrEquals)
     {
         super(line) ;
@@ -49,6 +52,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e ;
@@ -80,6 +84,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
      */
+    /** Executes the is or equals operation. */
     public boolean IsOrEquals()
     {
         return isorEquals;
@@ -87,6 +92,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetPriorityLEvel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 3;
@@ -94,6 +100,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return new CCondLessStatement(getLine(), term1, term2, !isorEquals);
@@ -101,6 +108,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -108,6 +116,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
     {
         masterCond.SetMasterCondition(this) ;
@@ -186,6 +195,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return term1;
@@ -193,6 +203,7 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         CCondGreaterStatement gt = new CCondGreaterStatement(getLine(), term1, operand);
@@ -202,10 +213,12 @@ public class CCondGreaterStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return true ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (isorEquals)

@@ -16,12 +16,14 @@ package nacaLib.basePrgEnv;
  */
 public class CurrentUserInfo
 {
+    /** Executes the set operation. */
     public void set(String csLUName, String csUserLdapId)
     {
         this.csLUName = csLUName;
         this.csUserLdapId = csUserLdapId;
     }
 
+    /** Executes the reset operation. */
     public void reset()
     {
         csLUName = "";

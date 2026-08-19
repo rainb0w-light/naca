@@ -7,16 +7,24 @@
 package jlib.sql;
 
 import java.sql.SQLException;
+import jlib.log.Log;
+import jlib.log.LogEvent;
+import jlib.log.LogEventType;
+import jlib.log.LogExceptionEvent;
+import jlib.log.LogFlowStd;
+import jlib.log.LogLevel;
 
-import jlib.log.*;
 
+/** Signals a log sqlexception condition. */
 public class LogSQLException extends LogExceptionEvent
 {
+    /** Creates a new log sqlexception instance. */
     public LogSQLException()
     {
         super(LogEventType.Error, LogFlowStd.Any, LogLevel.Normal);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(SQLException e)
     {
         LogSQLException event = new LogSQLException();
@@ -28,6 +36,7 @@ public class LogSQLException extends LogExceptionEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(SQLException e, String csStatement)
     {
         LogSQLException event = new LogSQLException();

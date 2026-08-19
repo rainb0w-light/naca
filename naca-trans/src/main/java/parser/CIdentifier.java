@@ -24,20 +24,24 @@ import utils.Transcoder;
  */
 public class CIdentifier
 {
+    /** Creates a new cidentifier instance. */
     public CIdentifier(String s)
     {
         name = s ;
     }
+    /** Creates a new cidentifier instance. */
     public CIdentifier(String s, String m)
     {
         name = s ;
         memberOf = m;
     }
+    /** Executes the get name operation. */
     public String GetName()
     {
         return name ;
     }
 
+    /** Exports the to. */
     public void ExportTo(Element e, Document root)
     {
         if (arrayIndex != null && arrayIndex.size()>0 && exprStringLengthReference != null && exprStringStartReference != null)
@@ -87,12 +91,14 @@ public class CIdentifier
         }
     }
 
+    /** Sets the sub string reference. */
     public void SetSubStringReference(CExpression exp1, CExpression exp2)
     {
         exprStringStartReference = exp1 ;
         exprStringLengthReference = exp2 ;
     }
 
+    /** Adds the array index. */
     public void AddArrayIndex(CExpression e)
     {
         if (arrayIndex ==null)
@@ -102,11 +108,13 @@ public class CIdentifier
         arrayIndex.add(e) ;
     }
 
+    /** Executes the get data reference operation. */
     public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
     {
         return GetDataReference(nLine, fact, null) ;
     }
 
+    /** Executes the get data reference operation. */
     public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact, CBaseLanguageEntity parent)
     {
         CDataEntity e = null ;
@@ -160,6 +168,7 @@ public class CIdentifier
     protected Vector<CExpression> arrayIndex = null ;
     protected String name = "" ;
     protected String memberOf = "" ;
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "" ;
@@ -198,6 +207,7 @@ public class CIdentifier
     {
         return memberOf ;
     }
+    /** Sets the member of. */
     public void setMemberOf(String string)
     {
         if (!memberOf.equals(""))

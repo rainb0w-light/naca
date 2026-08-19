@@ -17,6 +17,7 @@ public class CEntityGotoDepending extends CBaseActionEntity
         new ArrayList<CProcedureReference>();
     private CDataEntity depending;
 
+    /** Creates a new centity goto depending instance. */
     public CEntityGotoDepending(int line, CObjectCatalog catalog, List<String> refs,
         CDataEntity depending, CEntityProcedureSection section)
     {
@@ -29,6 +30,7 @@ public class CEntityGotoDepending extends CBaseActionEntity
         this.depending = depending;
     }
 
+    /** Returns the go to targets. */
     public List<String> getGoToTargets()
     {
         List<String> targets = new ArrayList<String>();

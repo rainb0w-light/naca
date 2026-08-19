@@ -23,10 +23,12 @@ import jlib.sql.DbConnectionBase;
  */
 public class StoredProcSupport
 {
+    /** Creates a new stored proc support instance. */
     public StoredProcSupport()
     {
     }
 
+    /** Returns the stored procedures list. */
     public ArrayList<StoredProcInfo> getStoredProceduresList(DbConnectionBase dbConnection)
     {
         ArrayList<StoredProcInfo> arr = new ArrayList<StoredProcInfo>();
@@ -50,6 +52,7 @@ public class StoredProcSupport
         return arr;
     }
 
+    /** Returns the stored procedure params list. */
     public StoredProcParams getStoredProcedureParamsList(DbConnectionBase dbConnection, String csStoredProcName)
     {
         StoredProcParams storedProcParams = new StoredProcParams();

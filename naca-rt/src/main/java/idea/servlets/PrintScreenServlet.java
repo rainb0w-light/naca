@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/** Provides print screen servlet behavior. */
 public class PrintScreenServlet extends HttpServlet
 {
 

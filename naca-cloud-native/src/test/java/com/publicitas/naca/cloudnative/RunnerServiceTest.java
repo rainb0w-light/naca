@@ -1,14 +1,15 @@
 package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import com.publicitas.naca.cloudnative.service.RunnerService;
 import com.publicitas.naca.cloudnative.service.RunnerService.RunResult;
 
+
+
+/** Provides runner service test behavior. */
 @SpringBootTest
 public class RunnerServiceTest {
 

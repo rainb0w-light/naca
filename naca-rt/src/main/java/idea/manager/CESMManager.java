@@ -15,14 +15,17 @@ import nacaLib.program.CESMCommandCode;
 import nacaLib.varEx.Var;
 
 
+/** Provides cesmmanager behavior. */
 public class CESMManager extends BaseCESMManager
 {
+    /** Creates a new cesmmanager instance. */
     public CESMManager(BaseEnvironment env)
     {
         super(env);
     }
 
 
+    /** Executes the send map operation. */
     public CESMSendMap sendMap(Var varMapToSend)
     {
         if (isLogCESM) {
@@ -35,6 +38,7 @@ public class CESMManager extends BaseCESMManager
         return order;
     }
 
+    /** Executes the send map operation. */
     public CESMSendMap sendMap(String csMapToSend)
     {
         if (isLogCESM) {
@@ -47,6 +51,7 @@ public class CESMManager extends BaseCESMManager
         return order;
     }
 
+    /** Executes the receive map operation. */
     public CESMReceive receiveMap(String mapName)
     {
         if (isLogCESM) {
@@ -59,6 +64,7 @@ public class CESMManager extends BaseCESMManager
         order.setMap(mapName);
         return order;
     }
+    /** Executes the receive map operation. */
     public CESMReceive receiveMap(Var mapToReceive)
     {
         if (isLogCESM) {
@@ -72,6 +78,7 @@ public class CESMManager extends BaseCESMManager
         return order;
     }
 
+    /** Executes the retrieve into operation. */
     public void retrieveInto(Var varDest, Var longfrom)
     {
         if (isLogCESM) {
@@ -87,6 +94,7 @@ public class CESMManager extends BaseCESMManager
         }
     }
 
+    /** Executes the retrieve into operation. */
     public void retrieveInto(Var varDest)
     {
         if (isLogCESM) {
@@ -101,11 +109,13 @@ public class CESMManager extends BaseCESMManager
         }
     }
 
+    /** Executes the retrieve set operation. */
     public void retrieveSet(Var pointer)
     {
         // TODO(quality-governance): implement pointer-based RETRIEVE; preserve generated contract.
     }
 
+    /** Executes the retrieve set operation. */
     public void retrieveSet(Var pointer, Var length)
     {
         // TODO(quality-governance): implement pointer-based RETRIEVE; preserve generated contract.

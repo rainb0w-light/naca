@@ -9,15 +9,18 @@ package jlib.misc;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/** Provides file filter by suffix behavior. */
 public class FileFilterBySuffix implements FilenameFilter
 {
     private String csSuffix = null;
 
+    /** Creates a new file filter by suffix instance. */
     public FileFilterBySuffix(String csSuffix)
     {
         csSuffix = csSuffix.toUpperCase();
     }
 
+    /** Executes the accept operation. */
     public boolean accept(File dir, String csName)
     {
         if(csSuffix != null && csName != null)

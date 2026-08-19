@@ -17,12 +17,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
 import lexer.Cobol.CCobolConstantList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.expression.CExpression;
 import parser.expression.CTerminal;
 import semantic.CBaseActionEntity;
@@ -39,7 +36,11 @@ import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondIsConstant;
 import semantic.expression.CBaseEntityCondition.EConditionType;
-import utils.*;
+import utils.CObjectCatalog;
+import utils.Transcoder;
+
+
+
 
 /**
  * @author sly
@@ -52,6 +53,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
      */
     protected String format = "" ;
     protected String type = "" ;
+    /** Sets the type edited. */
     public void SetTypeEdited(String format)
     {
         type = "pic" ;
@@ -62,6 +64,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     /* (non-Javadoc)
      * @see semantic.ITypableEntity#SetTypeNum(int, int)
      */
+    /** Sets the type num. */
     public void SetTypeNum(int length, int decimal)
     {
         type = "pic9" ;
@@ -71,6 +74,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     /* (non-Javadoc)
      * @see semantic.ITypableEntity#SetTypeSigned(int, int)
      */
+    /** Sets the type signed. */
     public void SetTypeSigned(int length, int decimal)
     {
         type = "picS9" ;
@@ -80,6 +84,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     /* (non-Javadoc)
      * @see semantic.ITypableEntity#SetTypeString(int)
      */
+    /** Sets the type string. */
     public void SetTypeString(int length)
     {
         type = "" ;
@@ -105,11 +110,13 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //      return "" ;
 //  }
 
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         return true;
     }
 
+    /** Executes the init dependences operation. */
     public void InitDependences(CBaseEntityFactory factory)
     {
         String name = GetName() ;
@@ -169,17 +176,20 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     public int nDecimals = 0 ;
     public String csInitialValue = "" ;
     protected String csHighLight = "" ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         resourceStrings = null ;
     }
 
+    /** Sets the high light. */
     public void SetHighLight(String cs)
     {
         csHighLight = cs ;
     }
     protected String csColor = "" ;
+    /** Sets the color. */
     public void SetColor(String cs)
     {
         csColor = cs ;
@@ -195,26 +205,31 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
 //      arrAttrib.addElement(cs);
 //  }
     protected String csFillValue = "" ;
+    /** Sets the fill value. */
     public void SetFillValue(String cs)
     {
         csFillValue = cs ;
     }
     protected String csProtection = "" ;
+    /** Sets the protection. */
     public void SetProtection(String cs)
     {
         csProtection = cs ;
     }
     protected String csBrightness = "" ;
+    /** Sets the brightness. */
     public void SetBrightness(String cs)
     {
         csBrightness = cs ;
     }
     protected boolean bModified = false ;
+    /** Sets the modified. */
     public void SetModified()
     {
         bModified = true ;
     }
     protected boolean bCursor = false ;
+    /** Sets the cursor. */
     public void SetCursor()
     {
         bCursor = true ;
@@ -225,6 +240,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -265,15 +281,18 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
 
+    /** Executes the get byte length operation. */
     public int GetByteLength ()
     {
         return 7 + nLength ;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -286,6 +305,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         }
         return e ;
     };
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -382,6 +402,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
             }
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -401,10 +422,12 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
      * @see semantic.CDataEntity#GetSpecialCondition(semantic.CDataEntity, semantic.expression.CBaseEntityCondition.ConditionType,
      * semantic.CBaseEntityFactory)
      */
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
     {
         return null ;
     }
+    /** Executes the get sub string reference operation. */
     public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
     {
         CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
@@ -417,6 +440,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     private Function<String, String> identifierFormatter =
         identifier -> identifier == null ? "" : identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the artifact renderer. */
     public void setArtifactRenderer(BiFunction<Document, CResourceStrings, Element> renderer)
     {
         if (renderer != null)
@@ -425,6 +449,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         }
     }
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)
@@ -433,11 +458,13 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         }
     }
 
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         return artifactRenderer.apply(doc, res);
     }
 
+    /** Returns the formatted display name. */
     public String getFormattedDisplayName()
     {
         String display = identifierFormatter.apply(csDisplayName);
@@ -452,6 +479,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     }
 
     public boolean isInitialValuePresent() { return !csInitialValue.isEmpty(); }
+    /** Returns the initial localized texts. */
     public List<CResourceStrings.CLocalizedValue> getInitialLocalizedTexts()
     {
         if (resourceStrings == null)
@@ -495,6 +523,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         return identifierFormatter.apply(csActiveChoiceValue);
     }
 
+    /** Returns the switch cases. */
     public List<SwitchCaseModel> getSwitchCases()
     {
         if (switchCaseElement == null)
@@ -509,6 +538,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         return Collections.unmodifiableList(result);
     }
 
+    /** Provides switch case model behavior. */
     public static final class SwitchCaseModel
     {
         private final String value;
@@ -527,6 +557,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         public Element getTag() { return tag; }
     }
 
+    /** Returns the attribute children. */
     public List<CBaseLanguageEntity> getAttributeChildren()
     {
         List<CBaseLanguageEntity> children = new ArrayList<>();
@@ -550,6 +581,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
     @Override
     public String GetTypeDecl() { return ""; }
 
+    /** Sets the of. */
     public void SetOf(CEntityResourceFormContainer container)
     {
         of = container ;
@@ -626,6 +658,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         csActiveChoiceValue = value ;
         isactiveChoiceSubmit = submit ;
     }
+    /** Sets the linked active choice. */
     public void setLinkedActiveChoice(String value, String target, boolean submit)
     {
         mode = FieldMode.LINKED_ACTIVE_CHOICE ;
@@ -644,6 +677,7 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         isreplayMutable = true ;
     }
     protected boolean isreplayMutable = false ;
+    /** Adds the switch case. */
     public void AddSwitchCase(String value, String protection, Element tag)
     {
         mode = FieldMode.SWITCH ;
@@ -664,22 +698,26 @@ public class CEntityResourceField extends CBaseResourceEntity  implements ITypab
         public String protection = "" ;
         public Element tag = null ;
     }
+    /** Executes the hide operation. */
     public void Hide()
     {
         mode = FieldMode.HIDDEN ;
     }
+    /** Sets the right justified. */
     public void SetRightJustified(boolean justifiedRight)
     {
         isrightJustified = justifiedRight ;
     }
     protected boolean isrightJustified = false ;
 
+    /** Sets the blank when zero. */
     public void SetBlankWhenZero(boolean blankWhenZero)
     {
         isblankWhenZero = blankWhenZero ;
     }
     protected boolean isblankWhenZero = false ;
 
+    /** Executes the move operation. */
     public void move(int nc, int nl)
     {
         nPosCol = nc ;

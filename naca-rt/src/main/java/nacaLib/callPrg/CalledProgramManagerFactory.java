@@ -11,8 +11,10 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.basePrgEnv.BaseProgramManagerFactory;
 import nacaLib.programPool.SharedProgramInstanceData;
 
+/** Provides called program manager factory behavior. */
 public class CalledProgramManagerFactory extends BaseProgramManagerFactory
 {
+    /** Creates the program manager. */
     public BaseProgramManager createProgramManager(
         BaseProgram prg,
         SharedProgramInstanceData sharedProgramInstanceData,

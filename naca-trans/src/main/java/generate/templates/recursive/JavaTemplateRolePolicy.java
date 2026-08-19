@@ -25,6 +25,7 @@ public final class JavaTemplateRolePolicy
     private static final Set<JavaTemplateRole> FPAC_ROLES = Set.of(
         JavaTemplateRole.FPAC_ROOT, JavaTemplateRole.FPAC_REFERENCE);
 
+    /** Executes the child role operation. */
     public JavaTemplateRole childRole(JavaTemplateRole parentRole, String propertyName)
     {
         JavaTemplateRole absolute = ABSOLUTE_TRANSITIONS.get(propertyName);

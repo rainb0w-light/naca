@@ -33,12 +33,14 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLLoad extends BaseSQLUtils
 {
+    /** Creates a new sqlload instance. */
     public SQLLoad(BaseSession session, DbConnectionBase dbConnection)
     {
         super(session, dbConnection);
         BasePic9Comp3BufferSupport.init();
     }
 
+    /** Executes the execute operation. */
     public SQLLoadStatus execute(FileDescriptor fileSysin)
     {
         FileSQLLoadScriptReader fileSQLLoadScriptReader = new FileSQLLoadScriptReader(getSession());

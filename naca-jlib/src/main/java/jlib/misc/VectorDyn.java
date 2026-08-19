@@ -12,6 +12,7 @@ package jlib.misc;
 import java.util.Vector;
 
 
+/** Provides vector dyn behavior. */
 public class VectorDyn<T> extends ArrayFixDyn<T>
 {
     Vector<T> arr = null;
@@ -21,6 +22,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
 //      return (T[])arr.toArray();
 //  }
 
+    /** Executes the size operation. */
     public int size()
     {
         if (arr != null) {
@@ -29,6 +31,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
         return 0;
     }
 
+    /** Executes the get operation. */
     public T get(int n)
     {
         if (arr != null) {
@@ -37,6 +40,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
         return null;
     }
 
+    /** Executes the add operation. */
     public void add(T t)
     {
         if (arr == null) {
@@ -45,6 +49,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
         arr.add(t);
     }
 
+    /** Executes the transfer into operation. */
     public void transferInto(T targetArr[])
     {
         int nSize = size();
@@ -60,6 +65,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
         return true;
     }
 
+    /** Sets the size. */
     public void setSize(int n)
     {
         if (arr == null) {
@@ -68,6 +74,7 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
         arr.setSize(n);
     }
 
+    /** Executes the set operation. */
     public void set(int n, T t)
     {
         arr.set(n, t);

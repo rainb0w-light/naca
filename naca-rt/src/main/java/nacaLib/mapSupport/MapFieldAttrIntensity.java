@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr intensity behavior. */
 public class MapFieldAttrIntensity extends MapFieldBaseAttr
 {
     private MapFieldAttrIntensity(int nValue, String text)

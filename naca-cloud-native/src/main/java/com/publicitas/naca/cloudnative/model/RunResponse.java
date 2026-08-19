@@ -2,14 +2,17 @@ package com.publicitas.naca.cloudnative.model;
 
 import java.util.List;
 
+/** Provides run response behavior. */
 public class RunResponse {
     private boolean success;
     private String output;
     private List<String> errors;
 
+    /** Creates a new run response instance. */
     public RunResponse() {
     }
 
+    /** Creates a new run response instance. */
     public RunResponse(boolean success, String output, List<String> errors) {
         this.success = success;
         this.output = output;

@@ -6,6 +6,7 @@
  */
 package jlib.threads;
 
+/** Provides thread pool request terminaison behavior. */
 public class ThreadPoolRequestTerminaison extends ThreadPoolRequest
 {
     ThreadPoolRequestTerminaison()
@@ -13,6 +14,7 @@ public class ThreadPoolRequestTerminaison extends ThreadPoolRequest
         super(true);
     }
 
+    /** Executes the execute operation. */
     public void execute()
     {
     }

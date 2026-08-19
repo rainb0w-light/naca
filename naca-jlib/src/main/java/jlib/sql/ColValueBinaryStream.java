@@ -14,24 +14,29 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 
+/** Provides col value binary stream behavior. */
 public class ColValueBinaryStream extends ColValue
 {
+    /** Creates a new col value binary stream instance. */
     public ColValueBinaryStream(String csName, InputStream is)
     {
         super(csName);
         this.is = is;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueBinaryStream(csName, is);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(is);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
@@ -73,11 +78,13 @@ public class ColValueBinaryStream extends ColValue
         return is;
     }
 
+    /** Returns whether set col param. */
     public boolean canSetColParam()
     {
         return true;
     }
 
+    /** Sets the param into stmt. */
     public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
     {
         try

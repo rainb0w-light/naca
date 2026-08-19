@@ -13,17 +13,20 @@ package jlib.misc;
 
 public class StopWatch
 {
+    /** Creates a new stop watch instance. */
     public StopWatch()
     {
         start = System.currentTimeMillis();
     }
 
+    /** Returns the elapsed time. */
     public long getElapsedTime()
     {
         long stop = System.currentTimeMillis();
         return stop - start;
     }
 
+    /** Returns the elapsed time reset. */
     public long getElapsedTimeReset()
     {
         long stop = System.currentTimeMillis();
@@ -32,11 +35,13 @@ public class StopWatch
         return l;
     }
 
+    /** Executes the reset operation. */
     public void Reset()
     {
         start = System.currentTimeMillis();
     }
 
+    /** Returns whether time elapsed. */
     public boolean isTimeElapsed(long lTimeOut)
     {
         long now = System.currentTimeMillis();

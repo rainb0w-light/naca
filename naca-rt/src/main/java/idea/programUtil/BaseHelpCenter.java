@@ -25,7 +25,9 @@ public abstract class BaseHelpCenter extends CJMapObject
     }
     protected String csLangId = "" ;
 
+    /** Executes the do help operation. */
     public abstract void doHelp(BaseEnvironment env, CBaseMapFieldLoader fieldLoader) ;
+    /** Returns the help page. */
     public abstract Document getHelpPage() ;
     protected CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
 

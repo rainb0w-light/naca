@@ -11,19 +11,22 @@
 package generate.java;
 
 import generate.CBaseLanguageExporter;
-
-import java.io.*;
-
-//import org.w3c.dom.Document;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 import java.util.Hashtable;
-
 import parser.CGlobalCommentContainer;
-
 import utils.Transcoder;
 import utils.COriginalLisiting;
+
+
+//import org.w3c.dom.Document;
+
+
+
 
 /**
  * @author sly
@@ -31,6 +34,7 @@ import utils.COriginalLisiting;
  */
 public class CJavaExporter extends CBaseLanguageExporter
 {
+    /** Creates a new cjava exporter instance. */
     public CJavaExporter(COriginalLisiting cat, String file, CGlobalCommentContainer commCont, boolean isresources)
     {
         super(cat, commCont);
@@ -40,6 +44,7 @@ public class CJavaExporter extends CBaseLanguageExporter
         InitReservedWords() ;
     }
 
+    /** Creates a new cjava exporter instance. */
     public CJavaExporter(CBaseLanguageExporter exporter, String file)
     {
         super(exporter);
@@ -77,6 +82,7 @@ public class CJavaExporter extends CBaseLanguageExporter
         tabReservedWords.put("interface", "interface");
     }
 
+    /** Executes the do write line operation. */
     public void DoWriteLine(String line)
     {
         if (output == null)
@@ -120,6 +126,7 @@ public class CJavaExporter extends CBaseLanguageExporter
     protected boolean isfileExisting = false ;
     protected String csTempFileName = "" ;
 
+    /** Executes the genere java code operation. */
     public void GenereJavaCode(Element root)
     {
         String name = root.getAttribute("Name") ;
@@ -372,15 +379,18 @@ public class CJavaExporter extends CBaseLanguageExporter
         return "" ;
     }
 
+    /** Closes the bracket. */
     public void CloseBracket()
     {
         WriteWord(")") ;
     }
+    /** Executes the open bracket operation. */
     public void OpenBracket()
     {
         WriteWord("(") ;
     }
 
+    /** Executes the format identifier operation. */
     public String FormatIdentifier(String id)
     {
         return formatJavaIdentifier(id) ;

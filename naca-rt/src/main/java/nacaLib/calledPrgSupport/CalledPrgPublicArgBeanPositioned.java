@@ -20,11 +20,13 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
     private FillerReadWriteExt filler = new FillerReadWriteExt();
     private String csValue = null;
 
+    /** Creates a new called prg public arg bean positioned instance. */
     public CalledPrgPublicArgBeanPositioned()
     {
         super();
     }
 
+    /** Creates a new called prg public arg bean positioned instance. */
     public CalledPrgPublicArgBeanPositioned(boolean bInOut)
     {
         super(bInOut);
@@ -35,6 +37,7 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
         return filler;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         getFiller().setMode(ModeReadWriteExt.Write);
@@ -44,6 +47,7 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
         getFiller().setMode(ModeReadWriteExt.Unknown);
     }
 
+    /** Executes the do fill with var operation. */
     public void doFillWithVar(Var varSource)
     {
         csValue = varSource.getString();
@@ -59,5 +63,6 @@ public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPubl
         return csValue.length();
     }
 
+    /** Executes the fill rw operation. */
     public abstract void fillRW();
 }

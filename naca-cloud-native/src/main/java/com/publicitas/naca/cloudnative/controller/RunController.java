@@ -12,12 +12,14 @@ import com.publicitas.naca.cloudnative.model.RunRequest;
 import com.publicitas.naca.cloudnative.model.RunResponse;
 import com.publicitas.naca.cloudnative.service.RunnerService;
 
+/** Provides run controller behavior. */
 @RestController
 @RequestMapping("/api")
 public class RunController {
 
     private final RunnerService runnerService;
 
+    /** Creates a new run controller instance. */
     public RunController(RunnerService runnerService) {
         this.runnerService = runnerService;
     }

@@ -2,14 +2,17 @@ package com.publicitas.naca.cloudnative.model;
 
 import java.util.List;
 
+/** Provides transpile response behavior. */
 public class TranspileResponse {
     private boolean success;
     private String javaSource;
     private List<String> errors;
 
+    /** Creates a new transpile response instance. */
     public TranspileResponse() {
     }
 
+    /** Creates a new transpile response instance. */
     public TranspileResponse(boolean success, String javaSource, List<String> errors) {
         this.success = success;
         this.javaSource = javaSource;

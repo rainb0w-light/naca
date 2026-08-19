@@ -6,6 +6,7 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a cexit exception condition. */
 public class CExitException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;

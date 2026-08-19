@@ -8,10 +8,12 @@ package nacaLib.exceptions;
 
 import jlib.misc.LogicalFileDescriptor;
 
+/** Signals a file descriptor nof found exception condition. */
 public class FileDescriptorNofFoundException extends NacaBatchFileException
 {
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new file descriptor nof found exception instance. */
     public FileDescriptorNofFoundException(String csFileName, LogicalFileDescriptor logicalFileDescriptor)
     {
         super("FileDescriptorNofFoundException", csFileName, logicalFileDescriptor);

@@ -6,15 +6,21 @@
  */
 package parser;
 
-import java.util.*;
 
-import org.w3c.dom.*;
-
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import utils.Transcoder;
+import lexer.CBaseToken;
+import lexer.CTokenList;
+import lexer.CTokenType;
 
-import lexer.*;
+
 
 /**
  * @author sly
@@ -29,6 +35,7 @@ public abstract class CBaseElement
         return line;
     }
 
+    /** Sets the line. */
     public void setLine(int n)
     {
         line = n;
@@ -82,12 +89,14 @@ public abstract class CBaseElement
         }
         return tok ;
     }
+    /** Executes the parse operation. */
     public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
     {
         lstTokens = lst;
         this.container = container;
         return DoParsing();
     }
+    /** Executes the parse operation. */
     public boolean Parse(CTokenList lst, CGlobalCommentContainer container, CFlag f)
     {
         lstTokens = lst;
@@ -111,8 +120,10 @@ public abstract class CBaseElement
 
     //protected Logger m_Logger = Transcoder.ms_logger ;
 
+    /** Executes the do semantic analysis operation. */
     public abstract CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
 
+    /** Creates a new cbase element instance. */
     public CBaseElement(int line)
     {
         setLine(line);
@@ -127,6 +138,7 @@ public abstract class CBaseElement
 
     protected abstract Element ExportCustom(Document root);
     private boolean isexportDoneForChildren = false ;
+    /** Executes the export operation. */
     public final Element Export(Document rootdoc)
     {
         Element e = ExportCustom(rootdoc) ;
@@ -187,6 +199,7 @@ public abstract class CBaseElement
         }
         protected boolean isflag = false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         lstTokens = null ;

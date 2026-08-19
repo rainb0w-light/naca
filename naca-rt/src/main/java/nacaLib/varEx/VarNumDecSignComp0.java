@@ -30,6 +30,7 @@ public class VarNumDecSignComp0 extends VarNum
         return v;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String csValue)
     {
         double dValue = 0;
@@ -43,12 +44,14 @@ public class VarNumDecSignComp0 extends VarNum
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         double dValue = nValue;
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

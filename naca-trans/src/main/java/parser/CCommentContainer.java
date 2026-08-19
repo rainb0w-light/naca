@@ -15,6 +15,7 @@ import parser.Cobol.CCobolElement;
  */
 public abstract class CCommentContainer extends CCobolElement
 {
+    /** Creates a new ccomment container instance. */
     public CCommentContainer(int line)
     {
         super(line);

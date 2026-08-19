@@ -6,8 +6,9 @@
  */
 package jlib.blowfish;
 
+import java.util.Random;
 
-import java.util.*;
+
 
 
 // See http://www.zetagrid.net/zeta/doc/src/

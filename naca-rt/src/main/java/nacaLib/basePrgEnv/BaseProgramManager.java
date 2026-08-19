@@ -60,8 +60,10 @@ import nacaLib.varEx.VarDefBase;
 import nacaLib.varEx.VarDefBuffer;
 import nacaLib.varEx.VarInternalInt;
 
+/** Provides base program manager behavior. */
 public abstract class BaseProgramManager extends CJMapObject
 {
+    /** Creates a new base program manager instance. */
     public BaseProgramManager(
         BaseProgram program,
         SharedProgramInstanceData sharedProgramInstanceData,
@@ -80,6 +82,7 @@ public abstract class BaseProgramManager extends CJMapObject
         isnewInstance = true;
     }
 
+    /** Executes the prepare call operation. */
     public BaseProgram prepareCall(
         BaseProgramLoader baseProgramLoader,
         BaseProgram currentProgram,
@@ -140,6 +143,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return program;
     }
 
+    /** Executes the map called prg return parameters operation. */
     public void mapCalledPrgReturnParameters(ArrayList<BaseCalledPrgPublicArgPositioned> arrCallerCallParam)
     {
         if (arrCallerCallParam != null) {
@@ -219,15 +223,16 @@ public abstract class BaseProgramManager extends CJMapObject
             int nNbArg = arrCallerCallParam.size();
             for(int nArg=0; nArg<nNbArg; nArg++)
             {
-                CCallParam CallParam = (CCallParam) arrCallerCallParam.get(nArg);
-                if (CallParam != null) {
-                    nTotalParamLength += CallParam.getParamLength();
+                CCallParam callParam = (CCallParam) arrCallerCallParam.get(nArg);
+                if (callParam != null) {
+                    nTotalParamLength += callParam.getParamLength();
                 }
             }
         }
         return nTotalParamLength;
     }
 
+    /** Executes the data division operation. */
     public Division dataDivision()
     {
         if (dataDivision == null) {
@@ -236,6 +241,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return dataDivision;
     }
 
+    /** Executes the check working storage section operation. */
     public void checkWorkingStorageSection()
     {
         if(dataDivision == null)    // Check DataDivision creation
@@ -245,6 +251,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the working storage section operation. */
     public DataSection workingStorageSection()
     {
         if (dataDivision == null) {    // Check DataDivision creation
@@ -254,6 +261,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return dataDivision.grantAndSetCurrentWorkingStorageSection(program);
     }
 
+    /** Executes the linkage section operation. */
     public DataSection linkageSection()
     {
         if (dataDivision == null) {    // Check DataDivision creation
@@ -263,6 +271,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return dataDivision.grantAndSetCurrentLinkageSection(program);
     }
 
+    /** Executes the file section operation. */
     public DataSectionFile fileSection()
     {
         if (dataDivision == null) {    // Check DataDivision creation
@@ -277,6 +286,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return program;
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         cursor = null;
@@ -315,6 +325,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return nLevel;
     }
 
+    /** Sets the var name. */
     public void setVarName(Class classParent, Object owner, String csPrefixeName, String csProgramName)
     {
         boolean issetPrefix = false;
@@ -506,6 +517,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Sets the var name section and paragraph. */
     public void setVarNameSectionAndParagraph(Class classParent, Object owner, String csPrefixeName, String csProgramName)
     {
         boolean issetPrefix = false;
@@ -559,6 +571,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the using operation. */
     public void using(Var var)
     {
         if (declaredCallArg == null) {
@@ -567,6 +580,7 @@ public abstract class BaseProgramManager extends CJMapObject
         declaredCallArg.add(var);
     }
 
+    /** Executes the run main operation. */
     public void runMain()
     {
         program.setTempCache();
@@ -668,6 +682,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return false;
     }
 
+    /** Adds the section. */
     public void addSection(Section section)
     {
         if(section != null)
@@ -676,6 +691,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Adds the paragraph to current section. */
     public Section addParagraphToCurrentSection(Paragraph paragraph)
     {
         Section section = getLastSection();
@@ -687,6 +703,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return section;
     }
 
+    /** Executes the section operation. */
     public Section section(String csName)
     {
         Section section = new Section(program, false);
@@ -703,6 +720,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return null;
     }
 
+    /** Returns the var at parent level. */
     public VarDefBase getVarAtParentLevel(int nLevel)
     {
         VarDefBase varDef = dataDivision.getVarDefAtParentLevel(nLevel);
@@ -812,6 +830,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return -1;
     }
 
+    /** Executes the perform operation. */
     public void perform(Paragraph paragraph)
     {
         if (paragraph != null) {
@@ -819,6 +838,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the perform operation. */
     public void perform(Section section)
     {
         if(section != null)
@@ -830,6 +850,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the perform through operation. */
     public void performThrough(Paragraph paragraphBegin, Paragraph paragraphEnd)
     {
         // Enum all paragraphs that are between functorBegin and functorEnd, whatever their sections
@@ -864,6 +885,7 @@ public abstract class BaseProgramManager extends CJMapObject
 
     private CopyReplacing copyReplacing;
 
+    /** Executes the pop level operation. */
     public VarDefBuffer popLevel(int nReplacedLevel)
     {
         if (dataDivision == null) {    // No working storage section defined
@@ -873,6 +895,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return varDefParent;
     }
 
+    /** Executes the push level operation. */
     public void pushLevel(VarDefBuffer varDef)
     {
         if (dataDivision == null) {    // No working storage section defined
@@ -899,6 +922,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return rootVar;
     }
 
+    /** Returns the var full name. */
     public VarBase getVarFullName(int nId)
     {
         VarBase varBase = arrVarsFullName[nId];
@@ -908,6 +932,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return varBase;
     }
 
+    /** Returns the var full name. */
     public VarBase getVarFullName(VarDefBase varDef)
     {
         if(varDef != null)
@@ -996,6 +1021,7 @@ public abstract class BaseProgramManager extends CJMapObject
         BaseProgramLoader.logMail(csSimpleName + " - " + csTitle, csText);
     }
 
+    /** Returns the buffer pos of var def. */
     public boolean getBufferPosOfVarDef(VarDefBuffer varDefBuffer, VarBufferPos varBufferPos)
     {
         if(varDefBuffer != null)
@@ -1015,6 +1041,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return false;
     }
 
+    /** Executes the register var operation. */
     public void registerVar(VarBase var)
     {
         setLastVarCreated(var);
@@ -1033,6 +1060,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the define var dyn length marker operation. */
     public void defineVarDynLengthMarker(Var var)
     {
         if(dataDivision.isFileSectionCurrent())
@@ -1046,6 +1074,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return dataDivision.isLinkageSectionCurrent();
     }
 
+    /** Executes the index vars operation. */
     public void indexVars()
     {
         int nNbVar = varsWS.size() + varsLS.size() + arrVarsFile.size() + 3;    // Must include space for roots
@@ -1074,6 +1103,7 @@ public abstract class BaseProgramManager extends CJMapObject
         }
     }
 
+    /** Executes the register edit in map operation. */
     public void registerEditInMap(EditInMap edit)
     {
         if (arrEditInMap == null) {
@@ -1089,11 +1119,13 @@ public abstract class BaseProgramManager extends CJMapObject
         return sharedProgramInstanceData;
     }
 
+    /** Clears the shared program instance data. */
     public void clearSharedProgramInstanceData()
     {
         sharedProgramInstanceData = null;
     }
 
+    /** Returns the and inc last var id. */
     public int getAndIncLastVarId()
     {
         int n = nLastVarId;
@@ -1130,11 +1162,13 @@ public abstract class BaseProgramManager extends CJMapObject
         return sqlStatus ;
     }
 
+    /** Returns the or create sql. */
     public SQL getOrCreateSQL(String csStatement)   //, String csFileLine)
     {
         return getOrCreateSQLGeneral(csStatement, null);    //, csFileLine);
     }
 
+    /** Returns the or create sqlfor cursor. */
     public SQL getOrCreateSQLForCursor(String csQuery, SQLCursor cursor)//, String csFileLine)
     {
         return getOrCreateSQLGeneral(csQuery, cursor);//, csFileLine);
@@ -1145,6 +1179,7 @@ public abstract class BaseProgramManager extends CJMapObject
 //      return new SQLExecuteStart(this);   //, csQuery);
 //  }
 
+    /** Returns the or create sqlgeneral. */
     public SQL getOrCreateSQLGeneral(String csQuery, SQLCursor cursor)  //, String csFileLine)
     {
         if(csQuery != null && csQuery.length() > 0) // Fast check for EXECUTE IMMEDIATE order
@@ -1196,6 +1231,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return sql;
     }
 
+    /** Executes the compress shared program instance data operation. */
     public void compressSharedProgramInstanceData()
     {
         if (sharedProgramInstanceData != null) {
@@ -1208,6 +1244,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return !isinheritedSharedProgramInstanceData;
     }
 
+    /** Executes the assign buffer ws operation. */
     public void assignBufferWS(VarBuffer bufferWS)
     {
         if(varsWS != null)
@@ -1222,6 +1259,7 @@ public abstract class BaseProgramManager extends CJMapObject
         varsWS = null;
     }
 
+    /** Executes the assign buffer file operation. */
     public void assignBufferFile(VarBuffer bufferFile)
     {
         if(arrVarsFile != null)
@@ -1237,6 +1275,7 @@ public abstract class BaseProgramManager extends CJMapObject
     }
 
 
+    /** Executes the assign buffer ls operation. */
     public void assignBufferLS(VarBuffer bufferLS)
     {
         if(varsLS != null)
@@ -1282,6 +1321,7 @@ public abstract class BaseProgramManager extends CJMapObject
     private Hashtable<Integer, MoveCorrespondingEntryManager> hashMoveCorrespondingEntryManager = null;
     private boolean isinheritedSharedProgramInstanceData = false;
 
+    /** Returns the or create move corresponding entry manager. */
     public MoveCorrespondingEntryManager getOrCreateMoveCorrespondingEntryManager(VarDefBase varDefSource, VarDefBase varDefDest)
     {
         int nVarSourceIdWithSolvedDim = varDefSource.getIdSolvedDim();
@@ -1298,6 +1338,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return manager;
     }
 
+    /** Returns the or create initialize cache. */
     public InitializeCache getOrCreateInitializeCache(VarDefBase varDef)
     {
         int nVarIdWithSolvedDim = varDef.getIdSolvedDim();
@@ -1324,6 +1365,7 @@ public abstract class BaseProgramManager extends CJMapObject
 //  }
 
 
+    /** Executes the register cursor operation. */
     public void registerCursor(SQLCursor cursor)
     {
         if (this.cursor == null) {
@@ -1332,27 +1374,28 @@ public abstract class BaseProgramManager extends CJMapObject
         this.cursor.add(cursor);
     }
 
-    private long timeLastRunBegin_ms = 0;
-    private long timeLastRunEnd_ms = 0;
+    private long timeLastRunBeginMillis = 0;
+    private long timeLastRunEndMillis = 0;
 
+    /** Sets the last time run begin. */
     public void setLastTimeRunBegin()
     {
-        timeLastRunBegin_ms = Time_ms.getCurrentTime_ms();
+        timeLastRunBeginMillis = Time_ms.getCurrentTime_ms();
     }
 
     public long getTimeLastRunBegin_ms()
     {
-        return timeLastRunBegin_ms;
+        return timeLastRunBeginMillis;
     }
 
     public long getTimeLastRunEnd_ms()
     {
-        return timeLastRunEnd_ms;
+        return timeLastRunEndMillis;
     }
 
     public long getTimeRun()
     {
-        return timeLastRunEnd_ms - timeLastRunBegin_ms;
+        return timeLastRunEndMillis - timeLastRunBeginMillis;
     }
 
     public void setCurrentSortCommand(SortParagHandler sortParagHandler)
@@ -1365,6 +1408,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return sortParagHandler;
     }
 
+    /** Executes the sql rollback operation. */
     public CSQLStatus sqlRollback()
     {
         SQLException e = getEnv().rollbackSQL();
@@ -1386,6 +1430,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return sqlStatus;
     }
 
+    /** Executes the sql commit operation. */
     public CSQLStatus sqlCommit()
     {
         getEnv().autoFlushOpenFile();
@@ -1408,6 +1453,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return sqlStatus;
     }
 
+    /** Sets the current map redefine. */
     public void setCurrentMapRedefine(MapRedefine mapRedefined)
     {
     }
@@ -1438,6 +1484,7 @@ public abstract class BaseProgramManager extends CJMapObject
     }
 
     private VarInternalInt varEIBCALEN = new VarInternalInt() ; // Contains the total length of the parameters passed upon calling
+    /** Executes the determine commarea length operation. */
     public void determineCommareaLength(BaseEnvironment env)
     {
         if(env == null || env.getCommarea() == null)
@@ -1461,11 +1508,13 @@ public abstract class BaseProgramManager extends CJMapObject
     }
 
 
+    /** Executes the std prepare run main operation. */
     public void stdPrepareRunMain(BaseProgram prg)
     {
         prepareRunMain(prg);
     }
 
+    /** Executes the change buffer and shift position operation. */
     public void changeBufferAndShiftPosition(char oldBuffer[], int nStartPos, int nLength, VarBuffer newVarBuffer, int nShift)
     {
         int nNbVars = arrVarsFullName.length;
@@ -1519,6 +1568,7 @@ public abstract class BaseProgramManager extends CJMapObject
         iscompressed = true;
     }
 
+    /** Executes the prepare before returning to pool operation. */
     public void prepareBeforeReturningToPool()
     {
         detachFromEnv();
@@ -1537,9 +1587,10 @@ public abstract class BaseProgramManager extends CJMapObject
             }
         }
 
-        timeLastRunEnd_ms = Time_ms.getCurrentTime_ms();
+        timeLastRunEndMillis = Time_ms.getCurrentTime_ms();
     }
 
+    /** Sets the old instance. */
     public void setOldInstance()
     {
         isnewInstance = false;
@@ -1550,6 +1601,7 @@ public abstract class BaseProgramManager extends CJMapObject
         return isnewInstance;
     }
 
+    /** Executes the unload class code operation. */
     public void unloadClassCode()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
@@ -1588,11 +1640,16 @@ public abstract class BaseProgramManager extends CJMapObject
     private SortParagHandler sortParagHandler = null;
     private ArrayFixDyn<SQLCursor> cursor = null;
 
+    /** Executes the prepare run main operation. */
     public abstract void prepareRunMain(BaseProgram prg);
+    /** Returns the terminal id. */
     public abstract String getTerminalID();
 
+    /** Sets the env. */
     public abstract void setEnv(BaseEnvironment env);
+    /** Executes the detach from env operation. */
     public abstract void detachFromEnv();
+    /** Returns the env. */
     public abstract BaseEnvironment getEnv();
     private BaseProgramLoader baseProgramLoader = null;
     // private ProgramSequencerExt baseProgramLoader = null;

@@ -6,7 +6,9 @@
  */
 package jlib.misc;
 
+/** Provides sortable item behavior. */
 public abstract class SortableItem
 {
+    /** Executes the compare operation. */
     public abstract int compare(SortableItem item);
 }

@@ -9,6 +9,7 @@ package nacaLib.fpacPrgEnv;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarBuffer;
 
+/** Provides var fpac length undef behavior. */
 public abstract class VarFPacLengthUndef
 {
     protected FPacVarManager fpacVarManager = null;
@@ -22,7 +23,9 @@ public abstract class VarFPacLengthUndef
         this.nAbsolutePosition1Based = nAbsolutePosition1Based;
     }
 
+    /** Creates the var. */
     public abstract Var createVar();
+    /** Creates the var. */
     public abstract Var createVar(int nBufferLength);
     abstract int getParamLength(String cs);
     abstract int getParamLength(int n);

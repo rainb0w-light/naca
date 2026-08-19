@@ -31,6 +31,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
     private boolean isinvalidate = false ;
     private CESMStartData startData = null ;
 
+    /** Creates a new casynchronous task instance. */
     public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds)
     {
         this.csProgramToRun = csProgramToRun;
@@ -43,6 +44,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
     /* (non-Javadoc)
      * @see java.lang.Runnable#run()
      */
+    /** Runs this operation. */
     public void run()
     {
         boolean bUseJmx = BaseResourceManager.getUsingJmx();
@@ -108,6 +110,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
         }
     }
 
+    /** Executes the start operation. */
     public void Start()
     {
         if (!isinvalidate)
@@ -120,6 +123,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
         }
     }
 
+    /** Executes the wait operation. */
     public void Wait()
     {
         if (thread != null)
@@ -134,6 +138,7 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
         }
     }
 
+    /** Executes the invalidate operation. */
     public void Invalidate()
     {
         isinvalidate = true ;

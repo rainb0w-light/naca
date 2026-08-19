@@ -17,6 +17,7 @@ public class LogEventWarning extends LogEvent
         super(LogEventType.Warning, LogFlowStd.System, LogLevel.Normal);
     }
 
+    /** Executes the info operation. */
     public static LogEvent info()
     {
         LogEventWarning event = new LogEventWarning();

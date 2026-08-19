@@ -9,6 +9,7 @@ package idea.manager;
 import nacaLib.basePrgEnv.CBaseMapFieldLoader;
 import nacaLib.misc.KeyPressed;
 
+/** Provides cmap field loader behavior. */
 public abstract class CMapFieldLoader extends CBaseMapFieldLoader
 {
     public void setKeyPressed(KeyPressed kp2)

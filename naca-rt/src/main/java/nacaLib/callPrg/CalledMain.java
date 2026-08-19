@@ -22,6 +22,7 @@ import nacaLib.exceptions.AbortSessionException;
  */
 public class CalledMain
 {
+    /** Executes the execute transcoded program operation. */
     public static int executeTranscodedProgram(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
     {
         CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(

@@ -8,6 +8,7 @@ package nacaLib.exceptions;
 
 import nacaLib.varEx.VarDefBase;
 
+/** Signals a occurs overflow exception condition. */
 public class OccursOverflowException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
@@ -16,6 +17,7 @@ public class OccursOverflowException extends NacaRTException
     private int nIndexMaxValueBase1 = 0;
     private String csIndexName = null;
 
+    /** Creates a new occurs overflow exception instance. */
     public OccursOverflowException(VarDefBase varDefBase, int nIndexRequestedBase0, int nIndexMaxValue, String csIndexName)
     {
         csVarDefBase = varDefBase.toString();
@@ -24,6 +26,7 @@ public class OccursOverflowException extends NacaRTException
         this.csIndexName = csIndexName;
     }
 
+    /** Returns the message. */
     public String getMessage()
     {
         String cs = "OccursOverflowException: Index " + csIndexName + " value requested/Max:" + nIndexRequestedBase1 + "/"

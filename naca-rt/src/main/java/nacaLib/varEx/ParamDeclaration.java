@@ -13,13 +13,16 @@ package nacaLib.varEx;
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseProgram;
 
+/** Provides param declaration behavior. */
 public class ParamDeclaration extends CJMapObject
 {
-    public ParamDeclaration(BaseProgram Program)
+    /** Creates a new param declaration instance. */
+    public ParamDeclaration(BaseProgram newProgram)
     {
-        program = Program;
+        program = newProgram;
     }
 
+    /** Executes the using operation. */
     public ParamDeclaration using(Var var)
     {
         program.getProgramManager().using(var);

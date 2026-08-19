@@ -6,11 +6,13 @@
  */
 package jlib.misc;
 
+/** Provides ascii ebcdic converter behavior. */
 public class AsciiEbcdicConverter
 {
     private static int gs_tEbcdic[] = null; // Collection of ebcdic char, indexed by ascii
     private static int gs_tAscii[] = null;  // Collection of ascii char, indexed by ebcdic
 
+    /** Executes the create operation. */
     public static void create()
     {
         new AsciiEbcdicConverter();
@@ -300,6 +302,7 @@ public class AsciiEbcdicConverter
         gs_tAscii[nEbcdic] = nAscii;
     }
 
+    /** Returns the ebcdic correponding code. */
     public static int getEbcdicCorrepondingCode(int nAscii)
     {
         if (nAscii < 256) {
@@ -319,6 +322,7 @@ public class AsciiEbcdicConverter
         return n;
     }
 
+    /** Returns the ebcdic hexa value. */
     public static String getEbcdicHexaValue(int nAscii)
     {
         if(nAscii >= 0 && nAscii <= 255)
@@ -329,6 +333,7 @@ public class AsciiEbcdicConverter
         return "Invalid char code";
     }
 
+    /** Returns the hexa value. */
     public static String getHexaValue(int nAscii)
     {
         if(nAscii >= 0 && nAscii <= 255)
@@ -362,6 +367,7 @@ public class AsciiEbcdicConverter
         return (c - 'A') + 10;
     }
 
+    /** Executes the compare ebcdic operation. */
     public static int compareEbcdic(int n1, int n2)
     {
         int e1 = AsciiEbcdicConverter.getEbcdicCorrepondingCode(n1);
@@ -375,6 +381,7 @@ public class AsciiEbcdicConverter
         return 0;
     }
 
+    /** Returns the ebcdic char. */
     public static char getEbcdicChar(char cAscii)
     {
         int nEbcdic = gs_tEbcdic[cAscii];
@@ -382,6 +389,7 @@ public class AsciiEbcdicConverter
         return ebcdic;
     }
 
+    /** Returns the ascii char. */
     public static char getAsciiChar(char cEbcdic)
     {
         int nAscii = gs_tAscii[cEbcdic];
@@ -389,6 +397,7 @@ public class AsciiEbcdicConverter
         return ascii;
     }
 
+    /** Returns the ascii char. */
     public static char getAsciiChar(byte byEbcdic)
     {
         int nEbcdic = byEbcdic;
@@ -400,6 +409,7 @@ public class AsciiEbcdicConverter
         return ascii;
     }
 
+    /** Returns the ascii byte. */
     public static byte getAsciiByte(byte byEbcdic)
     {
         int nEbcdic = byEbcdic;
@@ -411,12 +421,14 @@ public class AsciiEbcdicConverter
         return byteAscii;
     }
 
+    /** Returns the as ascii. */
     public static int getAsAscii(int nEbcdic)
     {
         int nAscii = gs_tAscii[nEbcdic];
         return nAscii;
     }
 
+    /** Returns the ebcdic byte. */
     public static byte getEbcdicByte(byte byAscii)
     {
         int nAscii = byAscii;
@@ -428,6 +440,7 @@ public class AsciiEbcdicConverter
         return byteEbcdic;
     }
 
+    /** Returns the ebcdic string. */
     public static String getEbcdicString(String csIn)
     {
         String csOut = new String();
@@ -443,6 +456,7 @@ public class AsciiEbcdicConverter
         return csOut;
     }
 
+    /** Converts the unicode to ebcdic. */
     public static byte[] convertUnicodeToEbcdic(char[] tChars)
     {
         int nLength = tChars.length;
@@ -461,6 +475,7 @@ public class AsciiEbcdicConverter
         return tOut;
     }
 
+    /** Converts the ebcdic to unicode. */
     public static char[] convertEbcdicToUnicode(byte[] tBytes)
     {
         int nLength = tBytes.length;
@@ -472,11 +487,13 @@ public class AsciiEbcdicConverter
         return tOut;
     }
 
+    /** Executes the no convert ebcdic to unicode operation. */
     public static char[] noConvertEbcdicToUnicode(byte[] tBytes)
     {
         return noConvertEbcdicToUnicode(tBytes, tBytes.length);
     }
 
+    /** Executes the no convert ebcdic to unicode operation. */
     public static char[] noConvertEbcdicToUnicode(byte[] tBytes, int nLength)
     {
         char[] tChars = new char[nLength];
@@ -487,6 +504,7 @@ public class AsciiEbcdicConverter
         return tChars;
     }
 
+    /** Executes the no convert unicode to ebcdic operation. */
     public static byte[] noConvertUnicodeToEbcdic(char[] tChars)
     {
         byte[] tBytes = new byte[tChars.length];
@@ -497,6 +515,7 @@ public class AsciiEbcdicConverter
         return tBytes;
     }
 
+    /** Executes the no convert unicode to ebcdic operation. */
     public static byte[] noConvertUnicodeToEbcdic(char[] tChars, int nSourceOffset, int nLength)
     {
         byte[] tBytes = new byte[nLength];
@@ -507,6 +526,7 @@ public class AsciiEbcdicConverter
         return tBytes;
     }
 
+    /** Executes the swap byte ascii to ebcdic operation. */
     public static void swapByteAsciiToEbcdic(byte tBytesData[], int nOffset, int nLength)
     {
         for(int n=0; n<nLength; n++)
@@ -520,6 +540,7 @@ public class AsciiEbcdicConverter
         }
     }
 
+    /** Executes the swap byte ebcdic to ascii operation. */
     public static void swapByteEbcdicToAscii(byte tBytesData[], int nOffset, int nLength)
     {
         for(int n=0; n<nLength; n++)
@@ -539,6 +560,7 @@ public class AsciiEbcdicConverter
     private static final byte[] AFP_ASCII_SEGMENT       = { (byte)0x4C, (byte)0xAE, (byte)0x5E }; // D3AF5F
     private static final byte[] AFP_ASCII_SFI           = { (byte)0x4C, (byte)0xD3, (byte)0xBA }; // D3EE9B
 
+    /** Executes the swap byte ascii to ebcdic print afp operation. */
     public static void swapByteAsciiToEbcdicPrintAFP(byte tBytesData[], int nOffset, int nLength)
     {
         if (nLength > 6 && tBytesData[nOffset] == AFP_ASCII_5A)
@@ -581,6 +603,7 @@ public class AsciiEbcdicConverter
     private static final byte[] AFP_EBCDIC_COPYGROUP    = { (byte)0xD3, (byte)0xAB, (byte)0xCC }; // D3ABCC
     private static final byte[] AFP_EBCDIC_SEGMENT      = { (byte)0xD3, (byte)0xAF, (byte)0x5F }; // D3AF5F
 
+    /** Executes the swap byte ebcdic to ascii print afp operation. */
     public static void swapByteEbcdicToAsciiPrintAFP(byte tBytesData[], int nOffset, int nLength)
     {
         if (nLength > 6 && tBytesData[nOffset] == AFP_EBCDIC_5A)

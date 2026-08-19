@@ -40,11 +40,13 @@ public class BTreeCommandSort
     private DataFileWrite dataFileKeyOut = null;
     //private boolean bCanSortMultiThreads = false;
 
+    /** Creates a new btree command sort instance. */
     public BTreeCommandSort()
     {
         //bCanSortMultiThreads = bCanSortMultiThreads;
     }
 
+    /** Sets the temp dir. */
     public void setTempDir(String csTempDir)
     {
         csTempDir = FileSystem.normalizePath(csTempDir);
@@ -67,6 +69,7 @@ public class BTreeCommandSort
         this.dataFileKeyOut = dataFileKeyOut;
     }
 
+    /** Sets the export key file out. */
     public void setExportKeyFileOut(String csExportKeyFileOut)
     {
         if(csExportKeyFileOut != null)
@@ -81,6 +84,7 @@ public class BTreeCommandSort
         }
     }
 
+    /** Executes the set operation. */
     public void set(String csTempDir, String csFileOut, String csKeys)
     {
         setTempDir(csTempDir);
@@ -90,6 +94,7 @@ public class BTreeCommandSort
         setKeyDescription(csKeys);
     }
 
+    /** Sets the key description. */
     public void setKeyDescription(String csKeys)
     {
         keyDescription = new BtreeKeyDescription();
@@ -97,12 +102,14 @@ public class BTreeCommandSort
         TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
     }
 
+    /** Sets the key description. */
     public void setKeyDescription(BtreeKeyDescription keyDescription)
     {
         this.keyDescription = keyDescription;
         TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
     }
 
+    /** Executes the execute operation. */
     public boolean execute(int nBufferChunkReadAHead, FileDescriptor fileSortIn, FileDescriptor fileSortOut)
     {
         String csFileIn = fileSortIn.getPhysicalName();
@@ -136,6 +143,7 @@ public class BTreeCommandSort
         return true;
     }
 
+    /** Returns the temp file name. */
     public String getTempFileName()
     {
         if (csTempDir == null) {
@@ -145,6 +153,7 @@ public class BTreeCommandSort
         return csTempFile;
     }
 
+    /** Creates the and open temp btrieve file. */
     public BtreeFile createAndOpenTempBtrieveFile(String csBtreeDir)
     {
         csBtreeDir = FileSystem.normalizePath(csBtreeDir);
@@ -159,6 +168,7 @@ public class BTreeCommandSort
         return null;
     }
 
+    /** Closes the and delete. */
     public void closeAndDelete(BtreeFile btreeFile, String csBtreeDir)
     {
         if (btreeFile != null) {
@@ -185,6 +195,7 @@ public class BTreeCommandSort
         return true;
     }
 
+    /** Executes the import in file operation. */
     public int importInFile(BtreeFile btreeFile, FileDescriptor fileSortIn, int nBufferChunkReadAHead, boolean bExternalSort)
     {
         int nNbRecordRead = 0;
@@ -245,6 +256,7 @@ public class BTreeCommandSort
 //      return nNbRecordRead;
 //  }
 
+    /** Exports the to out file. */
     public int exportToOutFile(BtreeFile btreeFile, boolean bMustSwapByteEncodingOnOutput, boolean bToEbcdic)
     {
         int nNbRecordWrite = 0;

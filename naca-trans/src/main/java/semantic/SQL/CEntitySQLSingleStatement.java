@@ -41,6 +41,7 @@ public class CEntitySQLSingleStatement extends CBaseActionEntity
         csStatement = st ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

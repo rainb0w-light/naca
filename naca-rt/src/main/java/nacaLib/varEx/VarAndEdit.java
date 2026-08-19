@@ -19,6 +19,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public abstract class VarAndEdit extends VarBase
 {
+    /** Creates a new var and edit instance. */
     public VarAndEdit(DeclareTypeBase declareTypeBase)
     {
         super(declareTypeBase);
@@ -29,6 +30,7 @@ public abstract class VarAndEdit extends VarBase
         super();
     }
 
+    /** Returns the stcheck value. */
     public String getSTCheckValue()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
@@ -48,38 +50,53 @@ public abstract class VarAndEdit extends VarBase
         }
     }
 
+    /** Executes the compare to operation. */
     public abstract int compareTo(ComparisonMode mode, VarAndEdit var2);
+    /** Executes the compare to operation. */
     public abstract int compareTo(int nValue);
+    /** Executes the compare to operation. */
     public abstract int compareTo(double dValue);
+    /** Executes the compare to operation. */
     public abstract int compareTo(ComparisonMode mode, String cs);
 
+    /** Executes the set operation. */
     public abstract void set(CobolConstantZero cst);
+    /** Executes the set operation. */
     public abstract void set(CobolConstantSpace cst);
+    /** Executes the set operation. */
     public abstract void set(CobolConstantHighValue cst);
+    /** Executes the set operation. */
     public abstract void set(CobolConstantLowValue cst);
+    /** Sets the string at position. */
     public abstract void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar);
+    /** Sets the and fill. */
     public abstract void setAndFill(String csValue);
 
+    /** Executes the digits operation. */
     public String digits()
     {
         return varDef.digits(bufferPos);
     }
 
+    /** Sets the repeating char at offset from start. */
     public void setRepeatingCharAtOffsetFromStart(CobolConstantZero cst, int nOffsetPosition, int nNbChar)  // Fill with a 0 base index)
     {
         varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
     }
 
+    /** Sets the repeating char at offset from start. */
     public void setRepeatingCharAtOffsetFromStart(CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
     {
         varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
     }
 
+    /** Sets the repeating char at offset from start. */
     public void setRepeatingCharAtOffsetFromStart(CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
     {
         varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
     }
 
+    /** Sets the repeating char at offset from start. */
     public void setRepeatingCharAtOffsetFromStart(CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
     {
         varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
@@ -100,6 +117,7 @@ public abstract class VarAndEdit extends VarBase
         return varDef.getBodyLength() ;
     }
 
+    /** Returns the unprefix named var child. */
     public VarBase getUnprefixNamedVarChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
     {
         VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
@@ -113,6 +131,7 @@ public abstract class VarAndEdit extends VarBase
         return null;
     }
 
+    /** Returns the un dollar unprefix named child. */
     public VarBase getUnDollarUnprefixNamedChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
     {
         VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(
@@ -130,6 +149,7 @@ public abstract class VarAndEdit extends VarBase
     }
 
 
+    /** Returns the var child at. */
     public Var getVarChildAt(int n)
     {
         n--;    // given as 1-based
@@ -149,6 +169,7 @@ public abstract class VarAndEdit extends VarBase
         return null;
     }
 
+    /** Returns the edit child at. */
     public Edit getEditChildAt(int n)
     {
         n--;    // given as 1-based

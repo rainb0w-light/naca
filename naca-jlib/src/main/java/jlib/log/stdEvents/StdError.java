@@ -21,16 +21,19 @@ import jlib.log.LogLevel;
  */
 public class StdError extends LogEvent
 {
+    /** Creates a new std error instance. */
     public StdError(String csProduct)
     {
         super(LogEventType.Error, LogFlowStd.Trace, LogLevel.Normal, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csContext, String csMessage)
     {
         return StdError.log(csChannel, null, csContext, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csContext, String csMessage)
     {
         StdError event = new StdError(csProduct);

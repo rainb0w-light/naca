@@ -11,6 +11,7 @@ import jlib.misc.DateUtil;
 /*
  * DateHelper is deprectqed and shouls by replaced by DateUtil
  */
+/** Provides date helper behavior. */
 @Deprecated
 public class DateHelper extends DateUtil
 {

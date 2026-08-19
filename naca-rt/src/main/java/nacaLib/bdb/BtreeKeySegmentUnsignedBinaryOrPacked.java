@@ -15,6 +15,7 @@ package nacaLib.bdb;
  */
 public class BtreeKeySegmentUnsignedBinaryOrPacked extends BtreeKeySegment
 {
+    /** Creates a new btree key segment unsigned binary or packed instance. */
     public BtreeKeySegmentUnsignedBinaryOrPacked(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);

@@ -10,22 +10,24 @@ package semantic.forms;
 
 
 import java.util.Vector;
-
 import lexer.Cobol.CCobolConstantList;
-
 import parser.expression.CTerminal;
 import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.expression.CBaseEntityCondition;
-import utils.*;
+import utils.CObjectCatalog;
 
 
+
+
+/** Provides centity field length behavior. */
 public class CEntityFieldLength extends CBaseEntityFieldAttribute
 {
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetSpecialAssignment(semantic.CDataEntity, semantic.CBaseEntityFactory, int)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
@@ -35,6 +37,7 @@ public class CEntityFieldLength extends CBaseEntityFieldAttribute
         ref.RegisterWritingAction(eSet) ;
         return eSet ;
     }
+    /** Creates a new centity field length instance. */
     public CEntityFieldLength(int l, String name, CObjectCatalog cat, CDataEntity owner)
     {
         super(l, name, cat, CEntityFieldAttributeType.LENGTH, owner) ;
@@ -42,10 +45,12 @@ public class CEntityFieldLength extends CBaseEntityFieldAttribute
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true ;
@@ -57,6 +62,7 @@ public class CEntityFieldLength extends CBaseEntityFieldAttribute
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
@@ -92,6 +98,7 @@ public class CEntityFieldLength extends CBaseEntityFieldAttribute
         }
         return null;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -126,6 +133,7 @@ public class CEntityFieldLength extends CBaseEntityFieldAttribute
         }
         return null ;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CDataEntity e = reference.GetArrayReference(v, factory) ;

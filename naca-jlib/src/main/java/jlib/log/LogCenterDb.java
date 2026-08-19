@@ -8,9 +8,12 @@ package jlib.log;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import jlib.sql.DbConnectionBase;
+import jlib.sql.DbConnectionException;
+import jlib.sql.DbConnectionManager;
+import jlib.sql.DbPreparedStatement;
+import jlib.xml.Tag;
 
-import jlib.sql.*;
-import jlib.xml.*;
 
 /*
 DB Table on MySQL
@@ -39,8 +42,10 @@ CREATE TABLE 'logdetails' (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 */
 
+/** Provides log center db behavior. */
 public class LogCenterDb extends LogCenter
 {
+    /** Creates a new log center db instance. */
     public LogCenterDb(LogCenterLoader logCenterLoader)
     {
         super(logCenterLoader);
@@ -65,6 +70,7 @@ public class LogCenterDb extends LogCenter
     DbConnectionManager manager = null;
     DbConnectionBase dbConnection = null;
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Tag tagLogCenter)  // Special values for file appenders
     {
         csDbUser = tagLogCenter.getVal("DbUser");

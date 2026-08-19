@@ -6,18 +6,19 @@
  */
 package parser.Cobol.elements.SQL;
 
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
-
 import semantic.SQL.CEntitySQLCursor;
 import semantic.SQL.CEntitySQLOpenStatement;
+
+
+
 
 /**
  * @author U930DI
@@ -25,11 +26,13 @@ import semantic.SQL.CEntitySQLOpenStatement;
  */
 public class CExecSQLOpen extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlopen instance. */
     public CExecSQLOpen(int l)
     {
         super(l);
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLOpenCursor") ;

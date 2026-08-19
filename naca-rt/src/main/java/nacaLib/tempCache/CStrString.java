@@ -27,6 +27,7 @@ public class CStrString extends CStr
         super();
     }
 
+    /** Executes the set operation. */
     public void set(CStr csIn, char cPad, int nNbCharDest)
     {
         if (acBuffer == null) {

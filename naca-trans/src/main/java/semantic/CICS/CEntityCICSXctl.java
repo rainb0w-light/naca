@@ -33,6 +33,7 @@ public class CEntityCICSXctl extends CBaseActionEntity
         }
     }
 
+    /** Sets the program name. */
     public void SetProgramName(CDataEntity prgm, boolean bChecked)
     {
         refProgram = prgm ;
@@ -43,6 +44,7 @@ public class CEntityCICSXctl extends CBaseActionEntity
     protected CDataEntity refProgram = null ;
     protected CDataEntity refCommArea = null ;
     protected CDataEntity commAreaLength = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -52,16 +54,19 @@ public class CEntityCICSXctl extends CBaseActionEntity
     }
     //protected CBaseDataEntity commAreaDataLength = null ;
 
+    /** Sets the comm area. */
     public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength)
     {
         refCommArea = eCommArea ;
         commAreaLength = eCALength ;
         //commAreaDataLength = eCADataLength ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         return true ;

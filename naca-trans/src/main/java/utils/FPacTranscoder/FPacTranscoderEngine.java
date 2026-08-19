@@ -27,6 +27,7 @@ import lexer.CBaseLexer;
 import lexer.CTokenList;
 import lexer.FPac.CFPacLexer;
 
+/** Provides fpac transcoder engine behavior. */
 public class FPacTranscoderEngine extends TranscoderEngine<CFPacScript, CEntityClass>
 {
     protected @Override CBaseLexer getLexer()

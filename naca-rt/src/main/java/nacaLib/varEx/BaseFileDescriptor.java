@@ -13,6 +13,7 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.FileManagerEntry;
 
+/** Provides base file descriptor behavior. */
 public abstract class BaseFileDescriptor extends CJMapObject
 {
     protected BaseSession baseSession = null;
@@ -29,6 +30,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
     {
     }
 
+    /** Creates a new base file descriptor instance. */
     public BaseFileDescriptor(BaseEnvironment env, String csLogicalName)
     {
         this.csLogicalName = csLogicalName;
@@ -39,6 +41,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         }
     }
 
+    /** Executes the restore file manager entry operation. */
     public void restoreFileManagerEntry(FileManagerEntry fileManagerEntry)
     {
         this.fileManagerEntry = fileManagerEntry;
@@ -119,6 +122,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return 0;
     }
 
+    /** Returns whether s var variable length marker. */
     public boolean hasVarVariableLengthMarker()
     {
         if (varVariableLengthMarker != null || varLengthDependingOn != null) {
@@ -139,11 +143,13 @@ public abstract class BaseFileDescriptor extends CJMapObject
         this.varLengthDependingOn = varLengthDependingOn;
     }
 
+    /** Executes the open output no file header write operation. */
     public BaseFileDescriptor openOutputNoFileHeaderWrite()
     {
         return doOpenOutput(false);
     }
 
+    /** Executes the open output operation. */
     public BaseFileDescriptor openOutput()
     {
         return doOpenOutput(true);
@@ -163,6 +169,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return null;
     }
 
+    /** Executes the open input output operation. */
     public BaseFileDescriptor openInputOutput()
     {
         boolean isvariableLength = false;
@@ -177,6 +184,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return null;
     }
 
+    /** Executes the open input operation. */
     public BaseFileDescriptor openInput()
     {
         boolean isvariableLength = false;
@@ -191,6 +199,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return null;
     }
 
+    /** Returns the base data file. */
     public BaseDataFile getBaseDataFile()
     {
         if (fileManagerEntry != null) {
@@ -202,6 +211,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
     }
 
 
+    /** Executes the open extend operation. */
     public BaseFileDescriptor openExtend()
     {
         boolean isvariableLength = false;
@@ -216,6 +226,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return null;
     }
 
+    /** Executes the close operation. */
     public void close()
     {
         boolean b = fileManagerEntry.doClose(csLogicalName, baseSession);
@@ -224,6 +235,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         }
     }
 
+    /** Executes the write operation. */
     public void write(byte[] tBytes, int nOffset, int nLength, boolean bWriteEndOfRecordMarker)
     {
         fileManagerEntry.dataFile.write(tBytes, nOffset, nLength);
@@ -232,6 +244,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         }
     }
 
+    /** Sets the session. */
     public void setSession(BaseSession baseSession)
     {
         this.baseSession = baseSession;
@@ -253,6 +266,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         return fileManagerEntry.isEbcdic();
     }
 
+    /** Returns the data file. */
     public BaseDataFile getDataFile()
     {
         if (fileManagerEntry != null) {
@@ -276,6 +290,7 @@ public abstract class BaseFileDescriptor extends CJMapObject
         }
     }
 
+    /** Returns whether eof. */
     public boolean isEOF()
     {
         if (fileManagerEntry != null) {

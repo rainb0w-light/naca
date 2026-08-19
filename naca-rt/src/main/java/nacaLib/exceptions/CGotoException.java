@@ -6,19 +6,23 @@
  */
 package nacaLib.exceptions;
 
-import nacaLib.program.*;
+import nacaLib.program.Paragraph;
+import nacaLib.program.Section;
 
+/** Signals a cgoto exception condition. */
 public class CGotoException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
     public Paragraph paragraph = null;
     public Section section = null;
 
+    /** Creates a new cgoto exception instance. */
     public CGotoException(Paragraph functor)
     {
         super();
         paragraph = functor;
     }
+    /** Creates a new cgoto exception instance. */
     public CGotoException(Section functor)
     {
         super();

@@ -21,6 +21,7 @@ import utils.CObjectCatalog;
  */
 public class CEntityLoopIter extends CBaseActionEntity
 {
+    /** Provides iteration behavior. */
     public static final class Iteration
     {
         private final CDataEntity variable;
@@ -59,10 +60,12 @@ public class CEntityLoopIter extends CBaseActionEntity
     protected boolean isincrementByOne = false ;
     protected boolean isdecrementByOne = false ;
 
+    /** Creates a new centity loop iter instance. */
     public CEntityLoopIter(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
+    /** Sets the loop iter inc. */
     public void SetLoopIterInc(CDataEntity v, CDataEntity init)
     {
         variable = v ;
@@ -71,6 +74,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         isdecrementByOne = false ;
         initialValue = init ;
     }
+    /** Sets the loop iter dec. */
     public void SetLoopIterDec(CDataEntity v, CDataEntity init)
     {
         variable = v ;
@@ -79,6 +83,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         isdecrementByOne = true ;
         initialValue = init ;
     }
+    /** Sets the loop iter. */
     public void SetLoopIter(CDataEntity v, CDataEntity init, CDataEntity inc)
     {
         variable = v ;
@@ -87,11 +92,13 @@ public class CEntityLoopIter extends CBaseActionEntity
         isdecrementByOne = false ;
         initialValue = init ;
     }
+    /** Sets the while condition. */
     public void SetWhileCondition(CBaseEntityCondition cond, boolean testBefore)
     {
         whileCondition = cond  ;
         istestBefore = testBefore;
     }
+    /** Sets the until condition. */
     public void SetUntilCondition(CBaseEntityCondition cond, boolean testBefore)
     {
         whileCondition = cond.GetOppositeCondition() ;
@@ -110,6 +117,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         return istestBefore;
     }
 
+    /** Returns the iterations. */
     public List<Iteration> getIterations()
     {
         List<Iteration> iterations = new ArrayList<Iteration>();
@@ -124,12 +132,14 @@ public class CEntityLoopIter extends CBaseActionEntity
         return Collections.unmodifiableList(iterations);
     }
 
+    /** Returns the closing iterations. */
     public List<Iteration> getClosingIterations()
     {
         List<Iteration> iterations = new ArrayList<Iteration>(getIterations());
         Collections.reverse(iterations);
         return Collections.unmodifiableList(iterations);
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -140,6 +150,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         initialValue = null ;
         afters.clear();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = variable.ignore() ;
@@ -152,6 +163,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         //ignore |= isChildrenIgnored() ;
         return ignore ;
     }
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
         for (int i=0; i<lstChildren.size(); i++)
@@ -165,6 +177,7 @@ public class CEntityLoopIter extends CBaseActionEntity
         }
         return false ;
     }
+    /** Adds the after. */
     public void AddAfter(CDataEntity after,
             CDataEntity from, CDataEntity by,
             CBaseEntityCondition until) {

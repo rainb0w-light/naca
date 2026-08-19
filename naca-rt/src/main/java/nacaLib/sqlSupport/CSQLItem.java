@@ -19,10 +19,12 @@ public class CSQLItem
     protected VarAndEdit var = null;
     protected String csValue = null;
 
+    /** Creates a new csqlitem instance. */
     public CSQLItem(VarAndEdit var)
     {
         this.var = var;
     }
+    /** Executes the set operation. */
     public void set(VarAndEdit var)
     {
         this.var = var;
@@ -30,36 +32,43 @@ public class CSQLItem
     }
 
 
+    /** Creates a new csqlitem instance. */
     public CSQLItem(int nValue)
     {
         csValue = String.valueOf(nValue);
     }
+    /** Executes the set operation. */
     public void set(int nValue)
     {
         var = null;
         csValue = String.valueOf(nValue);
     }
 
+    /** Creates a new csqlitem instance. */
     public CSQLItem(double dValue)
     {
         csValue = String.valueOf(dValue);
     }
+    /** Executes the set operation. */
     public void set(double dValue)
     {
         var = null;
         csValue = String.valueOf(dValue);
     }
 
+    /** Creates a new csqlitem instance. */
     public CSQLItem(String cs)
     {
         csValue = cs;
     }
+    /** Executes the set operation. */
     public void set(String cs)
     {
         var = null;
         csValue = cs;
     }
 
+    /** Returns the value. */
     public String getValue()
     {
         if(var != null)
@@ -84,6 +93,7 @@ public class CSQLItem
         return csValue;
     }
 
+    /** Returns the debug value. */
     public String getDebugValue()
     {
         String cs = getValue();
@@ -104,6 +114,7 @@ public class CSQLItem
         return var.getVarDef().isLongVarCharVarStructure();
     }
 
+    /** Returns the type. */
     public CSQLItemType getType()
     {
         if(var != null)
@@ -141,6 +152,7 @@ public class CSQLItem
         return 0;
     }
 
+    /** Returns the long value. */
     public long getLongValue()
     {
         if (var != null) {

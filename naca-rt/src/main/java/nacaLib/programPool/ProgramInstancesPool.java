@@ -68,6 +68,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
     }
 
 
+    /** Returns the mem working storage size. */
     public int getMem_WorkingStorageSize()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
@@ -77,6 +78,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return 0;
     }
 
+    /** Returns the mem nb var def. */
     public int getMem_NbVarDef()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
@@ -86,6 +88,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return 0;
     }
 
+    /** Returns the mevariables. */
     public String getMevariables()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
@@ -100,6 +103,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the instances. */
     public String getInstances()
     {
         int nNbCreated = nbInstanceCreated.get();
@@ -113,6 +117,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return nbInstanceCreated.get();
     }
 
+    /** Returns the time exec run time. */
     synchronized public String getTime_ExecRunTime()
     {
         long min = Long.MAX_VALUE;
@@ -142,6 +147,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return "Min:"+csMin+"   Average:"+csAvg+"   Max:"+csMax;
     }
 
+    /** Returns the time exec hour. */
     synchronized public String getTime_ExecHour()
     {
         long oldRun = Long.MAX_VALUE;
@@ -180,6 +186,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return sharedProgramInstanceData;
     }
 
+    /** Returns the or create unused instance. */
     public BaseProgram getOrCreateUnusedInstance()
     {
         unloadProgramRWLock.readLock().lock();  // Get exclusive lock
@@ -208,6 +215,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return program;
     }
 
+    /** Executes the preload second instance operation. */
     public BaseProgram preloadSecondInstance()
     {
         unloadProgramRWLock.readLock().lock();  // Get exclusive lock
@@ -232,6 +240,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         return null;
     }
 
+    /** Executes the unload program operation. */
     public void unloadProgram()
     {
         Log.logImportant("unloadProgram; Begin unload program "+csProgramName);
@@ -276,6 +285,7 @@ public class ProgramInstancesPool extends BaseCloseMBean
         }
     }
 
+    /** Executes the return program operation. */
     public void returnProgram(BaseProgram program)
     {
         if(program != null)

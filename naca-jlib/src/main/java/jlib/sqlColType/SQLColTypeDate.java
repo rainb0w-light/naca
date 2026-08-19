@@ -23,6 +23,7 @@ public class SQLColTypeDate
     private Timestamp ts = null;
     private boolean isvalid = false;
 
+    /** Creates a new sqlcol type date instance. */
     public SQLColTypeDate(String csYYYYMMDD)
     {
         int nYYYY = NumberParser.getAsInt(csYYYYMMDD.substring(0, 4));
@@ -33,6 +34,7 @@ public class SQLColTypeDate
         isvalid = true;
     }
 
+    /** Creates a new sqlcol type date instance. */
     public SQLColTypeDate(int nYYYYMMDD)
     {
         String csYYYYMMDD = "" + nYYYYMMDD;
@@ -44,6 +46,7 @@ public class SQLColTypeDate
         isvalid = true;
     }
 
+    /** Sets the infinite. */
     public void setInfinite()
     {
         ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);

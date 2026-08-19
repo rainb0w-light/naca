@@ -12,26 +12,30 @@
 package nacaLib.varEx;
 
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.program.*;
+import nacaLib.program.CopyReplacing;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
 
+/** Provides var declaration behavior. */
 public class VarDeclaration extends ParamDeclaration
 {
     private VarLevel varLevel = null;
 
+    /** Creates a new var declaration instance. */
     public VarDeclaration(BaseProgram prg)
     {
         super(prg);
     }
 
+    /** Creates a new var declaration instance. */
     public VarDeclaration(BaseProgram prg, CopyReplacing copyReplacing)
     {
         super(prg);
         this.copyReplacing = copyReplacing;
     }
 
+    /** Executes the level operation. */
     public VarLevel level(int nLevel)
     {
         short level = (short)nLevel;
@@ -54,6 +58,7 @@ public class VarDeclaration extends ParamDeclaration
         return varLevel(level);
     }
 
+    /** Executes the variable operation. */
     public VarLevel variable()
     {
         return varLevel(77);
@@ -67,11 +72,13 @@ public class VarDeclaration extends ParamDeclaration
         return varLevel;
     }
 
+    /** Executes the index operation. */
     public Var index()
     {
         return new VarInternalInt();
     }
 
+    /** Executes the bool operation. */
     public Var bool()
     {
         return new VarInternalBool();
@@ -79,6 +86,7 @@ public class VarDeclaration extends ParamDeclaration
 
 
 
+    /** Executes the condition operation. */
     public DeclareTypeCond condition()
     {
         DeclareTypeCond declareTypeCond = TempCacheLocator.getTLSTempCache().getDeclareTypeCond();
@@ -88,6 +96,7 @@ public class VarDeclaration extends ParamDeclaration
 
 
 
+    /** Executes the replacing operation. */
     public CopyReplacing replacing(int nOld, int nNew)
     {
         CopyReplacing copyReplacing = new CopyReplacing(nOld, nNew);

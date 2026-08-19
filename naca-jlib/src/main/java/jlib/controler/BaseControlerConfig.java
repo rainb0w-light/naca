@@ -17,6 +17,7 @@ import jlib.log.stdEvents.LoadConfigStart;
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
 
+/** Provides base controler config behavior. */
 public abstract class BaseControlerConfig
 {
     private String csTaskTagName = "" ;
@@ -28,8 +29,10 @@ public abstract class BaseControlerConfig
         this.csStepTagName = csStepTagName ;
     }
 
+    /** Returns the nb tasks. */
     public abstract int getNbTasks() ;
 
+    /** Returns the task config. */
     public abstract BaseControlerTaskConfig getTaskConfig(String name) ;
 
 //      LoadConfigStart.log(getLogChannel(), fConfigFile.getAbsolutePath(), "Start loading from file...") ;
@@ -73,11 +76,13 @@ public abstract class BaseControlerConfig
     }
 
 
+    /** Sets the xmlfile. */
     public void setXMLFile(String cs)
     {
         File f = new File(cs) ;
         setXMLFile(f) ;
     }
+    /** Returns the log channel. */
     public abstract String getLogChannel() ;
 
     public void setXMLFile(File file)

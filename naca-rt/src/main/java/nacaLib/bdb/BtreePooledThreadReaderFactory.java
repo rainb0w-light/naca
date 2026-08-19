@@ -20,11 +20,13 @@ import jlib.threads.PoolOfThreads;
 public class BtreePooledThreadReaderFactory extends BasePooledThreadFactory
 {
     private BtreeFile btreeFile = null;
+    /** Creates a new btree pooled thread reader factory instance. */
     public BtreePooledThreadReaderFactory(BtreeFile btreeFile)
     {
         this.btreeFile = btreeFile;
     }
 
+    /** Executes the make operation. */
     public BtreePooledReaderThread make(PoolOfThreads owningPool)
     {
         BtreePooledReaderThread thread = new BtreePooledReaderThread(owningPool);

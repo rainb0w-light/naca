@@ -29,6 +29,7 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
     /* (non-Javadoc)
      * @see semantic.CBaseExternalEntity#GetTypeDecl()
      */
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         return "";
@@ -37,6 +38,7 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return null;
@@ -45,6 +47,7 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
     /* (non-Javadoc)
      * @see semantic.CDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -59,6 +62,7 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#ignore()
      */
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return true ;
@@ -67,6 +71,7 @@ public class CIgnoreExternalEntity extends CEntityExternalDataStructure
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetConstantValue()
      */
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

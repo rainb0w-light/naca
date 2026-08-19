@@ -25,6 +25,7 @@ import nacaLib.tempCache.CStr;
 public class VarDefFPacRaw extends VarDefVariable
 {
     private static final long serialVersionUID = 1L;
+    /** Creates a new var def fpac raw instance. */
     public VarDefFPacRaw(VarDefBase varDefParent, DeclareTypeFPacRaw declareTypeFPacRaw)
     {
         super(varDefParent, declareTypeFPacRaw.varLevel);
@@ -126,11 +127,13 @@ public class VarDefFPacRaw extends VarDefVariable
         writeRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         writeRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
 //      Dec dec = getAsDecodedDec(buffer);
@@ -138,10 +141,12 @@ public class VarDefFPacRaw extends VarDefVariable
 //      write(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         if (n < 0) {
@@ -151,6 +156,7 @@ public class VarDefFPacRaw extends VarDefVariable
         writeRightPadding(buffer, cs, ' ');
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         write(buffer, (int)l);
@@ -171,6 +177,7 @@ public class VarDefFPacRaw extends VarDefVariable
         // Parag 9.c: A noninteger numeric literal or data item cannot be moved to an alphanumeric or alphanumeric edited data item.
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
     }
@@ -214,6 +221,7 @@ public class VarDefFPacRaw extends VarDefVariable
         }
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         CStr csSource = bufferSource.getBodyCStr(varSource);
@@ -538,6 +546,7 @@ public class VarDefFPacRaw extends VarDefVariable
 //      writeRightPadding(buffer, " ", ' ');
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         //writeRightPadding(buffer, nOffset, " ", ' ');
@@ -1063,6 +1072,7 @@ public class VarDefFPacRaw extends VarDefVariable
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
@@ -1073,6 +1083,7 @@ public class VarDefFPacRaw extends VarDefVariable
         return true;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

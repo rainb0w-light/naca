@@ -418,6 +418,7 @@ public class CExecSQL extends CCobolElement
     protected CBaseExecSQLAction action = null ;
     protected String csUnparsedStatement = "" ;
 
+    /** Executes the check concat operation. */
     public static String CheckConcat(String clause, Vector<CDataEntity> arrParams, CBaseEntityFactory factory)
     {
         String out = "" ;

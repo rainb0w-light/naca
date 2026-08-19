@@ -39,6 +39,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Executes the set operation. */
     public void set(CStr cs, int nReserve)
     {
         nStartPos = 0;
@@ -51,6 +52,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Sets the absolute value right padded. */
     public void setAbsoluteValueRightPadded(int nValue, int nRequiredLength)
     {
         nStartPos = NB_MAXI_DIGIT+1;
@@ -103,6 +105,7 @@ public class CStrNumber extends CStr
 //      }
 //  }
 
+    /** Executes the value of operation. */
     public void valueOf(int nValue)
     {
         int nOffset = 0;
@@ -135,6 +138,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Executes the value of operation. */
     public void valueOf(long lValue)
     {
         int nOffset = 0;
@@ -167,6 +171,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Executes the decode comp3 string operation. */
     public void decodeComp3String(CStr s, int nNbDigitInteger)
     {
         nStartPos = 0;
@@ -208,6 +213,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Executes the decode sign comp3 string operation. */
     public void decodeSignComp3String(CStr s, int nNbDigitInteger)
     {
         nStartPos = 0;
@@ -254,6 +260,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Returns the as absolute int comp0 string. */
     public void getAsAbsoluteIntComp0String(int nValue, int nNbDigitInteger)
     {
         if (nValue < 0) {
@@ -282,6 +289,7 @@ public class CStrNumber extends CStr
         }
     }
 
+    /** Returns the as absolute int comp0 string as long. */
     public void getAsAbsoluteIntComp0StringAsLong(long lValue, int nNbDigitInteger)
     {
         if (lValue < 0) {

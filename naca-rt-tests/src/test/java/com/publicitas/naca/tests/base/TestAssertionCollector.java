@@ -8,6 +8,7 @@ package com.publicitas.naca.tests.base;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Provides test assertion collector behavior. */
 public final class TestAssertionCollector {
     
     private static final ThreadLocal<TestAssertionCollector> INSTANCE = new ThreadLocal<>();
@@ -15,6 +16,7 @@ public final class TestAssertionCollector {
     private final List<AssertionResult> results = new ArrayList<>();
     private boolean collecting = false;
     
+    /** Provides assertion result behavior. */
     public static final class AssertionResult {
         public final boolean passed;
         public final String message;
@@ -31,6 +33,7 @@ public final class TestAssertionCollector {
     
     private TestAssertionCollector() {}
     
+    /** Returns the instance. */
     public static TestAssertionCollector getInstance() {
         TestAssertionCollector collector = INSTANCE.get();
         if (collector == null) {
@@ -40,32 +43,38 @@ public final class TestAssertionCollector {
         return collector;
     }
     
+    /** Executes the start collecting operation. */
     public static void startCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.results.clear();
         collector.collecting = true;
     }
     
+    /** Executes the stop collecting operation. */
     public static void stopCollecting() {
         TestAssertionCollector collector = getInstance();
         collector.collecting = false;
     }
     
+    /** Executes the clear operation. */
     public static void clear() {
         getInstance().results.clear();
     }
     
+    /** Returns whether collecting. */
     public static boolean isCollecting() {
         TestAssertionCollector collector = INSTANCE.get();
         return collector != null && collector.collecting;
     }
     
+    /** Adds the result. */
     public static void addResult(boolean passed, String message, String expected, String actual) {
         if (isCollecting()) {
             getInstance().results.add(new AssertionResult(passed, message, expected, actual));
         }
     }
     
+    /** Executes the assert true operation. */
     public static void assertTrue(boolean condition, String message) {
         if (isCollecting()) {
             addResult(condition, message, "true", String.valueOf(condition));
@@ -74,6 +83,7 @@ public final class TestAssertionCollector {
         }
     }
     
+    /** Executes the assert equals operation. */
     public static void assertEquals(String expected, String actual, String message) {
         boolean passed = expected != null ? expected.equals(actual) : actual == null;
         if (isCollecting()) {
@@ -83,6 +93,7 @@ public final class TestAssertionCollector {
         }
     }
     
+    /** Executes the assert equals operation. */
     public static void assertEquals(int expected, int actual, String message) {
         boolean passed = expected == actual;
         if (isCollecting()) {
@@ -92,6 +103,7 @@ public final class TestAssertionCollector {
         }
     }
     
+    /** Executes the assert equals operation. */
     public static void assertEquals(double expected, double actual, String message) {
         boolean passed = Double.compare(expected, actual) == 0;
         if (isCollecting()) {
@@ -101,6 +113,7 @@ public final class TestAssertionCollector {
         }
     }
     
+    /** Executes the assert not null operation. */
     public static void assertNotNull(Object obj, String message) {
         boolean passed = obj != null;
         if (isCollecting()) {
@@ -110,6 +123,7 @@ public final class TestAssertionCollector {
         }
     }
     
+    /** Executes the fail operation. */
     public static void fail(String message) {
         if (isCollecting()) {
             addResult(false, message, null, null);
@@ -122,6 +136,7 @@ public final class TestAssertionCollector {
         return new ArrayList<>(results);
     }
     
+    /** Returns whether s failures. */
     public boolean hasFailures() {
         for (AssertionResult result : results) {
             if (!result.passed) {
@@ -131,6 +146,7 @@ public final class TestAssertionCollector {
         return false;
     }
     
+    /** Returns the failure count. */
     public int getFailureCount() {
         int count = 0;
         for (AssertionResult result : results) {
@@ -141,6 +157,7 @@ public final class TestAssertionCollector {
         return count;
     }
     
+    /** Returns the failure summary. */
     public String getFailureSummary() {
         StringBuilder sb = new StringBuilder();
         for (AssertionResult result : results) {

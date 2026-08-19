@@ -40,6 +40,7 @@ import java.util.ArrayList;
  */
 public class LogEvent
 {
+    /** Creates a new log event instance. */
     public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess, String csName) {
         this.logEventType = logEventType;
         this.logLevel = logLevel;
@@ -49,6 +50,7 @@ public class LogEvent
         this.csName = csName;
     }
 
+    /** Creates a new log event instance. */
     public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct, String csProcess) {
         this.logEventType = logEventType;
         this.logLevel = logLevel;
@@ -57,6 +59,7 @@ public class LogEvent
         this.csProcess = csProcess;
     }
 
+    /** Creates a new log event instance. */
     public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct)
     {
         this.logEventType = logEventType;
@@ -65,6 +68,7 @@ public class LogEvent
         this.csProduct = csProduct;
     }
 
+    /** Creates a new log event instance. */
     public LogEvent(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel)
     {
         this.logEventType = logEventType;
@@ -72,6 +76,7 @@ public class LogEvent
         this.logLevel = logLevel;
     }
 
+    /** Creates a new log event instance. */
     public LogEvent(LogFlow logFlow, LogLevel logLevel)
     {
         this.logEventType = LogEventType.Remark;
@@ -109,6 +114,7 @@ public class LogEvent
         this.csName = csName;
     }
 
+    /** Returns the name. */
     public String getName()
     {
         if (csName == null) {
@@ -130,6 +136,7 @@ public class LogEvent
         }
     }
 
+    /** Executes the fill member operation. */
     public void fillMember(String csName, String csValue)
     {
         if (logInfoMembers == null) {
@@ -139,6 +146,7 @@ public class LogEvent
         logInfoMembers.add(logInfomember);
     }
 
+    /** Executes the fill member operation. */
     public void fillMember(String csName, int nValue)
     {
         if (logInfoMembers == null) {
@@ -148,6 +156,7 @@ public class LogEvent
         logInfoMembers.add(logInfomember);
     }
 
+    /** Returns the as string. */
     public String getAsString()
     {
         String cs = "" ;

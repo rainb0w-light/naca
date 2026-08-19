@@ -30,6 +30,7 @@ public class CEntityMultiply extends CBaseActionEntity
     protected CDataEntity by = null ;
     protected CDataEntity to = null ;
     protected boolean isisRounded = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -38,6 +39,7 @@ public class CEntityMultiply extends CBaseActionEntity
         to = null ;
     }
 
+    /** Sets the multiply. */
     public void SetMultiply(CDataEntity what, CDataEntity by, CDataEntity to, boolean isRounded)
     {
         this.what = what ;
@@ -45,6 +47,7 @@ public class CEntityMultiply extends CBaseActionEntity
         this.to = to ;
         isisRounded = isRounded ;
     }
+    /** Sets the multiply. */
     public void SetMultiply(CDataEntity what, CDataEntity by, boolean isRounded)
     {
         this.what = what ;
@@ -52,6 +55,7 @@ public class CEntityMultiply extends CBaseActionEntity
         this.to = by ;
         isisRounded = isRounded ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = what.ignore();

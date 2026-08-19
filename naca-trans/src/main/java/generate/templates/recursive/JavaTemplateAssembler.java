@@ -31,11 +31,13 @@ public final class JavaTemplateAssembler
     private final ThreadLocal<Boolean> artifactRendering =
         ThreadLocal.withInitial(() -> Boolean.FALSE);
 
+    /** Creates a new java template assembler instance. */
     public JavaTemplateAssembler(STGroup templateGroup)
     {
         this(templateGroup, new JavaTemplateRolePolicy());
     }
 
+    /** Creates a new java template assembler instance. */
     public JavaTemplateAssembler(
         STGroup templateGroup, JavaTemplateRolePolicy rolePolicy)
     {
@@ -53,11 +55,13 @@ public final class JavaTemplateAssembler
         this.templateGroup.setListener(new RecursiveTemplateErrorListener());
     }
 
+    /** Renders the node. */
     public ST renderNode(Object model)
     {
         return renderNode(model, JavaTemplateRole.REFERENCE);
     }
 
+    /** Renders the node. */
     public ST renderNode(Object model, JavaTemplateRole role)
     {
         return renderNode(model, role, false);
@@ -89,11 +93,13 @@ public final class JavaTemplateAssembler
         throw new MissingTemplateRendererException(model.getClass());
     }
 
+    /** Renders the optional. */
     public ST renderOptional(Object model)
     {
         return model == null ? null : renderNode(model);
     }
 
+    /** Renders the nodes. */
     public List<ST> renderNodes(Collection<?> models)
     {
         Objects.requireNonNull(models, "models");
@@ -105,6 +111,7 @@ public final class JavaTemplateAssembler
         return Collections.unmodifiableList(templates);
     }
 
+    /** Executes the template operation. */
     public ST template(String templateName)
     {
         ST template = templateGroup.getInstanceOf(templateName);

@@ -26,6 +26,7 @@ import utils.CObjectCatalog;
 import utils.FPacTranscoder.notifs.NotifGetDefaultInputFile;
 import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
+/** Provides operand description behavior. */
 public class OperandDescription
 {
     public CDataEntity eObject = null ;
@@ -33,10 +34,12 @@ public class OperandDescription
     public CBaseEntityExpression expLength = null ;
     public boolean ishexaNoPacked = false;
 
+    /** Finds the first data entity. */
     public static OperandDescription FindFirstDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory)
     {
         return FindFirstDataEntity(iter, factory, false) ;
     }
+    /** Finds the first data entity. */
     public static OperandDescription FindFirstDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory, boolean bFromOutput)
     {
         CExpression exp = iter.next()  ;
@@ -160,11 +163,13 @@ public class OperandDescription
         }
     }
 
+    /** Finds the second data entity. */
     public static OperandDescription FindSecondDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory)
     {
         return FindSecondDataEntity(iter, factory, false) ;
     }
 
+    /** Finds the second data entity. */
     public static OperandDescription FindSecondDataEntity(ListIterator<CExpression> iter, CBaseEntityFactory factory, boolean toInput)
     {
         CExpression exp = iter.next()  ;
@@ -310,6 +315,7 @@ public class OperandDescription
         }
     }
 
+    /** Returns the default input file buffer. */
     public static CEntityFileBuffer getDefaultInputFileBuffer(CObjectCatalog catalog)
     {
         NotifGetDefaultInputFile notif = new NotifGetDefaultInputFile() ;
@@ -317,6 +323,7 @@ public class OperandDescription
         return notif.fileBuffer ;
     }
 
+    /** Returns the default output file buffer. */
     public static CEntityFileBuffer getDefaultOutputFileBuffer(CObjectCatalog catalog)
     {
         NotifGetDefaultOutputFile notif = new NotifGetDefaultOutputFile() ;

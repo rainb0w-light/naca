@@ -56,6 +56,7 @@ public class CPerformVarying extends CBlocElement
         protected CExpression condUntilAfter = null ;
     }
 
+    /** Creates a new cperform varying instance. */
     public CPerformVarying(CIdentifier ref, CIdentifier refThru, int line, boolean bBefore)
     {
         super(line);

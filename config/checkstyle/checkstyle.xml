@@ -20,7 +20,9 @@
             <property name="message" value="TODO/FIXME comments must include an owner or issue reference."/>
             <property name="ignoreComments" value="false"/>
         </module>
-        <module name="AvoidStarImport"/>
+        <module name="AvoidStarImport">
+            <property name="allowStaticMemberImports" value="true"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename"/>
         <module name="NeedBraces"/>

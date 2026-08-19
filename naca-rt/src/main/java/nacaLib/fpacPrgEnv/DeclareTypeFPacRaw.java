@@ -23,6 +23,7 @@ import nacaLib.varEx.VarLevel;
  */
 public class DeclareTypeFPacRaw extends DeclareTypeBase
 {
+    /** Creates a new declare type fpac raw instance. */
     public DeclareTypeFPacRaw(VarLevel varLevel, int nLength)
     {
         super(varLevel);
@@ -37,12 +38,14 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
     private int nLength = 0;
 
 
+    /** Executes the var operation. */
     public VarFPacRaw var()
     {
         VarFPacRaw var = new VarFPacRaw(this);
         return var;
     }
 
+    /** Executes the filler operation. */
     public VarFPacRaw filler()
     {
         VarFPacRaw var = new VarFPacRaw(this);
@@ -51,6 +54,7 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
         return var;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefFPacRaw(varDefParent, this);
@@ -67,36 +71,42 @@ public class DeclareTypeFPacRaw extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacRaw valueAll(char c)
     {
         initialValue = new CInitialValue(c, true);
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacRaw valueAll(String cs)
     {
         initialValue = new CInitialValue(cs, true);
         return this;
     }
 
+    /** Executes the value spaces operation. */
     public DeclareTypeFPacRaw valueSpaces()
     {
         initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
         return this;
     }
 
+    /** Executes the value zero operation. */
     public DeclareTypeFPacRaw valueZero()
     {
         initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
         return this;
     }
 
+    /** Executes the value high value operation. */
     public DeclareTypeFPacRaw valueHighValue()
     {
         initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
         return this;
     }
 
+    /** Executes the value low value operation. */
     public DeclareTypeFPacRaw valueLowValue()
     {
         initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);

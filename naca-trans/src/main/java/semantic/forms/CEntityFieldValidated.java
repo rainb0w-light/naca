@@ -7,13 +7,15 @@
 package semantic.forms;
 
 import java.util.Vector;
-
-
 import parser.expression.CTerminal;
-import semantic.*;
-import semantic.expression.*;
+import semantic.CBaseActionEntity;
+import semantic.CBaseEntityFactory;
+import semantic.CDataEntity;
+import semantic.expression.CBaseEntityCondition;
 import utils.CObjectCatalog;
 import utils.Transcoder;
+
+
 
 /**
  * @author sly
@@ -21,6 +23,7 @@ import utils.Transcoder;
  */
 public class CEntityFieldValidated extends CBaseEntityFieldAttribute
 {
+    /** Creates a new centity field validated instance. */
     public CEntityFieldValidated(int l, String name, CObjectCatalog cat, CDataEntity owner)
     {
         super(l, name, cat, CEntityFieldAttributeType.VALIDATION, owner) ;
@@ -33,10 +36,12 @@ public class CEntityFieldValidated extends CBaseEntityFieldAttribute
      * fieldValidatedReferenceEntity binding ("<owner field reference>.getValidation()"),
      * exactly the legacy ExportReference shape.
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true ;
@@ -45,6 +50,7 @@ public class CEntityFieldValidated extends CBaseEntityFieldAttribute
     {
         return false ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
 //      String col = term.GetValue() ;
@@ -53,11 +59,13 @@ public class CEntityFieldValidated extends CBaseEntityFieldAttribute
         return null ;
     }
 
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CDataEntity e = reference.GetArrayReference(v, factory) ;
         return factory.NewEntityFieldValidated(getLine(), "", e);
     };
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,

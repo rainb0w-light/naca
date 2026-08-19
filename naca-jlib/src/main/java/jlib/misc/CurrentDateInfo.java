@@ -18,22 +18,26 @@ import java.util.Calendar;
  */
 public class CurrentDateInfo
 {
+    /** Creates a new current date info instance. */
     public CurrentDateInfo()
     {
         setNow();
     }
 
+    /** Sets the now. */
     public long setNow()
     {
         calendar = Calendar.getInstance();
         return calendar.getTimeInMillis();
     }
 
+    /** Sets the year. */
     public void setYear(int nYear, int nMonth, int nDay, int nHourOfDay, int nMinute, int nSecond)
     {
         calendar.set(nYear, nMonth, nDay, nHourOfDay, nMinute, nSecond);
     }
 
+    /** Sets the date dddot mmdot yyyy. */
     public void setDateDDDotMMDotYYYY(String csDDMMYYYY)
     {
         int nDay = NumberParser.getAsInt(csDDMMYYYY.substring(0, 2));
@@ -43,6 +47,7 @@ public class CurrentDateInfo
         calendar.set(nYear, nMonth, nDay, 0, 0, 0);
     }
 
+    /** Sets the hour hhdot mmdot ss. */
     public void setHourHHDotMMDotSS(String csHHMMSS)
     {
         int nHour = NumberParser.getAsInt(csHHMMSS.substring(0, 2));
@@ -56,6 +61,7 @@ public class CurrentDateInfo
         return calendar.getTimeInMillis();
     }
 
+    /** Returns the time offset from now ms. */
     public long getTimeOffsetFromNow_ms()
     {
         long l1 = getTimeInMillis();
@@ -63,6 +69,7 @@ public class CurrentDateInfo
         return l2 - l1;
     }
 
+    /** Returns the time offset ms. */
     public long getTimeOffset_ms(CurrentDateInfo date2)
     {
         long l1 = getTimeInMillis();
@@ -73,6 +80,7 @@ public class CurrentDateInfo
         return l1 - l2;
     }
 
+    /** Returns the date as integer yyyymmdd. */
     public Integer getDateAsIntegerYYYYMMDD()
     {
         int n = (calendar.get(Calendar.YEAR) * 10000) + ((calendar.get(Calendar.MONTH)+1) *100) + calendar.get(Calendar.DAY_OF_MONTH);
@@ -80,6 +88,7 @@ public class CurrentDateInfo
         return date;
     }
 
+    /** Returns the displayable date time. */
     public String getDisplayableDateTime()
     {
         String cs = "" + StringUtil.FormatWithFill2LeftZero(getDay()) + "/" + StringUtil.FormatWithFill2LeftZero(getMonthBase1()) + "/"
@@ -128,6 +137,7 @@ public class CurrentDateInfo
         return calendar.get(Calendar.SECOND);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return calendar.toString();

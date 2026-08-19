@@ -16,6 +16,7 @@ package jlib.sqlMapper;
  */
 public class OrderSegmentAscending extends OrderSegment
 {
+    /** Creates a new order segment ascending instance. */
     public OrderSegmentAscending(String csColName)
     {
         super(csColName, true);

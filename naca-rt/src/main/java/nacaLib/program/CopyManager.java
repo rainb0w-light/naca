@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+/** Provides copy manager behavior. */
 public class CopyManager
 {
     static void register(String csCopyName, String csProgramName)
@@ -23,6 +24,7 @@ public class CopyManager
         programCopyOwner.add(csProgramName);
     }
 
+    /** Removes the copy form prog. */
     static public void removeCopyFormProg(String csCopyName, String csProgramName)
     {
         ProgramCopyOwner programCopyOwner = ms_hashProgramsByCopy.get(csCopyName);
@@ -36,6 +38,7 @@ public class CopyManager
         }
     }
 
+    /** Executes the show beans operation. */
     static public void showBeans(boolean b)
     {
         Collection<ProgramCopyOwner> col = ms_hashProgramsByCopy.values();

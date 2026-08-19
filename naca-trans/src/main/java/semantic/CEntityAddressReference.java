@@ -24,20 +24,24 @@ public class CEntityAddressReference extends CBaseDataReference
         super(0, "", cat);
         reference = ref ;
     }
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.ADDRESS ;
     }
 //  protected CDataEntity reference = null ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;

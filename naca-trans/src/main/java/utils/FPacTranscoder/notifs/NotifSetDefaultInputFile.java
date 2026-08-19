@@ -8,6 +8,7 @@ package utils.FPacTranscoder.notifs;
 
 import jlib.engine.BaseNotification;
 
+/** Provides notif set default input file behavior. */
 public class NotifSetDefaultInputFile extends BaseNotification
 {
     public String fileRef = "" ;

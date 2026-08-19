@@ -56,15 +56,18 @@ public class CEntitySetCursor extends CBaseActionEntity
     }
 
     protected CDataEntity refField = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         refField = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return refField == null || (referenceValue!=null && referenceValue.ignore());
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == refField)
@@ -75,6 +78,7 @@ public class CEntitySetCursor extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (refField == field)

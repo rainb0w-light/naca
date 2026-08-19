@@ -10,6 +10,7 @@ public class CStringExporter extends CBaseLanguageExporter
 {
     private StringBuilder buffer = new StringBuilder();
 
+    /** Creates a new cstring exporter instance. */
     public CStringExporter()
     {
         super(null, null);

@@ -75,11 +75,13 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
         super(l, name, cat, CEntityFieldAttributeType.DATA, owner);
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false ;
@@ -95,17 +97,20 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
         return getReference() == null ? "[UNDEFINED]" : getReference().GetName() ;
     }
 
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CDataEntity e = reference.GetArrayReference(v, factory) ;
         return factory.NewEntityFieldData(getLine(), "", e);
     };
+    /** Executes the get sub string reference operation. */
     public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
     {
         CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
         ref.SetReference(this, start, length) ;
         return ref ;
     };
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -147,6 +152,7 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
             return null ;
         }
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         CEntityAssign eAssign = factory.NewEntityAssign(l) ;
@@ -155,6 +161,7 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
         reference.RegisterWritingAction(eAssign) ;
         return eAssign ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -178,6 +185,7 @@ public class CEntityFieldData extends CBaseEntityFieldAttribute
         reference.RegisterWritingAction(eAssign) ;
         return eAssign ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

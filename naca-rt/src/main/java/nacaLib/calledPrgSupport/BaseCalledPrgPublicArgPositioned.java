@@ -18,11 +18,13 @@ public abstract class BaseCalledPrgPublicArgPositioned extends CCallParam
 {
     private BaseCalledPrgPublicArgWay way = null;
 
+    /** Creates a new base called prg public arg positioned instance. */
     public BaseCalledPrgPublicArgPositioned()
     {
         way = BaseCalledPrgPublicArgWay.IN;
     }
 
+    /** Creates a new base called prg public arg positioned instance. */
     public BaseCalledPrgPublicArgPositioned(boolean bInOut)
     {
         if (bInOut) {
@@ -32,6 +34,7 @@ public abstract class BaseCalledPrgPublicArgPositioned extends CCallParam
         }
     }
 
+    /** Executes the fill with var operation. */
     public void fillWithVar(Var varDest)
     {
         if (way != BaseCalledPrgPublicArgWay.IN) {
@@ -39,5 +42,6 @@ public abstract class BaseCalledPrgPublicArgPositioned extends CCallParam
         }
     }
 
+    /** Executes the do fill with var operation. */
     public abstract void doFillWithVar(Var varDest);
 }

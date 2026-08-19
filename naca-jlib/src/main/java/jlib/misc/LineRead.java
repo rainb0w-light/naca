@@ -63,6 +63,7 @@ public class LineRead
         }
     }
 
+    /** Executes the shift offset operation. */
     public void shiftOffset(int nShiftLength)
     {
         nTotalLength -= nShiftLength;
@@ -83,6 +84,7 @@ public class LineRead
         }
     }
 
+    /** Returns the chunk as string. */
     public String getChunkAsString()
     {
         String cs = new String(tbLine, nOffset, nTotalLength);
@@ -94,6 +96,7 @@ public class LineRead
         return tbLine;
     }
 
+    /** Returns the buffer copy. */
     public byte [] getBufferCopy()
     {
         byte by[] = new byte[nTotalLength];
@@ -125,6 +128,7 @@ public class LineRead
         return tbLine.length;
     }
 
+    /** Executes the manage trailing lf operation. */
     public boolean manageTrailingLF()
     {
         if(tbLine[nOffset+nTotalLength-1] == 0x0A)
@@ -136,6 +140,7 @@ public class LineRead
         return false;
     }
 
+    /** Returns whether trailing lf. */
     public boolean isTrailingLF()
     {
         // PJD Next line was if(tbLine[nOffset+nTotalLength-1] == 0x0A);
@@ -147,6 +152,7 @@ public class LineRead
         return false;
     }
 
+    /** Returns the as little ending unsign binary int. */
     public int getAsLittleEndingUnsignBinaryInt()
     {
         if (nBodyLength >= 4) {
@@ -155,6 +161,7 @@ public class LineRead
         return -1;  // Error
     }
 
+    /** Returns the as little ending unsign binary short. */
     public int getAsLittleEndingUnsignBinaryShort()
     {
         if (nBodyLength >= 2) {
@@ -163,6 +170,7 @@ public class LineRead
         return -1;  // Error
     }
 
+    /** Sets the data length starting at0. */
     public void setDataLengthStartingAt0(int nLength)
     {
         nBodyLength = nLength;

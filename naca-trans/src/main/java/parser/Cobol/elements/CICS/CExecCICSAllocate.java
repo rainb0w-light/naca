@@ -23,6 +23,7 @@ import utils.Transcoder;
  */
 public class CExecCICSAllocate extends CCobolElement
 {
+    /** Creates a new cexec cicsallocate instance. */
     public CExecCICSAllocate(int line)
     {
         super(line);

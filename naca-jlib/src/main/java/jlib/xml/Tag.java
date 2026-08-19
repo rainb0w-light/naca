@@ -72,11 +72,13 @@ import org.xml.sax.InputSource;
  */
 public class Tag
 {
+    /** Creates a new tag instance. */
     public Tag()
     {
         doc = CreateDocument();
     }
 
+    /** Creates a new tag instance. */
     public Tag(String name)
     {
         doc = CreateDocument();
@@ -84,6 +86,7 @@ public class Tag
         doc.appendChild(elem) ;
     }
 
+    /** Sets the doc. */
     public void setDoc(Document doc)
     {
         this.doc = doc;
@@ -137,18 +140,21 @@ public class Tag
         return null ;
     }
 
+    /** Adds the tag. */
     public Tag addTag(String csTagName)
     {
         Tag tag = new Tag(this, csTagName);
         return tag;
     }
 
+    /** Adds the text tag. */
     public void addTextTag(String csTagName, String csText)
     {
         Tag tag = new Tag(this, csTagName);
         tag.setText(csText);
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, String csValue)
     {
         if (csValue == null) {
@@ -166,6 +172,7 @@ public class Tag
         return true;
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, Date dateValue)
     {
         String csValue = "";
@@ -184,6 +191,7 @@ public class Tag
         return true;
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, int nValue)
     {
         try
@@ -198,6 +206,7 @@ public class Tag
         return true;
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, double dValue)
     {
         try
@@ -212,6 +221,7 @@ public class Tag
         return true;
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, long lValue)
     {
         try
@@ -226,6 +236,7 @@ public class Tag
         return true;
     }
 
+    /** Adds the val. */
     public boolean addVal(String csArgName, boolean bValue)
     {
         try
@@ -240,6 +251,7 @@ public class Tag
         return true;
     }
 
+    /** Removes the val. */
     public boolean removeVal(String csArgName)
     {
         try
@@ -254,6 +266,7 @@ public class Tag
         return true;
     }
 
+    /** Returns the val. */
     public String getVal(String csArgName)
     {
         if (elem != null) {
@@ -262,6 +275,7 @@ public class Tag
         return null;
     }
 
+    /** Updates the val. */
     public void updateVal(String csArgName, String csValue)
     {
         if(elem != null)
@@ -273,6 +287,7 @@ public class Tag
         }
     }
 
+    /** Returns the node val. */
     public String getNodeVal()
     {
         if (elem != null) {
@@ -281,6 +296,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the val as int. */
     public int getValAsInt(String csArgName)
     {
         if(elem != null)
@@ -291,6 +307,7 @@ public class Tag
         return 0;
     }
 
+    /** Returns the val as int. */
     public int getValAsInt(String csArgName, int nDefaultValue)
     {
         if(elem != null)
@@ -304,6 +321,7 @@ public class Tag
         return 0;   // Bug: Should be nDefaultValue
     }
 
+    /** Returns the val as long. */
     public long getValAsLong(String csArgName)
     {
         if(elem != null)
@@ -314,6 +332,7 @@ public class Tag
         return 0L;
     }
 
+    /** Returns the val as date. */
     public Date getValAsDate(String csArgName)
     {
         if(elem != null)
@@ -326,6 +345,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the val as double. */
     public double getValAsDouble(String csArgName)
     {
         if(elem != null)
@@ -337,6 +357,7 @@ public class Tag
     }
 
 
+    /** Returns the val as boolean. */
     public boolean getValAsBoolean(String csArgName)
     {
         if(elem != null)
@@ -347,6 +368,7 @@ public class Tag
         return false;
     }
 
+    /** Returns the val as boolean. */
     public boolean getValAsBoolean(String csArgName, boolean bDefaultValue)
     {
         if(elem != null)
@@ -359,6 +381,7 @@ public class Tag
         return bDefaultValue;
     }
 
+    /** Returns whether val existing. */
     public boolean isValExisting(String csArgName)
     {
         if(elem != null)
@@ -376,6 +399,7 @@ public class Tag
         return elem.getTagName();
     }
 
+    /** Returns whether named. */
     public boolean isNamed(String csNameSearched)
     {
         String cs = elem.getTagName();
@@ -385,6 +409,7 @@ public class Tag
         return false;
     }
 
+    /** Returns the root tag. */
     public Tag getRootTag()
     {
         Tag tagRoot = new Tag(this);
@@ -392,6 +417,7 @@ public class Tag
         return tagRoot;
     }
 
+    /** Returns the parent. */
     public Tag getParent()
     {
         Element eParent = (Element)elem.getParentNode();
@@ -403,6 +429,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the first child constrained tag attribute. */
     public Tag getFirstChildConstrainedTagAttribute(String csTagName, String csAttributName, String csAttributeValue)
     {
         TagCursor curTag = new TagCursor();
@@ -417,6 +444,7 @@ public class Tag
         return null;
     }
 
+    /** Returns whether s constrained attribute. */
     public boolean hasConstrainedAttribute(String csAttributName, String csAttributeValueToSearch)
     {
         String csVal = getVal(csAttributName);
@@ -428,6 +456,7 @@ public class Tag
         return false;
     }
 
+    /** Returns the first child constrained tag attribute no case. */
     public Tag getFirstChildConstrainedTagAttributeNoCase(String csTagName, String csAttributName, String csAttributeValue)
     {
         TagCursor curTag = new TagCursor();
@@ -442,6 +471,7 @@ public class Tag
         return null;
     }
 
+    /** Returns whether s constrained attribute no case. */
     public boolean hasConstrainedAttributeNoCase(String csAttributName, String csAttributeValueToSearch)
     {
         String csVal = getVal(csAttributName);
@@ -454,6 +484,7 @@ public class Tag
     }
 
     // csName can contain tag names separeted by '/'
+    /** Returns the child. */
     public Tag getChild(String csName)
     {
         int nSep = csName.indexOf('/');
@@ -484,6 +515,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the first child. */
     public Tag getFirstChild(TagCursor cur)
     {
         return getFirstChild(cur, null);
@@ -494,6 +526,7 @@ public class Tag
         return getEnumChild(null);
     }
 
+    /** Returns the enum child. */
     public Tag getEnumChild(String csName)
     {
         if(curTag == null)
@@ -515,6 +548,7 @@ public class Tag
         }
     }
 
+    /** Executes the get current child operation. */
     public Tag GetCurrentChild()
     {
         if (curTag != null) {
@@ -523,6 +557,7 @@ public class Tag
         return null;
     }
 
+    /** Returns whether s1 text children. */
     public boolean has1TextChildren()
     {
         int nNbTextNode = 0;
@@ -553,6 +588,7 @@ public class Tag
         return false;
     }
 
+    /** Returns the first child. */
     public Tag getFirstChild(TagCursor cur, String csName)
     {
         cur.setNameEnumeration(csName);
@@ -591,6 +627,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the next child. */
     public Tag getNextChild(TagCursor cur)
     {
         String csName = cur.getNameEnumeration();
@@ -627,6 +664,7 @@ public class Tag
         return null;
     }
 
+    /** Removes the child. */
     public Tag removeChild(String csName)
     {
         return removeChild(csName, null, null);
@@ -638,6 +676,7 @@ public class Tag
 //      elem.replaceChild(tagNewCurrentDoc.elem, tagOld.elem);
 //  }
 
+    /** Removes the all children. */
     public void removeAllChildren()
     {
         ArrayList<Tag> arr = new ArrayList<Tag>();
@@ -720,6 +759,7 @@ public class Tag
         return null;
     }
 
+    /** Removes the child. */
     public void removeChild(Tag tagchild)
     {
         if(tagchild != null)
@@ -728,6 +768,7 @@ public class Tag
         }
     }
 
+    /** Returns the first val. */
     public String getFirstVal(ValCursor cur)
     {
         NamedNodeMap nodeMap = elem.getAttributes();
@@ -735,11 +776,13 @@ public class Tag
         return cur.getFirstVal();
     }
 
+    /** Returns the next val. */
     public String getNextVal(ValCursor cur)
     {
         return cur.getNextVal();
     }
 
+    /** Returns the first param. */
     public Node getFirstParam(ValCursor cur)
     {
         NamedNodeMap nodeMap = elem.getAttributes();
@@ -747,16 +790,19 @@ public class Tag
         return cur.getFirstParam();
     }
 
+    /** Returns the next param. */
     public Node getNextParam(ValCursor cur)
     {
         return cur.getNextParam();
     }
 
+    /** Executes the normalize operation. */
     public void normalize()
     {
         doc.normalizeDocument();
     }
 
+    /** Returns the first named val. */
     public String getFirstNamedVal(ValCursor cur, String csParameterName)
     {
         Node node = getFirstParam(cur);
@@ -770,6 +816,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the next named val. */
     public String getNextNamedVal(ValCursor cur, String csParameterName)
     {
         Node node = getNextParam(cur);
@@ -784,6 +831,7 @@ public class Tag
     }
 
     // Import / Export
+    /** Exports the to file. */
     public boolean exportToFile(String csFilename)
     {
         try
@@ -799,6 +847,7 @@ public class Tag
         }
     }
 
+    /** Exports the utf8. */
     public boolean exportUTF8(OutputStream os)
     {
         BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -806,6 +855,7 @@ public class Tag
         return exportToStream(result, "UTF8");
     }
 
+    /** Exports the to file utf8. */
     public boolean exportToFileUTF8(String csFilename)
     {
         try
@@ -821,6 +871,7 @@ public class Tag
         }
     }
 
+    /** Exports the to string. */
     public String exportToString()
     {
         StringWriter sw = new StringWriter();
@@ -832,6 +883,7 @@ public class Tag
         return null;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringWriter sw = new StringWriter();
@@ -903,6 +955,7 @@ public class Tag
         return false;
     }
 
+    /** Creates the from file. */
     public static Tag createFromFile(String csFilePath)
     {
         Tag tag = new Tag();
@@ -913,6 +966,7 @@ public class Tag
         return null;
     }
 
+    /** Creates the from file. */
     public static Tag createFromFile(String csFilePath, ArrayList<String> arrIncludePath)
     {
         Tag tag = new Tag();
@@ -943,6 +997,7 @@ public class Tag
         return null;
     }
 
+    /** Creates the from stream. */
     public static Tag createFromStream(InputStream is)
     {
         Tag tag = new Tag();
@@ -953,6 +1008,7 @@ public class Tag
         return null;
     }
 
+    /** Creates the from string. */
     public static Tag createFromString(String cs)
     {
         Tag tag = new Tag();
@@ -963,6 +1019,7 @@ public class Tag
         return null;
     }
 
+    /** Creates the from file. */
     public static Tag createFromFile(File f)
     {
         Tag tag = new Tag();
@@ -974,6 +1031,7 @@ public class Tag
     }
 
 
+    /** Executes the load operation. */
     public boolean load(String csFilePath)
     {
         if (StringUtil.isEmpty(csFilePath)) {
@@ -983,6 +1041,7 @@ public class Tag
         return load(file);
     }
 
+    /** Executes the load operation. */
     public boolean load(File f)
     {
         try
@@ -1000,6 +1059,7 @@ public class Tag
         }
     }
 
+    /** Executes the load operation. */
     public boolean load(InputStream s)
     {
         try
@@ -1017,6 +1077,7 @@ public class Tag
         }
     }
 
+    /** Loads the from string. */
     public boolean loadFromString(String cs)
     {
         try
@@ -1053,18 +1114,21 @@ public class Tag
         return "" ;
     }
 
+    /** Returns the child text as int. */
     public int getChildTextAsInt(String string)
     {
         String cs = getChildText(string);
         return NumberParser.getAsInt(cs);
     }
 
+    /** Returns the child text as double. */
     public double getChildTextAsDouble(String string)
     {
         String cs = getChildText(string);
         return NumberParser.getAsDouble(cs);
     }
 
+    /** Returns the child text as boolean. */
     public boolean getChildTextAsBoolean(String string)
     {
         String cs = getChildText(string);
@@ -1081,6 +1145,7 @@ public class Tag
         return doc ;
     }
 
+    /** Adds the child. */
     public void addChild(Tag tagForm)
     {
         Element el = tagForm.elem ;
@@ -1100,6 +1165,7 @@ public class Tag
             }
         }
     }
+    /** Returns the copy. */
     public Tag getCopy()
     {
         if (elem == null || doc == null)
@@ -1121,21 +1187,25 @@ public class Tag
         Tag ntag = new Tag(doc, e) ;
         return ntag ;
     }
+    /** Sets the name. */
     public void setName(String string)
     {
         doc.renameNode(elem, "", string) ;
     }
 
+    /** Sets the text. */
     public void setText(String csText)
     {
         elem.setTextContent(csText);
     }
 
+    /** Exports the to file. */
     public void exportToFile(File f)
     {
         exportToFile(f.getAbsolutePath()) ;
     }
 
+    /** Returns the childs. */
     public Vector<Tag> getChilds(String tagName)
     {
         Vector<Tag> arr = new Vector<Tag>() ;
@@ -1149,24 +1219,28 @@ public class Tag
         return arr ;
     }
 
+    /** Adds the cdata. */
     public void addCData(String csCData)
     {
         CDATASection cdata = doc.createCDATASection(csCData);
         elem.appendChild(cdata);
     }
 
+    /** Adds the cdata. */
     public void addCData(int nData)
     {
         String csCData = String.valueOf(nData);
         addCData(csCData);
     }
 
+    /** Adds the cdata. */
     public void addCData(long lData)
     {
         String csCData = String.valueOf(lData);
         addCData(csCData);
     }
 
+    /** Adds the cdata. */
     public void addCData(short sData)
     {
         String csCData = String.valueOf(sData);
@@ -1178,6 +1252,7 @@ public class Tag
         return getNodeVal();
     }
 
+    /** Returns the nb attributes with value. */
     public int getNbAttributesWithValue(String csParameterName, String csOptionalPrefixed)
     {
         int n  = 0;
@@ -1195,6 +1270,7 @@ public class Tag
         return n;
     }
 
+    /** Returns the attributes with value. */
     public ArrayList<String> getAttributesWithValue(String csParameterName, String csOptionalPrefixed)
     {
         ArrayList<String> arrs = null;
@@ -1217,6 +1293,7 @@ public class Tag
         return arrs;
     }
 
+    /** Returns the first attributes with value. */
     public String getFirstAttributesWithValue(String csParameterName, String csOptionalPrefixed)
     {
         int n  = 0;
@@ -1235,6 +1312,7 @@ public class Tag
         return null;
     }
 
+    /** Returns the attributes with value optional brackets. */
     public ArrayList<String> getAttributesWithValueOptionalBrackets(String csParameterName, String csOptionalPrefixed)
     {
         ArrayList<String> arrs = null;

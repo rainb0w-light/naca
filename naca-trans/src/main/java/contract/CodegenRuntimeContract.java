@@ -45,12 +45,19 @@ public final class CodegenRuntimeContract
             this.returns = returns;
         }
 
+        /** Executes the id operation. */
         public String id() { return id; }
+        /** Executes the since operation. */
         public int since() { return since; }
+        /** Executes the capability operation. */
         public String capability() { return capability; }
+        /** Executes the runtime class operation. */
         public String runtimeClass() { return runtimeClass; }
+        /** Executes the runtime method operation. */
         public String runtimeMethod() { return runtimeMethod; }
+        /** Executes the param types operation. */
         public List<String> paramTypes() { return paramTypes; }
+        /** Executes the returns operation. */
         public String returns() { return returns; }
     }
 
@@ -68,8 +75,11 @@ public final class CodegenRuntimeContract
             this.requires = Collections.unmodifiableList(requires);
         }
 
+        /** Executes the template operation. */
         public String template() { return template; }
+        /** Executes the capability operation. */
         public String capability() { return capability; }
+        /** Executes the requires operation. */
         public List<String> requires() { return requires; }
     }
 
@@ -86,8 +96,11 @@ public final class CodegenRuntimeContract
         this.templateRequirements = Collections.unmodifiableMap(templateRequirements);
     }
 
+    /** Executes the contract version operation. */
     public int contractVersion() { return contractVersion; }
+    /** Executes the operations operation. */
     public Map<String, RuntimeOperation> operations() { return operations; }
+    /** Executes the template requirements operation. */
     public Map<String, TemplateRequirement> templateRequirements() { return templateRequirements; }
 
     /** Loads the contract from the classpath ({@code /contract/*.yaml}). */

@@ -8,6 +8,7 @@ package nacaLib.varEx;
 
 import jlib.misc.AsciiEbcdicConverter;
 
+/** Provides var num dec sign comp4 behavior. */
 public class VarNumDecSignComp4 extends VarNum
 {
     VarNumDecSignComp4(DeclareType9 declareType9)
@@ -26,11 +27,13 @@ public class VarNumDecSignComp4 extends VarNum
         return v;
     }
 
+    /** Executes the debugis storage ascii operation. */
     public boolean DEBUGisStorageAscii()
     {
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String csValue)
     {
         double dValue = 0;
@@ -44,12 +47,14 @@ public class VarNumDecSignComp4 extends VarNum
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         double dValue = nValue;
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

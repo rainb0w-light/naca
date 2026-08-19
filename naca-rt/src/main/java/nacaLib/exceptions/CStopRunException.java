@@ -8,18 +8,21 @@ package nacaLib.exceptions;
 
 import nacaLib.basePrgEnv.BaseProgramManager;
 
+/** Signals a cstop run exception condition. */
 public class CStopRunException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
     private BaseProgramManager programManager = null;
     private final int returning;
 
+    /** Creates a new cstop run exception instance. */
     public CStopRunException(BaseProgramManager programManager, int returning)
     {
         this.programManager = programManager;
         this.returning = returning;
     }
 
+    /** Returns the message. */
     public String getMessage()
     {
         String cs = "CStopRunException: Program:"+ programManager.getProgramName();

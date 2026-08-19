@@ -17,9 +17,11 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.Verbs.CEntityGoto;
 
+/** Provides cfpac go end behavior. */
 public class CFPacGoEnd extends CFPacElement
 {
 
+    /** Creates a new cfpac go end instance. */
     public CFPacGoEnd(int line)
     {
         super(line);

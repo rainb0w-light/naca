@@ -10,9 +10,11 @@ import semantic.CBaseActionEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity close file behavior. */
 public class CEntityCloseFile extends CBaseActionEntity
 {
 
+    /** Creates a new centity close file instance. */
     public CEntityCloseFile(int line, CObjectCatalog cat)
     {
         super(line, cat);

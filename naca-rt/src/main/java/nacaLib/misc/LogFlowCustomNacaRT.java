@@ -6,10 +6,12 @@
  */
 package nacaLib.misc;
 
+/** Provides log flow custom naca rt behavior. */
 public class LogFlowCustomNacaRT
 {
     public static LogFlowDisplay Display = new LogFlowDisplay();
 
+    /** Executes the declare operation. */
     static public void declare()
     {
     }

@@ -15,6 +15,7 @@ import java.util.Vector;
 public class CEntityHierarchy
 {
 
+    /** Creates a new centity hierarchy instance. */
     public CEntityHierarchy()
     {
     }
@@ -28,11 +29,13 @@ public class CEntityHierarchy
 //  }
     protected Vector<String> ascendants = new Vector<String>() ;
 
+    /** Adds the level. */
     public void AddLevel(String level)
     {
         ascendants.addElement(level) ;
     }
 
+    /** Executes the check ascendant operation. */
     public boolean CheckAscendant(String name)
     {
         if (name.contains(";"))
@@ -42,6 +45,7 @@ public class CEntityHierarchy
         }
         return ascendants.contains(name) && !ascendants.elementAt(ascendants.size()-1).equals(name);
     }
+    /** Executes the check ascendants operation. */
     public boolean CheckAscendants(String[] arr)
     {
         boolean b = true ;
@@ -52,6 +56,7 @@ public class CEntityHierarchy
         return b ;
     }
 
+    /** Finds the good name. */
     public String FindGoodName(CEntityHierarchy tab[], String curName, int index)
     {
         String radical = curName ;
@@ -82,6 +87,7 @@ public class CEntityHierarchy
         return radical+"$"+goodName ;
     }
 
+    /** Executes the concat operation. */
     public CEntityHierarchy Concat(CEntityHierarchy hier)
     {
         for (int i = 0; i<hier.ascendants.size(); i++)

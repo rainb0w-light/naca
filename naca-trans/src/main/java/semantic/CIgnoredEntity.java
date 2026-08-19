@@ -34,6 +34,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.IGNORE ;
@@ -42,6 +43,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -50,6 +52,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#ignore()
      */
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return true ;
@@ -58,6 +61,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetSpecialAssignment(semantic.CDataEntity, semantic.CBaseEntityFactory, int)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return factory.NewEntityNoAction(l) ;
@@ -66,6 +70,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetSpecialAssignment(parser.expression.CTerminal, semantic.CBaseEntityFactory, int)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return factory.NewEntityNoAction(l) ;
@@ -74,6 +79,7 @@ public class CIgnoredEntity extends CDataEntity
     /* (non-Javadoc)
      * @see semantic.CDataEntity#GetConstantValue()
      */
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
@@ -84,6 +90,7 @@ public class CIgnoredEntity extends CDataEntity
     }
 
 
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;

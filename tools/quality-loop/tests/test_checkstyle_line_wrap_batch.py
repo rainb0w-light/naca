@@ -146,6 +146,11 @@ class CheckstyleLineWrapBatchTests(unittest.TestCase):
                 "            = new LongType();",
             ],
         )
+        compound = "    accumulator ^= first + second + third;"
+        self.assertEqual(
+            BATCH.split_assignment(compound, maximum=35),
+            ["    accumulator ^=", "            first + second + third;"],
+        )
 
     def test_wraps_only_block_comment_text(self):
         source = "    /* first comment line\n    second comment line */\n    int value;\n"

@@ -81,6 +81,7 @@ public class WriteBufferExt extends VarBufferPos
         nAbsolutePosition += nOffset;
     }
 
+    /** Returns the as byte array with trailing lf. */
     public byte [] getAsByteArrayWithTrailingLF()
     {
         byte tBytes[] = new byte[nAbsolutePosition];

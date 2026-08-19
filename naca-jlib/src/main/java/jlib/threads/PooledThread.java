@@ -6,10 +6,12 @@
  */
 package jlib.threads;
 
+/** Provides pooled thread behavior. */
 public class PooledThread extends BaseThread
 {
     protected PoolOfThreads owningPool = null;
 
+    /** Creates a new pooled thread instance. */
     public PooledThread(PoolOfThreads owningPool)
     {
         this.owningPool = owningPool;
@@ -24,6 +26,7 @@ public class PooledThread extends BaseThread
     {
     }
 
+    /** Runs this operation. */
     public void run()
     {
         try
@@ -61,11 +64,13 @@ public class PooledThread extends BaseThread
     }
 
     // These methods can overloaded in derivated classes
+    /** Executes the pre run operation. */
     public boolean preRun()
     {
         return true;
     }
 
+    /** Executes the post run operation. */
     public void postRun()
     {
     }

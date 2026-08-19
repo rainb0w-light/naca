@@ -20,11 +20,13 @@ public abstract class DeclareTypeBase extends CJMapObject
     protected VarLevel varLevel = null;
     private boolean isvariableLengthDeclaration = false;
 
+    /** Creates a new declare type base instance. */
     public DeclareTypeBase()
     {
     }
 
     // to be removed
+    /** Creates a new declare type base instance. */
     public DeclareTypeBase(VarLevel varLevel)
     {
         set(varLevel);
@@ -46,6 +48,7 @@ public abstract class DeclareTypeBase extends CJMapObject
         return varLevel.getLevel();
     }
 
+    /** Returns the or create var def. */
     public VarDefBuffer getOrCreateVarDef(SharedProgramInstanceData sharedProgramInstanceData /*VarInstancesHolder varInstancesHolder*/)
     {
         if(sharedProgramInstanceData != null)
@@ -108,6 +111,8 @@ public abstract class DeclareTypeBase extends CJMapObject
         return isvariableLengthDeclaration;
     }
 
+    /** Creates the var def. */
     public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);
+    /** Returns the initial value. */
     public abstract CInitialValue getInitialValue();
 }

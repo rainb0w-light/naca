@@ -37,6 +37,7 @@ public final class BmsJavaEntities
     {
     }
 
+    /** Executes the form container operation. */
     public static CEntityResourceFormContainer formContainer(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, boolean save)
@@ -60,6 +61,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the form operation. */
     public static CEntityResourceForm form(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, boolean save)
@@ -77,6 +79,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the field attribute operation. */
     public static CEntityFieldAttribute fieldAttribute(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, CDataEntity owner)
@@ -86,6 +89,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the field data operation. */
     public static CEntityFieldData fieldData(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, CDataEntity field)
@@ -104,11 +108,13 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the resource strings operation. */
     public static CResourceStrings resourceStrings(int lines, int columns)
     {
         return new CResourceStrings(lines, columns);
     }
 
+    /** Renders the localized string declaration. */
     public static String renderLocalizedStringDeclaration(
         CResourceStrings resources, String resourceName, String displayName)
     {
@@ -125,6 +131,7 @@ public final class BmsJavaEntities
             .render();
     }
 
+    /** Executes the skip fields operation. */
     public static CEntitySkipFields skipFields(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, int fields, String level)
@@ -142,6 +149,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the entry field operation. */
     public static CEntityResourceField entryField(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output)
@@ -153,6 +161,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the label field operation. */
     public static CEntityResourceField labelField(
         int line, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -169,6 +178,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the field redefine operation. */
     public static CEntityFieldRedefine fieldRedefine(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, String level)
@@ -187,6 +197,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the form redefine operation. */
     public static CEntityFormRedefine formRedefine(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, CDataEntity form, boolean save)
@@ -221,6 +232,7 @@ public final class BmsJavaEntities
         return new CEntityIsFieldAttribute();
     }
 
+    /** Returns whether field highlight. */
     public static CEntityIsFieldHighlight isFieldHighlight(CDataEntity reference)
     {
         // Retired direct backend generate.java.forms.CJavaIsFieldHighlight: the factory
@@ -230,6 +242,7 @@ public final class BmsJavaEntities
         return new CEntityIsFieldHighlight(reference);
     }
 
+    /** Executes the key pressed operation. */
     public static CEntityKeyPressed keyPressed(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output, String caption)
@@ -243,6 +256,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Returns the key pressed. */
     public static CEntityGetKeyPressed getKeyPressed(
         String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -267,6 +281,7 @@ public final class BmsJavaEntities
         return new CEntityIsKeyPressed();
     }
 
+    /** Executes the field occurs operation. */
     public static CEntityFieldOccurs fieldOccurs(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output)
@@ -285,6 +300,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Resets the key pressed. */
     public static CEntityResetKeyPressed resetKeyPressed(
         int line, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -303,6 +319,7 @@ public final class BmsJavaEntities
         return entity;
     }
 
+    /** Executes the field array operation. */
     public static CEntityResourceFieldArray fieldArray(
         int line, String name, CObjectCatalog catalog,
         CBaseLanguageExporter output)

@@ -12,12 +12,15 @@ import jlib.sql.DbConnectionBase;
 import jlib.sql.DbConnectionManagerBase;
 import jlib.sql.DbDriverId;
 
+/** Provides sqlconnection manager behavior. */
 public class SQLConnectionManager extends DbConnectionManagerBase
 {
+    /** Creates a new sqlconnection manager instance. */
     public SQLConnectionManager()
     {
     }
 
+    /** Creates the connection. */
     public DbConnectionBase createConnection(
         Connection connection,
         String csPrefId,

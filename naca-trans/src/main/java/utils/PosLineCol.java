@@ -16,6 +16,7 @@ package utils;
  */
 public class PosLineCol
 {
+    /** Creates a new pos line col instance. */
     public PosLineCol()
     {
         nLine = 0;
@@ -38,6 +39,7 @@ public class PosLineCol
         nLength = n;
     }
 
+    /** Sets the line col length. */
     public void setLineColLength(int nLine, int nCol, int nLength)
     {
         this.nLine = nLine;

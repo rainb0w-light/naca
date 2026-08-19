@@ -14,16 +14,19 @@ public class InitializeManagerDoubleEdited extends InitializeManager
 {
     private double value = 0.0;
 
+    /** Creates a new initialize manager double edited instance. */
     public InitializeManagerDoubleEdited(double d)
     {
         this.value = d;
     }
 
+    /** Executes the set operation. */
     public void set(double d)
     {
         this.value = d;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeEditedAtOffset(buffer, nOffset, value);

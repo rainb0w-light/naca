@@ -18,10 +18,12 @@ public class COriginalLisiting
     private static final Pattern nP = Pattern.compile("0x000A");
     private static final Pattern rP = Pattern.compile("0x000D");
 
+    /** Executes the register new original line operation. */
     public void RegisterNewOriginalLine(String line)
     {
         lines.add(line) ;
     }
+    /** Executes the get original line operation. */
     public String GetOriginalLine(int n)
     {
         if (n>0 && n<= lines.size())
@@ -38,6 +40,7 @@ public class COriginalLisiting
     }
     protected Vector<String> lines = new Vector<String>();
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         lines.clear() ;

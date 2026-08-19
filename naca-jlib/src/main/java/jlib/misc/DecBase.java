@@ -23,10 +23,12 @@ public class DecBase
     protected long lInt;
     protected boolean bPositive;
 
+    /** Creates a new dec base instance. */
     public DecBase()
     {
     }
 
+    /** Creates a new dec base instance. */
     public DecBase(String csInt, String csDec)
     {
         long lInt = NumberParser.getAsLong(csInt);
@@ -34,12 +36,14 @@ public class DecBase
         this.csDec = csDec;
     }
 
+    /** Creates a new dec base instance. */
     public DecBase(long lInt, String csDec)
     {
         setLong(lInt);
         setDecPart(csDec);
     }
 
+    /** Sets the long. */
     public void setLong(long lInt)
     {
         if(lInt >= 0)
@@ -59,6 +63,7 @@ public class DecBase
         this.bPositive = bPositive;
     }
 
+    /** Sets the negative forced. */
     public void setNegativeForced()
     {
         bPositive = false;
@@ -74,6 +79,7 @@ public class DecBase
         return bPositive;
     }
 
+    /** Sets the unsigned. */
     public void setUnsigned()
     {
         bPositive = true;
@@ -89,6 +95,7 @@ public class DecBase
         return lInt;
     }
 
+    /** Returns the signed long. */
     public long getSignedLong()
     {
         if (bPositive) {
@@ -103,6 +110,7 @@ public class DecBase
         return csDec;
     }
 
+    /** Returns the left most digit of dec part as int. */
     public int getLeftMostDigitOfDecPartAsInt(int nNbDigits)
     {
         if (csDec.length() <= 0) {
@@ -127,6 +135,7 @@ public class DecBase
         return nDec;
     }
 
+    /** Executes the to dec operation. */
     public static DecBase toDec(BigDecimal bd)
     {
         boolean ispositive = true;
@@ -161,6 +170,7 @@ public class DecBase
         }
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs;

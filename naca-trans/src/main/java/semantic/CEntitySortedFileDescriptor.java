@@ -10,15 +10,18 @@ import java.util.Collections;
 import java.util.List;
 import utils.CObjectCatalog;
 
+/** Provides centity sorted file descriptor behavior. */
 public class CEntitySortedFileDescriptor extends CEntityFileDescriptor
 {
 
+    /** Creates a new centity sorted file descriptor instance. */
     public CEntitySortedFileDescriptor(int line, String name,
                     CObjectCatalog cat)
     {
         super(line, name, cat);
     }
 
+    /** Returns the declaration children. */
     public List<CBaseLanguageEntity> getDeclarationChildren()
     {
         if (lstChildren.isEmpty())

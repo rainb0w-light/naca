@@ -17,6 +17,7 @@ public class CEntityIntrinsicFunction extends CBaseEntityFunction
     private final String functionName;
     private final List<CBaseEntityExpression> arguments;
 
+    /** Creates a new centity intrinsic function instance. */
     public CEntityIntrinsicFunction(
         CObjectCatalog catalog,
         String functionName,

@@ -19,12 +19,14 @@ import semantic.Verbs.CEntityAssign;
 import semantic.Verbs.CEntityAssignWithAccessor;
 import semantic.expression.CBaseEntityExpression;
 
+/** Provides cfpac assign behavior. */
 public class CFPacAssign extends CFPacElement
 {
 
     protected CIdentifier identifier= null ;
     protected CExpression expression = null ;
 
+    /** Creates a new cfpac assign instance. */
     public CFPacAssign(int line, CIdentifier id, CExpression exp)
     {
         super(line);

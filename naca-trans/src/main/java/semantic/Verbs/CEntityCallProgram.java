@@ -8,12 +8,12 @@ package semantic.Verbs;
 
 
 import java.util.Vector;
-
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.expression.CEntityString;
-import utils.*;
+import utils.CObjectCatalog;
+
 
 
 /**
@@ -25,28 +25,32 @@ public class CEntityCallProgram extends CBaseActionEntity
     /**
      * @param cat
      */
-    public CEntityCallProgram(int l, CObjectCatalog cat, CDataEntity Reference)
+    public CEntityCallProgram(int l, CObjectCatalog cat, CDataEntity newReference)
     {
         super(l, cat);
-        reference = Reference ;
+        reference = newReference ;
         cat.RegisterCallProgram(this) ;
     }
 
+    /** Sets the parameter by ref. */
     public void SetParameterByRef(CDataEntity e)
     {
         CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_REFERENCE);
         parameters.add(p);
     }
+    /** Sets the parameter by content. */
     public void SetParameterByContent(CDataEntity e)
     {
         CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_CONTENT);
         parameters.add(p);
     }
+    /** Sets the parameter by value. */
     public void SetParameterByValue(CDataEntity e)
     {
         CCallParameter p = new CCallParameter(e, CCallParameterMethode.BY_VALUE);
         parameters.add(p);
     }
+    /** Sets the parameter length of. */
     public void SetParameterLengthOf(CDataEntity e)
     {
         CCallParameter p = new CCallParameter(e, CCallParameterMethode.LENGTH_OF);
@@ -57,6 +61,7 @@ public class CEntityCallProgram extends CBaseActionEntity
     protected CDataEntity reference = null ;
     protected CBaseLanguageEntity onErrorBloc ;
     protected Vector<CCallParameter> parameters = new Vector<CCallParameter>() ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -80,10 +85,12 @@ public class CEntityCallProgram extends CBaseActionEntity
         public CDataEntity reference ;
         public CCallParameterMethode methode ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (reference == data)
@@ -104,6 +111,7 @@ public class CEntityCallProgram extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -149,6 +157,7 @@ public class CEntityCallProgram extends CBaseActionEntity
         return ischecked;
     }
 
+    /** Returns the call parameters. */
     public Vector<CCallParameterView> getCallParameters()
     {
         Vector<CCallParameterView> views = new Vector<CCallParameterView>();
@@ -163,6 +172,7 @@ public class CEntityCallProgram extends CBaseActionEntity
         return views;
     }
 
+    /** Returns whether s on error bloc. */
     public boolean hasOnErrorBloc()
     {
         return onErrorBloc != null;
@@ -194,11 +204,13 @@ public class CEntityCallProgram extends CBaseActionEntity
         return "using";
     }
 
+    /** Provides ccall parameter view behavior. */
     public static class CCallParameterView
     {
         private final String method;
         private final CDataEntity reference;
 
+        /** Creates a new ccall parameter view instance. */
         public CCallParameterView(String method, CDataEntity reference)
         {
             this.method = method;
@@ -221,11 +233,13 @@ public class CEntityCallProgram extends CBaseActionEntity
         ischecked = bChecked ;
     }
 
+    /** Updates the program reference. */
     public void UpdateProgramReference(CDataEntity newProgram)
     {
         reference = newProgram ;
     }
 
+    /** Sets the on error bloc. */
     public void SetOnErrorBloc(CBaseLanguageEntity error)
     {
         onErrorBloc = error;

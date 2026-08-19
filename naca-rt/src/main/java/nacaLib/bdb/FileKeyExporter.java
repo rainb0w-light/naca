@@ -24,6 +24,7 @@ public class FileKeyExporter
     private DataFileWrite dataFileKeyOut = null;
     private BtreeKeyDescription keyDescription = null;
 
+    /** Creates a new file key exporter instance. */
     public FileKeyExporter(String csKeys, String csExportKeyFileOut, boolean bFileInEbcdic)
     {
         if(csExportKeyFileOut != null)
@@ -48,6 +49,7 @@ public class FileKeyExporter
         keyDescription.setFileInEncoding(bFileInEbcdic);
     }
 
+    /** Executes the execute operation. */
     public void execute(String csFileIn, int nBufferChunkReadAHead)
     {
         int nNbRecordRead = 0;

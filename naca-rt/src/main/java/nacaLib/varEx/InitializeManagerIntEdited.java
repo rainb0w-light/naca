@@ -14,16 +14,19 @@ public class InitializeManagerIntEdited extends InitializeManager
 {
     private int nValue = 0;
 
+    /** Creates a new initialize manager int edited instance. */
     public InitializeManagerIntEdited(int nValue)
     {
         this.nValue = nValue;
     }
 
+    /** Executes the set operation. */
     public void set(int nValue)
     {
         this.nValue = nValue;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeEditedAtOffset(buffer, nOffset, nValue);

@@ -7,7 +7,8 @@
 package semantic;
 
 
-import utils.*;
+import utils.CObjectCatalog;
+import utils.Transcoder;
 
 /**
  * @author sly
@@ -42,10 +43,12 @@ public class CEntityInline extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#GetInternalLevel()
      */
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         return externalData.GetInternalLevel() ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return externalData.ignore() ;
@@ -54,6 +57,7 @@ public class CEntityInline extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#Clear()
      */
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -79,6 +83,7 @@ public class CEntityInline extends CBaseActionEntity
         }
         sub.parent = le ;
     }
+    /** Adds the child. */
     public void AddChild(CBaseLanguageEntity e)
     {
         super.AddChild(e) ;
@@ -95,6 +100,7 @@ public class CEntityInline extends CBaseActionEntity
             externalData.AddChildSpecial(e);
         }
     }
+    /** Finds the last entity available for level. */
     public CBaseLanguageEntity FindLastEntityAvailableForLevel(int level)
     {
         CBaseLanguageEntity e = externalData.FindLastEntityAvailableForLevel(level) ;
@@ -138,6 +144,7 @@ public class CEntityInline extends CBaseActionEntity
     /* (non-Javadoc)
      * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
      */
+    /** Executes the replace external data operation. */
     public boolean ReplaceExternalData(CBaseExternalEntity field, CBaseExternalEntity var)
     {
         if (field == externalData)

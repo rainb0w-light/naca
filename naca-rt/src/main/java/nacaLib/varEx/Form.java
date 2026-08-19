@@ -32,6 +32,7 @@ import org.w3c.dom.NodeList;
  */
 public class Form extends Var
 {
+    /** Creates a new form instance. */
     public Form(DeclareTypeForm declareTypeForm, String csDeclaredFormName)
     {
         super(declareTypeForm);
@@ -55,6 +56,7 @@ public class Form extends Var
         return v;
     }
 
+    /** Executes the assign buffer ext operation. */
     public void assignBufferExt(VarBuffer bufferSource)
     {
         super.assignBufferExt(bufferSource);
@@ -70,11 +72,13 @@ public class Form extends Var
         }
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         varDef.write(bufferPos, cs);
     }
 
+    /** Executes the set operation. */
     public void set(char c)
     {
     }
@@ -89,21 +93,25 @@ public class Form extends Var
         return (VarDefForm) varDef;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         return false;
     }
 
+    /** Executes the encode to var operation. */
     public void encodeToVar(Var varDest)
     {
         ((VarDefForm)varDef).encodeToVar(bufferPos, varDest);
     }
 
+    /** Executes the decode from var operation. */
     public void decodeFromVar(Var varSource)
     {
         ((VarDefForm)varDef).decodeFromVar(bufferPos, varSource);
     }
 
+    /** Executes the decode from char buffer operation. */
     public void decodeFromCharBuffer(InternalCharBuffer charBufferSource)
     {
         ((VarDefForm)varDef).decodeFromCharBuffer(bufferPos, charBufferSource);
@@ -114,6 +122,7 @@ public class Form extends Var
         arrEdits.add(edit);
     }
 
+    /** Returns the xmldata. */
     public Document getXMLData(String langID, int cursorPosition)
     {
         try
@@ -141,6 +150,7 @@ public class Form extends Var
         return null;
     }
 
+    /** Returns the edit. */
     public Edit getEdit(String name)
     {
         for (int i=0; i<arrEdits.size(); i++)
@@ -153,6 +163,7 @@ public class Form extends Var
         }
         return null ;
     }
+    /** Exports the fields. */
     public void ExportFields(SortedSet<Element> setFields, Document doc, String csLangId)
     {
         for (int i=0; i<arrEdits.size(); i++)
@@ -182,6 +193,7 @@ public class Form extends Var
 //  }
 */
 
+    /** Executes the get edit at operation. */
     public Edit GetEditAt(int nField)
     {
         if (nField < arrEdits.size()) {
@@ -195,6 +207,7 @@ public class Form extends Var
         return csDeclaredFormName;
     }
 
+    /** Executes the encode to char buffer operation. */
     public InternalCharBuffer encodeToCharBuffer()
     {
         int nDestLength = varDef.getBodyLength() + varDef.getHeaderLength();
@@ -202,6 +215,7 @@ public class Form extends Var
         return charBuffer;
     }
 
+    /** Loads the values. */
     public void loadValues(Document xmlData)
     {
         Element eForm = xmlData.getDocumentElement() ;
@@ -233,6 +247,7 @@ public class Form extends Var
 //      }
 //  }
 
+    /** Executes the initialize operation. */
     public void initialize(InitializeCache initializeCache)
     {
         if(initializeCache != null && initializeCache.isFilled())   // initializeCache may be null
@@ -261,6 +276,7 @@ public class Form extends Var
 
 
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
@@ -268,6 +284,7 @@ public class Form extends Var
     }
 
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

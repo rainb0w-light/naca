@@ -6,11 +6,12 @@
  */
 package parser.Cobol.elements;
 
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 
 
 

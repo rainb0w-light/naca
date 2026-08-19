@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public  class CStrManager
 {
+    /** Returns the mapped. */
     public CStr getMapped()
     {
         if(nIndexCStrMapped < strMapped.size())
@@ -36,6 +37,7 @@ public  class CStrManager
         }
     }
 
+    /** Returns the reusable. */
     public CStr getReusable()
     {
         if(nIndexCStrReusable < strReusable.size())
@@ -53,6 +55,7 @@ public  class CStrManager
         }
     }
 
+    /** Returns the number. */
     public CStrNumber getNumber()
     {
         if(nIndexCStrNumber < strNumber.size())
@@ -70,6 +73,7 @@ public  class CStrManager
         }
     }
 
+    /** Returns the string. */
     public CStrString getString()
     {
         if(nIndexCStrString < strString.size())
@@ -98,6 +102,7 @@ public  class CStrManager
     private int nIndexCStrNumber = 0;
     private int nIndexCStrString = 0;
 
+    /** Executes the reset operation. */
     public void reset()
     {
         nIndexCStrMapped = 0;
@@ -106,6 +111,7 @@ public  class CStrManager
         nIndexCStrString = 0;
     }
 
+    /** Executes the rewind cstr mapped operation. */
     public void rewindCStrMapped(int n)
     {
         nIndexCStrMapped -= n;

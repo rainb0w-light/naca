@@ -32,6 +32,7 @@ public class FPacFileDeclaration
         this.csName = csName;
     }
 
+    /** Executes the file operation. */
     public FPacFileDescriptor file()
     {
         DataSectionFile fileSection = section.fileSection();
@@ -45,6 +46,7 @@ public class FPacFileDeclaration
     }
 
     // Supersede the logical name declared record length
+    /** Executes the forced record length operation. */
     public FPacFileDeclaration forcedRecordLength(int n)
     {
         nRecordLength = n;
@@ -52,29 +54,34 @@ public class FPacFileDeclaration
         return this;
     }
 
+    /** Executes the fill input buffer operation. */
     public FPacFileDeclaration fillInputBuffer(byte by)
     {
         pacRecordFillerInput.setFiller(by);
         return this;
     }
 
+    /** Executes the fill input buffer operation. */
     public FPacFileDeclaration fillInputBuffer(char c)
     {
         pacRecordFillerInput.setFiller(c);
         return this;
     }
 
+    /** Executes the fill output buffer operation. */
     public FPacFileDeclaration fillOutputBuffer(byte by)
     {
         pacRecordFillerOutput.setFiller(by);
         return this;
     }
 
+    /** Executes the fill output buffer operation. */
     public FPacFileDeclaration fillOutputBuffer(char c)
     {
         pacRecordFillerOutput.setFiller(c);
         return this;
     }
+    /** Executes the fill output buffer operation. */
     public FPacFileDeclaration fillOutputBuffer(String cs)
     {
         if (cs != null && cs.length() >= 1) {

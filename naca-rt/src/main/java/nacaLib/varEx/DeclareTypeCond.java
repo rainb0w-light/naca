@@ -16,18 +16,22 @@ import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.basePrgEnv.BaseProgramManager;
 
+/** Provides declare type cond behavior. */
 public class DeclareTypeCond extends CJMapObject
 {
+    /** Creates a new declare type cond instance. */
     public DeclareTypeCond()
     {
     }
 
+    /** Executes the set operation. */
     public void set(BaseProgram program)
     {
         programManager = program.getProgramManager();
         values = new ArrayList<CondValue>();
     }
 
+    /** Executes the value operation. */
     public DeclareTypeCond value(String s)
     {
         CondValue condValue = new CondValue(s);
@@ -35,6 +39,7 @@ public class DeclareTypeCond extends CJMapObject
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareTypeCond value(String sMin, String sMax)
     {
         CondValue condValue = new CondValue(sMin, sMax);
@@ -42,6 +47,7 @@ public class DeclareTypeCond extends CJMapObject
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareTypeCond value(int nMin, int nMax)
     {
         String min = String.valueOf(nMin);
@@ -52,6 +58,7 @@ public class DeclareTypeCond extends CJMapObject
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareTypeCond value(int n)
     {
         String s = String.valueOf(n);
@@ -61,6 +68,7 @@ public class DeclareTypeCond extends CJMapObject
         return this;
     }
 
+    /** Executes the value operation. */
     public DeclareTypeCond value(CobolConstantBase constant)
     {
         CondValue condValue = new CondValue(constant);
@@ -68,6 +76,7 @@ public class DeclareTypeCond extends CJMapObject
         return this;
     }
 
+    /** Executes the var operation. */
     public Cond var()
     {
         Var varParent = (Var)programManager.getLastVarCreated();

@@ -6,8 +6,10 @@
  */
 package nacaLib.misc;
 
-import jlib.log.*;
+import jlib.log.LogFlow;
+import jlib.log.LogFlowStd;
 
+/** Provides log flow display behavior. */
 public class LogFlowDisplay extends LogFlow
 {
     protected LogFlowDisplay()
@@ -15,6 +17,7 @@ public class LogFlowDisplay extends LogFlow
         super("LogFlowDisplay");
     }
 
+    /** Returns whether acceptable. */
     public boolean isAcceptable(LogFlow logFlow)
     {
         return this == logFlow || logFlow == LogFlowStd.Any;

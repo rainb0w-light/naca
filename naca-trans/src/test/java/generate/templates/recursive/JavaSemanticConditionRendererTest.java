@@ -151,6 +151,7 @@ class JavaSemanticConditionRendererTest
         return condition;
     }
 
+    @SuppressWarnings("PMD.ExhaustiveSwitchHasDefault")
     private CEntityCondCompare compare(Comparison comparison)
     {
         CEntityCondCompare condition = new CEntityCondCompare();
@@ -160,6 +161,9 @@ class JavaSemanticConditionRendererTest
             case LESS_OR_EQUAL -> condition.SetLessOrEqualThan(number("7"), number("8"));
             case GREATER -> condition.SetGreaterThan(number("7"), number("8"));
             case GREATER_OR_EQUAL -> condition.SetGreaterOrEqualsThan(number("7"), number("8"));
+            default -> throw new IllegalStateException(
+                "Unexpected comparison: " + comparison
+            );
         }
         return condition;
     }

@@ -16,6 +16,7 @@ package nacaLib.varEx;
  */
 public class CoupleVar
 {
+    /** Creates a new couple var instance. */
     public CoupleVar(VarDefBuffer varDefBuffer, VarBase varEdit)
     {
         this.varDefBuffer = varDefBuffer;

@@ -23,9 +23,11 @@ import semantic.Verbs.CEntityOpenFile;
 import utils.Transcoder;
 import utils.FPacTranscoder.notifs.NotifRegisterInputFile;
 
+/** Provides cfpac input file behavior. */
 public class CFPacInputFile extends CFPacElement
 {
 
+    /** Creates a new cfpac input file instance. */
     public CFPacInputFile(int line)
     {
         super(line);

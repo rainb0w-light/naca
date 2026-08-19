@@ -1,3 +1,4 @@
+/** Provides simple test behavior. */
 public class SimpleTest {
     private String testField = "test";
     

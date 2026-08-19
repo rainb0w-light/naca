@@ -31,6 +31,7 @@ public class CSQLStatus extends CJMapObject
     private String csReasonParams = null;
     private String csReasonValues = null;
 
+    /** Creates a new csqlstatus instance. */
     public CSQLStatus()
     {
     }
@@ -40,6 +41,7 @@ public class CSQLStatus extends CJMapObject
         return nSQLCode ;
     }
 
+    /** Executes the reset operation. */
     public void reset()
     {
         nSQLCode = 0 ;
@@ -51,18 +53,21 @@ public class CSQLStatus extends CJMapObject
         //csSourceFileLine = null;
     }
 
+    /** Sets the sqlcode. */
     public void setSQLCode(int n)
     {
         reset();
         nSQLCode = n ;
     }
 
+    /** Sets the sqlcode ok. */
     public void setSQLCodeOk()
     {
         reset();
         nSQLCode = SQLCode.SQL_OK;
     }
 
+    /** Sets the sqlcode. */
     public void setSQLCode(SQLException e)
     {
         reset();
@@ -70,6 +75,7 @@ public class CSQLStatus extends CJMapObject
         csReason = "SQL Exception (" + nSQLCode + "):" + e.getMessage()  + " SQLState="+ e.getSQLState();
     }
 
+    /** Sets the sqlcode. */
     public void setSQLCode(String csMethod, SQLException e, String csQueryString/*, String csSourceFileLine*/, SQL sql)
     {
         nSQLCode = e.getErrorCode();
@@ -83,12 +89,14 @@ public class CSQLStatus extends CJMapObject
         this.csQueryString = csQueryString;
     }
 
+    /** Executes the fill last sqlcode error text operation. */
     public void fillLastSQLCodeErrorText()
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
         cache.fillLastSQLCodeErrorText(this);
     }
 
+    /** Sets the sqlcode. */
     public void setSQLCode(String csMethod, int nCode, String csReason, String csQueryString)   //, String csSourceFileLine)
     {
         csReasonParams = null;
@@ -115,6 +123,7 @@ public class CSQLStatus extends CJMapObject
         return SQLCode.isConnectionKillerSQLCode(nSQLCode);
     }
 
+    /** Returns the sqldiagnostic code. */
     public int getSQLDiagnosticCode(int n)
     {
         // See http://publib.boulder.ibm.com/infocenter/dzichelp/index.jsp?topic=/com.ibm.db2.doc.apsg/bjnqmstr370.htm
@@ -139,6 +148,7 @@ public class CSQLStatus extends CJMapObject
         nLastNbRecordUpdatedInsertedDeleted = n;
     }
 
+    /** Executes the on error goto operation. */
     public CSQLStatus onErrorGoto(Paragraph para)
     {
         SQLErrorManager sqlErrorManager = new SQLErrorManager();
@@ -146,6 +156,7 @@ public class CSQLStatus extends CJMapObject
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public CSQLStatus onErrorGoto(Section section)
     {
         SQLErrorManager sqlErrorManager = new SQLErrorManager();
@@ -153,24 +164,28 @@ public class CSQLStatus extends CJMapObject
         return this;
     }
 
+    /** Executes the on error continue operation. */
     public CSQLStatus onErrorContinue()
     {
         SQLErrorManager sqlErrorManager = new SQLErrorManager();
         sqlErrorManager.manageOnErrorContinue(this);
         return this;
     }
+    /** Executes the on warning goto operation. */
     public CSQLStatus onWarningGoto(Paragraph paragraphSQGErrorGoto)
     {
         // TODO
         return this;
     }
 
+    /** Executes the on warning goto operation. */
     public CSQLStatus onWarningGoto(Section section)
     {
         // TODO
         return this;
     }
 
+    /** Executes the on warning continue operation. */
     public CSQLStatus onWarningContinue()
     {
         // TODO
@@ -207,12 +222,14 @@ public class CSQLStatus extends CJMapObject
 //      return csSourceFileLine;
 //  }
 //
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuffer sb = getAsStringBuffer();
         return sb.toString();
     }
 
+    /** Returns the as string buffer. */
     public StringBuffer getAsStringBuffer()
     {
         StringBuffer sb = new StringBuffer();

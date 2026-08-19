@@ -8,6 +8,7 @@ package nacaLib.fpacPrgEnv;
 
 import jlib.misc.ThreadSafeCounter;
 
+/** Provides fpac buffer counter behavior. */
 public class FPacBufferCounter
 {
     private static ThreadSafeCounter ms_counter = new ThreadSafeCounter();

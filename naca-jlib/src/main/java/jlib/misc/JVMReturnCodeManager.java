@@ -6,15 +6,18 @@
  */
 package jlib.misc;
 
+/** Provides jvmreturn code manager behavior. */
 public class JVMReturnCodeManager
 {
     private static int ms_nExitCode = 0;
 
+    /** Executes the exit jvm operation. */
     public static void exitJVM(int nExitCode)
     {
         System.exit(nExitCode);
     }
 
+    /** Executes the exit jvm operation. */
     public static void exitJVM()
     {
         System.exit(ms_nExitCode);

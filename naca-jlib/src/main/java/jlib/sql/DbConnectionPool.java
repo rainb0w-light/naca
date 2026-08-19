@@ -22,7 +22,7 @@ import jlib.xml.Tag;
  */
 public class DbConnectionPool
 {
-    private int nGarbageCollectorStatement_ms = 0;
+    private int garbageCollectorStatementMillis = 0;
     private Hashtable<String, DbConnectionColl> hashConnectionsByProgramId = null;
 
     DbConnectionPool(
@@ -32,7 +32,7 @@ public class DbConnectionPool
         int nMaxStatementLiveTimeMs,
         int nGarbageCollectorStatementMs)
     {
-        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatementMs;
+        this.garbageCollectorStatementMillis = nGarbageCollectorStatementMs;
         DbConnectionColl dbConnectionColl = new DbConnectionColl(
             csPoolName,
             nNbMaxConnections,
@@ -45,7 +45,7 @@ public class DbConnectionPool
 
     DbConnectionPool(Tag tagSQLConfig)
     {
-        nGarbageCollectorStatement_ms = tagSQLConfig.getValAsInt("GarbageCollectorStatement_ms");
+        garbageCollectorStatementMillis = tagSQLConfig.getValAsInt("GarbageCollectorStatement_ms");
 
         Tag tagPools = tagSQLConfig.getChild("Pools") ;
         if (tagPools != null)
@@ -55,8 +55,8 @@ public class DbConnectionPool
             {
                 int nMaxConnection = tagPool.getValAsInt("MaxConnection");
                 boolean bUseExplain = tagPool.getValAsBoolean("UseExplain");
-                int nTimeBeforeRemoveConnection_ms = tagPool.getValAsInt("TimeBeforeRemoveConnection_ms");
-                int nMaxStatementLiveTime_ms = tagPool.getValAsInt("MaxStatementLiveTime_ms");
+                int nTimeBeforeRemoveConnectionMs = tagPool.getValAsInt("TimeBeforeRemoveConnection_ms");
+                int nMaxStatementLiveTimeMs = tagPool.getValAsInt("MaxStatementLiveTime_ms");
 
                 String poolName = tagPool.getVal("Name");
                 if (StringUtil.isEmpty(poolName)) {
@@ -65,10 +65,10 @@ public class DbConnectionPool
                 DbConnectionColl dbConnectionColl = new DbConnectionColl(
                     poolName,
                     nMaxConnection,
-                    nTimeBeforeRemoveConnection_ms,
-                    nMaxStatementLiveTime_ms,
+                    nTimeBeforeRemoveConnectionMs,
+                    nMaxStatementLiveTimeMs,
                     bUseExplain,
-                    nGarbageCollectorStatement_ms);
+                    garbageCollectorStatementMillis);
 
                 // enum all Program
                 String parentProgramId = tagPool.getVal("ParentProgramId");
@@ -122,6 +122,7 @@ public class DbConnectionPool
         }
     }
 
+    /** Returns the connection coll for pref. */
     synchronized public DbConnectionColl getConnectionCollForPref(String csProgramId, String csProgramParent)
     {
         DbConnectionColl connectionColl = null;
@@ -183,6 +184,7 @@ public class DbConnectionPool
     }
 
     // Force the removal of all statements for all connections
+    /** Executes the force remove all statements of all collections operation. */
     public void forceRemoveAllStatementsOfAllCollections()
     {
         Collection<DbConnectionColl> colDbConnectionColl = null;
@@ -205,6 +207,7 @@ public class DbConnectionPool
         }
     }
 
+    /** Builds the statement ordered list. */
     public void buildStatementOrderedList(SortedMap<Long, StatementPosInPool> mapStatements)
     {
         if(hashConnectionsByProgramId != null)
@@ -226,6 +229,7 @@ public class DbConnectionPool
         }
     }
 
+    /** Returns the nb unused connections. */
     public synchronized int getNbUnusedConnections()
     {
         if (hashConnectionsByProgramId == null) {
@@ -243,6 +247,7 @@ public class DbConnectionPool
         return n;
     }
 
+    /** Returns the nb running connections. */
     public synchronized int getNbRunningConnections()
     {
         if (hashConnectionsByProgramId == null) {
@@ -260,6 +265,7 @@ public class DbConnectionPool
         return n;
     }
 
+    /** Executes the show hide running connections operation. */
     public synchronized void showHideRunningConnections(boolean bShowRunningCon)
     {
         if(hashConnectionsByProgramId != null)
@@ -274,6 +280,7 @@ public class DbConnectionPool
         }
     }
 
+    /** Executes the dump connections operation. */
     public synchronized void dumpConnections(StringBuilder sbText)
     {
         if(hashConnectionsByProgramId != null)
@@ -288,6 +295,7 @@ public class DbConnectionPool
         }
     }
 
+    /** Returns the nb cached statements for accessor. */
     public synchronized int getNbCachedStatementsForAccessor()
     {
         if (hashConnectionsByProgramId == null) {
@@ -305,6 +313,7 @@ public class DbConnectionPool
         return n;
     }
 
+    /** Returns the nb alloc connnections. */
     public synchronized int getNbAllocConnnections()
     {
         if (hashConnectionsByProgramId == null) {
@@ -322,6 +331,7 @@ public class DbConnectionPool
         return n;
     }
 
+    /** Returns the nb max connection. */
     public synchronized int getNbMaxConnection()
     {
         if (hashConnectionsByProgramId == null) {

@@ -18,6 +18,7 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSWriteQ extends CBaseActionEntity
 {
 
+    /** Creates a new centity cicswrite q instance. */
     public CEntityCICSWriteQ(int line, CObjectCatalog cat, boolean bPersistant)
     {
         super(line, cat);
@@ -38,6 +39,7 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
     protected boolean bAuxiliary = false ;
     protected boolean bMain = false ;
     protected boolean bRewrite = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -52,45 +54,54 @@ public class CEntityCICSWriteQ extends CBaseActionEntity
         bRewrite = false ;
     }
 
+    /** Sets the name. */
     public void SetName(CDataEntity entity)
     {
         queueName = entity ;
     }
+    /** Sets the data ref. */
     public void SetDataRef(CDataEntity entity, CDataEntity len)
     {
         dataRef = entity ;
         dataLength = len ;
     }
 
+    /** Writes the num item. */
     public void WriteNumItem(CDataEntity entity)
     {
         numItem = entity ;
     }
 
+    /** Writes the item. */
     public void WriteItem(CDataEntity entity)
     {
         item = entity ;
     }
 
+    /** Sets the sys id. */
     public void SetSysID(CDataEntity entity)
     {
         sysID = entity ;
     }
 
+    /** Sets the rewrite. */
     public void SetRewrite()
     {
         bRewrite = true ;
     }
 
+    /** Sets the main. */
     public void SetMain()
     {
         bMain = true ;
     }
 
+    /** Sets the auxiliary. */
     public void SetAuxiliary()
     {
         bAuxiliary = true ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

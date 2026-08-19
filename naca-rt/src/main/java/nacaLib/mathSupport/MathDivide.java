@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides math divide behavior. */
 public class MathDivide extends MathBase
 {
     private static int PRECISION = 10;
@@ -68,6 +69,7 @@ public class MathDivide extends MathBase
         }
     }
 
+    /** Creates a new math divide instance. */
     public MathDivide(int n, VarAndEdit var1)
     {
         try
@@ -273,6 +275,7 @@ public class MathDivide extends MathBase
         d = d.divide(val, PRECISION, BigDecimal.ROUND_HALF_UP);
     }
 
+    /** Executes the to rounded operation. */
     public MathBase toRounded(Var varDest, VarAndEdit varRest) {
         round(varDest);
         return to(varDest, varRest);

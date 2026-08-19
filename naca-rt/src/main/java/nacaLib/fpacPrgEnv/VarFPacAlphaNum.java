@@ -14,8 +14,10 @@ import nacaLib.varEx.VarBufferPos;
 import nacaLib.varEx.VarType;
 import nacaLib.varEx.VarTypeEnum;
 
+/** Provides var fpac alpha num behavior. */
 public class VarFPacAlphaNum extends Var
 {
+    /** Creates a new var fpac alpha num instance. */
     public VarFPacAlphaNum(DeclareTypeFPacAlphaNum declareTypeFPacAlphaNum, VarBuffer varBuffer, int nPosition)
     {
         super(declareTypeFPacAlphaNum);
@@ -23,6 +25,7 @@ public class VarFPacAlphaNum extends Var
         varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
     }
 
+    /** Creates a new var fpac alpha num instance. */
     public VarFPacAlphaNum(DeclareTypeFPacAlphaNum declareTypeFPacAlphaNum)
     {
         super(declareTypeFPacAlphaNum);
@@ -48,6 +51,7 @@ public class VarFPacAlphaNum extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeX) {
@@ -56,12 +60,14 @@ public class VarFPacAlphaNum extends Var
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();
@@ -84,6 +90,7 @@ public class VarFPacAlphaNum extends Var
         return doConvertEbcdicToUnicode(tBytes);
     }
 
+    /** Creates the var fpac undef. */
     public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
     {
         return new VarFPacAlphaNumLengthUndef(fpacVarManager, varBuffer, nAbsolutePosition);

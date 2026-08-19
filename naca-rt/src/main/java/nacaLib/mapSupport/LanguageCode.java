@@ -18,6 +18,7 @@ public class LanguageCode extends CJMapObject
     public static String DE = "DE" ;
     public static String IT = "IT" ;
     public static String EN = "EN" ;
+    /** Returns the language code. */
     public static String getLanguageCode(int n)
     {
         switch (n)

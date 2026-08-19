@@ -22,6 +22,7 @@ import java.lang.management.RuntimeMXBean;
  */
 public class JmxClassPath
 {
+    /** Returns the boot class path. */
     public static String getBootClassPath()
     {
         RuntimeMXBean r = ManagementFactory.getRuntimeMXBean();
@@ -33,6 +34,7 @@ public class JmxClassPath
         return "";
     }
 
+    /** Returns the class path. */
     public static String getClassPath()
     {
         RuntimeMXBean r = ManagementFactory.getRuntimeMXBean();
@@ -44,6 +46,7 @@ public class JmxClassPath
         return "";
     }
 
+    /** Returns the library path. */
     public static String getLibraryPath()
     {
         RuntimeMXBean r = ManagementFactory.getRuntimeMXBean();
@@ -55,6 +58,7 @@ public class JmxClassPath
         return "";
     }
 
+    /** Returns the all paths. */
     public static String getAllPaths()
     {
         String cs = "";

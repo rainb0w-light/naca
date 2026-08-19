@@ -7,7 +7,8 @@
 package nacaLib.varEx;
 
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.mapSupport.*;
+import nacaLib.mapSupport.LocalizedString;
+import nacaLib.mapSupport.Map;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
@@ -17,6 +18,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class VarDeclarationInMap extends VarDeclaration
 {
+    /** Creates a new var declaration in map instance. */
     public VarDeclarationInMap(BaseProgram prg, Map mapOwner)
     {
         super(prg);
@@ -27,6 +29,7 @@ public class VarDeclarationInMap extends VarDeclaration
     private Form curVarForm = null;
     private Map mapOwner = null;
 
+    /** Executes the edit operation. */
     public DeclareTypeEditInMap edit(String csName, int nWidth)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -49,6 +52,7 @@ public class VarDeclarationInMap extends VarDeclaration
 //      return null;
 //  }
 
+    /** Executes the form operation. */
     public Form form(String csName, int line, int col)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -80,6 +84,7 @@ public class VarDeclarationInMap extends VarDeclaration
 //      return null;
     }
 
+    /** Executes the localized string operation. */
     public LocalizedString localizedString()
     {
         LocalizedString lcs = new LocalizedString();

@@ -15,6 +15,7 @@ import jlib.exception.TechnicalException;
 import jlib.jmxMBean.JmxClassPath;
 import jlib.misc.StringUtil;
 
+/** Provides property loader behavior. */
 public class PropertyLoader
 {
 //**********************************************************************************
@@ -25,17 +26,20 @@ public class PropertyLoader
  */
     protected static Properties ms_properties=null;
 
+    /** Returns the property. */
     public String getProperty(String csName)
         throws TechnicalException
     {
         return getPropertyWithContext(this, csName);
     }
 
+    /** Returns the property. */
     public String getProperty(String csName, String csDefaultValue)
     {
         return getPropertyWithContext(this, csName, csDefaultValue);
     }
 
+    /** Returns the property with context. */
     public static String getPropertyWithContext(Object context, String csName)
         throws TechnicalException
     {
@@ -58,6 +62,7 @@ public class PropertyLoader
         return null;
     }
 
+    /** Returns the property with context. */
     public static String getPropertyWithContext(Object context, String csName, String csDefaultValue)
     {
         try

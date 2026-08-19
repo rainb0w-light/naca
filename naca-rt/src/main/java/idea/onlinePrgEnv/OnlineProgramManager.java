@@ -12,10 +12,12 @@ import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.tempCache.TempCacheLocator;
-import nacaLib.varEx.*;
+import nacaLib.varEx.MapRedefine;
 
+/** Provides online program manager behavior. */
 public class OnlineProgramManager extends BaseProgramManager
 {
+    /** Creates a new online program manager instance. */
     public OnlineProgramManager(
         BaseProgram program,
         SharedProgramInstanceData sharedProgramInstanceData,
@@ -47,6 +49,7 @@ public class OnlineProgramManager extends BaseProgramManager
     }
 
 
+    /** Executes the prepare run main operation. */
     public void prepareRunMain(BaseProgram prg)
     {
         ((OnlineProgram)prg).prepareRunMain(eSMEnv);
@@ -62,6 +65,7 @@ public class OnlineProgramManager extends BaseProgramManager
         eSMEnv = (OnlineEnvironment)env;
     }
 
+    /** Executes the detach from env operation. */
     public void detachFromEnv()
     {
         eSMEnv = null;

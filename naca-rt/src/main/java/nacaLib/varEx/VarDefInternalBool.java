@@ -7,8 +7,7 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.StringAsciiEbcdicUtil;
@@ -16,6 +15,7 @@ import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.CStrNumber;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author u930di
@@ -114,12 +114,14 @@ public class VarDefInternalBool extends VarDefNum
         var.set(n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         int n = NumberParser.getAsUnsignedInt(cs);
         var.set(n);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         int nVal = var.getInt();
@@ -127,6 +129,7 @@ public class VarDefInternalBool extends VarDefNum
         var.set(nVal);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -134,6 +137,7 @@ public class VarDefInternalBool extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         if (n < 0) {
@@ -142,6 +146,7 @@ public class VarDefInternalBool extends VarDefNum
         var.set(n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         write(buffer, (int)l);
@@ -162,6 +167,7 @@ public class VarDefInternalBool extends VarDefNum
         var.set(n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long l = bigDecimal.longValue();
@@ -427,6 +433,7 @@ public class VarDefInternalBool extends VarDefNum
 //      var.set(0);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         var.set(0);
@@ -743,6 +750,7 @@ public class VarDefInternalBool extends VarDefNum
         return 0;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();
@@ -785,6 +793,7 @@ public class VarDefInternalBool extends VarDefNum
         return true;
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         // never used

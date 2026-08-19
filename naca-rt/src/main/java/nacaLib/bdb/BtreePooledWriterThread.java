@@ -23,6 +23,7 @@ public class BtreePooledWriterThread extends PooledThread
 {
     private BtreeKeyDescription keyDescription = null;
 
+    /** Creates a new btree pooled writer thread instance. */
     public BtreePooledWriterThread(PoolOfThreads owningPool)
     {
         super(owningPool);
@@ -33,6 +34,7 @@ public class BtreePooledWriterThread extends PooledThread
         this.keyDescription = keyDescription;
     }
 
+    /** Executes the pre run operation. */
     public boolean preRun()
     {
         // Fill the TLS with key description
@@ -49,6 +51,7 @@ public class BtreePooledWriterThread extends PooledThread
         return false;   // No key desc !
     }
 
+    /** Executes the post run operation. */
     public void postRun()
     {
         TempCacheLocator.relaseTempCache();

@@ -21,16 +21,19 @@ public class RandomNumber
     private Random rand = null;
     private static RandomNumber ms_randomNumberSingleton = null;
 
+    /** Creates a new random number instance. */
     public RandomNumber()
     {
         rand = new Random();
     }
 
+    /** Creates a new random number instance. */
     public RandomNumber(int nSeed)
     {
         rand = new Random(nSeed);
     }
 
+    /** Returns the int between. */
     public int getIntBetween(int nMin, int nMax)
     {
         int nRange = nMax - nMin;
@@ -40,6 +43,7 @@ public class RandomNumber
         return n;
     }
 
+    /** Executes the generate int between operation. */
     public static int generateIntBetween(int nMin, int nMax)
     {
         if (ms_randomNumberSingleton == null) {

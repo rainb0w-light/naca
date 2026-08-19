@@ -9,6 +9,7 @@ package nacaLib.exceptions;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.varEx.Var;
 
+/** Signals a dump program exception condition. */
 public class DumpProgramException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
@@ -16,6 +17,7 @@ public class DumpProgramException extends NacaRTException
     private String csVar1 = "";
     private String csVar2 = "";
 
+    /** Creates a new dump program exception instance. */
     public DumpProgramException(BaseProgramManager programManager, Var var1, Var var2)
     {
         csProgramName = programManager.getProgramName();
@@ -27,6 +29,7 @@ public class DumpProgramException extends NacaRTException
         }
     }
 
+    /** Returns the message. */
     public String getMessage()
     {
         // + " Stack="+csStack;

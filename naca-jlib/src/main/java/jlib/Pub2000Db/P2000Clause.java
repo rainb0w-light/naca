@@ -90,6 +90,7 @@ public class P2000Clause extends SQLClause
     // CTor used to access DB with an aleternate connection (not managed in TLS)
     // Call with connection==null to establish 1st alternate connection
     // Call with connection filled to reused an already established alternate connection
+    /** Creates a new p2000 clause instance. */
     public P2000Clause(DbAccessor accessor, DbConnectionBase connection)
     {
         super(accessor, connection);
@@ -175,6 +176,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
         return super.param(n);
     }
 
+    /** Executes the param date now operation. */
     public String paramDateNow()
     {
         String csNowYYYYMMDD = DateUtil.getDateNowYYYYMMDD();
@@ -277,6 +279,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
         return super.param(n);
     }
 
+    /** Executes the param time now operation. */
     public String paramTimeNow()
     {
         String csNowHHMMSS = DateUtil.getTimeNowHHMMSS();

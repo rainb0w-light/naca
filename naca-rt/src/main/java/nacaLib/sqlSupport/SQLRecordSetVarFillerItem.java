@@ -49,6 +49,7 @@ package nacaLib.sqlSupport;
 
 import nacaLib.varEx.VarBase;
 
+/** Provides sqlrecord set var filler item behavior. */
 public class SQLRecordSetVarFillerItem
 {
     SQLRecordSetVarFillerItem(int nColSource, VarBase varInto, VarBase varIndicator)

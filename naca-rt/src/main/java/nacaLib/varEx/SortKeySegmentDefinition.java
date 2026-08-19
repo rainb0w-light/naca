@@ -8,6 +8,7 @@ package nacaLib.varEx;
 
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 
+/** Provides sort key segment definition behavior. */
 public class SortKeySegmentDefinition
 {
     SortKeySegmentDefinition(Var var, boolean bAscending)
@@ -16,6 +17,7 @@ public class SortKeySegmentDefinition
         this.bAscending = bAscending;
     }
 
+    /** Returns the buffer start pos key. */
     public int getBufferStartPosKey()
     {
         int n = var.getOffsetFromLevel01();

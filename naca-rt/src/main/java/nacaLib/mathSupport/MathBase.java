@@ -20,6 +20,7 @@ import nacaLib.varEx.VarAndEdit;
 import nacaLib.varEx.VarDefBuffer;
 
 
+/** Provides math base behavior. */
 public class MathBase extends CJMapObject
 {
     /**
@@ -30,6 +31,7 @@ public class MathBase extends CJMapObject
     {
     }
 
+    /** Returns the stcheck value. */
     public String getSTCheckValue()
     {
         String sValue = d.abs().unscaledValue().toString();
@@ -76,6 +78,7 @@ public class MathBase extends CJMapObject
         }
     }
 
+    /** Executes the to operation. */
     public MathBase to(VarAndEdit varDest)
     {
         Dec dec = MathBase.toDec(d);
@@ -174,6 +177,7 @@ public class MathBase extends CJMapObject
         iserror = b;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (iserror) {

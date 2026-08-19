@@ -36,11 +36,13 @@ import utils.NacaTransAssertException;
 import utils.Transcoder;
 import utils.FPacTranscoder.OperandDescription;
 
+/** Provides cfpac arithmetic operation behavior. */
 public class CFPacArithmeticOperation extends CFPacElement
 {
     private Vector<CExpression> exp;
     private CReservedKeyword command ;
 
+    /** Creates a new cfpac arithmetic operation instance. */
     public CFPacArithmeticOperation(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
     {
         super(line);

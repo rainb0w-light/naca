@@ -12,6 +12,7 @@ import utils.CObjectCatalog;
  */
 public final class CFPacUnknownReference extends CEntityUnknownReference
 {
+    /** Creates a new cfpac unknown reference instance. */
     public CFPacUnknownReference(int line, String name, CObjectCatalog catalog)
     {
         super(line, name, catalog);

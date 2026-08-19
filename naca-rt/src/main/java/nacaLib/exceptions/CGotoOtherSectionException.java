@@ -8,11 +8,13 @@ package nacaLib.exceptions;
 
 import nacaLib.program.Section;
 
+/** Signals a cgoto other section exception condition. */
 public class CGotoOtherSectionException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
     public Section section = null;
 
+    /** Creates a new cgoto other section exception instance. */
     public CGotoOtherSectionException(Section section)
     {
         super();

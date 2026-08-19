@@ -16,16 +16,19 @@ import jlib.log.LogLevel;
  */
 public class LogEventProgress extends LogEvent
 {
+    /** Creates a new log event progress instance. */
     public LogEventProgress(String csProduct)
     {
         super(LogEventType.Progress, LogFlowStd.Any, LogLevel.Normal, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, int nNbItemsProcessed, int nNbItemsToProcess, String csMessage)
     {
         return LogEventProgress.log(csChannel, null, nNbItemsProcessed, nNbItemsToProcess, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, int nNbItemsProcessed, int nNbItemsToProcess, String csMessage)
     {
         LogEventProgress event = new LogEventProgress(csProduct);
@@ -34,6 +37,7 @@ public class LogEventProgress extends LogEvent
         Log.log(csChannel, event, csMessage);
         return event;
     }
+    /** Executes the log operation. */
     public static LogEvent log(
         String csChannel,
         String csProduct,

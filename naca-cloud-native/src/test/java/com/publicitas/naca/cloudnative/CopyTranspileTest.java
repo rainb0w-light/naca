@@ -1,18 +1,18 @@
 package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import com.publicitas.naca.cloudnative.service.IncludeGroupSupport;
 import com.publicitas.naca.cloudnative.service.TranspilerService;
 import com.publicitas.naca.cloudnative.service.TranspilerService.TranspileResult;
+
+
+
 
 /**
  * Verifies the COPY/copybook include-group infrastructure: BATCH1 contains

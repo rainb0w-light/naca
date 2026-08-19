@@ -26,6 +26,7 @@ public class MaskFileFilter implements FileFilter
 
     private ArrayList<FileFilter> maskFilters = null;   // Optional array of all masks; only files amtching these masks are polled
 
+    /** Sets the masks. */
     public void setMasks(String csMasks)
     {
         if(csMasks != null)
@@ -51,6 +52,7 @@ public class MaskFileFilter implements FileFilter
         }
     }
 
+    /** Executes the accept operation. */
     public boolean accept(File pathname)
     {
         if (maskFilters == null) {

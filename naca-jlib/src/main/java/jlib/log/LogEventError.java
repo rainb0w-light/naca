@@ -17,6 +17,7 @@ public class LogEventError extends LogEvent
         super(LogEventType.Error, LogFlowStd.System, LogLevel.Critical);
     }
 
+    /** Executes the info operation. */
     public static LogEvent info(int n)
     {
         LogEventError event = new LogEventError();

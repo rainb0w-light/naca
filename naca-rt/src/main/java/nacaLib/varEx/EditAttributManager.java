@@ -6,7 +6,16 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.mapSupport.*;
+import nacaLib.mapSupport.LocalizedString;
+import nacaLib.mapSupport.MapFieldAttrColor;
+import nacaLib.mapSupport.MapFieldAttrFill;
+import nacaLib.mapSupport.MapFieldAttrHighlighting;
+import nacaLib.mapSupport.MapFieldAttrIntensity;
+import nacaLib.mapSupport.MapFieldAttrJustify;
+import nacaLib.mapSupport.MapFieldAttrModified;
+import nacaLib.mapSupport.MapFieldAttrProtection;
+import nacaLib.mapSupport.MapFieldAttribute;
+import nacaLib.mapSupport.MapFieldFlag;
 
 /**
  * @author PJD
@@ -50,6 +59,7 @@ public class EditAttributManager
 //          attrManagerDest.csSemanticContext = null;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs;
@@ -61,17 +71,20 @@ public class EditAttributManager
         return cs;
     }
 
+    /** Executes the attrib operation. */
     public void attrib(MapFieldAttrModified modified)
     {
         setModified(modified);
     }
 
-    public void setModified(MapFieldAttrModified Modified)
+    /** Sets the modified. */
+    public void setModified(MapFieldAttrModified modified)
     {
-        mapFieldAttribute.setAttrModified(Modified);
+        mapFieldAttribute.setAttrModified(modified);
     }
 
     // Color
+    /** Executes the color operation. */
     public void color(MapFieldAttrColor color)
     {
         mapFieldAttribute.setColor(color) ;
@@ -83,37 +96,44 @@ public class EditAttributManager
         return mapFieldAttribute.getHighlighting();
     }
 
+    /** Executes the high lighting operation. */
     public void highLighting(MapFieldAttrHighlighting hl)
     {
         mapFieldAttribute.setHighlighting(hl) ;
     }
 
+    /** Executes the intensity operation. */
     public void intensity(MapFieldAttrIntensity intensity)
     {
         mapFieldAttribute.setIntensity(intensity);
 
     }
 
+    /** Executes the protection operation. */
     public void protection(MapFieldAttrProtection protection)
     {
         mapFieldAttribute.setProtection(protection);
     }
 
+    /** Sets the modified. */
     public void setModified()
     {
         mapFieldAttribute.setAttrModified(MapFieldAttrModified.MODIFIED);
     }
 
+    /** Sets the unmodified. */
     public void setUnmodified()
     {
         mapFieldAttribute.setAttrModified(MapFieldAttrModified.UNMODIFIED);
     }
 
+    /** Sets the cleared. */
     public void setCleared()
     {
         mapFieldAttribute.setAttrModified(MapFieldAttrModified.CLEARED);
     }
 
+    /** Returns whether modified. */
     public boolean isModified()
     {
         if (mapFieldAttribute != null)
@@ -125,6 +145,7 @@ public class EditAttributManager
     }
 
 
+    /** Returns whether unmodified. */
     public boolean isUnmodified()
     {
         if (mapFieldAttribute != null)
@@ -135,6 +156,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether cleared. */
     public boolean isCleared()
     {
         if (mapFieldAttribute != null)
@@ -145,17 +167,20 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Executes the justify operation. */
     public void justify(MapFieldAttrJustify justify)
     {
         mapFieldAttribute.setJustify(justify) ;
     }
 
+    /** Executes the justify fill operation. */
     public void justifyFill(MapFieldAttrFill fill)
     {
         mapFieldAttribute.setFill(fill) ;
     }
 
 
+    /** Sets the flag. */
     public void setFlag(String cs)
     {
         if (flag == null) {
@@ -164,6 +189,7 @@ public class EditAttributManager
         flag.set(cs);
     }
 
+    /** Resets the flag. */
     public void resetFlag()
     {
         if (flag == null) {
@@ -172,6 +198,7 @@ public class EditAttributManager
         flag.reset();
     }
 
+    /** Returns whether flag. */
     public boolean isFlag(String cs)
     {
         if (flag != null) {
@@ -181,6 +208,7 @@ public class EditAttributManager
     }
 
     // Protection
+    /** Returns whether auto skip. */
     public boolean isAutoSkip()
     {
         if (mapFieldAttribute != null)
@@ -191,6 +219,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether dark. */
     public boolean isDark()
     {
         if (mapFieldAttribute != null)
@@ -201,6 +230,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether protected. */
     public boolean isProtected()
     {
         if (mapFieldAttribute != null)
@@ -211,6 +241,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether numeric protected. */
     public boolean isNumericProtected()
     {
         if (mapFieldAttribute != null)
@@ -221,6 +252,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether unprotected. */
     public boolean isUnprotected()
     {
         if (mapFieldAttribute != null)
@@ -231,6 +263,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether colored. */
     public boolean isColored(MapFieldAttrColor col)
     {
         if (mapFieldAttribute != null)
@@ -241,6 +274,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether underlined. */
     public boolean isUnderlined()
     {
         if (mapFieldAttribute != null)
@@ -251,6 +285,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Returns whether reverse. */
     public boolean isReverse()
     {
         if (mapFieldAttribute != null)
@@ -261,6 +296,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Executes the is attribute operation. */
     public boolean IsAttribute(MapFieldAttrIntensity intensity)
     {
         if (mapFieldAttribute != null)
@@ -270,6 +306,7 @@ public class EditAttributManager
         return false ;
     }
 
+    /** Executes the is attribute operation. */
     public boolean IsAttribute(MapFieldAttrProtection protection)
     {
         if (mapFieldAttribute != null)
@@ -278,6 +315,7 @@ public class EditAttributManager
         }
         return false ;
     }
+    /** Executes the is highlighting operation. */
     public boolean IsHighlighting(MapFieldAttrHighlighting highlighting)
     {
         if (mapFieldAttribute != null)
@@ -292,17 +330,20 @@ public class EditAttributManager
         return mapFieldAttribute ;
     }
 
+    /** Sets the attribute. */
     public void setAttribute(MapFieldAttribute att)
     {
         mapFieldAttribute.set(att) ;
     }
 
+    /** Returns the encoded attr. */
     public int getEncodedAttr()
     {
         int n = mapFieldAttribute.getEncodedValue();
         return n;
     }
 
+    /** Sets the encoded attr. */
     public void setEncodedAttr(int n)
     {
         mapFieldAttribute.setEncodedValue(n);
@@ -313,11 +354,13 @@ public class EditAttributManager
         ishasCursor = b;
     }
 
+    /** Returns whether s cursor. */
     public boolean hasCursor()
     {
         return ishasCursor;
     }
 
+    /** Returns the flag. */
     public String getFlag()
     {
         if (flag != null) {
@@ -343,6 +386,7 @@ public class EditAttributManager
     }
 
 
+    /** Returns whether highlight normal. */
     public boolean isHighlightNormal()
     {
         if (mapFieldAttribute != null)
@@ -353,6 +397,7 @@ public class EditAttributManager
         return true ;
     }
 
+    /** Sets the attributes. */
     public void setAttributes(int n)
     {
     }

@@ -8,7 +8,7 @@ package semantic;
 
 //import org.w3c.dom.Element;
 
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -30,10 +30,12 @@ public abstract class CBaseResourceEntity extends CBaseExternalEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

@@ -13,18 +13,22 @@ package nacaLib.stringSupport;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides unstring behavior. */
 public class Unstring
 {
+    /** Creates a new unstring instance. */
     public Unstring(VarAndEdit varSource)
     {
         unstringManager = new UnstringManager(varSource);
     }
 
+    /** Executes the delimited by operation. */
     public Unstring delimitedBy(VarAndEdit varDelimiter)
     {
         return delimitedBy(varDelimiter.getString());
     }
 
+    /** Executes the delimited by operation. */
     public Unstring delimitedBy(String csDelimiter)
     {
         UnstringDelimiter delimiter = new UnstringDelimiter(csDelimiter, false);
@@ -32,24 +36,28 @@ public class Unstring
         return this;
     }
 
+    /** Executes the delimited by all operation. */
     public Unstring delimitedByAll(Var varDelimiter)
     {
         return delimitedByAll(varDelimiter.getString());
     }
 
+    /** Executes the delimited by all operation. */
     public Unstring delimitedByAll(String csDelimiter)
     {
-        UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, true);
-        unstringManager.delimiters.add(Delimiter);
+        UnstringDelimiter delimiter = new UnstringDelimiter(csDelimiter, true);
+        unstringManager.delimiters.add(delimiter);
         return this;
     }
 
+    /** Executes the tallying operation. */
     public Unstring tallying(Var varTallying)
     {
         unstringManager.tallying(varTallying);
         return this;
     }
 
+    /** Executes the to operation. */
     public UnstringToManager to(Var varDelimiterDest, Var varDelimiterIn, Var varCountDest)
     {
         UnstringToManager unstringToManager = new UnstringToManager(unstringManager);
@@ -57,6 +65,7 @@ public class Unstring
         return unstringToManager;
     }
 
+    /** Executes the to operation. */
     public UnstringToManager to(Var varDelimiterDest)
     {
         UnstringToManager unstringToManager = new UnstringToManager(unstringManager);
@@ -78,6 +87,7 @@ public class Unstring
 //      return !unstringManager.failed();
 //  }
 
+    /** Executes the with pointer operation. */
     public Unstring withPointer(Var varPointer)
     {
         unstringManager.withPointer(varPointer);

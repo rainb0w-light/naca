@@ -25,6 +25,7 @@ public class DbAccessorConnectionManager
             = new Hashtable<DbAccessor, DbConnectionManagerContext>();
     private static DbAccessorConnectionManagerJMX ms_DbAccessorConnectionManagerJMX = new DbAccessorConnectionManagerJMX();
 
+    /** Returns whether oracle. */
     public static boolean isOracle(DbAccessor dbId)
     {
         DbConnectionManagerContext dbConnectionManagerContext = getOrCreateConnectionManagerContext(dbId);
@@ -35,6 +36,7 @@ public class DbAccessorConnectionManager
         return false;
     }
 
+    /** Returns the connection. */
     public static DbConnectionBase getConnection(DbAccessor dbId)
         throws TechnicalException
     {
@@ -111,6 +113,7 @@ public class DbAccessorConnectionManager
         return 0;
     }
 
+    /** Returns the nb running connections for db accessor. */
     public static synchronized int getNbRunningConnectionsForDbAccessor(DbAccessor dbId)
     {
         if (ms_dbConnectionManagerContext == null) {
@@ -126,6 +129,7 @@ public class DbAccessorConnectionManager
         return 0;
     }
 
+    /** Executes the show hide running connections operation. */
     public static synchronized void showHideRunningConnections(DbAccessor dbId, boolean bShowRunningCon)
     {
         if(ms_dbConnectionManagerContext != null)
@@ -138,6 +142,7 @@ public class DbAccessorConnectionManager
         }
     }
 
+    /** Executes the dump connections operation. */
     public static synchronized void dumpConnections(DbAccessor dbId, StringBuilder sbText)
     {
         if(ms_dbConnectionManagerContext != null)
@@ -150,6 +155,7 @@ public class DbAccessorConnectionManager
         }
     }
 
+    /** Returns the nb alloc connnections for accessor. */
     public static synchronized int getNbAllocConnnectionsForAccessor(DbAccessor dbId)
     {
         if (ms_dbConnectionManagerContext == null) {
@@ -165,6 +171,7 @@ public class DbAccessorConnectionManager
         return 0;
     }
 
+    /** Returns the nb max connection for accessor. */
     public static synchronized int getNbMaxConnectionForAccessor(DbAccessor dbId)
     {
         if (ms_dbConnectionManagerContext == null) {
@@ -180,6 +187,7 @@ public class DbAccessorConnectionManager
         return 0;
     }
 
+    /** Returns the nb cached statements for accessor. */
     public static synchronized int getNbCachedStatementsForAccessor(DbAccessor dbId)
     {
         if (ms_dbConnectionManagerContext == null) {
@@ -195,6 +203,7 @@ public class DbAccessorConnectionManager
         return 0;
     }
 
+    /** Returns the nb connection manager contexts. */
     public static synchronized int getNbConnectionManagerContexts()
     {
         if (ms_dbConnectionManagerContext == null) {

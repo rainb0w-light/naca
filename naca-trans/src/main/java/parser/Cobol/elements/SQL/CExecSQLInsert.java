@@ -37,6 +37,7 @@ import java.util.ArrayList;
  */
 public class CExecSQLInsert extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlinsert instance. */
     public CExecSQLInsert(int nLine)
     {
         super(nLine);
@@ -342,6 +343,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
         }
     }
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLInsert") ;
@@ -363,6 +365,7 @@ public class CExecSQLInsert extends CBaseExecSQLAction
         }
     }
 
+    /** Executes the append required space operation. */
     public void AppendRequiredSpace()
     {
         if (!selectClause.endsWith(" ") && !selectClause.endsWith(":") && !selectClause.endsWith(".") && !selectClause.endsWith("!")) {

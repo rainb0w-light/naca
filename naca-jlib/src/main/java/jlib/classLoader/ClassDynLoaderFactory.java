@@ -6,6 +6,7 @@
  */
 package jlib.classLoader;
 
+/** Provides class dyn loader factory behavior. */
 public class ClassDynLoaderFactory
 {
     protected static ClassDynLoaderFactory ms_instance =  null;
@@ -14,6 +15,7 @@ public class ClassDynLoaderFactory
     {
     }
 
+    /** Returns the instance. */
     public static ClassDynLoaderFactory getInstance()
     {
         if (ms_instance == null) {
@@ -22,11 +24,13 @@ public class ClassDynLoaderFactory
         return ms_instance;
     }
 
+    /** Executes the make operation. */
     public ClassDynLoader make()
     {
         return new ClassDynLoader();
     }
 
+    /** Executes the preload jar operation. */
     public void preloadJar(String csJarFile)
     {
         int n = 0;

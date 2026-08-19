@@ -9,18 +9,25 @@ package nacaLib.basePrgEnv;
 import nacaLib.base.CJMapObject;
 import nacaLib.programPool.SharedProgramInstanceData;
 
+/** Provides program sequencer behavior. */
 public abstract class ProgramSequencer extends CJMapObject
 {
+    /** Creates a new program sequencer instance. */
     public ProgramSequencer()
     {
     }
 
+    /** Executes the force preload session program operation. */
     public abstract SharedProgramInstanceData forcePreloadSessionProgram(String defaultProgramName, int nNbInstanceToPreload);
 
+    /** Removes the session. */
     public abstract void removeSession(BaseSession session) ;
 
+    /** Executes the unload program operation. */
     public abstract void unloadProgram(String csProgramName);
+    /** Returns the session environment requester. */
     public abstract SessionEnvironmentRequester getSessionEnvironmentRequester(BaseSession appSession) ;
 
+    /** Executes the do help operation. */
     public abstract void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session);
 }

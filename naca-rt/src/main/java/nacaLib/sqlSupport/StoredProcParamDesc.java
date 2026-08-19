@@ -32,6 +32,7 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
         varInOut = var;
     }
 
+    /** Executes the retrieve out values operation. */
     public void retrieveOutValues(int nParamId, PreparedCallableStatement callableStatement, CSQLStatus sqlStatus)
     {
         nParamId++; // 1 based
@@ -60,6 +61,7 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
         }
     }
 
+    /** Executes the fill in value operation. */
     public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
     {
         if(varInOut != null)
@@ -70,24 +72,28 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
         return false;
     }
 
+    /** Returns the in value as string. */
     public String getInValueAsString()
     {
         String cs = varInOut.getString();
         return cs;
     }
 
+    /** Returns the in value as double. */
     public double getInValueAsDouble()
     {
         double d = varInOut.getDouble();
         return d;
     }
 
+    /** Returns the in value as int. */
     public int getInValueAsInt()
     {
         int n = varInOut.getInt();
         return n;
     }
 
+    /** Returns the in value as short. */
     public short getInValueAsShort()
     {
         int n = varInOut.getInt();

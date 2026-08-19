@@ -17,11 +17,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondAnd extends CBaseEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 1;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondOr eOr = new CEntityCondOr();
@@ -29,6 +31,7 @@ public class CEntityCondAnd extends CBaseEntityCondition
         return eOr;
     }
 
+    /** Sets the condition. */
     public void SetCondition(CBaseEntityCondition op1, CBaseEntityCondition op2)    {
         this.op1 = op1 ;
         op1.SetParent(this);
@@ -80,6 +83,7 @@ public class CEntityCondAnd extends CBaseEntityCondition
     }
     protected CBaseEntityCondition op1 = null ;
     protected CBaseEntityCondition op2 = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -92,20 +96,24 @@ public class CEntityCondAnd extends CBaseEntityCondition
     {
         return  1;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return op1.ignore() && op2.ignore() ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         boolean b1 = op1.ReplaceVariable(field, var) ;
         boolean b2 = op2.ReplaceVariable(field, var) ;
         return b1 || b2 ;
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return null;
     }
+    /** Updates the condition. */
     public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
     {
         if (op1 == condition)
@@ -129,6 +137,7 @@ public class CEntityCondAnd extends CBaseEntityCondition
     {
         return null;
     }
+    /** Sets the conditon reference. */
     public void SetConditonReference(CDataEntity e)
     {
         ASSERT(null) ;

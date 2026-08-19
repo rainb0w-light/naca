@@ -13,22 +13,45 @@ package utils;
 
 import java.util.Collection;
 import java.util.Vector;
-
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
-
 import lexer.CTokenList;
 import lexer.Cobol.CCobolLexer;
-
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
-import semantic.*;
-import semantic.CICS.*;
-import semantic.Verbs.*;
-import semantic.expression.*;
-import semantic.forms.*;
+import semantic.CBaseActionEntity;
+import semantic.CBaseEntityFactory;
+import semantic.CBaseExternalEntity;
+import semantic.CBaseLanguageEntity;
+import semantic.CDataEntity;
+import semantic.CEntityAttribute;
+import semantic.CEntityBloc;
+import semantic.CEntityCondition;
+import semantic.CEntityDataSection;
+import semantic.CEntityFileDescriptor;
+import semantic.CEntityFileDescriptorLengthDependency;
+import semantic.CEntityInline;
+import semantic.CEntityProcedure;
+import semantic.CEntityProcedureDivision;
+import semantic.CEntityStructure;
+import semantic.CGenericDataEntityReference;
+import semantic.CICS.CEntityCICSLink;
+import semantic.Verbs.CEntityCallFunction;
+import semantic.Verbs.CEntityCallProgram;
+import semantic.Verbs.CEntityRoutineEmulationCall;
+import semantic.expression.CBaseEntityCondExpr;
+import semantic.expression.CBaseEntityCondition;
+import semantic.expression.CBaseEntityExpression;
+import semantic.expression.CEntityCondEquals;
+import semantic.expression.CEntityList;
+import semantic.expression.CEntityString;
+import semantic.forms.CEntityResourceField;
+import semantic.forms.CEntityResourceForm;
 import utils.CobolTranscoder.ProcedureCallTree;
 import utils.CobolTranscoder.Notifs.NotifIsUsedCICSPreprocessor;
+
+
+
 
 /**
  * @author U930CV
@@ -103,6 +126,7 @@ public class CSpecialActionContainer
             }
         }
     }
+    /** Executes the do clear constant attributes operation. */
     public void DoClearConstantAttributes(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         int nbCste = cat.GetNbAttributes() ;
@@ -244,6 +268,7 @@ public class CSpecialActionContainer
 //      public int end = 0 ;
 //  }
 
+    /** Executes the do clear symbolic map operation. */
     public void DoClearSymbolicMap(CObjectCatalog cat, CBaseEntityFactory factory)
     {
 //      int lCopy = cat.GetLineOfMapCopy() ;
@@ -526,6 +551,7 @@ public class CSpecialActionContainer
 //
 //      return arrCodeRegions ;
 //  }
+    /** Executes the do explicit dfhcommarea operation. */
     public void DoExplicitDFHCommarea(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         CEntityDataSection linkage = cat.getLinkageSection();
@@ -577,6 +603,7 @@ public class CSpecialActionContainer
             }
         }
     }
+    /** Executes the do simplify dfhcomm area operation. */
     public void DoSimplifyDFHCommArea(CObjectCatalog cat)
     {
         CEntityDataSection linkage = cat.getLinkageSection();
@@ -600,6 +627,7 @@ public class CSpecialActionContainer
             DoSimplifyDFHCommAreaForEntry(cat, dfh) ;
         }
     }
+    /** Executes the do simplify dfhcomm area for entry operation. */
     public void DoSimplifyDFHCommAreaForEntry(CObjectCatalog cat, CEntityStructure eData)
     {
         if (eData != null)
@@ -629,6 +657,7 @@ public class CSpecialActionContainer
         }
 
     }
+    /** Executes the do register pfkeys operation. */
     public void DoRegisterPFKeys(CObjectCatalog cat)
     {
         CEntityResourceForm form = cat.GetMap(0) ;
@@ -682,6 +711,7 @@ public class CSpecialActionContainer
             }
         }
     }
+    /** Executes the do replace call rs7 zpa04 operation. */
     public void DoReplaceCall_RS7ZPA04(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         int n = cat.getNbCICSLink() ;
@@ -904,6 +934,7 @@ public class CSpecialActionContainer
         }
     }
 
+    /** Executes the do rename sub programs operation. */
     public void DoRenameSubPrograms(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         if (subProgramRenamer == null)
@@ -962,6 +993,7 @@ public class CSpecialActionContainer
         }
     }
 
+    /** Executes the do replace perform through operation. */
     public void DoReplacePerformThrough(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         for (int i=0; i<cat.getNbPerformThrough(); i++)
@@ -988,6 +1020,7 @@ public class CSpecialActionContainer
         }
     }
 
+    /** Executes the do replace map name operation. */
     public void DoReplaceMapName(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         int n = cat.getNbInitializedStructure() ;
@@ -1004,6 +1037,7 @@ public class CSpecialActionContainer
 
     }
 
+    /** Executes the do reduce sections operation. */
     public void DoReduceSections(CObjectCatalog cat, CBaseEntityFactory factory)
     {
         CEntityProcedureDivision div = cat.getProcedureDivision() ;

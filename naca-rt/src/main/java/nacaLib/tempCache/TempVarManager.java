@@ -9,7 +9,9 @@
  */
 package nacaLib.tempCache;
 
-import nacaLib.varEx.*;
+import nacaLib.varEx.CoupleVar;
+import nacaLib.varEx.VarBase;
+import nacaLib.varEx.VarDefBuffer;
 
 /**
  *
@@ -49,6 +51,7 @@ public class TempVarManager
 {
     private TempVarTypeManager tarrTemp[] = null;
 
+    /** Creates a new temp var manager instance. */
     public TempVarManager(int nNbTypes)
     {
         tarrTemp = new TempVarTypeManager[nNbTypes];
@@ -58,21 +61,25 @@ public class TempVarManager
         }
     }
 
+    /** Returns the temp couple. */
     public CoupleVar getTempCouple(int nVarDefTypeId)
     {
         return tarrTemp[nVarDefTypeId].getTempCoupleVar();
     }
 
+    /** Adds the temp. */
     public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, VarBase var)
     {
         return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
     }
 
+    /** Resets the temp index. */
     public void resetTempIndex(int nVarDefTypeId)
     {
         tarrTemp[nVarDefTypeId].reset();
     }
 
+    /** Resets the temp index and forbid reuse. */
     public void resetTempIndexAndForbidReuse(int nVarDefTypeId)
     {
         tarrTemp[nVarDefTypeId].resetAndForbidReuse();

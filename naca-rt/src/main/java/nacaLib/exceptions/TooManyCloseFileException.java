@@ -6,6 +6,7 @@
  */
 package nacaLib.exceptions;
 
+/** Signals a too many close file exception condition. */
 public class TooManyCloseFileException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;

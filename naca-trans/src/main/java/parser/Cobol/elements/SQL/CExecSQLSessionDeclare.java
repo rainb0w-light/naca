@@ -17,12 +17,15 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.SQL.CEntitySQLSessionDeclare;
 
+/** Provides cexec sqlsession declare behavior. */
 public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlsession declare instance. */
     public CExecSQLSessionDeclare(int line)
     {
         super(line);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eExe = root.createElement("SQLSessionDeclare");

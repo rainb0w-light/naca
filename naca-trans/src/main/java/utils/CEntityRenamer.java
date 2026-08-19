@@ -82,6 +82,7 @@ public class CEntityRenamer
     {
     }
 
+    /** Adds the rule. */
     public void AddRule(String mask, String action, String param)
     {
         CBaseRenameRule rule = null ;
@@ -100,6 +101,7 @@ public class CEntityRenamer
         rule.init(param) ;
         rules.add(rule) ;
     }
+    /** Finds the and apply rule. */
     public String FindAndApplyRule(String name)
     {
         for (int i = 0; i< rules.size(); i++)

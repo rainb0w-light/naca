@@ -8,6 +8,7 @@ package semantic.expression;
 
 import semantic.CDataEntity;
 
+/** Provides cbase entity cond expr behavior. */
 public abstract class CBaseEntityCondExpr extends CDataEntity
 {
 //  public CBaseEntityCondExpr(int nLine)
@@ -30,6 +31,7 @@ public abstract class CBaseEntityCondExpr extends CDataEntity
     {
         return false;
     }
+    /** Creates a new cbase entity cond expr instance. */
     public CBaseEntityCondExpr()
     {
         super(0, "", null);
@@ -38,6 +40,7 @@ public abstract class CBaseEntityCondExpr extends CDataEntity
     {
         // unused
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         //

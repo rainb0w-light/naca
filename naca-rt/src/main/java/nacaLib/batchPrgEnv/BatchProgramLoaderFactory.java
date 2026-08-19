@@ -9,8 +9,10 @@ package nacaLib.batchPrgEnv;
 import nacaLib.basePrgEnv.CBaseProgramLoaderFactory;
 import nacaLib.basePrgEnv.ProgramSequencer;
 
+/** Provides batch program loader factory behavior. */
 public class BatchProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
+    /** Creates the sequencer. */
     public ProgramSequencer NewSequencer()
     {
         BatchProgramLoader prog = new BatchProgramLoader(connectionManager, tagSequencerConfig);

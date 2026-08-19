@@ -12,8 +12,10 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides called program manager behavior. */
 public class CalledProgramManager extends BaseProgramManager
 {
+    /** Creates a new called program manager instance. */
     public CalledProgramManager(
         BaseProgram program,
         SharedProgramInstanceData sharedProgramInstanceData,
@@ -35,6 +37,7 @@ public class CalledProgramManager extends BaseProgramManager
         eSMEnv = env;
     }
 
+    /** Executes the detach from env operation. */
     public void detachFromEnv()
     {
         eSMEnv = null;
@@ -45,6 +48,7 @@ public class CalledProgramManager extends BaseProgramManager
         return eSMEnv;
     }
 
+    /** Executes the prepare run main operation. */
     public void prepareRunMain(BaseProgram prg)
     {
         ((CalledProgram)prg).prepareRunMain(eSMEnv);

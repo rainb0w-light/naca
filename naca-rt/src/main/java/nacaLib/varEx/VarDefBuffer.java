@@ -714,12 +714,14 @@ public abstract class VarDefBuffer extends VarDefBase
         return internalWriteNoPadding(buffer, buffer.nAbsolutePosition+nOffset, nNbCharsToWrite, csValue);
     }
 
+    /** Returns the double. */
     public double getDouble(VarBufferPos buffer)
     {
         Dec dec = getAsDecodedDec(buffer);
         return dec.getAsDouble();
     }
 
+    /** Returns the unsigned long. */
     public long getUnsignedLong(VarBufferPos buffer)
     {
         long l = getAsDecodedLong(buffer);
@@ -729,12 +731,14 @@ public abstract class VarDefBuffer extends VarDefBase
         return l;
     }
 
+    /** Returns the unsigned int. */
     public int getUnsignedInt(VarBufferPos buffer)
     {
         int n = getAsDecodedUnsignedInt(buffer);
         return n;
     }
 
+    /** Returns the unsigned dec. */
     public Dec getUnsignedDec(VarBufferPos buffer)
     {
         Dec dec = getAsDecodedDec(buffer);
@@ -754,7 +758,9 @@ public abstract class VarDefBuffer extends VarDefBase
 
     //abstract VarDefBuffer deepDuplicate();
 
+    /** Executes the inc operation. */
     abstract public void inc(VarBufferPos buffer, int n);
+    /** Executes the inc operation. */
     abstract public void inc(VarBufferPos buffer, BigDecimal bdStep);
 
     abstract void write(VarBufferPos buffer, CobolConstantZero cst);
@@ -768,17 +774,22 @@ public abstract class VarDefBuffer extends VarDefBase
     abstract void write(VarBufferPos buffer, CobolConstantHighValue cst, int nOffsetPosition, int nNbChar);
 
     abstract void write(VarBufferPos buffer, char c);
+    /** Executes the write operation. */
     public abstract void write(VarBufferPos buffer, int n);
+    /** Executes the write operation. */
     public abstract void write(VarBufferPos buffer, long l);
     abstract void write(VarBufferPos buffer, double d);
+    /** Executes the write operation. */
     public abstract void write(VarBufferPos buffer, String cs);
     abstract void write(VarBufferPos buffer, Dec dec);
+    /** Executes the write operation. */
     public abstract void write(VarBufferPos buffer, BigDecimal bigDecimal);
 
     abstract void write(VarBufferPos buffer, String csValue, int nOffsetPosition, int nNbChar);
 
     abstract void writeAndFill(VarBufferPos buffer, char c);
 
+    /** Executes the move into same type operation. */
     abstract public void moveIntoSameType(VarBufferPos bufferPosDest, VarDefBuffer varDefSource, VarBufferPos bufferSource);
 
     abstract void transfer(VarBufferPos bufferSource, VarAndEdit dest);
@@ -870,8 +881,10 @@ public abstract class VarDefBuffer extends VarDefBase
     abstract boolean isAlphabetic(VarBufferPos buffer);
 
 
+    /** Executes the digits operation. */
     abstract public String digits(VarBufferPos buffer);
 
+    /** Returns whether equal with same type to. */
     public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
     {
         // Same length
@@ -1127,6 +1140,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //      int n = 0;
 //  }
 
+    /** Returns whether long var char var structure. */
     public boolean isLongVarCharVarStructure()
     {
         if(arrChildren != null)
@@ -1161,6 +1175,7 @@ public abstract class VarDefBuffer extends VarDefBase
         return -1;
     }
 
+    /** Writes the to file. */
     public void writeToFile(
         BaseProgramManager programManager,
         BaseDataFile dataFile,
@@ -1223,6 +1238,7 @@ public abstract class VarDefBuffer extends VarDefBase
 //      return dataFile.isEOF();
 //  }
 
+    /** Returns the offset from level01. */
     public int getOffsetFromLevel01()
     {
         VarDefBase varDefLevel01 = getParentAtLevel01();

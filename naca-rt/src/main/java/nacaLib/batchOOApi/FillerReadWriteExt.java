@@ -11,6 +11,7 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.varEx.Pic9Comp3BufferSupport;
 import nacaLib.varEx.RWNumIntComp0;
 
+/** Provides filler read write ext behavior. */
 public class FillerReadWriteExt
 {
     private WriteBufferExt bufferExt = null;
@@ -38,6 +39,7 @@ public class FillerReadWriteExt
         this.nVariableChunkLength = nVariableChunkLength;
     }
 
+    /** Executes the mark end fixed record chunk operation. */
     public void markEndFixedRecordChunk()
     {
         nPositionEndFixedRecordChunk = bufferExt.getRecordCurrentPosition();
@@ -47,6 +49,7 @@ public class FillerReadWriteExt
         }
     }
 
+    /** Executes the alloc or reset buffer ext operation. */
     public void allocOrResetBufferExt()
     {
         if(bufferExt == null)
@@ -58,6 +61,7 @@ public class FillerReadWriteExt
         }
     }
 
+    /** Executes the fill operation. */
     public String fill(String csValue, int nLength)
     {
         if(currentModeReadWriteExt == ModeReadWriteExt.Read)
@@ -72,6 +76,7 @@ public class FillerReadWriteExt
         return csValue;
     }
 
+    /** Executes the fill comp0 unsigned operation. */
     public int fillComp0Unsigned(int nValue, int nLength)
     {
         if(currentModeReadWriteExt == ModeReadWriteExt.Read)
@@ -87,6 +92,7 @@ public class FillerReadWriteExt
         return nValue;
     }
 
+    /** Executes the fill comp3 unsigned operation. */
     public int fillComp3Unsigned(int nValue, int nLength)
     {
         if(currentModeReadWriteExt == ModeReadWriteExt.Read)
@@ -102,6 +108,7 @@ public class FillerReadWriteExt
         return nValue;
     }
 
+    /** Executes the fill comp3 signed operation. */
     public int fillComp3Signed(int nValue, int nLength)
     {
         if(currentModeReadWriteExt == ModeReadWriteExt.Read)

@@ -17,6 +17,7 @@ import nacaLib.tempCache.CStr;
 import nacaLib.varEx.Dec;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides math add behavior. */
 public class MathAdd extends MathBase
 {
     /**
@@ -49,9 +50,9 @@ public class MathAdd extends MathBase
      * @param int n
      *     Set current object to VarAndEdit1+n
      */
-    public MathAdd(VarAndEdit VarAndEdit1, int n)
+    public MathAdd(VarAndEdit varAndEdit1, int n)
     {
-        String s1 = VarAndEdit1.getDottedSignedString();
+        String s1 = varAndEdit1.getDottedSignedString();
         d = new BigDecimal(s1);
 
         BigDecimal val2 = new BigDecimal(String.valueOf(n));
@@ -89,6 +90,7 @@ public class MathAdd extends MathBase
         this.d = new BigDecimal(d);
     }
 
+    /** Creates a new math add instance. */
     public MathAdd(String s1, int n)
     {
         d = new BigDecimal(s1);
@@ -96,6 +98,7 @@ public class MathAdd extends MathBase
         d = d.add(val2);
     }
 
+    /** Creates a new math add instance. */
     public MathAdd(CStr s1, int n)
     {
         d = s1.makeBigDecimal();
@@ -109,6 +112,7 @@ public class MathAdd extends MathBase
 //      d = d.add(val2);
 //  }
 
+    /** Creates a new math add instance. */
     public MathAdd(String s1, MathBase mathBase)
     {
         d = new BigDecimal(s1);
@@ -122,6 +126,7 @@ public class MathAdd extends MathBase
 //      return MathBase.toDec(bd);
 //  }
 
+    /** Executes the inc operation. */
     public static Dec inc(CStr s1, BigDecimal val2)
     {
         BigDecimal bd = s1.makeBigDecimal();
@@ -137,6 +142,7 @@ public class MathAdd extends MathBase
 //      return MathBase.toDec(bds1);
 //  }
 
+    /** Executes the inc operation. */
     public static Dec inc(CStr s1, int n)
     {
         BigDecimal bds1 = s1.makeBigDecimal();
@@ -151,9 +157,9 @@ public class MathAdd extends MathBase
      * @param double d
      *     Set current object to VarAndEdit1+d
      */
-    public MathAdd(VarAndEdit VarAndEdit1, double d)
+    public MathAdd(VarAndEdit varAndEdit1, double d)
     {
-        String s1 = VarAndEdit1.getDottedSignedString();
+        String s1 = varAndEdit1.getDottedSignedString();
         this.d = new BigDecimal(s1);
 
         BigDecimal val2 = new BigDecimal(d);
@@ -165,9 +171,9 @@ public class MathAdd extends MathBase
      * @param String s, will be converted to a number
      *     Set current object to VarAndEdit1+s
      */
-    public MathAdd(VarAndEdit VarAndEdit1, String s)
+    public MathAdd(VarAndEdit varAndEdit1, String s)
     {
-        String s1 = VarAndEdit1.getDottedSignedString();
+        String s1 = varAndEdit1.getDottedSignedString();
         d = new BigDecimal(s1);
 
         BigDecimal val2 = new BigDecimal(s);
@@ -179,9 +185,9 @@ public class MathAdd extends MathBase
      * @param MathBase mathBase
      *     Set current object to VarAndEdit1+mathBase
      */
-    public MathAdd(VarAndEdit VarAndEdit1, MathBase mathBase)
+    public MathAdd(VarAndEdit varAndEdit1, MathBase mathBase)
     {
-        String s1 = VarAndEdit1.getDottedSignedString();
+        String s1 = varAndEdit1.getDottedSignedString();
         d = new BigDecimal(s1);
 
         d = d.add(mathBase.d);
@@ -192,9 +198,9 @@ public class MathAdd extends MathBase
      * @param MathBase mathBase
      *     Set current object to VarAndEdit1+mathBase
      */
-    public MathAdd(MathBase VarAndEdit1, MathBase mathBase)
+    public MathAdd(MathBase varAndEdit1, MathBase mathBase)
     {
-        d = VarAndEdit1.d ;
+        d = varAndEdit1.d ;
 
         d = d.add(mathBase.d);
     }

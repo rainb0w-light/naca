@@ -4,6 +4,7 @@ package com.publicitas.naca.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+/** Provides naca rt properties behavior. */
 @ConfigurationProperties(prefix = "naca.rt")
 @Validated
 public class NacaRtProperties {
@@ -166,6 +167,7 @@ public class NacaRtProperties {
     public SequencerConfig getSequencer() { return sequencer; }
     public void setSequencer(SequencerConfig sequencer) { this.sequencer = sequencer; }
 
+    /** Provides gc thread config behavior. */
     public static class GcThreadConfig {
         private boolean activateThreadGarbageCollectorStatement = false;
         private long garbageCollectorStatementMs = 300000;
@@ -197,6 +199,7 @@ public class NacaRtProperties {
         }
     }
 
+    /** Provides debug config behavior. */
     public static class DebugConfig {
         private boolean logAllSQLException = true;
         public boolean isLogAllSQLException() { return logAllSQLException; }

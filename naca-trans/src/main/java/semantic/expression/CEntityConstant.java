@@ -79,6 +79,7 @@ public class CEntityConstant extends CDataEntity
         return eValue == Value.SPACES;
     }
 
+    /** Enumerates supported value values. */
     public enum Value
     {
         HIGH_VALUE, SPACES ;

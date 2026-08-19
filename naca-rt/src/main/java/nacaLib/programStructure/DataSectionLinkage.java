@@ -14,8 +14,10 @@ import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.varEx.DataSection;
 import nacaLib.varEx.DataSectionType;
 
+/** Provides data section linkage behavior. */
 public class DataSectionLinkage extends DataSection
 {
+    /** Creates a new data section linkage instance. */
     public DataSectionLinkage(BaseProgram prg)
     {
         super(prg, DataSectionType.Linkage);

@@ -32,6 +32,7 @@ public class CEntityCICSAskTime extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

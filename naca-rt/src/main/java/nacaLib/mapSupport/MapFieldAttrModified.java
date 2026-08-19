@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr modified behavior. */
 public class MapFieldAttrModified extends MapFieldBaseAttr
 {
     MapFieldAttrModified(int nValue, String text)

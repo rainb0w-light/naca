@@ -20,6 +20,7 @@ public class SQLClauseSPParamInInt extends SQLClauseSPParamIn
 {
     private int nVal = 0;
 
+    /** Creates a new sqlclause spparam in int instance. */
     public SQLClauseSPParamInInt(int nVal)
     {
         this.nVal = nVal;

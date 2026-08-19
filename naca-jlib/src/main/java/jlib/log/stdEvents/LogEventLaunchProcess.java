@@ -34,16 +34,19 @@ import jlib.log.LogLevel;
  */
 public class LogEventLaunchProcess extends LogEvent
 {
+    /** Creates a new log event launch process instance. */
     public LogEventLaunchProcess(String csProduct)
     {
         super(LogEventType.Launch, LogFlowStd.Any, LogLevel.Normal, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csLaunchedProcessName, String csMessage)
     {
         return LogEventLaunchProcess.log(csChannel, null, csLaunchedProcessName, csMessage);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csLaunchedProcessName, String csMessage)
     {
         LogEventLaunchProcess event = new LogEventLaunchProcess(csProduct);
@@ -52,6 +55,7 @@ public class LogEventLaunchProcess extends LogEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(
         String csChannel,
         String csProduct,

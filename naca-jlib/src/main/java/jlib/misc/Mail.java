@@ -6,9 +6,15 @@
  */
 package jlib.misc;
 
-import java.util.*;
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Vector;
+import jakarta.mail.Message;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 
 /**
  * Envoi de mail

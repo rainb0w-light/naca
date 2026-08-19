@@ -33,6 +33,7 @@ public class VarNumIntComp0Long extends VarNum
         return "VarNumIntComp0Long";
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(ComparisonMode mode, String csValue)
     {
         double dValue = 0;
@@ -46,12 +47,14 @@ public class VarNumIntComp0Long extends VarNum
         return compareTo(dValue);
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

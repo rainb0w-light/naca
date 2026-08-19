@@ -16,6 +16,7 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import jlib.jmxMBean.BaseCloseMBean;
 import jlib.log.Log;
 
+/** Provides program copy owner behavior. */
 public class ProgramCopyOwner extends BaseCloseMBean
 {
     ProgramCopyOwner(String csCopyName)
@@ -74,6 +75,7 @@ public class ProgramCopyOwner extends BaseCloseMBean
         return csCopyName;
     }
 
+    /** Returns the nb program owner. */
     public int getNbProgramOwner()
     {
         if (hashPrograms == null) {
@@ -82,6 +84,7 @@ public class ProgramCopyOwner extends BaseCloseMBean
         return hashPrograms.size();
     }
 
+    /** Executes the unload copy operation. */
     public void unloadCopy()
     {
         Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);

@@ -10,17 +10,17 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
 import java.util.Vector;
-
 import idea.manager.CMapFieldLoader;
 import idea.onlinePrgEnv.OnlineSession;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 import nacaLib.base.CJMapObject;
 import nacaLib.misc.KeyPressed;
-import jlib.xml.*;
+import jlib.xml.XMLUtil;
+
+
+
 ;
 
 /**
@@ -39,6 +39,7 @@ public class CScenarioPlayer extends CJMapObject
         public static ScenarioRecordDataMode MODE_3270 = new ScenarioRecordDataMode() ;
         public static ScenarioRecordDataMode MODE_WEB = new ScenarioRecordDataMode() ;
     }
+    /** Provides cscenario warning detail behavior. */
     public class CScenarioWarningDetail extends CJMapObject
     {
         public Element pageField;
@@ -47,6 +48,7 @@ public class CScenarioPlayer extends CJMapObject
         public EditedField scenarioFieldDetails;
 
     }
+    /** Creates a new cscenario player instance. */
     public CScenarioPlayer(String filepath, OnlineSession session)
     {
         this.session = session ;
@@ -91,6 +93,7 @@ public class CScenarioPlayer extends CJMapObject
     protected ScenarioRecordDataMode modeRecord = null ;
 //  protected String csScenarioFilePath = "" ;
 
+    /** Executes the rewind scenario operation. */
     public void rewindScenario()
     {
         nPlayerState = 0 ;
@@ -217,6 +220,7 @@ public class CScenarioPlayer extends CJMapObject
 
     }
 
+    /** Returns the page name from xmloutput. */
     public String getPageNameFromXMLOutput(Document xmlOutput)
     {
         NodeList lst = xmlOutput.getElementsByTagName("form") ;
@@ -306,6 +310,7 @@ public class CScenarioPlayer extends CJMapObject
 
         }
     }
+    /** Returns the display. */
     public String getDisplay()
     {
         if (docScenario != null && listpages != null)

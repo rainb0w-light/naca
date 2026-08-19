@@ -25,11 +25,13 @@ public class FileExporter
 {
     private BaseSession session = null;
 
+    /** Creates a new file exporter instance. */
     public FileExporter(BaseSession session)
     {
         this.session = session;
     }
 
+    /** Executes the execute operation. */
     public boolean execute(FileDescriptor exportFileIn, FileDescriptor exportFileOut)
     {
         String csFileIn = exportFileIn.getPhysicalName();

@@ -25,11 +25,13 @@ import nacaLib.varEx.VarBase;
  */
 public class RecordColTypeManagerDecimal extends RecordColTypeManagerBase
 {
+    /** Creates a new record col type manager decimal instance. */
     public RecordColTypeManagerDecimal(int nColSourceIndex)
     {
         super(nColSourceIndex);
     }
 
+    /** Executes the transfer operation. */
     public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
     {
         try

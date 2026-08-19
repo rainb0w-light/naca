@@ -21,6 +21,7 @@ public class InMemoryJavaCompiler {
     private final String outputDirectory;
     private final String classpath;
 
+    /** Creates a new in memory java compiler instance. */
     public InMemoryJavaCompiler(String outputDirectory) {
         this.outputDirectory = outputDirectory;
         // Use current classpath for compilation
@@ -108,10 +109,12 @@ public class InMemoryJavaCompiler {
             this.errorMessage = errorMessage;
         }
 
+        /** Executes the success operation. */
         public static CompilationResult success() {
             return new CompilationResult(true, null);
         }
 
+        /** Executes the failure operation. */
         public static CompilationResult failure(String errorMessage) {
             return new CompilationResult(false, errorMessage);
         }

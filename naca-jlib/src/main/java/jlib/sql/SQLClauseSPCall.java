@@ -8,6 +8,7 @@ package jlib.sql;
 
 
 
+/** Provides sqlclause spcall behavior. */
 public class SQLClauseSPCall extends SQLClauseSPCallBase
 {
     SQLClauseSPCall(String csName, boolean bCheckParams)
@@ -16,6 +17,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
     }
 
     // Parameters IN
+    /** Executes the param in operation. */
     public SQLClauseSPCall paramIn(String csVal)
     {
         SQLClauseSPParamInString param = new SQLClauseSPParamInString(csVal);
@@ -24,6 +26,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param in operation. */
     public SQLClauseSPCall paramIn(int nVal)
     {
         SQLClauseSPParamInInt param = new SQLClauseSPParamInInt(nVal);
@@ -32,6 +35,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param in operation. */
     public SQLClauseSPCall paramIn(short sVal)
     {
         SQLClauseSPParamInShort param = new SQLClauseSPParamInShort(sVal);
@@ -40,6 +44,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param in operation. */
     public SQLClauseSPCall paramIn(double dVal)
     {
         SQLClauseSPParamInDouble param = new SQLClauseSPParamInDouble(dVal);
@@ -49,6 +54,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
     }
 
     // Parameters IN-OUT
+    /** Executes the param in out operation. */
     public SQLClauseSPCall paramInOut(String tcsVal[])
     {
         SQLClauseSPParamInOutString param = new SQLClauseSPParamInOutString(SQLClauseSPParamWay.InOut, tcsVal);
@@ -57,6 +63,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param in out operation. */
     public SQLClauseSPCall paramInOut(int tnVal[])
     {
         SQLClauseSPParamInOutInt param = new SQLClauseSPParamInOutInt(SQLClauseSPParamWay.InOut, tnVal);
@@ -65,6 +72,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param in out operation. */
     public SQLClauseSPCall paramInOut(double tdVal[])
     {
         SQLClauseSPParamInOutDouble param = new SQLClauseSPParamInOutDouble(SQLClauseSPParamWay.InOut, tdVal);
@@ -74,6 +82,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
     }
 
     // Parameters OUT
+    /** Executes the param out operation. */
     public SQLClauseSPCall paramOut(String tcsVal[])
     {
         SQLClauseSPParamInOutString param = new SQLClauseSPParamInOutString(SQLClauseSPParamWay.Out, tcsVal);
@@ -82,6 +91,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param out operation. */
     public SQLClauseSPCall paramOut(int tnVal[])
     {
         SQLClauseSPParamInOutInt param = new SQLClauseSPParamInOutInt(SQLClauseSPParamWay.Out, tnVal);
@@ -90,6 +100,7 @@ public class SQLClauseSPCall extends SQLClauseSPCallBase
         return this;
     }
 
+    /** Executes the param out operation. */
     public SQLClauseSPCall paramOut(double tdVal[])
     {
         SQLClauseSPParamInOutDouble param = new SQLClauseSPParamInOutDouble(SQLClauseSPParamWay.Out, tdVal);

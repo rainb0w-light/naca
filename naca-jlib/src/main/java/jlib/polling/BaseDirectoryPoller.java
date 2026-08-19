@@ -24,12 +24,14 @@ public abstract class BaseDirectoryPoller
     private String csPath;                      // Path polled; the sub dir are not polled
     public MaskFileFilter maskFileFilter = null;
 
+    /** Creates a new base directory poller instance. */
     public BaseDirectoryPoller(String csPath)
     {
         csPath = FileSystem.normalizePath(csPath);
     }
 
     // Pass a list of ; separated file masks e.g. *.xml;*.pdf
+    /** Sets the masks. */
     public void setMasks(String csMasks)
     {
         String arr[] = csMasks.split(";");
@@ -38,6 +40,7 @@ public abstract class BaseDirectoryPoller
         }
     }
 
+    /** Adds the single mask. */
     public void addSingleMask(String csMask)
     {
         if (maskFileFilter == null) {
@@ -46,6 +49,7 @@ public abstract class BaseDirectoryPoller
         maskFileFilter.add(csMask);
     }
 
+    /** Executes the poll operation. */
     public void poll()
     {
         File path = new File(csPath);

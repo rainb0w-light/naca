@@ -24,11 +24,13 @@ import lexer.CTokenType;
 public class CGlobalCommentContainer
 {
 
+    /** Executes the register comment operation. */
     public void RegisterComment(int line, CComment comm)
     {
         Integer in = new Integer(line) ;
         comments.add(comm) ;
     }
+    /** Executes the do semantic analysis operation. */
     public void DoSemanticAnalysis(CBaseEntityFactory factory)
     {
         for (int i = 0; i< comments.size(); i++)
@@ -41,6 +43,7 @@ public class CGlobalCommentContainer
     protected Vector<CEntityComment> commentEntities = new Vector<CEntityComment>() ;
     protected Vector<CComment> comments = new Vector<CComment>();
     protected int nCurrentComment = 0;
+    /** Parses the comment. */
     public boolean ParseComment(CTokenList lstTokens)
     {
         CBaseToken tok = lstTokens.GetCurrentToken() ;
@@ -53,12 +56,14 @@ public class CGlobalCommentContainer
         }
         return true ;
     }
+    /** Executes the get current comment operation. */
     public CEntityComment GetCurrentComment()
     {
         CEntityComment comm = commentEntities.get(nCurrentComment);
         nCurrentComment ++ ;
         return comm ;
     }
+    /** Executes the get current comment line operation. */
     public int GetCurrentCommentLine()
     {
         if (nCurrentComment < commentEntities.size())
@@ -71,6 +76,7 @@ public class CGlobalCommentContainer
             return 0 ;
         }
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         for (int i = 0; i< commentEntities.size(); i++)

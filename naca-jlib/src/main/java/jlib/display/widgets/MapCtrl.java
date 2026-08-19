@@ -8,8 +8,10 @@ package jlib.display.widgets;
 
 import java.util.Vector;
 
+/** Provides map ctrl behavior. */
 public class MapCtrl
 {
+    /** Provides map marker behavior. */
     public class MapMarker
     {
         public String csLabel = "" ;
@@ -50,11 +52,13 @@ public class MapCtrl
     {
         nZoom = zoom;
     }
+    /** Sets the center. */
     public void setCenter(double lat, double lng)
     {
         centerLat = lat ;
         centerLng = lng ;
     }
+    /** Adds the marker. */
     public void AddMarker(String label, double lat, double lng)
     {
         MapMarker mark = new MapMarker() ;
@@ -69,6 +73,7 @@ public class MapCtrl
     {
         return markers.size() ;
     }
+    /** Returns the marker. */
     public MapMarker getMarker(int i)
     {
         return markers.get(i) ;

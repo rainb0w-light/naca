@@ -16,6 +16,7 @@ package nacaLib.varEx;
  */
 public class OccursOwnerLocation
 {
+    /** Creates a new occurs owner location instance. */
     public OccursOwnerLocation(int nDistanceFromOccursOwner, int nAbsolutePositionOccursOwner, int nSizeOccursOwnerOf1Entry)
     {
         this.nDistanceFromOccursOwner = nDistanceFromOccursOwner;

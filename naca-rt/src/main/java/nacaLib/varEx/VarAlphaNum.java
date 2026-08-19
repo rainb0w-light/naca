@@ -39,6 +39,7 @@ public class VarAlphaNum extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeX) {
@@ -47,6 +48,7 @@ public class VarAlphaNum extends Var
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue;
@@ -58,6 +60,7 @@ public class VarAlphaNum extends Var
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

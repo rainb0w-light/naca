@@ -14,16 +14,19 @@ public class MockCondition extends CBaseEntityCondition {
     private String mockConditionValue;
     private boolean mockIgnoreValue = false;
 
+    /** Creates a new mock condition instance. */
     public MockCondition(int line, String conditionValue) {
         super();
         this.mockConditionValue = conditionValue;
     }
 
+    /** Creates a new mock condition instance. */
     public MockCondition(int line, CObjectCatalog cat, CBaseLanguageExporter out, String conditionValue) {
         super();
         this.mockConditionValue = conditionValue;
     }
 
+    /** Executes the export operation. */
     public String Export() {
         return mockConditionValue;
     }

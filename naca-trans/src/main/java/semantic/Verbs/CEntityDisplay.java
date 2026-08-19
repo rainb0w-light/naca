@@ -30,6 +30,7 @@ public class CEntityDisplay extends CBaseActionEntity
         super(line, cat);
         upon = t ;
     }
+    /** Adds the item to display. */
     public void AddItemToDisplay(CDataEntity e)
     {
         itemsToDisplay.add(e) ;
@@ -37,11 +38,13 @@ public class CEntityDisplay extends CBaseActionEntity
 
     protected Vector<CDataEntity> itemsToDisplay = new Vector<CDataEntity>();
     protected Upon upon = Upon.DEFAULT ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         itemsToDisplay.clear();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         boolean ignore = true ;
@@ -53,6 +56,7 @@ public class CEntityDisplay extends CBaseActionEntity
         return ignore ;
     }
 
+    /** Enumerates supported upon values. */
     public static enum Upon
     {
         DEFAULT, CONSOLE, ENVINONMENT,
@@ -68,6 +72,7 @@ public class CEntityDisplay extends CBaseActionEntity
         return upon == Upon.ENVINONMENT;
     }
 
+    /** Returns the display items. */
     public List<CDisplayItemView> getDisplayItems()
     {
         List<CDisplayItemView> values = new ArrayList<CDisplayItemView>();
@@ -81,11 +86,13 @@ public class CEntityDisplay extends CBaseActionEntity
         return values;
     }
 
+    /** Provides cdisplay item view behavior. */
     public static class CDisplayItemView
     {
         private final CDataEntity reference;
         private final boolean valueNeeded;
 
+        /** Creates a new cdisplay item view instance. */
         public CDisplayItemView(CDataEntity reference, boolean valueNeeded)
         {
             this.reference = reference;

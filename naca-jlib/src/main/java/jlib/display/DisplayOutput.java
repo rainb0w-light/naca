@@ -24,6 +24,7 @@ public class DisplayOutput
 {
     protected DisplayContext context = null  ;
     protected DisplayConfig config = null ;
+    /** Creates a new display output instance. */
     public DisplayOutput(DisplayContext context)
     {
         this.context = context ;
@@ -39,6 +40,7 @@ public class DisplayOutput
 
     protected Tag tagDisplayOutput = null ;
 
+    /** Executes the do render output operation. */
     public void doRenderOutput(HttpServletResponse res)
     {
         res.setContentType("text/html");

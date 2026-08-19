@@ -14,9 +14,17 @@ import parser.CIdentifier;
 import parser.CLanguageElement;
 import parser.condition.CCondAndStatement;
 import parser.condition.CCondOrStatement;
-import parser.expression.*;
+import parser.expression.CAddressTerminal;
+import parser.expression.CExpression;
+import parser.expression.CIdentifierTerminal;
+import parser.expression.CNumberTerminal;
+import parser.expression.CStringTerminal;
+import parser.expression.CSumExpression;
+import parser.expression.CTermExpression;
+import parser.expression.CTerminal;
 import utils.Transcoder;
 
+/** Provides cfpac element behavior. */
 public abstract class CFPacElement extends CLanguageElement
 {
 
@@ -42,6 +50,7 @@ public abstract class CFPacElement extends CLanguageElement
         }
     }
 
+    /** Creates a new cfpac element instance. */
     public CFPacElement(int line)
     {
         super(line);

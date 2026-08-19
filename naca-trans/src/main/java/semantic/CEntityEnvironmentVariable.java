@@ -52,6 +52,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
         return isnumericVariable;
     }
 
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -93,14 +94,17 @@ public class CEntityEnvironmentVariable extends CDataEntity
             return null ;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
 //      CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -114,6 +118,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
 //      return e ;
         return this ;
     };
+    /** Executes the get sub string reference operation. */
     public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
     {
         CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
@@ -130,6 +135,7 @@ public class CEntityEnvironmentVariable extends CDataEntity
         }
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return !csWriteAccessor.isEmpty();

@@ -15,6 +15,7 @@ import utils.CObjectCatalog;
 public class CProcedureReference
 {
 
+    /** Creates a new cprocedure reference instance. */
     public CProcedureReference(String csProcedureName, String csSectionName, CObjectCatalog programCatalog)
     {
         this.csProcedureName = csProcedureName ;
@@ -28,6 +29,7 @@ public class CProcedureReference
     protected String csProcedureName = "" ;
     protected String csSectionName = "" ;
     protected CObjectCatalog programCatalog = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         programCatalog = null ;

@@ -22,10 +22,12 @@ import jlib.misc.LineRead;
  */
 public class VarDefEncodingConvertibleManager
 {
+    /** Creates a new var def encoding convertible manager instance. */
     public VarDefEncodingConvertibleManager()
     {
     }
 
+    /** Executes the add operation. */
     public void add(VarDefBase varDefBase)
     {
         int nPosition = varDefBase.DEBUGgetDefaultAbsolutePosition();
@@ -36,14 +38,17 @@ public class VarDefEncodingConvertibleManager
         add(nPosition, nLength);
     }
 
+    /** Executes the add operation. */
     public void add(int nPosition, int nLength)
     {
         add(nPosition, nLength, false);
     }
+    /** Executes the add operation. */
     public void add(int nPosition, int nLength, boolean bConvertOnlyIfBlank)
     {
         add(nPosition, nLength, bConvertOnlyIfBlank, false);
     }
+    /** Executes the add operation. */
     public void add(int nPosition, int nLength, boolean bConvertOnlyIfBlank, boolean bConvertPrint)
     {
         if (hash == null) {
@@ -68,6 +73,7 @@ public class VarDefEncodingConvertibleManager
         hash.put(nLastPos, e);
     }
 
+    /** Executes the compress operation. */
     public void compress()
     {
         if(arr == null)
@@ -89,6 +95,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Returns the converted bytes ascii to ebcdic. */
     public void getConvertedBytesAsciiToEbcdic(int nStartPos, byte tbyDest[], int nMaxLengthDest)
     {
         if(arr != null)
@@ -101,6 +108,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Returns the converted bytes ascii to ebcdic. */
     public void getConvertedBytesAsciiToEbcdic(LineRead lineRead)
     {
         if(arr != null)
@@ -113,6 +121,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Converts the ebcdic to ascii. */
     public void convertEbcdicToAscii(VarBase varDest, int nMaxLengthToConvert)
     {
         int nLastPosToConvert = 0;
@@ -129,6 +138,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Returns the converted bytes ebcdic to ascii. */
     public void getConvertedBytesEbcdicToAscii(int nStartPos, byte tbyDest[], int nMaxLengthDest)
     {
         if(arr != null)
@@ -141,6 +151,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Returns the converted bytes ebcdic to ascii. */
     public void getConvertedBytesEbcdicToAscii(LineRead lineRead)
     {
         if(arr != null)
@@ -153,6 +164,7 @@ public class VarDefEncodingConvertibleManager
         }
     }
 
+    /** Executes the fill dest and convert into ascii operation. */
     public void fillDestAndConvertIntoAscii(LineRead lineRead, VarBase varDest)
     {
         int nLength = varDest.setFromLineRead(lineRead);

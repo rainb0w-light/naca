@@ -35,6 +35,7 @@ public class SqlMapperRecordsCollection
         arr.add(recordCols);
     }
 
+    /** Returns the first record. */
     public SqlMapperManagedRecord getFirstRecord()
     {
         if (arr.size() > 0) {
@@ -43,6 +44,7 @@ public class SqlMapperRecordsCollection
         return null;
     }
 
+    /** Returns the record at. */
     public SqlMapperManagedRecord getRecordAt(int nIndex)
     {
         return arr.get(nIndex);
@@ -53,6 +55,7 @@ public class SqlMapperRecordsCollection
         return arr.size();
     }
 
+    /** Clears the values. */
     public void clearValues()
     {
         int nNbRecords = getNbRecords();
@@ -130,6 +133,7 @@ public class SqlMapperRecordsCollection
         }
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();

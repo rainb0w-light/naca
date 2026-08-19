@@ -23,6 +23,7 @@ public class CEntityMoveReference extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Sets the move reference. */
     public void SetMoveReference(CEntityAddressReference from, CEntityAddressReference to)
     {
         this.from = from ;
@@ -40,10 +41,12 @@ public class CEntityMoveReference extends CBaseActionEntity
     {
         return to ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return from.ignore() || to.ignore();
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

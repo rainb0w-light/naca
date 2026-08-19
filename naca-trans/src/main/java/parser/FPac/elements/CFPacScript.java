@@ -21,12 +21,14 @@ import semantic.CBaseLanguageEntity;
 import semantic.CEntityClass;
 import utils.Transcoder;
 
+/** Provides cfpac script behavior. */
 public class CFPacScript extends CFPacElement
 {
 
     private String csName = "" ;
     private Vector<CFPacSubr> subr;
 
+    /** Creates a new cfpac script instance. */
     public CFPacScript(int line)
     {
         super(line);
@@ -139,6 +141,7 @@ public class CFPacScript extends CFPacElement
         }
     }
 
+    /** Executes the do semantic analysis operation. */
     public CEntityClass DoSemanticAnalysis(CJavaFPacEntityFactory factory)
     {
         return (CEntityClass)DoSemanticAnalysis(null, factory) ;

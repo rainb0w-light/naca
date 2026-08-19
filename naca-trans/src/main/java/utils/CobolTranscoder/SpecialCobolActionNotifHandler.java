@@ -6,20 +6,24 @@
  */
 package utils.CobolTranscoder;
 
-import utils.CobolTranscoder.Notifs.*;
+import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
+import utils.CobolTranscoder.Notifs.NotifIsUsedCICSPreprocessor;
 import jlib.engine.BaseNotificationHandler;
 
+/** Provides special cobol action notif handler behavior. */
 public class SpecialCobolActionNotifHandler extends BaseNotificationHandler
 {
     private boolean isuseCICSPreprocessor = false ;
 
 
+    /** Executes the on use cicspreprocessor operation. */
     public boolean OnUseCICSPreprocessor(NotifDeclareUseCICSPreprocessor notif)
     {
         isuseCICSPreprocessor = true ;
         return true ;
     }
 
+    /** Executes the on is used cicspre operation. */
     public boolean OnIsUsedCICSPRe(NotifIsUsedCICSPreprocessor notif)
     {
         notif.isused = isuseCICSPreprocessor;

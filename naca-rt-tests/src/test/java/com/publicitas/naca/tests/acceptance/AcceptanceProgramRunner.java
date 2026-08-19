@@ -24,9 +24,16 @@ public final class AcceptanceProgramRunner {
 
     private static final int FILE_MAPPING_ARGUMENT_COUNT = 4;
     private static final int NAMED_DESCRIPTOR_ARGUMENT_COUNT = 5;
+    private static final int FIRST_DESCRIPTOR_ARGUMENT = 2;
+    private static final int DESCRIPTOR_ARGUMENT_COUNT = 3;
     private static final String GENERATED_FILE_SUFFIX = "-FILE";
     private static final PrintStream ACCEPTANCE_OUTPUT = System.out;
 
+    /**
+     * Runs a compiled acceptance program with optional logical-file mappings.
+     *
+     * @param args program class, classes directory, and file mapping arguments
+     */
     public static void main(String[] args) {
         String className = args[0];
         String classesDir = args[1];
@@ -55,7 +62,7 @@ public final class AcceptanceProgramRunner {
                 fixedAsciiFile("FILEOUT", args[3]));
         }
         if (args.length >= NAMED_DESCRIPTOR_ARGUMENT_COUNT) {
-            registerNamedDescriptor(session, args[2], args[3], args[4]);
+            registerNamedDescriptors(session, args);
         }
         OnlineEnvironment environment =
             (OnlineEnvironment) loader.GetEnvironment(session, null, null);
@@ -82,6 +89,21 @@ public final class AcceptanceProgramRunner {
             : logicalName + GENERATED_FILE_SUFFIX;
         session.putLogicalFileDescriptor(generatedName, mapped);
         return mapped;
+    }
+
+    /** Registers every name/path/format triplet supplied after the runner class paths. */
+    private static void registerNamedDescriptors(
+        OnlineSession session, String... args) {
+        int descriptorArguments = args.length - FIRST_DESCRIPTOR_ARGUMENT;
+        if (descriptorArguments % DESCRIPTOR_ARGUMENT_COUNT != 0) {
+            throw new IllegalArgumentException(
+                "named file descriptors require name/path/format triplets");
+        }
+        for (int index = FIRST_DESCRIPTOR_ARGUMENT;
+            index < args.length; index += DESCRIPTOR_ARGUMENT_COUNT) {
+            registerNamedDescriptor(
+                session, args[index], args[index + 1], args[index + 2]);
+        }
     }
 
     private static final class StandardLogCenterLoader extends LogCenterLoader {

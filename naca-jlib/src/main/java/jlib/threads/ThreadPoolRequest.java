@@ -6,8 +6,10 @@
  */
 package jlib.threads;
 
+/** Provides thread pool request behavior. */
 public abstract class ThreadPoolRequest
 {
+    /** Creates a new thread pool request instance. */
     public ThreadPoolRequest(boolean bTerminaison)
     {
         isterminaisonRequest = bTerminaison;
@@ -28,6 +30,7 @@ public abstract class ThreadPoolRequest
     \retval: ULONG: return code of the execution
     \note This function mus be override in derivated
     */
+    /** Executes the execute operation. */
     public abstract void execute();
 
     private boolean isterminaisonRequest;

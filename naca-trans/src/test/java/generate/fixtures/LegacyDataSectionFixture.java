@@ -9,6 +9,7 @@ import utils.CObjectCatalog;
  */
 public final class LegacyDataSectionFixture extends CEntityDataSection
 {
+    /** Creates a new legacy data section fixture instance. */
     public LegacyDataSectionFixture(
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {

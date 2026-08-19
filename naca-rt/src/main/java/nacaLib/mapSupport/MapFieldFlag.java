@@ -10,12 +10,15 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field flag behavior. */
 public class MapFieldFlag
 {
+    /** Creates a new map field flag instance. */
     public MapFieldFlag()
     {
     }
 
+    /** Executes the duplicate operation. */
     public MapFieldFlag duplicate()
     {
         MapFieldFlag copy = new MapFieldFlag();
@@ -23,11 +26,13 @@ public class MapFieldFlag
         return copy;
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         csValue = cs;
     }
 
+    /** Executes the set operation. */
     public void set(char c)
     {
         if (c == 0)
@@ -40,6 +45,7 @@ public class MapFieldFlag
         }
     }
 
+    /** Executes the get operation. */
     public String get()
     {
         if (csValue != null)
@@ -52,6 +58,7 @@ public class MapFieldFlag
         }
     }
 
+    /** Returns whether flag. */
     public boolean isFlag(String cs)
     {
         if (csValue == null)
@@ -61,6 +68,7 @@ public class MapFieldFlag
         return csValue.equals(cs);
     }
 
+    /** Returns the encoded value. */
     public char getEncodedValue()
     {
         if (csValue != null && csValue.length() >= 1) {
@@ -69,6 +77,7 @@ public class MapFieldFlag
         return 0;
     }
 
+    /** Sets the encoded value. */
     public void setEncodedValue(char cEncodedValue)
     {
         set(cEncodedValue);

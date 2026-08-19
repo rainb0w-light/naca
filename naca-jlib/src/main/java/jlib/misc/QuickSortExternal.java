@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 // See http://max.cs.kzoo.edu/~abrady/java/sorting/QSort.html
 
+/** Provides quick sort external behavior. */
 public class QuickSortExternal<Item>
 {
     protected ArrayList<Item> arr = null;
@@ -36,6 +37,7 @@ public class QuickSortExternal<Item>
         this.comparer = comparer;
     }
 
+    /** Executes the sort operation. */
     public void sort()
     {
         if (arr != null) {

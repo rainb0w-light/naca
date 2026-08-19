@@ -26,6 +26,7 @@ import nacaLib.programPool.ProgramPoolManager;
  */
 public class JmxGeneralStat extends BaseJmxGeneralStat
 {
+    /** Creates a new jmx general stat instance. */
     public JmxGeneralStat()
     {
         super("# GeneralStat", "# GeneralStat");
@@ -102,6 +103,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         ms_tTransaction = new int[CriteriaEndRunMain.getNbIndex()];
     }
 
+    /** Executes the inc nb program instance loaded operation. */
     public synchronized static void incNbProgramInstanceLoaded(int nStep)
     {
         ms_nNbProgramInstanceNonFinalized += nStep;
@@ -149,26 +151,31 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 //  }
 
 
+    /** Executes the inc program class loaded operation. */
     public synchronized static void incProgramClassLoaded(int nStep)
     {
         ms_nNbProgramClassLoaded += nStep;
     }
 
+    /** Executes the inc copy class loaded operation. */
     public synchronized static void incCopyClassLoaded(int nStep)
     {
         ms_nNbCopyClassLoaded += nStep;
     }
 
+    /** Executes the dec nb active prepared statement operation. */
     public synchronized static void decNbActivePreparedStatement(int nStep)
     {
         ms_nNbActivePreparedStatement -= nStep;
     }
 
+    /** Executes the dec nb non finalized prepared statement operation. */
     public synchronized static void decNbNonFinalizedPreparedStatement(int nStep)
     {
         ms_nNbNonFinalizedPreparedStatement -= nStep;
     }
 
+    /** Executes the inc nb prepared statement operation. */
     public synchronized static void incNbPreparedStatement(int nStep)
     {
         ms_nNbActivePreparedStatement += nStep;
@@ -230,6 +237,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 //      ms_nNbCurrentRunningTrans++;
 //  }
 
+    /** Executes the end run transaction operation. */
     public synchronized static void endRunTransaction(CriteriaEndRunMain criteria, long lRuntimeTransMs, long lSumDbTimeIOForATransMs)
     {
         ms_tTransaction[criteria.getIndex()]++;
@@ -260,6 +268,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         return ms_nNbProgramInstanceNonFinalized;
     }
 
+    /** Returns the f nb program instance stacked. */
     public int getF_NbProgramInstance_Stacked()
     {
         int nNbProgramStacked = 0;
@@ -440,17 +449,20 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
     private final static int Mb = 1024 * 1024;
 
 
+    /** Sets the show copy beans. */
     public void setShowCopyBeans()
     {
         ms_bShowProgramBeans = !ms_bShowProgramBeans;
         CopyManager.showBeans(ms_bShowProgramBeans);
     }
 
+    /** Executes the show program beans operation. */
     public static boolean showProgramBeans()
     {
         return ms_bShowProgramBeans;
     }
 
+    /** Sets the show program beans. */
     public void setShowProgramBeans()
     {
         ms_bShowProgramBeans = !ms_bShowProgramBeans;
@@ -461,6 +473,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         }
     }
 
+    /** Sets the unload all programs. */
     public void setUnloadAllPrograms()
     {
         for(int n=0; n<ms_arrProgramPoolManager.size(); n++)
@@ -470,6 +483,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         }
     }
 
+    /** Sets the unload all programs with gcafter each prg. */
     public void setUnloadAllProgramsWithGCAfterEachPrg()
     {
         for(int n=0; n<ms_arrProgramPoolManager.size(); n++)
@@ -479,11 +493,13 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         }
     }
 
+    /** Sets the remove all dbconnections. */
     public void setRemoveAllDBConnections()
     {
         BaseResourceManager.removeAllDBConnections();
     }
 
+    /** Sets the hide environments. */
     public void setHideEnvironments()
     {
         bshowTransThreadBeans = false;
@@ -495,6 +511,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         ms_nMinTransExecTime_s = iMinTransExecTimeS;
     }
 
+    /** Sets the w param max permanent heap mo. */
     public void setW_ParamMaxPermanentHeap_Mo(Integer iMaxPermanentHeapMo)
     {
         BaseResourceManager.setCurrentMaxPermanentHeap_Mo(iMaxPermanentHeapMo);
@@ -511,17 +528,20 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
     }
 
 
+    /** Sets the view environments. */
     public void setViewEnvironments()
     {
         bshowTransThreadBeans = true;
         TransThreadManager.view(ms_nMinTransExecTime_s);
     }
 
+    /** Executes the show copy beans operation. */
     public static boolean showCopyBeans()
     {
         return ms_bShowCopyBeans;
     }
 
+    /** Adds the program pool manager. */
     public static void addProgramPoolManager(ProgramPoolManager p)
     {
         ms_arrProgramPoolManager.add(p);
@@ -624,22 +644,26 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 //      //m_lSumTimeTransaction_ms = 0;
 //  }
 
+    /** Executes the show trans thread beans operation. */
     public static boolean showTransThreadBeans()
     {
         return bshowTransThreadBeans;
     }
 
+    /** Executes the show async thread beans operation. */
     public static boolean showAsyncThreadBeans()
     {
         return bshowAsyncThreadBeans;
     }
 
+    /** Sets the view asynchronous threads. */
     public void setViewAsynchronousThreads()
     {
         bshowAsyncThreadBeans = true;
         AsyncThreadJmxManager.view();
     }
 
+    /** Sets the hide asynchronous threads. */
     public void setHideAsynchronousThreads()
     {
         bshowAsyncThreadBeans = false;

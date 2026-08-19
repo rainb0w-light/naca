@@ -17,11 +17,13 @@ import semantic.CDataEntity;
  */
 public class CEntityCondEquals extends CBinaryEntityCondition
 {
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondEquals newCond = new CEntityCondEquals();
@@ -45,6 +47,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
     }
 
 
+    /** Sets the equal condition. */
     public void SetEqualCondition(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         ASSERT(op1);
@@ -53,6 +56,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
         this.op2 = op2 ;
         bIsDifferent = false ;
     }
+    /** Sets the different condition. */
     public void SetDifferentCondition(CBaseEntityExpression op1, CBaseEntityExpression op2)
     {
         ASSERT(op1);
@@ -80,6 +84,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
         return bIsDifferent;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -88,6 +93,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
         op2.Clear() ;
         op2 = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return op1.ignore() || op2.ignore();
@@ -126,6 +132,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
 //          return eq;
 //      }
 //  }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         EConditionType type = null ;
@@ -164,6 +171,7 @@ public class CEntityCondEquals extends CBinaryEntityCondition
         }
         return null ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         boolean b1 = op1.ReplaceVariable(field, var) ;

@@ -14,6 +14,7 @@ import java.util.Date;
 import jlib.misc.DateUtil;
 
 
+/** Provides col value date behavior. */
 public class ColValueDate extends ColValue
 {
     ColValueDate(String csName, String csReplacement, Date dateValue)
@@ -28,22 +29,26 @@ public class ColValueDate extends ColValue
         this.dateValue = dateValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueDate(csName, dateValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(dateValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
         dateValue = resultSet.getDate(nCol);
     }
 
+    /** Returns the value as string. */
     public String getValueAsString()
     {
         if(dateValue == null)   // Now

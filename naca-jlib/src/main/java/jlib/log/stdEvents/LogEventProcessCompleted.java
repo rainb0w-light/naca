@@ -18,16 +18,19 @@ import jlib.log.LogLevel;
 public class LogEventProcessCompleted extends LogEvent
 {
 
+    /** Creates a new log event process completed instance. */
     public LogEventProcessCompleted(LogEventType logEventType, LogFlow logFlow, LogLevel logLevel, String csProduct)
     {
         super(LogEventType.Completed, LogFlowStd.Any, LogLevel.Critical, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel)
     {
         return LogEventStartProcess.log(csChannel, null);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct)
     {
         LogEventStartProcess event = new LogEventStartProcess(csProduct);
@@ -35,6 +38,7 @@ public class LogEventProcessCompleted extends LogEvent
         return event;
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csRunId, String csRuntimeId)
     {
         LogEventStartProcess event = new LogEventStartProcess(null);

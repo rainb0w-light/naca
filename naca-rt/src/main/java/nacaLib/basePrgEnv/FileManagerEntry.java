@@ -39,17 +39,20 @@ public class FileManagerEntry extends CJMapObject
     private int nNbRecordRead = 0;
     private int nNbRecordWrite = 0;
 
+    /** Creates a new file manager entry instance. */
     public FileManagerEntry()
     {
         nNbRecordRead = 0;
         nNbRecordWrite = 0;
     }
 
+    /** Sets the variable length. */
     public void setVariableLength()
     {
         logicalFileDescriptor.setVariableLength();
     }
 
+    /** Returns the physical name. */
     public String getPhysicalName(String csLogicalName, BaseSession baseSession)
     {
         logicalFileDescriptor = null;
@@ -83,6 +86,7 @@ public class FileManagerEntry extends CJMapObject
         //"Environnement or Session ERROR: Logical File \'"+csLogicalName + "\' has no physical definition"
     }
 
+    /** Returns whether dummy file. */
     public boolean isDummyFile()
     {
         if (logicalFileDescriptor != null) {
@@ -91,6 +95,7 @@ public class FileManagerEntry extends CJMapObject
         return true;
     }
 
+    /** Executes the report file descriptor status operation. */
     public void reportFileDescriptorStatus(FileDescriptorOpenStatus status)
     {
         fileDescriptorOpenStatus = status;
@@ -130,6 +135,7 @@ public class FileManagerEntry extends CJMapObject
         return logicalFileDescriptor;
     }
 
+    /** Executes the do open extend operation. */
     public boolean doOpenExtend(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
     {
         boolean isopened = false;
@@ -158,6 +164,7 @@ public class FileManagerEntry extends CJMapObject
         return isopened;
     }
 
+    /** Executes the do open output operation. */
     public boolean doOpenOutput(
         String csLogicalName,
         BaseSession baseSession,
@@ -238,6 +245,7 @@ public class FileManagerEntry extends CJMapObject
         return isopened;
     }
 
+    /** Executes the do open input operation. */
     public boolean doOpenInput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
     {
         boolean isopened = false;
@@ -271,6 +279,7 @@ public class FileManagerEntry extends CJMapObject
         return isopened;
     }
 
+    /** Executes the do open input output operation. */
     public boolean doOpenInputOutput(String csLogicalName, BaseSession baseSession, boolean bVariableLength)
     {
         boolean isopened = false;
@@ -298,6 +307,7 @@ public class FileManagerEntry extends CJMapObject
         return isopened;
     }
 
+    /** Executes the do close operation. */
     public boolean doClose(String csLogicalName, BaseSession baseSession)
     {
         if (isDummyFile()) {
@@ -352,6 +362,7 @@ public class FileManagerEntry extends CJMapObject
         return dataFile;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (logicalFileDescriptor != null) {
@@ -360,21 +371,25 @@ public class FileManagerEntry extends CJMapObject
         return "Unknown LogicalFileDescriptor";
     }
 
+    /** Executes the inherit settings operation. */
     public void inheritSettings(FileManagerEntry source)
     {
         logicalFileDescriptor.inheritSettings(source.logicalFileDescriptor);
     }
 
+    /** Executes the inc nb record read operation. */
     public void incNbRecordRead()
     {
         nNbRecordRead++;
     }
 
+    /** Executes the inc nb record write operation. */
     public void incNbRecordWrite()
     {
         nNbRecordWrite++;
     }
 
+    /** Executes the dump rwstat operation. */
     public String dumpRWStat()
     {
         String cs;
@@ -387,6 +402,7 @@ public class FileManagerEntry extends CJMapObject
         return cs;
     }
 
+    /** Returns whether eof. */
     public boolean isEOF()
     {
         if (dataFile != null) {

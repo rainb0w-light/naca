@@ -7,6 +7,7 @@ public final class TemplateJarSmokeMain
     {
     }
 
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         JavaTemplateCatalog catalog =

@@ -8,11 +8,13 @@ package nacaLib.exceptions;
 
 import nacaLib.basePrgEnv.BaseEnvironment;
 
+/** Signals a cxctl exception condition. */
 public class CXctlException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
     public BaseEnvironment environment = null;
 
+    /** Creates a new cxctl exception instance. */
     public CXctlException(BaseEnvironment env)
     {
         environment = env ;

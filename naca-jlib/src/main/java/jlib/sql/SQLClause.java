@@ -72,6 +72,7 @@ public class SQLClause
     // An alternate connection is not managed in the TLS, but can be accessed form the outside
     private boolean isalternateconnection = false;
 
+    /** Creates a new sqlclause instance. */
     public SQLClause(DbAccessor dbAccessor)
     {
         if (dbAccessor != null) {
@@ -83,6 +84,7 @@ public class SQLClause
     // dbAccessor must be valid in all cases
     // If connection == null, then a new alternate connection is established. It's not stored in the TLS
     // If connection != null, then provided connection is used for the new clause.
+    /** Creates a new sqlclause instance. */
     public SQLClause(DbAccessor dbAccessor, DbConnectionBase connection)
     {
         if(dbAccessor != null)
@@ -101,6 +103,7 @@ public class SQLClause
 
     // Accessor method enbaling access to allocated alternate connection
     // The main connection cannot ba accessed form the outside
+    /** Returns the alternate connection. */
     public DbConnectionBase getAlternateConnection()
     {
         if (isalternateconnection) {
@@ -202,18 +205,21 @@ public class SQLClause
         return csQuery.toString();
     }
 
+    /** Executes the set operation. */
     public SQLClause set(String csQuery)
     {
         this.csQuery = csQuery;
         return this;
     }
 
+    /** Executes the append operation. */
     public SQLClause append(String csQuery)
     {
         csQuery += csQuery;
         return this;
     }
 
+    /** Returns the query. */
     public String getQuery()
     {
         completeInsertQuery();
@@ -221,6 +227,7 @@ public class SQLClause
     }
 
 
+    /** Executes the param operation. */
     public String param(ColValue colVal)
     {
         if (arrParams == null) {
@@ -230,6 +237,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(ColValue colValue)
     {
         if (insertParams == null) {
@@ -241,6 +249,7 @@ public class SQLClause
     }
 
     // String
+    /** Executes the param operation. */
     public String param(String csVal)
     {
         if (arrParams == null) {
@@ -252,6 +261,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, String csVal)
     {
         if (insertParams == null) {
@@ -265,6 +275,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the string. */
     public String getString(String csColName)
         throws TechnicalException
     {
@@ -287,6 +298,7 @@ public class SQLClause
         return "";
     }
 
+    /** Returns the string. */
     public String getString(int nColNumber)
         throws TechnicalException
     {
@@ -309,6 +321,7 @@ public class SQLClause
         return "";
     }
 
+    /** Returns the string without trim. */
     public String getStringWithoutTrim(String csColName)
         throws TechnicalException
     {
@@ -328,6 +341,7 @@ public class SQLClause
         return "";
     }
 
+    /** Returns the string without trim. */
     public String getStringWithoutTrim(int nColNumber)
         throws TechnicalException
     {
@@ -348,6 +362,7 @@ public class SQLClause
     }
 
     // int
+    /** Executes the param operation. */
     public String param(int nVal)
     {
         if (arrParams == null) {
@@ -359,6 +374,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, int nVal)
     {
         if (insertParams == null) {
@@ -370,6 +386,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the int. */
     public int getInt(String csColName)
         throws TechnicalException
     {
@@ -389,6 +406,7 @@ public class SQLClause
         return 0;
     }
 
+    /** Returns the int. */
     public int getInt(int nColNumber)
         throws TechnicalException
     {
@@ -408,6 +426,7 @@ public class SQLClause
         return 0;
     }
 
+    /** Returns the double. */
     public double getDouble(String csColName)
         throws TechnicalException
     {
@@ -427,6 +446,7 @@ public class SQLClause
         return 0;
     }
 
+    /** Returns the double. */
     public double getDouble(int nColNumber)
         throws TechnicalException
     {
@@ -446,6 +466,7 @@ public class SQLClause
         return 0;
     }
 
+    /** Returns the date. */
     public Date getDate(String csColName)
         throws TechnicalException
     {
@@ -465,6 +486,7 @@ public class SQLClause
         return null;
     }
 
+    /** Returns the date. */
     public Date getDate(int nColNumber)
         throws TechnicalException
     {
@@ -486,6 +508,7 @@ public class SQLClause
 
 
     // Long
+    /** Executes the param operation. */
     public String param(long lVal)
     {
         if (arrParams == null) {
@@ -497,6 +520,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, long lVal)
     {
         if (insertParams == null) {
@@ -508,6 +532,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the long. */
     public long getLong(String csColName)
         throws TechnicalException
     {
@@ -527,6 +552,7 @@ public class SQLClause
         return 0L;
     }
 
+    /** Returns the long. */
     public long getLong(int nColNumber)
         throws TechnicalException
     {
@@ -547,6 +573,7 @@ public class SQLClause
     }
 
     // boolean
+    /** Executes the param operation. */
     public String param(boolean bVal)
     {
         if (arrParams == null) {
@@ -558,6 +585,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, Boolean bVal)
     {
         if (insertParams == null) {
@@ -573,6 +601,7 @@ public class SQLClause
         return this;
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, boolean bVal)
     {
         if (insertParams == null) {
@@ -584,6 +613,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the boolean. */
     public boolean getBoolean(String csColName)
         throws TechnicalException
     {
@@ -603,6 +633,7 @@ public class SQLClause
         return false;
     }
 
+    /** Returns the boolean. */
     public boolean getBoolean(int nColNumber)
         throws TechnicalException
     {
@@ -623,6 +654,7 @@ public class SQLClause
     }
 
     // BigDecimal
+    /** Executes the param operation. */
     public String param(BigDecimal bdVal)
     {
         if (arrParams == null) {
@@ -634,6 +666,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, BigDecimal bdVal)
     {
         if (insertParams == null) {
@@ -646,6 +679,7 @@ public class SQLClause
     }
 
 
+    /** Returns the big decimal. */
     public BigDecimal getBigDecimal(String csColName)
         throws TechnicalException
     {
@@ -668,6 +702,7 @@ public class SQLClause
         return new BigDecimal(0);
     }
 
+    /** Returns the big decimal. */
     public BigDecimal getBigDecimal(int nColNumber)
         throws TechnicalException
     {
@@ -691,6 +726,7 @@ public class SQLClause
     }
 
     // double
+    /** Executes the param operation. */
     public String param(double dVal)
     {
         if (arrParams == null) {
@@ -702,6 +738,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, double dVal)
     {
         if (insertParams == null) {
@@ -714,6 +751,7 @@ public class SQLClause
     }
 
     // Date
+    /** Executes the param operation. */
     public String param(Date dateVal)
     {
         if (arrParams == null) {
@@ -725,6 +763,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, Date dateVal)
     {
         if (insertParams == null) {
@@ -737,6 +776,7 @@ public class SQLClause
     }
 
     // Timestamp
+    /** Executes the param operation. */
     public String param(Timestamp tsVal)
     {
         if (arrParams == null) {
@@ -748,6 +788,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param operation. */
     public String param(SQLColTypeDate dateVal)
     {
         if (arrParams == null) {
@@ -759,6 +800,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, Timestamp tsVal)
     {
         if (insertParams == null) {
@@ -772,6 +814,7 @@ public class SQLClause
 
     // Blob - Using implementation SerialBlob
     // Managed SQL Type: BLOB
+    /** Executes the param operation. */
     public String param(SerialBlob blVal)
     {
         if (arrParams == null) {
@@ -784,6 +827,7 @@ public class SQLClause
     }
 
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, SerialBlob blVal)
     {
         if (insertParams == null) {
@@ -795,6 +839,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the blob. */
     public Blob getBlob(String csColName)   throws TechnicalException
     {
         if(resultSet != null)
@@ -814,6 +859,7 @@ public class SQLClause
     }
 
 
+    /** Returns the blob. */
     public Blob getBlob(int nColNumber) throws TechnicalException
     {
         if(resultSet != null)
@@ -887,6 +933,7 @@ public class SQLClause
 
     // VarBinary
     // Managed SQL Type: VARBINARY
+    /** Executes the param operation. */
     public String param(VarBinary vbVal)
     {
         if (arrParams == null) {
@@ -898,6 +945,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, VarBinary vbVal)
     {
         if (insertParams == null) {
@@ -910,6 +958,7 @@ public class SQLClause
     }
 
 
+    /** Returns the var binary. */
     public VarBinary getVarBinary(String csColName)
         throws TechnicalException
     {
@@ -933,6 +982,7 @@ public class SQLClause
         return new VarBinary();
     }
 
+    /** Returns the var binary. */
     public VarBinary getVarBinary(int nColNumber) throws TechnicalException
     {
         if(resultSet != null)
@@ -957,6 +1007,7 @@ public class SQLClause
 
     // InputStream - ColValueBinaryStream
     // SQL type managed: LONGVARBINARY
+    /** Executes the param operation. */
     public String param(InputStream is)
     {
         if (arrParams == null) {
@@ -968,6 +1019,7 @@ public class SQLClause
         return "?";
     }
 
+    /** Executes the param insert operation. */
     public SQLClause paramInsert(String csName, InputStream is)
     {
         if (insertParams == null) {
@@ -979,6 +1031,7 @@ public class SQLClause
         return this;
     }
 
+    /** Returns the input stream. */
     public InputStream getInputStream(String csColName) throws TechnicalException
     {
         if(resultSet != null)
@@ -997,6 +1050,7 @@ public class SQLClause
         return null;
     }
 
+    /** Returns the input stream. */
     public InputStream getInputStream(int nColNumber) throws TechnicalException
     {
         if(resultSet != null)
@@ -1071,6 +1125,7 @@ public class SQLClause
         }
     }
 
+    /** Executes the close operation. */
     public void close()
     {
         try
@@ -1090,6 +1145,7 @@ public class SQLClause
        resultSet = null;
     }
 
+    /** Executes the force close on exception catched operation. */
     public void forceCloseOnExceptionCatched()
     {
         close();
@@ -1099,6 +1155,7 @@ public class SQLClause
         connection = null;
     }
 
+    /** Executes the prepare and execute operation. */
     public int prepareAndExecute()
         throws TechnicalException
     {
@@ -1118,6 +1175,7 @@ public class SQLClause
         return -1;
     }
 
+    /** Executes the call operation. */
     public int call()
         throws TechnicalException
     {
@@ -1130,6 +1188,7 @@ public class SQLClause
     }
 
 
+    /** Executes the next operation. */
     public boolean next()
         throws TechnicalException
     {
@@ -1160,6 +1219,7 @@ public class SQLClause
     }
 
     // Stored Procedure call support
+    /** Sets the called stored proc. */
     public SQLClauseSPCall setCalledStoredProc(String csSPName, boolean bCheckParams)
     {
         spinnercallClause = new SQLClauseSPCall(csSPName, bCheckParams);
@@ -1172,6 +1232,7 @@ public class SQLClause
         return connection;
     }
     */
+    /** Returns the jdbcconnection. */
     public Connection getJDBCConnection()
     {
         if (connection != null) {

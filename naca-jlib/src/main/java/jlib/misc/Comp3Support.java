@@ -16,6 +16,7 @@ package jlib.misc;
  */
 public class Comp3Support
 {
+    /** Executes the encode dec comp3 operation. */
     public static String encodeDecComp3(DecBase decValue, int nNbDigitInteger, int nNbDigitDecimal)
     {
         long lInt = decValue.getUnsignedLong();
@@ -62,6 +63,7 @@ public class Comp3Support
         return s;
     }
 
+    /** Executes the internal write encode comp3 operation. */
     public static void internalWriteEncodeComp3(byte aBytes[], String cs, boolean bPositive, boolean bSigned)
     {
         int nStringLength = cs.length();

@@ -14,13 +14,16 @@ import jlib.classLoader.ClassDynLoader;
 import jlib.classLoader.CoupleCodeLoader;
 import jlib.classLoader.JarEntries;
 
+/** Provides custom class dyn loader behavior. */
 public class CustomClassDynLoader extends ClassDynLoader
 {
+    /** Creates a new custom class dyn loader instance. */
     public CustomClassDynLoader()
     {
         super();
     }
 
+    /** Creates a new custom class dyn loader instance. */
     public CustomClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
     {
         super(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
@@ -32,6 +35,7 @@ public class CustomClassDynLoader extends ClassDynLoader
 //    }
 
 
+    /** Loads the class. */
     public Class loadClass(String csClassName)
     {
         //if(csClassName.equals("FUF1A00"))

@@ -25,11 +25,13 @@ public class CEntityIndex extends CDataEntity
         super(0, name, cat);
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.VAR ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -40,14 +42,17 @@ public class CEntityIndex extends CDataEntity
         return false;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,

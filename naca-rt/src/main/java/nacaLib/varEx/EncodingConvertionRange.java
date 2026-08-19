@@ -24,6 +24,7 @@ public class EncodingConvertionRange
     private boolean isconvertOnlyIfBlank = false;
     private boolean isconvertPrint = false;
 
+    /** Executes the set operation. */
     public int set(int nPosition, int nLength)
     {
         this.nPosition = nPosition;
@@ -49,12 +50,14 @@ public class EncodingConvertionRange
         return false;
     }
 
+    /** Executes the append operation. */
     public int append(int nLength)
     {
         nLength += nLength;
         return nPosition + nLength;
     }
 
+    /** Converts the ebcdic to ascii. */
     public void convertEbcdicToAscii(VarBase varDest, int nLastPosToConvert)
     {
         int nLength = this.nLength;
@@ -67,22 +70,26 @@ public class EncodingConvertionRange
         }
     }
 
+    /** Converts the ebcdic to ascii. */
     public void convertEbcdicToAscii(byte tbyDest[], int nOffsetDest, int nMaxLengthDest)
     {
         int nLength = Math.min(nMaxLengthDest, this.nLength);
         swapByteEbcdicToAscii(tbyDest, nPosition-nOffsetDest, nLength);
     }
+    /** Converts the ascii to ebcdic. */
     public void convertAsciiToEbcdic(byte tbyDest[], int nOffsetDest, int nMaxLengthDest)
     {
         int nLength = Math.min(nMaxLengthDest, this.nLength);
         swapByteAsciiToEbcdic(tbyDest, nPosition-nOffsetDest, nLength);
     }
 
+    /** Converts the ebcdic to ascii. */
     public void convertEbcdicToAscii(LineRead lineRead)
     {
         int nLength = Math.min(lineRead.getTotalLength() - nPosition, this.nLength);
         swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset()+nPosition, nLength);
     }
+    /** Converts the ascii to ebcdic. */
     public void convertAsciiToEbcdic(LineRead lineRead)
     {
         int nLength = Math.min(lineRead.getTotalLength() - nPosition, this.nLength);

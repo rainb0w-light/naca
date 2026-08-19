@@ -28,12 +28,14 @@ import semantic.expression.CBaseEntityExpression;
 import utils.Transcoder;
 import utils.FPacTranscoder.OperandDescription;
 
+/** Provides cfpac wto behavior. */
 public class CFPacWTO extends CFPacElement
 {
 
     private CTerminal termToDisplay;
     private CTerminal termLength ;
 
+    /** Creates a new cfpac wto instance. */
     public CFPacWTO(int line)
     {
         super(line);

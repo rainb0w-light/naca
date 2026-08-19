@@ -30,6 +30,7 @@ import semantic.CEntityProcedureSection;
  */
 public class CProcedureSection extends CCommentContainer
 {
+    /** Creates a new cprocedure section instance. */
     public CProcedureSection(String name, int line)
     {
         super(line);
@@ -68,6 +69,7 @@ public class CProcedureSection extends CCommentContainer
         }
         return e;
     }
+    /** Adds the procedure. */
     public void AddProcedure(CProcedure p)
     {
         AddChild(p) ;

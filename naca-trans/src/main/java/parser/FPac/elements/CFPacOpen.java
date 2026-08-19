@@ -22,9 +22,11 @@ import semantic.Verbs.CEntityOpenFile;
 import utils.Transcoder;
 import utils.FPacTranscoder.notifs.NotifRegisterFileOpen;
 
+/** Provides cfpac open behavior. */
 public class CFPacOpen extends CFPacElement
 {
 
+    /** Creates a new cfpac open instance. */
     public CFPacOpen(int line)
     {
         super(line);

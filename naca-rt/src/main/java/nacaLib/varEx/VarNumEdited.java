@@ -6,7 +6,7 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.tempCache.*;
+import nacaLib.tempCache.CStr;
 
 /**
  * @author PJD
@@ -33,6 +33,7 @@ public class VarNumEdited extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeEditedNum) {
@@ -52,12 +53,14 @@ public class VarNumEdited extends Var
         return "tutu";
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

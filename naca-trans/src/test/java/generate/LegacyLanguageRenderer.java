@@ -18,6 +18,7 @@ public final class LegacyLanguageRenderer
     {
     }
 
+    /** Executes the bind operation. */
     public static void bind(
         CBaseLanguageEntity entity, CBaseLanguageExporter output)
     {
@@ -32,11 +33,13 @@ public final class LegacyLanguageRenderer
         }
     }
 
+    /** Executes the output operation. */
     public static CBaseLanguageExporter output(CBaseLanguageEntity entity)
     {
         return LanguageArtifactOutputRegistry.get(entity);
     }
 
+    /** Executes the start export operation. */
     public static void startExport(CBaseLanguageEntity entity)
     {
         invokeExport(entity);
@@ -44,6 +47,7 @@ public final class LegacyLanguageRenderer
         output.closeOutput();
     }
 
+    /** Executes the invoke export operation. */
     public static void invokeExport(CBaseLanguageEntity entity)
     {
         invokeExport(entity, null);
@@ -101,6 +105,7 @@ public final class LegacyLanguageRenderer
         }
     }
 
+    /** Exports the children. */
     public static void exportChildren(
         CBaseLanguageEntity entity, boolean includeIgnored)
     {
@@ -140,54 +145,64 @@ public final class LegacyLanguageRenderer
         writeLine(entity, rendered);
     }
 
+    /** Writes the comment. */
     public static void writeComment(CBaseLanguageEntity entity, String text)
     {
         requireOutput(entity).WriteComment(text, entity.getLine());
     }
 
+    /** Writes the line. */
     public static void writeLine(CBaseLanguageEntity entity, String text)
     {
         requireOutput(entity).WriteLine(text, entity.getLine());
     }
 
+    /** Writes the line. */
     public static void writeLine(
         CBaseLanguageEntity entity, String text, int line)
     {
         requireOutput(entity).WriteLine(text, line);
     }
 
+    /** Writes the eol. */
     public static void writeEol(CBaseLanguageEntity entity)
     {
         requireOutput(entity).WriteEOL(entity.getLine());
     }
 
+    /** Writes the word. */
     public static void writeWord(CBaseLanguageEntity entity, String text)
     {
         requireOutput(entity).WriteWord(text, entity.getLine());
     }
 
+    /** Writes the word. */
     public static void writeWord(
         CBaseLanguageEntity entity, String text, int line)
     {
         requireOutput(entity).WriteWord(text, line);
     }
 
+    /** Writes the long string. */
     public static void writeLongString(
         CBaseLanguageEntity entity, String text)
     {
         requireOutput(entity).WriteLongString(text, entity.getLine());
     }
 
+    /** Executes the start block operation. */
     public static void startBlock(CBaseLanguageEntity entity)
     {
         requireOutput(entity).StartBloc();
     }
 
+    /** Executes the end block operation. */
     public static void endBlock(CBaseLanguageEntity entity)
     {
         requireOutput(entity).EndBloc();
     }
 
+    /** Executes the format identifier operation. */
     public static String formatIdentifier(
         CBaseLanguageEntity entity, String identifier)
     {

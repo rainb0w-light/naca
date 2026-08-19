@@ -7,6 +7,7 @@ description = "Naca-specific OpenRewrite recipes"
 dependencies {
     implementation("org.openrewrite:rewrite-java:8.88.4")
     implementation("org.openrewrite.recipe:rewrite-static-analysis:2.40.0")
+    implementation("org.slf4j:slf4j-api:${rootProject.extra["slf4jVersion"]}")
     runtimeOnly("org.openrewrite:rewrite-java-21:8.88.4")
     runtimeOnly("org.openrewrite:rewrite-kotlin:8.88.4")
 

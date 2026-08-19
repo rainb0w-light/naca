@@ -9,6 +9,7 @@ package jlib.Helpers;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 
+/** Provides application helper behavior. */
 public class ApplicationHelper {
 
 //***********************************************************************************

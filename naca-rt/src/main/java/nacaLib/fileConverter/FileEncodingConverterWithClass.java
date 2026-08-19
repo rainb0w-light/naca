@@ -14,7 +14,9 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.classLoad.CustomClassDynLoaderFactory;
 import nacaLib.tempCache.TempCacheLocator;
-import nacaLib.varEx.*;
+import nacaLib.varEx.FileDescriptor;
+import nacaLib.varEx.VarBase;
+import nacaLib.varEx.VarDefEncodingConvertibleManagerContainer;
 
 /**
  *
@@ -23,11 +25,13 @@ import nacaLib.varEx.*;
  */
 public class FileEncodingConverterWithClass extends FileEncodingConverter
 {
+    /** Creates a new file encoding converter with class instance. */
     public FileEncodingConverterWithClass(FileDescriptor fileIn, FileDescriptor fileOut)
     {
         super(fileIn, fileOut);
     }
 
+    /** Executes the execute operation. */
     public boolean execute(String csCopyClass)
     {
         fileIn.getPhysicalName();

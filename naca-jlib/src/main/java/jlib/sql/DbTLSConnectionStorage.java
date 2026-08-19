@@ -22,6 +22,7 @@ public class DbTLSConnectionStorage
 {
     private static ThreadLocal<DbTLSStoredConnections> mtls = new ThreadLocal<DbTLSStoredConnections>();
 
+    /** Executes the get operation. */
     public static DbConnectionBase get(DbAccessor dbId)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -36,6 +37,7 @@ public class DbTLSConnectionStorage
         return null;
     }
 
+    /** Executes the set operation. */
     public static void set(DbAccessor dbId, DbConnectionBase dbConnectionBase)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -47,6 +49,7 @@ public class DbTLSConnectionStorage
         storedConnections.putDbId(dbId, dbConnectionBase);
     }
 
+    /** Executes the return all connections to pool operation. */
     public static boolean returnAllConnectionsToPool()
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -57,6 +60,7 @@ public class DbTLSConnectionStorage
         return false;
     }
 
+    /** Executes the return connection to pool operation. */
     public static boolean returnConnectionToPool(DbAccessor dbId)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -67,6 +71,7 @@ public class DbTLSConnectionStorage
         return false;
     }
 
+    /** Executes the dump connections for all accessors operation. */
     public static void dumpConnectionsForAllAccessors(StringBuilder sbText)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -76,6 +81,7 @@ public class DbTLSConnectionStorage
         }
     }
 
+    /** Executes the commit operation. */
     public static boolean commit(DbAccessor dbId)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -102,6 +108,7 @@ public class DbTLSConnectionStorage
         return false;
     }
 
+    /** Executes the roll back operation. */
     public static boolean rollBack(DbAccessor dbId)
     {
         DbTLSStoredConnections storedConnections = mtls.get();
@@ -112,18 +119,21 @@ public class DbTLSConnectionStorage
         return false;
     }
 
+    /** Sets the foreign connection. */
     public static void setForeignConnection(Connection connectionJDBC, String csEnv)
     {
         DbConnectionBase foreignDbConnection = new DbConnection(connectionJDBC, csEnv, false);
         setForeignConnection(foreignDbConnection);
     }
 
+    /** Sets the foreign connection. */
     public static void setForeignConnection(Connection connectionJDBC, String csEnv, boolean bUseCachedStatements)
     {
         DbConnectionBase foreignDbConnection = new DbConnection(connectionJDBC, csEnv, bUseCachedStatements);
         setForeignConnection(foreignDbConnection);
     }
 
+    /** Sets the foreign connection. */
     public static void setForeignConnection(DbConnectionBase foreignDbConnection)
     {
         DbTLSStoredConnections storedConnections = mtls.get();

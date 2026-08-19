@@ -18,6 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 public class FixedSizeBlockingQueue<T>
 {
+    /** Creates a new fixed size blocking queue instance. */
     public FixedSizeBlockingQueue(int nNbEntries)
     {
         this.nNbEntries = nNbEntries;
@@ -26,6 +27,7 @@ public class FixedSizeBlockingQueue<T>
         semNotFilledEntries = new Semaphore(nNbEntries, true);
     }
 
+    /** Executes the enqueue operation. */
     public void enqueue(T t)
     {
         try
@@ -48,6 +50,7 @@ public class FixedSizeBlockingQueue<T>
         semFilledEntries.release();
     }
 
+    /** Executes the dequeue operation. */
     public T dequeue()
     {
         try

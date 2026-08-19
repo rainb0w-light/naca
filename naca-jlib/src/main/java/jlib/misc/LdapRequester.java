@@ -79,6 +79,7 @@ public class LdapRequester
     private String csLDAPGenericPassword = "" ; // LDap generic connection password
     private ThreadSafeCounter cptLdapRequestId = new ThreadSafeCounter(0);
 
+    /** Creates a new ldap requester instance. */
     public LdapRequester(
         String csServer1,
         String csServer2,

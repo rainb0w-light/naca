@@ -11,9 +11,11 @@ package jlib.controler;
 
 import jlib.xml.Tag;
 
+/** Provides base controler step config behavior. */
 public abstract class BaseControlerStepConfig
 {
 
+    /** Creates a new base controler step config instance. */
     public BaseControlerStepConfig(String csStepName)
     {
         csName = csStepName ;

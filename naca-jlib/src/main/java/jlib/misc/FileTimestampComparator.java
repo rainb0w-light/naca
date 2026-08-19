@@ -20,6 +20,7 @@ public class FileTimestampComparator implements Comparator<File>
     {
     }
 
+    /** Executes the compare operation. */
     public int compare(File file1, File file2)
     {
         long l1 = file1.lastModified();

@@ -390,8 +390,12 @@ def split_assignment(line, maximum=140):
             quote = current
         elif line.startswith("//", index) or line.startswith("/*", index):
             break
-        elif current == "=" and line[index - 1 : index] not in "!<>=+-*/%&|^":
-            if line[index + 1 : index + 2] != "=":
+        elif current == "=" and line[index + 1 : index + 2] != "=":
+            previous = line[index - 1 : index]
+            if previous in "+-*/%&|^":
+                assignment = index + 1
+                break
+            if previous not in "!<>=":
                 assignment = index
                 break
     if assignment is None:

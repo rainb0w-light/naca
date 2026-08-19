@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr color behavior. */
 public class MapFieldAttrColor extends MapFieldBaseAttr
 {
     private MapFieldAttrColor(int nEncodedColorValue, String text)

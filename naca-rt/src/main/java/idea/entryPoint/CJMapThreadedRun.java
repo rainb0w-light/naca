@@ -18,6 +18,7 @@ import idea.onlinePrgEnv.OnlineProgramLoader;
 import idea.onlinePrgEnv.OnlineResourceManager;
 import idea.onlinePrgEnv.OnlineSession;
 
+/** Provides cjmap threaded run behavior. */
 public class CJMapThreadedRun
 {
     CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray path)

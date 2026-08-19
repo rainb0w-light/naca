@@ -15,10 +15,12 @@ public class DeclareTypeMapRedefine extends DeclareTypeBase
     private int nLength = 0;
     Form formRedefineOrigin = null;
 
+    /** Creates a new declare type map redefine instance. */
     public DeclareTypeMapRedefine()
     {
     }
 
+    /** Executes the set operation. */
     public void set(VarLevel varLevel, Form formRedefineOrigin)
     {
         super.set(varLevel);
@@ -31,6 +33,7 @@ public class DeclareTypeMapRedefine extends DeclareTypeBase
         return nLength;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefMapRedefine varDef = new VarDefMapRedefine(varDefParent, this);

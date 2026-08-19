@@ -9,22 +9,26 @@ import semantic.CDataEntity;
  */
 public class CEntityConstantValue extends CDataEntity
 {
+    /** Creates a new centity constant value instance. */
     public CEntityConstantValue(String value)
     {
         super(0, "", null);
         this.value = value;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.CONSTANT;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
     }
 
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return value;

@@ -24,9 +24,11 @@ import semantic.CEntityDataSection;
 import utils.NacaTransAssertException;
 import utils.Transcoder;
 
+/** Provides cfpac declaration zone behavior. */
 public class CFPacDeclarationZone extends CFPacElement
 {
 
+    /** Creates a new cfpac declaration zone instance. */
     public CFPacDeclarationZone(int line)
     {
         super(line);

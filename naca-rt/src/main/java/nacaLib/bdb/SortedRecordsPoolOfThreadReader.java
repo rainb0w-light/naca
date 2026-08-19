@@ -20,6 +20,7 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class SortedRecordsPoolOfThreadReader extends PoolOfThreads
 {
+    /** Creates a new sorted records pool of thread reader instance. */
     public SortedRecordsPoolOfThreadReader(BasePooledThreadFactory pooledThreadFactory, int nNbMaxRequestAsyncSortPending)
     {
         super(pooledThreadFactory, 1, nNbMaxRequestAsyncSortPending);

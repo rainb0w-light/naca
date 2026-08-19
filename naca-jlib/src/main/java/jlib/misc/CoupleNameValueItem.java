@@ -19,6 +19,7 @@ public class CoupleNameValueItem
     private String csName = null;
     private String csValue = null;
 
+    /** Creates a new couple name value item instance. */
     public CoupleNameValueItem(String csName, String csValue)
     {
         this.csName = csName;

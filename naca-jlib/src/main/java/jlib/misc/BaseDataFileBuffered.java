@@ -19,6 +19,7 @@ public abstract class BaseDataFileBuffered extends BaseDataFile
     private PreallocatedFileBufferManager buffer = null;
     //private PreallocatedFileBufferManager m_alternateBuffer = null;
 
+    /** Returns the byte buffer. */
     public byte[] getByteBuffer(int nSize)
     {
         if (buffer == null) {

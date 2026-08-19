@@ -7,7 +7,8 @@
 
 package jlib.sql;
 
-import java.sql.*;
+import java.sql.Connection;
+
 
 /**
  * @author PJD
@@ -15,11 +16,13 @@ import java.sql.*;
  */
 public class DbConnectionManager extends DbConnectionManagerBase
 {
+    /** Creates a new db connection manager instance. */
     public DbConnectionManager()
     {
         super();
     }
 
+    /** Creates the connection. */
     public DbConnectionBase createConnection(
         Connection connection,
         String csPrefId,

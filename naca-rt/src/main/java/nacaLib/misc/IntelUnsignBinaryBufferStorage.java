@@ -23,6 +23,7 @@ public class IntelUnsignBinaryBufferStorage
 //  IntelBinaryBufferStorage.writeInt(b, -1, 0);
 //  long l = IntelBinaryBufferStorage.readInt(b, 0);
 
+    /** Reads the short. */
     public final static int readShort(byte buf[], int i)
     {
         int n = buf[i];
@@ -37,12 +38,14 @@ public class IntelUnsignBinaryBufferStorage
         return v;
     }
 
+    /** Writes the short. */
     public final static void writeShort(byte buf[], int sValue, int nPos)
     {
         buf[nPos] = (byte)(sValue >>> 0 & 0xff);
         buf[nPos+1] = (byte)(sValue >>> 8 & 0xff);
     }
 
+    /** Reads the int. */
     public final static long readInt(byte buf[], int i)
     {
         long j = buf[i] >= 0 ? ((int) (buf[i])) : buf[i] + 256;
@@ -55,6 +58,7 @@ public class IntelUnsignBinaryBufferStorage
         return (i1 << 24) + (l << 16) + (k << 8) + (j << 0);
     }
 
+    /** Writes the int. */
     public final static void writeInt(byte buf[], long nValue, int nPos)
     {
         buf[nPos] = (byte)(nValue >>> 0 & 0xff);
@@ -64,11 +68,13 @@ public class IntelUnsignBinaryBufferStorage
     }
 
     // The values are signed, as we don't have a larger type than long, to avoid sign bit
+    /** Reads the long. */
     public final static long readLong(byte buf[], int i)
     {
         return IntelSignBinaryBufferStorage.readLong(buf, i);
     }
 
+    /** Writes the long. */
     public final static void writeLong(byte buf[], long l, int i)
     {
         IntelSignBinaryBufferStorage.writeLong(buf, l, i);

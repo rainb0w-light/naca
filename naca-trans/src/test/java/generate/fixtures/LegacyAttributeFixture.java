@@ -9,6 +9,7 @@ import utils.CObjectCatalog;
  */
 public final class LegacyAttributeFixture extends CEntityAttribute
 {
+    /** Creates a new legacy attribute fixture instance. */
     public LegacyAttributeFixture(
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -90,6 +91,7 @@ public final class LegacyAttributeFixture extends CEntityAttribute
         generate.LegacyLanguageRenderer.endBlock(this);
     }
 
+        /** Exports the reference. */
         public String ExportReference(int line)
     {
         String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";

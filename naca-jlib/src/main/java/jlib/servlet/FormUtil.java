@@ -21,6 +21,7 @@ import jlib.misc.StringUtil;
  */
 public class FormUtil
 {
+    /** Returns the parameter as string. */
     public static String getParameterAsString(HttpServletRequest request, String csName)
     {
         String csValue = request.getParameter(csName);
@@ -30,6 +31,7 @@ public class FormUtil
         return csValue;
     }
 
+    /** Returns the parameter as string. */
     public static String getParameterAsString(HttpServletRequest request, String csName, String csDefaultValue)
     {
         String csValue = request.getParameter(csName);
@@ -39,6 +41,7 @@ public class FormUtil
         return csValue;
     }
 
+    /** Returns the parameter as int. */
     public static int getParameterAsInt(HttpServletRequest request, String csName)
     {
         String csValue = request.getParameter(csName);
@@ -48,6 +51,7 @@ public class FormUtil
         return NumberParser.getAsInt(csValue);
     }
 
+    /** Returns the parameter as int. */
     public static int getParameterAsInt(HttpServletRequest request, String csName, int nDefaultValue)
     {
         String csValue = request.getParameter(csName);

@@ -9,24 +9,25 @@
  *
  */
 package parser.Cobol.elements.SQL;
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolKeywordList;
-
 import java.util.ArrayList;
-
 import jlib.xml.Tag;
-
-//import org.apache.xml.utils.ArrayList<String>;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import java.util.Hashtable;
-
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
-
 import semantic.SQL.CEntitySQLDeclareTable;
 import utils.CRulesManager;
+
+
+
+//import org.apache.xml.utils.ArrayList<String>;
+
+
+
 
 /**
  * @author U930DI
@@ -36,11 +37,13 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 {
     protected static Hashtable ms_tabViewRenamed = null ;
 
+    /** Creates a new cexec sqldeclare table instance. */
     public CExecSQLDeclareTable(int nLine)
     {
         super(nLine);
     }
 
+    /** Sets the table name. */
     public void SetTableName(String csTableName)
     {
         if (csTableName == null)
@@ -53,6 +56,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
     /* (non-Javadoc)
      * @see parser.elements.CExecSQL.CBaseExecSQLAction#Export(org.w3c.dom.Document)
      */
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
     //  Element eSelect = null;

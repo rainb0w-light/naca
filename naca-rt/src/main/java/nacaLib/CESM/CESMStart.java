@@ -11,14 +11,16 @@
 package nacaLib.CESM;
 
 import jlib.misc.DateUtil;
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 import nacaLib.varEx.Var;
 
+/** Provides cesmstart behavior. */
 public class CESMStart extends CJMapObject
 {
+    /** Creates a new cesmstart instance. */
     public CESMStart(String cs, BaseEnvironment env)
     {
         csTransID = cs ;
@@ -29,24 +31,29 @@ public class CESMStart extends CJMapObject
     public String csTermID = "" ;
     private CESMStartData data = null;
 
+    /** Executes the term id operation. */
     public CESMStart termID(String string)
     {
         csTermID = string ;
         return this ;
     }
+    /** Executes the term id operation. */
     public CESMStart termID(Var termID)
     {
         return termID(termID.getString()) ;
     }
+    /** Executes the sys id operation. */
     public CESMStart sysID(String sysID)
     {
         // Remote-system routing is not implemented by this local runtime.
         return this ;
     }
+    /** Executes the sys id operation. */
     public CESMStart sysID(Var sysID)
     {
         return sysID(sysID.getString()) ;
     }
+    /** Executes the do start operation. */
     public void doStart()
     {
         if (!csTermID.equals(""))
@@ -62,12 +69,14 @@ public class CESMStart extends CJMapObject
         }
     }
 
+    /** Executes the data from operation. */
     public CESMStart dataFrom(Var var, Var varLength)
     {
         data = new CESMStartData(var, varLength);
         return this ;
     }
 
+    /** Executes the data from operation. */
     public CESMStart dataFrom(Var var)
     {
         data = new CESMStartData(var, null);

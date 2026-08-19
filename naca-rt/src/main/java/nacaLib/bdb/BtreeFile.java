@@ -58,12 +58,14 @@ public class BtreeFile
         //}
     }
 
+    /** Sets the key description. */
     public void setKeyDescription(BtreeKeyDescription keyDescription)
     {
         this.keyDescription = keyDescription;
         keyDescription.prepare();
     }
 
+    /** Executes the internal sort insert with record index at end operation. */
     public boolean internalSortInsertWithRecordIndexAtEnd(
         byte tbyData[],
         int nSourceOffset,
@@ -104,6 +106,7 @@ public class BtreeFile
         }
     }
 
+    /** Executes the async add item to sort operation. */
     public void asyncAddItemToSort(byte tbyData[], int nTotalLength, int nNbRecordRead, boolean bVariableLength)
     {
         // if only 1 dedicated thread is used for adding an item to sort
@@ -122,6 +125,7 @@ public class BtreeFile
 //      unlock
     }
 
+    /** Executes the async add item to sort by multi threads operation. */
     public void asyncAddItemToSortByMultiThreads(MultiThreadedSortAddItem multiThreadedSortItem, byte tbyData[])
     {
         // if more than 1 dedicated thread are used for adding an item to sort
@@ -150,6 +154,7 @@ public class BtreeFile
         multiThreadedSortItemCache.disposeItemForReuse(multiThreadedSortItem);
     }
 
+    /** Executes the external sort insert with record index at end operation. */
     public boolean externalSortInsertWithRecordIndexAtEnd(
         Environment env,
         LineRead lineRead,
@@ -198,6 +203,7 @@ public class BtreeFile
         }
     }
 
+    /** Executes the try launch async sort reader operation. */
     public boolean tryLaunchAsyncSortReader()
     {
         // We are using a pool of threads for adding items for sorting; wait until all items have been completly added
@@ -222,6 +228,7 @@ public class BtreeFile
         return false;
     }
 
+    /** Executes the sync get first operation. */
     public byte [] syncGetFirst()
     {
         try
@@ -242,6 +249,7 @@ public class BtreeFile
         return null;
     }
 
+    /** Executes the sync get next operation. */
     public byte [] syncGetNext()
     {
         try
@@ -319,6 +327,7 @@ public class BtreeFile
         return null;
     }
 
+    /** Returns the next sorted record. */
     public byte[] getNextSortedRecord()
     {
         if (nNbRecordExported == 0) {

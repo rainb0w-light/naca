@@ -21,6 +21,7 @@ public class InitServlet extends HttpServlet
      */
     private static final long serialVersionUID = 1L;
 
+    /** Executes the init operation. */
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);

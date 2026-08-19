@@ -16,6 +16,7 @@ package nacaLib.varEx;
  */
 public class InternalCharBufferCompressedBackup
 {
+    /** Creates a new internal char buffer compressed backup instance. */
     public InternalCharBufferCompressedBackup(InternalCharBuffer internalCharBufferSource)
     {
         copyFrom(internalCharBufferSource);
@@ -30,6 +31,7 @@ public class InternalCharBufferCompressedBackup
         }
     }
 
+    /** Returns the buffer size. */
     public int getBufferSize()
     {
         if (abBuffer != null) {
@@ -38,6 +40,7 @@ public class InternalCharBufferCompressedBackup
         return 0;
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
         abBuffer = null;

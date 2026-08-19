@@ -26,6 +26,7 @@ public class VarDefMapRedefine extends VarDefBuffer
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def map redefine instance. */
     public VarDefMapRedefine(VarDefBase varDefParent, DeclareTypeMapRedefine declareTypeMapRedefine)
     {
         super(varDefParent, declareTypeMapRedefine.varLevel);
@@ -89,6 +90,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 //  {
 //  }
 
+    /** Executes the map on origin edit operation. */
     public void mapOnOriginEdit()
     {
         varDefRedefinOrigin = varDefFormRedefineOrigin;
@@ -112,6 +114,7 @@ public class VarDefMapRedefine extends VarDefBuffer
         return 12;
     }
 
+    /** Returns the single item required storage size. */
     public int getSingleItemRequiredStorageSize()
     {
         if (varDefFormRedefineOrigin != null) {
@@ -183,26 +186,31 @@ public class VarDefMapRedefine extends VarDefBuffer
     {
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         assertIfFalse(false);
@@ -218,6 +226,7 @@ public class VarDefMapRedefine extends VarDefBuffer
         assertIfFalse(false);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         assertIfFalse(false);
@@ -460,6 +469,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 //  {
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
     }
@@ -694,6 +704,7 @@ public class VarDefMapRedefine extends VarDefBuffer
         return false;
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return false;
@@ -703,6 +714,7 @@ public class VarDefMapRedefine extends VarDefBuffer
     {
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();
@@ -736,6 +748,7 @@ public class VarDefMapRedefine extends VarDefBuffer
     {
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         // never used

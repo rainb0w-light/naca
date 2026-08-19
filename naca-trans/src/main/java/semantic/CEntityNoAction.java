@@ -24,17 +24,20 @@ public class CEntityNoAction extends CBaseActionEntity
         super(line, cat);
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return true ;
     }
 
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         data.UnRegisterReadingAction(this) ;
         data.UnRegisterWritingAction(this) ;
         return true ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         field.UnRegisterReadingAction(this) ;

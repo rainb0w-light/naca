@@ -22,10 +22,12 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
 import nacaLib.basePrgEnv.CurrentUserInfo;
 
+/** Provides sp server session behavior. */
 public class SpServerSession extends BaseSession
 {
     private Connection connection = null;
 
+    /** Creates a new sp server session instance. */
     public SpServerSession(Connection connection, BaseResourceManager baseResourceManager)
     {
         super(baseResourceManager);
@@ -33,6 +35,7 @@ public class SpServerSession extends BaseSession
         setAsync(true);
     }
 
+    /** Creates the environment. */
     public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
     {
         BasicLogger.log("SpServerSession::createEnvironment()");
@@ -45,14 +48,17 @@ public class SpServerSession extends BaseSession
         return "Batch";
     }
 
+    /** Executes the run program operation. */
     public void RunProgram(BaseProgramLoader seq)
     {
     }
 
+    /** Sets the help page. */
     public void setHelpPage(Document doc)
     {
     }
 
+    /** Executes the fill current user info operation. */
     public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
     {
         currentUserInfo.reset();

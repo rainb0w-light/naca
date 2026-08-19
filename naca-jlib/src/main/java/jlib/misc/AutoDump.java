@@ -22,6 +22,7 @@ public class AutoDump
      * Autmatically dump the member variables of the given class
      * Visibility is not a concern
      */
+    /** Executes the dump operation. */
     public static String dump(Object oSource)
     {
         if (oSource == null) {

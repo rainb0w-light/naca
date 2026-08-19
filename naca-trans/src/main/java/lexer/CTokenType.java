@@ -33,6 +33,7 @@ public class CTokenType
         issourceValueDefined = true;
     }
 
+    /** Executes the get source value operation. */
     public String GetSourceValue()
     {
         if (issourceValueDefined) {
@@ -43,6 +44,7 @@ public class CTokenType
         return "";
     }
 
+    /** Executes the has source value operation. */
     public boolean HasSourceValue()
     {
         return issourceValueDefined;

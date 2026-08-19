@@ -12,6 +12,7 @@ package nacaLib.varEx;
  */
 public class CallParamByLength extends CCallParam
 {
+    /** Creates a new call param by length instance. */
     public CallParamByLength(VarAndEdit var)
     {
         if (var != null) {
@@ -24,6 +25,7 @@ public class CallParamByLength extends CCallParam
         return nLength;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         varLinkageSection.set(nLength); // Copy the value of the argument provided by the caller

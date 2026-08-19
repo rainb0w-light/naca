@@ -9,12 +9,14 @@ package nacaLib.classLoad;
 import jlib.classLoader.ClassDynLoader;
 import jlib.classLoader.ClassDynLoaderFactory;
 
+/** Provides custom class dyn loader factory behavior. */
 public class CustomClassDynLoaderFactory extends ClassDynLoaderFactory
 {
     private CustomClassDynLoaderFactory()
     {
     }
 
+    /** Returns the instance. */
     public static ClassDynLoaderFactory getInstance()
     {
         if (ms_instance == null) {
@@ -23,6 +25,7 @@ public class CustomClassDynLoaderFactory extends ClassDynLoaderFactory
         return ms_instance;
     }
 
+    /** Executes the make operation. */
     public ClassDynLoader make()
     {
         return new CustomClassDynLoader();

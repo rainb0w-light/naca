@@ -18,25 +18,30 @@ import semantic.expression.CUnitaryEntityCondition;
 public class CEntityIsFieldColor extends CUnitaryEntityCondition
 {
 
+    /** Executes the is color operation. */
     public void IsColor(CEntityFieldColor.CFieldColor col, CDataEntity data)
     {
         isColor = col ;
         reference = data ;
     }
     protected CEntityFieldColor.CFieldColor isColor ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         reference = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore();
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -99,11 +104,13 @@ public class CEntityIsFieldColor extends CUnitaryEntityCondition
         return "MapFieldAttrColor." + isColor.text ;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsFieldColor cond = new CEntityIsFieldColor() ;

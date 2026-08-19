@@ -19,6 +19,7 @@ import nacaLib.varEx.BaseFileDescriptor;
 import nacaLib.varEx.Console;
 import nacaLib.varEx.Var;
 
+/** Provides fpac program behavior. */
 public abstract class FPacProgram extends BaseProgram
 {
     protected Console wto = null;
@@ -31,6 +32,7 @@ public abstract class FPacProgram extends BaseProgram
         return fpacVarCacheManager;
     }
 
+    /** Creates a new fpac program instance. */
     public FPacProgram()
     {
         super(new BatchProgramManagerFactory());
@@ -44,6 +46,7 @@ public abstract class FPacProgram extends BaseProgram
         startTime = getCurrentTimeHHMMSS();
     }
 
+    /** Executes the procedure division operation. */
     public void procedureDivision() // Virtual that can be derived
     {
         Var v = getCommAreaLength();
@@ -53,10 +56,10 @@ public abstract class FPacProgram extends BaseProgram
             CCommarea commarea = getProgramManager().getEnv().getCommarea();
             working.fillCommarea(nCommeareLength, commarea);
         }
-        X = new int[NB_X];
+        x = new int[NB_X];
         for(int n=0; n<NB_X; n++)
         {
-            X[n] = 0;
+            x[n] = 0;
         }
         run();
     }
@@ -318,7 +321,7 @@ public abstract class FPacProgram extends BaseProgram
 
     static private final int NB_X = 100;
 
-    protected int X[] = null;    // Array of indexes
+    private int x[] = null;    // Array of indexes
     protected PackWorking working  = null;
     protected static final byte CR = 13;
     private String startDate = null;

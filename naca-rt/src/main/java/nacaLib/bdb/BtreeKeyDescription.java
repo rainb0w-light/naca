@@ -33,6 +33,7 @@ public class BtreeKeyDescription
     private int nKeyPositionInKey = 0;
     boolean bFileInEbcdic = false;
 
+    /** Creates a new btree key description instance. */
     public BtreeKeyDescription()
     {
         nKeyPositionInKey = 0;
@@ -85,6 +86,7 @@ public class BtreeKeyDescription
         return true;
     }
 
+    /** Adds the record id key segment. */
     public void addRecordIdKeySegment()
     {
         BtreeKeySegment segRecordId = new BtreeKeySegmentBinary(0, nKeyPositionInKey, 4, true); // Binary ascending
@@ -99,6 +101,7 @@ public class BtreeKeyDescription
         keySegment = fix;   // replace by a fix one (uning less memory)
     }
 
+    /** Adds the segment definition. */
     public void addSegmentDefinition(SortKeySegmentDefinition keySegmentDefinition)
     {
         int nKeyPositionInData = keySegmentDefinition.getBufferStartPosKey();
@@ -238,6 +241,7 @@ public class BtreeKeyDescription
         return 0;
     }
 
+    /** Sets the file in encoding. */
     public void setFileInEncoding(boolean bFileInEbcdic)
     {
         for(int n = 0; n< keySegment.size(); n++)

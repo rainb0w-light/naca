@@ -34,10 +34,12 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
         }
     }
 
+    /** Sets the map set. */
     public void SetMapSet(CDataEntity name)
     {
         setName = name ;
     }
+    /** Sets the data into. */
     public void SetDataInto(CDataEntity name)
     {
         dataInto = name ;
@@ -47,6 +49,7 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
     protected CDataEntity name = null ;
     protected CDataEntity setName = null ;
     protected CDataEntity dataInto = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -54,6 +57,7 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
         setName = null ;
         dataInto = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

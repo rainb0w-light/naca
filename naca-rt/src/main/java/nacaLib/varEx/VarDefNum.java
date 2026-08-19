@@ -77,6 +77,7 @@ public abstract class VarDefNum extends VarDefVariable
         super();
     }
 
+    /** Creates a new var def num instance. */
     public VarDefNum(VarDefBase varDefParent, VarLevel varLevel)
     {
         super(varDefParent, varLevel);  //declareType9.varLevel);
@@ -779,6 +780,7 @@ public abstract class VarDefNum extends VarDefVariable
     }
 
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return false;

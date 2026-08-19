@@ -29,6 +29,7 @@ public class CEntityCICSIgnoreCondition extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor());
         }
     }
+    /** Executes the ignore condition operation. */
     public void IgnoreCondition(String cond)
     {
         conditions.add(cond);
@@ -39,6 +40,7 @@ public class CEntityCICSIgnoreCondition extends CBaseActionEntity
     {
         return conditions;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

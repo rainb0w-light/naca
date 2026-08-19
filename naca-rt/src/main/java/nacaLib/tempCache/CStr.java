@@ -21,10 +21,12 @@ public class CStr
 {
     //CStrManager m_manager = null;
 
+    /** Creates a new cstr instance. */
     public CStr()
     {
     }
 
+    /** Resets the minimal size. */
     public void resetMinimalSize(int n)
     {
         nLength = 0;
@@ -37,6 +39,7 @@ public class CStr
         set(new char[n], 0, 0);
     }
 
+    /** Executes the set operation. */
     public void set(char acBuffer[], int nStartPos, int nLength)
     {
         this.acBuffer = acBuffer;
@@ -44,6 +47,7 @@ public class CStr
         this.nLength = nLength;
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         if(cs != null)
@@ -60,12 +64,14 @@ public class CStr
         }
     }
 
+    /** Removes the left. */
     public void removeLeft(int nNbChar)
     {
         nStartPos += +nNbChar;
         nLength -= nNbChar;
     }
 
+    /** Executes the insert operation. */
     public void insert(int nPosition, char c)
     {
         int nNbCharRight = nLength-nPosition;
@@ -77,16 +83,19 @@ public class CStr
     }
 
 
+    /** Executes the length operation. */
     public int length()
     {
         return nLength;
     }
 
+    /** Executes the char at operation. */
     public char charAt(int n)
     {
         return acBuffer[n + nStartPos];
     }
 
+    /** Sets the char at. */
     public void setCharAt(int nPosition, char cDigit)
     {
         acBuffer[nStartPos + nPosition] = cDigit;
@@ -97,12 +106,14 @@ public class CStr
         nLength = n;
     }
 
+    /** Executes the append operation. */
     public void append(char c)
     {
         acBuffer[nStartPos + nLength] = c;
         nLength++;
     }
 
+    /** Executes the append operation. */
     public void append(CStr csInt)
     {
         for(int n=0; n<csInt.length(); n++)
@@ -113,6 +124,7 @@ public class CStr
         }
     }
 
+    /** Executes the guarantee minial size operation. */
     public void guaranteeMinialSize(int nMinimalSize)
     {
         if(acBuffer.length < nMinimalSize)
@@ -126,6 +138,7 @@ public class CStr
         }
     }
 
+    /** Executes the self substring operation. */
     public void selfSubstring(int nLeftPos)
     {
         nStartPos += nLeftPos;
@@ -153,6 +166,7 @@ public class CStr
 //      }
 //  }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "\"" + new String(acBuffer, nStartPos, nLength) + "\"";
@@ -164,6 +178,7 @@ public class CStr
     }
 
 
+    /** Returns whether only alphabetic. */
     public boolean isOnlyAlphabetic()
     {
         int nMax = nStartPos+nLength;
@@ -177,6 +192,7 @@ public class CStr
         return true;
     }
 
+    /** Returns whether only numeric. */
     public boolean isOnlyNumeric()
     {
         int nMax = nStartPos+nLength;
@@ -190,6 +206,7 @@ public class CStr
         return true;
     }
 
+    /** Returns whether only numeric comp0. */
     public boolean isOnlyNumericComp0(boolean bSigned, boolean bDec)
     {
         int nNbDec = 0;
@@ -225,6 +242,7 @@ public class CStr
         return false;
     }
 
+    /** Returns whether only numeric comp3. */
     public boolean isOnlyNumericComp3(boolean bSigned)
     {
         int nMax = nStartPos+nLength;
@@ -252,6 +270,7 @@ public class CStr
         return false;
     }
 
+    /** Returns whether only numeric comp0 sign leading. */
     public boolean isOnlyNumericComp0SignLeading(boolean bDec)
     {
         int nNbDec = 0;
@@ -274,6 +293,7 @@ public class CStr
         return bDec ? nNbDec <= 1 : nNbDec == 0;
     }
 
+    /** Returns whether only numeric comp0 sign trailing. */
     public boolean isOnlyNumericComp0SignTrailing(boolean bDec)
     {
         int nNbDec = 0;
@@ -296,6 +316,7 @@ public class CStr
         return bDec ? nNbDec <= 1 : nNbDec == 0;
     }
 
+    /** Returns the as int. */
     public int getAsInt()
     {
         if (nLength == 0) {
@@ -333,6 +354,7 @@ public class CStr
         return nValue;
     }
 
+    /** Returns the as unsigned int. */
     public int getAsUnsignedInt()
     {
         if (nLength == 0) {
@@ -361,6 +383,7 @@ public class CStr
         return nValue;
     }
 
+    /** Returns the as long. */
     public long getAsLong()
     {
         if (nLength == 0) {
@@ -398,11 +421,13 @@ public class CStr
         return lValue;
     }
 
+    /** Executes the make big decimal operation. */
     public BigDecimal makeBigDecimal()
     {
         return new BigDecimal(acBuffer , nStartPos, nLength);
     }
 
+    /** Executes the duplicate operation. */
     public CStr duplicate()
     {
         CStr csCopy = new CStr();
@@ -415,6 +440,7 @@ public class CStr
         return csCopy;
     }
 
+    /** Sets the ebcdic. */
     public void setEbcdic()
     {
         for(int n=0; n<nLength; n++)

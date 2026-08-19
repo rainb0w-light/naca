@@ -62,6 +62,7 @@ public class TechnicalException extends RuntimeException
         return csError;
     }
 
+    /** Creates a new technical exception instance. */
     public TechnicalException(String csError, String csMessage)
     {
         super(StringUtil.concatArgWithSeparator(csError,"-",csMessage));
@@ -77,6 +78,7 @@ public class TechnicalException extends RuntimeException
     }
 
 
+    /** Creates a new technical exception instance. */
     public TechnicalException(String csError, String csMessage, Exception exception)
     {
         super(StringUtil.concatArgWithSeparator(csError, "-", csMessage),exception);
@@ -92,37 +94,44 @@ public class TechnicalException extends RuntimeException
         this.csMessage = csMessage;
     }
 
+    /** Executes the append message operation. */
     public void appendMessage(String cs)
     {
         csMessage += cs;
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, SQLClause sqlClause, SQLException sqlException)
     {
         throw new TechnicalException(csError, sqlClause, sqlException);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csClause, SQLException sqlException)
     {
         throw new TechnicalException(csError, csClause, sqlException);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage, Exception exception)
     {
         throw new TechnicalException(csError, csMessage, exception);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage, IOException ioexception)
     {
         throw new TechnicalException(csError, csMessage, ioexception);
     }
 
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage)
     {
         throw new TechnicalException(csError, csMessage);
     }
 
+    /** Executes the throw if null operation. */
     public static void throwIfNull(Object o, String csError, String csMessage)
     {
         if (o == null) {
@@ -130,6 +139,7 @@ public class TechnicalException extends RuntimeException
         }
     }
 
+    /** Executes the throw if null or empty operation. */
     public static void throwIfNullOrEmpty(String csObject, String csError, String csMessage)
     {
         if (StringUtil.isEmpty(csObject)) {

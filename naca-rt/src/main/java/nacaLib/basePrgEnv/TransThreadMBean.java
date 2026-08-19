@@ -74,6 +74,7 @@ public class TransThreadMBean extends BaseCloseMBean
         addOperation("StopProcessing", getClass(), "StopProcessing");
     }
 
+    /** Returns the a user. */
     public String getA_User()
     {
         if (env != null) {
@@ -82,6 +83,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the a ldap user. */
     public String getA_LDapUser()
     {
         if (env != null) {
@@ -90,6 +92,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the a terminal. */
     public String getA_Terminal()
     {
         if (env != null) {
@@ -98,6 +101,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the b environment creation time. */
     public String getB_EnvironmentCreationTime()
     {
         if (env != null) {
@@ -106,6 +110,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the c last transaction name. */
     public String getC_LastTransactionName()
     {
         if (env != null) {
@@ -115,6 +120,7 @@ public class TransThreadMBean extends BaseCloseMBean
     }
 
 
+    /** Returns the c transaction status. */
     public String getC_TransactionStatus()
     {
         if(env != null)
@@ -124,6 +130,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "Deleted: Must refresh";
     }
 
+    /** Returns the d0 last transaction start time. */
     public String getD0_LastTransactionStartTime()
     {
         if(env != null)
@@ -133,6 +140,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "Obsolete entry";
     }
 
+    /** Returns the d1 last transaction end time. */
     public String getD1_LastTransactionEndTime()
     {
         if(env != null)
@@ -146,6 +154,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the d2 last transaction exec time ms. */
     public String getD2_LastTransactionExecTime_ms()
     {
         if(env != null)
@@ -155,6 +164,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the e0 sum transactions exec time ms. */
     public String getE0_SumTransactionsExecTime_ms()
     {
         if(env != null)
@@ -164,6 +174,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return "";
     }
 
+    /** Returns the e1 nb transactions executed. */
     public int getE1_NbTransactionsExecuted()
     {
         if(env != null)
@@ -173,6 +184,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return 0;
     }
 
+    /** Returns the last transaction exec time s. */
     public int getLastTransactionExecTime_s()
     {
         if(env != null)
@@ -185,6 +197,7 @@ public class TransThreadMBean extends BaseCloseMBean
         return 0;
     }
 
+    /** Executes the stop processing operation. */
     public void StopProcessing()
     {
         if (env != null) {

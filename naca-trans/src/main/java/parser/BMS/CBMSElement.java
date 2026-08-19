@@ -7,17 +7,20 @@
 package parser.BMS;
 
 import jlib.xml.Tag;
-import lexer.*;
-
+import lexer.CBaseToken;
+import lexer.CReservedKeyword;
+import lexer.CTokenList;
+import lexer.CTokenType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.CBaseElement;
-
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.forms.CResourceStrings;
 import utils.Transcoder;
+
+
+
 
 
 /**
@@ -26,6 +29,7 @@ import utils.Transcoder;
  */
 public abstract class CBMSElement extends CBaseElement
 {
+    /** Enumerates supported ebmselement type values. */
     public enum EBMSElementType
     {
         ARRAY,
@@ -34,6 +38,7 @@ public abstract class CBMSElement extends CBaseElement
         FIELD,
         GROUP ;
     }
+    /** Executes the get type operation. */
     public abstract EBMSElementType GetType() ;
 
 
@@ -55,6 +60,7 @@ public abstract class CBMSElement extends CBaseElement
         name = cs;
     }
 
+    /** Adds the element. */
     public void AddElement(CBMSElement e)
     {
         AddChild(e) ;
@@ -150,15 +156,20 @@ public abstract class CBMSElement extends CBaseElement
     /* (non-Javadoc)
      * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
      */
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         return null;
     }
 
+    /** Executes the get resource strings operation. */
     public abstract CResourceStrings GetResourceStrings() ;
+    /** Sets the resource strings. */
     public abstract void SetResourceStrings(CResourceStrings res) ;
 
     // Used form XML resource loading and export as .res and .java
+    /** Parses the xmlresource. */
     public abstract CBMSElement parseXMLResource(Tag tagCurrent);
+    /** Loads the tag parameters. */
     public abstract CBMSElement loadTagParameters(Tag tagCurrent);
 }

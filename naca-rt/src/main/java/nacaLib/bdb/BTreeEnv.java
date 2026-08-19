@@ -19,6 +19,7 @@ import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
 
 
+/** Provides btree env behavior. */
 public class BTreeEnv
 {
     private Environment env = null;
@@ -26,16 +27,19 @@ public class BTreeEnv
     private BtreeEncoding encoding = null;
 
     // Our constructor does nothing
+    /** Creates a new btree env instance. */
     public BTreeEnv()
     {
     }
 
+    /** Executes the init engine operation. */
     public boolean initEngine(String csEnvHomePath)
     {
         File envHome = new File(csEnvHomePath);
         return initEngine(envHome);
     }
 
+    /** Executes the init engine operation. */
     public boolean initEngine(File envHome)
     {
         EnvironmentConfig envConfig = new EnvironmentConfig();
@@ -74,6 +78,7 @@ public class BTreeEnv
         }
     }
 
+    /** Creates the btree file. */
     public BtreeFile createBtreeFile(String csName) //, boolean bCanSortMultiThreads)
     {
         // Now open, or create and open, the database
@@ -100,6 +105,7 @@ public class BTreeEnv
     }
 
     //Close the environment
+    /** Executes the close operation. */
     public boolean close()
     {
         if (env != null)
@@ -122,6 +128,7 @@ public class BTreeEnv
         return true;
     }
 
+    /** Executes the remove operation. */
     public void remove(String csName)
     {
         try

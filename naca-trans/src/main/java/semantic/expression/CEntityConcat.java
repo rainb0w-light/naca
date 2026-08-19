@@ -50,6 +50,7 @@ public class CEntityConcat extends CBaseEntityFunction
         return dataRef2;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;

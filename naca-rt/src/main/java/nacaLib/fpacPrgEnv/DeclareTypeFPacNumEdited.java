@@ -6,10 +6,17 @@
  */
 package nacaLib.fpacPrgEnv;
 
-import nacaLib.varEx.*;
+import nacaLib.varEx.CInitialValue;
+import nacaLib.varEx.CobolConstant;
+import nacaLib.varEx.DeclareTypeBase;
+import nacaLib.varEx.VarDefBuffer;
+import nacaLib.varEx.VarDefNumEdited;
+import nacaLib.varEx.VarLevel;
 
+/** Provides declare type fpac num edited behavior. */
 public class DeclareTypeFPacNumEdited extends DeclareTypeBase
 {
+    /** Creates a new declare type fpac num edited instance. */
     public DeclareTypeFPacNumEdited(VarLevel varLevel, String csMask)
     {
         super(varLevel);
@@ -24,12 +31,14 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
     public String csMask = null;
 
 
+    /** Executes the var operation. */
     public VarFPacNumEdited var()
     {
         VarFPacNumEdited var = new VarFPacNumEdited(this);
         return var;
     }
 
+    /** Executes the filler operation. */
     public VarFPacNumEdited filler()
     {
         VarFPacNumEdited var = new VarFPacNumEdited(this);
@@ -38,6 +47,7 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
         return var;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefNumEdited(varDefParent, this);
@@ -54,36 +64,42 @@ public class DeclareTypeFPacNumEdited extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacNumEdited valueAll(char c)
     {
         initialValue = new CInitialValue(c, true);
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacNumEdited valueAll(String cs)
     {
         initialValue = new CInitialValue(cs, true);
         return this;
     }
 
+    /** Executes the value spaces operation. */
     public DeclareTypeFPacNumEdited valueSpaces()
     {
         initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
         return this;
     }
 
+    /** Executes the value zero operation. */
     public DeclareTypeFPacNumEdited valueZero()
     {
         initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
         return this;
     }
 
+    /** Executes the value high value operation. */
     public DeclareTypeFPacNumEdited valueHighValue()
     {
         initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
         return this;
     }
 
+    /** Executes the value low value operation. */
     public DeclareTypeFPacNumEdited valueLowValue()
     {
         initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);

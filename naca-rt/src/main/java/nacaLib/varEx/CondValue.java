@@ -12,6 +12,7 @@ package nacaLib.varEx;
 
 //import nacaLib.program.Var;
 
+/** Provides cond value behavior. */
 public class CondValue
 {
     CondValue(String min, String max)
@@ -35,6 +36,7 @@ public class CondValue
         isinterval = false;
     }
 
+    /** Executes the is operation. */
     public boolean is(Var v)
     {
         if (constant != null) {
@@ -54,6 +56,7 @@ public class CondValue
         return false;
     }
 
+    /** Returns the min. */
     public String getMin()
     {
         if (constant == null) {
@@ -62,6 +65,7 @@ public class CondValue
         return null;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (constant != null) {

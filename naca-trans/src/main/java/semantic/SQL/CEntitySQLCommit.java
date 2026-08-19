@@ -31,6 +31,7 @@ public class CEntitySQLCommit extends CBaseActionEntity
     {
         super(line, cat);
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

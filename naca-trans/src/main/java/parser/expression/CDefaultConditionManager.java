@@ -12,6 +12,7 @@ package parser.expression;
  */
 public class CDefaultConditionManager
 {
+    /** Creates a new cdefault condition manager instance. */
     public CDefaultConditionManager(CExpression exp)
     {
         expMaster = exp ;

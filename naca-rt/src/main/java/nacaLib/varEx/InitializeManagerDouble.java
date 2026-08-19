@@ -12,16 +12,19 @@ package nacaLib.varEx;
  */
 public class InitializeManagerDouble extends InitializeManager
 {
+    /** Creates a new initialize manager double instance. */
     public InitializeManagerDouble(String csd)
     {
         this.csd = csd;
     }
 
+    /** Executes the set operation. */
     public void set(String csd)
     {
         this.csd = csd;
     }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         //varDef.write(buffer, csd);

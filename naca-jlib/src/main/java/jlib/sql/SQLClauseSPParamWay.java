@@ -25,6 +25,7 @@ public class SQLClauseSPParamWay
         this.cs = cs;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return cs;

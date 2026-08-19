@@ -7,10 +7,8 @@
 package nacaLib.program;
 
 import java.util.ArrayList;
-
 import jlib.log.AssertException;
-
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramLoader;
 import nacaLib.varEx.CCallParam;
@@ -21,6 +19,8 @@ import nacaLib.varEx.CallParamByValue;
 import nacaLib.varEx.Edit;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarAndEdit;
+
+
 
 /**
  * @author sly
@@ -60,6 +60,7 @@ public class CCallProgram extends CJMapObject
         baseProgramLoader.runSubProgram(csProgramClassName, callParam, environment);
     }
 
+    /** Executes the execute call safe operation. */
     public boolean executeCallSafe()
     {
         try
@@ -84,9 +85,9 @@ public class CCallProgram extends CJMapObject
         if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
         }
-        CallParamByValue CallParam = new CallParamByValue(var);
+        CallParamByValue localCallParam = new CallParamByValue(var);
 
-        callParam.add(CallParam);
+        callParam.add(localCallParam);
         return this;
     }
 
@@ -101,9 +102,9 @@ public class CCallProgram extends CJMapObject
         if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
         }
-        CallParamByValue CallParam = new CallParamByValue(var);
+        CallParamByValue localCallParam = new CallParamByValue(var);
 
-        callParam.add(CallParam);
+        callParam.add(localCallParam);
         return this;
     }
 
@@ -119,30 +120,32 @@ public class CCallProgram extends CJMapObject
         if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
         }
-        CallParamByRef CallParam = new CallParamByRef(var);
+        CallParamByRef localCallParam = new CallParamByRef(var);
 
-        callParam.add(CallParam);
+        callParam.add(localCallParam);
         return this;
     }
 
+    /** Executes the using operation. */
     public CCallProgram using(Edit edit)
     {
         if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
         }
-        CallParamByRef CallParam = new CallParamByRef(edit);
+        CallParamByRef localCallParam = new CallParamByRef(edit);
 
-        callParam.add(CallParam);
+        callParam.add(localCallParam);
         return this;
     }
 
+    /** Executes the using operation. */
     public CCallProgram using(String string)
     {
         if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
         }
-        CallParamByStringValue CallParam = new CallParamByStringValue(string);
-        callParam.add(CallParam);
+        CallParamByStringValue localCallParam = new CallParamByStringValue(string);
+        callParam.add(localCallParam);
         return this;
     }
 

@@ -21,11 +21,13 @@ public class CEntityNumber extends CDataEntity
     private boolean preserveSourceLexeme = false ;
     private boolean valueNeeded = true ;
 
+    /** Creates a new centity number instance. */
     public CEntityNumber(CObjectCatalog cat, String number)
     {
         super(0, "", cat);
         csValue = number;
     }
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.NUMBER;
@@ -38,6 +40,7 @@ public class CEntityNumber extends CDataEntity
     {
         return preserveSourceLexeme ;
     }
+    /** Executes the preserve source lexeme operation. */
     public void preserveSourceLexeme()
     {
         preserveSourceLexeme = true ;
@@ -54,6 +57,7 @@ public class CEntityNumber extends CDataEntity
     {
         this.valueNeeded = valueNeeded ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return csValue;
@@ -62,6 +66,7 @@ public class CEntityNumber extends CDataEntity
     {
         return csValue.indexOf('.') >= 0;
     }
+    /** Returns the normalized literal value. */
     public String getNormalizedLiteralValue()
     {
         if (isDecimalLiteral()) {
@@ -83,6 +88,7 @@ public class CEntityNumber extends CDataEntity
             }
         }
     }
+    /** Returns whether long literal. */
     public boolean isLongLiteral()
     {
         if (isDecimalLiteral()) {
@@ -106,10 +112,12 @@ public class CEntityNumber extends CDataEntity
             }
         }
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -118,6 +126,7 @@ public class CEntityNumber extends CDataEntity
     {
         return valueNeeded;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,

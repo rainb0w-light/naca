@@ -16,14 +16,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CTokenType;
 import lexer.Cobol.CCobolConstantList;
 import lexer.Cobol.CCobolKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import parser.CIdentifier;
 import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
@@ -53,6 +51,9 @@ import utils.Transcoder;
 import utils.CGlobalEntityCounter;
 import utils.NacaTransAssertException;
 
+
+
+
 /**
  * @author U930CV
  *
@@ -66,6 +67,7 @@ public class CWorkingEntry extends CCobolElement
         super(line);
     }
 
+    /** Provides cworking pic type behavior. */
     public static class CWorkingPicType
     {
         public String text = "" ;
@@ -80,12 +82,14 @@ public class CWorkingEntry extends CCobolElement
         public static CWorkingPicType DECIMAL = new CWorkingPicType("DECIMAL") ;
         public static CWorkingPicType EDITED = new CWorkingPicType("ZONED NUMBER") ;
     }
+    /** Provides cworking entry type behavior. */
     public static class CWorkingEntryType
     {
         protected CWorkingEntryType() {}
         public static CWorkingEntryType STRUCTURE = new CWorkingEntryType() ;
         public static CWorkingEntryType VARIABLE = new CWorkingEntryType() ;
     }
+    /** Provides cworking sign type behavior. */
     public static class CWorkingSignType
     {
         protected CWorkingSignType() {}
@@ -1238,7 +1242,7 @@ public class CWorkingEntry extends CCobolElement
                             {
                                 curRedefineStructure.field = eSkip ;
                                 curRedefineStructure.size = nbFields ;
-                                curRedefineStructure.type = curRedefineStructure.SKIP ;
+                                curRedefineStructure.type = curRedefineStructure.skip ;
                             }
                         }
                         else
@@ -1258,7 +1262,7 @@ public class CWorkingEntry extends CCobolElement
                             {
                                 curRedefineStructure.field = eSkip ;
                                 curRedefineStructure.size = nbFields ;
-                                curRedefineStructure.type = curRedefineStructure.SKIP ;
+                                curRedefineStructure.type = curRedefineStructure.skip ;
                             }
                         }
                         curRedefineStructure = structure.Next() ;
@@ -1299,7 +1303,7 @@ public class CWorkingEntry extends CCobolElement
                         {
                             //factory.programCatalog.RegisterSymbolicField(eFieldRedef) ;
                             curRedefineStructure.field = eFieldRedef ;
-                            curRedefineStructure.type = curRedefineStructure.FIELD ;
+                            curRedefineStructure.type = curRedefineStructure.fieldType ;
                             curRedefineStructure.size = nbFields ; //eField.GetByteLength() ;
                             curRedefineStructure.name = eFieldRedef.GetName() ;
                         }
@@ -1371,7 +1375,7 @@ public class CWorkingEntry extends CCobolElement
                     tabPassedStates.put(eData, state) ;
                     if (curRedefineStructure.field != null)
                     {
-//                      if (!curRedefineStructure.type.equals(curRedefineStructure.OCCURS))
+//                      if (!curRedefineStructure.type.equals(curRedefineStructure.occurs))
 //                      {
 // Transcoder.logError("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine());
 // throw new NacaTransAssertException("ERROR : unexpected situation while analysing MAP REDEFINE, line "+le.getLine()) ;
@@ -1381,7 +1385,7 @@ public class CWorkingEntry extends CCobolElement
                     {
                         curRedefineStructure.field = eData ;
                         curRedefineStructure.name = le.name ;
-                        curRedefineStructure.type = curRedefineStructure.OCCURS ;
+                        curRedefineStructure.type = curRedefineStructure.occurs ;
                     }
                     structure.Next() ;
                     nbFieldConsumed += le.DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eData, bSaveMap, structure) ;
@@ -1430,7 +1434,7 @@ public class CWorkingEntry extends CCobolElement
                     {
                         curRedefineStructure.field = eSkip ;
                         curRedefineStructure.size = nbFields ;
-                        curRedefineStructure.type = curRedefineStructure.SKIP ;
+                        curRedefineStructure.type = curRedefineStructure.skip ;
                     }
                     curRedefineStructure = structure.Next() ;
                 }
@@ -1519,7 +1523,7 @@ public class CWorkingEntry extends CCobolElement
             {
                 //factory.programCatalog.RegisterSymbolicField(fieldRedef) ;
                 curRedefineStructure.field = fieldRedef ;
-                curRedefineStructure.type = curRedefineStructure.FIELD ;
+                curRedefineStructure.type = curRedefineStructure.fieldType ;
                 curRedefineStructure.size = 1 ; //eField.GetByteLength() ;
                 curRedefineStructure.name = name ;
             }

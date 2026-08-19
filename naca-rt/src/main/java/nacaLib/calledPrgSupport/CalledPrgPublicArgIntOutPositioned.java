@@ -21,11 +21,13 @@ public class CalledPrgPublicArgIntOutPositioned extends BaseCalledPrgPublicArgPo
         this.nValue = nValue;
     }
 
+    /** Executes the map on operation. */
     public void MapOn(Var varLinkageSection)
     {
         varLinkageSection.set(nValue[0]);
     }
 
+    /** Executes the do fill with var operation. */
     public void doFillWithVar(Var varSource)
     {
         nValue[0] = varSource.getInt();

@@ -18,6 +18,7 @@ import nacaLib.batchPrgEnv.BatchProgram;
  */
 public class ConverterProgram extends BatchProgram
 {
+    /** Creates a new converter program instance. */
     public ConverterProgram()
     {
         super();

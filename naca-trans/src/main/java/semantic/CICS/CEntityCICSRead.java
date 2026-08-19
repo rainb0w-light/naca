@@ -17,12 +17,14 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSRead extends CBaseActionEntity
 {
+    /** Enumerates supported centity cicsread mode values. */
     public enum CEntityCICSReadMode
     {
         NORMAL,
         PREVIOUS,
         NEXT
     }
+    /** Creates a new centity cicsread instance. */
     public CEntityCICSRead(int line, CObjectCatalog cat, CEntityCICSReadMode mode)
     {
         super(line, cat);
@@ -32,6 +34,7 @@ public class CEntityCICSRead extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Reads the file. */
     public void ReadFile(CDataEntity name)
     {
         this.name = name ;
@@ -39,6 +42,7 @@ public class CEntityCICSRead extends CBaseActionEntity
         isreadToFile = true ;
         refreshSpecialReadKind();
     }
+    /** Reads the data set. */
     public void ReadDataSet(CDataEntity name)
     {
         this.name = name ;
@@ -46,12 +50,14 @@ public class CEntityCICSRead extends CBaseActionEntity
         isreadToFile = false ;
         refreshSpecialReadKind();
     }
+    /** Sets the data into. */
     public void SetDataInto(CDataEntity from, CDataEntity length)
     {
         dataInto = from ;
         dataLength = length;
         refreshSpecialReadKind();
     }
+    /** Sets the rec idfield. */
     public void SetRecIDField(CDataEntity rec)
     {
         recIDField = rec ;
@@ -81,23 +87,28 @@ public class CEntityCICSRead extends CBaseActionEntity
         FIELD_NEXT
     }
 
+    /** Sets the key length. */
     public void SetKeyLength(CDataEntity entity)
     {
         keyLength = entity ;
     }
 
+    /** Sets the equal. */
     public void SetEqual()
     {
         isequal = true ;
     }
+    /** Sets the update. */
     public void SetUpdate()
     {
         isupdate = true;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

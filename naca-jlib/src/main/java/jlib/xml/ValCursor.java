@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
  */
 public class ValCursor
 {
+    /** Creates a new val cursor instance. */
     public ValCursor()
     {
     }
@@ -24,12 +25,14 @@ public class ValCursor
         this.nodeMap = nodeMap;
     }
 
+    /** Returns the first val. */
     public String getFirstVal()
     {
         nIndex = 0;
         return getNextVal();
     }
 
+    /** Returns the next val. */
     public String getNextVal()
     {
         int nNbIndex = nodeMap.getLength();
@@ -43,12 +46,14 @@ public class ValCursor
         return null;
     }
 
+    /** Returns the first param. */
     public Node getFirstParam()
     {
         nIndex = 0;
         return getNextParam();
     }
 
+    /** Returns the next param. */
     public Node getNextParam()
     {
         int nNbIndex = nodeMap.getLength();

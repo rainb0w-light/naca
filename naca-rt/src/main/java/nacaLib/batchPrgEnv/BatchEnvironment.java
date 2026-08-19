@@ -13,13 +13,16 @@ import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.basePrgEnv.BaseSession;
 
+/** Provides batch environment behavior. */
 public class BatchEnvironment extends BaseEnvironment
 {
+    /** Creates a new batch environment instance. */
     public BatchEnvironment(BatchSession batchSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
     {
         super(batchSession, connectionManager, baseResourceManager);
     }
 
+    /** Creates the cesmmanager. */
     public BaseCESMManager createCESMManager()
     {
         return new CESMManager(this);
@@ -30,6 +33,7 @@ public class BatchEnvironment extends BaseEnvironment
         return null;
     }
 
+    /** Executes the break current session if timeout operation. */
     public void breakCurrentSessionIfTimeout()
     {
     }

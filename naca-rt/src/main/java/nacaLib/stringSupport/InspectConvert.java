@@ -9,20 +9,24 @@ package nacaLib.stringSupport;
 
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides inspect convert behavior. */
 public class InspectConvert
 {
     private final VarAndEdit var;
 
+    /** Creates a new inspect convert instance. */
     public InspectConvert(VarAndEdit var)
     {
         this.var = var;
     }
 
+    /** Executes the to operation. */
     public InspectConvert to(VarAndEdit from, VarAndEdit to)
     {
         return to(from.getString(), to.getString());
     }
 
+    /** Executes the to operation. */
     public InspectConvert to(String from, String to)
     {
         String value = var.getString();

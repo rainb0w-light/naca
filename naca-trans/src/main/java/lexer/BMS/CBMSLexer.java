@@ -22,6 +22,7 @@ import lexer.CTokenString;
  */
 public class CBMSLexer extends CBaseLexer
 {
+    /** Creates a new cbmslexer instance. */
     public CBMSLexer()
     {
         super(0, 72, CBMSKeywordList.List, CBMSConstantList.List);

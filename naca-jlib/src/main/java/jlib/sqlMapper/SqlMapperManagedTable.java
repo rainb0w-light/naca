@@ -13,6 +13,7 @@ import jlib.exception.TechnicalException;
 import jlib.log.Log;
 import jlib.sql.DbAccessor;
 
+/** Provides sql mapper managed table behavior. */
 public class SqlMapperManagedTable
 {
     private String csTableName = null;
@@ -173,18 +174,21 @@ public class SqlMapperManagedTable
 //      return record;
 //  }
 
+    /** Returns the records. */
     public synchronized SqlMapperRecordsCollection getRecords(RecordId recordId)
     {
         String csRecordName = recordId.getName();
         return getRecords(csRecordName);
     }
 
+    /** Returns the records. */
     public synchronized SqlMapperRecordsCollection getRecords(String csRecordName)
     {
         SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
         return records;
     }
 
+    /** Returns the record with id. */
     public synchronized SqlMapperManagedRecord getRecordWithId(RecordId recordId)
     {
         String csRecordName = recordId.getName();
@@ -209,6 +213,7 @@ public class SqlMapperManagedTable
 //      return getOrCreateRecordWithId(recordId);
 //  }
 
+    /** Returns the or create record with id. */
     public synchronized SqlMapperManagedRecord getOrCreateRecordWithId(RecordId recordId)
     {
         String csRecordName = recordId.getName();
@@ -230,6 +235,7 @@ public class SqlMapperManagedTable
         return record;
     }
 
+    /** Creates the new record with id. */
     public synchronized SqlMapperManagedRecord createNewRecordWithId(RecordId recordId)
     {
         String csRecordName = recordId.getName();
@@ -247,6 +253,7 @@ public class SqlMapperManagedTable
         return record;
     }
 
+    /** Executes the execute inserts operation. */
     public int executeInserts(DbAccessor dbAccessor)
     {
         for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)    // Write all records for this table
@@ -267,6 +274,7 @@ public class SqlMapperManagedTable
         return 0;
     }
 
+    /** Executes the execute selects operation. */
     public void executeSelects(DbAccessor dbAccessor)
     {
         for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)    // Read all records for this table
@@ -279,6 +287,7 @@ public class SqlMapperManagedTable
         }
     }
 
+    /** Executes the execute selects operation. */
     public SqlMapperRecordsCollection executeSelects(DbAccessor dbAccessor, RecordId recordId)
     {
         if(recordId != null)
@@ -309,6 +318,7 @@ public class SqlMapperManagedTable
         arrRecordIds.add(recordId);
     }
 
+    /** Executes the execute deletes operation. */
     public boolean executeDeletes(DbAccessor dbAccessor)
     {
         try
@@ -344,6 +354,7 @@ public class SqlMapperManagedTable
         return false;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -367,6 +378,7 @@ public class SqlMapperManagedTable
         return sb.toString();
     }
 
+    /** Clears the values. */
     public void clearValues()
     {
     //  m_lastRecord = null;

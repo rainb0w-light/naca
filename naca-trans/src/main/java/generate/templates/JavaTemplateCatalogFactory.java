@@ -23,6 +23,7 @@ public final class JavaTemplateCatalogFactory
     {
     }
 
+    /** Executes the create operation. */
     public static JavaTemplateCatalog create(JavaTemplateProfile profile)
     {
         Map<String, JavaTemplateModule> modulesById = indexModules(profile);

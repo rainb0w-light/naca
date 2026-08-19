@@ -22,6 +22,7 @@ public class CEntityUnknownReference extends CDataEntity
     {
         return CDataEntityType.UNKNWON ;
     }
+    /** Creates a new centity unknown reference instance. */
     public CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
     {
         super(nLine, csName, cat);
@@ -49,10 +50,12 @@ public class CEntityUnknownReference extends CDataEntity
     {
         return false;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ; // maybe true
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

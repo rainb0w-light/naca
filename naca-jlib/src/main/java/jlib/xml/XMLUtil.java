@@ -11,25 +11,34 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
 import jlib.log.Log;
 import jlib.misc.DataFileRead;
 import jlib.misc.DataFileWrite;
-
-//import org.jdom.JDOMException;
-//import org.jdom.input.SAXBuilder;
 import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;   // IBM JVM
+
+
+
+//import org.jdom.JDOMException;
+//import org.jdom.input.SAXBuilder;
 // SUN JVM import com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl;
 
 /**
@@ -38,6 +47,7 @@ import org.apache.xerces.jaxp.DocumentBuilderFactoryImpl;   // IBM JVM
  */
 public class XMLUtil
 {
+    /** Loads the xml. */
     public static Document LoadXML(String csFilePath)
     {
         if (csFilePath==null || csFilePath.equals(""))
@@ -48,12 +58,14 @@ public class XMLUtil
         return LoadXML(s) ;
     }
 
+    /** Loads the xml. */
     public static Document LoadXML(File f)
     {
         Source file = new StreamSource(f) ;
         return LoadXML(file);
     }
 
+    /** Loads the xml. */
     public static Document LoadXML(Source file)
     {
         try
@@ -77,6 +89,7 @@ public class XMLUtil
         return null;
     }
 
+    /** Loads the xml. */
     public static Document loadXML(ByteArrayInputStream byteArrayInputStream)
     {
         try
@@ -122,6 +135,7 @@ public class XMLUtil
 
 
 
+    /** Exports the xml. */
     public static boolean ExportXML(Document xmlOutput, String filename)
     {
         try
@@ -160,6 +174,7 @@ public class XMLUtil
         }
     }
 
+    /** Creates the document. */
     public static Document CreateDocument()
     {
         try
@@ -177,6 +192,7 @@ public class XMLUtil
         return null ;
     }
 
+    /** Executes the get first element child operation. */
     public static Element GetFirstElementChild(Element tag)
     {
         Node n = tag.getFirstChild() ;
@@ -188,18 +204,21 @@ public class XMLUtil
         return e ;
     }
 
+    /** Executes the encode64 operation. */
     public static byte[] encode64(byte[] arrBytes)
     {
         Base64 base64 = new Base64();
         return base64.encode(arrBytes);
     }
 
+    /** Executes the decode64 operation. */
     public static byte[] decode64(byte[] arrBytes)
     {
         Base64 base64 = new Base64();
         return base64.decode(arrBytes);
     }
 
+    /** Executes the encode64 as string operation. */
     public static String encode64AsString(byte[] arrBytes)
     {
         Base64 base64 = new Base64();
@@ -208,6 +227,7 @@ public class XMLUtil
         return cs;
     }
 
+    /** Executes the decode64 operation. */
     public static byte[] decode64(String cs)
     {
         Base64 base64 = new Base64();
@@ -215,6 +235,7 @@ public class XMLUtil
         return base64.decode(bytes);
     }
 
+    /** Executes the decode64 as string operation. */
     public static String decode64AsString(String cs)
     {
         Base64 base64 = new Base64();
@@ -224,6 +245,7 @@ public class XMLUtil
         return csOut;
     }
 
+    /** Executes the encode64 as string operation. */
     public static String encode64AsString(String cs)
     {
         Base64 base64 = new Base64();
@@ -233,6 +255,7 @@ public class XMLUtil
         return csOut;
     }
 
+    /** Executes the encode64 file operation. */
     public static boolean encode64File(String csIn, String csOut)
     {
         DataFileRead in = new DataFileRead(csIn);
@@ -255,6 +278,7 @@ public class XMLUtil
         return false;
     }
 
+    /** Executes the decode64 file operation. */
     public static boolean decode64File(String csIn, String csOut)
     {
         DataFileRead in = new DataFileRead(csIn);

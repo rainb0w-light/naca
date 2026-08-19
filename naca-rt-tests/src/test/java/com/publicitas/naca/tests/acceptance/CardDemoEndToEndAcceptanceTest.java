@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-/** Strict offline acceptance for pinned CardDemo batch programs. */
+/** Offline strict acceptance and deterministic blocker coverage for CardDemo. */
 @Tag("sample-acceptance")
 class CardDemoEndToEndAcceptanceTest
 {
@@ -31,8 +31,22 @@ class CardDemoEndToEndAcceptanceTest
     private static final String COMMIT =
         "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e";
     private static final String LICENSE_PATH = "LICENSE";
+    private static final String JAVA_CLASS_PATH = "java.class.path";
     private static final String LICENSE_HASH =
         "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b";
+
+    private static final String BLOCKED_PROGRAM_PATH = "app/cbl/CBACT01C.cbl";
+    private static final String BLOCKED_PROGRAM_HASH =
+        "f8eb6e3a561ff96a1889a8f777a8998850a11dddae221da2c5018067d7b95551";
+    private static final String ACCOUNT_COPYBOOK_PATH = "app/cpy/CVACT01Y.cpy";
+    private static final String ACCOUNT_COPYBOOK_HASH =
+        "81a08bad15af5664326a6f0af3650f570821c4857ffdec3a6a39f91f07dca728";
+    private static final String DATE_COPYBOOK_PATH = "app/cpy/CODATECN.cpy";
+    private static final String DATE_COPYBOOK_HASH =
+        "8efc6b6d79bd46d65fcdc4e6a8e3778511fca76054f3fbae8e3075b0a2aa8fb1";
+    private static final String ACCOUNT_DATA_PATH = "app/data/ASCII/acctdata.txt";
+    private static final String ACCOUNT_DATA_HASH =
+        "c2a97b6a32dc4a87a7aafdf7f72e6712e560412d30b00c5526cca80fc9dfd260";
 
     private static final Scenario CBACT = new Scenario(
         "CBACT02C", "app/cbl/CBACT02C.cbl",
@@ -94,6 +108,95 @@ class CardDemoEndToEndAcceptanceTest
             "CBACT03C offline acceptance failed");
     }
 
+    /** Reproduces the pinned CBACT01C runtime blocker after successful compilation. */
+    @Test
+    void pinnedAccountExportReproducesOutputFileStatusBlocker()
+    {
+        assertDoesNotThrow(this::runBlockedAccountExport,
+            "CBACT01C blocker regression changed unexpectedly");
+    }
+
+    /** Runs CBACT01C through its last passing stage and asserts its first blocker. */
+    private void runBlockedAccountExport() throws Exception
+    {
+        Path corpus = locateCorpus();
+        verifyProvenance(corpus);
+        Path programFile = corpus.resolve(BLOCKED_PROGRAM_PATH);
+        Path accountCopybook = corpus.resolve(ACCOUNT_COPYBOOK_PATH);
+        Path dateCopybook = corpus.resolve(DATE_COPYBOOK_PATH);
+        Path accountData = corpus.resolve(ACCOUNT_DATA_PATH);
+        assertEquals(BLOCKED_PROGRAM_HASH, sha256(programFile),
+            "CBACT01C program hash mismatch");
+        assertEquals(ACCOUNT_COPYBOOK_HASH, sha256(accountCopybook),
+            "CVACT01Y copybook hash mismatch");
+        assertEquals(DATE_COPYBOOK_HASH, sha256(dateCopybook),
+            "CODATECN copybook hash mismatch");
+        assertEquals(ACCOUNT_DATA_HASH, sha256(accountData),
+            "account data hash mismatch");
+        verifyFixedRecords(accountData, 300, "CBACT01C");
+
+        Path scenarioWorkspace = workspace.resolve("CBACT01C");
+        Path copyDir = scenarioWorkspace.resolve("copy");
+        Files.createDirectories(copyDir);
+        Files.copy(accountCopybook, copyDir.resolve("CVACT01Y"));
+        Files.copy(dateCopybook, copyDir.resolve("CODATECN"));
+        IncludeGroupSupport.configure(
+            copyDir.toString(), scenarioWorkspace.resolve("includes").toString());
+        TranspilerService service = new TranspilerService();
+        TranspileResult result = service.transpile(
+            Files.readString(programFile, StandardCharsets.ISO_8859_1),
+            "CBACT01C");
+        assertTrue(result.isSuccess(),
+            "CBACT01C transpilation failed: " + result.getErrors());
+        assertNotNull(result.getJavaSource(),
+            "CBACT01C returned no Java source");
+        String accountCopySource = IncludeGroupSupport.generateCopybookClass(
+            "CVACT01Y");
+        assertNotNull(accountCopySource, "CVACT01Y generation failed");
+        String dateCopySource = IncludeGroupSupport.generateCopybookClass(
+            "CODATECN");
+        assertNotNull(dateCopySource, "CODATECN generation failed");
+
+        Path sourceDir = scenarioWorkspace.resolve("sources");
+        Files.createDirectories(sourceDir);
+        Path programSource = sourceDir.resolve("Cbact01c.java");
+        Path accountSource = sourceDir.resolve("Cvact01y.java");
+        Path dateSource = sourceDir.resolve("Codatecn.java");
+        Files.writeString(programSource, result.getJavaSource(),
+            StandardCharsets.ISO_8859_1);
+        Files.writeString(accountSource, accountCopySource,
+            StandardCharsets.ISO_8859_1);
+        Files.writeString(dateSource, dateCopySource,
+            StandardCharsets.ISO_8859_1);
+        Path classes = scenarioWorkspace.resolve("classes");
+        Files.createDirectories(classes);
+        ProcessResult compile = runProcess(scenarioWorkspace,
+            "javac", "-proc:none", "-classpath", System.getProperty(JAVA_CLASS_PATH),
+            "-d", classes.toString(), programSource.toString(),
+            accountSource.toString(), dateSource.toString());
+        assertEquals(0, compile.exitCode(),
+            "CBACT01C generated Java compilation failed: " + compile.output());
+
+        ProcessResult run = runProcess(scenarioWorkspace,
+            "java", "-cp", System.getProperty(JAVA_CLASS_PATH)
+                + File.pathSeparator + classes,
+            "com.publicitas.naca.tests.acceptance.AcceptanceProgramRunner",
+            "Cbact01c", classes.toString(),
+            "ACCTFILE", accountData.toString(), "ascii,fb,300",
+            "OUTFILE", scenarioWorkspace.resolve("account.out").toString(),
+            "ascii,fb,107",
+            "ARRYFILE", scenarioWorkspace.resolve("array.out").toString(),
+            "ascii,fb,110",
+            "VBRCFILE", scenarioWorkspace.resolve("variable.out").toString(),
+            "ascii,vb,84");
+        assertTrue(run.output().contains("START OF EXECUTION OF PROGRAM CBACT01C"),
+            "CBACT01C did not reach runtime: " + run.output());
+        assertTrue(run.output().contains("ERROR OPENING OUTFILE"),
+            "CBACT01C no longer reproduces its FILE STATUS blocker: " + run.output());
+        assertTrue(run.output().contains("ABENDING PROGRAM"),
+            "CBACT01C blocker no longer reaches its abend path: " + run.output());
+    }
+
     private void runAcceptance(Scenario scenario) throws Exception
     {
         Path corpus = locateCorpus();
@@ -140,13 +243,13 @@ class CardDemoEndToEndAcceptanceTest
         Path classes = scenarioWorkspace.resolve("classes");
         Files.createDirectories(classes);
         ProcessResult compile = runProcess(scenarioWorkspace,
-            "javac", "-proc:none", "-classpath", System.getProperty("java.class.path"),
+            "javac", "-proc:none", "-classpath", System.getProperty(JAVA_CLASS_PATH),
             "-d", classes.toString(), programSource.toString(), copybookSource.toString());
         assertEquals(0, compile.exitCode(), scenario.programName()
             + " generated Java compilation failed: " + compile.output());
 
         ProcessResult run = runProcess(scenarioWorkspace,
-            "java", "-cp", System.getProperty("java.class.path")
+            "java", "-cp", System.getProperty(JAVA_CLASS_PATH)
                 + File.pathSeparator + classes,
             "com.publicitas.naca.tests.acceptance.AcceptanceProgramRunner",
             scenario.runtimeClass(), classes.toString(), scenario.logicalName(),
@@ -169,17 +272,21 @@ class CardDemoEndToEndAcceptanceTest
         assertTrue(provenance.contains("\"path\": \"" + LICENSE_PATH + "\""),
             "provenance license path mismatch");
 
-        Map<String, String> expectedFiles = Map.of(
-            CBACT.programPath(), CBACT.programHash(),
-            CBACT.copybookPath(), CBACT.copybookHash(),
-            CBACT.dataPath(), CBACT.dataHash(),
-            CBCUS.programPath(), CBCUS.programHash(),
-            CBCUS.copybookPath(), CBCUS.copybookHash(),
-            CBCUS.dataPath(), CBCUS.dataHash(),
-            CBACT_XREF.programPath(), CBACT_XREF.programHash(),
-            CBACT_XREF.copybookPath(), CBACT_XREF.copybookHash(),
-            CBACT_XREF.dataPath(), CBACT_XREF.dataHash(),
-            LICENSE_PATH, LICENSE_HASH);
+        Map<String, String> expectedFiles = Map.ofEntries(
+            Map.entry(BLOCKED_PROGRAM_PATH, BLOCKED_PROGRAM_HASH),
+            Map.entry(ACCOUNT_COPYBOOK_PATH, ACCOUNT_COPYBOOK_HASH),
+            Map.entry(DATE_COPYBOOK_PATH, DATE_COPYBOOK_HASH),
+            Map.entry(ACCOUNT_DATA_PATH, ACCOUNT_DATA_HASH),
+            Map.entry(CBACT.programPath(), CBACT.programHash()),
+            Map.entry(CBACT.copybookPath(), CBACT.copybookHash()),
+            Map.entry(CBACT.dataPath(), CBACT.dataHash()),
+            Map.entry(CBCUS.programPath(), CBCUS.programHash()),
+            Map.entry(CBCUS.copybookPath(), CBCUS.copybookHash()),
+            Map.entry(CBCUS.dataPath(), CBCUS.dataHash()),
+            Map.entry(CBACT_XREF.programPath(), CBACT_XREF.programHash()),
+            Map.entry(CBACT_XREF.copybookPath(), CBACT_XREF.copybookHash()),
+            Map.entry(CBACT_XREF.dataPath(), CBACT_XREF.dataHash()),
+            Map.entry(LICENSE_PATH, LICENSE_HASH));
         long fileEntries = provenance.lines()
             .map(String::trim)
             .filter(line -> line.matches("\"[^\"]+\": \"[0-9a-f]{64}\"[,]?"))
@@ -214,6 +321,22 @@ class CardDemoEndToEndAcceptanceTest
             .map(record -> record + " ".repeat(
                 scenario.outputRecordLength() - scenario.inputRecordLength()))
             .toList();
+    }
+
+    /** Verifies the fixed-record shape of a vendored CardDemo data file. */
+    private static void verifyFixedRecords(
+        Path dataFile, int recordLength, String programName) throws Exception
+    {
+        byte[] data = Files.readAllBytes(dataFile);
+        assertEquals(50 * (recordLength + 1), data.length,
+            programName + " data byte count mismatch");
+        List<String> records = Files.readAllLines(
+            dataFile, StandardCharsets.ISO_8859_1);
+        assertEquals(50, records.size(),
+            programName + " input must contain 50 records");
+        assertTrue(records.stream().allMatch(record -> record.getBytes(
+            StandardCharsets.ISO_8859_1).length == recordLength),
+            programName + " records have an invalid byte length");
     }
 
     private static Path prepareRuntimeData(Path dataFile, List<String> records,

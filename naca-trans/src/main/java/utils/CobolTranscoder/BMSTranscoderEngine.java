@@ -39,10 +39,12 @@ import utils.PosLineCol;
 import utils.Transcoder;
 import utils.TranscoderEngine;
 
+/** Provides bmstranscoder engine behavior. */
 public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntityResourceFormContainer>
 {
     public static BMSTranscoderEngine ms_BMSTranscoderEngine = null;
 
+    /** Creates a new bmstranscoder engine instance. */
     public BMSTranscoderEngine()
     {
         if (ms_BMSTranscoderEngine == null) {
@@ -319,9 +321,9 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
         Hashtable<String, CMapElement> hashMapsByLanguage = new Hashtable<String, CMapElement>();
         Hashtable<String, PosLineCol> hashPosLineColByLanguage = new Hashtable<String, PosLineCol>();
 
-        CBMSParser BMSParser = new CBMSParser();
+        CBMSParser bmsParser = new CBMSParser();
         CMapSetElement eMapSet = new CMapSetElement("", 0);
-        BMSParser.setRoot(eMapSet);
+        bmsParser.setRoot(eMapSet);
 
         String csName = tagForm.getVal("name");
         csName = csName.toUpperCase();
@@ -400,7 +402,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
             }
         }
 
-        return BMSParser;
+        return bmsParser;
     }
 
     private void addTagForClosingHBox(
@@ -427,14 +429,14 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
 
     private CBMSParser parseXMLResource(Tag tagCurrent)
     {
-        CBMSParser BMSParser = new CBMSParser();
+        CBMSParser bmsParser = new CBMSParser();
         String csName = tagCurrent.getName();
         if(csName.equals("MapSet"))
         {
             CMapSetElement e = new CMapSetElement("", 0);
-            BMSParser.setRoot(e);
+            bmsParser.setRoot(e);
             e.loadTagParameters(tagCurrent);
         }
-        return BMSParser;
+        return bmsParser;
     }
 }

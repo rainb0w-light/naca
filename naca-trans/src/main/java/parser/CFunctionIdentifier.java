@@ -135,6 +135,7 @@ public class CFunctionIdentifier extends CIdentifier
         }
     }
 
+    /** Executes the get data reference operation. */
     public CDataEntity GetDataReference(int nLine, CBaseEntityFactory fact)
     {
         CBaseEntityFunction f = null ;
@@ -183,6 +184,7 @@ public class CFunctionIdentifier extends CIdentifier
         return f ;
     }
 
+    /** Exports the to. */
     public void ExportTo(Element e, Document root)
     {
         if (function == CCobolKeywordList.LENGTH)

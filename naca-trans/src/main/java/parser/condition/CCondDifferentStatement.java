@@ -29,12 +29,14 @@ import semantic.expression.CEntityCondEquals;
  */
 public class CCondDifferentStatement extends CExpression
 {
+    /** Creates a new ccond different statement instance. */
     public CCondDifferentStatement(int line, CExpression term1, CExpression term2)
     {
         super(line) ;
         this.term1 = term1 ;
         this.term2 = term2 ;
     }
+    /** Creates the copy. */
     public CExpression NewCopy(int line, CExpression term1, CExpression term2)
     {
         return new CCondDifferentStatement(line, term1, term2);
@@ -45,6 +47,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetPriorityLevel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 3;
@@ -61,6 +64,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("Different") ;
@@ -85,6 +89,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return new CCondEqualsStatement(getLine(), term1, term2);
@@ -92,6 +97,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -99,6 +105,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
     {
         masterCond.SetMasterCondition(this) ;
@@ -205,6 +212,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return term1 ;
@@ -212,6 +220,7 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         CCondDifferentStatement diff = new CCondDifferentStatement(getLine(), term1, operand) ;
@@ -220,10 +229,12 @@ public class CCondDifferentStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return true ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "DIFF(" + term1.toString() + ", " + term2.toString() + ")" ;

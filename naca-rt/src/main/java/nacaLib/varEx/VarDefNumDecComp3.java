@@ -7,8 +7,7 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.NumberParserDec;
@@ -16,6 +15,7 @@ import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.CStrNumber;
 import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -27,6 +27,7 @@ public class VarDefNumDecComp3 extends VarDefNum
      *
      */
     private static final long serialVersionUID = 1L;
+    /** Creates a new var def num dec comp3 instance. */
     public VarDefNumDecComp3(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
     {
         super(varDefParent, declareType9.varLevel);
@@ -80,6 +81,7 @@ public class VarDefNumDecComp3 extends VarDefNum
     }
 
 
+    /** Returns the single item required storage size. */
     public int getSingleItemRequiredStorageSize()
     {
 //      int n = nNbDigitInteger + nNbDigitDecimal + 1; // need a nibble for sign
@@ -241,12 +243,14 @@ public class VarDefNumDecComp3 extends VarDefNum
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         Dec dec = NumberParserDec.getAsDec(cs);
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -254,6 +258,7 @@ public class VarDefNumDecComp3 extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -261,12 +266,14 @@ public class VarDefNumDecComp3 extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         Dec dec = new Dec(n, "");
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         Dec dec = new Dec(l, "");
@@ -284,6 +291,7 @@ public class VarDefNumDecComp3 extends VarDefNum
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         Dec dec = NumberParserDec.getAsDec(bigDecimal);
@@ -327,6 +335,7 @@ public class VarDefNumDecComp3 extends VarDefNum
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
@@ -547,6 +556,7 @@ public class VarDefNumDecComp3 extends VarDefNum
 //      writeDecComp3(buffer, dec, nNbDigitInteger, nNbDigitDecimal);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         Dec dec = new Dec(0L, "");
@@ -656,6 +666,7 @@ public class VarDefNumDecComp3 extends VarDefNum
         return internalCompare(dec1, dec2);
     }
 
+    /** Returns whether equal with same type to. */
     public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
     {
         VarDefNumDecComp3 varDefSourceComp3 = (VarDefNumDecComp3)varDefBuffer2;
@@ -892,6 +903,7 @@ public class VarDefNumDecComp3 extends VarDefNum
         return 0;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         CStr cs = buffer.getStringAt(buffer.nAbsolutePosition, nTotalSize);

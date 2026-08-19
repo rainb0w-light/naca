@@ -36,6 +36,7 @@ import org.apache.struts.action.ActionForward;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/** Provides online session behavior. */
 public class OnlineSession extends BaseSession implements HttpSessionBindingListener
 {
     protected OnlineResourceManager resourceManager = null ;
@@ -46,16 +47,17 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
     //protected String cmp = "" ;
     protected CScenarioPlayer scenarioPlayer = null ;
     protected boolean ischeckScenario = true;
-    private int nHttpSessionMaxInactiveInterval_s;
+    private int httpSessionMaxInactiveIntervalSeconds;
     private boolean iszoom = false;
     private boolean isbold = false;
     private boolean isinternTest = false;
 
+    /** Creates a new online session instance. */
     public OnlineSession(boolean bAsyncSession)
     {
         super(OnlineResourceManagerFactory.GetInstance());
         resourceManager = OnlineResourceManagerFactory.GetInstance() ;
-        nHttpSessionMaxInactiveInterval_s = resourceManager.getHttpSessionMaxInactiveInterval_s();
+        httpSessionMaxInactiveIntervalSeconds = resourceManager.getHttpSessionMaxInactiveInterval_s();
         String doc = resourceManager.getScenarioFilePath() ;
         if (doc != null && !doc.equals(""))
         {
@@ -86,6 +88,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 
     protected String csLUName = "";
 
+    /** Returns the terminal net. */
     public String getTerminalNet()
     {
         if (csLUName == null || csLUName.equals("")) {
@@ -94,6 +97,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return csLUName;
     }
 
+    /** Returns the terminal net lu62. */
     public String getTerminalNetLu62()
     {
         if (csLUName == null || csLUName.equals("")) {
@@ -102,6 +106,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return csLUName;
     }
 
+    /** Returns the terminal term. */
     public String getTerminalTerm()
     {
         if(csLUName != null && !csLUName.equals(""))
@@ -114,6 +119,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return "CON1";
     }
 
+    /** Returns the terminal term lu62. */
     public String getTerminalTermLu62()
     {
         if(csLUName != null && !csLUName.equals(""))
@@ -130,15 +136,18 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
     {
         return csLUName;
     }
+    /** Sets the luname. */
     public void SetLUName(String csLUName)
     {
         this.csLUName = csLUName ;
     }
 
+    /** Executes the value bound operation. */
     public void valueBound(HttpSessionBindingEvent event)
     {
     }
 
+    /** Executes the value unbound operation. */
     public void valueUnbound(HttpSessionBindingEvent event)
     {
         if(event.getName().equals("AppSession"))
@@ -153,14 +162,16 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         }
     }
 
+    /** Returns the once http session max inactive interval s. */
     public int getOnceHttpSessionMaxInactiveInterval_s()
     {
-        int n = nHttpSessionMaxInactiveInterval_s;
-        nHttpSessionMaxInactiveInterval_s = 0;
+        int n = httpSessionMaxInactiveIntervalSeconds;
+        httpSessionMaxInactiveIntervalSeconds = 0;
         return n;
     }
 
 
+    /** Executes the reset operation. */
     public void reset()
     {
         xmlData = null ;
@@ -179,6 +190,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         csLUName = null;
     }
 
+    /** Creates the xmldata root. */
     public Document CreateXMLDataRoot()
     {
         try
@@ -206,6 +218,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return xmlData ;
     }
 
+    /** Returns the xmlstructure. */
     public Document getXMLStructure(String idPage)
     {
         if (idPage == null || idPage.equals(""))
@@ -230,11 +243,13 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return resourceManager.GetXMLStructureForPrintScreen(currentPage) ;
     }
 
+    /** Returns the menu for semantic context. */
     public CMenuDef getMenuForSemanticContext(String csSemanticContext)
     {
         return resourceManager.getMenuForSemanticContext(currentPage, csSemanticContext);
     }
 
+    /** Returns the xmloutput. */
     public Document getXMLOutput()
     {
         if (scenarioPlayer != null && xMLOutput != null)
@@ -288,6 +303,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         this.isinternTest = bInternTest;
     }
 
+    /** Sets the xmldata. */
     public void setXMLData(Document doc)
     {
         if (doc != null)
@@ -296,6 +312,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         }
     }
 
+    /** Sets the input wrapper. */
     public void setInputWrapper(CMapFieldLoader reqLoader)
     {
         inputWrapper = reqLoader ;
@@ -311,6 +328,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return inputWrapper ;
     }
 
+    /** Sets the xmloutput. */
     public void setXMLOutput(Document xmlOutput)
     {
         xMLOutput = xmlOutput ;
@@ -578,6 +596,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return csUserLdapName;
     }
 
+    /** Returns the server name. */
     public String getServerName()
     {
         String csServerName = resourceManager.getServerName();
@@ -587,6 +606,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return csServerName;
     }
 
+    /** Creates the environment. */
     public OnlineEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
     {
         OnlineEnvironment env = new OnlineEnvironment(this, connectionManager) ; // from session
@@ -594,6 +614,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return env;
     }
 
+    /** Executes the run program operation. */
     public void RunProgram(BaseProgramLoader baseProgramLoader)
     {
         //StopWatch sw = new StopWatch();
@@ -664,6 +685,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         }
     }
 
+    /** Executes the fill current user info operation. */
     public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
     {
         currentUserInfo.set(csLUName, csUserLdapId);
@@ -696,6 +718,7 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 //      return false;
 //  }
 
+    /** Executes the reserve session for current thread operation. */
     public boolean reserveSessionForCurrentThread()
     {
         if(!lock.tryLock()) // Could not atomically get the lock: the session is already running in another thread
@@ -708,16 +731,19 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         return true;
     }
 
+    /** Executes the unreserve session operation. */
     public void unreserveSession()
     {
         lock.unlock();
     }
 
     private StopWatch stopWatchNetwork = new StopWatch();
+    /** Executes the start network operation. */
     public void startNetwork()
     {
         stopWatchNetwork.Reset();
     }
+    /** Executes the stop network operation. */
     public void stopNetwork(long clientElapsedTime)
     {
         if (clientElapsedTime == 0)

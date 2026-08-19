@@ -29,12 +29,14 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
     private DbConnectionBase dbConnection = null;
     private String csPrgClassName = null;
 
+    /** Creates a new program caller with args position instance. */
     public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
     {
         this.csConfigFile = csConfigFile;
         this.dbConnection = dbConnection;
         this.csPrgClassName = csPrgClassName;
     }
+    /** Creates a new program caller with args position instance. */
     public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, Class classPrgToCall)
     {
         this.csConfigFile = csConfigFile;
@@ -42,6 +44,7 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
         this.csPrgClassName = classPrgToCall.getName();
     }
 
+    /** Executes the execute operation. */
     public boolean execute() throws ProgramCallerException
     {
         CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(

@@ -12,6 +12,7 @@ package jlib.jslibComp;
 import jlib.misc.JSon;
 import jlib.misc.JSonParser;
 
+/** Provides paging info behavior. */
 public class PagingInfo
 {
     public int _pageSize;
@@ -30,6 +31,7 @@ public class PagingInfo
     //***** user informations *****
     public int _totalItems;
 
+    /** Creates a new paging info instance. */
     public PagingInfo()
     {
         _pageSize = 10;   // max items per pages
@@ -47,6 +49,7 @@ public class PagingInfo
         _sortAscendant = true;
     }
 
+    /** Returns the as json. */
     public String getAsJSon()
     {
         JSon json = new JSon();
@@ -56,6 +59,7 @@ public class PagingInfo
         return csJSon;
     }
 
+    /** Sets the from json. */
     public boolean setFromJSon(String csJSon)
     {
         JSonParser jsonParser = new JSonParser();

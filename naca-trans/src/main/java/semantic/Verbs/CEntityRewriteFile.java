@@ -11,14 +11,17 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity rewrite file behavior. */
 public class CEntityRewriteFile extends CBaseActionEntity
 {
 
+    /** Creates a new centity rewrite file instance. */
     public CEntityRewriteFile(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
 
+    /** Sets the file descriptor. */
     public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
     {
         eFileDescriptor = efd ;

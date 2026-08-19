@@ -31,6 +31,7 @@ public class CEntityCICSRetrieve extends CBaseActionEntity
         }
     }
 
+    /** Sets the retrieve. */
     public void SetRetrieve(CDataEntity into, CDataEntity length)
     {
         refInto = into ;
@@ -40,12 +41,14 @@ public class CEntityCICSRetrieve extends CBaseActionEntity
     protected CDataEntity refInto = null;
     protected CDataEntity dataLength = null ;
     protected boolean ispointer = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         refInto = null ;
         dataLength = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

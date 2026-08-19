@@ -35,16 +35,19 @@ import java.util.List;
  */
 public class CEntitySQLInsertStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqlinsert statement instance. */
     public CEntitySQLInsertStatement(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
 
+    /** Sets the insert. */
     public void SetInsert(CEntitySQLDeclareTable table, Vector arrVal)
     {
         this.table = table ;
         values = arrVal;
     }
+    /** Sets the insert. */
     public void SetInsert(String tableName, ArrayList<String> arrColumns, Vector arrVal)
     {
         csTable = tableName;
@@ -53,6 +56,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
         ASSERT(arrVal) ;
         values = arrVal ;
     }
+    /** Sets the insert. */
     public void SetInsert(String tablename, String clause, Vector arrParam)
     {
         csTable = tablename ;
@@ -73,6 +77,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
     protected String selectClause = "" ;
     protected Vector selectParameters = null ;
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -89,6 +94,7 @@ public class CEntitySQLInsertStatement extends CBaseActionEntity
             selectParameters.clear() ;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

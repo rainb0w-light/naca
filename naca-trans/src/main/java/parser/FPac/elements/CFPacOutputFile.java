@@ -27,9 +27,11 @@ import utils.Transcoder;
 import utils.NacaTransAssertException;
 import utils.FPacTranscoder.notifs.NotifRegisterOutputFile;
 
+/** Provides cfpac output file behavior. */
 public class CFPacOutputFile extends CFPacElement
 {
 
+    /** Creates a new cfpac output file instance. */
     public CFPacOutputFile(int line)
     {
         super(line);

@@ -15,6 +15,7 @@ import jlib.misc.StringUtil;
  */
 public class PatternLayoutRawLine extends LogPatternLayout
 {
+    /** Creates a new pattern layout raw line instance. */
     public PatternLayoutRawLine(String csFormat)
     {
         super();
@@ -28,6 +29,7 @@ public class PatternLayoutRawLine extends LogPatternLayout
     }
 
 
+    /** Executes the format operation. */
     public String format(LogParams logParams, int n)
     {
         if(n == 0)

@@ -6,7 +6,7 @@
  */
 package nacaLib.sqlSupport;
 
-import jlib.sql.*;
+import jlib.sql.DbConnectionBase;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.program.Paragraph;
 import nacaLib.program.Section;
@@ -20,6 +20,7 @@ import nacaLib.varEx.Var;
 public class SQLCursorOperation
 {
 // public SQLCursorOperation(CSQLConnection sqlConnection, VarBuffer Working, SQLCursor sqlCursor, String csClause, CSQLStatus sqlStatus)
+    /** Creates a new sqlcursor operation instance. */
     public SQLCursorOperation(BaseProgramManager programManager, SQLCursor sqlCursor, String csClause)
     {
         DbConnectionBase sqlConnection = programManager.getEnv().getSQLConnection();
@@ -50,12 +51,14 @@ public class SQLCursorOperation
     }
 
         // Update cursor
+    /** Executes the value operation. */
     public SQLCursorOperation value(int nName, int nValue)
     {
         String csName = String.valueOf(nName);
         return value(csName, nValue);
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(String csName, int nValue)
     {
         if (sqlUpdateDelete != null) {
@@ -64,12 +67,14 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(int nName, double dValue)
     {
         String csName = String.valueOf(nName);
         return value(csName, dValue);
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(String csName, double dValue)
     {
         if (sqlUpdateDelete != null) {
@@ -78,12 +83,14 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(int nName, String csValue)
     {
         String csName = String.valueOf(nName);
         return value(csName, csValue);
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(String csName, String csValue)
     {
         if (sqlUpdateDelete != null) {
@@ -92,12 +99,14 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(int nName, Var varValue)
     {
         String csName = String.valueOf(nName);
         return value(csName, varValue);
     }
 
+    /** Executes the value operation. */
     public SQLCursorOperation value(String csName, Var varValue)
     {
         if (sqlUpdateDelete != null) {
@@ -106,6 +115,7 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public SQLCursorOperation onErrorGoto(Paragraph paragraphSQGErrorGoto)
     {
         if (sqlUpdateDelete != null) {
@@ -114,6 +124,7 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public SQLCursorOperation onErrorGoto(Section section)
     {
         if (sqlUpdateDelete != null) {
@@ -122,6 +133,7 @@ public class SQLCursorOperation
         return this;
     }
 
+    /** Executes the on error continue operation. */
     public SQLCursorOperation onErrorContinue()
     {
         if (sqlUpdateDelete != null) {

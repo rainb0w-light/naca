@@ -8,8 +8,10 @@ package jlib.Helpers;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/** Provides parse error behavior. */
 public class ParseError
 {
+    /** Parses the error. */
     public static String parseError(String comment, Throwable e)
     {
         String stackInfo;                     // Contenu de la pile d'appels.

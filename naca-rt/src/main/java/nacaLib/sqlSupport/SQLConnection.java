@@ -22,6 +22,7 @@ import jlib.sql.DbPreparedStatement;
  */
 public class SQLConnection extends DbConnectionBase
 {
+    /** Creates a new sqlconnection instance. */
     public SQLConnection(
         Connection conn,
         String csPrefId,
@@ -33,6 +34,7 @@ public class SQLConnection extends DbConnectionBase
         super(conn, csPrefId, csEnv, bUseCachedStatements, bUseJmx, dbDriverId);
     }
 
+    /** Creates the and prepare. */
     public DbPreparedStatement createAndPrepare(String csQuery, boolean bHoldability)
     {
         CSQLPreparedStatement preparedStatement = new CSQLPreparedStatement(/*this*/);
@@ -44,6 +46,7 @@ public class SQLConnection extends DbConnectionBase
         return null;
     }
 
+    /** Executes the prepare callable statement operation. */
     public boolean prepareCallableStatement(
         DbPreparedCallableStatement preparedCallableStatement,
         String csStoredProcName,

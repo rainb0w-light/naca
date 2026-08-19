@@ -10,13 +10,14 @@ import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import jlib.misc.NumberParser;
-
 import parser.expression.CExpression;
-
 import semantic.expression.CBaseEntityExpression;
-import utils.*;
+import utils.CObjectCatalog;
+import utils.Transcoder;
+
+
+
 
 /**
  * @author sly
@@ -37,6 +38,7 @@ public class CEntityStructure extends CEntityAttribute
         super(l, name, cat);
         csLevel = level ;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
@@ -49,16 +51,19 @@ public class CEntityStructure extends CEntityAttribute
         }
         return e ;
     };
+    /** Sets the table size. */
     public void SetTableSize(CDataEntity term)
     {
         tableSize = term ;
     }
+    /** Sets the table size depending. */
     public void SetTableSizeDepending(CDataEntity term, CDataEntity dep)
     {
         tableSize = term ;
         tableSizeDepending = dep ;
         isisVariableLenght = true ;
     }
+    /** Sets the redefine. */
     public void SetRedefine(CDataEntity e)
     {
         refRedefine = e ;
@@ -72,6 +77,7 @@ public class CEntityStructure extends CEntityAttribute
     protected CDataEntity tableSizeDepending = null ;
     protected boolean isisVariableLenght = false ;
     protected CDataEntity refRedefine = null ;
+    /** Adds the child. */
     public void AddChild(CBaseLanguageEntity e)
     {
         super.AddChild(e) ;
@@ -89,6 +95,7 @@ public class CEntityStructure extends CEntityAttribute
         }
     }
     protected int nActualSubLevel = 0 ;
+    /** Executes the get internal level operation. */
     public int GetInternalLevel()
     {
         return Integer.parseInt(csLevel) ;
@@ -97,10 +104,12 @@ public class CEntityStructure extends CEntityAttribute
     {
         return null ;
     }
+    /** Executes the is redefine operation. */
     public boolean IsRedefine()
     {
         return refRedefine != null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
 //      boolean ignore = arrActionsReading.size()== 0 ;
@@ -115,6 +124,7 @@ public class CEntityStructure extends CEntityAttribute
 //      return ignore ;
         return isignore;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -136,6 +146,7 @@ public class CEntityStructure extends CEntityAttribute
             programCatalog.RegisterDataEntity(GetName(), this) ;
         }
     }
+    /** Sets the parent. */
     public void SetParent(CBaseLanguageEntity e)
     {
         super.SetParent(e) ;
@@ -178,6 +189,7 @@ public class CEntityStructure extends CEntityAttribute
     {
         return tableSize ;
     }
+    /** Returns whether own table size. */
     public boolean canOwnTableSize()
     {
         return true;
@@ -306,6 +318,7 @@ public class CEntityStructure extends CEntityAttribute
             parser.Cobol.elements.CWorkingEntry.CWorkingSignType.TRAILING;
     }
 
+    /** Returns whether inside external data structure. */
     public boolean isInsideExternalDataStructure()
     {
         CBaseLanguageEntity entity = GetParent();
@@ -320,6 +333,7 @@ public class CEntityStructure extends CEntityAttribute
         return false;
     }
 
+    /** Returns whether inside file section. */
     public boolean isInsideFileSection()
     {
         CBaseLanguageEntity entity = GetParent();

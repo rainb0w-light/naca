@@ -11,24 +11,29 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 
+/** Provides col value int behavior. */
 public class ColValueInt extends ColValue
 {
+    /** Creates a new col value int instance. */
     public ColValueInt(String csName, int nValue)
     {
         super(csName);
         this.nValue = nValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueInt(csName, nValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(nValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {

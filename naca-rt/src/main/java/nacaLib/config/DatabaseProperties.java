@@ -77,6 +77,7 @@ public class DatabaseProperties {
      */
     private Sql sql = new Sql();
 
+    /** Provides pool behavior. */
     public static class Pool {
         /**
          * Maximum number of connections in the pool.
@@ -116,6 +117,7 @@ public class DatabaseProperties {
         public void setMaxLifetime(long maxLifetime) { this.maxLifetime = maxLifetime; }
     }
 
+    /** Provides sql behavior. */
     public static class Sql {
         /**
          * Enable SQL logging.
@@ -142,6 +144,7 @@ public class DatabaseProperties {
     }
 
     // Getters and Setters
+    /** Returns the url. */
     public String getUrl() {
         // Check environment variable first
         String envUrl = System.getenv("NACA_DATABASE_URL");
@@ -162,6 +165,7 @@ public class DatabaseProperties {
         this.url = url;
     }
 
+    /** Returns the username. */
     public String getUsername() {
         String envUsername = System.getenv("NACA_DATABASE_USERNAME");
         if (envUsername != null && !envUsername.isEmpty()) {
@@ -178,6 +182,7 @@ public class DatabaseProperties {
         this.username = username;
     }
 
+    /** Returns the password. */
     public String getPassword() {
         String envPassword = System.getenv("NACA_DATABASE_PASSWORD");
         if (envPassword != null && !envPassword.isEmpty()) {

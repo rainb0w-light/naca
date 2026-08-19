@@ -21,6 +21,7 @@ public class ProcessExecutionTask
     protected StringArray parameters = new StringArray() ;
     protected StringArray arrClassPath = new StringArray() ;
 
+    /** Sets the command. */
     public void setCommand(String cmd)
     {
         if (cmd != null  && !cmd.equals(""))
@@ -28,6 +29,7 @@ public class ProcessExecutionTask
             csCommand = cmd ;
         }
     }
+    /** Adds the parameter. */
     public void addParameter(String p)
     {
         if (p!= null && !p.equals(""))
@@ -35,6 +37,7 @@ public class ProcessExecutionTask
             parameters.add(p) ;
         }
     }
+    /** Sets the runtime directory. */
     public boolean setRuntimeDirectory(String dir)
     {
         if (dir != null && !dir.equals(""))
@@ -44,6 +47,7 @@ public class ProcessExecutionTask
         }
         return false ;
     }
+    /** Sets the runtime directory. */
     public boolean setRuntimeDirectory(File dir)
     {
         if (dir != null)
@@ -57,6 +61,7 @@ public class ProcessExecutionTask
 //  {
 //      arrClassPath.addElement(path) ;
 //  }
+    /** Adds the environment variable. */
     public void addEnvironmentVariable(String var, String val)
     {
         env.put(var, val) ;

@@ -23,10 +23,12 @@ import nacaLib.sqlSupport.SQLConnectionManager;
  */
 public class AccountingRessourceDesc
 {
+    /** Creates a new accounting ressource desc instance. */
     public AccountingRessourceDesc()
     {
     }
 
+    /** Executes the load operation. */
     public void load(Tag tagAccounting)
     {
         if(tagAccounting != null)

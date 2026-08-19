@@ -28,6 +28,7 @@ public class VarDefNumEdited extends VarDefNum
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def num edited instance. */
     public VarDefNumEdited(VarDefBase varDefParent, DeclareTypeNumEdited declareTypeNumEdited)
     {
         super(varDefParent, declareTypeNumEdited.varLevel);
@@ -35,6 +36,7 @@ public class VarDefNumEdited extends VarDefNum
         isblankWhenZero = declareTypeNumEdited.isblankWhenZero;
     }
 
+    /** Creates a new var def num edited instance. */
     public VarDefNumEdited(VarDefBase varDefParent, DeclareTypeFPacNumEdited declareTypeNumEdited)
     {
         super(varDefParent, declareTypeNumEdited.varLevel);
@@ -151,12 +153,14 @@ public class VarDefNumEdited extends VarDefNum
         internalFormatAndWrite(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         Dec dec = NumberParserDec.getAsDec(cs);
         internalFormatAndWrite(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -164,6 +168,7 @@ public class VarDefNumEdited extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -171,12 +176,14 @@ public class VarDefNumEdited extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         Dec dec = NumberParserDec.getAsDec(n);
         internalFormatAndWrite(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         write(buffer, (int)l);
@@ -193,6 +200,7 @@ public class VarDefNumEdited extends VarDefNum
         internalFormatAndWrite(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         Dec dec = NumberParserDec.getAsDec(bigDecimal);
@@ -402,6 +410,7 @@ public class VarDefNumEdited extends VarDefNum
         internalFormatAndWrite(buffer, dec);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         Dec dec = varSource.getAsDecodedDec(bufferSource);
@@ -469,6 +478,7 @@ public class VarDefNumEdited extends VarDefNum
 //      internalFormatAndWrite(buffer, dec);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         Dec dec = new Dec(0, "");
@@ -810,6 +820,7 @@ public class VarDefNumEdited extends VarDefNum
         internalWriteRightPadding(buffer, getBodyAbsolutePosition(buffer)+nOffset, getBodyLength(), cs, '\0');
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

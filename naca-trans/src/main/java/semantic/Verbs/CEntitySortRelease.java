@@ -10,9 +10,11 @@ import semantic.CBaseActionEntity;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity sort release behavior. */
 public class CEntitySortRelease extends CBaseActionEntity
 {
 
+    /** Creates a new centity sort release instance. */
     public CEntitySortRelease(int line, CObjectCatalog cat)
     {
         super(line, cat);
@@ -26,6 +28,7 @@ public class CEntitySortRelease extends CBaseActionEntity
     }
 
     protected CDataEntity eDatReference = null ;
+    /** Sets the data reference. */
     public void setDataReference(CDataEntity e, CDataEntity from)
     {
         eDatReference = from ;

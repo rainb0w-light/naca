@@ -13,8 +13,10 @@ package nacaLib.varEx;
 import jlib.misc.AsciiEbcdicConverter;
 import jlib.misc.NumberParser;
 
+/** Provides var internal int behavior. */
 public class VarInternalInt extends Var
 {
+    /** Creates a new var internal int instance. */
     public VarInternalInt()
     {
         super(null);
@@ -29,16 +31,19 @@ public class VarInternalInt extends Var
         return v;
     }
 
+    /** Executes the set operation. */
     public void set(int n)
     {
         this.n = n;
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         n = NumberParser.getAsInt(cs);
     }
 
+    /** Executes the set operation. */
     public void set(char c)
     {
         n = NumberParser.getAsInt(c);
@@ -54,6 +59,7 @@ public class VarInternalInt extends Var
         return String.valueOf(n);
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.Type9) {
@@ -95,6 +101,7 @@ public class VarInternalInt extends Var
 //      return chunk ;
 //  }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "InternalVar: " + String.valueOf(n);
@@ -107,6 +114,7 @@ public class VarInternalInt extends Var
 
     int n;
 
+    /** Executes the transfer to operation. */
     public void transferTo(Var varDest)
     {
         varDest.set(n);
@@ -116,6 +124,7 @@ public class VarInternalInt extends Var
         return "VarInternalInt("+n+")" ;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
@@ -123,6 +132,7 @@ public class VarInternalInt extends Var
     }
 
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();

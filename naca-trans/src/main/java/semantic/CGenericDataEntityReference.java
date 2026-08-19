@@ -25,6 +25,7 @@ public abstract class CGenericDataEntityReference extends CDataEntity
         super(l, name, cat) ;
     }
 
+    /** Executes the replace variable operation. */
     public abstract boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead) ;
 
 }

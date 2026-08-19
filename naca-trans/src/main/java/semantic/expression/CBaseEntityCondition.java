@@ -21,6 +21,7 @@ public abstract class CBaseEntityCondition extends CBaseEntityCondExpr
 //      super(nLine);
 //  }
 
+    /** Enumerates supported econdition type values. */
     public enum EConditionType
     {
         IS_DIFFERENT,
@@ -43,8 +44,10 @@ public abstract class CBaseEntityCondition extends CBaseEntityCondExpr
      */
 
     public abstract int GetPriorityLevel() ;
+    /** Executes the get opposite condition operation. */
     public abstract CBaseEntityCondition GetOppositeCondition() ;
 
+    /** Executes the replace operation. */
     public void Replace(CBaseEntityCondition newCond)
     {
         parent.UpdateCondition(this, newCond) ;
@@ -63,12 +66,15 @@ public abstract class CBaseEntityCondition extends CBaseEntityCondExpr
         return this;
     }
 
+    /** Executes the get special condition replacing operation. */
     public abstract CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace) ;
+    /** Executes the get condition reference operation. */
     public abstract CDataEntity GetConditionReference() ;
     public CDataEntity getConditionReference()
     {
         return GetConditionReference();
     }
+    /** Sets the conditon reference. */
     public abstract void SetConditonReference(CDataEntity e) ;
 
 }

@@ -23,6 +23,7 @@ public abstract class BtreeKeySegment
     protected boolean bAscending = true;    // Ascending
     protected boolean bFileInEbcdic = false;
 
+    /** Creates a new btree key segment instance. */
     public BtreeKeySegment(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         this.nKeyPositionInData = nKeyPositionInData;
@@ -31,11 +32,13 @@ public abstract class BtreeKeySegment
         this.bAscending = bAscending;
     }
 
+    /** Sets the descending. */
     public void setDescending()
     {
         bAscending = false;
     }
 
+    /** Sets the ascending. */
     public void setAscending()
     {
         bAscending = true;

@@ -53,10 +53,10 @@ public class BASE64InputStream extends InputStream {
  * @param binaryInput An input connected to a binary source.
  */
     public BASE64InputStream(InputStream binaryInput) {
-        _binaryInput=binaryInput;
-        _buffer=new byte[4];
-        _bufferIndex=-1;
-        _dataCount=0;
+        storedBinaryInput=binaryInput;
+        buffer=new byte[4];
+        bufferIndex=-1;
+        dataCount=0;
     }
 
 //*************************************************************************
@@ -69,7 +69,7 @@ public class BASE64InputStream extends InputStream {
  * The source is assumed to be binary, so retrieved data are considered
  * as bytes.
  */
-    private InputStream _binaryInput;
+    private InputStream storedBinaryInput;
 
 //**************************** The conversion table ***********************
 /**
@@ -87,8 +87,8 @@ public class BASE64InputStream extends InputStream {
  * output. As the output is read one byte at a time ({@link #read()}, a buffer
  * is needed for absorbing the difference in the read rythm.
  */
-    private byte _buffer[];
-    private int _bufferIndex;
+    private byte buffer[];
+    private int bufferIndex;
 
 //********** Counts the number of data read from the stream ***************
 /**
@@ -97,7 +97,7 @@ public class BASE64InputStream extends InputStream {
  * the number of bytes varies (3 bytes input are 4 bytes output, plus
  * the padding).
  */
-    private int _dataCount;
+    private int dataCount;
 
 //*************************************************************************
 //**                The actual data transformation                       **
@@ -110,7 +110,7 @@ public class BASE64InputStream extends InputStream {
     public int read() throws IOException {
         int data;
 //***************** Fills the intermediate buffer with data **************
-        if (_bufferIndex<0) {
+        if (bufferIndex<0) {
             long union;            // A long to perform the binary conversion.
             byte b;
             int n;                 // For retrieving 3 data from the input.
@@ -120,7 +120,7 @@ public class BASE64InputStream extends InputStream {
             padding=0;
             union=0;
             for(n=0;n<3;n++) {
-                data=_binaryInput.read();
+                data=storedBinaryInput.read();
 
 // If there are no more data coming from the source:
                 if (data<0) {
@@ -139,7 +139,7 @@ public class BASE64InputStream extends InputStream {
                 }
 
 // Keeps counting the bytes retrieved from the source.
-                _dataCount++;
+                dataCount++;
 
 // Feeds the read data (8bit) into the union:
                 data&=255;
@@ -152,18 +152,18 @@ public class BASE64InputStream extends InputStream {
                 data=(int)(union & 63);
                 b=(byte)data;
                 if (padding-- > 0) {
-                    _buffer[n] = '=';
+                    buffer[n] = '=';
                 } else {
-                    _buffer[n] = _base64[b];
+                    buffer[n] = _base64[b];
                 }
                 union>>>=6;
             }
-            _bufferIndex=3;
+            bufferIndex=3;
         }
 
 //****************** Returns one byte from the intermediate buffer *******
-        data=_buffer[_bufferIndex];
-        _bufferIndex--;
+        data=buffer[bufferIndex];
+        bufferIndex--;
         return data;
     }
 
@@ -177,6 +177,6 @@ public class BASE64InputStream extends InputStream {
  * the padding).
  */
     public int getDataCount() {
-        return _dataCount;
+        return dataCount;
     }
 }

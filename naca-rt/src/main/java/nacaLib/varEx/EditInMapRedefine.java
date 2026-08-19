@@ -38,6 +38,7 @@ public class EditInMapRedefine extends Edit
         return v;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "Var2Edit ";
@@ -66,12 +67,14 @@ public class EditInMapRedefine extends Edit
 //  }
 
 
+    /** Returns the at. */
     public Edit getAt(Var x)
     {
         int n = x.getInt();
         return getAt(n);
     }
 
+    /** Executes the alloc occursed item operation. */
     public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
     {
         EditInMapRedefine vItem = new EditInMapRedefine();
@@ -87,16 +90,19 @@ public class EditInMapRedefine extends Edit
         return vItem;
     }
 
+    /** Returns the edit at. */
     public Edit getEditAt(int x)
     {
         return getAt(x);
     }
 
+    /** Returns the edit at. */
     public Edit getEditAt(int x, int y)
     {
         return getAt(x, y);
     }
 
+    /** Returns the edit at. */
     public Edit getEditAt(int x, int y, int z)
     {
         return getAt(x, y, z);
@@ -113,6 +119,7 @@ public class EditInMapRedefine extends Edit
 //      return editItem;
 //  }
 
+    /** Returns the at. */
     public Edit getAt(int x)
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
@@ -179,6 +186,7 @@ public class EditInMapRedefine extends Edit
 //  }
 
 
+    /** Returns the at. */
     public Edit getAt(int x, int y)
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
@@ -231,6 +239,7 @@ public class EditInMapRedefine extends Edit
 //      return editItem;
 //  }
 
+    /** Returns the at. */
     public Edit getAt(int x, int y, int z)
     {
         TempCache cache = TempCacheLocator.getTLSTempCache();
@@ -272,21 +281,25 @@ public class EditInMapRedefine extends Edit
         return editItem;
     }
 
+    /** Executes the set operation. */
     public void set(Var varSource)
     {
         varSource.transferTo(this);
     }
 
+    /** Executes the set operation. */
     public void set(Edit varSource)
     {
         varSource.transferTo(this);
     }
 
+    /** Executes the transfer to operation. */
     public void transferTo(Var varDest)
     {
         varDef.transfer(bufferPos, varDest);
     }
 
+    /** Executes the transfer to operation. */
     public void transferTo(Edit varDest)
     {
         varDef.transfer(bufferPos, varDest);
@@ -297,6 +310,7 @@ public class EditInMapRedefine extends Edit
         return false;
     }
 
+    /** Exports the xml. */
     public Element exportXML(Document doc, String csLangId)
     {
         return null;

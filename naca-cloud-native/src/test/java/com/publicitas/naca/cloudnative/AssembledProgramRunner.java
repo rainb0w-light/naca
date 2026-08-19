@@ -29,6 +29,7 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public final class AssembledProgramRunner
 {
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         String className = args[0];

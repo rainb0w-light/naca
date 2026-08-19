@@ -6,7 +6,11 @@
  */
 package jlib.log.stdEvents;
 
-import jlib.log.*;
+import jlib.log.Log;
+import jlib.log.LogEvent;
+import jlib.log.LogEventType;
+import jlib.log.LogFlowStd;
+import jlib.log.LogLevel;
 /**
  * Generates an event to inform of the progress made by the application
  * in the task of processing a certain amount of information elements.

@@ -12,6 +12,7 @@ package lexer;
  */
 public class CReservedConstant
 {
+    /** Creates a new creserved constant instance. */
     public CReservedConstant(CConstantList list, String name)
     {
         this.name = name ;

@@ -14,6 +14,7 @@ import jlib.classLoader.JarEntries;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.program.CopyReplacing;
 
+/** Provides copy converter class loader behavior. */
 public class CopyConverterClassLoader
 {
     private static String ms_csPath = null;
@@ -21,6 +22,7 @@ public class CopyConverterClassLoader
     private static boolean ms_bCanLoadJar = false;
     private static boolean ms_bCanLoadClass = false;
 
+    /** Executes the init operation. */
     static public void init(String csPath, boolean bCanLoadClass, boolean bCanLoadJar)
     {
         ms_csPath = csPath;
@@ -28,6 +30,7 @@ public class CopyConverterClassLoader
         ms_bCanLoadJar = bCanLoadJar;
     }
 
+    /** Returns the instance. */
     static public Object getInstance(String csClassName, ClassDynLoaderFactory classDynLoaderFactory, BaseProgram program)
     {
         try

@@ -39,6 +39,7 @@ import utils.FPacTranscoder.OperandDescription;
 import utils.FPacTranscoder.notifs.NotifGetDefaultInputFile;
 import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
+/** Provides cfpac generic expression behavior. */
 public class CFPacGenericExpression extends CExpression
 {
 
@@ -46,6 +47,7 @@ public class CFPacGenericExpression extends CExpression
     private Vector<CExpression> leftTerms = new Vector<CExpression>() ;
     private Vector<CExpression> rightTerms = new Vector<CExpression>() ;
 
+    /** Creates a new cfpac generic expression instance. */
     public CFPacGenericExpression(int line)
     {
         super(line);
@@ -502,6 +504,7 @@ public class CFPacGenericExpression extends CExpression
         return false;
     }
 
+    /** Adds the term. */
     public void AddTerm(CExpression exp)
     {
         if (keyword == null)
@@ -515,6 +518,7 @@ public class CFPacGenericExpression extends CExpression
 
     }
 
+    /** Sets the keyword. */
     public void SetKeyword(CReservedKeyword keyword)
     {
         this.keyword = keyword ;

@@ -18,6 +18,7 @@ public class TempCacheLocator
 {
     private static ThreadLocal<TempCache> mtls_tempCache = new ThreadLocal<TempCache>();
 
+    /** Sets the temp cache. */
     public static TempCache setTempCache()
     {
         TempCache cache = TempCacheStack.pop();
@@ -30,6 +31,7 @@ public class TempCacheLocator
         return cache;
     }
 
+    /** Executes the relase temp cache operation. */
     public static void relaseTempCache()
     {
         TempCache cache = getTLSTempCache();

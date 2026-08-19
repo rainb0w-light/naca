@@ -10,24 +10,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+/** Provides col value boolean behavior. */
 public class ColValueBoolean extends ColValue
 {
+    /** Creates a new col value boolean instance. */
     public ColValueBoolean(String csName, boolean isvalue)
     {
         super(csName);
         this.isvalue = isvalue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueBoolean(csName, isvalue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(isvalue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {
@@ -44,6 +49,7 @@ public class ColValueBoolean extends ColValue
         return "(Boolean):'"+String.valueOf(isvalue)+"'";
     }
 
+    /** Returns the value as int. */
     public int getValueAsInt()
     {
         if (isvalue) {

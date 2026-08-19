@@ -23,6 +23,7 @@ public class ConcatTo
         this.concat = concat;
     }
 
+    /** Executes the failed operation. */
     public boolean failed()
     {
         return concat.failed();

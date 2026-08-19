@@ -27,11 +27,13 @@ import jlib.sql.LogSQLException;
  */
 public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
 {
+    /** Creates a new record col type manager timestamp instance. */
     public RecordColTypeManagerTimestamp(int nColSourceIndex)
     {
         super(nColSourceIndex);
     }
 
+    /** Executes the transfer operation. */
     public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
     {
         try

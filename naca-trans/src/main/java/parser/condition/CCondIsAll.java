@@ -26,6 +26,7 @@ public class CCondIsAll extends CExpression
     protected CExpression term1 = null ;
     protected CExpression term2 = null ;
 
+    /** Creates a new ccond is all instance. */
     public CCondIsAll(int line, CExpression term1, CExpression term2)
     {
         super(line) ;
@@ -39,6 +40,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetPriorityLevel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
@@ -54,6 +56,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("IsAll") ;
@@ -65,6 +68,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return new CCondNotStatement(getLine(), this) ;
@@ -72,6 +76,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -79,6 +84,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
     {
         CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
@@ -94,6 +100,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return term1 ;
@@ -101,6 +108,7 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         ASSERT(null, null);
@@ -109,10 +117,12 @@ public class CCondIsAll extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return false;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         if (bIsOpposite)

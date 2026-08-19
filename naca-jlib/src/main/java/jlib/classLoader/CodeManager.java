@@ -21,6 +21,7 @@ import javax.management.NotificationEmitter;
 import jlib.misc.FileSystem;
 import jlib.misc.StringUtil;
 
+/** Provides code manager behavior. */
 public class CodeManager
 {
     private static ArrayList<String> ms_arrPath = null;
@@ -28,6 +29,7 @@ public class CodeManager
     private static boolean ms_bCanLoadJar = false;
     private static boolean ms_bCanLoadClass = false;
 
+    /** Sets the path. */
     static public void setPath(String csPaths)
     {
         String tcsPaths[] = new String[1];
@@ -47,12 +49,14 @@ public class CodeManager
         }
     }
 
+    /** Executes the init load possibilities operation. */
     static public void initLoadPossibilities(boolean bCanLoadClass, boolean bCanLoadJar)
     {
         ms_bCanLoadClass = bCanLoadClass;
         ms_bCanLoadJar = bCanLoadJar;
     }
 
+    /** Executes the preload jar operation. */
     static public void preloadJar(ClassDynLoaderFactory classDynLoaderFactory, String csJarFile)
     {
         if(ms_bCanLoadJar)
@@ -63,6 +67,7 @@ public class CodeManager
         }
     }
 
+    /** Returns the instance. */
     static public Object getInstance(
         String csClassName,
         ClassDynLoaderFactory classDynLoaderFactory,
@@ -90,6 +95,7 @@ public class CodeManager
     }
 
 
+    /** Returns the instance. */
     static public Object getInstance(String csClassName, ClassDynLoaderFactory classDynLoaderFactory)
     {
         ClassDynLoader classDynLoader = classDynLoaderFactory.make();
@@ -129,11 +135,13 @@ public class CodeManager
         return null;
     }
 
+    /** Removes the all instances. */
     static public void removeAllInstances(String csName)
     {
         ClassDynLoader.removeAllInstances(csName);
     }
 
+    /** Executes the init code size limits operation. */
     public static void initCodeSizeLimits(int nMaxSizeMemPoolCodeCache, int nMaxSizeMemPoolPermGen)
     {
         // PJD remove ibm JMV
@@ -152,6 +160,7 @@ public class CodeManager
         }
     }
 
+    /** Creates the size limit event handler. */
     public static CodeSizeLimitEventHandler createSizeLimitEventHandler()
     {
         MemoryMXBean mbean = ManagementFactory.getMemoryMXBean();

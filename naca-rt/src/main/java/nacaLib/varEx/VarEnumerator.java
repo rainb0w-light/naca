@@ -15,6 +15,7 @@ import nacaLib.basePrgEnv.BaseProgramManager;
  */
 public class VarEnumerator
 {
+    /** Creates a new var enumerator instance. */
     public VarEnumerator(BaseProgramManager programManager, VarBase var)
     {
         this.programManager = programManager;
@@ -24,12 +25,14 @@ public class VarEnumerator
         }
     }
 
+    /** Returns the first var child. */
     public VarBase getFirstVarChild()
     {
         nIndex = 0;
         return getNextVarChild();
     }
 
+    /** Returns the next var child. */
     public VarBase getNextVarChild()
     {
         VarBase v = getChildAtIndex(nIndex);

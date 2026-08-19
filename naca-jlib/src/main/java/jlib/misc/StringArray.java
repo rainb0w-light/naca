@@ -20,21 +20,25 @@ public class StringArray
 {
     private ArrayList<String> arr = null;
 
+    /** Creates a new string array instance. */
     public StringArray()
     {
         arr = new ArrayList<String>();
     }
 
+    /** Executes the add operation. */
     public void add(String csElem)
     {
         arr.add(csElem);
     }
 
+    /** Executes the size operation. */
     public int size()
     {
         return arr.size();
     }
 
+    /** Executes the get operation. */
     public String get(int n)
     {
         return arr.get(n);

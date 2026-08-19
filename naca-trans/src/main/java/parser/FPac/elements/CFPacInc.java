@@ -17,12 +17,14 @@ import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.Verbs.CEntityInc;
 
+/** Provides cfpac inc behavior. */
 public class CFPacInc extends CLanguageElement
 {
 
     private CIdentifier id;
     private CTerminal term;
 
+    /** Creates a new cfpac inc instance. */
     public CFPacInc(int line)
     {
         super(line);
@@ -54,6 +56,7 @@ public class CFPacInc extends CLanguageElement
         return e;
     }
 
+    /** Executes the increments operation. */
     public void Increments(CIdentifier id, CTerminal term)
     {
         this.id = id ;

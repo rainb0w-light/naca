@@ -17,14 +17,17 @@ import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.varEx.VarDeclarationInMap;
 import nacaLib.varEx.VarDefForm;
 
+/** Provides map behavior. */
 public class Map extends CJMapObject
 {
+    /** Creates a new map instance. */
     public Map(BaseProgram program)
     {
         declare = new VarDeclarationInMap(program, this);
         defForms = new ArrayList<VarDefForm>();
     }
 
+    /** Executes the register form operation. */
     public void registerForm(VarDefForm varDefForm)
     {
         if (varDefForm != null) {

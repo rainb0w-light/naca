@@ -8,9 +8,9 @@ package jlib.log;
 
 
 import jlib.misc.StringUtil;
-import jlib.xml.*;
-
+import jlib.xml.Tag;
 import org.w3c.dom.Element;
+
 
 /**
  * @author U930DI
@@ -20,20 +20,24 @@ public class LogCenterPluginConsole extends LogCenter
 {
     private static int nLineId = 0;
 
+    /** Resets the line coutner. */
     public static void resetLineCoutner()
     {
         nLineId = 0;
     }
 
+    /** Creates a new log center plugin console instance. */
     public LogCenterPluginConsole(LogCenterLoader logCenterLoader)
     {
         super(logCenterLoader);
     }
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Element el)
     {
     }
 
+    /** Returns the and inc line. */
     public static String getAndIncLine()
     {
         int n = nLineId;
@@ -41,6 +45,7 @@ public class LogCenterPluginConsole extends LogCenter
         return StringUtil.FormatWithFill4LeftZero(n);
     }
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Tag tagLogCenter)
     {
         csFormat = tagLogCenter.getVal("Format");
@@ -93,6 +98,7 @@ public class LogCenterPluginConsole extends LogCenter
         return "LogCenterPluginConsole";
     }
 
+    /** Sets the plugin marker. */
     public void setPluginMarker(BasePluginMarker pluginMarker, String csFileNameSource, boolean bInfo, boolean bWarning, boolean bError)
     {
         this.pluginMarker = pluginMarker;

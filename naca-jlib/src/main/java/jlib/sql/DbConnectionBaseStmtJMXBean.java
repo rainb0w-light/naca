@@ -45,6 +45,7 @@ public class DbConnectionBaseStmtJMXBean extends BaseCloseMBean
         return stmt;
     }
 
+    /** Returns the last time stamp. */
     public String getLastTimeStamp()
     {
         Date date = new Date(lastUsageTimeValue);

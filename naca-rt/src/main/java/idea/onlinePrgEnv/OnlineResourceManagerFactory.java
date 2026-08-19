@@ -7,10 +7,12 @@
 package idea.onlinePrgEnv;
 
 
+/** Provides online resource manager factory behavior. */
 public class OnlineResourceManagerFactory
 {
     private static OnlineResourceManager ms_instance = null;
 
+    /** Executes the get instance operation. */
     public static OnlineResourceManager GetInstance()
     {
         if (ms_instance == null)
@@ -20,11 +22,13 @@ public class OnlineResourceManagerFactory
         return ms_instance ;
     }
 
+    /** Executes the get instance operation. */
     public static OnlineResourceManager GetInstance(String csIniFilePath)
     {
         return GetInstance(csIniFilePath, "");
     }
 
+    /** Executes the get instance operation. */
     public static OnlineResourceManager GetInstance(String csIniFilePath, String csDBParameterPrefix)
     {
         if(ms_instance == null)
@@ -35,11 +39,13 @@ public class OnlineResourceManagerFactory
         return ms_instance;
     }
 
+    /** Executes the get instance operation. */
     public static OnlineResourceManager GetInstance(String csIniFilePath, boolean bLoadResources, boolean bDeclareSemanticContext)
     {
         return GetInstance(csIniFilePath, "", bLoadResources, bDeclareSemanticContext);
     }
 
+    /** Executes the get instance operation. */
     public static OnlineResourceManager GetInstance(
         String csIniFilePath,
         String csDBParameterPrefix,

@@ -73,11 +73,13 @@ public class CEntityGetKeyPressed extends CDataEntity
         super(0, name, cat);
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         // unused
         return null;
     }
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true;
@@ -88,6 +90,7 @@ public class CEntityGetKeyPressed extends CDataEntity
         // get-key-pressed pseudo-variable is never declared as a val.
         return false;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
     {
         if (eData2.GetDataType() == CDataEntityType.CONSOLE_KEY)
@@ -117,11 +120,13 @@ public class CEntityGetKeyPressed extends CDataEntity
         }
     }
 
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
     {
         // unused
         return null ;
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String val = term.GetValue() ;
@@ -136,14 +141,17 @@ public class CEntityGetKeyPressed extends CDataEntity
         }
 
     }
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

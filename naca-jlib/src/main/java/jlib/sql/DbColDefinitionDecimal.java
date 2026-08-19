@@ -42,6 +42,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
         radioButtonnegative = new boolean[1];
     }
 
+    /** Returns the byte value. */
     public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try
@@ -86,6 +87,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //      return nSize;
 //  }
 
+    /** Sets the byte value in stmt col. */
     public int setByteValueInStmtCol(
         DbColDefErrorManager dbColDefErrorManager,
         DbPreparedStatement stmt,
@@ -272,6 +274,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 //      return cs.toString();
 //  }
 
+    /** Executes the fill callable statement param operation. */
     public boolean fillCallableStatementParam(
         int nParamId,
         StoredProcParamDescBase storedProcParamDescBase,
@@ -281,6 +284,7 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
         return callableStatement.setInValue(nParamId, cs);
     }
 
+    /** Returns the excel value. */
     public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
     {
         try

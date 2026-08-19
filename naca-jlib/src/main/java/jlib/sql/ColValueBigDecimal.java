@@ -21,22 +21,26 @@ import java.sql.Types;
  */
 public class ColValueBigDecimal extends ColValue
 {
+    /** Creates a new col value big decimal instance. */
     public ColValueBigDecimal(String csName, BigDecimal bdValue)
     {
         super(csName);
         this.bdValue = bdValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueBigDecimal(csName, bdValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(bdValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {

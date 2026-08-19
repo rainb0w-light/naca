@@ -14,8 +14,10 @@ import nacaLib.varEx.VarBufferPos;
 import nacaLib.varEx.VarType;
 import nacaLib.varEx.VarTypeEnum;
 
+/** Provides var fpac raw behavior. */
 public class VarFPacRaw extends Var
 {
+    /** Creates a new var fpac raw instance. */
     public VarFPacRaw(DeclareTypeFPacRaw declareTypeFPacRaw, VarBuffer varBuffer, int nPosition)
     {
         super(declareTypeFPacRaw);
@@ -23,6 +25,7 @@ public class VarFPacRaw extends Var
         varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
     }
 
+    /** Creates a new var fpac raw instance. */
     public VarFPacRaw(DeclareTypeFPacRaw declareTypeFPacRaw)
     {
         super(declareTypeFPacRaw);
@@ -33,6 +36,7 @@ public class VarFPacRaw extends Var
         super();
     }
 
+    /** Executes the copy operation. */
     public void copy(VarFPacRaw varSource)
     {
         int nNbCharToCopy = Math.min(varSource.getLength(), getLength());
@@ -55,6 +59,7 @@ public class VarFPacRaw extends Var
         return cs;
     }
 
+    /** Returns whether s type. */
     public boolean hasType(VarTypeEnum e)
     {
         if (e == VarTypeEnum.TypeX) {
@@ -63,12 +68,14 @@ public class VarFPacRaw extends Var
         return false;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(int nValue)
     {
         int nVarValue = getInt();
         return nVarValue - nValue;
     }
 
+    /** Executes the compare to operation. */
     public int compareTo(double dValue)
     {
         double varValue = getDouble();
@@ -91,6 +98,7 @@ public class VarFPacRaw extends Var
         return doConvertEbcdicToUnicode(tBytes);
     }
 
+    /** Creates the var fpac undef. */
     public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
     {
         return new VarFPacAlphaNumLengthUndef(fpacVarManager, varBuffer, nAbsolutePosition);

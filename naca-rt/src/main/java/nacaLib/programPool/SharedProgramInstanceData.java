@@ -8,8 +8,10 @@ package nacaLib.programPool;
 
 
 import jlib.log.Log;
-import jlib.misc.*;
-
+import jlib.misc.ArrayDyn;
+import jlib.misc.ArrayFix;
+import jlib.misc.ArrayFixDyn;
+import jlib.misc.VectorDyn;
 import nacaLib.base.CJMapObject;
 import nacaLib.sqlSupport.SQLCursor;
 import nacaLib.varEx.CInitialValue;
@@ -17,7 +19,9 @@ import nacaLib.varEx.EditInMap;
 import nacaLib.varEx.InternalCharBuffer;
 import nacaLib.varEx.VarDefBase;
 import nacaLib.varEx.VarDefBuffer;
-import nacaLib.varEx.*;
+import nacaLib.varEx.InternalCharBufferCompressedBackup;
+import nacaLib.varEx.VarDefForm;
+
 
 /**
  * @author PJD
@@ -34,11 +38,13 @@ public class SharedProgramInstanceData extends CJMapObject
     private ArrayFixDyn<VarDefForm> arrVarDefForm = null;   // Array of all VarDefForm
     private InternalCharBufferCompressedBackup internalCharBufferCompressedBackup = null;
 
+    /** Creates a new shared program instance data instance. */
     public SharedProgramInstanceData()
     {
         int n = 0;
     }
 
+    /** Executes the prepare auto removal operation. */
     synchronized public void prepareAutoRemoval()
     {
         // Do not manager bCanWrite, as we are in unloading phase, and we don't care about catalog at this stage
@@ -71,6 +77,7 @@ public class SharedProgramInstanceData extends CJMapObject
         }
     }
 
+    /** Returns the var def. */
     synchronized public VarDefBuffer getVarDef(int nId)
     {
         if (nId == VarDefBase.NULL_ID) {
@@ -84,11 +91,13 @@ public class SharedProgramInstanceData extends CJMapObject
         return null;
     }
 
+    /** Adds the var def. */
     synchronized public void addVarDef(VarDefBuffer varDef)
     {
         arrVarDef.add(varDef);
     }
 
+    /** Adds the var def form. */
     synchronized public void addVarDefForm(VarDefForm varDefForm)
     {
         if (arrVarDefForm == null) {
@@ -97,6 +106,7 @@ public class SharedProgramInstanceData extends CJMapObject
         arrVarDefForm.add(varDefForm);
     }
 
+    /** Executes the save original values operation. */
     public void saveOriginalValues(InternalCharBuffer internalCharBufferOrigin, ArrayFixDyn<EditInMap> arrEditInMap)
     {
         internalCharBufferCompressedBackup = new InternalCharBufferCompressedBackup(internalCharBufferOrigin);
@@ -112,6 +122,7 @@ public class SharedProgramInstanceData extends CJMapObject
         // The edit in mapRedefine attributes must also point to the correct value
     }
 
+    /** Executes the restore original values operation. */
     public void restoreOriginalValues(InternalCharBuffer internalCharBufferDest, ArrayFixDyn<EditInMap> arrEditInMap)
     {
         // Do not alter content of this
@@ -147,6 +158,7 @@ public class SharedProgramInstanceData extends CJMapObject
 
 
 
+    /** Adds the copy. */
     synchronized public void addCopy(String csCopyName)
     {
         if (arrCopyNames == null) {
@@ -155,6 +167,7 @@ public class SharedProgramInstanceData extends CJMapObject
         arrCopyNames.add(csCopyName);
     }
 
+    /** Returns the nb copy. */
     synchronized public int getNbCopy()
     {
         if (arrCopyNames == null) {
@@ -163,6 +176,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return arrCopyNames.size();
     }
 
+    /** Returns the copy. */
     synchronized public String getCopy(int n)
     {
         if (arrCopyNames != null && n < arrCopyNames.size()) {
@@ -171,6 +185,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return "";
     }
 
+    /** Executes the compress operation. */
     synchronized public void compress()
     {
         arrInitialValue = null; // No more initial values
@@ -312,6 +327,7 @@ public class SharedProgramInstanceData extends CJMapObject
 //      return false;
 //  }
 
+    /** Executes the save cursor name operation. */
     public void saveCursorName(String csCursorName)
     {
         if (arrCursorName == null) {
@@ -320,6 +336,7 @@ public class SharedProgramInstanceData extends CJMapObject
         arrCursorName.add(csCursorName);
     }
 
+    /** Executes the restore cursor names operation. */
     public void restoreCursorNames(ArrayFixDyn<SQLCursor> arrCursor)
     {
         if(arrCursor != null && arrCursorName != null)
@@ -351,6 +368,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return csProgramName;
     }
 
+    /** Returns the nb cursor. */
     public int getNbCursor()
     {
         if (arrCursorName != null) {
@@ -359,6 +377,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return 0;
     }
 
+    /** Returns the buffer size. */
     public int getBufferSize()
     {
         if (internalCharBufferCompressedBackup != null) {
@@ -367,6 +386,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return 0;
     }
 
+    /** Returns the nb var def. */
     public int getNbVarDef()
     {
         if (arrVarDef != null) {
@@ -375,6 +395,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return 0;
     }
 
+    /** Returns the nb var def form. */
     public int getNbVarDefForm()
     {
         if (arrVarDefForm != null) {
@@ -383,6 +404,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return 0;
     }
 
+    /** Returns the form name. */
     public String getFormName(int n)
     {
         VarDefForm varDef = arrVarDefForm.get(n);
@@ -398,6 +420,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return null;
     }
 
+    /** Sets the var full name. */
     public void setVarFullName(int nId, String csFullName)
     {
         if (arrVarName == null) {
@@ -410,6 +433,7 @@ public class SharedProgramInstanceData extends CJMapObject
         //arrVarName.add(csFullName);
     }
 
+    /** Returns the var full name. */
     public String getVarFullName(int nId)
     {
         if(arrVarName != null && nId < arrVarName.size())
@@ -419,6 +443,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return null;
     }
 
+    /** Sets the initial value. */
     public void setInitialValue(int nId, CInitialValue initialValue)
     {
         if (arrInitialValue == null) {
@@ -430,6 +455,7 @@ public class SharedProgramInstanceData extends CJMapObject
         arrInitialValue.set(nId, initialValue);
     }
 
+    /** Returns the initial value. */
     public CInitialValue getInitialValue(int nId)
     {
         if (arrInitialValue != null) {
@@ -438,6 +464,7 @@ public class SharedProgramInstanceData extends CJMapObject
         return null;
     }
 
+    /** Executes the dump all operation. */
     public String dumpAll()
     {
         StringBuffer sb = new StringBuffer();

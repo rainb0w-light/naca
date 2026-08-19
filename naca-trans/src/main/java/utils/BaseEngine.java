@@ -25,6 +25,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
      */
     public abstract boolean MainInit(Tag tagTrans) ;
 
+    /** Executes the do file transcoding operation. */
     public abstract void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
 
     protected CRulesManager rulesManager = null ;
@@ -71,6 +72,7 @@ public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
      */
     public abstract T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
 
+    /** Returns the global catalog. */
     public abstract CGlobalCatalog getGlobalCatalog();
 
 

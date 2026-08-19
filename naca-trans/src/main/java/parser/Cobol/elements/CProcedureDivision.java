@@ -175,6 +175,7 @@ public class CProcedureDivision extends CCommentContainer
     }
 
     protected Vector<CIdentifier> usingRef = new Vector<CIdentifier>() ;
+    /** Adds the using ref. */
     public void AddUsingRef(CIdentifier id)
     {
         usingRef.add(id);

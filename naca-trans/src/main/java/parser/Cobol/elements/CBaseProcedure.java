@@ -19,6 +19,7 @@ import org.w3c.dom.Element;
  */
 public class CBaseProcedure extends CBlocElement
 {
+    /** Creates a new cbase procedure instance. */
     public CBaseProcedure(int line)
     {
         super(line);

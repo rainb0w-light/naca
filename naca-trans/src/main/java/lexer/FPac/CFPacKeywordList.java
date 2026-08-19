@@ -9,6 +9,7 @@ package lexer.FPac;
 import lexer.CKeywordList;
 import lexer.CReservedKeyword;
 
+/** Provides cfpac keyword list behavior. */
 public class CFPacKeywordList extends CKeywordList
 {
     public static CFPacKeywordList _List_ = new CFPacKeywordList();

@@ -37,12 +37,14 @@ public class SQLUnload extends BaseSQLUtils
     private boolean isconnectionValid = false;
     private boolean isexcel = false;
 
+    /** Creates a new sqlunload instance. */
     public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean isexcel)
     {
         super(session, dbConnection);
         this.isexcel = isexcel;
     }
 
+    /** Executes the execute operation. */
     public boolean execute(FileDescriptor fileIn)
     {
         FileSysinReader fileSysinReader = new FileSysinReader(getSession());

@@ -32,6 +32,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
     private int nNbByteReadAHead = 100;     // this size nmust be >= size of the largest record readable
     private int nReservedHeaderSpace = 0;
 
+    /** Creates a new data file line reader instance. */
     public DataFileLineReader(String csName, int nBufferChunkReadAHead, int nReservedHeaderSpace)
     {
         setName(csName);
@@ -59,11 +60,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the open operation. */
     public boolean open()
     {
         return open(null);
     }
 
+    /** Executes the open operation. */
     public boolean open(LogicalFileDescriptor logicalFileDescriptor)
     {
         if (logicalFileDescriptor != null && logicalFileDescriptor.isDummyFile()) {
@@ -78,11 +81,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return isopened;
     }
 
+    /** Executes the flush operation. */
     public boolean flush()
     {
         return true;
     }
 
+    /** Executes the close operation. */
     public boolean close()
     {
         try
@@ -103,6 +108,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return false;
     }
 
+    /** Returns whether open. */
     public boolean isOpen()
     {
         if (in != null) {
@@ -133,6 +139,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
     }
 
     // Read a vairable length line (length is given in record header 4 bytes)
+    /** Reads the variable length line. */
     public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)
     {
         LineRead recordHeader = readBuffer(4, false);
@@ -163,6 +170,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return null;
     }
 
+    /** Reads the direct. */
     public LineRead readDirect(int nLength)
     {
         try
@@ -182,6 +190,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return null;
     }
 
+    /** Reads the buffer. */
     public LineRead readBuffer(int nLength, boolean bTryReadNextLF)
     {
         if (in == null) {
@@ -256,6 +265,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return null;
     }
 
+    /** Reads the next unix line. */
     public LineRead readNextUnixLine()
     {
         if (in == null) {
@@ -308,35 +318,43 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return null;
     }
 
+    /** Writes the record. */
     public void writeRecord(String cs)
     {
     }
 
+    /** Writes the end of record marker. */
     public void writeEndOfRecordMarker()
     {
     }
 
+    /** Writes the with eol. */
     public void writeWithEOL(byte[] tBytes, int nSize)
     {
     }
 
+    /** Writes the with eol. */
     public void writeWithEOL(LineRead lineRead)
     {
     }
 
+    /** Executes the write operation. */
     public void write(byte[] tBytes)
     {
     }
 
+    /** Executes the write operation. */
     public void write(byte[] tBytes, int nOffset, int nLength)
     {
     }
 
+    /** Reads the end of line marker. */
     public boolean readEndOfLineMarker()
     {
         return false;
     }
 
+    /** Executes the read operation. */
     public byte[] read(int nSize)
     {
         try
@@ -354,6 +372,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return null;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = csName + " (";
@@ -366,10 +385,12 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return cs;
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite(byte[] tBytes, int nOffset, int nLength)
     {
     }
 
+    /** Executes the rewrite with eol operation. */
     public void rewriteWithEOL(byte[] tbyDest, int nSize)
     {
     }
@@ -394,11 +415,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return -1;
     }
 
+    /** Sets the file current position. */
     public boolean setFileCurrentPosition(long lCurrentPosition)
     {
         return false;
     }
 
+    /** Executes the save position operation. */
     public boolean savePosition(int nMaxReadAheadSize)
     {
         if(in != null && in.markSupported())
@@ -409,6 +432,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
         return false;
     }
 
+    /** Executes the return at saved position operation. */
     public boolean returnAtSavedPosition()
     {
         nFirstPositionInReadAHead = 0;

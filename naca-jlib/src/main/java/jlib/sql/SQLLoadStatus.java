@@ -34,11 +34,13 @@ public class SQLLoadStatus
         return issuccess;
     }
 
+    /** Executes the had duplicates operation. */
     public boolean hadDuplicates()
     {
         return isduplicates;
     }
 
+    /** Updates the with local status. */
     public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
     {
         if (!status.issuccess) {
@@ -50,6 +52,7 @@ public class SQLLoadStatus
         return loadSuccess;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs;

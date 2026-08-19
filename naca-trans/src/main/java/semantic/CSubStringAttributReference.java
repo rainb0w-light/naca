@@ -8,7 +8,7 @@ package semantic;
 
 import lexer.Cobol.CCobolConstantList;
 import parser.expression.CTerminal;
-import semantic.Verbs.*;
+import semantic.Verbs.CEntitySetConstant;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import utils.CObjectCatalog;
@@ -30,6 +30,7 @@ public class CSubStringAttributReference extends CBaseDataReference
         super(l, "", cat);
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return true;
@@ -40,10 +41,12 @@ public class CSubStringAttributReference extends CBaseDataReference
         return true;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.VAR;
     }
+    /** Sets the reference. */
     public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
     {
         reference = ref ;
@@ -72,6 +75,7 @@ public class CSubStringAttributReference extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -106,10 +110,12 @@ public class CSubStringAttributReference extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -133,6 +139,7 @@ public class CSubStringAttributReference extends CBaseDataReference
             return eCond;
         }
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (reference == null) {
@@ -140,10 +147,12 @@ public class CSubStringAttributReference extends CBaseDataReference
         }
         return reference.ignore() ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

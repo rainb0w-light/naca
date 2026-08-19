@@ -26,6 +26,7 @@ import nacaLib.misc.KeyPressed;
 public class CHTTPMapFieldLoader extends CMapFieldLoader
 {
     protected HttpServletRequest httpRequest = null ;
+    /** Creates a new chttpmap field loader instance. */
     public CHTTPMapFieldLoader(HttpServletRequest req)
     {
         httpRequest = req ;
@@ -37,6 +38,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
     /* (non-Javadoc)
      * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
      */
+    /** Returns the field value. */
     public String getFieldValue(String fieldName)
     {
         String cs = httpRequest.getParameter(fieldName);
@@ -93,6 +95,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
     /* (non-Javadoc)
      * @see CJMap.CBaseMapFieldLoader#IsFieldModified(java.lang.String)
      */
+    /** Returns whether field modified. */
     public boolean isFieldModified(String fieldName)
     {
         String cs = httpRequest.getParameter(fieldName+"UPD");
@@ -118,6 +121,7 @@ public class CHTTPMapFieldLoader extends CMapFieldLoader
     /* (non-Javadoc)
      * @see CBaseMapFieldLoader#getIDPage()
      */
+    /** Returns the idpage. */
     public String getIDPage()
     {
         String cs = httpRequest.getParameter("idPage");

@@ -9,9 +9,11 @@
  */
 package nacaLib.misc;
 
+/** Provides intel sign binary buffer storage behavior. */
 public class IntelSignBinaryBufferStorage
 {
     // Big endian binary storage
+    /** Reads the short. */
     public final static short readShort(byte buf[], int i)
     {
         int j = 0;
@@ -29,12 +31,14 @@ public class IntelSignBinaryBufferStorage
         return word0;
     }
 
+    /** Writes the short. */
     public final static void writeShort(byte buf[], short word0, int i)
     {
         buf[i] = (byte)(word0 >>> 0 & 0xff);
         buf[i + 1] = (byte)(word0 >>> 8 & 0xff);
     }
 
+    /** Reads the int. */
     public final static int readInt(byte buf[], int i)
     {
         int j = buf[i] >= 0 ? ((int) (buf[i])) : buf[i] + 256;
@@ -67,6 +71,7 @@ public class IntelSignBinaryBufferStorage
         return (i1 << 24) + (l << 16) + (k << 8) + (j << 0);
     }
 
+    /** Writes the int. */
     public final static void writeInt(byte buf[], int i, int j)
     {
         buf[j] = (byte)(i >>> 0 & 0xff);
@@ -75,6 +80,7 @@ public class IntelSignBinaryBufferStorage
         buf[j + 3] = (byte)(i >>> 24 & 0xff);
     }
 
+    /** Reads the long. */
     public final static long readLong(byte buf[], int i)
     {
         long l = buf[i] >= 0 ? buf[i] : buf[i] + 256;
@@ -95,6 +101,7 @@ public class IntelSignBinaryBufferStorage
         return (l7 << 56) + (l6 << 48) + (l5 << 40) + (l4 << 32) + (l3 << 24) + (l2 << 16) + (l1 << 8) + (l << 0);
     }
 
+    /** Writes the long. */
     public final static void writeLong(byte buf[], long l, int i)
     {
         buf[i] = (byte)(int)(l >>> 0 & 255L);

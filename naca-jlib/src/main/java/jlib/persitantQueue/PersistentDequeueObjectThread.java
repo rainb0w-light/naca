@@ -9,19 +9,21 @@ import jlib.log.Log;
 import jlib.threads.BaseThread;
 import jlib.threads.Threadutil;
 
+/** Provides persistent dequeue object thread behavior. */
 public abstract class PersistentDequeueObjectThread extends BaseThread
 {
     private PersistantQueue persistantQueue = null;
-    private int nLoopWait_ms = 0;
+    private int loopWaitMillis = 0;
     private BaseQueueItemFactory baseQueueItemFactory = null;
 
     protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWaitMs)
     {
         this.baseQueueItemFactory = baseQueueItemFactory;
         this.persistantQueue = persistantQueue;
-        this.nLoopWait_ms = nLoopWaitMs;
+        this.loopWaitMillis = nLoopWaitMs;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         boolean iscontinue = true;
@@ -30,7 +32,7 @@ public abstract class PersistentDequeueObjectThread extends BaseThread
             Object object = persistantQueue.getFirst(baseQueueItemFactory);
             if(object == null)
             {
-                iscontinue = Threadutil.wait(nLoopWait_ms);
+                iscontinue = Threadutil.wait(loopWaitMillis);
             }
             else
             {

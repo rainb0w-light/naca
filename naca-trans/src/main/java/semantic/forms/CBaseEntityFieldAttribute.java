@@ -15,7 +15,7 @@ import semantic.CBaseActionEntity;
 import semantic.CBaseDataReference;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -23,6 +23,7 @@ import utils.*;
  */
 public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 {
+    /** Provides centity field attribute type behavior. */
     public static class CEntityFieldAttributeType
     {
         public static CEntityFieldAttributeType LENGTH = new CEntityFieldAttributeType() ;
@@ -48,6 +49,7 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
     }
     protected CEntityFieldAttributeType type = null ;
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -57,6 +59,7 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return null;
@@ -65,10 +68,12 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
@@ -83,6 +88,7 @@ public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
         programCatalog.RegisterDataEntity(GetName(), this) ;
 //      programCatalog.RegisterDataEntity("S" + GetName(), this) ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

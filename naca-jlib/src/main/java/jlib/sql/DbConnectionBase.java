@@ -27,6 +27,7 @@ import jlib.misc.StringUtil;
 import jlib.misc.Time_ms;
 import jlib.threads.Threadutil;
 
+/** Provides db connection base behavior. */
 public abstract class DbConnectionBase //extends BaseOpenMBean
 {
     private boolean isuseJmx = true;
@@ -40,13 +41,14 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
     // true if a cache of all met statements is kept by the current connection, false if the statement is recreated
     private boolean isuseCachedStatements = true;
     private StopWatch stopWatchLastUsage = null;
-    private int nMaxStatementLiveTime_ms = -1;  // INFINITE by default
+    private int maxStatementLiveTimeMillis = -1;  // INFINITE by default
     private int nGenerationId = -1;
     public DbConnectionColl dbConnectionColl = null;
     private boolean isuseExplain = false;
     private DbDriverId dbDriverId = null;
     private String uuid = null;
 
+    /** Creates a new db connection base instance. */
     public DbConnectionBase(
         Connection conn,
         String csPrefId,
@@ -85,6 +87,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return dbDriverId;
     }
 
+    /** Executes the finalize operation. */
     public void finalize()
     {
         if (isuseJmx) {
@@ -92,6 +95,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         }
     }
 
+    /** Executes the close operation. */
     public void close()
     {
         if (isuseJmx) {
@@ -105,7 +109,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         this.dbConnectionColl = dbConnectionColl;
         if(dbConnectionColl != null)
         {
-            nMaxStatementLiveTime_ms = dbConnectionColl.getMaxStatementLiveTime_ms();
+            maxStatementLiveTimeMillis = dbConnectionColl.getMaxStatementLiveTime_ms();
         }
     }
 
@@ -114,6 +118,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return ConnectionGenerationManager.isGenerationCurrent(nGenerationId);
     }
 
+    /** Sets the connection unreusable. */
     public void setConnectionUnreusable()
     {
         nGenerationId = -1; // This connection won't reused
@@ -133,7 +138,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return false;
     }
 
-    boolean isValid(int nTimeBeforeRemoveConnection_ms)
+    boolean isValid(int nTimeBeforeRemoveConnectionMs)
     {
         if(dbConnection != null)
         {
@@ -143,7 +148,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
                     return false;
                 }
                 // Still open
-                if (stopWatchLastUsage.isTimeElapsed(nTimeBeforeRemoveConnection_ms)) {    // Obsolete
+                if (stopWatchLastUsage.isTimeElapsed(nTimeBeforeRemoveConnectionMs)) {    // Obsolete
                     return false;
                 }
                 return true;
@@ -206,7 +211,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         {
             Map.Entry<String, DbPreparedStatement> entry = iterMapEntry.next();
             DbPreparedStatement dbPreparedStatement = entry.getValue();
-            if(dbPreparedStatement.isTimeOut(nMaxStatementLiveTime_ms))
+            if(dbPreparedStatement.isTimeOut(maxStatementLiveTimeMillis))
             {
                 dbPreparedStatement.close();
                 iterMapEntry.remove();
@@ -305,6 +310,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         stopWatchLastUsage.Reset();
     }
 
+    /** Removes the all prepared statements. */
     public synchronized int removeAllPreparedStatements()
     {
         if (hashStatement == null) {
@@ -333,11 +339,11 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
             return null;
         }
 
-        DbPreparedStatement SQLStatement = hashStatement.get(queryHash);
-        if (SQLStatement != null) {
-            SQLStatement.setStatementUsed();
+        DbPreparedStatement sqlStatement = hashStatement.get(queryHash);
+        if (sqlStatement != null) {
+            sqlStatement.setStatementUsed();
         }
-        return SQLStatement;
+        return sqlStatement;
     }
 
     synchronized boolean forceRemoveStatement(String csStatementId)
@@ -354,6 +360,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return b;
     }
 
+    /** Executes the execute operation operation. */
     public int executeOperation(SQLTypeOperation typeOperation)
     {
         if(typeOperation== SQLTypeOperation.Commit)
@@ -375,11 +382,13 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return -1;
     }
 
+    /** Executes the prepare statement operation. */
     public DbPreparedStatement prepareStatement(String csQuery)
     {
         return prepareStatement(csQuery, 0, false);
     }
 
+    /** Executes the prepare statement operation. */
     public DbPreparedStatement prepareStatement(SQLClause sqlStatement)
     {
         String query = sqlStatement.getQuery();
@@ -454,49 +463,52 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return -1;
     }
 
+    /** Executes the prepare statement operation. */
     synchronized public DbPreparedStatement prepareStatement(String csQuery, int nSuffixeHash, boolean bHoldability)
     {
         String queryHash = csQuery + nSuffixeHash;
         if(isuseCachedStatements)
         {
-            DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
-            if (SQLStatement != null) {
-                return SQLStatement;
+            DbPreparedStatement localSqlStatement = getCachedStatement(queryHash);
+            if (localSqlStatement != null) {
+                return localSqlStatement;
             }
         }
 
-        DbPreparedStatement SQLStatement = createAndPrepare(csQuery, bHoldability);
-        if(SQLStatement != null && hashStatement != null)
+        DbPreparedStatement localSqlStatement = createAndPrepare(csQuery, bHoldability);
+        if(localSqlStatement != null && hashStatement != null)
         {
             if (isuseCachedStatements) {
-                hashStatement.put(queryHash, SQLStatement);
+                hashStatement.put(queryHash, localSqlStatement);
             }
         }
-        return SQLStatement;
+        return localSqlStatement;
     }
 
+    /** Executes the prepare statement with exception operation. */
     synchronized public DbPreparedStatement prepareStatementWithException(String csQuery, int nSuffixeHash, boolean bHoldability)
         throws TechnicalException
     {
         String queryHash = csQuery + nSuffixeHash;
         if(isuseCachedStatements)
         {
-            DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
-            if (SQLStatement != null) {
-                return SQLStatement;
+            DbPreparedStatement localSqlStatement = getCachedStatement(queryHash);
+            if (localSqlStatement != null) {
+                return localSqlStatement;
             }
         }
 
-        DbPreparedStatement SQLStatement = createAndPrepareWithException(csQuery, bHoldability);
-        if(SQLStatement != null && hashStatement != null)
+        DbPreparedStatement localSqlStatement = createAndPrepareWithException(csQuery, bHoldability);
+        if(localSqlStatement != null && hashStatement != null)
         {
             if (isuseCachedStatements) {
-                hashStatement.put(queryHash, SQLStatement);
+                hashStatement.put(queryHash, localSqlStatement);
             }
         }
-        return SQLStatement;
+        return localSqlStatement;
     }
 
+    /** Executes the create operation. */
     public Statement create()
     {
         try
@@ -511,14 +523,18 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return null;
     }
 
+    /** Creates the and prepare. */
     public abstract DbPreparedStatement createAndPrepare(String csQuery, boolean bHoldability);
+    /** Creates the and prepare with exception. */
     public abstract DbPreparedStatement createAndPrepareWithException(String csQuery, boolean bHoldability) throws TechnicalException;
 
+    /** Executes the prepare callable statement operation. */
     public abstract boolean prepareCallableStatement(
         DbPreparedCallableStatement preparedCallableStatement,
         String csStoredProcName,
         int nNbParamToProvide);
 
+    /** Executes the roll back operation. */
     public int rollBack()
     {
         //markLastTimeStamp();
@@ -538,6 +554,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return 0;
     }
 
+    /** Executes the commit operation. */
     public int commit()
     {
         //markLastTimeStamp();
@@ -583,6 +600,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
     }
 
 
+    /** Executes the roll back with exception operation. */
     public SQLException rollBackWithException()
     {
         if (dbConnection != null)
@@ -601,6 +619,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return null;
     }
 
+    /** Executes the commit with exception operation. */
     public SQLException commitWithException()
     {
         if (dbConnection != null)
@@ -625,6 +644,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
     }
 
 
+    /** Executes the support cursor name operation. */
     public boolean supportCursorName()
     {
         if (isuseRowId) {
@@ -655,6 +675,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         }
     }
 
+    /** Executes the return connection to pool operation. */
     public void returnConnectionToPool()
     {
         if (dbConnectionColl != null) {
@@ -708,6 +729,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         }
     }
 
+    /** Executes the dump connections operation. */
     public void dumpConnections(StringBuilder sbText)
     {
         sbText.append("-------------------------------------------------------------------------\n");
@@ -733,6 +755,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return true;
     }
 
+    /** Sets the once uuid. */
     public void setOnceUUID(String csConnId)
     {
         if (uuid == null) {

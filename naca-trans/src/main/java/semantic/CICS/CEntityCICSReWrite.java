@@ -31,6 +31,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
         }
     }
 
+    /** Writes the file. */
     public void WriteFile(CDataEntity filename)
     {
         iswriteToFile = true ;
@@ -38,6 +39,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
         name = filename;
     }
 
+    /** Writes the data set. */
     public void WriteDataSet(CDataEntity filename)
     {
         iswritetoDataSet = true ;
@@ -45,6 +47,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
         name = filename;
     }
 
+    /** Sets the data from. */
     public void SetDataFrom(CDataEntity edata, CDataEntity eLen)
     {
         dataFrom = edata ;
@@ -56,6 +59,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
     protected CDataEntity name ;
     protected boolean iswriteToFile = false ;
     protected boolean iswritetoDataSet = false ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -63,6 +67,7 @@ public class CEntityCICSReWrite extends CBaseActionEntity
         dataFrom = null;
         name = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

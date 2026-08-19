@@ -42,6 +42,7 @@ public class CFormEnhancer
 {
     protected String csTransformDir = "" ;
     protected Document docGlobalTransform = null ;
+    /** Creates a new cform enhancer instance. */
     public CFormEnhancer(String path, String global)
     {
         csTransformDir = path ;

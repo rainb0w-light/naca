@@ -8,13 +8,16 @@ package jlib.jmxMBean;
 
 import java.util.ArrayList;
 
+/** Provides generic to array behavior. */
 public class GenericToArray<T>
 {
+    /** Creates a new generic to array instance. */
     public GenericToArray(ArrayList<T> arrList)
     {
         this.list = arrList;
     }
 
+    /** Executes the to array operation. */
     public boolean toArray(T[] arr)
     {
         if(list != null && arr != null)

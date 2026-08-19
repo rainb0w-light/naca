@@ -7,14 +7,16 @@
 package semantic.forms;
 
 import java.util.Vector;
-
 import parser.expression.CTerminal;
-import semantic.*;
+import semantic.CBaseActionEntity;
+import semantic.CBaseEntityFactory;
+import semantic.CDataEntity;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CUnitaryEntityCondition;
 import semantic.expression.CBaseEntityCondition.EConditionType;
 import utils.CObjectCatalog;
 import utils.NacaTransAssertException;
+
 
 /**
  * @author sly
@@ -55,6 +57,7 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity data, CBaseEntityFactory factory, int l)
     {
         CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
@@ -64,11 +67,13 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
         return eSet ;
     }
 
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return CEntityFieldAttribute.intGetSpecialAssignment(reference, term, factory, l) ;
     }
 
+    /** Executes the int get special assignment operation. */
     public static CBaseActionEntity intGetSpecialAssignment(CDataEntity field, CTerminal term, CBaseEntityFactory factory, int l)
     {
         /*
@@ -119,11 +124,13 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
         ref.RegisterWritingAction(eSet) ;
         return eSet;
     }
+    /** Executes the get array reference operation. */
     public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
     {
         CDataEntity e = reference.GetArrayReference(v, factory) ;
         return factory.NewEntityFieldAttribute(getLine(), "", e);
     };
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String v,
@@ -194,6 +201,7 @@ public class CEntityFieldAttribute extends CBaseEntityFieldAttribute
         ref.RegisterVarTesting(eCond) ;
         return eCond ;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         CDataEntity eData2,

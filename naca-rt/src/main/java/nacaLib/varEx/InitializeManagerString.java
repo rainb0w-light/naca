@@ -12,11 +12,13 @@ package nacaLib.varEx;
  */
 public class InitializeManagerString extends InitializeManager
 {
+    /** Creates a new initialize manager string instance. */
     public InitializeManagerString(String cs)
     {
         this.cs = cs;
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         this.cs = cs;
@@ -27,6 +29,7 @@ public class InitializeManagerString extends InitializeManager
 //      varDef.initialize(buffer, cs);
 //  }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeAtOffset(buffer, nOffset, cs);

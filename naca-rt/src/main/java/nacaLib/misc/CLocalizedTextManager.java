@@ -24,6 +24,7 @@ public class CLocalizedTextManager extends CJMapObject
     }
 
     protected static CLocalizedTextManager ms_instance = null ;
+    /** Returns the instance. */
     public static CLocalizedTextManager getInstance()
     {
         if (ms_instance == null)
@@ -33,6 +34,7 @@ public class CLocalizedTextManager extends CJMapObject
         return ms_instance ;
     }
 
+    /** Executes the init operation. */
     public void Init(Tag tagRoot)
     {
         Tag tagLanguages = tagRoot.getEnumChild("languages");
@@ -70,6 +72,7 @@ public class CLocalizedTextManager extends CJMapObject
         }
     }
 
+    /** Returns the localized string. */
     public String getLocalizedString(String id, String code)
     {
         String lang = tabLanguageCodes.get(code);

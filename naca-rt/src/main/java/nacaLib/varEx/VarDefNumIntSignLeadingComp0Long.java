@@ -7,13 +7,13 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.NumberParser;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.mathSupport.MathAdd;
 import nacaLib.misc.StringAsciiEbcdicUtil;
 import nacaLib.sqlSupport.CSQLItemType;
 import nacaLib.tempCache.CStr;
+
 
 /**
  * @author U930DI
@@ -26,6 +26,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def num int sign leading comp0 long instance. */
     public VarDefNumIntSignLeadingComp0Long(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
     {
         super(varDefParent, declareType9.varLevel);
@@ -86,12 +87,14 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         writeSignSeparatedLeadingIntComp0AsLong(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         long l = NumberParser.getAsLong(cs);
         writeSignSeparatedLeadingIntComp0AsLong(buffer, l);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         long val = getAsDecodedLong(buffer);
@@ -99,6 +102,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         write(buffer, val);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         CStr s1 = getDottedSignedString(buffer);
@@ -106,11 +110,13 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         write(buffer, dec);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
         writeSignSeparatedLeadingIntComp0AsLong(buffer, n);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         writeSignSeparatedLeadingIntComp0AsLong(buffer, l);
@@ -128,6 +134,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         writeSignSeparatedLeadingIntComp0AsLong(buffer, dec.getSignedLong());
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long lValue = bigDecimal.longValue();
@@ -298,6 +305,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         writeSignSeparatedLeadingIntComp0AsLong(buffer, l);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
@@ -431,6 +439,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
 //      writeSignSeparatedLeadingIntComp0AsLong(buffer, 0L);
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignSeparatedLeadingIntComp0AsLong(buffer, nOffset, 0L);
@@ -856,6 +865,7 @@ public class VarDefNumIntSignLeadingComp0Long extends VarDefNum
         return 0;
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

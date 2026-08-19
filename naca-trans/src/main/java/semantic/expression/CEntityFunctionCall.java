@@ -14,8 +14,10 @@ import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
 
+/** Provides centity function call behavior. */
 public class CEntityFunctionCall extends CBaseEntityFunction
 {
+    /** Creates a new centity function call instance. */
     public CEntityFunctionCall(CObjectCatalog cat, CDataEntity data)
     {
         super(cat, data);
@@ -23,6 +25,7 @@ public class CEntityFunctionCall extends CBaseEntityFunction
     protected String csFunction = "" ;
     protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
 
+    /** Executes the call function operation. */
     public void CallFunction(String function)
     {
         csFunction = function ;
@@ -36,11 +39,13 @@ public class CEntityFunctionCall extends CBaseEntityFunction
     {
         return false ;
     }
+    /** Adds the parameter. */
     public void AddParameter(CDataEntity e)
     {
         parameters.add(e) ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;

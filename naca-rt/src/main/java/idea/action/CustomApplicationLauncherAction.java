@@ -33,10 +33,12 @@ import org.w3c.dom.NodeList;
 
 //import pub2000Utils.help.LanguageUtil;
 
+/** Provides custom application launcher action behavior. */
 public class CustomApplicationLauncherAction extends Action
 {
     InputAnalyser inputAnalyser = new InputAnalyser() ;
 
+    /** Executes the execute operation. */
     public ActionForward execute(
         ActionMapping mapping,
         ActionForm form,

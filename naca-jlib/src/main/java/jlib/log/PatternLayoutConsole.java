@@ -14,6 +14,7 @@ import jlib.misc.StringUtil;
  */
 public class PatternLayoutConsole extends LogPatternLayout
 {
+    /** Creates a new pattern layout console instance. */
     public PatternLayoutConsole(String csFormat)
     {
         super();

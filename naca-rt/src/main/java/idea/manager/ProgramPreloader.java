@@ -22,12 +22,15 @@ import jlib.log.Log;
 import jlib.misc.FileSystem;
 import jlib.xml.Tag;
 
+/** Provides program preloader behavior. */
 public class ProgramPreloader
 {
+    /** Creates a new program preloader instance. */
     public ProgramPreloader()
     {
     }
 
+    /** Builds the array preload program from list. */
     public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromList(String csPreLoadProgramFile)
     {
         Log.logNormal("Building array of programs to preload from file " + csPreLoadProgramFile);
@@ -54,6 +57,7 @@ public class ProgramPreloader
         return programToPreload;
     }
 
+    /** Builds the array preload program from dir. */
     public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromDir(String csPreLoadProgramDir)
     {
         ArrayList<PreloadProgramSettings> programToPreload = new ArrayList<PreloadProgramSettings>();
@@ -95,6 +99,7 @@ public class ProgramPreloader
 //      sharedProgramInstanceData.serialize(csVarDefCatalogueSerilizationPath, csProgramName);
 //  }
 
+    /** Executes the preload programs synchronous operation. */
     public int preloadProgramsSynchronous(
         ArrayList<PreloadProgramSettings> arrProgramToPreload,
         ProgramSequencer seq,

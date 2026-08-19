@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import semantic.CBaseActionEntity;
 import semantic.CBaseLanguageEntity;
 import semantic.expression.CBaseEntityCondition;
-import utils.*;
+import utils.CObjectCatalog;
+
 
 /**
  * @author sly
@@ -22,6 +22,7 @@ import utils.*;
  */
 public class CEntitySwitchCase extends CBaseActionEntity
 {
+    /** Provides switch branch behavior. */
     public static final class SwitchBranch
     {
         private final CEntityCase caseEntity;
@@ -63,11 +64,13 @@ public class CEntitySwitchCase extends CBaseActionEntity
     {
         super(l, cat);
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return isChildrenIgnored() ;
     }
 
+    /** Returns the branches. */
     public List<SwitchBranch> getBranches()
     {
         List<SwitchBranch> branches = new ArrayList<SwitchBranch>();
@@ -80,6 +83,7 @@ public class CEntitySwitchCase extends CBaseActionEntity
         }
         return Collections.unmodifiableList(branches);
     }
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         Iterator iter = lstChildren.iterator() ;

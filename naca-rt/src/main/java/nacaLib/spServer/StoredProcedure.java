@@ -34,12 +34,14 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
     private Class clsProgram = null;
     private boolean isconnectionPackage = false;
 
+    /** Creates a new stored procedure instance. */
     public StoredProcedure(String csProgramName)
     {
         this.csProgramName = csProgramName;
 
     }
 
+    /** Creates a new stored procedure instance. */
     public StoredProcedure(Class clsProgram)
     {
         this.clsProgram = clsProgram;
@@ -58,6 +60,7 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
         return null;
     }
 
+    /** Executes the execute container simulated operation. */
     public boolean executeContainerSimulated()
     {
         try
@@ -70,6 +73,7 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
         }
     }
 
+    /** Executes the execute operation. */
     public boolean execute() throws SQLException
     {
         return doExecute(false);

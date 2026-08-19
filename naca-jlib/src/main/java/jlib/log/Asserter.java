@@ -14,6 +14,7 @@ public class Asserter
 {
     static private boolean ms_ActivateAssert = false ;
 
+    /** Executes the assert always operation. */
     static public void assertAlways(String csMessage)
     {
         throw new AssertException(csMessage);
@@ -24,6 +25,7 @@ public class Asserter
         ms_ActivateAssert = b ;
     }
 
+    /** Executes the assert if null operation. */
     static public void assertIfNull(Object o)
     {
         if (ms_ActivateAssert)
@@ -36,6 +38,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if not null operation. */
     static public void assertIfNotNull(Object o)
     {
         if (ms_ActivateAssert)
@@ -48,6 +51,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if empty operation. */
     static public void assertIfEmpty(String cs)
     {
         if (ms_ActivateAssert)
@@ -60,6 +64,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if false operation. */
     static public void assertIfFalse(boolean b)
     {
         if (ms_ActivateAssert)
@@ -72,6 +77,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if false operation. */
     static public void assertIfFalse(boolean b, String csReason)
     {
         if (ms_ActivateAssert)
@@ -84,6 +90,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if different operation. */
     static public void assertIfDifferent(String a, String b)
     {
         if (ms_ActivateAssert)
@@ -96,6 +103,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if equals operation. */
     static public void assertIfEquals(String a, String b)
     {
         if (ms_ActivateAssert)
@@ -108,6 +116,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if different operation. */
     static public void assertIfDifferent(int a, int b)
     {
         if (ms_ActivateAssert)
@@ -120,6 +129,7 @@ public class Asserter
         }
     }
 
+    /** Executes the assert if different operation. */
     static public void assertIfDifferent(double a, double b)
     {
         if (ms_ActivateAssert)

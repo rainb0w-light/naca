@@ -23,11 +23,13 @@ public class FileEncodingConverterWithDesc extends FileEncodingConverter
     private String csDesc = null;
     private VarDefEncodingConvertibleManager encodingManager = null;
 
+    /** Creates a new file encoding converter with desc instance. */
     public FileEncodingConverterWithDesc(FileDescriptor fileIn, FileDescriptor fileOut)
     {
         super(fileIn, fileOut);
     }
 
+    /** Executes the execute operation. */
     public boolean execute(String csDesc)
     {
         fileIn.getPhysicalName();

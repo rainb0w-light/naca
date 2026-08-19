@@ -184,6 +184,7 @@
       },
       "probeEvidence": {
         "pinnedSource": true,
+        "automatedRegression": "CardDemoEndToEndAcceptanceTest.pinnedAccountExportReproducesOutputFileStatusBlocker",
         "recursiveST4": "passed",
         "copybooks": {
           "CVACT01Y": "passed",
@@ -195,6 +196,12 @@
           "START OF EXECUTION OF PROGRAM CBACT01C",
           "ERROR OPENING OUTFILE",
           "ABENDING PROGRAM"
+        ],
+        "assets": [
+          "app/cbl/CBACT01C.cbl",
+          "app/cpy/CVACT01Y.cpy",
+          "app/cpy/CODATECN.cpy",
+          "app/data/ASCII/acctdata.txt"
         ],
         "secondaryFailure": "The error path calls CEE3ABD, whose generated/runtime class is not available; this occurs after the first blocker."
       }
@@ -577,5 +584,11 @@
         "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
       }
     }
-  ]
+  ],
+  "automation": {
+    "definition": "JUnit scenarios in CardDemoEndToEndAcceptanceTest: strict successes plus deterministic expected-blocker regressions.",
+    "executableScenarios": 4,
+    "strictSuccessScenarios": 3,
+    "expectedBlockerScenarios": 1
+  }
 }

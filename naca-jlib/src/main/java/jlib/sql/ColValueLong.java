@@ -11,24 +11,29 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 
+/** Provides col value long behavior. */
 public class ColValueLong extends ColValue
 {
+    /** Creates a new col value long instance. */
     public ColValueLong(String csName, long lValue)
     {
         super(csName);
         this.lValue = lValue;
     }
 
+    /** Executes the duplicate operation. */
     public ColValue duplicate()
     {
         return new ColValueLong(csName, lValue);
     }
 
+    /** Sets the param sqlclause. */
     public void setParamSQLClause(SQLClause clause)
     {
         clause.param(lValue);
     }
 
+    /** Executes the do fill with resurlt set col operation. */
     public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
         throws SQLException
     {

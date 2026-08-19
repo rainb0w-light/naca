@@ -35,10 +35,12 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
+    /** Executes the handle aid operation. */
     public void HandleAID(String cond, String label)
     {
         handledAIDEntries.add(new HandledAIDEntry(cond, label));
     }
+    /** Executes the unhandle aid operation. */
     public void UnhandleAID(String cond)
     {
         unhandledAIDEntries.add(new UnhandledAIDEntry(cond));
@@ -47,6 +49,7 @@ public class CEntityCICSHandleAID extends CBaseActionEntity
     private final ArrayList<HandledAIDEntry> handledAIDEntries = new ArrayList<>();
     private final ArrayList<UnhandledAIDEntry> unhandledAIDEntries = new ArrayList<>();
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (handledAIDEntries.isEmpty() && unhandledAIDEntries.isEmpty())

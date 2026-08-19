@@ -81,6 +81,7 @@ import java.util.function.Function;
  */
 public class CEntityResourceForm extends CBaseResourceEntity
 {
+    /** Provides cform byte consuming state behavior. */
     public class CFormByteConsumingState
     {
         public int nCurrentField = 0 ;
@@ -112,6 +113,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 //      }
 //  }
 
+    /** Executes the init dependences operation. */
     public void InitDependences(CBaseEntityFactory factory)
     {
         for (int i=0; i<arrFields.size(); i++)
@@ -139,6 +141,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         factory.programCatalog.RegisterDataEntity(cs, this) ;
     }
 
+    /** Adds the field. */
     public void AddField(CBaseResourceEntity e)
     {
         arrFields.add(e) ;
@@ -186,10 +189,12 @@ public class CEntityResourceForm extends CBaseResourceEntity
 
     protected Vector<CBaseResourceEntity> arrFields = new Vector<CBaseResourceEntity>() ;
     protected ArrayList<String> formReferences = new ArrayList<String>() ;
+    /** Sets the references. */
     public void SetReferences(ArrayList<String> v)
     {
         formReferences = v ;
     }
+    /** Sets the size. */
     public void SetSize(int col, int line)
     {
         nSizeCol = col ;
@@ -201,6 +206,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         String value = term.GetValue() ;
@@ -231,6 +237,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
@@ -250,6 +257,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         return null;
     }
 
+    /** Executes the make sav copy operation. */
     public void MakeSavCopy(CEntityResourceForm form, CBaseEntityFactory factory, boolean bFromRes)
     {
         form.SetSize(nSizeCol, nSizeLine) ;
@@ -298,6 +306,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 
     protected int nCurrentField = -1;
     protected int nCurrentByteInField = 0 ;
+    /** Executes the start field analyse operation. */
     public void StartFieldAnalyse()
     {
         nCurrentField = -1 ;
@@ -307,6 +316,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     {
         return nCurrentByteInField ;
     }
+    /** Returns the current consuming state. */
     public CFormByteConsumingState getCurrentConsumingState()
     {
         CFormByteConsumingState state = new CFormByteConsumingState() ;
@@ -314,6 +324,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         state.nCurrentField = nCurrentField ;
         return state ;
     }
+    /** Sets the current consuming state. */
     public void setCurrentConsumingState(CFormByteConsumingState state)
     {
         if (state != null)
@@ -322,6 +333,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
             nCurrentField = state.nCurrentField ;
         }
     }
+    /** Executes the consume fields as bytes operation. */
     public int ConsumeFieldsAsBytes(int bytes)
     {
         int nbBytesLeft = bytes ;
@@ -393,6 +405,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         return null ;
     }
 
+    /** Executes the consume fields operation. */
     public void ConsumeFields(int n)
     {
         int nToDO = n ;
@@ -406,6 +419,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
             nCurrentField ++ ;
         }
     }
+    /** Executes the get hierarchy operation. */
     public CEntityHierarchy GetHierarchy()
     {
         CEntityHierarchy hier = super.GetHierarchy() ;
@@ -414,21 +428,24 @@ public class CEntityResourceForm extends CBaseResourceEntity
         return hier;
     }
 
+    /** Executes the is save copy operation. */
     public boolean IsSaveCopy()
     {
         return bSaveMap;
     }
 
+    /** Provides cfield redefine description behavior. */
     public class CFieldRedefineDescription
     {
-        public String SKIP = "SKIP" ;
-        public String FIELD = "FIELD" ;
-        public String OCCURS = "OCCURS" ;
+        public String skip = "SKIP" ;
+        public String fieldType = "FIELD" ;
+        public String occurs = "OCCURS" ;
         public CEntityResourceField field = null ;
         public String name = "" ;
         public String type = "" ;
         public int size = 0 ;
 
+        /** Executes the next operation. */
         public CFieldRedefineDescription Next()
         {
             if (next == null)
@@ -439,12 +456,15 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
         protected CFieldRedefineDescription next = null ;
     }
+    /** Provides cfield redefine structure behavior. */
     public class CFieldRedefineStructure
     {
+        /** Executes the current operation. */
         public CFieldRedefineDescription Current()
         {
             return current ;
         }
+        /** Executes the next operation. */
         public CFieldRedefineDescription Next()
         {
             current = current.Next() ;
@@ -453,6 +473,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         protected CFieldRedefineDescription current = null ;
         protected CFieldRedefineDescription start = null ;
     }
+    /** Executes the get redefine structure operation. */
     public CFieldRedefineStructure GetRedefineStructure()
     {
         if (redefineStructure.start == null)
@@ -464,6 +485,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     }
     protected CFieldRedefineStructure redefineStructure = new CFieldRedefineStructure() ;
 
+    /** Exports the xmlfields. */
     public void exportXMLFields(
         SortedSet<CEntityResourceFormContainer.FieldExportDescription> setFields,
         Document doc,
@@ -523,25 +545,30 @@ public class CEntityResourceForm extends CBaseResourceEntity
     }
 
     protected HashMap<String, String> tabActivePFKeys = new HashMap<String, String>() ;
+    /** Returns the pfactive. */
     public String getPFActive(String key)
     {
         return tabActivePFKeys.get(key);
     }
+    /** Sets the pfactive. */
     public void setPFActive(String key, String status)
     {
         tabActivePFKeys.put(key, status);
     }
 
     protected HashMap<String, String> tabActionPFKeys = new HashMap<String, String>() ;
+    /** Returns the pfaction. */
     public String getPFAction(String key)
     {
         return tabActionPFKeys.get(key);
     }
+    /** Sets the pfaction. */
     public void setPFAction(String key, String action)
     {
         tabActionPFKeys.put(key, action);
     }
 
+    /** Executes the make pfkeys description define operation. */
     public Element MakePFKeysDescriptionDefine(Document doc)
     {
         Element ePFKEys = doc.createElement("pfkeydefine") ;
@@ -556,6 +583,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
         return ePFKEys;
     }
+    /** Executes the make pfkeys description action operation. */
     public Element MakePFKeysDescriptionAction(Document doc)
     {
         Element ePFKEys = doc.createElement("pfkeyaction") ;
@@ -584,6 +612,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
 //  }
 //  protected String csDisplayName = "" ;
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -613,6 +642,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Sets the developable. */
     public void setDevelopable(String name, String flagMark)
     {
         CEntityResourceField field = getField(name) ;
@@ -622,6 +652,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Sets the format. */
     public void setFormat(String name, String format)
     {
         CEntityResourceField field = getField(name) ;
@@ -720,6 +751,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
             }
         }
     }
+    /** Sets the linked active choice. */
     public void setLinkedActiveChoice(String label, String edit, String target, boolean submit)
     {
         CEntityResourceField field = getField(label) ;
@@ -841,6 +873,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Adds the switch case. */
     public void AddSwitchCase(String name, String value, String protection, Element tag)
     {
         CEntityResourceField field = getField(name) ;
@@ -850,6 +883,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Executes the hide field operation. */
     public void HideField(String name)
     {
         CEntityResourceField field = getField(name) ;
@@ -859,6 +893,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Executes the hide field operation. */
     public void HideField(int col, int line)
     {
         CEntityResourceField field = getField(col, line);
@@ -868,6 +903,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Adds the item. */
     public void AddItem(int c, int l, int s, Element tag)
     {
         if (addedItems == null)
@@ -885,6 +921,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     protected Vector<CEntityResourceFormContainer.FieldExportDescription> addedItems = null ;
     protected Vector<CEntityResourceFormContainer.FieldExportDescription> lines = null ;
 
+    /** Adds the line. */
     public void AddLine(int c, int l, int s)
     {
         if (lines == null)
@@ -900,6 +937,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         lines.add(exp) ;
     }
 
+    /** Executes the move field operation. */
     public void MoveField(String name, int nc, int nl)
     {
         CEntityResourceField field = getField(name) ;
@@ -909,6 +947,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
         }
     }
 
+    /** Executes the move field operation. */
     public void MoveField(int c, int l, int nc, int nl)
     {
         CEntityResourceField field = getField(c, l) ;
@@ -936,12 +975,14 @@ public class CEntityResourceForm extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         // Preserved from the retired backend: a screen map bears the FORM data type.
         return CDataEntityType.FORM ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // Preserved from the retired backend: a form bears no accessors.
@@ -957,6 +998,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseExternalEntity#GetTypeDecl()
      */
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         // Preserved from the retired backend: a form contributes no type declaration (unused).
@@ -973,6 +1015,7 @@ public class CEntityResourceForm extends CBaseResourceEntity
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)

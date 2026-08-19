@@ -17,22 +17,26 @@ import jlib.log.LogLevel;
  */
 public class LogEventStopProcess extends LogEvent
 {
+    /** Creates a new log event stop process instance. */
     public LogEventStopProcess(String csProduct)
     {
         super(LogEventType.Stop, LogFlowStd.Any, LogLevel.Critical, csProduct);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel)
     {
         return LogEventStopProcess.log(csChannel, null);
     }
 
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct)
     {
         LogEventStopProcess event = new LogEventStopProcess(csProduct);
         Log.log(csChannel, event, "");
         return event;
     }
+    /** Executes the log operation. */
     public static LogEvent log(String csChannel, String csProduct, String csRunId, String csRuntimeId)
     {
         LogEventStopProcess event = new LogEventStopProcess(csProduct);

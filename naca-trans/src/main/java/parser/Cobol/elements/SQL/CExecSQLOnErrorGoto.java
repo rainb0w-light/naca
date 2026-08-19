@@ -21,12 +21,14 @@ import semantic.SQL.CEntitySqlOnErrorGoto;
  */
 public class CExecSQLOnErrorGoto extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlon error goto instance. */
     public CExecSQLOnErrorGoto(int l, String reference)
     {
         super(l);
         ref = reference;
     }
     public String ref = "" ;
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLOnErrorGoto") ;

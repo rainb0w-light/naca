@@ -4,7 +4,9 @@ import generate.java.CJavaExporter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/** Provides cjava exporter test behavior. */
 public class CJavaExporterTest {
+    /** Executes the test format identifier operation. */
     @Test
     public void testFormatIdentifier() {
         CJavaExporter exporter = new CJavaExporter(null, "test.java", null, false);

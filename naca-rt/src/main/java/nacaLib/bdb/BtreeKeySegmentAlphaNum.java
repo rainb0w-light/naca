@@ -21,6 +21,7 @@ public class BtreeKeySegmentAlphaNum extends BtreeKeySegment
 {
     private boolean iscompareInEbcdic = false;
 
+    /** Creates a new btree key segment alpha num instance. */
     public BtreeKeySegmentAlphaNum(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);

@@ -62,11 +62,13 @@ public class CGlobalCatalog
     private String csIncludeGroupName = "" ;
 
 
+    /** Adds the ignored external. */
     public void AddIgnoredExternal(CIgnoreExternalEntity e)
     {
         String name = e.GetName() ;
         tabIgnoredExternals.put(name, e) ;
     }
+    /** Executes the is ignored external operation. */
     public boolean IsIgnoredExternal(String name)
     {
         try
@@ -78,6 +80,7 @@ public class CGlobalCatalog
             return false ;
         }
     }
+    /** Creates a new cglobal catalog instance. */
     public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes)
     {
         transcoder = trans ;
@@ -93,6 +96,7 @@ public class CGlobalCatalog
     }
 
 
+    /** Executes the get form container operation. */
     @SuppressWarnings("unchecked")
     public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
     {
@@ -114,6 +118,7 @@ public class CGlobalCatalog
         }
         return null ;
     }
+    /** Executes the get form container operation. */
     @SuppressWarnings("unchecked")
     public CEntityResourceFormContainer GetFormContainer(String contName, CTransApplicationGroup grp, boolean bResources)
     {
@@ -146,6 +151,7 @@ public class CGlobalCatalog
     }
 
     protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
+    /** Executes the register form container operation. */
     public void RegisterFormContainer(String name, CEntityResourceFormContainer cont)
     {
         if (cont == null)
@@ -162,6 +168,7 @@ public class CGlobalCatalog
 
 
 
+    /** Executes the check program reference operation. */
     public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
     {
         if (isCustomSubProgram(prg))
@@ -204,6 +211,7 @@ public class CGlobalCatalog
             return false ;
         }
     }
+    /** Returns whether program reference. */
     public boolean isProgramReference(String cs)
     {
         CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
@@ -219,10 +227,12 @@ public class CGlobalCatalog
         }
         return false ;
     }
+    /** Executes the register external data structure operation. */
     public void RegisterExternalDataStructure(CEntityExternalDataStructure structure)
     {
         tabIncludedStructures.put(structure.GetName(), structure) ;
     }
+    /** Executes the get external data structure operation. */
     @SuppressWarnings("unchecked")
     public CEntityExternalDataStructure GetExternalDataStructure(String name)
     {
@@ -259,10 +269,12 @@ public class CGlobalCatalog
         return null ;
     }
     protected Hashtable<String, String> tabTransID = new Hashtable<String, String>() ;
-    public void registerTransID(String TID, String prog)
+    /** Executes the register trans id operation. */
+    public void registerTransID(String tid, String prog)
     {
-        tabTransID.put(TID, prog);
+        tabTransID.put(tid, prog);
     }
+    /** Executes the get program for transaction operation. */
     public String GetProgramForTransaction(String transID)
     {
         String p = tabTransID.get(transID);
@@ -272,6 +284,7 @@ public class CGlobalCatalog
         }
         return p ;
     }
+    /** Exports the trans id. */
     public void ExportTransID(Element eRoot, Document doc)
     {
         Enumeration enumere = tabTransID.keys() ;
@@ -295,6 +308,7 @@ public class CGlobalCatalog
         {
         }
     }
+    /** Executes the import trans id operation. */
     public void ImportTransID(Element eRoot)
     {
         NodeList lst = eRoot.getElementsByTagName("transid") ;
@@ -320,21 +334,25 @@ public class CGlobalCatalog
             customSubProgram.addElement(name) ;
         }
     }
+    /** Returns whether custom sub program. */
     public boolean isCustomSubProgram(String name)
     {
         return customSubProgram.contains(name) ;
     }
+    /** Returns whether ignore sub program. */
     public boolean isIgnoreSubProgram(String name)
     {
         return ignoreSubProgram.contains(name) ;
     }
     protected Vector<String> customSubProgram = new Vector<String>() ;
     protected Vector<String> ignoreSubProgram = new Vector<String>() ;
+    /** Executes the can export resources operation. */
     public boolean CanExportResources(String name)
     {
         String cs = tabProgramNotExportingResource.get(name);
         return cs == null ;
     }
+    /** Executes the register not exporting resource operation. */
     public void RegisterNotExportingResource(String name)
     {
         tabProgramNotExportingResource.put(name, name) ;
@@ -349,6 +367,7 @@ public class CGlobalCatalog
         public boolean iscalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
         public int nNbParameters = 0 ;  // except DFHCOMMAREA
     }
+    /** Executes the register sub program operation. */
     public boolean registerSubProgram(String cs, boolean bWithDFHCommarea, int nbParameters)
     {
         CSubProgramCallDescription desc = tabSubProgramCall.get(cs) ;
@@ -384,6 +403,7 @@ public class CGlobalCatalog
     protected Vector<CSubProgramCallDescription> subProgramCalls = new Vector<CSubProgramCallDescription>() ;
 
 
+    /** Executes the do registered dependencies operation. */
     public void doRegisteredDependencies()
     {
         CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
@@ -402,6 +422,7 @@ public class CGlobalCatalog
         }
     }
 
+    /** Executes the register program operation. */
     public void registerProgram(String cs)
     {
         if (!programDone.contains(cs))
@@ -428,6 +449,7 @@ public class CGlobalCatalog
         return false ;
     }
 
+    /** Clears the form containers. */
     public void ClearFormContainers()
     {
         tabFormContainers.clear() ;

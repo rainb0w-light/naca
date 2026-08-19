@@ -13,19 +13,18 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import jlib.xml.Tag;
 import jlib.xml.TagCursor;
-
-import lexer.*;
+import lexer.CBaseToken;
+import lexer.CReservedConstant;
+import lexer.CReservedKeyword;
+import lexer.CTokenList;
+import lexer.CTokenType;
 import lexer.BMS.CBMSConstantList;
 import lexer.BMS.CBMSKeywordList;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import java.util.ArrayList;
-
 import parser.CBaseElement;
 import parser.BMS.CBMSElement;
 import semantic.CBaseEntityFactory;
@@ -36,6 +35,11 @@ import semantic.forms.CEntityResourceFormContainer;
 import semantic.forms.CResourceStrings;
 import utils.NacaTransAssertException;
 import utils.Transcoder;
+
+
+
+
+
 
 /**
  * @author sly
@@ -61,8 +65,8 @@ public class CMapElement extends CBMSElement
         Element eMS = root.createElement("Map") ;
         Element eAttr = root.createElement("Attributes") ;
         eMS.appendChild(eAttr) ;
-        eAttr.setAttribute("SizeCol", String.valueOf(size_Col)) ;
-        eAttr.setAttribute("SizeLine", String.valueOf(size_Line)) ;
+        eAttr.setAttribute("SizeCol", String.valueOf(sizeCol)) ;
+        eAttr.setAttribute("SizeLine", String.valueOf(sizeLine)) ;
         eAttr.setAttribute("Line", line.name) ;
         eAttr.setAttribute("Column", column.name) ;
         eAttr.setAttribute("Data", data.name) ;
@@ -119,7 +123,7 @@ public class CMapElement extends CBMSElement
                 Transcoder.logError(getLine(), "Expecting NUMBER") ;
                 return false ;
             }
-            size_Line = tok.GetIntValue() ;
+            sizeLine = tok.GetIntValue() ;
             tok = GetNext() ;
             if (tok.GetType() != CTokenType.COMMA)
             {
@@ -132,7 +136,7 @@ public class CMapElement extends CBMSElement
                 Transcoder.logError(getLine(), "Expecting NUMBER") ;
                 return false ;
             }
-            size_Col = tok.GetIntValue() ;
+            sizeCol = tok.GetIntValue() ;
             tok = GetNext() ;
             if (tok.GetType() != CTokenType.RIGHT_BRACKET)
             {
@@ -412,6 +416,7 @@ public class CMapElement extends CBMSElement
         return true ;
     }
 
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         CEntityResourceFormContainer container = (CEntityResourceFormContainer)parent ;
@@ -435,7 +440,7 @@ public class CMapElement extends CBMSElement
         boolean isfirstForm = false ;
         if (resStrings == null)
         {
-            resStrings = factory.NewResourceString(size_Line, size_Col);
+            resStrings = factory.NewResourceString(sizeLine, sizeCol);
             isfirstForm = true ;
         }
         CEntityResourceForm ef= null ;
@@ -450,7 +455,7 @@ public class CMapElement extends CBMSElement
                 ef = factory.NewEntityForm(getLine(), getName(), false) ;
 //          }
             factory.programCatalog.RegisterMap(ef) ;
-            ef.SetSize(size_Col, size_Line) ;
+            ef.SetSize(sizeCol, sizeLine) ;
             ef.of = container ;
         }
 
@@ -473,7 +478,7 @@ public class CMapElement extends CBMSElement
                     if (field.nLength>0)
                     {
                         field.of = container ;
-                        if (field.nPosCol + field.nLength > size_Col+1)
+                        if (field.nPosCol + field.nLength > sizeCol+1)
                         {
                             Transcoder.logWarn(0, "Form : "+name+" / Field : "+
                                     field.GetName()+"("+field.nPosLine+","+field.nPosCol+") is too long : "
@@ -661,8 +666,8 @@ public class CMapElement extends CBMSElement
         children = newList ;
     }
 
-    protected int size_Col = 0 ;
-    protected int size_Line = 0 ;
+    private int sizeCol = 0 ;
+    private int sizeLine = 0 ;
     protected CReservedConstant line = null ;
     protected CReservedConstant column = null ;
     protected CReservedConstant data = null ;
@@ -676,28 +681,33 @@ public class CMapElement extends CBMSElement
     /* (non-Javadoc)
      * @see parser.CBMSElement#GetType()
      */
+    /** Executes the get type operation. */
     public EBMSElementType GetType()
     {
         return EBMSElementType.MAP ;
     }
 
     protected CResourceStrings resStrings = null ;
+    /** Executes the get resource strings operation. */
     public CResourceStrings GetResourceStrings()
     {
         return resStrings;
     }
+    /** Sets the resource strings. */
     public void SetResourceStrings(CResourceStrings res)
     {
         resStrings = res ;
 
     }
 
+    /** Sets the find arrays. */
     public void setFindArrays()
     {
         isfindArrays = true ;
     }
     protected boolean isfindArrays = false ;
 
+    /** Loads the tag parameters. */
     public CBMSElement loadTagParameters(Tag tagCurrent)
     {
         int nLine = tagCurrent.getValAsInt("Line");
@@ -708,14 +718,15 @@ public class CMapElement extends CBMSElement
         return loadInternalTags(tagCurrent);
     }
 
+    /** Parses the xmlresource. */
     public CBMSElement parseXMLResource(Tag tag)
     {
         String csName = tag.getName();
         CBMSElement elem = null;
         if(csName.equalsIgnoreCase("Attributes"))
         {
-            size_Col = tag.getValAsInt("SizeCol");
-            size_Line = tag.getValAsInt("SizeLine");
+            sizeCol = tag.getValAsInt("SizeCol");
+            sizeLine = tag.getValAsInt("SizeLine");
 
             line = new CReservedConstant(null, tag.getVal("Line"));
 
@@ -779,6 +790,7 @@ public class CMapElement extends CBMSElement
         return this;
     }
 
+    /** Loads the from res. */
     public void loadFromRES(int nLine, String csName, String csLanguage)
     {
         setLine(nLine);
@@ -794,8 +806,8 @@ public class CMapElement extends CBMSElement
             setName(csName);
         }
 
-        size_Col = 100;
-        size_Line = 30;
+        sizeCol = 100;
+        sizeLine = 30;
         line = new CReservedConstant(null, "NEXT");
         column = new CReservedConstant(null, "SAME");
         data = new CReservedConstant(null, "FIELD");

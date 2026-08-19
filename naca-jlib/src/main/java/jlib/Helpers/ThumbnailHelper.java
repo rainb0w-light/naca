@@ -98,29 +98,29 @@ public class ThumbnailHelper {
 
 //********************** Separate thread producing the thumbnail ************************
         class PipedThread extends Thread {
-            private PipedOutputStream _pos;
-            private Image _image;
-            private int _maxHeight,_maxWidth;
+            private PipedOutputStream pos;
+            private Image storedImage;
+            private int storedMaxHeight,storedMaxWidth;
 
 //................................. Initialization ..............................
             public PipedThread(Image image,int maxHeight,int maxWidth) {
-                _pos=new PipedOutputStream();
-                _image=image;
-                _maxHeight=maxHeight;
-                _maxWidth=maxWidth;
+                pos=new PipedOutputStream();
+                storedImage=image;
+                storedMaxHeight=maxHeight;
+                storedMaxWidth=maxWidth;
             }
 
 //........................ To obtain the PipedOutputStream ......................
             public PipedOutputStream getPipedOutputStream() {
-                return _pos;
+                return pos;
             }
 
 //...................... Creates the thumbnail ................................
             @Override
             public void run() {
-                createThumbnail(_image,_pos,_maxWidth,_maxHeight);
+                createThumbnail(storedImage,pos,storedMaxWidth,storedMaxHeight);
                 try {
-                    _pos.close();
+                    pos.close();
                 } catch (IOException e) {
                     throw new ProgrammingException(ProgrammingException.IO_ERROR,e.getMessage(),e);
                 }

@@ -66,6 +66,7 @@ public class CFPacNumEditedConstant extends CTerminal
     }
 
 
+    /** Executes the is number operation. */
     public boolean IsNumber()
     {
         return false ;

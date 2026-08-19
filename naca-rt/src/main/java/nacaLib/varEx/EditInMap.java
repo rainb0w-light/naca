@@ -53,6 +53,7 @@ public class EditInMap extends Edit
         return v;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "Var2Edit ";
@@ -61,42 +62,50 @@ public class EditInMap extends Edit
         return cs;
     }
 
+    /** Returns the at. */
     public Edit getAt(Var x)
     {
         return this;
     }
 
 
+    /** Returns the at. */
     public Edit getAt(int x)
     {
         return this;
     }
 
+    /** Returns the at. */
     public Edit getAt(int y, int x)
     {
         return this;
     }
 
+    /** Returns the at. */
     public Edit getAt(int z, int y, int x)
     {
         return this;
     }
 
+    /** Executes the set operation. */
     public void set(Var varSource)
     {
         varSource.transferTo(this); // PJD Var TO EditInMap
     }
 
+    /** Executes the set operation. */
     public void set(Edit varSource)
     {
         varSource.transferTo(this);
     }
 
+    /** Executes the transfer to operation. */
     public void transferTo(Var varDest)
     {
         varDef.transfer(bufferPos, varDest);    // PJD EditInMap TO Var
     }
 
+    /** Executes the transfer to operation. */
     public void transferTo(Edit varDest)
     {
         varDef.transfer(bufferPos, varDest);
@@ -107,6 +116,7 @@ public class EditInMap extends Edit
         return true;
     }
 
+    /** Executes the semantic context operation. */
     public Edit semanticContext(String csSemanticContext)
     {
         return this;
@@ -128,6 +138,7 @@ public class EditInMap extends Edit
      * @see nacaLib.varEx.Edit#setLength(int)
      */
 
+    /** Exports the xml. */
     public Element exportXML(Document doc, String csLangId)
     {
         if(doc != null)
@@ -181,6 +192,7 @@ public class EditInMap extends Edit
         return null ;
     }
 
+    /** Executes the save edit attributes in var def operation. */
     public void saveEditAttributesInVarDef()
     {
         VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;
@@ -189,6 +201,7 @@ public class EditInMap extends Edit
         // setSemanticContextValue(attrManager.csSemanticContext); // Restore original semantic context already saved in attributes
     }
 
+    /** Executes the restore edit attributes in var def operation. */
     public void restoreEditAttributesInVarDef()
     {
         VarDefEditInMap varDefEdit = (VarDefEditInMap)varDef;

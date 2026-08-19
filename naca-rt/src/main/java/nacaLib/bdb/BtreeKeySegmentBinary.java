@@ -17,6 +17,7 @@ package nacaLib.bdb;
  */
 public class BtreeKeySegmentBinary extends BtreeKeySegment
 {
+    /** Creates a new btree key segment binary instance. */
     public BtreeKeySegmentBinary(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
     {
         super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);

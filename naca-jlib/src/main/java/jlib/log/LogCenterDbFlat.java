@@ -69,6 +69,7 @@ import jlib.xml.Tag;
 
 public class LogCenterDbFlat extends LogCenter
 {
+    /** Creates a new log center db flat instance. */
     public LogCenterDbFlat(LogCenterLoader logCenterLoader)
     {
         super(logCenterLoader);
@@ -88,6 +89,7 @@ public class LogCenterDbFlat extends LogCenter
     DbConnectionManager manager = null;
     DbConnectionBase dbConnection = null;
 
+    /** Loads the specifics entries. */
     public void loadSpecificsEntries(Tag tagLogCenter)  // Special values for file appenders
     {
         csDbUser = tagLogCenter.getVal("DbUser");

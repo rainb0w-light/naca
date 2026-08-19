@@ -18,10 +18,12 @@ import java.util.GregorianCalendar;
  */
 public class StringUtil
 {
+    /** Creates a new string util instance. */
     public StringUtil()
     {
     }
 
+    /** Executes the left pad operation. */
     public static String leftPad(String csIn, int nRequiredLength, char cFill)
     {
         String csOut = new String();
@@ -43,6 +45,7 @@ public class StringUtil
         return csOut;
     }
 
+    /** Executes the format with fill4 left zero operation. */
     public static String FormatWithFill4LeftZero(int n)
     {
         if (n == 0) {
@@ -60,6 +63,7 @@ public class StringUtil
         return String.valueOf(n);
     }
 
+    /** Executes the format with fill2 left zero operation. */
     public static String FormatWithFill2LeftZero(int n)
     {
         if (n == 0) {
@@ -71,6 +75,7 @@ public class StringUtil
         return String.valueOf(n);
     }
 
+    /** Executes the right pad operation. */
     public static String rightPad(String csIn, int nRequiredLength, char cFill)
     {
         String csOut = new String();
@@ -92,6 +97,7 @@ public class StringUtil
         return csOut;
     }
 
+    /** Executes the decode sign comp3 string operation. */
     public static String decodeSignComp3String(String s, int nNbDigitInteger)
     {
         boolean isevenNumberOfDigits = false;
@@ -136,6 +142,7 @@ public class StringUtil
         return sOut;
     }
 
+    /** Executes the decode comp3 string operation. */
     public static String decodeComp3String(String s, int nNbDigitInteger)
     {
         boolean isevenNumberOfDigits = false;
@@ -175,6 +182,7 @@ public class StringUtil
         return sOut;
     }
 
+    /** Executes the replace operation. */
     public static String replace(String csSource, String csOldChunk, String csNewChunk, boolean bAll)
     {
         int n = csSource.indexOf(csOldChunk);
@@ -193,18 +201,21 @@ public class StringUtil
         return csSource;
     }
 
+    /** Executes the replace operation. */
     public static String replace(String csSource, String csOldChunk, int nNewChunk, boolean bAll)
     {
         String csNewChunk = String.valueOf(nNewChunk);
         return replace(csSource, csOldChunk, csNewChunk, bAll);
     }
 
+    /** Executes the replace operation. */
     public static String replace(String csSource, String csOldChunk, long lNewChunk, boolean bAll)
     {
         String csNewChunk = String.valueOf(lNewChunk);
         return replace(csSource, csOldChunk, csNewChunk, bAll);
     }
 
+    /** Executes the trim left operation. */
     static public String trimLeft(String s)
     {
         boolean b = false;
@@ -224,6 +235,7 @@ public class StringUtil
         return s;
     }
 
+    /** Executes the trim left operation. */
     static public String trimLeft(String s, char c)
     {
         boolean b = false;
@@ -243,6 +255,7 @@ public class StringUtil
         return s;
     }
 
+    /** Executes the trim right operation. */
     static public String trimRight(String s)
     {
         boolean b = false;
@@ -261,6 +274,7 @@ public class StringUtil
         return s;
     }
 
+    /** Executes the trim right operation. */
     static public String trimRight(String s, char c)
     {
         boolean b = false;
@@ -279,16 +293,19 @@ public class StringUtil
         return s;
     }
 
+    /** Executes the trim left right operation. */
     static public String trimLeftRight(String s)
     {
         return trimLeft(trimRight(s));
     }
 
+    /** Executes the trim left right operation. */
     static public String trimLeftRight(String s, char c)
     {
         return trimLeft(trimRight(s, c), c);
     }
 
+    /** Executes the concat arg with separator operation. */
     static public String concatArgWithSeparator(String csBase, String csSeparator, String csArg)
     {
         if(!csBase.endsWith(csSeparator))
@@ -299,6 +316,7 @@ public class StringUtil
         return csBase;
     }
 
+    /** Returns whether empty. */
     static public boolean isEmpty(String cs)
     {
         if (cs == null) {
@@ -310,6 +328,7 @@ public class StringUtil
         return false;
     }
 
+    /** Executes the trim equals operation. */
     static public boolean trimEquals(String cs1, String cs2)
     {
         if (cs1.trim().equals(cs2.trim())) {
@@ -318,6 +337,7 @@ public class StringUtil
         return false;
     }
 
+    /** Returns whether empty or only whitespaces. */
     static public boolean isEmptyOrOnlyWhitespaces(String cs)
     {
         if (cs == null) {
@@ -326,6 +346,7 @@ public class StringUtil
         return isEmpty(cs.trim());
     }
 
+    /** Returns the nb empty or only whitespaces. */
     static public int getNbEmptyOrOnlyWhitespaces(String cs1, String cs2)
     {
         int n = 0;
@@ -340,6 +361,7 @@ public class StringUtil
         return n;
     }
 
+    /** Returns the nb empty or only whitespaces. */
     static public int getNbEmptyOrOnlyWhitespaces(String cs1, String cs2, String cs3)
     {
         int n = 0;
@@ -358,6 +380,7 @@ public class StringUtil
         return n;
     }
 
+    /** Removes the surrounding quotes. */
     static public String removeSurroundingQuotes(String cs)
     {
         if(cs != null)
@@ -376,6 +399,7 @@ public class StringUtil
         return cs;
     }
 
+    /** Executes the format as4 char hexa operation. */
     static public String FormatAs4CharHexa(int nValue)
     {
         String cs = "";
@@ -394,6 +418,7 @@ public class StringUtil
         return cs;
     }
 
+    /** Executes the format as2 char hexa operation. */
     static public String FormatAs2CharHexa(int nValue)
     {
         String cs = "";
@@ -412,6 +437,7 @@ public class StringUtil
         return cs;
     }
 
+    /** Executes the format as2 char hexa operation. */
     static public String FormatAs2CharHexa(byte byValue)
     {
         if (byValue < 0) {
@@ -421,11 +447,13 @@ public class StringUtil
         }
     }
 
+    /** Executes the extract current word operation. */
     public static String extractCurrentWord(StringRef rcs)
     {
         return extractCurrentWord(rcs, true, null);
     }
 
+    /** Executes the extract current word operation. */
     public static String extractCurrentWord(StringRef rcs, boolean bSepIsWithSpace, String csOtherSep)
     {
         String cs = rcs.get();
@@ -461,6 +489,7 @@ public class StringUtil
         return null;
     }
 
+    /** Executes the extract current word including last operation. */
     public static String extractCurrentWordIncludingLast(StringRef rcs, boolean bSepIsWithSpace, String csOtherSep)
     {
         String csWord = extractCurrentWord(rcs, bSepIsWithSpace, csOtherSep);
@@ -534,6 +563,7 @@ public class StringUtil
      }
      */
 
+    /** Returns the first word. */
     public static String getFirstWord(String cs)
     {
         cs = cs.trim();
@@ -550,6 +580,7 @@ public class StringUtil
         return cs;
     }
 
+    /** Removes the first word. */
     public static String removeFirstWord(String cs)
     {
         // Skip leading whitespaces
@@ -574,6 +605,7 @@ public class StringUtil
         return "";
     }
 
+    /** Returns the word following. */
     public static String getWordFollowing(String csText, String csMarker)
     {
         int n = csText.indexOf(csMarker);
@@ -586,6 +618,7 @@ public class StringUtil
         return null;
     }
 
+    /** Returns the uncoted parameter value. */
     public static String getUncotedParameterValue(String csText, String csParamName)
     {
         csParamName = csParamName + "=";
@@ -610,11 +643,13 @@ public class StringUtil
         return null;
     }
 
+    /** Returns the first word with stop list. */
     public static String getFirstWordWithStopList(String cs, String csStopListChars)
     {
         return getFirstWordWithStopListAtOffset(cs, 1, csStopListChars);
     }
 
+    /** Returns the first word with stop list at offset. */
     public static String getFirstWordWithStopListAtOffset(String cs, int nOffsetSource, String csStopListChars)
     {
         cs = cs.trim();
@@ -631,6 +666,7 @@ public class StringUtil
         return "";
     }
 
+    /** Executes the extract first word with stop list operation. */
     public static String extractFirstWordWithStopList(String cs[], String csStopListChars)
     {
         cs[0] = cs[0].trim();
@@ -650,6 +686,7 @@ public class StringUtil
         return csLast;
     }
 
+    /** Returns the next white space position. */
     public static int getNextWhiteSpacePosition(String cs)
     {
         // cs must be trimmed
@@ -665,6 +702,7 @@ public class StringUtil
         return nLen;
     }
 
+    /** Executes the fill string operation. */
     static public String fillString(char c, int nLength)
     {
         String cs = new String();
@@ -674,6 +712,7 @@ public class StringUtil
         return cs;
     }
 
+    /** Returns whether all digits. */
     public static boolean isAllDigits(String cs)
     {
         for(int n=0; n<cs.length(); n++)
@@ -686,6 +725,7 @@ public class StringUtil
         return true;
     }
 
+    /** Executes the make full table name operation. */
     public static String makeFullTableName(String csPrefix, String csTableName)
     {
         if (csPrefix != null) {
@@ -694,6 +734,7 @@ public class StringUtil
         return csTableName;
     }
 
+    /** Returns the table prefix. */
     public static String getTablePrefix(String csFullTableName)
     {
         int nPos = csFullTableName.indexOf('.');
@@ -704,6 +745,7 @@ public class StringUtil
         return csLeft;
     }
 
+    /** Returns the unprefixed table name. */
     public static String getUnprefixedTableName(String csFullTableName)
     {
         int nPos = csFullTableName.indexOf('.');
@@ -714,6 +756,7 @@ public class StringUtil
         return csRight;
     }
 
+    /** Executes the starts with no case operation. */
     public static boolean startsWithNoCase(String csValue, String csStart)
     {
         csValue = csValue.toUpperCase();
@@ -721,6 +764,7 @@ public class StringUtil
         return csValue.startsWith(csStart);
     }
 
+    /** Executes the starts with no case operation. */
     public static boolean startsWithNoCase(String csValue, String csStart, int nOffset)
     {
         csValue = csValue.toUpperCase();
@@ -728,6 +772,7 @@ public class StringUtil
         return csValue.startsWith(csStart, nOffset);
     }
 
+    /** Converts the hex digit as int. */
     public static int convertHexDigitAsInt(char c)
     {
         if (c >= '0' && c <= '9') {
@@ -754,12 +799,14 @@ public class StringUtil
 //   Le troisieme c'est l'ann�e.
 //   Les heures, les minutes et les secondes.
 //   Les groupes de chiffres peuvent �tre s�par�s par n'importe quoi.
+    /** Executes the string to calendar operation. */
     public static Calendar StringToCalendar(String s)
     {
         return StringToCalendar(s, "DMYhms");
     }
 
 //  Format_ represente l'ordre des groupes de chiffres.
+    /** Executes the string to calendar operation. */
     public static Calendar StringToCalendar(String s, String format)
     {
         int day=1, month=1, year=0;       // Jour, mois, ann�e...
@@ -807,6 +854,8 @@ public class StringUtil
                 case 's':
                     seconds=Integer.parseInt(numbers[n]);
                     break;
+                default:
+                    break;
             }
         }
 
@@ -843,6 +892,7 @@ public class StringUtil
         }
     }
 
+    /** Executes the replace with status operation. */
     public static boolean replaceWithStatus(StringBuilder sb, String csSearch, String csReplace)
     {
         try
@@ -856,11 +906,13 @@ public class StringUtil
         }
     }
 
+    /** Renders the couple. */
     public static String renderCouple(String csName, String csValue)
     {
         return csName + "='" + csValue + "'";
     }
 
+    /** Returns a string representation of this value. */
     public static String toString(Object o)
     {
         if (o == null) {
@@ -934,6 +986,7 @@ public class StringUtil
     }
 
 
+    /** Executes the extract prefixed keywords operation. */
     public static ArrayList<String> extractPrefixedKeywords(String csValues, String csOptionalPrefixed)
     {
         boolean isusePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
@@ -1004,6 +1057,7 @@ public class StringUtil
         return arr;
     }
 
+    /** Executes the extract prefixed keywords bracketed operation. */
     public static ArrayList<String> extractPrefixedKeywordsBracketed(String csValues, String csOptionalPrefixed)
     {
         boolean isusePrefix = !StringUtil.isEmpty(csOptionalPrefixed);
@@ -1063,6 +1117,7 @@ public class StringUtil
 
     // Returns the number of line of the text. A null string is 0 line length; an empty one is 1 line length a\nb is 2 lines length,
     // a\nb\c\n is 4 line length
+    /** Returns the line count. */
     public static int getLineCount(String csText)
     {
         int nNblines = 1;
@@ -1079,6 +1134,7 @@ public class StringUtil
         return nNblines;
     }
 
+    /** Returns the unprefixed member name. */
     public static String getUnprefixedMemberName(String csMemberName, String csPrefix, Type fieldType)
     {
         if(csMemberName.startsWith(csPrefix))

@@ -20,10 +20,12 @@ import jlib.misc.LineRead;
  */
 public class VarDefEncodingConvertibleManagerContainer
 {
+    /** Creates a new var def encoding convertible manager container instance. */
     public VarDefEncodingConvertibleManagerContainer()
     {
     }
 
+    /** Returns the encoding manager. */
     public VarDefEncodingConvertibleManager getEncodingManager(VarBase varDest)
     {
         if (hash == null) {
@@ -42,6 +44,7 @@ public class VarDefEncodingConvertibleManagerContainer
         return encodingManager;
     }
 
+    /** Returns the encoding manager convert and write. */
     public boolean getEncodingManagerConvertAndWrite(LineRead lineRead, VarBase varDest)
     {
         VarDefEncodingConvertibleManager encodingManager = getEncodingManager(varDest);

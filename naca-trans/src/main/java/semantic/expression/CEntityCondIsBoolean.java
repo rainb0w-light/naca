@@ -9,10 +9,12 @@ package semantic.expression;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity;
 
+/** Provides centity cond is boolean behavior. */
 public class CEntityCondIsBoolean extends CUnitaryEntityCondition
 {
     protected boolean isisTrue = false ;
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
@@ -46,12 +48,14 @@ public class CEntityCondIsBoolean extends CUnitaryEntityCondition
         return isTrue();
     }
 
+    /** Sets the is true. */
     public void setIsTrue(CDataEntity e)
     {
         reference = e ;
         isisTrue = true ;
     }
 
+    /** Sets the is false. */
     public void setIsFalse(CDataEntity e)
     {
         reference = e ;
@@ -71,6 +75,7 @@ public class CEntityCondIsBoolean extends CUnitaryEntityCondition
     {
         return null;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;

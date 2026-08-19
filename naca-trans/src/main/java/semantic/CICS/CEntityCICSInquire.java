@@ -35,11 +35,13 @@ public class CEntityCICSInquire extends CBaseActionEntity
 
     public CDataEntity program = null ;
     public CDataEntity transaction = null ;
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

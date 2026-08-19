@@ -23,32 +23,39 @@ public class CCESMFakeMethodContainer
 {
     private final BaseEnvironment environment;
 
+    /** Creates a new ccesmfake method container instance. */
     public CCESMFakeMethodContainer()
     {
         this(null);
     }
 
+    /** Creates a new ccesmfake method container instance. */
     public CCESMFakeMethodContainer(BaseEnvironment environment)
     {
         this.environment = environment;
     }
 
+    /** Executes the a bcode operation. */
     public CCESMFakeMethodContainer aBCode(Var m)
     {
         return this ;
     }
+    /** Executes the a bcode operation. */
     public CCESMFakeMethodContainer aBCode(String m)
     {
         return this ;
     }
+    /** Executes the comm area operation. */
     public CCESMFakeMethodContainer commArea(Var v)
     {
         return this ;
     }
+    /** Executes the comm area operation. */
     public CCESMFakeMethodContainer commArea(Var v, int n, int m)
     {
         return this ;
     }
+    /** Executes the comm area operation. */
     public CCESMFakeMethodContainer commArea(Var v, Var n, int m)
     {
         return this ;
@@ -77,78 +84,97 @@ public class CCESMFakeMethodContainer
     {
         return this ;
     }*/
+    /** Executes the program operation. */
     public CCESMFakeMethodContainer  program(Var v)
     {
         return this ;
     }
+    /** Executes the transaction operation. */
     public CCESMFakeMethodContainer  transaction(Var v)
     {
         return this ;
     }
+    /** Executes the transaction operation. */
     public CCESMFakeMethodContainer  transaction(String v)
     {
         return this ;
     }
+    /** Executes the from operation. */
     public CCESMFakeMethodContainer  from(Var v)
     {
         return this ;
     }
+    /** Executes the from operation. */
     public CCESMFakeMethodContainer  from(Var v, Var len)
     {
         return this ;
     }
+    /** Executes the from operation. */
     public CCESMFakeMethodContainer  from(Var v, int len)
     {
         return this ;
     }
+    /** Executes the rec idfield operation. */
     public CCESMFakeMethodContainer  recIDField(Var v)
     {
         return this ;
     }
+    /** Executes the into operation. */
     public CCESMFakeMethodContainer  into(Var v)
     {
         return this ;
     }
+    /** Executes the length operation. */
     public CCESMFakeMethodContainer length(Var v)
     {
         return this;
     }
+    /** Executes the length operation. */
     public CCESMFakeMethodContainer length(int value)
     {
         return this;
     }
+    /** Executes the key length operation. */
     public CCESMFakeMethodContainer keyLength(Var v)
     {
         return this;
     }
+    /** Executes the update operation. */
     public CCESMFakeMethodContainer update()
     {
         return this;
     }
+    /** Reads the item. */
     public CCESMFakeMethodContainer  readItem(Var v)
     {
         return this ;
     }
+    /** Executes the g teq operation. */
     public CCESMFakeMethodContainer  gTEQ()
     {
         return this ;
     }
+    /** Writes the item. */
     public CCESMFakeMethodContainer  writeItem(Var v)
     {
         return this ;
     }
+    /** Executes the main operation. */
     public CCESMFakeMethodContainer  main()
     {
         return this ;
     }
+    /** Executes the term id operation. */
     public CCESMFakeMethodContainer  termID(String s)
     {
         return this ;
     }
+    /** Executes the all operation. */
     public CCESMFakeMethodContainer all(String string)
     {
         return this ;
     }
+    /** Executes the tctualeng operation. */
     public CCESMFakeMethodContainer TCTUALENG(Var tctualong)
     {
         requireEnvironment("ASSIGN TCTUALENG");
@@ -163,18 +189,22 @@ public class CCESMFakeMethodContainer
     {
         return this ;
     }*/
+    /** Executes the to operation. */
     public CCESMFakeMethodContainer to(Var var)
     {
         return this ;
     }
+    /** Executes the to operation. */
     public CCESMFakeMethodContainer to(Var var, Var len)
     {
         return this ;
     }
+    /** Executes the key length operation. */
     public CCESMFakeMethodContainer keyLength(int i)
     {
         return this ;
     }
+    /** Executes the equal operation. */
     public CCESMFakeMethodContainer equal()
     {
         return this ;
@@ -197,6 +227,7 @@ public class CCESMFakeMethodContainer
         return this ;
     }
     */
+    /** Executes the applid operation. */
     public CCESMFakeMethodContainer APPLID(Var applid)
     {
         requireEnvironment("ASSIGN APPLID");
@@ -208,11 +239,13 @@ public class CCESMFakeMethodContainer
         applid.set(applicationId);
         return this ;
     }
+    /** Executes the sys id operation. */
     public CCESMFakeMethodContainer sysID(Var sysID)
     {
         throw new UnsupportedOperationException(
             "Remote CICS SYSID operations require a configured transport backend");
     }
+    /** Executes the count all operation. */
     public CCESMFakeMethodContainer countAll(String string, Var nbClass)
     {
         return this ;

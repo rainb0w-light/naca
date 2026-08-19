@@ -12,10 +12,12 @@ package nacaLib.varEx;
  */
 public class DeclareTypeForm extends DeclareTypeBase
 {
+    /** Creates a new declare type form instance. */
     public DeclareTypeForm()
     {
     }
 
+    /** Executes the set operation. */
     public void set(VarLevel varLevel)
     {
         super.set(varLevel);
@@ -34,6 +36,7 @@ public class DeclareTypeForm extends DeclareTypeBase
 //      return null;
 //  }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefForm(varDefParent, this);

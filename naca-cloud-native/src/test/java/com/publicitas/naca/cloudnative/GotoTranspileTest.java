@@ -1,7 +1,6 @@
 package com.publicitas.naca.cloudnative;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,13 +8,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import com.publicitas.naca.cloudnative.service.TranspilerService;
 import com.publicitas.naca.cloudnative.service.TranspilerService.TranspileResult;
+
+
+
 
 /**
  * Verifies the fully-migrated GO TO verb: the semantic {@code CEntityGoto} is

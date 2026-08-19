@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "recipe": "com.publicitas.naca.NormalizeAllVariableNames",
   "sourceEncoding": "ISO-8859-1",
-  "applied": true,
-  "sourceFilesScanned": 1796,
+  "applied": false,
+  "sourceFilesScanned": 1800,
   "filesChanged": 0,
   "changedFiles": [
   ]

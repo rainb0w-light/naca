@@ -13,10 +13,12 @@ package nacaLib.program;
 
 import nacaLib.base.JmxGeneralStat;
 import nacaLib.basePrgEnv.BaseProgram;
-import nacaLib.varEx.*;
+import nacaLib.varEx.VarDeclaration;
 
+/** Provides copy behavior. */
 public class Copy
 {
+    /** Creates a new copy instance. */
     public Copy(BaseProgram program, CopyReplacing copyReplacing)
     {
         declare = new VarDeclaration(program, copyReplacing);
@@ -33,6 +35,7 @@ public class Copy
         JmxGeneralStat.incCopyClassLoaded(1);
     }
 
+    /** Executes the finalize operation. */
     public void finalize()
     {
         //Log.logNormal("Copy finalized: " +toString());

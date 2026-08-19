@@ -18,19 +18,23 @@ import semantic.expression.CUnitaryEntityCondition;
 public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
 {
 
+    /** Creates a new centity is field highlight instance. */
     public CEntityIsFieldHighlight(CDataEntity ref)
     {
         reference = ref ;
     }
 
+    /** Executes the is blink operation. */
     public void IsBlink()
     {
         isisBlink = true ;
     }
+    /** Executes the is reverse operation. */
     public void IsReverse()
     {
         isisReverse = true ;
     }
+    /** Executes the is underlined operation. */
     public void IsUnderlined()
     {
         isisUnderlined = true ;
@@ -41,14 +45,17 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
     protected boolean isisUnderlined = false ;
     protected boolean isopposite = false ;
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore() ;
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (reference == field)
@@ -75,6 +82,7 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
         return true;
     }
 
+    /** Sets the opposite. */
     public void setOpposite()
     {
         isopposite = !isopposite;
@@ -138,11 +146,13 @@ public class CEntityIsFieldHighlight extends CUnitaryEntityCondition
         return isisUnderlined ;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityIsFieldHighlight not = new CEntityIsFieldHighlight(reference) ;

@@ -131,6 +131,7 @@ public abstract class BaseProgram extends CJMapObject
 
 
 
+    /** Executes the finalize operation. */
     public void finalize()
     {
         //Log.logNormal("Program finalized: " +toString());
@@ -1160,13 +1161,13 @@ public abstract class BaseProgram extends CJMapObject
     }
 
     // int <-> math
-    protected boolean isDifferent(int nVal, MathBase Math)
+    protected boolean isDifferent(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isDifferent_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isDifferent_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal != nMath) {
             return true;
         }
@@ -1185,26 +1186,26 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isEqual(int nVal, MathBase Math)
+    protected boolean isEqual(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isEqual_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isEqual_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal == nMath) {
             return true;
         }
         return false;
     }
 
-    protected boolean isLess(int nVal, MathBase Math)
+    protected boolean isLess(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isLess_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isLess_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal < nMath) {
             return true;
         }
@@ -1220,25 +1221,25 @@ public abstract class BaseProgram extends CJMapObject
         return nVal < n;
     }
 
-    protected boolean isLessOrEqual(int nVal, MathBase Math)
+    protected boolean isLessOrEqual(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isLessOrEqual_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isLessOrEqual_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal <= nMath) {
             return true;
         }
         return false;
     }
 
-    protected boolean isLessOrEqual(MathBase Math, int nVal)
+    protected boolean isLessOrEqual(MathBase math, int nVal)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isLessOrEqual_M_n:" + Math.getSTCheckValue() + "/" + nVal);
+            Log.logFineDebug("isLessOrEqual_M_n:" + math.getSTCheckValue() + "/" + nVal);
         }
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal >= nMath) {
             return true;
         }
@@ -1256,13 +1257,13 @@ public abstract class BaseProgram extends CJMapObject
         return n <= i;
     }
 
-    protected boolean isGreater(int nVal, MathBase Math)
+    protected boolean isGreater(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isGreater_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isGreater_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal > nMath) {
             return true;
         }
@@ -1277,13 +1278,13 @@ public abstract class BaseProgram extends CJMapObject
         return nVal > p ;
     }
 
-    protected boolean isGreaterOrEqual(MathBase Math, int nVal)
+    protected boolean isGreaterOrEqual(MathBase math, int nVal)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isGreaterOrEqual_M_n:" + Math.getSTCheckValue() + "/" + nVal);
+            Log.logFineDebug("isGreaterOrEqual_M_n:" + math.getSTCheckValue() + "/" + nVal);
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nMath >= nVal) {
             return true;
         }
@@ -1312,42 +1313,42 @@ public abstract class BaseProgram extends CJMapObject
         return (n >= nVal) ;
     }
 
-    protected boolean isGreaterOrEqual(int nVal, MathBase Math)
+    protected boolean isGreaterOrEqual(int nVal, MathBase math)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isGreaterOrEqual_n_M:" + nVal + "/" + Math.getSTCheckValue());
+            Log.logFineDebug("isGreaterOrEqual_n_M:" + nVal + "/" + math.getSTCheckValue());
         }
 
-        int nMath = Math.d.intValue() ;
+        int nMath = math.d.intValue() ;
         if (nVal >= nMath) {
             return true;
         }
         return false;
     }
 
-    protected boolean isDifferent(MathBase Math1, MathBase math2)
+    protected boolean isDifferent(MathBase math1, MathBase math2)
     {
-        return !isEqual(Math1, math2);
+        return !isEqual(math1, math2);
     }
 
-    protected boolean isDifferent(MathBase Math2, int i)
+    protected boolean isDifferent(MathBase math2, int i)
     {
-        return isDifferent(i, Math2);
+        return isDifferent(i, math2);
     }
 
-    protected boolean isDifferent(MathBase Math2, Var var1)
+    protected boolean isDifferent(MathBase math2, Var var1)
     {
-        return isDifferent(var1, Math2);
+        return isDifferent(var1, math2);
     }
 
     // Var <-> Math
-    protected boolean isDifferent(Var var1, MathBase Math2)
+    protected boolean isDifferent(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isDifferent_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isDifferent_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -1358,13 +1359,13 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isEqual(Var var1, MathBase Math2)
+    protected boolean isEqual(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isEqual_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -1375,13 +1376,13 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isLess(Var var1, MathBase Math2)
+    protected boolean isLess(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isLess_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isLess_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -1392,13 +1393,13 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isLessOrEqual(Var var1, MathBase Math2)
+    protected boolean isLessOrEqual(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isLessOrEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isLessOrEqual_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -1409,13 +1410,13 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isGreater(Var var1, MathBase Math2)
+    protected boolean isGreater(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isGreater_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isGreater_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -1426,13 +1427,13 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isGreaterOrEqual(Var var1, MathBase Math2)
+    protected boolean isGreaterOrEqual(Var var1, MathBase math2)
     {
         if (IsSTCheck) {
-            Log.logFineDebug("isGreaterOrEqual_V_M:" + var1.getSTCheckValue() + "/" + Math2.getSTCheckValue());
+            Log.logFineDebug("isGreaterOrEqual_V_M:" + var1.getSTCheckValue() + "/" + math2.getSTCheckValue());
         }
 
-        int n = var1.compareTo(Math2);
+        int n = var1.compareTo(math2);
         if (isusedTempVarOrCStr) {
             tempCache.resetTempIndex(var1);
         }
@@ -4560,6 +4561,7 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Returns whether alphabetic. */
     public static boolean isAlphabetic(String s)
     {
     //  if(isLog.logFineTrace())
@@ -4575,6 +4577,7 @@ public abstract class BaseProgram extends CJMapObject
         return true;
     }
 
+    /** Returns whether alphabetic lower. */
     public static boolean isAlphabeticLower(String s)
     {
         for(int n=0; n<s.length(); n++)
@@ -4587,6 +4590,7 @@ public abstract class BaseProgram extends CJMapObject
         return true;
     }
 
+    /** Returns whether alphabetic upper. */
     public static boolean isAlphabeticUpper(String s)
     {
         for(int n=0; n<s.length(); n++)
@@ -4599,6 +4603,7 @@ public abstract class BaseProgram extends CJMapObject
         return true;
     }
 
+    /** Executes the execute operation. */
     public void execute(BaseProgram prg)
     {
         if (IsSTCheck) {
@@ -5981,6 +5986,7 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Sets the semantic context value. */
     public void setSemanticContextValue(Edit editDest, String csValue)
     {
         if (IsSTCheck) {
@@ -6069,6 +6075,7 @@ public abstract class BaseProgram extends CJMapObject
 //      return programManager.getCurrentSession();
 //  }
 
+    /** Executes the console operation. */
     public Console console()
     {
         if (IsSTCheck) {
@@ -6077,6 +6084,7 @@ public abstract class BaseProgram extends CJMapObject
         return new Console() ;
     }
 
+    /** Executes the sql rollback operation. */
     public CSQLStatus sqlRollback()
     {
         if (IsSTCheck) {
@@ -6085,6 +6093,7 @@ public abstract class BaseProgram extends CJMapObject
         return baseProgramManager.sqlRollback();
     }
 
+    /** Executes the sql commit operation. */
     public CSQLStatus sqlCommit()
     {
         if (IsSTCheck) {
@@ -6093,6 +6102,7 @@ public abstract class BaseProgram extends CJMapObject
         return baseProgramManager.sqlCommit();
     }
 
+    /** Executes the open output operation. */
     public void openOutput(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6101,6 +6111,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.openOutput();
     }
 
+    /** Executes the open input output operation. */
     public void openInputOutput(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6109,6 +6120,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.openInputOutput();
     }
 
+    /** Executes the open input operation. */
     public void openInput(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6117,6 +6129,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.openInput();
     }
 
+    /** Executes the open extend operation. */
     public void openExtend(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6125,6 +6138,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.openExtend();
     }
 
+    /** Executes the close operation. */
     public void close(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6133,6 +6147,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.close();
     }
 
+    /** Executes the write operation. */
     public void write(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6141,6 +6156,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.write();
     }
 
+    /** Writes the after. */
     public void writeAfter(FileDescriptor fileDesc, int after)
     {
         if (IsSTCheck) {
@@ -6149,6 +6165,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.writeAfter(after);
     }
 
+    /** Writes the from. */
     public void writeFrom(FileDescriptor fileDesc, Var varFrom)
     {
         if (IsSTCheck) {
@@ -6157,6 +6174,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.writeFrom(varFrom);
     }
 
+    /** Executes the rewrite from operation. */
     public void rewriteFrom(FileDescriptor fileDesc, Var varFrom)
     {
         if (IsSTCheck) {
@@ -6165,6 +6183,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.rewriteFrom(varFrom);
     }
 
+    /** Executes the rewrite operation. */
     public void rewrite(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6173,6 +6192,7 @@ public abstract class BaseProgram extends CJMapObject
         fileDesc.rewrite();
     }
 
+    /** Executes the read operation. */
     public RecordDescriptorAtEnd read(FileDescriptor fileDesc)
     {
         if (IsSTCheck) {
@@ -6182,6 +6202,7 @@ public abstract class BaseProgram extends CJMapObject
         return end;
     }
 
+    /** Reads the into. */
     public RecordDescriptorAtEnd readInto(FileDescriptor fileDesc, Var varDest)
     {
         if (IsSTCheck) {
@@ -6190,6 +6211,7 @@ public abstract class BaseProgram extends CJMapObject
         return fileDesc.readInto(varDest);
     }
 
+    /** Executes the sort operation. */
     public SortCommand sort(SortDescriptor sortDescriptor)
     {
         if (IsSTCheck) {
@@ -6199,6 +6221,7 @@ public abstract class BaseProgram extends CJMapObject
         return sortCommand;
     }
 
+    /** Executes the release operation. */
     public void release(Var varRecord)
     {
         if (IsSTCheck) {
@@ -6214,6 +6237,7 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Executes the release operation. */
     public void release(Var varRecord, Var varFrom)
     {
         if (IsSTCheck) {
@@ -6229,6 +6253,7 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Executes the return sort operation. */
     public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
     {
         if (IsSTCheck) {
@@ -6243,6 +6268,7 @@ public abstract class BaseProgram extends CJMapObject
         return RecordDescriptorAtEnd.End;
     }
 
+    /** Executes the return sort operation. */
     public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor, Var varInto)
     {
         if (IsSTCheck) {
@@ -6267,11 +6293,13 @@ public abstract class BaseProgram extends CJMapObject
         return RecordDescriptorAtEnd.End;
     }
 
+    /** Executes the output operation. */
     public Output output()
     {
         return new Output();
     }
 
+    /** Returns the date batch. */
     public String getDateBatch()
     {
         if (IsSTCheck) {
@@ -6283,6 +6311,7 @@ public abstract class BaseProgram extends CJMapObject
         return cs;
     }
 
+    /** Returns the time batch. */
     public String getTimeBatch()
     {
         if (IsSTCheck) {
@@ -6294,6 +6323,7 @@ public abstract class BaseProgram extends CJMapObject
         return cs.substring(0, 8);
     }
 
+    /** Returns the day batch. */
     public String getDayBatch()
     {
         if (IsSTCheck) {
@@ -6305,6 +6335,7 @@ public abstract class BaseProgram extends CJMapObject
         return cs;
     }
 
+    /** Returns the day of week batch. */
     public String getDayOfWeekBatch()
     {
         if (IsSTCheck) {
@@ -6316,6 +6347,7 @@ public abstract class BaseProgram extends CJMapObject
         return Integer.toString(i);
     }
 
+    /** Returns the return code. */
     public int getReturnCode()
     {
         if (IsSTCheck) {
@@ -6324,6 +6356,7 @@ public abstract class BaseProgram extends CJMapObject
         return JVMReturnCodeManager.getExitCode();
     }
 
+    /** Sets the return code. */
     public void setReturnCode(int nReturnCode)
     {
         if (IsSTCheck) {
@@ -6332,6 +6365,7 @@ public abstract class BaseProgram extends CJMapObject
         JVMReturnCodeManager.setExitCode(nReturnCode);
     }
 
+    /** Sets the return code. */
     public void setReturnCode(Var varReturnCode)
     {
         if (IsSTCheck) {
@@ -6340,6 +6374,7 @@ public abstract class BaseProgram extends CJMapObject
         JVMReturnCodeManager.setExitCode(varReturnCode.getInt());
     }
 
+    /** Sets the return code. */
     public void setReturnCode(String csReturnCode)
     {
         if (IsSTCheck) {
@@ -6348,36 +6383,43 @@ public abstract class BaseProgram extends CJMapObject
         JVMReturnCodeManager.setExitCode(Integer.valueOf(csReturnCode).intValue());
     }
 
+    /** Executes the val operation. */
     public String val(String cs)
     {
         return cs;
     }
 
+    /** Executes the val operation. */
     public String val(int n)
     {
         return String.valueOf(n);
     }
 
+    /** Executes the val operation. */
     public String val(double d)
     {
         return String.valueOf(d);
     }
 
+    /** Executes the val operation. */
     public String val(boolean b)
     {
         return String.valueOf(b);
     }
 
+    /** Executes the val operation. */
     public String val(long l)
     {
         return String.valueOf(l);
     }
 
+    /** Executes the val operation. */
     public String val(short s)
     {
         return String.valueOf(s);
     }
 
+    /** Executes the val operation. */
     public String val(Var var)
     {
         //String cs = var.getDottedSignedString()
@@ -6388,41 +6430,49 @@ public abstract class BaseProgram extends CJMapObject
         return cs;
     }
 
+    /** Executes the display operation. */
     public void display(Concat conc)
     {
         display(conc.getString());
     }
 
+    /** Executes the display operation. */
     public void display(int n)
     {
         display(String.valueOf(n));
     }
 
+    /** Executes the display operation. */
     public void display(long l)
     {
         display(String.valueOf(l));
     }
 
+    /** Executes the display operation. */
     public void display(short s)
     {
         display(String.valueOf(s));
     }
 
+    /** Executes the display operation. */
     public void display(double d)
     {
         display(String.valueOf(d));
     }
 
+    /** Executes the display operation. */
     public void display(boolean b)
     {
         display(String.valueOf(b));
     }
 
+    /** Executes the display operation. */
     public void display(String csMessage)
     {
         LogDisplay.log(csMessage);
     }
 
+    /** Executes the display operation. */
     public void display(VarAndEdit var)
     {
         String csMessage = var.getDottedSignedStringAsSQLCol();
@@ -6432,6 +6482,7 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Executes the display env operation. */
     public void displayEnv(VarAndEdit var)
     {
         String csMessage = var.getDottedSignedString();
@@ -6722,6 +6773,7 @@ public abstract class BaseProgram extends CJMapObject
     private boolean isusedTempVar = false;
     private boolean isusedCStr = false;
 
+    /** Resets the temp index. */
     public void resetTempIndex(VarBase... vars)
     {
         if (isusedTempVarOrCStr) {
@@ -6729,36 +6781,42 @@ public abstract class BaseProgram extends CJMapObject
         }
     }
 
+    /** Sets the use temp var. */
     public void setUseTempVar()
     {
         isusedTempVar = true;
         isusedTempVarOrCStr = true;
     }
 
+    /** Sets the use cstr. */
     public void setUseCStr()
     {
         isusedCStr = true;
         isusedTempVarOrCStr = true;
     }
 
+    /** Resets the use temp var. */
     public void resetUseTempVar()
     {
         isusedTempVar = false;
         isusedTempVarOrCStr = isusedCStr;
     }
 
+    /** Resets the use cstr. */
     public void resetUseCStr()
     {
         isusedCStr = false;
         isusedTempVarOrCStr = isusedTempVar;
     }
 
+    /** Executes the accept operation. */
     public void accept(Var varDest)
     {
         String cs = ConsoleInput.getKeyboardLine();
         varDest.set(cs);
     }
 
+    /** Executes the accept env operation. */
     public void acceptEnv(Var varDest)
     {
         varDest.set(baseProgramManager.getEnv().getDisplayValue());

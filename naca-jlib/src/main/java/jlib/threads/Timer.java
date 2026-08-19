@@ -54,18 +54,21 @@ class Caller
 
 public abstract class Timer extends Thread
 {
-    private int nPeriodWait_ms = 1000;
+    private int periodWaitMillis = 1000;
 
+    /** Creates a new timer instance. */
     public Timer()
     {
     }
 
+    /** Executes the start timer operation. */
     public void startTimer(int nPeriodWaitMs)
     {
-        this.nPeriodWait_ms = nPeriodWaitMs;
+        this.periodWaitMillis = nPeriodWaitMs;
         start();
     }
 
+    /** Runs this operation. */
     public void run()
     {
         boolean iscontinue = true;
@@ -73,7 +76,7 @@ public abstract class Timer extends Thread
         {
             try
             {
-                Thread.sleep(nPeriodWait_ms);
+                Thread.sleep(periodWaitMillis);
                 iscontinue = pulse();
             }
             catch (InterruptedException e)
@@ -84,6 +87,7 @@ public abstract class Timer extends Thread
 
     protected abstract boolean pulse();
 
+    /** Executes the request stop operation. */
     public void requestStop()
     {
         interrupt();

@@ -14,22 +14,26 @@ import java.util.HashMap;
  */
 public class SemanticContextDef
 {
+    /** Creates a new semantic context def instance. */
     public SemanticContextDef()
     {
     }
 
+    /** Returns the semantic context value definition. */
     public String getSemanticContextValueDefinition(String csTable, String csCol)
     {
         String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
         return getSemanticContextValueDefinition(csTableColName);
     }
 
+    /** Returns the semantic context value definition. */
     public String getSemanticContextValueDefinition(String csTableColName)
     {
         String csSemanticContext = hashDBSemanticContext.get(csTableColName);
         return csSemanticContext;
     }
 
+    /** Sets the semantic context value definition. */
     public void setSemanticContextValueDefinition(String csTable, String csCol, String csSemanticContext)
     {
         String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
@@ -37,6 +41,7 @@ public class SemanticContextDef
     }
 
 
+    /** Returns the table col name. */
     static public String getTableColName(String csTable, String csCol)
     {
         return csTable + "/" + csCol;

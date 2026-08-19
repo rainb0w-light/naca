@@ -21,6 +21,7 @@ public class BtreePooledReaderThread extends PooledThread
 {
     private BtreeFile btreeFile = null;
 
+    /** Creates a new btree pooled reader thread instance. */
     public BtreePooledReaderThread(PoolOfThreads owningPool)
     {
         super(owningPool);
@@ -31,6 +32,7 @@ public class BtreePooledReaderThread extends PooledThread
         this.btreeFile = btreeFile;
     }
 
+    /** Runs this operation. */
     public void run()
     {
         // fill the queue; act as a producer; Only 1 background thread can enqueue sorted records

@@ -29,7 +29,7 @@ public class TagRemoverInputStream extends InputStream {
  * The constructor admits any <code>InputStream</code> source.
  */
     public TagRemoverInputStream(InputStream inputStream) {
-        _inputStream=inputStream;
+        storedInputStream=inputStream;
     }
 
 //  *************************************************************************
@@ -40,7 +40,7 @@ public class TagRemoverInputStream extends InputStream {
 /**
  * Contains the data input source.
  */
-    private InputStream _inputStream;
+    private InputStream storedInputStream;
 
 //  *************************************************************************
 //  **                The actual data transformation                       **
@@ -53,19 +53,19 @@ public class TagRemoverInputStream extends InputStream {
         int data=0;
 
 //  ................ Reads the source .....................
-            data=_inputStream.read();
+            data=storedInputStream.read();
             while(data>0) {
                 // if source contains certains caracters then we don't write it.
                 //10= code ascii de saut de ligne
                 //13=code ascii de retour a la ligne
                 if (data=='<' || data==10 || data==13) {
                     while (data != '>' && data != '\r' && data != '\n' && data!='\t'){
-                        data=_inputStream.read();
+                        data=storedInputStream.read();
                     }
                 } else {
                     return data;
                 }
-                data=_inputStream.read();
+                data=storedInputStream.read();
                 }
 
         return -1;

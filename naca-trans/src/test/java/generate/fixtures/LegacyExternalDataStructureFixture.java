@@ -9,6 +9,7 @@ import utils.CobolNameUtil;
 public final class LegacyExternalDataStructureFixture
     extends CEntityExternalDataStructure
 {
+    /** Creates a new legacy external data structure fixture instance. */
     public LegacyExternalDataStructureFixture(
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -16,6 +17,7 @@ public final class LegacyExternalDataStructureFixture
         generate.LegacyLanguageRenderer.bind(this, output);
     }
 
+        /** Exports the reference. */
         public String ExportReference(int line)
     {
         return generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName());

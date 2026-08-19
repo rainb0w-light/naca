@@ -67,6 +67,7 @@ public abstract class VarBase extends CJMapObject
         return varDef;
     }
 
+    /** Executes the debugget var def operation. */
     public VarDefBuffer DEBUGgetVarDef()
     {
         return varDef;
@@ -84,12 +85,14 @@ public abstract class VarBase extends CJMapObject
         return false;
     }
 
+    /** Returns the stcheck value. */
     public String getSTCheckValue()
     {
         assertIfFalse(false);
         return "";
     }
 
+    /** Executes the is operation. */
     public boolean is(CobolConstantBase constant)
     {
         char pattern = constant.getValue();
@@ -97,6 +100,7 @@ public abstract class VarBase extends CJMapObject
         return BaseProgram.isAll(sValue, pattern);
     }
 
+    /** Returns the shared program instance data. */
     public SharedProgramInstanceData getSharedProgramInstanceData()
     {
         SharedProgramInstanceData sharedProgramInstanceData = null;
@@ -107,6 +111,7 @@ public abstract class VarBase extends CJMapObject
     }
 
 
+    /** Returns the loggable value. */
     public String getLoggableValue()
     {
         if(varDef != null)
@@ -157,6 +162,7 @@ public abstract class VarBase extends CJMapObject
 //      }
 //  }
 
+    /** Executes the internal assign buffer shift position operation. */
     public void internalAssignBufferShiftPosition(char oldBuffer[], int nStartPos, int nLength, VarBuffer bufferSource, int nShift)
     {
         if(getBuffer().acBuffer == oldBuffer && getBodyAbsolutePosition() >= nStartPos && getBodyAbsolutePosition() < nStartPos+nLength)
@@ -191,6 +197,7 @@ public abstract class VarBase extends CJMapObject
 //      }
 //  }
 
+    /** Sets the at adress. */
     public void setAtAdress(VarAndEdit varSource)
     {
         if (varSource == null) {
@@ -215,12 +222,14 @@ public abstract class VarBase extends CJMapObject
         pm.changeBufferAndShiftPosition(oldBuffer, nStartPos, nLength, varSource.getBuffer(), -nShift);
     }
 
+    /** Returns the program manager. */
     public BaseProgramManager getProgramManager()
     {
         BaseProgramManager pm = TempCacheLocator.getTLSTempCache().getProgramManager();
         return pm;
     }
 
+    /** Sets the custom buffer. */
     public void setCustomBuffer(char [] cBuffer)
     {
         // Old Code
@@ -267,6 +276,7 @@ public abstract class VarBase extends CJMapObject
 //      //varDef.initializeItemAndChildren(bufferPos.getProgramManager(), initializeManagerManager, nOffset);
 //  }
 
+    /** Executes the move corresponding operation. */
     public void moveCorresponding(MoveCorrespondingEntryManager moveCorrespondingEntryManager, VarBase varDestGroup)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -306,6 +316,7 @@ public abstract class VarBase extends CJMapObject
 //      varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset);
 //  }
 
+    /** Executes the initialize operation. */
     public void initialize(InitializeCache initializeCache)
     {
         //TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -313,6 +324,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeAtOffset(bufferPos, 0, initializeCache);
     }
 
+    /** Executes the initialize replacing num operation. */
     public void initializeReplacingNum(int n)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -322,6 +334,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
     }
 
+    /** Executes the initialize replacing num operation. */
     public void initializeReplacingNum(String cs)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -346,6 +359,7 @@ public abstract class VarBase extends CJMapObject
         return nOffset;
     }
 
+    /** Executes the initialize replacing alpha num operation. */
     public void initializeReplacingAlphaNum(String cs)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -354,6 +368,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
     }
 
+    /** Executes the initialize replacing num edited operation. */
     public void initializeReplacingNumEdited(int n)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -362,6 +377,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
     }
 
+    /** Executes the initialize replacing num edited operation. */
     public void initializeReplacingNumEdited(double d)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -370,6 +386,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
     }
 
+    /** Executes the initialize replacing alpha num edited operation. */
     public void initializeReplacingAlphaNumEdited(String cs)
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -378,6 +395,7 @@ public abstract class VarBase extends CJMapObject
         varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, null);
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return getLoggableValue();
@@ -388,41 +406,49 @@ public abstract class VarBase extends CJMapObject
         return varDef.getTotalSize();
     }
 
+    /** Executes the set operation. */
     public void set(char c)
     {
         varDef.write(bufferPos, c);
     }
 
+    /** Executes the set operation. */
     public void set(int n)
     {
         varDef.write(bufferPos, n);
     }
 
+    /** Executes the set operation. */
     public void set(double d)
     {
         varDef.write(bufferPos, d);
     }
 
+    /** Executes the set operation. */
     public void set(long l)
     {
         varDef.write(bufferPos, l);
     }
 
+    /** Executes the set operation. */
     public void set(String cs)
     {
         varDef.write(bufferPos, cs);
     }
 
+    /** Executes the set operation. */
     public void set(Dec dec)
     {
         varDef.write(bufferPos, dec);
     }
 
+    /** Executes the set operation. */
     public void set(BigDecimal bigDecimal)
     {
         varDef.write(bufferPos, bigDecimal);
     }
 
+    /** Executes the set operation. */
     public void set(VarBase varSource)
     {
         if (varSource.isEdit()) {
@@ -432,6 +458,7 @@ public abstract class VarBase extends CJMapObject
         }
     }
 
+    /** Executes the declare as filler operation. */
     public void declareAsFiller()
     {
         varDef.setFiller(true);
@@ -442,6 +469,7 @@ public abstract class VarBase extends CJMapObject
         return varDef.getBodyAbsolutePosition(bufferPos);
     }
 
+    /** Executes the debugget body absolute position operation. */
     public int DEBUGgetBodyAbsolutePosition()
     {
         return varDef.getBodyAbsolutePosition(bufferPos);
@@ -511,11 +539,13 @@ public abstract class VarBase extends CJMapObject
 //      return null;
 //  }
 
+    /** Exports the to char buffer. */
     public InternalCharBuffer exportToCharBuffer()
     {
         int nLength = getLength();
         return exportToCharBuffer(nLength) ;
     }
+    /** Exports the to char buffer. */
     public InternalCharBuffer exportToCharBuffer(int nLength)
     {
         if (nLength == -1)
@@ -529,6 +559,7 @@ public abstract class VarBase extends CJMapObject
         return charBufferDest;
     }
 
+    /** Exports the to char array. */
     public char [] exportToCharArray()
     {
         int nLength = getLength() ;
@@ -544,6 +575,7 @@ public abstract class VarBase extends CJMapObject
         return arr;
     }
 
+    /** Exports the to byte array. */
     public void exportToByteArray(byte arr[], int nLength)
     {
         int nPositionDest = 0;
@@ -555,6 +587,7 @@ public abstract class VarBase extends CJMapObject
         }
     }
 
+    /** Exports the to byte array. */
     public void exportToByteArray(byte arr[], int nOffsetDest, int nLength)
     {
         int nPositionDest = nOffsetDest;
@@ -566,12 +599,14 @@ public abstract class VarBase extends CJMapObject
         }
     }
 
+    /** Executes the fill operation. */
     public void fill(CobolConstantBase constant)
     {
         char c = constant.getValue();
         varDef.writeRepeatingchar(bufferPos, c);
     }
 
+    /** Executes the fill end of record operation. */
     public void fillEndOfRecord(int nNbRecordByteAlreadyFilled, int nRecordTotalLength)
     {
         int nNbBytesToFill = nRecordTotalLength - nNbRecordByteAlreadyFilled;
@@ -583,6 +618,7 @@ public abstract class VarBase extends CJMapObject
         //varDef.writeRepeatingchar(bufferPos, CobolConstant.LowValue);
     }
 
+    /** Executes the copy bytes from source into body operation. */
     public void copyBytesFromSourceIntoBody(InternalCharBuffer charBuffer)
     {
         varDef.copyBytesFromSource(bufferPos, getBodyAbsolutePosition(), charBuffer);
@@ -620,6 +656,7 @@ public abstract class VarBase extends CJMapObject
 //      return csOut;
 //  }
 
+    /** Returns the hexa value in ebcdic. */
     public String getHexaValueInEbcdic()
     {
         String csOut = new String();
@@ -637,11 +674,13 @@ public abstract class VarBase extends CJMapObject
         return csOut;
     }
 
+    /** Executes the debugis storage ascii operation. */
     public boolean DEBUGisStorageAscii()
     {
         return true;
     }
 
+    /** Returns the sqltype. */
     public CSQLItemType getSQLType()
     {
         if (varDef != null) {
@@ -650,14 +689,17 @@ public abstract class VarBase extends CJMapObject
         return null;
     }
 
+    /** Executes the assign buffer ext operation. */
     public abstract void assignBufferExt(VarBuffer bufferSource);
 
     protected abstract String getAsLoggableString();
     abstract boolean isEdit();
+    /** Returns whether s type. */
     public abstract boolean hasType(VarTypeEnum e);
 
     abstract EditAttributManager getEditAttributManager();
 
+    /** Sets the semantic context value. */
     public void setSemanticContextValue(String csValue)
     {
 //      if(bufferPos != null)
@@ -674,6 +716,7 @@ public abstract class VarBase extends CJMapObject
         return "";
     }
 
+    /** Returns the semantic context value. */
     public String getSemanticContextValue(int nAbsolutePosition)
     {
 //      if(bufferPos != null)
@@ -684,6 +727,7 @@ public abstract class VarBase extends CJMapObject
         return "";
     }
 
+    /** Executes the restore default absolute position operation. */
     public void restoreDefaultAbsolutePosition()
     {
         if (varDef != null && bufferPos != null) {
@@ -711,6 +755,7 @@ public abstract class VarBase extends CJMapObject
         return varDef.getWSVar();
     }
 
+    /** Sets the from line read. */
     public int setFromLineRead(LineRead lineRead)
     {
         int nSourceLength = lineRead.getTotalLength();
@@ -722,6 +767,7 @@ public abstract class VarBase extends CJMapObject
         return nSourceLength;
     }
 
+    /** Sets the from line read2 dest with filling. */
     public void setFromLineRead2DestWithFilling(LineRead lineRead, VarBase varDest2)
     {
         // "this" is the variable specified by the into() method
@@ -765,11 +811,13 @@ public abstract class VarBase extends CJMapObject
         }
     }
 
+    /** Executes the set operation. */
     public void set(byte[] tBytes)
     {
         setFromByteArray(tBytes, 0, Math.min(varDef.nTotalSize, tBytes.length));
     }
 
+    /** Sets the from byte array. */
     public void setFromByteArray(byte[] tBytes, int nOffsetSource, int nLength)
     {
         bufferPos.setByteArray(tBytes, nOffsetSource, nLength);
@@ -781,6 +829,7 @@ public abstract class VarBase extends CJMapObject
 //  }
 
 
+    /** Returns the as byte array. */
     public byte[] getAsByteArray()
     {
         //int nLength = getLength();
@@ -791,6 +840,7 @@ public abstract class VarBase extends CJMapObject
     }
 
 
+    /** Returns the as ebcdic byte array. */
     public byte[] getAsEbcdicByteArray()
     {
         int nLength = getLength();
@@ -802,11 +852,13 @@ public abstract class VarBase extends CJMapObject
     protected abstract byte[] convertUnicodeToEbcdic(char[] tBytes);
     protected abstract char[] convertEbcdicToUnicode(byte[] tBytes);
 
+    /** Executes the do convert unicode to ebcdic operation. */
     public byte[] doConvertUnicodeToEbcdic(char[] tChars)
     {
         return AsciiEbcdicConverter.convertUnicodeToEbcdic(tChars);
     }
 
+    /** Executes the do convert ebcdic to unicode operation. */
     public char[] doConvertEbcdicToUnicode(byte[] tBytes)
     {
         return AsciiEbcdicConverter.convertEbcdicToUnicode(tBytes);
@@ -818,26 +870,33 @@ public abstract class VarBase extends CJMapObject
 //      tempCache.resetTempVarIndex(varTypeId);
 //  }
 
+    /** Returns the string. */
     public abstract String getString() ;
+    /** Returns the dotted signed string. */
     public abstract String getDottedSignedString() ;
+    /** Returns the dotted signed string as sqlcol. */
     public abstract String getDottedSignedStringAsSQLCol();
 
 
+    /** Creates the var fpac undef. */
     public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
     {
         return null;
     }
 
+    /** Executes the debugget buffer dump hexa in ebcdic operation. */
     public String DEBUGgetBufferDumpHexaInEbcdic()
     {
         return getHexaValueInEbcdic();
     }
 
+    /** Executes the import from byte array operation. */
     public void importFromByteArray(byte tBytesSource[], int nSizeSource)
     {
         bufferPos.importFromByteArray(tBytesSource, varDef.getTotalSize(), nSizeSource);
     }
 
+    /** Exports the into byte array. */
     public void exportIntoByteArray(byte tbyDest[], int nLengthDest)
     {
         bufferPos.exportIntoByteArray(tbyDest, nLengthDest, varDef.getTotalSize());
@@ -862,6 +921,7 @@ public abstract class VarBase extends CJMapObject
     // definition of variable options and memory storage (common with other vars)
     /*protected*/ public VarDefBuffer varDef = null;
     /*protected*/ public VarBufferPos bufferPos = null;     // physical data buffer
+    /** Returns the var type. */
     public abstract VarType getVarType();
     //private String csSemanticContextValue = null;
 

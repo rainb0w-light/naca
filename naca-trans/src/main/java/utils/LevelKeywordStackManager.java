@@ -35,6 +35,7 @@ public class LevelKeywordStackManager
         return levelKeywordStackManager;
     }
 
+    /** Returns the and push new level keywords. */
     public static LevelKeywords getAndPushNewLevelKeywords()
     {
         LevelKeywords l = new LevelKeywords();
@@ -42,11 +43,13 @@ public class LevelKeywordStackManager
         return l;
     }
 
+    /** Executes the pop level keywords operation. */
     public static void popLevelKeywords()
     {
         ms_stack.pop();
     }
 
+    /** Returns whether token managed by any parents. */
     public static boolean isTokenManagedByAnyParents(CBaseToken tok)
     {
         int nNbParents = ms_stack.size();

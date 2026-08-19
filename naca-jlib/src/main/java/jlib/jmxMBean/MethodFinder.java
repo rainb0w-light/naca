@@ -8,8 +8,10 @@ package jlib.jmxMBean;
 
 import java.lang.reflect.Method;
 
+/** Provides method finder behavior. */
 public class MethodFinder
 {
+    /** Returns the method. */
     public static Method getMethod(Class cls, String csMethodName)
     {
         try
@@ -29,6 +31,7 @@ public class MethodFinder
         return null;
     }
 
+    /** Returns the method. */
     public static Method getMethod(Class cls, String csMethodName, Class clsArg0)
     {
         try
@@ -49,6 +52,7 @@ public class MethodFinder
         return null;
     }
 
+    /** Returns the method. */
     public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1)
     {
         try
@@ -70,6 +74,7 @@ public class MethodFinder
         return null;
     }
 
+    /** Returns the method. */
     public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2)
     {
         try
@@ -92,6 +97,7 @@ public class MethodFinder
         return null;
     }
 
+    /** Returns the method. */
     public static Method getMethod(Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2, Class clsArg3)
     {
         try

@@ -14,8 +14,10 @@ import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.varEx.DataSection;
 import nacaLib.varEx.DataSectionType;
 
+/** Provides data section working behavior. */
 public class DataSectionWorking extends DataSection
 {
+    /** Creates a new data section working instance. */
     public DataSectionWorking(BaseProgram prg)
     {
         super(prg, DataSectionType.Working);

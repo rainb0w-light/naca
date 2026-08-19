@@ -10,8 +10,10 @@
  */
 package nacaLib.varEx;
 
+/** Provides occurs def behavior. */
 public class OccursDef extends OccursDefBase
 {
+    /** Creates a new occurs def instance. */
     public OccursDef(int n)
     {
         this.nNbOccurs = n;
@@ -27,6 +29,7 @@ public class OccursDef extends OccursDefBase
         return null;
     }
 
+    /** Executes the prepare auto removal operation. */
     public void prepareAutoRemoval()
     {
     }

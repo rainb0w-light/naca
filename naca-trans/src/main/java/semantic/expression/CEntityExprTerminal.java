@@ -38,19 +38,23 @@ public class CEntityExprTerminal extends CBaseEntityExpression
     {
         return term;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         term = null ;
     }
+    /** Executes the get single operator operation. */
     public CDataEntity GetSingleOperator()
     {
         return term ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return term.ignore() ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (term == field)
@@ -93,6 +97,8 @@ public class CEntityExprTerminal extends CBaseEntityExpression
                 return CEntityExpressionType.MATH ;
             case ADDRESS:
                 return CEntityExpressionType.ADDRESS ;
+            default:
+                break;
         }
         return null ;
     }

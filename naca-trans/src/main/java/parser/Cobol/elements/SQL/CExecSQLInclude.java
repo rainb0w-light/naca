@@ -33,12 +33,14 @@ import utils.Transcoder;
  */
 public class CExecSQLInclude extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlinclude instance. */
     public CExecSQLInclude(int l, String reference)
     {
         super(l);
         ref = reference;
     }
     public String ref = "" ;
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLInclude") ;
@@ -108,6 +110,7 @@ public class CExecSQLInclude extends CBaseExecSQLAction
         }
         return true;
     }
+    /** Parses the content. */
     public boolean ParseContent()
     {
         boolean isdone = false ;

@@ -7,6 +7,7 @@ import utils.CObjectCatalog;
 /** Test-only snapshot of the retired index backend. */
 public final class LegacyIndexFixture extends CEntityIndex
 {
+    /** Creates a new legacy index fixture instance. */
     public LegacyIndexFixture(
         String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -14,6 +15,7 @@ public final class LegacyIndexFixture extends CEntityIndex
         generate.LegacyLanguageRenderer.bind(this, output);
     }
 
+        /** Exports the reference. */
         public String ExportReference(int line)
     {
         String reference = "";

@@ -14,13 +14,16 @@ import java.util.Vector;
 
 import jlib.xml.Tag;
 
+/** Provides ctrans application group behavior. */
 public class CTransApplicationGroup
 {
+    /** Creates a new ctrans application group instance. */
     public CTransApplicationGroup(BaseEngine engine)
     {
         this.engine = engine;
     }
 
+    /** Enumerates supported eprogram type values. */
     public enum EProgramType
     {
         TYPE_ONLINE,

@@ -10,6 +10,7 @@ import lexer.CTokenList;
 import parser.CParser;
 import parser.FPac.elements.CFPacScript;
 
+/** Provides cfpac parser behavior. */
 public class CFPacParser extends CParser<CFPacScript>
 {
 

@@ -26,10 +26,12 @@ import semantic.SQL.CEntitySQLExecute;
  */
 public class CExecSQLExecute extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlexecute instance. */
     public CExecSQLExecute(int l)
     {
         super(l);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eExe = root.createElement("SQLExecute");

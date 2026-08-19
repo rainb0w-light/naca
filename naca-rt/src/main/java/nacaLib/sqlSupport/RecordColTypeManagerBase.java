@@ -27,6 +27,7 @@ public abstract class RecordColTypeManagerBase
     }
 
     abstract boolean fillColValue(ResultSet rs, VarBase varInto);
+    /** Executes the transfer operation. */
     public abstract boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert);
 
     protected int nColSourceIndex;

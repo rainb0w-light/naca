@@ -10,7 +10,7 @@ package semantic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import utils.*;
+import utils.CObjectCatalog;
 
 /**
  * @author sly
@@ -35,17 +35,20 @@ public class CEntityBloc extends CBaseLanguageEntity
     {
         // NOTHING
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return isChildrenIgnored();
     }
 
+    /** Sets the end line. */
     public void SetEndLine(int n)
     {
         nEndLine = n ;
     }
     protected int nEndLine = 0 ;
 
+    /** Returns the actions. */
     public List<CBaseActionEntity> getActions()
     {
         List<CBaseActionEntity> actions = new ArrayList<CBaseActionEntity>();
@@ -59,6 +62,7 @@ public class CEntityBloc extends CBaseLanguageEntity
         return Collections.unmodifiableList(actions);
     }
 
+    /** Returns the active actions. */
     public List<CBaseActionEntity> getActiveActions()
     {
         List<CBaseActionEntity> actions = new ArrayList<CBaseActionEntity>();
@@ -72,10 +76,12 @@ public class CEntityBloc extends CBaseLanguageEntity
         return Collections.unmodifiableList(actions);
     }
 
+    /** Executes the get end line operation. */
     public int GetEndLine()
     {
         return nEndLine ;
     }
+    /** Updates the action. */
     public boolean UpdateAction(CBaseActionEntity entity, CBaseActionEntity newCond)
     {
         for (int i=0; i<lstChildren.size(); i++)

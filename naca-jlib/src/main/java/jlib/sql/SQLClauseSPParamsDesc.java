@@ -30,11 +30,13 @@ public class SQLClauseSPParamsDesc
 {
     private ArrayList<SQLClauseSPParamDesc> arrParamDesc = null;
 
+    /** Creates a new sqlclause spparams desc instance. */
     public SQLClauseSPParamsDesc()
     {
         arrParamDesc = new ArrayList<SQLClauseSPParamDesc>();
     }
 
+    /** Adds the aparam. */
     public void addAParam(ResultSet rsParams)
     {
         SQLClauseSPParamDesc param = new SQLClauseSPParamDesc();
@@ -48,11 +50,13 @@ public class SQLClauseSPParamsDesc
         return arrParamDesc.size();
     }
 
+    /** Executes the get operation. */
     public SQLClauseSPParamDesc get(int nParamId)
     {
         return arrParamDesc.get(nParamId);
     }
 
+    /** Executes the register in out parameters operation. */
     public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
     {
         boolean b = true;

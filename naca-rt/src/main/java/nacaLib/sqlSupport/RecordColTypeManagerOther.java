@@ -23,11 +23,13 @@ import nacaLib.varEx.VarBase;
  */
 public class RecordColTypeManagerOther extends RecordColTypeManagerBase
 {
+    /** Creates a new record col type manager other instance. */
     public RecordColTypeManagerOther(int nColSourceIndex)
     {
         super(nColSourceIndex);
     }
 
+    /** Executes the transfer operation. */
     public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
     {
         try

@@ -55,6 +55,7 @@ public class CEntityReplace extends CBaseActionEntity
     protected CDataEntity variable = null ;
     protected Vector<CReplaceItem> itemsToReplace = new Vector<CReplaceItem>() ;
     private CReplaceItem curItem = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
@@ -69,45 +70,54 @@ public class CEntityReplace extends CBaseActionEntity
         }
     }
 
+    /** Sets the replace. */
     public void SetReplace(CDataEntity e)
     {
         variable = e ;
     }
+    /** Adds the replace leading. */
     public void AddReplaceLeading()
     {
         curItem = new CReplaceItem() ;
         curItem.mode = CReplaceMode.LEADING;
     }
+    /** Adds the replace all. */
     public void AddReplaceAll()
     {
         curItem = new CReplaceItem() ;
         curItem.mode = CReplaceMode.ALL;
     }
+    /** Adds the replace first. */
     public void AddReplaceFirst()
     {
         curItem = new CReplaceItem() ;
         curItem.mode = CReplaceMode.FIRST;
     }
+    /** Executes the replace spaces operation. */
     public void ReplaceSpaces()
     {
         curItem.replaceDataType = CReplaceType.SPACES ;
         curItem.replaceData = null ;
     }
+    /** Executes the replace zeros operation. */
     public void ReplaceZeros()
     {
         curItem.replaceDataType = CReplaceType.ZEROS ;
         curItem.replaceData = null ;
     }
+    /** Executes the replace low values operation. */
     public void ReplaceLowValues()
     {
         curItem.replaceDataType = CReplaceType.LOW_VALUES ;
         curItem.replaceData = null ;
     }
+    /** Executes the replace high values operation. */
     public void ReplaceHighValues()
     {
         curItem.replaceDataType = CReplaceType.HIGH_VALUES;
         curItem.replaceData = null ;
     }
+    /** Executes the by spaces operation. */
     public void BySpaces()
     {
         curItem.dataType = CReplaceType.SPACES ;
@@ -115,6 +125,7 @@ public class CEntityReplace extends CBaseActionEntity
         itemsToReplace.add(curItem) ;
         curItem = null ;
     }
+    /** Executes the by zeros operation. */
     public void ByZeros()
     {
         curItem.dataType = CReplaceType.ZEROS ;
@@ -122,6 +133,7 @@ public class CEntityReplace extends CBaseActionEntity
         itemsToReplace.add(curItem) ;
         curItem = null ;
     }
+    /** Executes the by low values operation. */
     public void ByLowValues()
     {
         curItem.dataType = CReplaceType.LOW_VALUES ;
@@ -129,6 +141,7 @@ public class CEntityReplace extends CBaseActionEntity
         itemsToReplace.add(curItem) ;
         curItem = null ;
     }
+    /** Executes the by high values operation. */
     public void ByHighValues()
     {
         curItem.dataType = CReplaceType.HIGH_VALUES ;
@@ -136,11 +149,13 @@ public class CEntityReplace extends CBaseActionEntity
         itemsToReplace.add(curItem) ;
         curItem = null ;
     }
+    /** Executes the replace data operation. */
     public void ReplaceData(CDataEntity e)
     {
         curItem.replaceDataType = CReplaceType.CUSTOM ;
         curItem.replaceData = e ;
     }
+    /** Executes the by data operation. */
     public void ByData(CDataEntity e)
     {
         curItem.dataType = CReplaceType.CUSTOM ;
@@ -148,6 +163,7 @@ public class CEntityReplace extends CBaseActionEntity
         itemsToReplace.add(curItem) ;
         curItem = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return variable.ignore();
@@ -172,12 +188,14 @@ public class CEntityReplace extends CBaseActionEntity
     public CDataEntity getVariable() {
         return variable;
     }
+    /** Provides replace item model behavior. */
     public static class ReplaceItemModel {
         private final CReplaceMode mode;
         private final CReplaceType replaceDataType;
         private final CDataEntity replaceData;
         private final CReplaceType dataType;
         private final CDataEntity data;
+        /** Creates a new replace item model instance. */
         public ReplaceItemModel(CReplaceMode mode, CReplaceType replaceDataType,
             CDataEntity replaceData, CReplaceType dataType, CDataEntity data) {
             this.mode = mode;
@@ -186,6 +204,7 @@ public class CEntityReplace extends CBaseActionEntity
             this.dataType = dataType;
             this.data = data;
         }
+        /** Returns the mode name. */
         public String getModeName() {
             if (mode == CReplaceMode.ALL) {
                 return "all";
@@ -226,6 +245,7 @@ public class CEntityReplace extends CBaseActionEntity
             return data;
         }
     }
+    /** Returns the replace items. */
     public List<ReplaceItemModel> getReplaceItems() {
         List<ReplaceItemModel> result = new ArrayList<>();
         for (CReplaceItem item : itemsToReplace) {

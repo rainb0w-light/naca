@@ -13,6 +13,7 @@ package jlib.misc;
  */
 public class NumberParser
 {
+    /** Returns the as short. */
     public static short getAsShort(String s)
     {
         if (s == null) {
@@ -47,6 +48,7 @@ public class NumberParser
         }
     }
 
+    /** Returns the as int. */
     public static int getAsInt(char c)
     {
         int nValue = 0;
@@ -56,6 +58,7 @@ public class NumberParser
         return nValue;
     }
 
+    /** Returns the as unsigned int. */
     public static int getAsUnsignedInt(char c)
     {
         int nValue = 0;
@@ -65,6 +68,7 @@ public class NumberParser
         return nValue;
     }
 
+    /** Returns the as boolean. */
     public static boolean getAsBoolean(String cs)
     {
         if (cs != null) {
@@ -75,6 +79,7 @@ public class NumberParser
         return false;
     }
 
+    /** Returns the as int. */
     public static int getAsInt(String s)
     {
         if (s == null) {
@@ -116,6 +121,7 @@ public class NumberParser
         return nValue;
     }
 
+    /** Returns the as unsigned int. */
     public static int getAsUnsignedInt(String s)
     {
         if (s == null) {
@@ -151,6 +157,7 @@ public class NumberParser
         return nValue;
     }
 
+    /** Returns the as long. */
     public static long getAsLong(String s)
     {
         if (s == null) {
@@ -185,6 +192,7 @@ public class NumberParser
     }
 
 
+    /** Returns the as unsigned long. */
     public static long getAsUnsignedLong(String s)
     {
         if (s == null) {
@@ -212,6 +220,7 @@ public class NumberParser
         }
     }
 
+    /** Returns the as double. */
     public static double getAsDouble(String s)
     {
         if (s == null) {

@@ -10,6 +10,7 @@
  */
 package nacaLib.mapSupport;
 
+/** Provides map field attr justify behavior. */
 public class MapFieldAttrJustify extends MapFieldBaseAttr
 {
     private MapFieldAttrJustify(int nValue, String text)

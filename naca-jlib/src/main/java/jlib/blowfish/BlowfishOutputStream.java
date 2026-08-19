@@ -6,8 +6,10 @@
  */
 package jlib.blowfish;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Random;
+
 
 /**
  * An OutputStream that encrypts data using the Blowfish algorithm.
@@ -16,38 +18,38 @@ import java.util.*;
  */
 public class BlowfishOutputStream extends OutputStream {
 
-   private OutputStream _out;
-   private String _passphrase;
+   private OutputStream out;
+   private String storedPassphrase;
 
-   private BlowfishCBC _cbc;
-   private long _iv;
+   private BlowfishCBC cbc;
+   private long iv;
 
-   byte[] _in_buffer;
-   byte [] _out_buffer;
-   int _bytes_in_buffer = 0;
-   boolean _started = false;
+   private byte[] inBuffer;
+   private byte [] outBuffer;
+   private int bytesInBuffer = 0;
+   private boolean started = false;
 
    /**
     * @param passphrase the password to use to encrypt the data
     * @param os the OutputStream to write the data to
     */
    public BlowfishOutputStream( String passphrase, OutputStream os ) {
-      _passphrase = passphrase;
-      _out = os;
+      storedPassphrase = passphrase;
+      out = os;
 
       // swiped from BlowfishEasy
       // hash down the password to a 160bit key
       SHA1 hasher = new SHA1();
-      hasher.update( _passphrase );
+      hasher.update( storedPassphrase );
       hasher.finalize();
 
       // setup the encryptor (use a dummy IV)
-      _cbc = new BlowfishCBC( hasher.getDigest(), 0 );
+      cbc = new BlowfishCBC( hasher.getDigest(), 0 );
       hasher.clear();
 
-      _iv = new Random().nextLong();
-      _in_buffer = new byte[ BlowfishCBC.BLOCKSIZE ];
-      _out_buffer = new byte[ BlowfishCBC.BLOCKSIZE ];
+      iv = new Random().nextLong();
+      inBuffer = new byte[ BlowfishCBC.BLOCKSIZE ];
+      outBuffer = new byte[ BlowfishCBC.BLOCKSIZE ];
    }
 
    /**
@@ -60,31 +62,31 @@ public class BlowfishOutputStream extends OutputStream {
    public void write( int b ) throws IOException {
       // make sure the iv is written to output stream -- this is always the
       // first 8 bytes written out.
-      if ( !_started ) {
+      if ( !started ) {
          byte[] ivBytes = new byte[ BlowfishCBC.BLOCKSIZE ];
-         BinConverter.longToByteArray( _iv, ivBytes, 0 );
-         _out.write( ivBytes, 0, ivBytes.length );
-         _cbc.setCBCIV( _iv );
-         _started = true;
+         BinConverter.longToByteArray( iv, ivBytes, 0 );
+         out.write( ivBytes, 0, ivBytes.length );
+         cbc.setCBCIV( iv );
+         started = true;
       }
 
       // if buffer isn't full, just store the input
-      ++_bytes_in_buffer;
-      if ( _bytes_in_buffer < _in_buffer.length ) {
-         _in_buffer[ _bytes_in_buffer - 1 ] = ( byte ) b;
+      ++bytesInBuffer;
+      if ( bytesInBuffer < inBuffer.length ) {
+         inBuffer[ bytesInBuffer - 1 ] = ( byte ) b;
          return ;
       }
 
       // else this input will fill the buffer
-      _in_buffer[ _bytes_in_buffer - 1 ] = ( byte ) b;
-      _bytes_in_buffer = 0;
+      inBuffer[ bytesInBuffer - 1 ] = ( byte ) b;
+      bytesInBuffer = 0;
 
       // encrypt the buffer
-      _cbc.encrypt( _in_buffer, _out_buffer );
+      cbc.encrypt( inBuffer, outBuffer );
 
       // write the out_buffer to the wrapped output stream
-      for ( int i = 0; i < _out_buffer.length; i++ ) {
-         _out.write( _out_buffer[ i ] );
+      for ( int i = 0; i < outBuffer.length; i++ ) {
+         out.write( outBuffer[ i ] );
       }
       return ;
    }
@@ -101,22 +103,22 @@ public class BlowfishOutputStream extends OutputStream {
       // number between 1 and 8, inclusive. If this means adding
       // an extra block just for the pad count, then so be it.
       // Minor correction: 8 isn't the magic number, rather it's BlowfishECB.BLOCKSIZE.
-      byte padVal = ( byte ) ( _in_buffer.length - _bytes_in_buffer );
+      byte padVal = ( byte ) ( inBuffer.length - bytesInBuffer );
       if ( padVal > 0 ) {
-         while ( _bytes_in_buffer < _in_buffer.length ) {
-            _in_buffer[ _bytes_in_buffer ] = padVal;
-            ++ _bytes_in_buffer;
+         while ( bytesInBuffer < inBuffer.length ) {
+            inBuffer[ bytesInBuffer ] = padVal;
+            ++ bytesInBuffer;
          }
          // encrypt the buffer
-         _cbc.encrypt( _in_buffer, _out_buffer );
+         cbc.encrypt( inBuffer, outBuffer );
          // write the out_buffer to the wrapped output stream
-         for ( int i = 0; i < _out_buffer.length; i++ ) {
-            _out.write( _out_buffer[ i ] );
+         for ( int i = 0; i < outBuffer.length; i++ ) {
+            out.write( outBuffer[ i ] );
          }
       }
       flush();
-      _out.close();
-      _cbc.cleanUp();
+      out.close();
+      cbc.cleanUp();
       return ;
    }
 
@@ -124,7 +126,7 @@ public class BlowfishOutputStream extends OutputStream {
     * Flushes this output stream and causes any buffered bytes to be written.
     */
    public void flush() throws IOException {
-      _out.flush();
+      out.flush();
       return ;
    }
 }

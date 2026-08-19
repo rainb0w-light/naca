@@ -8,15 +8,15 @@ package parser.condition;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import parser.expression.*;
+import parser.expression.CDefaultConditionManager;
+import parser.expression.CExpression;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
 import semantic.CDataEntity.CDataEntityType;
 import semantic.expression.CBaseEntityCondition;
 import semantic.expression.CBaseEntityExpression;
 import semantic.expression.CEntityCondEquals;
-import utils.*;;
+
 
 /**
  * @author U930CV
@@ -24,6 +24,7 @@ import utils.*;;
  */
 public class CCondEqualsStatement extends CExpression
 {
+    /** Creates a new ccond equals statement instance. */
     public CCondEqualsStatement(int line, CExpression term1, CExpression term2)
     {
         super(line) ;
@@ -34,6 +35,7 @@ public class CCondEqualsStatement extends CExpression
         this.term1 = term1 ;
         this.term2 = term2 ;
     }
+    /** Creates the copy. */
     public CExpression NewCopy(int line, CExpression term1, CExpression term2)
     {
         return new CCondEqualsStatement(line, term1, term2);
@@ -51,6 +53,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
      */
+    /** Executes the do export operation. */
     public Element DoExport(Document root)
     {
         Element e = root.createElement("Equals") ;
@@ -74,6 +77,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetPriorityLEvel()
      */
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 3;
@@ -81,6 +85,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetOppositeCondition()
      */
+    /** Executes the get opposite condition operation. */
     public CExpression GetOppositeCondition()
     {
         return new CCondDifferentStatement(getLine(), term1, term2) ;
@@ -88,6 +93,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse expression operation. */
     public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
     {
         return null;
@@ -95,6 +101,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
      */
+    /** Executes the analyse condition operation. */
     public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
     {
         masterCond.SetMasterCondition(this) ;
@@ -232,6 +239,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetFirstOperand()
      */
+    /** Executes the get first condition operand operation. */
     public CExpression GetFirstConditionOperand()
     {
         return term1 ;
@@ -239,6 +247,7 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
      */
+    /** Executes the get similar expression operation. */
     public CExpression GetSimilarExpression(CExpression operand)
     {
         return new CCondEqualsStatement(getLine(), term1, operand) ;
@@ -246,10 +255,12 @@ public class CCondEqualsStatement extends CExpression
     /* (non-Javadoc)
      * @see parser.expression.CExpression#IsBinaryCondition()
      */
+    /** Executes the is binary condition operation. */
     public boolean IsBinaryCondition()
     {
         return true ;
     }
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;

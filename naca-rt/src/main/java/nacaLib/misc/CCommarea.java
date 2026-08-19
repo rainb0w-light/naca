@@ -10,15 +10,24 @@
  */
 package nacaLib.misc;
 
-import nacaLib.varEx.*;
+import nacaLib.varEx.CCallParam;
+import nacaLib.varEx.CallParamByCharBuffer;
+import nacaLib.varEx.CallParamByRef;
+import nacaLib.varEx.CallParamFpac;
+import nacaLib.varEx.Form;
+import nacaLib.varEx.InternalCharBuffer;
+import nacaLib.varEx.Var;
 import nacaLib.base.CJMapObject;
 
+/** Provides ccommarea behavior. */
 public class CCommarea extends CJMapObject
 {
+    /** Creates a new ccommarea instance. */
     public CCommarea()
     {
     }
 
+    /** Sets the var passed by value. */
     public void setVarPassedByValue(Var var, int length)
     {
         if (var.getLength() < length)
@@ -29,6 +38,7 @@ public class CCommarea extends CJMapObject
         var = null;
         isbyValue = true;
     }
+    /** Sets the var passed by value. */
     public void setVarPassedByValue(InternalCharBuffer buff)
     {
         charBufferCopy = buff ;
@@ -36,6 +46,7 @@ public class CCommarea extends CJMapObject
         isbyValue = true;
     }
 
+    /** Sets the var passed by value. */
     public void setVarPassedByValue(Form form)
     {
         charBufferCopy = form.encodeToCharBuffer();
@@ -43,6 +54,7 @@ public class CCommarea extends CJMapObject
         isbyValue = true;
     }
 
+    /** Sets the var passed by ref. */
     public void setVarPassedByRef(Var var)
     {
         charBufferCopy = null;
@@ -56,6 +68,7 @@ public class CCommarea extends CJMapObject
         islengthSpecified = true;
     }
 
+    /** Returns the length. */
     public int getLength()
     {
         if(var != null)
@@ -75,6 +88,7 @@ public class CCommarea extends CJMapObject
         return 0;
     }
 
+    /** Builds the call param. */
     public CCallParam buildCallParam()
     {
         if(var != null) // By ref
@@ -90,6 +104,7 @@ public class CCommarea extends CJMapObject
         return null;
     }
 
+    /** Builds the call param fpac. */
     public CallParamFpac buildCallParamFPac()
     {
         if(charBufferCopy != null)  // By value

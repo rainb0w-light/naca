@@ -13,6 +13,7 @@ import jlib.misc.Mail;
 import jlib.misc.MailService;
 import nacaLib.varEx.FileDescriptor;
 
+/** Provides mail util behavior. */
 public class MailUtil
 {
     private FileDescriptor file = null;
@@ -20,11 +21,13 @@ public class MailUtil
     private String csForcedMail = null;
     private String csSmtpServer = "smtp.intra.consultas.ch";
 
+    /** Creates a new mail util instance. */
     public MailUtil(FileDescriptor file)
     {
         this.file = file;
     }
 
+    /** Executes the execute operation. */
     public boolean execute(String csParameter)
     {
         if (csParameter != null)

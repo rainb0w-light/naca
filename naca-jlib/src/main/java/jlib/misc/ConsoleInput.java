@@ -22,6 +22,7 @@ public class ConsoleInput
 {
     private static BufferedReader ms_keyboardInput = null;
 
+    /** Returns the keyboard line. */
     public static String getKeyboardLine()
     {
         if (ms_keyboardInput == null) {
@@ -38,6 +39,7 @@ public class ConsoleInput
         return "";
     }
 
+    /** Returns the keyboard char. */
     public static char getKeyboardChar()
     {
         try

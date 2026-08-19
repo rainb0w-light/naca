@@ -15,6 +15,7 @@ public final class LanguageArtifactOutputRegistry
     {
     }
 
+    /** Executes the register operation. */
     public static void register(CBaseLanguageEntity entity, CBaseLanguageExporter output)
     {
         if (entity == null)
@@ -31,6 +32,7 @@ public final class LanguageArtifactOutputRegistry
         }
     }
 
+    /** Executes the get operation. */
     public static CBaseLanguageExporter get(CBaseLanguageEntity entity)
     {
         return OUTPUTS.get(entity) ;

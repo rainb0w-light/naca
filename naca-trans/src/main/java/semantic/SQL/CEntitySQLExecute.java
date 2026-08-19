@@ -46,6 +46,7 @@ public class CEntitySQLExecute extends CBaseActionEntity
         eVariable = var ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

@@ -27,11 +27,13 @@ public final class JavaTemplateCatalog
         this.resourcePaths = List.copyOf(resourcePaths);
     }
 
+    /** Executes the profile operation. */
     public JavaTemplateProfile profile()
     {
         return profile;
     }
 
+    /** Executes the require template operation. */
     public ST requireTemplate(String templateName)
     {
         ST template = group.getInstanceOf(templateName);
@@ -43,26 +45,31 @@ public final class JavaTemplateCatalog
         return template;
     }
 
+    /** Returns whether s template. */
     public boolean hasTemplate(String templateName)
     {
         return group.isDefined(templateName);
     }
 
+    /** Executes the template names operation. */
     public Set<String> templateNames()
     {
         return templateOwners.keySet();
     }
 
+    /** Executes the module of operation. */
     public String moduleOf(String templateName)
     {
         return templateOwners.get(normalizeName(templateName));
     }
 
+    /** Executes the resource paths operation. */
     public List<String> resourcePaths()
     {
         return resourcePaths;
     }
 
+    /** Executes the group operation. */
     public STGroup group()
     {
         return group;

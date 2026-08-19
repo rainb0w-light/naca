@@ -107,11 +107,13 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     {
 //      programCatalog.RegisterFormContainer(GetName(), this) ;
     }
+    /** Adds the form. */
     public void AddForm(CEntityResourceForm form)
     {
         arrForm.add(form) ;
     }
 
+    /** Executes the init dependences operation. */
     public void InitDependences(CBaseEntityFactory factory)
     {
         for (int i=0; i<arrForm.size(); i++)
@@ -131,6 +133,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
     {
         return null;
@@ -139,6 +142,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
      */
+    /** Executes the get special assignment operation. */
     public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
     {
         return null;
@@ -147,11 +151,13 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     public CResourceStrings resStrings = null ;
 
 
+    /** Clears the sav copy. */
     public void clearSavCopy(CBaseEntityFactory factory)
     {
         factory.programCatalog.ClearSavCopy();
     }
 
+    /** Executes the make sav copy operation. */
     public CEntityResourceFormContainer MakeSavCopy(CBaseEntityFactory factory, boolean bFromRes)
     {
         CEntityResourceFormContainer newContainer = factory.NewEntityFormContainer(getLine(), GetName()+"S", true) ;
@@ -188,6 +194,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#ignore()
      */
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         Tag t = CRulesManager.getInstance().getRule("ReduceMaps") ;
@@ -202,6 +209,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
         return false ;
     }
 
+    /** Executes the make xmloutput operation. */
     public Document MakeXMLOutput(boolean bResources)
     {
         if (bResources)
@@ -357,6 +365,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
         eParent.appendChild(eBlank);
         return eBlank;
     }
+    /** Provides field export description behavior. */
     public static class FieldExportDescription
     {
         private int line = 0 ;
@@ -380,6 +389,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
             return line;
         }
     }
+    /** Enumerates supported field export type values. */
     public enum FieldExportType
     {
         TYPE_EDIT, TYPE_LABEL, TYPE_CUSTOM, TYPE_LINE ;
@@ -432,6 +442,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
 //      return csExportFilePath ;
 //  }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         if (programCatalog != null)
@@ -519,12 +530,14 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#GetDataType()
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         // Preserved from the retired backend: a mapset bears the FORM data type.
         return CDataEntityType.FORM ;
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         // Preserved from the retired backend: a mapset bears no accessors.
@@ -537,6 +550,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
         return false;
     }
 
+    /** Executes the is need declaration in class operation. */
     public boolean IsNeedDeclarationInClass()
     {
         // Preserved from the retired backend: a mapset is needed as an in-class declaration.
@@ -546,6 +560,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     /* (non-Javadoc)
      * @see semantic.CBaseExternalEntity#GetTypeDecl()
      */
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         // Preserved from the retired backend: these are class names, not identifiers, so DO NOT FORMAT
@@ -572,6 +587,7 @@ public class CEntityResourceFormContainer extends CBaseResourceEntity
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)

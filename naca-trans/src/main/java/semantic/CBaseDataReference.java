@@ -17,6 +17,7 @@ import utils.CObjectCatalog;
  */
 public abstract class CBaseDataReference extends CGenericDataEntityReference
 {
+    /** Creates a new cbase data reference instance. */
     public CBaseDataReference(int l, String name, CObjectCatalog cat)
     {
         super(l, name, cat);
@@ -33,27 +34,32 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
         return reference.getNbDimOccurs();
     }
 
+    /** Executes the register reading action operation. */
     public void RegisterReadingAction(CBaseActionEntity act)
     {
         reference.RegisterReadReference(this) ;
         super.RegisterReadingAction(act);
     }
+    /** Executes the register value access operation. */
     public void RegisterValueAccess(CBaseEntityCondExpr cond)
     {
         super.RegisterValueAccess(cond) ;
         reference.RegisterReadReference(this) ;
     }
+    /** Executes the register var testing operation. */
     public void RegisterVarTesting(CBaseEntityCondition cond)
     {
         super.RegisterVarTesting(cond) ;
         reference.RegisterReadReference(this);
     }
+    /** Executes the register writing action operation. */
     public void RegisterWritingAction(CBaseActionEntity act)
     {
         reference.RegisterWriteReference(this);
         super.RegisterWritingAction(act);
     }
 
+    /** Executes the ignore reading actions operation. */
     public void IgnoreReadingActions(CDataEntity field)
     {
         if (field == reference)
@@ -66,6 +72,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
         }
     }
 
+    /** Executes the ignore writing actions operation. */
     public void IgnoreWritingActions(CDataEntity field)
     {
         if (field == reference)
@@ -77,6 +84,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
             }
         }
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
     {
         if (field == reference)
@@ -96,6 +104,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
         }
         return false ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CEntityResourceForm sav)
     {
         if (sav == reference)
@@ -107,6 +116,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
         }
         return false ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference == null ;
@@ -114,6 +124,7 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
     /* (non-Javadoc)
      * @see semantic.CBaseLanguageEntity#Clear()
      */
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

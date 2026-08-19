@@ -62,11 +62,13 @@ public class TableToTransfer extends ThreadPoolRequest
         }
     }
 
+    /** Executes the execute operation. */
     public void execute()
     {
         // Handle a table to transfer
     }
 
+    /** Executes the execute operation. */
     public void execute(DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination, DbTransferDesc dbTransferDesc)
     {
         if(isreplace)

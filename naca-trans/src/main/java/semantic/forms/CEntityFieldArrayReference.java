@@ -39,10 +39,12 @@ public class CEntityFieldArrayReference extends CEntityArrayReference
      * retired backend reported FIELD here whereas the CEntityArrayReference base
      * reports VAR, so the override stays on the pure entity to preserve behavior.
      */
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD ;
     }
+    /** Executes the get special condition operation. */
     public CBaseEntityCondition GetSpecialCondition(
         int nLine,
         String value,
@@ -65,6 +67,7 @@ public class CEntityFieldArrayReference extends CEntityArrayReference
             return eCond;
         }
     }
+    /** Executes the get sub string reference operation. */
     public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
     {
         CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;

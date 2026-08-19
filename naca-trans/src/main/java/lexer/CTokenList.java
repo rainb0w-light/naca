@@ -20,16 +20,19 @@ public class CTokenList
     CBaseToken curToken = null ;
 
 
+    /** Executes the add operation. */
     public void Add(CBaseToken tok)
     {
         listtokens.add(tok) ;
     }
 
+    /** Executes the get current token operation. */
     public CBaseToken GetCurrentToken()
     {
         return curToken ;
     }
 
+    /** Executes the start iter operation. */
     public void StartIter()
     {
         try
@@ -43,6 +46,7 @@ public class CTokenList
             curToken = null ;
         }
     }
+    /** Executes the get next operation. */
     public CBaseToken GetNext()
     {
         try
@@ -60,11 +64,13 @@ public class CTokenList
             return null ;
         }
     }
+    /** Executes the get nb tokens operation. */
     public int GetNbTokens()
     {
         return listtokens.size();
     }
 
+    /** Executes the clear operation. */
     public void Clear()
     {
         curToken = null ;

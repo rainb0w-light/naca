@@ -12,6 +12,7 @@ import javax.management.openmbean.CompositeType;
 import jlib.jmxMBean.BaseCloseMBean;
 
 
+/** Provides log center close mbeam behavior. */
 public abstract class LogCenterCloseMBeam extends BaseCloseMBean
 {
     LogCenterCloseMBeam(String csName, String csDescription)
@@ -49,20 +50,33 @@ public abstract class LogCenterCloseMBeam extends BaseCloseMBean
 
     }
 
+    /** Returns the enable. */
     public abstract Boolean getEnable();
+    /** Sets the enable. */
     public abstract void setEnable(Boolean b);
 
+    /** Returns the level. */
     public abstract String getLevel();
+    /** Sets the level. */
     public abstract void setLevel(String csLevel);
 
+    /** Sets the critical. */
     public abstract void setCritical();
+    /** Sets the important. */
     public abstract void setImportant();
+    /** Sets the normal. */
     public abstract void setNormal();
+    /** Sets the verbose. */
     public abstract void setVerbose();
+    /** Sets the debug. */
     public abstract void setDebug();
+    /** Sets the fine debug. */
     public abstract void setFineDebug();
 
+    /** Returns the state. */
     public abstract CompositeData getState();
+    /** Sets the state. */
     public abstract void setState(CompositeData data);
+    /** Returns the state type. */
     public abstract CompositeType getStateType();
 }

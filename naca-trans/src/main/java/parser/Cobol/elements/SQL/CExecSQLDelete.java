@@ -31,6 +31,7 @@ import utils.Transcoder;
  */
 public class CExecSQLDelete extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqldelete instance. */
     public CExecSQLDelete(int nLine)
     {
         super(nLine);
@@ -141,6 +142,7 @@ public class CExecSQLDelete extends CBaseExecSQLAction
         return true ;
     }
 
+    /** Executes the append required space operation. */
     public void AppendRequiredSpace()
     {
         if (clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false) {
@@ -149,6 +151,7 @@ public class CExecSQLDelete extends CBaseExecSQLAction
     }
 
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLDelete") ;

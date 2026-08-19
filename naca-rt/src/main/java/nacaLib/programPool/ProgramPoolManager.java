@@ -17,10 +17,12 @@ import jlib.misc.StopWatch;
 import nacaLib.base.JmxGeneralStat;
 import nacaLib.basePrgEnv.BaseProgram;
 
+/** Provides program pool manager behavior. */
 public class ProgramPoolManager //extends BaseOpenMBean
 {
     private Hashtable<String, ProgramInstancesPool> hashProgramInstancesPool = null;
 
+    /** Creates a new program pool manager instance. */
     public ProgramPoolManager(boolean bUseJmx)
     {
         // hash table of ProgramInstancePool, indexed by program name
@@ -30,6 +32,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         }
     }
 
+    /** Sets the show program beans. */
     public void setShowProgramBeans(boolean b)
     {
         Collection<ProgramInstancesPool> col = hashProgramInstancesPool.values();
@@ -41,6 +44,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         }
     }
 
+    /** Loads the pooled program instance. */
     public BaseProgram loadPooledProgramInstance(String csProgramName)
     {
         ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
@@ -62,6 +66,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         return program;
     }
 
+    /** Executes the preload second instance program operation. */
     public BaseProgram preloadSecondInstanceProgram(String csProgramName)
     {
         ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
@@ -73,6 +78,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         return null;
     }
 
+    /** Executes the unload all programs operation. */
     public void unloadAllPrograms(boolean bDoGCAfterEachProgramUnload)
     {
         Collection<ProgramInstancesPool> collectionprogramInstancesPool = hashProgramInstancesPool.values();
@@ -114,6 +120,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         }
     }
 
+    /** Returns the program pool. */
     public ProgramInstancesPool getProgramPool(String csProgramName)
     {
         ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
@@ -128,12 +135,14 @@ public class ProgramPoolManager //extends BaseOpenMBean
         return programPool;
     }
 
+    /** Removes the program instances pool. */
     public void removeProgramInstancesPool(String csProgramName)
     {
         hashProgramInstancesPool.remove(csProgramName);
     }
 
 
+    /** Executes the return program instance to pool operation. */
     public void returnProgramInstanceToPool(BaseProgram program)
     {
         String csProgramName = program.getProgramManager().getProgramName();
@@ -144,6 +153,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
         }
     }
 
+    /** Returns the nb program stacked. */
     public int getNbProgramStacked()
     {
         int n = 0;

@@ -10,6 +10,7 @@ import lexer.CTokenList;
 import parser.CParser;
 import parser.Cobol.elements.CProgram;
 
+/** Provides ccobol parser behavior. */
 public class CCobolParser extends CParser<CProgram>
 {
 

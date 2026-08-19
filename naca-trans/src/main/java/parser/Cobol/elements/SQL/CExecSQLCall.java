@@ -36,6 +36,7 @@ public class CExecSQLCall extends CBaseExecSQLAction
     {
         super(l);
     }
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element eCall = root.createElement("SQLCall");

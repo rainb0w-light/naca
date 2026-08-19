@@ -20,11 +20,13 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLFileExecutor extends BaseSQLUtils
 {
+    /** Creates a new sqlfile executor instance. */
     public SQLFileExecutor(BaseSession session, DbConnectionBase dbConnection)
     {
         super(session, dbConnection);
     }
 
+    /** Executes the execute operation. */
     public boolean execute(FileDescriptor fileIn)
     {
         FileSysinReader fileSysinReader = new FileSysinReader(getSession());

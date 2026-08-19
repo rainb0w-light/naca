@@ -47,10 +47,12 @@ import nacaLib.varEx.FileDescriptor;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides naca tool box behavior. */
 public class NacaToolBox extends CJMapObject
 {
     private BaseProgramManager programManager;
 
+    /** Creates a new naca tool box instance. */
     public NacaToolBox(BaseProgramManager manager)
     {
         programManager = manager ;
@@ -64,6 +66,7 @@ public class NacaToolBox extends CJMapObject
     {
         toUpper(data);
     }
+    /** Executes the to upper operation. */
     public void toUpper(VarAndEdit data)
     {
         String cs = data.getString() ;
@@ -90,6 +93,7 @@ public class NacaToolBox extends CJMapObject
         cs = cs.toUpperCase() ;
         data.set(cs) ;
     }
+    /** Executes the to lower operation. */
     public void toLower(VarAndEdit data)
     {
         String cs = data.getString() ;
@@ -125,6 +129,7 @@ public class NacaToolBox extends CJMapObject
     {
         leftPaddingBlank(retCode, data, length.getBodySize());
     }
+    /** Executes the left padding blank operation. */
     public void leftPaddingBlank(VarAndEdit retCode, VarAndEdit data, int length)
     {
         leftPadding(retCode, data, length, ' ');
@@ -139,6 +144,7 @@ public class NacaToolBox extends CJMapObject
     {
         leftPaddingZero(retCode, data, length.getBodySize());
     }
+    /** Executes the left padding zero operation. */
     public void leftPaddingZero(VarAndEdit retCode, VarAndEdit data, int length)
     {
         retCode.set(0) ;
@@ -175,6 +181,7 @@ public class NacaToolBox extends CJMapObject
         data.set(fullcs) ;
     }
 
+    /** Executes the check date operation. */
     public void checkDate(VarAndEdit format, VarAndEdit date, VarAndEdit retCode)
     {
         String csDate;
@@ -217,9 +224,9 @@ public class NacaToolBox extends CJMapObject
      * @param var
      * @param w_Nmpgm
      */
-    public void getProgramForTransID(VarAndEdit TID, VarAndEdit progName)
+    public void getProgramForTransID(VarAndEdit newTid, VarAndEdit progName)
     {
-        String tid = TID.getString() ;
+        String tid = newTid.getString() ;
         String p = BaseProgramLoader.ResolveTransID(tid) ;
         if (p != null)
         {
@@ -239,6 +246,7 @@ public class NacaToolBox extends CJMapObject
         }
     }
 
+    /** Adds the date. */
     public void addDate(VarAndEdit outputDate)
     {
         String inputYear = outputDate.getString().substring(0, 2).trim();
@@ -260,6 +268,7 @@ public class NacaToolBox extends CJMapObject
 
         outputDate.set(completeDate(calendar, false));
     }
+    /** Adds the date. */
     public void addDate(VarAndEdit outputDate, VarAndEdit inputDate)
     {
         String inputDay = inputDate.getString().substring(4, 6) ;
@@ -282,6 +291,7 @@ public class NacaToolBox extends CJMapObject
 
         outputDate.set(completeDate(calendar, false));
     }
+    /** Adds the date. */
     public void addDate(VarAndEdit outputDate, VarAndEdit inputDate, VarAndEdit arg)
     {
         String inputDay = inputDate.getString().substring(4, 6) ;
@@ -354,16 +364,19 @@ public class NacaToolBox extends CJMapObject
         outputDate.set(completeDate(calendar, false));
     }
 
+    /** Executes the do date job operation. */
     public void doDateJob(VarAndEdit vOperation, VarAndEdit vParam1)
     {
         doDateJob(vOperation, vParam1, null, null) ;
     }
+    /** Executes the do date job operation. */
     public void doDateJob(VarFPacLengthUndef vOperation, VarFPacLengthUndef vParam1)
     {
         Var varOperation = vOperation.createVar();
         Var varParam1 = vParam1.createVar();
         doDateJob(varOperation, varParam1, null, null);
     }
+    /** Executes the do date job operation. */
     public void doDateJob(VarFPacLengthUndef vOperation, VarFPacLengthUndef vParam1, VarFPacLengthUndef vParam2, VarFPacLengthUndef vParam3)
     {
         Var varOperation = vOperation.createVar();
@@ -372,6 +385,7 @@ public class NacaToolBox extends CJMapObject
         Var varParam3 = vParam3.createVar();
         doDateJob(varOperation, varParam1, varParam2, varParam3);
     }
+    /** Executes the do date job operation. */
     public void doDateJob(VarAndEdit vOperation, VarAndEdit vParam1, VarAndEdit vParam2, VarAndEdit vParam3)
     {
         String operation = vOperation.getString().trim();
@@ -678,6 +692,7 @@ public class NacaToolBox extends CJMapObject
         return new GregorianCalendar(year, month - 1, day);
     }
 
+    /** Returns the time special. */
     public void getTimeSpecial(VarAndEdit vParam)
     {
         GregorianCalendar calendar = new GregorianCalendar();
@@ -685,10 +700,12 @@ public class NacaToolBox extends CJMapObject
         vParam.set(formatter.format(calendar.getTime()) + "000");
     }
 
+    /** Executes the check short number operation. */
     public void checkShortNumber(Var returnCode, VarAndEdit input, int length, Var output, Var posBeforeDecimal, Var posAfterDecimal)
     {
         checkNumber(returnCode, input.getString().substring(0, length).trim(), output, posBeforeDecimal, posAfterDecimal, true);
     }
+    /** Executes the check long number operation. */
     public void checkLongNumber(Var returnCode, VarAndEdit input, int length, Var output, Var posBeforeDecimal, Var posAfterDecimal)
     {
         checkNumber(returnCode, input.getString().substring(0, length).trim(), output, posBeforeDecimal, posAfterDecimal, false);
@@ -833,6 +850,7 @@ public class NacaToolBox extends CJMapObject
         Var netlu62 = declare.level(5).picX(8).var() ;                          // (44)      05  NETLU62              PIC X(08).
         Var termlu62 = declare.level(5).picX(4).var() ;                         // (45)      05  TERMLU62             PIC X(04).
      */
+    /** Returns the terminal. */
     public void getTerminal(BaseSession baseSession, Var param)
     {
         String net = "L930CON1";
@@ -855,6 +873,7 @@ public class NacaToolBox extends CJMapObject
                 StringUtil.rightPad(termLu62, 4, ' '));
     }
 
+    /** Executes the generate random number operation. */
     public void generateRandomNumber(Var param)
     {
         Random generator = new Random();
@@ -885,6 +904,7 @@ public class NacaToolBox extends CJMapObject
             Var filler$2 = declare.level(10).picX(29).var() ;
         Var p2_Ligloce2 = declare.level(5).picX(30).var() ;                     // (57)      05 P2-LIGLOCE2          PIC X(30).
      */
+    /** Executes the format foreign address operation. */
     public void formatForeignAddress(Var param)
     {
         Var adrpayn = param.getVarChildAt(1) ;
@@ -1024,6 +1044,7 @@ public class NacaToolBox extends CJMapObject
             Var orsparam = declare.level(10).picX(79).var() ;                   // (250)         10 ORSPARAM PIC X(79).
             Var suite = declare.level(10).picX(1).var() ;                       // (251)         10 SUITE   PIC X.
      */
+    /** Executes the start batch operation. */
     public void startBatch(Var param)
     {
         Var returnCode = param.getVarChildAt(1);
@@ -1091,6 +1112,7 @@ public class NacaToolBox extends CJMapObject
         }
     }
 
+    /** Executes the start batch linux ssh operation. */
     public int startBatchLinuxSsh(boolean isLocal, String sshPath, String sshUser, String url, String sshCommand,
                                   String procedure,
                                   String account,
@@ -1375,6 +1397,7 @@ public class NacaToolBox extends CJMapObject
         out.close();
     }
 
+    /** Executes the dump program operation. */
     public void dumpProgram(Var var1, Var var2)
     {
         JVMReturnCodeManager.setExitCode(var1.getInt());
@@ -1382,6 +1405,7 @@ public class NacaToolBox extends CJMapObject
         throw dumpProgramException;
     }
 
+    /** Executes the dump program operation. */
     public void dumpProgram(Var var1)
     {
         JVMReturnCodeManager.setExitCode(var1.getInt());
@@ -1389,6 +1413,7 @@ public class NacaToolBox extends CJMapObject
         throw dumpProgramException;
     }
 
+    /** Executes the format sqlcode operation. */
     public void formatSQLCode(Var varErrorMessage, Var varErrorTextLen)
     {
         int nSizeBufferError = varErrorMessage.getVarChildAt(1).getInt();
@@ -1401,11 +1426,13 @@ public class NacaToolBox extends CJMapObject
         }
     }
 
+    /** Returns the job info. */
     public void getJobInfo(VarFPacLengthUndef jobInfo)
     {
         Var varSource = jobInfo.createVar();
         getJobInfo(varSource);
     }
+    /** Returns the job info. */
     public void getJobInfo(Var jobInfo)
     {
         String jobId = getJobInfoForKey("JOBID");
@@ -1415,18 +1442,21 @@ public class NacaToolBox extends CJMapObject
                 StringUtil.rightPad(stepId, 8, ' ') +
                 StringUtil.rightPad(procId, 8, ' '));
     }
+    /** Returns the job info. */
     public void getJobInfo(Var jobInfo, Var account1Info)
     {
         getJobInfo(jobInfo);
         String account1 = getJobInfoForKey("ACCOUNT1");
         account1Info.set(StringUtil.rightPad(account1, 8, ' '));
     }
+    /** Returns the job info. */
     public void getJobInfo(Var jobInfo, Var account1Info, Var account2Info)
     {
         getJobInfo(jobInfo, account1Info);
         String account2 = getJobInfoForKey("ACCOUNT2");
         account2Info.set(StringUtil.rightPad(account2, 8, ' '));
     }
+    /** Returns the job info for key. */
     public String getJobInfoForKey(String key) {
         String value = EnvironmentVar.getParamValue(key);
         if (value.equals("") && programManager.getEnv().getBaseSession() != null) {
@@ -1435,6 +1465,7 @@ public class NacaToolBox extends CJMapObject
         return value;
     }
 
+    /** Returns the card key. */
     public int getCardKey(Var card, Var key, Var value, Var index)
     {
         String csCard = card.getString().trim();
@@ -1484,11 +1515,13 @@ public class NacaToolBox extends CJMapObject
         }
         return 0;
     }
+    /** Returns the card key. */
     public void getCardKey(Var card, Var key, Var value, Var index, int returnCode)
     {
         JVMReturnCodeManager.setExitCode(getCardKey(card, key, value, index));
     }
 
+    /** Executes the dynamic allocation operation. */
     public void dynamicAllocation(Var[] params)
     {
         int operation = new Integer(params[0].getDottedSignedString()).intValue();
@@ -1575,6 +1608,7 @@ public class NacaToolBox extends CJMapObject
         }
     }
 
+    /** Executes the byte to bit in ebcdic operation. */
     public void byteToBitInEbcdic(Var inBytes, Var outBits, Var length)
     {
         String inBytesInEbcdic = AsciiEbcdicConverter.getEbcdicString(inBytes.getString());
@@ -1589,6 +1623,7 @@ public class NacaToolBox extends CJMapObject
         outBits.set(cs);
     }
 
+    /** Executes the bit to byte in ebcdic operation. */
     public void bitToByteInEbcdic(Var outBytes, Var inBits, Var length)
     {
         int len = new Integer(length.getDottedSignedString()).intValue();
@@ -1613,6 +1648,7 @@ public class NacaToolBox extends CJMapObject
         returnCode.set(rc.getCode());
     }
     */
+    /** Executes the format psfload column operation. */
     public void formatPSFLoadColumn(Var nbColumn, Var rule, Var interline, Var returnCode)
     {
         //TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
@@ -1713,6 +1749,7 @@ public class NacaToolBox extends CJMapObject
         returnCode.set(rc.getCode());
         */
     }
+    /** Executes the format psftext operation. */
     public void formatPSFText(Var input, Var blockMode, Var output, Var blockHeight, Var returnCode)
     {
         //TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
@@ -1744,6 +1781,7 @@ public class NacaToolBox extends CJMapObject
         blockHeight.set(psf.getHeight());
         returnCode.set(rc.getCode());*/
     }
+    /** Executes the format psfline operation. */
     public void formatPSFLine(Var input, Var blockMode, Var output, Var blockHeight, Var returnCode)
     {
         //TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
@@ -1785,6 +1823,7 @@ public class NacaToolBox extends CJMapObject
         return textPrintHelper;
     }
     */
+    /** Executes the format psforder text operation. */
     public void formatPSFOrderText(Var input, Var output)
     {
         /*
@@ -1799,6 +1838,7 @@ public class NacaToolBox extends CJMapObject
         */
     }
 
+    /** Executes the format xmlorder operation. */
     public void formatXMLOrder(Var input, Var output)
     {
         /*
@@ -1813,6 +1853,7 @@ public class NacaToolBox extends CJMapObject
         */
     }
 
+    /** Executes the restart file operation. */
     public void restartFile(Var outputFile)
     {
         String csLogicalFileName = outputFile.getVarChildAt(1).getString().trim();
@@ -1820,6 +1861,7 @@ public class NacaToolBox extends CJMapObject
         restartFile(csLogicalFileName, nNbRecordsToKeep);
     }
 
+    /** Executes the restart file operation. */
     public void restartFile(String csLogicalFileName, int nNbRecordsToKeep)
     {
         FileDescriptor file = new FileDescriptor(csLogicalFileName, programManager.getEnv().getBaseSession());
@@ -1869,6 +1911,7 @@ public class NacaToolBox extends CJMapObject
         return -1;
     }
 
+    /** Executes the do encoding utf8 operation. */
     public void doEncodingUTF8(Var input, Var output)
     {
         String utf8 = input.getString().trim();

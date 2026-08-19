@@ -18,6 +18,7 @@ public class SpServerResourceManagerFactory
 {
     private static SpServerResourceManager ms_instance = null;
 
+    /** Executes the get instance operation. */
     public static SpServerResourceManager GetInstance(String csIniFilePath)
     {
         if(ms_instance == null)

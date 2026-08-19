@@ -53,6 +53,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
     {
         return attributeValue ;
     }
+    /** Returns the protection constant. */
     public String getProtectionConstant()
     {
         if (isautoSkip)
@@ -73,6 +74,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
         }
         return null ;
     }
+    /** Returns the intensity constant. */
     public String getIntensityConstant()
     {
         if (isbright)
@@ -89,6 +91,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
         }
         return null ;
     }
+    /** Returns the modified constant. */
     public String getModifiedConstant()
     {
         if (bModified)
@@ -104,71 +107,83 @@ public class CEntitySetAttribute extends CBaseActionEntity
 
     protected CDataEntity refField = null ;
 
+    /** Sets the bright. */
     public void SetBright()
     {
         isbright = true ;
     }
     protected boolean isbright = false ;
 
+    /** Sets the modified. */
     public void SetModified()
     {
         bModified = true ;
     }
     protected boolean bModified = false ;
 
+    /** Sets the numeric. */
     public void SetNumeric()
     {
         isnumeric = true ;
     }
     protected boolean isnumeric = false ;
 
+    /** Sets the protected. */
     public void SetProtected()
     {
         isprotected = true ;
     }
     protected boolean isprotected = false ;
 
+    /** Sets the unprotected. */
     public void SetUnprotected()
     {
         isunProtected = true ;
     }
     protected boolean isunProtected = false ;
 
+    /** Sets the auto skip. */
     public void SetAutoSkip()
     {
         isautoSkip = true ;
     }
     protected boolean isautoSkip = false ;
 
+    /** Sets the normal. */
     public void SetNormal()
     {
         isnormal = true ;
     }
     protected boolean isnormal = false ;
 
+    /** Sets the unmodified. */
     public void SetUnmodified()
     {
         isunmodified = true;
     }
     protected boolean isunmodified = false ;
 
+    /** Sets the dark. */
     public void SetDark()
     {
         isdark = true ;
     }
     protected boolean isdark = false ;
 
+    /** Sets the attribute. */
     public void SetAttribute(CDataEntity entity)
     {
         attributeValue = entity ;
     }
     protected CDataEntity attributeValue = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         attributeValue = null ;
         refField = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (refField == null || refField.ignore())
@@ -181,6 +196,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         if (data == refField)
@@ -191,6 +207,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
         }
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         if (refField == field)
@@ -203,6 +220,7 @@ public class CEntitySetAttribute extends CBaseActionEntity
         return false ;
     }
 
+    /** Executes the get special assignement operation. */
     public CBaseActionEntity GetSpecialAssignement(String val, CBaseEntityFactory factory)
     {
         if (refField != null)

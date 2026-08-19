@@ -29,6 +29,7 @@ import jlib.misc.StopWatch;
 import jlib.misc.StringUtil;
 import jlib.xml.XMLUtil;
 
+/** Provides online resource bean manager behavior. */
 public class OnlineResourceBeanManager extends BaseCloseMBean
 {
     private Hashtable<String, Document> tabResources = null;
@@ -54,6 +55,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         addOperation("Reload ressource files", getClass(), "reloadResourcesFiles"); // Boolean.TYPE);
     }
 
+    /** Returns the nb files. */
     public int getNbFiles()
     {
         unloadRWLock.readLock().lock();
@@ -65,6 +67,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         return n;
     }
 
+    /** Returns the nb resources. */
     public int getNbResources()
     {
         unloadRWLock.readLock().lock();
@@ -76,6 +79,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         return n;
     }
 
+    /** Returns the nb documents. */
     public int getNbDocuments()
     {
         unloadRWLock.readLock().lock();
@@ -87,6 +91,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         return n;
     }
 
+    /** Executes the reload resources files operation. */
     public void reloadResourcesFiles()
     {
         Log.logImportant("reloadResourcesFiles started");
@@ -228,6 +233,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         unloadRWLock.writeLock().unlock();
     }
 
+    /** Executes the get xmlpage operation. */
     public Document GetXMLPage(String csIdPageupperCase)
     {
         unloadRWLock.readLock().lock();
@@ -255,6 +261,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         return null;
     }
 
+    /** Removes the resource cache. */
     public void removeResourceCache(String csForm)
     {
         unloadRWLock.readLock().lock();
@@ -269,6 +276,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         unloadRWLock.readLock().unlock();
     }
 
+    /** Executes the get xmlstructure operation. */
     public Document GetXMLStructure(String idPage)
     {
         unloadRWLock.readLock().lock();

@@ -17,17 +17,20 @@ import utils.CObjectCatalog;
 public abstract class CBaseEntityFunction extends CBaseDataReference
 {
     //protected CDataEntity dataRef = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         reference = null ;
     }
 
+    /** Creates a new cbase entity function instance. */
     public CBaseEntityFunction(CObjectCatalog cat, CDataEntity data)
     {
         super(0, "", cat);
         reference = data ;
     }
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         if (reference != null)
@@ -42,10 +45,12 @@ public abstract class CBaseEntityFunction extends CBaseDataReference
     /* (non-Javadoc)
      * @see semantic.CBaseDataEntity#HasAccessors()
      */
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (reference != null)
@@ -57,6 +62,7 @@ public abstract class CBaseEntityFunction extends CBaseDataReference
             return false ;
         }
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

@@ -31,6 +31,7 @@ import utils.Transcoder;
  */
 public class CExecSQLUpdate extends CBaseExecSQLAction
 {
+    /** Creates a new cexec sqlupdate instance. */
     public CExecSQLUpdate(int nLine)
     {
         super(nLine);
@@ -178,6 +179,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
         return true ;
     }
 
+    /** Executes the append required space operation. */
     public void AppendRequiredSpace()
     {
         if (clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false) {
@@ -186,6 +188,7 @@ public class CExecSQLUpdate extends CBaseExecSQLAction
     }
 
 
+    /** Exports the custom. */
     public Element ExportCustom(Document root)
     {
         Element e = root.createElement("SQLUpdate") ;

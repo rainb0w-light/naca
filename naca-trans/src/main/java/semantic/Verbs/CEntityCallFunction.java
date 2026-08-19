@@ -11,7 +11,7 @@ import semantic.CDataEntity;
 import semantic.CEntityProcedure;
 import semantic.CEntityProcedureSection;
 import semantic.CProcedureReference;
-import utils.*;
+import utils.CObjectCatalog;
 
 
 /**
@@ -38,11 +38,12 @@ public class CEntityCallFunction extends CBaseActionEntity
         }
         if (!refThru.equals(""))
         {
-            referenceThru = new CProcedureReference(refThru, sec, cat) ;;
+            referenceThru = new CProcedureReference(refThru, sec, cat) ;
         }
     }
     protected CProcedureReference reference = null;
     protected CProcedureReference referenceThru = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
@@ -57,6 +58,7 @@ public class CEntityCallFunction extends CBaseActionEntity
         reference = null;
         referenceThru = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         if (referenceThru == null)
@@ -69,6 +71,7 @@ public class CEntityCallFunction extends CBaseActionEntity
         return false ;
     }
 
+    /** Executes the ignore variable operation. */
     public boolean IgnoreVariable(CDataEntity data)
     {
         return false ;
@@ -88,6 +91,7 @@ public class CEntityCallFunction extends CBaseActionEntity
         return referenceThru.getProcedure() ;
     }
 
+    /** Returns whether s explicit get out. */
     public boolean hasExplicitGetOut()
     {
         CEntityProcedure proc = reference.getProcedure() ;
@@ -100,6 +104,7 @@ public class CEntityCallFunction extends CBaseActionEntity
     {
         return reference ;
     }
+    /** Sets the repetitions. */
     public void SetRepetitions(CDataEntity entity)
     {
         refRepetitions = entity ;

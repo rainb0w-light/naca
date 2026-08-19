@@ -23,6 +23,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
     Hashtable<String, Boolean> tabModified = new Hashtable<String, Boolean>() ;
     String csIdPage = null;
 
+    /** Returns the field value. */
     public String getFieldValue(String fieldName)
     {
         String cs = tabValues.get(fieldName) ;
@@ -33,6 +34,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
         return cs ;
     }
 
+    /** Sets the field value. */
     public void setFieldValue(String fieldName, String value, boolean modified)
     {
         tabValues.put(fieldName, value) ;
@@ -40,6 +42,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
         tabModified.put(fieldName, upd) ;
     }
 
+    /** Executes the reset operation. */
     public void reset()
     {
         tabValues = new MapStringByString() ;
@@ -63,6 +66,7 @@ public class CEmulMapFieldLoader extends CMapFieldLoader
     /* (non-Javadoc)
      * @see CBaseMapFieldLoader#isFieldModified(java.lang.String)
      */
+    /** Returns whether field modified. */
     public boolean isFieldModified(String fieldName)
     {
         Boolean b = tabModified.get(fieldName) ;

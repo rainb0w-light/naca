@@ -25,6 +25,7 @@ public class PooledThreadDbTransfer extends PooledThread
     private DbConnectionBase dbConnectionSource = null;
     private DbConnectionBase dbConnectionDestination = null;
 
+    /** Creates a new pooled thread db transfer instance. */
     public PooledThreadDbTransfer(
         PoolOfThreads owningPool,
         DbTransferDesc dbTransferDesc,
@@ -37,11 +38,13 @@ public class PooledThreadDbTransfer extends PooledThread
         this.dbConnectionDestination = dbConnectionDestination;
     }
 
+    /** Executes the pre run operation. */
     public boolean preRun()
     {
         return true;
     }
 
+    /** Executes the post run operation. */
     public void postRun()
     {
     }

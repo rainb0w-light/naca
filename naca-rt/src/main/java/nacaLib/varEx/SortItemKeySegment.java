@@ -8,6 +8,7 @@ package nacaLib.varEx;
 
 import jlib.log.Asserter;
 
+/** Provides sort item key segment behavior. */
 public class SortItemKeySegment
 {
     SortItemKeySegment(boolean bAscending)

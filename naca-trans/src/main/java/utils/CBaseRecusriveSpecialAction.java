@@ -8,11 +8,13 @@ package utils;
 
 import semantic.CBaseEntityFactory;
 
+/** Provides cbase recusrive special action behavior. */
 public abstract class CBaseRecusriveSpecialAction
 {
     protected CObjectCatalog programCatalog = null ;
     protected CBaseEntityFactory factory = null ;
 
+    /** Creates a new cbase recusrive special action instance. */
     public CBaseRecusriveSpecialAction(CObjectCatalog programCatalog, CBaseEntityFactory factory)
     {
         this.programCatalog = programCatalog ;

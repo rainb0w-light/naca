@@ -11,8 +11,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/** Provides time ms behavior. */
 public class Time_ms
 {
+    /** Returns the current time ms. */
     public static long getCurrentTime_ms()
     {
         //long l = new GregorianCalendar().getTimeInMillis();
@@ -20,6 +22,7 @@ public class Time_ms
         return l;
     }
 
+    /** Executes the format hhmmss ms operation. */
     public static String formatHHMMSS_ms(long l)
     {
         int nNbMs = (int)(l % 1000);
@@ -32,6 +35,7 @@ public class Time_ms
         return cs;
     }
 
+    /** Executes the format yyyymmddhhmmss ms operation. */
     public static String formatYYYYMMDDHHMMSS_ms(long l)
     {
         Calendar calendar = new GregorianCalendar();
@@ -43,6 +47,7 @@ public class Time_ms
         return cs ;
     }
 
+    /** Executes the format dmy hhmmss ms operation. */
     public static String formatDMY_HHMMSS_ms(long l)
     {
         Calendar calendar = new GregorianCalendar();
@@ -54,6 +59,7 @@ public class Time_ms
         return cs ;
     }
 
+    /** Executes the wait ms operation. */
     public static void wait_ms(long lNbMs)
     {
         try

@@ -17,12 +17,15 @@ import java.util.zip.ZipFile;
 import jlib.log.Log;
 import jlib.misc.FileSystem;
 
+/** Provides jar entries behavior. */
 public class JarEntries
 {
+    /** Creates a new jar entries instance. */
     public JarEntries()
     {
     }
 
+    /** Executes the open operation. */
     public boolean open(String csJar, ArrayList<String> arrPaths)
     {
         boolean isopened = false;
@@ -35,6 +38,7 @@ public class JarEntries
         return isopened;
     }
 
+    /** Executes the open operation. */
     public boolean open(String csPath, String csJar, boolean bFilterByExtension, String csExtension)
     {
         csPath = FileSystem.normalizePath(csPath);
@@ -43,6 +47,7 @@ public class JarEntries
         return isopened;
     }
 
+    /** Executes the open operation. */
     public boolean open(String csFullPathJarFile, boolean bFilterByExtension, String csExtension)
     {
         int nExtensionLength = 0;
@@ -87,6 +92,7 @@ public class JarEntries
         return false;
     }
 
+    /** Executes the close operation. */
     public void close()
     {
         if(zipFile != null)
@@ -108,6 +114,7 @@ public class JarEntries
         return zipFile;
     }
 
+    /** Loads the jar entry. */
     public byte[] loadJarEntry(String csClass)
     {
         if (hash != null)
@@ -122,6 +129,7 @@ public class JarEntries
         return null;
     }
 
+    /** Returns the keys. */
     public Enumeration<String> getKeys()
     {
         if (hash != null) {
@@ -130,6 +138,7 @@ public class JarEntries
         return null;
     }
 
+    /** Returns the entry. */
     public JarItemEntry getEntry(String csKey)
     {
         if (hash != null) {

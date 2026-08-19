@@ -16,5 +16,6 @@ package jlib.misc;
  */
 public abstract class StackableInList
 {
+    /** Sets the with. */
     public abstract void setWith(StackableInList source);
 }

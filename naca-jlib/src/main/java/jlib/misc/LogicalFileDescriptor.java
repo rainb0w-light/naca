@@ -27,6 +27,7 @@ public class LogicalFileDescriptor
     private int nFileHeaderLength = 0;
     private RecordLengthInfoDefinitionType recordLengthInfoDefinitionType = null;
 
+    /** Creates a new logical file descriptor instance. */
     public LogicalFileDescriptor(String csLogicalName, String csPhysicalDesc)
     {
         this.csLogicalName = csLogicalName;
@@ -69,6 +70,7 @@ public class LogicalFileDescriptor
         recordLengthDefinition = recLengthDefSource;
     }
 
+    /** Executes the fill operation. */
     public void fill(String csPhysicalDesc)
     {
         int nIndex = csPhysicalDesc.indexOf(",");
@@ -124,6 +126,7 @@ public class LogicalFileDescriptor
             }
     }
 
+    /** Sets the variable length. */
     public void setVariableLength()
     {
         isvariableLength = true;
@@ -139,6 +142,7 @@ public class LogicalFileDescriptor
         return bVariableLength4BytesLF;
     }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "";
@@ -157,6 +161,7 @@ public class LogicalFileDescriptor
         return cs;
     }
 
+    /** Returns the name. */
     public String getName()
     {
         String cs = "";
@@ -184,6 +189,7 @@ public class LogicalFileDescriptor
         return " (Unkown physical path) ";
     }
 
+    /** Writes the file header. */
     public boolean writeFileHeader(BaseDataFile dataFile)
     {
         // Do not write header for files in rewrite mode
@@ -282,6 +288,7 @@ public class LogicalFileDescriptor
         return false;
     }
 
+    /** Reads the file header. */
     public boolean readFileHeader(BaseDataFile dataFile)
     {
         if(dataFile != null && dataFile.isOpen() && dataFile.isReadable())
@@ -304,6 +311,7 @@ public class LogicalFileDescriptor
         return false;
     }
 
+    /** Executes the inherit settings operation. */
     public void inheritSettings(LogicalFileDescriptor logicalFileDescriptorSource)
     {
         RecordLengthDefinition recLengthDefSource = logicalFileDescriptorSource.getRecordLengthDefinition();
@@ -319,11 +327,13 @@ public class LogicalFileDescriptor
         return nFileHeaderLength;
     }
 
+    /** Executes the record length info defition type operation. */
     public RecordLengthInfoDefinitionType recordLengthInfoDefitionType()
     {
         return recordLengthInfoDefinitionType;
     }
 
+    /** Returns whether length info defined. */
     public boolean isLengthInfoDefined()
     {
         if (recordLengthInfoDefinitionType != null) {
@@ -332,6 +342,7 @@ public class LogicalFileDescriptor
         return false;
     }
 
+    /** Executes the try auto determine record length operation. */
     public boolean tryAutoDetermineRecordLength(BaseDataFile dataFile)
     {
         if(!isLengthInfoDefined())  // File header must have already been tried to read

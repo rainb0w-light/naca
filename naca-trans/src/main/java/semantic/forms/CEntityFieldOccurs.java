@@ -66,12 +66,14 @@ public class CEntityFieldOccurs extends CEntityResourceField
 {
     protected CDataEntity occurs = null ;
     protected String csLevel = "" ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear() ;
         occurs = null ;
     }
 
+    /** Creates a new centity field occurs instance. */
     public CEntityFieldOccurs(int l, String name, CObjectCatalog cat)
     {
         super(l, name, cat);
@@ -84,22 +86,26 @@ public class CEntityFieldOccurs extends CEntityResourceField
             }
         }
     }
+    /** Sets the field occurs. */
     public void SetFieldOccurs(String level, CDataEntity occurs)
     {
         this.occurs = occurs ;
         csLevel = level ;
     }
 
+    /** Executes the is entry field operation. */
     public boolean IsEntryField()
     {
         return false;
     }
 
+    /** Executes the get type decl operation. */
     public String GetTypeDecl()
     {
         return null;
     }
 
+    /** Executes the get data type operation. */
     public CDataEntityType GetDataType()
     {
         return CDataEntityType.FIELD;
@@ -118,6 +124,7 @@ public class CEntityFieldOccurs extends CEntityResourceField
         return false;
     }
 
+    /** Executes the do xmlexport operation. */
     public Element DoXMLExport(Document doc, CResourceStrings res)
     {
         // Preserved from the retired backend: an occurs group contributes no XML/.res node
@@ -136,6 +143,7 @@ public class CEntityFieldOccurs extends CEntityResourceField
     private Function<String, String> identifierFormatter =
         identifier -> identifier.replace('-', '_').replace('#', '$');
 
+    /** Sets the identifier formatter. */
     public void setIdentifierFormatter(Function<String, String> formatter)
     {
         if (formatter != null)

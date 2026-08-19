@@ -10,8 +10,10 @@ import java.lang.reflect.Method;
 
 import javax.management.MBeanOperationInfo;
 
+/** Provides mbean operation info wrapper behavior. */
 public class MBeanOperationInfoWrapper
 {
+    /** Creates a new mbean operation info wrapper instance. */
     public MBeanOperationInfoWrapper(String csDescription, Method method)
     {
         operation = new MBeanOperationInfo(csDescription, method);

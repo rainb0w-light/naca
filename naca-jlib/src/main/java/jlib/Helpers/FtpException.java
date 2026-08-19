@@ -26,19 +26,19 @@ public class FtpException extends Exception {
  * </pre>
  */
     public String getMessage() {
-        StringBuilder message=new StringBuilder(_specificMessage);
-        if (_errorCode>0) {
+        StringBuilder message=new StringBuilder(specificMessage);
+        if (errorCode>0) {
             message.append("Error code ");
-            message.append(_errorCode);
+            message.append(errorCode);
         }
-        if (_command!=null) {
+        if (storedCommand!=null) {
             message.append(" while executing '");
-            message.append(_command);
+            message.append(storedCommand);
             message.append("'");
         }
-        if (_response!=null) {
+        if (storedResponse!=null) {
             message.append(", server returned '");
-            message.append(_response);
+            message.append(storedResponse);
             message.append("'.");
         }
         return message.toString();
@@ -47,27 +47,27 @@ public class FtpException extends Exception {
 /**
  * Contains the specific message (the 'message' parameter specified to the constructor).
  */
-    private String _specificMessage;
+    private String specificMessage;
 /**
  * Returns the specific message (the 'message' parameter specified to the constructor).
  * @return The specific message (the 'message' parameter specified to the constructor).
  */
     public String getSpecificMessage() {
-        return _specificMessage;
+        return specificMessage;
     }
 
 /**
  * Contains the command that produced the error.
  */
-    private String _command;
+    private String storedCommand;
     public String getCommand() {
-        return _command;
+        return storedCommand;
     }
 
 /**
  * Contains (if available) the error code returned by the server.
  */
-    private int _errorCode;
+    private int errorCode;
 /**
  * Returns (if available) the error code returned by the server.
  * Ftp error codes are:
@@ -119,29 +119,29 @@ public class FtpException extends Exception {
  * @return (if available) the error code returned by the server.
  */
     public int getErrorCode() {
-        return _errorCode;
+        return errorCode;
     }
 
 /**
  * Contains the response returned by the server.
  * The response starts with 3 numbers specifying the error code.
  */
-    private String _response;
+    private String storedResponse;
 /**
  * Returns (if available) the complete server response containing the error.
  * @return (if available) the complete server response containing the error.
  */
     public String getResponse() {
-        return _response;
+        return storedResponse;
     }
 
 //******************************************************************************
 //**                      Class initialization.                               **
 //******************************************************************************
     private void initialize(String message,String response,String command) {
-        _specificMessage=message;
-        _response=response;
-        _command=command;
+        specificMessage=message;
+        storedResponse=response;
+        storedCommand=command;
 
 //........ Tries to extract the error code from the response ...................
         if (response!=null) {
@@ -155,7 +155,7 @@ public class FtpException extends Exception {
                 }
             }
             if (n > 0) {
-                _errorCode = Integer.parseInt(response.substring(0, n));
+                errorCode = Integer.parseInt(response.substring(0, n));
             }
         }
     }

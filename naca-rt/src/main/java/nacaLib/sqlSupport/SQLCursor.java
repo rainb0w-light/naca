@@ -20,6 +20,7 @@ import nacaLib.varEx.VarAndEdit;
  */
 public class SQLCursor  extends CJMapObject // extends SQLCursor
 {
+    /** Creates a new sqlcursor instance. */
     public SQLCursor(BaseProgramManager programManager)
     {
         this.programManager = programManager;
@@ -57,6 +58,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 //      bOpen = false;
 //  }
 
+    /** Executes the open operation. */
     public CSQLStatus open()
     {
         CSQLStatus sqlStatus = programManager.getSQLStatus();
@@ -72,6 +74,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return sqlStatus;
     }
 
+    /** Executes the close operation. */
     public CSQLStatus close()
     {
         CSQLStatus sqlStatus = programManager.getSQLStatus();
@@ -95,6 +98,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return sqlStatus;
     }
 
+    /** Closes the if open. */
     public void closeIfOpen()
     {
         if(bOpen)
@@ -108,6 +112,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return bOpen;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(int nName, VarAndEdit var)
     {
         if (isLogSql) {
@@ -119,6 +124,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(String csName, VarAndEdit var)
     {
         if (isLogSql) {
@@ -130,6 +136,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(int nName, int nValue)
     {
         if (isLogSql) {
@@ -139,6 +146,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(String csName, int nValue)
     {
         if (isLogSql) {
@@ -150,6 +158,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(int nName, double dValue)
     {
         if (isLogSql) {
@@ -161,6 +170,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(String csName, double dValue)
     {
         if (isLogSql) {
@@ -172,6 +182,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(int nName, String csValue)
     {
         if (isLogSql) {
@@ -183,6 +194,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the param operation. */
     public SQLCursor param(String csName, String csValue)
     {
         if (isLogSql) {
@@ -194,6 +206,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on warning goto operation. */
     public SQLCursor onWarningGoto(Paragraph paragraphSQGErrorGoto)
     {
         if (isLogSql) {
@@ -205,6 +218,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on warning goto operation. */
     public SQLCursor onWarningGoto(Section section)
     {
         if (isLogSql) {
@@ -216,6 +230,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on warning continue operation. */
     public SQLCursor onWarningContinue()
     {
         if (isLogSql) {
@@ -227,6 +242,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public SQLCursor onErrorGoto(Paragraph paragraphSQGErrorGoto)
     {
         if (isLogSql) {
@@ -238,6 +254,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on error goto operation. */
     public SQLCursor onErrorGoto(Section section)
     {
         if (isLogSql) {
@@ -249,6 +266,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the on error continue operation. */
     public SQLCursor onErrorContinue()
     {
         if (isLogSql) {
@@ -260,6 +278,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return this;
     }
 
+    /** Executes the fetch operation. */
     public SQLCursorFetch fetch(BaseEnvironment env)
     {
         if (qLCursorFetch == null) {
@@ -279,6 +298,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         return qLCursorFetch;
     }
 
+    /** Sets the name. */
     public void setName(String csProgramName, String csName)
     {
         String cs = csProgramName + csName;
@@ -297,6 +317,7 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
     private String csUniqueName = null;
     private boolean isnameToSet = false;
 
+    /** Sets the holdability. */
     public SQLCursor setHoldability(boolean b)
     {
         sQL.setHoldability(b);

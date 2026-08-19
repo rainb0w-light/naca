@@ -14,18 +14,22 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.bdb.BTreeCommandSort;
 import nacaLib.bdb.BtreeFile;
 import nacaLib.bdb.BtreeKeyDescription;
-import nacaLib.program.*;
+import nacaLib.program.Paragraph;
+import nacaLib.program.Section;
 
+/** Provides sort command behavior. */
 public class SortCommand
 {
     private SortDescriptor sortDescriptorDeclared = null;
 
+    /** Creates a new sort command instance. */
     public SortCommand(BaseProgramManager programManager, SortDescriptor sortDescriptorDeclared)
     {
         this.programManager = programManager;
         this.sortDescriptorDeclared = sortDescriptorDeclared;
     }
 
+    /** Exports the key. */
     public SortCommand exportKey(String csExportKeyFile)
     {
         dataFileKeyOut = new DataFileWrite(csExportKeyFile, false);
@@ -38,6 +42,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the asc key operation. */
     public SortCommand ascKey(Var var)
     {
         SortKeySegmentDefinition keySegment = new SortKeySegmentDefinition(var, true);
@@ -45,6 +50,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the desc key operation. */
     public SortCommand descKey(Var var)
     {
         SortKeySegmentDefinition keySegment = new SortKeySegmentDefinition(var, false);
@@ -52,18 +58,21 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the using operation. */
     public SortCommand using(FileDescriptor fileDescIn)
     {
         this.fileDescIn = fileDescIn;
         return this;
     }
 
+    /** Executes the giving operation. */
     public SortCommand giving(FileDescriptor fileDescOut)
     {
         this.fileDescOut = fileDescOut;
         return this;
     }
 
+    /** Executes the using input operation. */
     public SortCommand usingInput(Paragraph paraInputMin, Paragraph paraInputMax)
     {
         this.paraInputMin = paraInputMin;
@@ -72,6 +81,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the using input operation. */
     public SortCommand usingInput(Paragraph paraInput)
     {
         this.paraInputMin = paraInput;
@@ -80,6 +90,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the using input operation. */
     public SortCommand usingInput(Section section)
     {
         this.paraInputMin = null;
@@ -89,6 +100,7 @@ public class SortCommand
     }
 
 
+    /** Executes the using output operation. */
     public SortCommand usingOutput(Paragraph paraOutputMin, Paragraph paraOutputMax)
     {
         this.paraOutputMin = paraOutputMin;
@@ -97,6 +109,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the using output operation. */
     public SortCommand usingOutput(Paragraph paraOutput)
     {
         this.paraOutputMin = paraOutput;
@@ -105,6 +118,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the using output operation. */
     public SortCommand usingOutput(Section secOutput)
     {
         this.paraOutputMin = null;
@@ -113,6 +127,7 @@ public class SortCommand
         return this;
     }
 
+    /** Executes the exec operation. */
     public void exec()
     {
         nNbRecordImported = 0;

@@ -18,8 +18,9 @@ import jlib.jmxMBean.BaseCloseMBean;
  */
 public class JmxAppEnabler extends BaseCloseMBean
 {
-    private boolean ms_bClosed = false;
+    private boolean closed = false;
 
+    /** Creates a new jmx app enabler instance. */
     public JmxAppEnabler()
     {
         super("# ApplicationEnabler", "# ApplicationEnabler");
@@ -32,24 +33,26 @@ public class JmxAppEnabler extends BaseCloseMBean
 
     public boolean getClose()
     {
-        return ms_bClosed;
+        return closed;
     }
 
     public boolean getOpen()
     {
-        return !ms_bClosed;
+        return !closed;
     }
 
+    /** Sets the close. */
     public void setClose(boolean b)
     {
-        ms_bClosed = b;
+        closed = b;
         unregisterMBean();
         createMBean("# ApplicationEnabler", "# ApplicationEnabler");
     }
 
+    /** Sets the open. */
     public void setOpen(boolean b)
     {
-        ms_bClosed = !b;
+        closed = !b;
         unregisterMBean();
         createMBean("# ApplicationEnabler", "# ApplicationEnabler");
     }

@@ -22,6 +22,7 @@ import semantic.CEntityBloc;
 import semantic.CEntityCondition;
 import semantic.expression.CBaseEntityCondition;
 
+/** Provides cfpac condition behavior. */
 public class CFPacCondition extends CFPacElement
 {
 
@@ -32,6 +33,7 @@ public class CFPacCondition extends CFPacElement
     private Vector<CFPacCondition> elseIfStatement = null ;
     private boolean iselseIfStatement = false ;
 
+    /** Creates a new cfpac condition instance. */
     public CFPacCondition(int line)
     {
         super(line);

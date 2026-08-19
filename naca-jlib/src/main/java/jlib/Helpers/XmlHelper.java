@@ -425,29 +425,29 @@ public class XmlHelper {
     static public InputStream SaveToInputStream(Node xml,String encoding, String cdataElements) {
 //********************** Thread performing the node serialization ***************
         class PipedThread extends Thread {
-            private String _encoding;
-            private DOMSource _source;
-            private StreamResult _result;
-            private PipedOutputStream _pos;
-            private String _cdata;
+            private String storedEncoding;
+            private DOMSource source;
+            private StreamResult result;
+            private PipedOutputStream pos;
+            private String storedCdata;
 
 //................................. Initialization ..............................
             public PipedThread(Node xml, String encoding, String cdata) throws Exception {
-                _cdata = cdata;
-                _encoding=encoding;
+                storedCdata = cdata;
+                storedEncoding=encoding;
 
 // Prepares the node as a source:
-                _source=new DOMSource(xml);
+                source=new DOMSource(xml);
 
 // The result of the serialization is sent to a StreamResult,
 // which is connected to a PipedOutputStream:
-                _pos=new PipedOutputStream();
-                _result=new StreamResult(_pos);
+                pos=new PipedOutputStream();
+                result=new StreamResult(pos);
             }
 
 //........................ To obtain the PipedOutputStream ......................
             public PipedOutputStream getPipedOutputStream() {
-                return _pos;
+                return pos;
             }
 
 //...................... Performs the identity transformation ...................
@@ -461,20 +461,20 @@ public class XmlHelper {
                     TransformerHandler th=tf.newTransformerHandler();
                     Transformer serializer=th.getTransformer();
                     serializer.setOutputProperty(OutputKeys.METHOD,"xml");
-                    serializer.setOutputProperty(OutputKeys.ENCODING,_encoding);
+                    serializer.setOutputProperty(OutputKeys.ENCODING,storedEncoding);
                     serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-                    if (_cdata != null) {
-                        serializer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, _cdata);
+                    if (storedCdata != null) {
+                        serializer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, storedCdata);
                     }
 
 // Perform the identity transformation:
-                    serializer.transform(_source,_result);
+                    serializer.transform(source,result);
 
 // Closes output stream:
-                    _pos.close();
+                    pos.close();
                 } catch(Exception e){
                     try {
-                        _pos.close();
+                        pos.close();
                     } catch (Exception ex) {
                         System.out.println("Could not close the Piped Output Stream:"+e.getMessage());
                     }
@@ -574,11 +574,13 @@ public class XmlHelper {
 //*****************************************************************************
 
 //************************ Depuis une chaîne qui contient le code XML *********
+    /** Loads the xml. */
     public static Document LoadXML(StringBuffer xml) {
         return LoadXML(xml.toString());
     }
 
 //***************** Depuis une chaîne qui contient le code XML ****************
+    /** Loads the xml. */
     public static Document LoadXML(String xml) {
         StringReader sr;
         sr=new StringReader(xml);
@@ -624,6 +626,7 @@ public class XmlHelper {
 //******************************************************************************
 
 //***************************** depuis une URL *********************************
+    /** Executes the load operation. */
     public static Document Load(URL url) {
 //      try {
 //          InputStream is = url.openStream();
@@ -636,6 +639,7 @@ public class XmlHelper {
     }
 
 //***************************** depuis une URL avec une dtd *********************************
+    /** Executes the load operation. */
     public static Document Load(URL url, EntityResolver er) {
 //      try {
 //          InputStream is = url.openStream();
@@ -648,6 +652,7 @@ public class XmlHelper {
     }
 
 //***************************** depuis un fichier XML **************************
+    /** Executes the load operation. */
     public static Document Load(String fileName) {
         try {
             FileInputStream fis;
@@ -668,6 +673,7 @@ public class XmlHelper {
     }
 
 //*************************** depuis une inputStream ************************************************
+    /** Executes the load operation. */
     public static Document Load(InputStream is) {
         //return Load(is,null);
         return null;
@@ -720,6 +726,7 @@ public class XmlHelper {
 //****************************************************************************
 //**                   Transforme un noeud XML en code HTML                 **
 //****************************************************************************
+    /** Executes the xmlto html operation. */
     public static String XMLtoHTML(Node x) {
         String s=SaveToString(x);
         s=Replace(s,"   ","...");
@@ -731,6 +738,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**            Calcule la profondeur d'un flux XML.                         **
 //*****************************************************************************
+    /** Executes the xmldeep operation. */
     public static int XMLDeep(Node parent) {
         Node child;
         NodeList childs;
@@ -757,6 +765,7 @@ public class XmlHelper {
 // La fonction peut être appelée plusieurs fois consecutives
 // sur la même chaine, la codification aura lieu que la première fois.
 // str<>ParseForXML(str)=ParseForXML(ParseForXML(str))
+    /** Parses the for xml. */
     public static String ParseForXML(String str) {
         String s=str;
         StringBuffer r=new StringBuffer("");
@@ -797,8 +806,9 @@ public class XmlHelper {
 //*****************************************************************************
 //**                 Sette la valeur d'un node XML.                          **
 //*****************************************************************************
+    /** Sets the node text. */
     static public void SetNodeText(Node node,String value) {
-        NodeList node_;
+        NodeList localNode;
         Node x;
         int n,nnode;
         if (value == null) {
@@ -807,14 +817,14 @@ public class XmlHelper {
         if (node.getNodeType() == Node.TEXT_NODE) {
             node.setNodeValue(value);
         } else {
-            node_ = node.getChildNodes();
-            nnode = node_.getLength();
+            localNode = node.getChildNodes();
+            nnode = localNode.getLength();
             if (nnode == 0) {
                 x = (Node) node.getOwnerDocument().createTextNode(value);
                 node.appendChild(x);
             } else {
                 for (n = 0; n < nnode; n++) {
-                    x = (Node) node_.item(n);
+                    x = (Node) localNode.item(n);
                     if (x == null) {
                         continue;
                     }
@@ -830,6 +840,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**                  Remplace une chaine par une autre.                     **
 //*****************************************************************************
+    /** Executes the replace operation. */
     static public String Replace(String orig,String find,String rby) {
         int n1,n2;
         StringBuffer r=new StringBuffer("");
@@ -851,6 +862,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**                     Recupere le texte d'un noeud.                       **
 //*****************************************************************************
+    /** Executes the get node text operation. */
     static public String GetNodeText(Node parent) {
         String s;
         StringBuffer value;
@@ -884,6 +896,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**                 Recupere le texte d'un sous-noeud.                      **
 //*****************************************************************************
+    /** Executes the get node text operation. */
     static public String GetNodeText(Node parent,String childname) {
         Node x=SelectSingleNode(parent,childname);
         if (x != null) {
@@ -895,6 +908,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**         Recupere le texte d'un sous-noeud qui a un certain attribut.    **
 //*****************************************************************************
+    /** Executes the get node text a operation. */
     static public String GetNodeTextA(
         Node parent,
         String childtype,
@@ -912,6 +926,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**                    Recupere le code XML d'un noeud.                     **
 //*****************************************************************************
+    /** Executes the get node xml operation. */
     static public String GetNodeXML(Node node) throws Exception {
         String xml=SaveToString(node);
         int n1=xml.indexOf(">")+1;
@@ -922,6 +937,7 @@ public class XmlHelper {
 //*****************************************************************************
 //**                   Trie alphabetiquement une liste de noeuds             **
 //*****************************************************************************
+    /** Executes the sort childs operation. */
     static public void SortChilds(Node parent, String childname) {
         Node a;                            // Pour parcourrir les elements de parent.
         Node b;                            // Pour parcourrir les elements de parent.
@@ -1009,14 +1025,14 @@ public class XmlHelper {
                         if (childContent.length() > 0) {
                             return true;
                         }
-
 // Elements (nodes containing nodes):
+                        // fallthrough
                     case Node.ELEMENT_NODE:
                         if (NodeHasContent(child, ignoreBlankSpaces)) {
                             return true;
                         }
-
 // Any other type of node are not considered as content:
+                        // fallthrough
                     default:
                         continue;
                 }
@@ -1029,10 +1045,12 @@ public class XmlHelper {
 //******************************************************************************
 //**                     Copie un node d'un document a un autre.              **
 //******************************************************************************
+    /** Executes the copy node operation. */
     static public Node CopyNode(Node parent,Node source) {
         return CopyNode(parent,source,"");
     }
 
+    /** Executes the copy node operation. */
     static public Node CopyNode(Node parent,Node source,String cname) {
         Document owner;
         Node destination;

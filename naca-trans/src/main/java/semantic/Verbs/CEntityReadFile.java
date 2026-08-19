@@ -12,14 +12,17 @@ import semantic.CDataEntity;
 import semantic.CEntityFileDescriptor;
 import utils.CObjectCatalog;
 
+/** Provides centity read file behavior. */
 public class CEntityReadFile extends CBaseActionEntity
 {
 
+    /** Creates a new centity read file instance. */
     public CEntityReadFile(int line, CObjectCatalog cat)
     {
         super(line, cat);
     }
 
+    /** Sets the file descriptor. */
     public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
     {
         eFileDescriptor = efd ;
@@ -28,6 +31,7 @@ public class CEntityReadFile extends CBaseActionEntity
     protected CEntityFileDescriptor eFileDescriptor = null  ;
     protected CDataEntity eDataInto = null ;
 
+    /** Sets the at end bloc. */
     public void SetAtEndBloc(CBaseLanguageEntity bloc)
     {
         eAtEndBloc = bloc ;
@@ -35,6 +39,7 @@ public class CEntityReadFile extends CBaseActionEntity
     protected CBaseLanguageEntity eAtEndBloc = null ;
     protected CBaseLanguageEntity eNotAtEndBloc = null ;
 
+    /** Sets the not at end bloc. */
     public void SetNotAtEndBloc(CBaseLanguageEntity bloc)
     {
         eNotAtEndBloc = bloc ;

@@ -23,8 +23,10 @@ import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 import javax.management.openmbean.OpenMBeanInfoSupport;
 import javax.management.openmbean.TabularType;
 
+/** Provides base open mbean behavior. */
 public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements DynamicMBean
 {
+    /** Creates a new base open mbean instance. */
     public BaseOpenMBean(String csName, String csDescription)
     {
         buildDynamicMBeanInfo();
@@ -49,6 +51,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
         openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, attributes, null, null, null);
     }
 
+    /** Returns the attribute. */
     public Object getAttribute(String csName)
     {
         if (csName == null || arrOpenMBeanAttributeInfosWrapper == null)
@@ -90,6 +93,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
         return null;
     }
 
+    /** Sets the attribute. */
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
     {
@@ -135,6 +139,7 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
         }
     }
 
+    /** Executes the invoke operation. */
     public Object invoke(String csOperationName,
                          Object params[],
                          String signature[])

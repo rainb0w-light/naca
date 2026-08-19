@@ -18,11 +18,13 @@ public class CKeywordList
     {
     }
 
+    /** Executes the register operation. */
     public void Register(CReservedKeyword kw)
     {
         tabKeyWords.put(kw.name, kw) ;
     }
 
+    /** Executes the get keyword operation. */
     public CReservedKeyword GetKeyword(String name)
     {
         CReservedKeyword kw = tabKeyWords.get(name);

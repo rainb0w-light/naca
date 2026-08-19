@@ -59,6 +59,7 @@ public class CEntitySQLCall extends CBaseActionEntity
         parameters.add(param) ;
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;

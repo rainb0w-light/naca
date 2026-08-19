@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 
 
+/** Provides notification engine behavior. */
 public class NotificationEngine
 {
     protected class NotifHandlerMapping
@@ -20,6 +21,7 @@ public class NotificationEngine
         public BaseNotificationHandler object ;
         public Method mehod ;
     }
+    /** Executes the register notification handler operation. */
     public void RegisterNotificationHandler(BaseNotificationHandler handler)
     { // build a Hashtable with all handlers for each notification class
         Class cl = handler.getClass() ;
@@ -46,6 +48,7 @@ public class NotificationEngine
         }
     }
 
+    /** Executes the send notification operation. */
     public boolean SendNotification(BaseNotification notif)
     {
         boolean isdone = false ;

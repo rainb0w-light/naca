@@ -37,11 +37,11 @@ public class DbConnectionColl
     private LinkedList<DbConnectionBase> collUsedConnections = null;        // Collection of the connections currently in use
 
     private DbConnectionParam dbConnectionParam = null;
-    private int nGarbageCollectorStatement_ms = 0;
+    private int garbageCollectorStatementMillis = 0;
 
     private int nNbMaxConnection = 1;   // Unlimited
-    private int nTimeBeforeRemoveConnection_ms = 0;
-    private int nMaxStatementLiveTime_ms = -1;
+    private int timeBeforeRemoveConnectionMillis = 0;
+    private int maxStatementLiveTimeMillis = -1;
     private boolean bUseExplain = false;
     private StopWatch swLastCheckRemoveObsoleteConnections = new StopWatch();
     //private int nNbConnectionCreated = 0;
@@ -61,10 +61,10 @@ public class DbConnectionColl
         collFreeConnections = new LinkedList<DbConnectionBase>();
         collUsedConnections = new LinkedList<DbConnectionBase>();
         this.nNbMaxConnection = nNbMaxConnection;
-        this.nTimeBeforeRemoveConnection_ms = nTimeBeforeRemoveConnectionMs;
-        this.nMaxStatementLiveTime_ms = nMaxStatementLiveTimeMs;
+        this.timeBeforeRemoveConnectionMillis = nTimeBeforeRemoveConnectionMs;
+        this.maxStatementLiveTimeMillis = nMaxStatementLiveTimeMs;
         this.bUseExplain = bUseExplain;
-        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatementMs;
+        this.garbageCollectorStatementMillis = nGarbageCollectorStatementMs;
         this.name = csName;
     }
 
@@ -121,7 +121,7 @@ public class DbConnectionColl
             DbConnectionBase sqlConnection = popAtIndex(0);
             while(sqlConnection != null)
             {
-                if(sqlConnection.canBeUsed(nTimeBeforeRemoveConnection_ms, csValidationQuery))
+                if(sqlConnection.canBeUsed(timeBeforeRemoveConnectionMillis, csValidationQuery))
                 {
 // Log.logNormal("Re-using validated db connection from cache. "+ getNbFreeConnection()+" still available.");
                     return sqlConnection;
@@ -338,7 +338,7 @@ public class DbConnectionColl
             // Check if the current generation matches the last generation
             sqlConnection.markLastTimeUsage();
 
-            if(swLastCheckRemoveObsoleteConnections.isTimeElapsed(nGarbageCollectorStatement_ms))
+            if(swLastCheckRemoveObsoleteConnections.isTimeElapsed(garbageCollectorStatementMillis))
             {
                 removeObsoleteConnections(); // Remove connections in timeout
                 sqlConnection.garbageCollectorStatementsOptinalResetReservedStatement(true);
@@ -365,7 +365,7 @@ public class DbConnectionColl
         if (collFreeConnections.size() > 0) {
             connection = collFreeConnections.getLast();
         }
-        while(connection != null && !connection.isValid(nTimeBeforeRemoveConnection_ms))
+        while(connection != null && !connection.isValid(timeBeforeRemoveConnectionMillis))
         {
             removeConnection(connection);
             collFreeConnections.removeLast();
@@ -386,7 +386,7 @@ public class DbConnectionColl
         DbConnectionBase connection = popAtIndex(nIndex);
         while(connection != null)
         {
-            if(!connection.isValid(nTimeBeforeRemoveConnection_ms))
+            if(!connection.isValid(timeBeforeRemoveConnectionMillis))
             {
                 nNbStatementRemoved += removeConnection(connection);
             }
@@ -425,7 +425,7 @@ public class DbConnectionColl
 
     int getMaxStatementLiveTime_ms()
     {
-        return nMaxStatementLiveTime_ms;
+        return maxStatementLiveTimeMillis;
     }
 
     private boolean getUseExplain()
@@ -492,6 +492,7 @@ public class DbConnectionColl
         }
     }
 
+    /** Executes the dump connections operation. */
     public void dumpConnections(StringBuilder sbText)
     {
         if(collUsedConnections != null)

@@ -11,8 +11,9 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import utils.CObjectCatalog;
+import utils.CTransApplicationGroup;
 
-import utils.*;
 
 /**
  * @author sly
@@ -39,6 +40,7 @@ public class CEntityClass extends CBaseLanguageEntity
 
     }
 
+    /** Executes the get program name operation. */
     public String GetProgramName()
     {
         return GetName() ;
@@ -208,6 +210,7 @@ public class CEntityClass extends CBaseLanguageEntity
         return Collections.unmodifiableList(comments);
     }
 
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false;

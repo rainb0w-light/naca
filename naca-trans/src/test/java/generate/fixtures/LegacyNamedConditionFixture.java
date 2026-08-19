@@ -8,6 +8,7 @@ import utils.CObjectCatalog;
 /** Test-only snapshot of the retired level-88 condition backend. */
 public final class LegacyNamedConditionFixture extends CEntityNamedCondition
 {
+    /** Creates a new legacy named condition fixture instance. */
     public LegacyNamedConditionFixture(
         int line, String name, CObjectCatalog catalog, CBaseLanguageExporter output)
     {
@@ -15,6 +16,7 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
         generate.LegacyLanguageRenderer.bind(this, output);
     }
 
+        /** Exports the reference. */
         public String ExportReference(int line)
     {
         String prefix = of == null ? "" : generate.LegacyDataRenderer.renderReference(of, getLine()) + ".";

@@ -17,8 +17,10 @@ import org.w3c.dom.Element;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 
+/** Provides cfake element behavior. */
 public class CFakeElement extends CCobolElement
 {
+    /** Creates a new cfake element instance. */
     public CFakeElement(CTokenList lstTokens)
     {
         super(0) ;

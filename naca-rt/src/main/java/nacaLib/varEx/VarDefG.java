@@ -7,12 +7,14 @@
 package nacaLib.varEx;
 
 import java.math.BigDecimal;
-
-import jlib.misc.*;
+import jlib.misc.IntegerRef;
 import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 import nacaLib.misc.StringAsciiEbcdicUtil;
 import nacaLib.sqlSupport.CSQLItemType;
-import nacaLib.tempCache.*;
+import nacaLib.tempCache.CStr;
+import nacaLib.tempCache.TempCache;
+import nacaLib.tempCache.TempCacheLocator;
+
 
 /**
  * @author U930DI
@@ -25,6 +27,7 @@ public class VarDefG extends VarDefVariable
      */
     private static final long serialVersionUID = 1L;
 
+    /** Creates a new var def g instance. */
     public VarDefG(VarDefBase varDefParent, DeclareTypeG declareTypeG)
     {
         super(varDefParent, declareTypeG.varLevel);
@@ -141,22 +144,26 @@ public class VarDefG extends VarDefVariable
         internalPhysicalWriteToGroup(buffer, cs);
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, String cs)
     {
         internalPhysicalWriteToGroup(buffer, cs);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, int n)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the inc operation. */
     public void inc(VarBufferPos buffer, BigDecimal bdStep)
     {
         assertIfFalse(false);
     }
 
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, int n)
     {
 //      String cs = NumberParser.encodeIntoString(n);
@@ -165,6 +172,7 @@ public class VarDefG extends VarDefVariable
         // TODO
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, long l)
     {
         assertIfFalse(false);
@@ -187,11 +195,13 @@ public class VarDefG extends VarDefVariable
         // TODO
     }
 
+    /** Executes the write operation. */
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         assertIfFalse(false);
     }
 
+    /** Executes the move into same type operation. */
     public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
     {
         internalPhysicalWriteToGroup(buffer, varSource, bufferSource);
@@ -518,6 +528,7 @@ public class VarDefG extends VarDefVariable
 //  {
 //  }
 
+    /** Executes the initialize at offset operation. */
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
     }
@@ -1105,11 +1116,13 @@ public class VarDefG extends VarDefVariable
         return internalIsRawStringNumeric(buffer);
     }
 
+    /** Returns whether alphabetic. */
     public boolean isAlphabetic(VarBufferPos buffer)
     {
         return internalIsRawStringAlphabetic(buffer);
     }
 
+    /** Executes the digits operation. */
     public String digits(VarBufferPos buffer)
     {
         return getAsAlphaNumString(buffer).getAsString();

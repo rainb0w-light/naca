@@ -8,6 +8,7 @@ package nacaLib.exceptions;
 
 import jlib.misc.LogicalFileDescriptor;
 
+/** Signals a naca batch file exception condition. */
 public class NacaBatchFileException extends NacaRTException
  {
     private static final long serialVersionUID = 1L;
@@ -15,6 +16,7 @@ public class NacaBatchFileException extends NacaRTException
     private String csLogicalFileDescriptor = null;
     private String csExceptionName = null;
 
+    /** Creates a new naca batch file exception instance. */
     public NacaBatchFileException(String csExceptionName, String csFileName, LogicalFileDescriptor logicalFileDescriptor)
     {
         this.csExceptionName = csExceptionName;
@@ -26,6 +28,7 @@ public class NacaBatchFileException extends NacaRTException
         }
     }
 
+    /** Returns the message. */
     public String getMessage()
     {
         String cs = csExceptionName + "; LogicalName=" + csFileName + "; PhysicalDescription=" + csLogicalFileDescriptor;

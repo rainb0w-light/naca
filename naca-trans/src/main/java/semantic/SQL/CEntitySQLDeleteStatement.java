@@ -31,6 +31,7 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLDeleteStatement extends CBaseActionEntity
 {
+    /** Creates a new centity sqldelete statement instance. */
     public CEntitySQLDeleteStatement(int line, CObjectCatalog cat, String csStatement, Vector<CDataEntity> parameters)
     {
         super(line, cat);
@@ -39,15 +40,18 @@ public class CEntitySQLDeleteStatement extends CBaseActionEntity
     }
     protected String csStatement = "" ;
     protected Vector<CDataEntity> parameters = null;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         parameters.clear();
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the replace variable operation. */
     public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
     {
         int n = parameters.indexOf(field);

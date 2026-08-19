@@ -6,9 +6,14 @@
  */
 package jlib.misc;
 
-import java.net.*;
-import java.util.*;
-import java.security.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Random;
+import java.util.UUID;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 
 /**
  * In the multitude of java GUID generators, I found none that
@@ -229,6 +234,7 @@ public class RandomGuid {
         return sb.toString();
     }
 
+    /** Executes the format as filename operation. */
     public String formatAsFilename()
     {
         String raw = valueAfterMD5.toUpperCase();

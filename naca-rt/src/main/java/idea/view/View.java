@@ -37,6 +37,7 @@ public class View
         }
     }
 
+    /** Executes the merge output for print screen operation. */
     public void mergeOutputForPrintScreen(OnlineSession appSession)
     {
         Document xmlData = appSession.getXMLData() ;
@@ -50,6 +51,7 @@ public class View
         }
     }
 
+    /** Executes the merge output for serverdown operation. */
     public void mergeOutputForServerdown(OnlineSession appSession)
     {
         OnlineResourceManager resManager = OnlineResourceManagerFactory.GetInstance() ;

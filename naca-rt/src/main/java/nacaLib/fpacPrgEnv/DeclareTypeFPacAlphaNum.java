@@ -13,8 +13,10 @@ import nacaLib.varEx.VarDefBuffer;
 import nacaLib.varEx.VarDefFPacAlphaNum;
 import nacaLib.varEx.VarLevel;
 
+/** Provides declare type fpac alpha num behavior. */
 public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
 {
+    /** Creates a new declare type fpac alpha num instance. */
     public DeclareTypeFPacAlphaNum(VarLevel varLevel, int nLength)
     {
         super(varLevel);
@@ -29,12 +31,14 @@ public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
     private int nLength = 0;
 
 
+    /** Executes the var operation. */
     public VarFPacAlphaNum var()
     {
         VarFPacAlphaNum var = new VarFPacAlphaNum(this);
         return var;
     }
 
+    /** Executes the filler operation. */
     public VarFPacAlphaNum filler()
     {
         VarFPacAlphaNum var = new VarFPacAlphaNum(this);
@@ -43,6 +47,7 @@ public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
         return var;
     }
 
+    /** Creates the var def. */
     public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
     {
         VarDefBuffer varDef = new VarDefFPacAlphaNum(varDefParent, this);
@@ -59,36 +64,42 @@ public class DeclareTypeFPacAlphaNum extends DeclareTypeBase
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacAlphaNum valueAll(char c)
     {
         initialValue = new CInitialValue(c, true);
         return this;
     }
 
+    /** Executes the value all operation. */
     public DeclareTypeFPacAlphaNum valueAll(String cs)
     {
         initialValue = new CInitialValue(cs, true);
         return this;
     }
 
+    /** Executes the value spaces operation. */
     public DeclareTypeFPacAlphaNum valueSpaces()
     {
         initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
         return this;
     }
 
+    /** Executes the value zero operation. */
     public DeclareTypeFPacAlphaNum valueZero()
     {
         initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
         return this;
     }
 
+    /** Executes the value high value operation. */
     public DeclareTypeFPacAlphaNum valueHighValue()
     {
         initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
         return this;
     }
 
+    /** Executes the value low value operation. */
     public DeclareTypeFPacAlphaNum valueLowValue()
     {
         initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);

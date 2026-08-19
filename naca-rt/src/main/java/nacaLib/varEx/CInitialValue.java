@@ -9,20 +9,24 @@
 package nacaLib.varEx;
 
 
+/** Provides cinitial value behavior. */
 public class CInitialValue
 {
+    /** Creates a new cinitial value instance. */
     public CInitialValue(int n, boolean bFill)
     {
         genericValue = new GenericValueInt(n);
         this.bFill = bFill;
     }
 
+    /** Creates a new cinitial value instance. */
     public CInitialValue(double d, boolean bFill)
     {
         genericValue = new GenericValueDouble(d);
         this.bFill = bFill;
     }
 
+    /** Creates a new cinitial value instance. */
     public CInitialValue(String csValue, boolean bFill)
     {
         genericValue = new GenericValueString(csValue);
@@ -30,6 +34,7 @@ public class CInitialValue
     }
 
 
+    /** Creates a new cinitial value instance. */
     public CInitialValue(char c, boolean bFill)
     {
         genericValue = new GenericValueChar(c);
@@ -57,6 +62,7 @@ public class CInitialValue
 //      }
 //  }
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         return "GenericValue="+genericValue.getAsString() + " bFill="+bFill;

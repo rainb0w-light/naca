@@ -6,10 +6,11 @@
  */
 package parser.expression;
 
-import org.w3c.dom.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import semantic.CDataEntity;
 import semantic.CBaseEntityFactory;
+
 
 /**
  * @author U930CV
@@ -24,12 +25,15 @@ public abstract class CTerminal
     {
     }
 
+    /** Executes the get value operation. */
     public abstract String GetValue() ;
+    /** Executes the is reference operation. */
     public abstract boolean IsReference() ;
 //  public abstract boolean IsOne();
 //  public abstract boolean IsMinusOne();
 
 
+    /** Exports the to. */
     public abstract void ExportTo(Element e, Document root);
     //public abstract void ExportTo(CBaseLanguageExporter e) ;
 
@@ -38,12 +42,15 @@ public abstract class CTerminal
 //      return null ;
 //  }
 
+    /** Executes the get data entity operation. */
     public abstract CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory) ;
 
+    /** Executes the get data reference operation. */
     public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
     {
         return null;
     }
 
+    /** Executes the is number operation. */
     public abstract boolean IsNumber() ;
 }

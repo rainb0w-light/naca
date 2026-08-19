@@ -18,6 +18,7 @@ import semantic.expression.CUnitaryEntityCondition;
  */
 public class CEntityIsFieldModified extends CUnitaryEntityCondition
 {
+    /** Sets the is modified. */
     public void SetIsModified(CDataEntity eData)
     {
         reference = eData ;
@@ -44,11 +45,13 @@ public class CEntityIsFieldModified extends CUnitaryEntityCondition
         return reference ;
     }
 
+    /** Executes the get priority level operation. */
     public int GetPriorityLevel()
     {
         return 7;
     }
 
+    /** Executes the get opposite condition operation. */
     public CBaseEntityCondition GetOppositeCondition()
     {
         CEntityCondNot not = new CEntityCondNot();
@@ -57,15 +60,18 @@ public class CEntityIsFieldModified extends CUnitaryEntityCondition
     }
 
     protected CDataEntity reference = null ;
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();
         reference = null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return reference.ignore();
     }
+    /** Executes the get special condition replacing operation. */
     public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
     {
         return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);

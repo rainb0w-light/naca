@@ -20,6 +20,7 @@ public class SQLClauseSPParamInDouble extends SQLClauseSPParamIn
 {
     private double val = 0;
 
+    /** Creates a new sqlclause spparam in double instance. */
     public SQLClauseSPParamInDouble(double dVal)
     {
         this.val = dVal;

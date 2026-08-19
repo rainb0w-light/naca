@@ -12,6 +12,7 @@ package nacaLib.varEx;
  */
 public class InitializeManagerStringEdited extends InitializeManager
 {
+    /** Creates a new initialize manager string edited instance. */
     public InitializeManagerStringEdited()
     {
     }
@@ -21,6 +22,7 @@ public class InitializeManagerStringEdited extends InitializeManager
 //      assertIfFalse(false);
 //  }
 
+    /** Executes the initialize operation. */
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         assertIfFalse(false);

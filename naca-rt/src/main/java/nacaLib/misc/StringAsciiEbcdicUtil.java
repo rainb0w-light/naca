@@ -11,8 +11,10 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 import nacaLib.tempCache.CStr;
 import nacaLib.varEx.ComparisonMode;
 
+/** Provides string ascii ebcdic util behavior. */
 public class StringAsciiEbcdicUtil
 {
+    /** Executes the compare operation. */
     public static int compare(ComparisonMode mode, String cs1, String cs2)
     {
         if(mode == ComparisonMode.UnicodeOrEbcdic)
@@ -82,6 +84,7 @@ public class StringAsciiEbcdicUtil
     }
 
 //   PJD added for Batch optimization
+    /** Executes the compare operation. */
     public static int compare(ComparisonMode mode, CStr cs1, String cs2)
     {
         if(mode == ComparisonMode.UnicodeOrEbcdic)
@@ -161,6 +164,7 @@ public class StringAsciiEbcdicUtil
     }
 //   PJD end added for Batch optimization
 
+    /** Executes the compare operation. */
     public static int compare(ComparisonMode mode, CStr cs1, CStr cs2)
     {
         if(mode == ComparisonMode.UnicodeOrEbcdic)

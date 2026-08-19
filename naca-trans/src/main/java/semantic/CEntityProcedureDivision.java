@@ -36,6 +36,7 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
     }
 
     protected Vector<CDataEntity> callParameters = new Vector<CDataEntity>();
+    /** Adds the call parameter. */
     public void AddCallParameter(CDataEntity e)
     {
         callParameters.add(e) ;
@@ -46,6 +47,7 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
     }
 
     protected CEntityBloc procedureBloc =null ;
+    /** Sets the procedure bloc. */
     public void SetProcedureBloc(CEntityBloc b)
     {
         procedureBloc = b ;
@@ -68,10 +70,12 @@ public class CEntityProcedureDivision extends CBaseLanguageEntity
     {
         return null ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the clear operation. */
     public void Clear()
     {
         super.Clear();

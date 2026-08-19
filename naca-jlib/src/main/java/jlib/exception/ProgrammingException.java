@@ -59,6 +59,7 @@ public class ProgrammingException extends RuntimeException
         return csError;
     }
 
+    /** Creates a new programming exception instance. */
     public ProgrammingException(String csError, String csMessage)
     {
         super(StringUtil.concatArgWithSeparator(csError,"-",csMessage));
@@ -66,6 +67,7 @@ public class ProgrammingException extends RuntimeException
         this.csMessage = csMessage;
     }
 
+    /** Creates a new programming exception instance. */
     public ProgrammingException(String csError, SQLClause sqlClause, SQLException sqlException)
     {
         super(StringUtil.concatArgWithSeparator(csError,"-",sqlClause.toString()),sqlException);
@@ -74,6 +76,7 @@ public class ProgrammingException extends RuntimeException
     }
 
 
+    /** Creates a new programming exception instance. */
     public ProgrammingException(String csError, String csMessage, Exception exception)
     {
         super(StringUtil.concatArgWithSeparator(csError,"-",csMessage),exception);
@@ -82,6 +85,7 @@ public class ProgrammingException extends RuntimeException
     }
 
 
+    /** Creates a new programming exception instance. */
     public ProgrammingException(String csError, String csMessage, IOException eIO)
     {
         super(StringUtil.concatArgWithSeparator(csError,"-",csMessage),eIO);
@@ -89,32 +93,38 @@ public class ProgrammingException extends RuntimeException
         this.csMessage = csMessage;
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, SQLClause sqlClause, SQLException sqlException)
     {
         throw new ProgrammingException(csError, sqlClause, sqlException);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csClause, SQLException sqlException)
     {
         throw new ProgrammingException(csError, csClause, sqlException);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage, Exception exception)
     {
         throw new ProgrammingException(csError, csMessage, exception);
     }
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage, IOException ioexception)
     {
         throw new ProgrammingException(csError, csMessage, ioexception);
     }
 
 
+    /** Executes the throw exception operation. */
     public static void throwException(String csError, String csMessage)
     {
         throw new ProgrammingException(csError, csMessage);
     }
 
+    /** Executes the throw if null operation. */
     public static void throwIfNull(Object o, String csError, String csMessage)
     {
         if (o == null) {
@@ -122,6 +132,7 @@ public class ProgrammingException extends RuntimeException
         }
     }
 
+    /** Executes the throw if null or empty operation. */
     public static void throwIfNullOrEmpty(String csObject, String csError, String csMessage)
     {
         if (StringUtil.isEmpty(csObject)) {
@@ -129,6 +140,7 @@ public class ProgrammingException extends RuntimeException
         }
     }
 
+    /** Executes the throw if null or invalid operation. */
     public static void throwIfNullOrInvalid(IValidable validable, String csError, String csMessage)
     {
         if (validable == null || !validable.isValid()) {

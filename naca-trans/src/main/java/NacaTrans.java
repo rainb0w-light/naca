@@ -12,6 +12,7 @@
 
 import utils.NacaTransLauncher;
 
+/** Provides naca trans behavior. */
 public class NacaTrans
 {
 //  protected class bmsfilter implements FilenameFilter
@@ -29,6 +30,7 @@ public class NacaTrans
 //      }
 //  }
 
+    /** Executes the main operation. */
     public static void main(String[] args)
     {
         NacaTransLauncher.launchMain(args);

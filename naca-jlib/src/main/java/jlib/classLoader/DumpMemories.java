@@ -10,6 +10,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.util.List;
 
+/** Provides dump memories behavior. */
 public class DumpMemories
 {
     DumpMemories()

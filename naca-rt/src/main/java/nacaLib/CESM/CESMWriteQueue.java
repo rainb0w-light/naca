@@ -10,9 +10,11 @@
  */
 package nacaLib.CESM;
 
-import nacaLib.base.*;
-import nacaLib.varEx.*;
+import nacaLib.base.CJMapObject;
+import nacaLib.varEx.InternalCharBuffer;
+import nacaLib.varEx.Var;
 
+/** Provides cesmwrite queue behavior. */
 public class CESMWriteQueue extends CJMapObject
 {
     protected boolean istransient = false ;
@@ -20,6 +22,7 @@ public class CESMWriteQueue extends CJMapObject
     protected CESMQueueManager manager = null;
     protected int nItemPosition = 0 ;
 
+    /** Creates a new cesmwrite queue instance. */
     public CESMWriteQueue(boolean istransient, String name, CESMQueueManager manager)
     {
         this.istransient = istransient;
@@ -27,10 +30,12 @@ public class CESMWriteQueue extends CJMapObject
         this.manager = manager ;
     }
 
+    /** Executes the from operation. */
     public CESMWriteQueue from(Var varSource, Var tsLong)
     {
         return from(varSource, tsLong.getInt());
     }
+    /** Executes the from operation. */
     public CESMWriteQueue from(Var varSource, int tsLong)
     {
         if (tsLong > varSource.getLength())
@@ -52,6 +57,7 @@ public class CESMWriteQueue extends CJMapObject
         return this;
     }
 
+    /** Executes the from operation. */
     public CESMWriteQueue from(Var varSource)
     {
         InternalCharBuffer charBufferCopy = varSource.exportToCharBuffer();
@@ -69,33 +75,39 @@ public class CESMWriteQueue extends CJMapObject
         return this;
     }
 
+    /** Executes the item operation. */
     public CESMWriteQueue item(Var tsItem)
     {
         tsItem.set(nItemPosition) ;
         return this ;
     }
 
+    /** Executes the num item operation. */
     public CESMWriteQueue numItem(Var numItem)
     {
         numItem.set(nItemPosition) ;
         return this ;
     }
 
+    /** Executes the main operation. */
     public CESMWriteQueue main()
     {
         return this ;
     }
 
+    /** Executes the auxiliary operation. */
     public CESMWriteQueue auxiliary()
     {
         return this ;
     }
 
+    /** Executes the sys id operation. */
     public CESMWriteQueue sysID(String sysID)
     {
         return this ;
     }
 
+    /** Executes the sys id operation. */
     public CESMWriteQueue sysID(Var sysID)
     {
         return sysID(sysID.getString()) ;
@@ -107,6 +119,7 @@ public class CESMWriteQueue extends CJMapObject
 //      return this ;
 //  }
 
+    /** Executes the rewrite operation. */
     public CESMWriteQueue rewrite(int item)
     {
         isrewrite = true ;

@@ -20,18 +20,21 @@ public class JSonParser
 {
     private Hashtable<String, JSonCoupleItem> hashItems = new Hashtable<String, JSonCoupleItem>();
 
+    /** Executes the fill object operation. */
     public static boolean fillObject(String cs, Object oTarget)
     {
         JSonParser jsonParser = new JSonParser();
         return jsonParser.fill(cs, oTarget);
     }
 
+    /** Executes the fill object operation. */
     public static boolean fillObject(String cs, Object oTarget, Class cls)
     {
         JSonParser jsonParser = new JSonParser();
         return jsonParser.fill(cs, oTarget, cls);
     }
 
+    /** Executes the fill operation. */
     public boolean fill(String cs, Object oTarget, Class cls)
     {
         if (!(oTarget instanceof List)) {
@@ -76,6 +79,7 @@ public class JSonParser
         return true;
     }
 
+    /** Executes the fill operation. */
     public boolean fill(String cs, Object oTarget)
     {
         cs = cs.trim();

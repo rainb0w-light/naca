@@ -30,6 +30,7 @@ public class CEntitySQLCursor extends CDataEntity
         }
     }
 
+    /** Executes the has accessors operation. */
     public boolean HasAccessors()
     {
         return false;
@@ -47,6 +48,7 @@ public class CEntitySQLCursor extends CDataEntity
         return false;
     }
 
+    /** Sets the select. */
     public void SetSelect(CEntitySQLCursorSelectStatement eSQL)
     {
         select = eSQL ;
@@ -55,6 +57,7 @@ public class CEntitySQLCursor extends CDataEntity
     protected CEntitySQLCursorSelectStatement select = null ;
     protected CDataEntity variableStatement = null ;
 
+    /** Executes the get nb columns operation. */
     public int GetNbColumns()
     {
         if (select == null) {
@@ -62,10 +65,12 @@ public class CEntitySQLCursor extends CDataEntity
         }
         return select.GetNbColumns() ;
     }
+    /** Executes the ignore operation. */
     public boolean ignore()
     {
         return false ;
     }
+    /** Executes the get constant value operation. */
     public String GetConstantValue()
     {
         return "" ;

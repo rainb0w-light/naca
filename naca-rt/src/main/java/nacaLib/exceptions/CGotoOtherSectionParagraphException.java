@@ -8,11 +8,13 @@ package nacaLib.exceptions;
 
 import nacaLib.program.Paragraph;
 
+/** Signals a cgoto other section paragraph exception condition. */
 public class CGotoOtherSectionParagraphException extends NacaRTException
 {
     private static final long serialVersionUID = 1L;
     public Paragraph paragraph = null;
 
+    /** Creates a new cgoto other section paragraph exception instance. */
     public CGotoOtherSectionParagraphException(Paragraph paragraph)
     {
         super();

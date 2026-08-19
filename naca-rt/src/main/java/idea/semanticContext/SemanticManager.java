@@ -36,6 +36,7 @@ import org.w3c.dom.NodeList;
 public class SemanticManager extends CJMapObject
 {
     protected static SemanticManager ms_Instance = null ;
+    /** Executes the get instance operation. */
     public static SemanticManager GetInstance()
     {
         if (ms_Instance == null)
@@ -50,11 +51,13 @@ public class SemanticManager extends CJMapObject
         ms_Instance = this ;
     }
 
+    /** Executes the init operation. */
     public void Init(String csFilePath)
     {
         LoadXMLConfig(csFilePath);
     }
 
+    /** Loads the xmlconfig. */
     public void LoadXMLConfig(String csFilePath)
     {
         try
@@ -104,8 +107,8 @@ public class SemanticManager extends CJMapObject
                         String csMenuId = elMenu.getAttribute("Id");
                         String csTitle = elMenu.getAttribute("Title");
 
-                        CMenuDef MenuDef = createAndRegisterNewMenu(csMenuId);
-                        MenuDef.setTitle(csTitle);
+                        CMenuDef menuDef = createAndRegisterNewMenu(csMenuId);
+                        menuDef.setTitle(csTitle);
 
                         NodeList listoptions = elMenu.getElementsByTagName("Options") ;
                         if(listoptions != null)
@@ -126,7 +129,7 @@ public class SemanticManager extends CJMapObject
                                         String csLabel = elOption.getAttribute("Label") ;
                                         String csActionId = elOption.getAttribute("ActionId") ;
 
-                                        CMenuOptionDef menuOptionDef = MenuDef.createAndRegisterNewOption();
+                                        CMenuOptionDef menuOptionDef = menuDef.createAndRegisterNewOption();
                                         menuOptionDef.setActionId(csActionId);
                                         menuOptionDef.setLabel(csLabel);
 
@@ -163,8 +166,8 @@ public class SemanticManager extends CJMapObject
                     while(elCase != null)
                     {
                         String csMenuId = elCase.getAttribute("MenuId");
-                        CMenuDef MenuDef = getMenuId(csMenuId);
-                        if(MenuDef == null) // The menu is undefined
+                        CMenuDef menuDef = getMenuId(csMenuId);
+                        if(menuDef == null) // The menu is undefined
                         {
                             Log.logImportant("A Semantic context condition references the menu " + csMenuId
                                 + ". But it is undefined in the menu definitions");
@@ -189,7 +192,7 @@ public class SemanticManager extends CJMapObject
                                             String csScreenId = elCondition.getAttribute("ScreenId") ;
                                             String csSemanticId = elCondition.getAttribute("SemanticId") ;
 
-                                            addSemanticCase(csSemanticId, csScreenId, MenuDef);
+                                            addSemanticCase(csSemanticId, csScreenId, menuDef);
 
                                             nCondition++;
                                             elCondition = (Element) listcondition.item(nCondition); // Enum all conditions
@@ -208,26 +211,27 @@ public class SemanticManager extends CJMapObject
 
     private CMenuDef createAndRegisterNewMenu(String csMenuId)
     {
-        CMenuDef MenuDef = new CMenuDef();
-        hashMenus.put(csMenuId, MenuDef);
-        return MenuDef;
+        CMenuDef menuDef = new CMenuDef();
+        hashMenus.put(csMenuId, menuDef);
+        return menuDef;
     }
 
     private CMenuDef getMenuId(String csMenuId)
     {
-        CMenuDef MenuDef = hashMenus.get(csMenuId);
-        return MenuDef;
+        CMenuDef menuDef = hashMenus.get(csMenuId);
+        return menuDef;
     }
 
-    private void addSemanticCase(String csSemanticId, String csScreenId, CMenuDef MenuDef)
+    private void addSemanticCase(String csSemanticId, String csScreenId, CMenuDef menuDef)
     {
         if (csScreenId.equals("*")) {
             csScreenId = null;
         }
-        CSemanticItem SemanticItem = new CSemanticItem(csScreenId, MenuDef);
-        hashSemanticItems.put(csSemanticId, SemanticItem);
+        CSemanticItem semanticItem = new CSemanticItem(csScreenId, menuDef);
+        hashSemanticItems.put(csSemanticId, semanticItem);
     }
 
+    /** Returns the menu for semantic context. */
     public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)
     {
         if(csSemanticContext != null)

@@ -9,12 +9,14 @@ package idea.manager;
 import java.io.File;
 import java.io.FilenameFilter;
 
+/** Provides preload file filter behavior. */
 public class PreloadFileFilter implements FilenameFilter
 {
     PreloadFileFilter()
     {
     }
 
+    /** Executes the accept operation. */
     public boolean accept(File dir, String csName)
     {
         if(csName != null)

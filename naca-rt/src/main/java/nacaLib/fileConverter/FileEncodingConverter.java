@@ -24,12 +24,14 @@ public class FileEncodingConverter
     protected boolean isvariable4 = false;
     protected boolean isheaderEbcdic = false;
 
+    /** Creates a new file encoding converter instance. */
     public FileEncodingConverter(FileDescriptor fileIn, FileDescriptor fileOut)
     {
         this.fileIn = fileIn;
         this.fileOut = fileOut;
     }
 
+    /** Sets the host. */
     public void setHost(String csParameter)
     {
         ishost = true;

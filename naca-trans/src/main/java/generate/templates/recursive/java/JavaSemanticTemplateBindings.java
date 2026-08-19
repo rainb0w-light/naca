@@ -32,16 +32,19 @@ public final class JavaSemanticTemplateBindings
             new LinkedHashMap<>(templateNames));
     }
 
+    /** Loads the default. */
     public static JavaSemanticTemplateBindings loadDefault()
     {
         return load(CONCRETE_RESOURCE, RUNTIME_RESOURCE);
     }
 
+    /** Loads the declarations. */
     public static JavaSemanticTemplateBindings loadDeclarations()
     {
         return load(DECLARATION_RESOURCE);
     }
 
+    /** Loads the roots. */
     public static JavaSemanticTemplateBindings loadRoots()
     {
         return load(ROOT_RESOURCE);
@@ -158,6 +161,7 @@ public final class JavaSemanticTemplateBindings
         }
     }
 
+    /** Finds the template name. */
     public String findTemplateName(Class<?> semanticType)
     {
         Objects.requireNonNull(semanticType, "semanticType");

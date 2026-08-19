@@ -39,6 +39,7 @@ public class CalendarOpenState
         return isopen;
     }
 
+    /** Returns the string. */
     public String getString()
     {
         if(isknown)

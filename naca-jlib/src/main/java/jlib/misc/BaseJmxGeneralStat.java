@@ -26,12 +26,14 @@ public abstract class BaseJmxGeneralStat extends BaseCloseMBean
     public static final int COUNTER_INDEX_NbWaitDuringConnectionCreate = 3;
     public static final int COUNTER_INDEX_NbRunThreadGC = 4;
 
+    /** Creates a new base jmx general stat instance. */
     public BaseJmxGeneralStat(String csName, String csDescription)
     {
         super(csName, csDescription);
         ms_tnCounters = new int[5];
     }
 
+    /** Executes the inc counter operation. */
     public static void incCounter(int nCounter)
     {
         if (ms_tnCounters == null) {
@@ -40,6 +42,7 @@ public abstract class BaseJmxGeneralStat extends BaseCloseMBean
         ms_tnCounters[nCounter]++;
     }
 
+    /** Executes the dec counter operation. */
     public static void decCounter(int nCounter)
     {
         if (ms_tnCounters == null) {
@@ -48,6 +51,7 @@ public abstract class BaseJmxGeneralStat extends BaseCloseMBean
         ms_tnCounters[nCounter]--;
     }
 
+    /** Adds the counter. */
     public static void addCounter(int nCounter, int nStep)
     {
         if (ms_tnCounters == null) {

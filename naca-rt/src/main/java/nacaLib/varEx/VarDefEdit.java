@@ -14,6 +14,7 @@ package nacaLib.varEx;
 
 public abstract class VarDefEdit extends VarDefBuffer
 {
+    /** Creates a new var def edit instance. */
     public VarDefEdit(VarDefBase varDefParent, VarLevel varLevel)
     {
         super(varDefParent, varLevel);

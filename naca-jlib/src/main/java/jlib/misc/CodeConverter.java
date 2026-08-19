@@ -6,12 +6,14 @@
  */
 package jlib.misc;
 
+/** Provides code converter behavior. */
 public class CodeConverter
 {
-    private int ms_nSize = 0;
-    private int[] ms_tFrom = null;
-    private int[] ms_tTo = null;
+    private int size = 0;
+    private int[] storedFrom = null;
+    private int[] storedTo = null;
 
+    /** Creates a new code converter instance. */
     public CodeConverter(String csConversion)
     {
         if (csConversion == null || csConversion.equals("")) {
@@ -19,30 +21,31 @@ public class CodeConverter
         }
 
         String[] csSplit = csConversion.split(",");
-        ms_nSize = csSplit.length;
+        size = csSplit.length;
 
-        ms_tFrom = new int [ms_nSize];
-        ms_tTo = new int [ms_nSize];
-        for (int n=0; n < ms_nSize; n++)
+        storedFrom = new int [size];
+        storedTo = new int [size];
+        for (int n=0; n < size; n++)
         {
             String[] csFromTo = csSplit[n].split("-");
             int nFrom = Integer.valueOf(csFromTo[0]).intValue();
             int nTo = Integer.valueOf(csFromTo[1]).intValue();
-            ms_tFrom[n] = nFrom;
-            ms_tTo[n] = nTo;
+            storedFrom[n] = nFrom;
+            storedTo[n] = nTo;
         }
     }
 
+    /** Executes the convert operation. */
     public String convert(String csIn)
     {
-        if (ms_nSize == 0) {
+        if (size == 0) {
             return csIn;
         }
 
         String csOut = csIn;
-        for (int n=0; n < ms_nSize; n++)
+        for (int n=0; n < size; n++)
         {
-            csOut = csOut.replace((char)ms_tFrom[n], (char)ms_tTo[n]);
+            csOut = csOut.replace((char)storedFrom[n], (char)storedTo[n]);
         }
         return csOut;
     }

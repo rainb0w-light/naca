@@ -23,6 +23,7 @@ import jlib.misc.LittleEndingUnsignBinaryBufferStorage;
 import jlib.misc.LogicalFileDescriptor;
 import nacaLib.varEx.FileDescriptor;
 
+/** Provides file converter behavior. */
 public class FileConverter
 {
     private static final byte   AFP_ASCII_5A            =   (byte)0x5D; // 5A
@@ -60,11 +61,13 @@ public class FileConverter
 
     DataFileWrite fileOutput;
 
+    /** Creates a new file converter instance. */
     public FileConverter(FileDescriptor file)
     {
         this.file = file;
     }
 
+    /** Executes the execute operation. */
     public boolean execute(String csParameter)
     {
         if (csParameter != null && !csParameter.equals(""))

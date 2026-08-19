@@ -10,9 +10,11 @@ import semantic.CBaseDataReference;
 import semantic.CDataEntity;
 import utils.CObjectCatalog;
 
+/** Provides centity field attribute reference behavior. */
 public class CEntityFieldAttributeReference extends CBaseDataReference
 {
 
+    /** Creates a new centity field attribute reference instance. */
     public CEntityFieldAttributeReference(CObjectCatalog cat, CDataEntity ref)
     {
         super(0, "", cat);
@@ -43,6 +45,7 @@ public class CEntityFieldAttributeReference extends CBaseDataReference
         return reference.GetConstantValue();
     }
 
+    /** Executes the get name operation. */
     public String GetName()
     {
         return reference.GetName() ;

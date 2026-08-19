@@ -21,10 +21,12 @@ import java.util.Map.Entry;
  */
 public class FileDescriptorAutoCloseManager
 {
+    /** Creates a new file descriptor auto close manager instance. */
     public FileDescriptorAutoCloseManager()
     {
     }
 
+    /** Executes the report file descriptor status operation. */
     public void reportFileDescriptorStatus(FileDescriptor fileDescriptor, FileDescriptorOpenStatus status)
     {
         if(hashFileDescriptor != null && !isisInAutoClose)
@@ -34,6 +36,7 @@ public class FileDescriptorAutoCloseManager
         }
     }
 
+    /** Executes the register file descriptor operation. */
     public void registerFileDescriptor(FileDescriptor fileDescriptor)
     {
         if (hashFileDescriptor == null) {
@@ -42,6 +45,7 @@ public class FileDescriptorAutoCloseManager
         hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
     }
 
+    /** Executes the auto close operation. */
     public void autoClose()
     {
         if(hashFileDescriptor != null)

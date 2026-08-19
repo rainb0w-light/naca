@@ -10,12 +10,13 @@
  */
 package nacaLib.varEx;
 
-import nacaLib.base.*;
+import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseProgram;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides var level behavior. */
 public class VarLevel extends CJMapObject
 {
     private CInitialValue initialValue = null;
@@ -26,10 +27,12 @@ public class VarLevel extends CJMapObject
     private short level = 0;
     private boolean isvariableLength = false;
 
+    /** Creates a new var level instance. */
     public VarLevel()
     {
     }
 
+    /** Executes the set operation. */
     public void set(BaseProgram program, int nLevel)
     {
         initialValue = null;
@@ -42,6 +45,7 @@ public class VarLevel extends CJMapObject
         isvariableLength = false;
     }
 
+    /** Executes the var operation. */
     public VarGroup var()   // Creates a group
     {
         DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
@@ -53,6 +57,7 @@ public class VarLevel extends CJMapObject
         return var2G;
     }
 
+    /** Executes the filler operation. */
     public Var filler()
     {
         DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
@@ -62,23 +67,27 @@ public class VarLevel extends CJMapObject
         return var2G;
     }
 
+    /** Executes the pic x operation. */
     public DeclareTypeX picX()
     {
         return picX(1);
     }
 
+    /** Executes the comp1 operation. */
     public DeclareTypeX comp1()
     {
         // PJD to be implemented...
         return null;
     }
 
+    /** Executes the comp2 operation. */
     public DeclareTypeX comp2()
     {
         // PJD to be implemented...
         return null;
     }
 
+    /** Executes the pic x operation. */
     public DeclareTypeX picX(int nLength)
     {
         DeclareTypeX declareTypeX = TempCacheLocator.getTLSTempCache().getDeclareTypeX();
@@ -91,27 +100,32 @@ public class VarLevel extends CJMapObject
         return declareTypeX;
     }
 
+    /** Executes the pic operation. */
     public DeclareTypeNumEdited pic(String csFormat)
     {
         // Should identify either pic9(csFormat) or picX(csFormat);
         return pic9(csFormat);
     }
 
+    /** Executes the pic9 operation. */
     public DeclareType9 pic9(int nNbDigitInteger)
     {
         return pic9Define(false, nNbDigitInteger, 0);
     }
 
+    /** Executes the pic9 operation. */
     public DeclareType9 pic9(int nNbDigitInteger, int nNbDigitDecimal)
     {
         return pic9Define(false, nNbDigitInteger, nNbDigitDecimal);
     }
 
+    /** Executes the pic s9 operation. */
     public DeclareType9 picS9(int nNbDigitInteger)
     {
         return pic9Define(true, nNbDigitInteger, 0);
     }
 
+    /** Executes the pic s9 operation. */
     public DeclareType9 picS9(int nNbDigitInteger, int nNbDigitDecimal)
     {
         return pic9Define(true, nNbDigitInteger, nNbDigitDecimal);
@@ -125,18 +139,21 @@ public class VarLevel extends CJMapObject
         return declareType9;
     }
 
+    /** Executes the redefines operation. */
     public VarLevel redefines(Edit varEditRedefineOrigin)
     {
         varDefRedefineOrigin = varEditRedefineOrigin.getVarDef();
         return this;
     }
 
+    /** Executes the redefines operation. */
     public VarLevel redefines(Var varRedefineOrigin)
     {
         varDefRedefineOrigin = varRedefineOrigin.getVarDef();
         return this;
     }
 
+    /** Executes the occurs operation. */
     public VarLevel occurs(int nNbOccurs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -146,6 +163,7 @@ public class VarLevel extends CJMapObject
         return this;
     }
 
+    /** Executes the occurs operation. */
     public VarLevel occurs(Var varOccurs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -155,6 +173,7 @@ public class VarLevel extends CJMapObject
         return this;
     }
 
+    /** Executes the occurs depending operation. */
     public VarLevel occursDepending(int nNbOccurs, Var varOccurs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -170,6 +189,7 @@ public class VarLevel extends CJMapObject
         return this;
     }
 
+    /** Executes the occurs depending record operation. */
     public VarLevel occursDependingRecord(int nNbOccurs, Var varOccurs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -187,6 +207,7 @@ public class VarLevel extends CJMapObject
 //      return csFormat;
 //  }
 
+    /** Executes the pic9 operation. */
     public DeclareTypeNumEdited pic9(String csFormat)
     {
         DeclareTypeNumEdited declareTypeNumEdited = TempCacheLocator.getTLSTempCache().getDeclareTypeNumEdited();
@@ -196,6 +217,7 @@ public class VarLevel extends CJMapObject
 
     // Screen resource management: No .var() to add
     // Map redefine management
+    /** Executes the redefines map operation. */
     public MapRedefine redefinesMap(Form formRedefineOrigin)
     {
         DeclareTypeMapRedefine declareTypeMapRedefine = TempCacheLocator.getTLSTempCache().getDeclareTypeMapRedefine();
@@ -205,6 +227,7 @@ public class VarLevel extends CJMapObject
         return var2MapRedefine;
     }
 
+    /** Executes the justify right operation. */
     public VarLevel justifyRight()  // Edit in a map redefine
     {
         isjustifyRight = true;
@@ -217,6 +240,7 @@ public class VarLevel extends CJMapObject
     }
 
 
+    /** Executes the edit operation. */
     public Edit edit()  // Edit in a map redefine
     {
         TempCache tempCache = TempCacheLocator.getTLSTempCache();
@@ -226,11 +250,13 @@ public class VarLevel extends CJMapObject
         return var2Edit;
     }
 
+    /** Executes the edit skip operation. */
     public Edit editSkip()
     {
         return editSkip(1);
     }
 
+    /** Executes the edit skip operation. */
     public Edit editSkip(int nNbItemToSkip)
     {
         for(int n=0; n<nNbItemToSkip; n++)
@@ -240,6 +266,7 @@ public class VarLevel extends CJMapObject
         return null;
     }
 
+    /** Executes the edit occurs operation. */
     public Edit editOccurs(int nNbOccurs, String csName)
     {
         // remonter au dernier precedent de nivwau >= niveau courant
@@ -286,6 +313,7 @@ public class VarLevel extends CJMapObject
         return occursDef;
     }
 
+    /** Executes the value operation. */
     public VarLevelGroup value(String cs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -296,6 +324,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value all operation. */
     public VarLevelGroup valueAll(char c)
     {
         BaseProgramManager pm = getProgramManager();
@@ -306,6 +335,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value all operation. */
     public VarLevelGroup valueAll(String cs)
     {
         BaseProgramManager pm = getProgramManager();
@@ -316,6 +346,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value spaces operation. */
     public VarLevelGroup valueSpaces()
     {
         BaseProgramManager pm = getProgramManager();
@@ -326,6 +357,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value zero operation. */
     public VarLevelGroup valueZero()
     {
         BaseProgramManager pm = getProgramManager();
@@ -336,6 +368,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value high value operation. */
     public VarLevelGroup valueHighValue()
     {
         BaseProgramManager pm = getProgramManager();
@@ -346,6 +379,7 @@ public class VarLevel extends CJMapObject
         return varLevelGroup;
     }
 
+    /** Executes the value low value operation. */
     public VarLevelGroup valueLowValue()
     {
         BaseProgramManager pm = getProgramManager();
@@ -361,6 +395,7 @@ public class VarLevel extends CJMapObject
         return initialValue;
     }
 
+    /** Executes the variable length operation. */
     public VarLevel variableLength()
     {
         isvariableLength = true;

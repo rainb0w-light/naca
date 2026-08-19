@@ -21,16 +21,19 @@ public class SQLExecuteStart extends SQL
 {
     // No statement cache managed, as the clause is dynamic
     // PJD: To be removed
+    /** Creates a new sqlexecute start instance. */
     public SQLExecuteStart(BaseProgramManager programManager, String csQuery)
     {
         super(programManager);
     }
 
+    /** Creates a new sqlexecute start instance. */
     public SQLExecuteStart(BaseProgramManager programManager)   //, String csQuery)
     {
         super(programManager);
     }
 
+    /** Executes the param operation. */
     public SQL param(String csName, String csStatement)
     {
         csStatement = csStatement.trim();
@@ -38,6 +41,7 @@ public class SQLExecuteStart extends SQL
         return sql;
     }
 
+    /** Executes the param operation. */
     public SQL param(int nName, String csStatement)
     {
         csStatement = csStatement.trim();
@@ -45,6 +49,7 @@ public class SQLExecuteStart extends SQL
         return sql;
     }
 
+    /** Executes the param operation. */
     public SQL param(String csName, VarAndEdit var)
     {
         String cs = var.getString();
@@ -52,6 +57,7 @@ public class SQLExecuteStart extends SQL
         return param(csName, cs);
     }
 
+    /** Executes the param operation. */
     public SQL param(int nName, VarAndEdit var)
     {
         String cs = var.getString();

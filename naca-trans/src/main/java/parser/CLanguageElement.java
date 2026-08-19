@@ -13,8 +13,10 @@ import java.util.NoSuchElementException;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 
+/** Provides clanguage element behavior. */
 public abstract class CLanguageElement extends CBaseElement
 {
+    /** Creates a new clanguage element instance. */
     public CLanguageElement(int line)
     {
         super(line);
@@ -22,6 +24,7 @@ public abstract class CLanguageElement extends CBaseElement
 
     protected abstract CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
     protected boolean bAnalysisDoneForChildren = false ;
+    /** Executes the do semantic analysis operation. */
     public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
     {
         CBaseLanguageEntity eCurrent = DoCustomSemanticAnalysis(parent, factory) ;

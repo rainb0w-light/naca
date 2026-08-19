@@ -13,6 +13,7 @@ package nacaLib.stringSupport;
 import nacaLib.varEx.CobolConstant;
 import nacaLib.varEx.VarAndEdit;
 
+/** Provides inspect replacing behavior. */
 public class InspectReplacing
 {
     public static final InspectReplacingType TypeFirst = new InspectReplacingType();
@@ -23,29 +24,34 @@ public class InspectReplacing
     public static final InspectReplacingType TypeLeadingSpaces = new InspectReplacingType();
     public static final InspectReplacingType TypeLeadingZeroes = new InspectReplacingType();
 
+    /** Creates a new inspect replacing instance. */
     public InspectReplacing(VarAndEdit var)
     {
         this.var = var;
     }
 
+    /** Executes the before operation. */
     public InspectReplacing before(String csBefore)
     {
         this.csBefore = csBefore;
         return this;
     }
 
+    /** Executes the before operation. */
     public InspectReplacing before(VarAndEdit varBefore)
     {
         csBefore = varBefore.getString();
         return this;
     }
 
+    /** Executes the after operation. */
     public InspectReplacing after(String csAfter)
     {
         this.csAfter = csAfter;
         return this;
     }
 
+    /** Executes the after operation. */
     public InspectReplacing after(VarAndEdit varAfter)
     {
         csAfter = varAfter.getString();
@@ -53,6 +59,7 @@ public class InspectReplacing
     }
 
 
+    /** Executes the first operation. */
     public InspectReplacing first(String cs)
     {
         inspectReplacingType = TypeFirst;
@@ -60,6 +67,7 @@ public class InspectReplacing
         return this;
     }
 
+    /** Executes the first operation. */
     public InspectReplacing first(VarAndEdit var)
     {
         inspectReplacingType = TypeFirst;
@@ -67,26 +75,31 @@ public class InspectReplacing
         return this;
     }
 
+    /** Executes the first spaces operation. */
     public InspectReplacing firstSpaces()
     {
         return first(" ");
     }
 
+    /** Executes the first zeros operation. */
     public InspectReplacing firstZeros()
     {
         return first("0");
     }
 
+    /** Executes the first low values operation. */
     public InspectReplacing firstLowValues()
     {
         return first(String.valueOf(CobolConstant.LowValue.getValue()));
     }
 
+    /** Executes the first high values operation. */
     public InspectReplacing firstHighValues()
     {
         return first(String.valueOf(CobolConstant.HighValue.getValue()));
     }
 
+    /** Executes the leading operation. */
     public InspectReplacing leading(String cs)
     {
         inspectReplacingType = TypeLeading;
@@ -94,23 +107,27 @@ public class InspectReplacing
         return this;
     }
 
+    /** Executes the leading operation. */
     public InspectReplacing leading(VarAndEdit var)
     {
         return leading(var.getString());
     }
 
+    /** Executes the all low values operation. */
     public InspectReplacing allLowValues()
     {
         inspectReplacingType = TypeAllLowValue;
         return this ;
     }
 
+    /** Executes the all high values operation. */
     public InspectReplacing allHighValues()
     {
         inspectReplacingType = TypeAllHighValue;
         return this ;
     }
 
+    /** Executes the all operation. */
     public InspectReplacing all(String s)
     {
         inspectReplacingType = TypeAll;
@@ -118,6 +135,7 @@ public class InspectReplacing
         return this ;
     }
 
+    /** Executes the all operation. */
     public InspectReplacing all(VarAndEdit v)
     {
         inspectReplacingType = TypeAll;
@@ -125,6 +143,7 @@ public class InspectReplacing
         return this ;
     }
 
+    /** Executes the all spaces operation. */
     public InspectReplacing allSpaces()
     {
         inspectReplacingType = TypeAll;
@@ -132,53 +151,63 @@ public class InspectReplacing
         return this ;
     }
 
+    /** Executes the all zeros operation. */
     public InspectReplacing allZeros()
     {
         return all("0");
     }
 
+    /** Executes the leading spaces operation. */
     public InspectReplacing leadingSpaces()
     {
         inspectReplacingType = TypeLeadingSpaces;
         return this ;
     }
 
+    /** Executes the leading zeros operation. */
     public InspectReplacing leadingZeros()
     {
         inspectReplacingType = TypeLeadingZeroes;
         return this ;
     }
 
+    /** Executes the leading low values operation. */
     public InspectReplacing leadingLowValues()
     {
         return leading(String.valueOf(CobolConstant.LowValue.getValue()));
     }
 
+    /** Executes the leading high values operation. */
     public InspectReplacing leadingHighValues()
     {
         return leading(String.valueOf(CobolConstant.HighValue.getValue()));
     }
 
+    /** Executes the by spaces operation. */
     public void bySpaces()
     {
         by(CobolConstant.Space.getValue());
     }
 
+    /** Executes the by low values operation. */
     public void byLowValues()
     {
         by(CobolConstant.LowValue.getValue());
     }
 
+    /** Executes the by high values operation. */
     public void byHighValues()
     {
         by(CobolConstant.HighValue.getValue());
     }
 
+    /** Executes the by zero operation. */
     public void byZero()
     {
         by(CobolConstant.Zero.getValue());
     }
 
+    /** Executes the by operation. */
     public void by(char c)
     {
         String cs = new String();
@@ -186,12 +215,14 @@ public class InspectReplacing
         by(cs);
     }
 
+    /** Executes the by operation. */
     public void by(VarAndEdit var)
     {
         String cs = var.getString();
         by(cs);
     }
 
+    /** Executes the by operation. */
     public void by(String csReplacing)
     {
         int nNbCall = 0;

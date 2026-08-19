@@ -20,16 +20,19 @@ public class MapStringByString
 {
     private Hashtable<String, String> tab = null;
 
+    /** Creates a new map string by string instance. */
     public MapStringByString()
     {
         tab = new Hashtable<String, String>();
     }
 
+    /** Executes the get operation. */
     public String get(String csKey)
     {
         return tab.get(csKey);
     }
 
+    /** Executes the put operation. */
     public void put(String csKey, String csValue)
     {
         tab.put(csKey, csValue);

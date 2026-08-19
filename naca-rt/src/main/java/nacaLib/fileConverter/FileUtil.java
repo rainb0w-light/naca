@@ -16,6 +16,7 @@ import jlib.misc.LittleEndingSignBinaryBufferStorage;
 import jlib.misc.LogicalFileDescriptor;
 import nacaLib.varEx.FileDescriptor;
 
+/** Provides file util behavior. */
 public class FileUtil
 {
     private FileDescriptor file = null;
@@ -50,11 +51,13 @@ public class FileUtil
 
     DataFileWrite fileOutput;
 
+    /** Creates a new file util instance. */
     public FileUtil(FileDescriptor file)
     {
         this.file = file;
     }
 
+    /** Executes the execute operation. */
     public boolean execute(String csParameter)
     {
         String csParameterUpper = csParameter.toUpperCase();

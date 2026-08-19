@@ -162,6 +162,7 @@ public class RWNumIntComp0
 //      buffer.fillBlankComp0AtOffset(nTotalSize, nOffset);
 //  }
 
+    /** Sets the from right to left. */
     public static void setFromRightToLeft(VarBufferPos buffer, int nOffset, int nValue, int nTotalSize, int nNbDigitInteger)
     {
         // Fill the buffer with '0' on each byte
@@ -191,6 +192,7 @@ public class RWNumIntComp0
         }
     }
 
+    /** Sets the from right to left. */
     public static void setFromRightToLeft(VarBufferPos buffer, int nOffset, long lValue, int nTotalSize, int nNbDigitInteger)
     {
         // Fill the buffer with '0' on each byte

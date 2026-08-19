@@ -21,6 +21,7 @@ public class DisplayConfig
     {
     }
     private static DisplayConfig ms_Instance = null ;
+    /** Returns the instance. */
     public static DisplayConfig getInstance()
     {
         if (ms_Instance == null)
@@ -29,6 +30,7 @@ public class DisplayConfig
         }
         return ms_Instance ;
     }
+    /** Sets the root path. */
     public void setRootPath(String path)
     {
         csRootPath = path.replace('\\', '/') ;
@@ -43,6 +45,7 @@ public class DisplayConfig
     {
         return csRootPath;
     }
+    /** Loads the config. */
     public void LoadConfig(String csINIFilePath)
     {
         Tag tagConfig = Tag.createFromFile(csINIFilePath) ;

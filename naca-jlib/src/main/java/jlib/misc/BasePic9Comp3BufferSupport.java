@@ -33,6 +33,7 @@ public class BasePic9Comp3BufferSupport
     protected static long ms_tModulo[] = null;
     protected static String ms_tcs0[] = null;
 
+    /** Executes the init operation. */
     public static void init()
     {
         if (ms_tModulo != null) {
@@ -104,6 +105,7 @@ public class BasePic9Comp3BufferSupport
         }
     }
 
+    /** Returns whether valid sign. */
     public static boolean isValidSign(int nLow)
     {
         if (nLow == COMP3_SIGN_MINUS || nLow == COMP3_SIGN_PLUS) {
@@ -112,6 +114,7 @@ public class BasePic9Comp3BufferSupport
         return false;
     }
 
+    /** Returns whether valid unsign. */
     public static boolean isValidUnsign(int nLow)
     {
         if (nLow == COMP3_UNSIGNED) {
@@ -120,6 +123,7 @@ public class BasePic9Comp3BufferSupport
         return false;
     }
 
+    /** Returns whether negative. */
     public static boolean isNegative(byte by)
     {
         int nLow = by & 0x0F;
@@ -129,6 +133,7 @@ public class BasePic9Comp3BufferSupport
         return false;
     }
 
+    /** Returns the as long. */
     public static long getAsLong(byte acBuffer[], int nAbsolutePosition, int nNbDigitInteger, int nTotalSize)
     {
         long lValue = 0;
@@ -163,6 +168,7 @@ public class BasePic9Comp3BufferSupport
         return lValue;
     }
 
+    /** Executes the keep right most digits operation. */
     public static long keepRightMostDigits(long lOriginalValue, int nNbDigitsToKeep)
     {
         long power10 = ms_tModulo[nNbDigitsToKeep];
@@ -186,6 +192,7 @@ public class BasePic9Comp3BufferSupport
         return lOriginalValue;
     }
 
+    /** Executes the make dotted string operation. */
     public static String makeDottedString(long lValue, int nNbDecimals)
     {
         long power10 = ms_tModulo[nNbDecimals];

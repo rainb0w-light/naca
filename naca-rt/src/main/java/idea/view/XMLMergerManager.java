@@ -21,6 +21,7 @@ import idea.onlinePrgEnv.OnlineSession;
  */
 public class XMLMergerManager
 {
+    /** Executes the get operation. */
     public static synchronized XMLMerger get(OnlineSession appSession)
     {
         try
@@ -35,6 +36,7 @@ public class XMLMergerManager
         }
     }
 
+    /** Executes the release operation. */
     public static synchronized void release(XMLMerger merger)
     {
         merger.clear();

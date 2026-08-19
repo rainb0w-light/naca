@@ -15,29 +15,34 @@ import jlib.misc.IntegerRef;
 import nacaLib.tempCache.CStr;
 import nacaLib.tempCache.TempCacheLocator;
 
+/** Provides var buffer pos behavior. */
 public class VarBufferPos extends VarBuffer
 {
     protected int nAbsolutePosition = 0;
     private CStr cstr = null;
 
+    /** Creates a new var buffer pos instance. */
     public VarBufferPos(VarBuffer varBuffer, int nPosition)
     {
         super(varBuffer);
         nAbsolutePosition = nPosition;
     }
 
+    /** Creates a new var buffer pos instance. */
     public VarBufferPos(int nSize)
     {
         super(nSize);
         nAbsolutePosition = 0;
     }
 
+    /** Creates a new var buffer pos instance. */
     public VarBufferPos(char [] acBuffer)
     {
         super(acBuffer);
         nAbsolutePosition = 0;
     }
 
+    /** Sets the as var. */
     public void setAsVar(VarBase varBase)
     {
         shareDataBufferFrom(varBase.bufferPos);
@@ -51,6 +56,7 @@ public class VarBufferPos extends VarBuffer
     }
 
 
+    /** Returns a string representation of this value. */
     public String toString()
     {
         String cs = "Buffer @" + nAbsolutePosition + " (Id=" + acBuffer.hashCode() + ")";
@@ -69,6 +75,7 @@ public class VarBufferPos extends VarBuffer
 //      return bufChunk;
 //  }
 
+    /** Returns the buf chunk at. */
     public CStr getBufChunkAt(int nSize)
     {
         if (nSize < 0) {
@@ -84,6 +91,7 @@ public class VarBufferPos extends VarBuffer
         return cs;
     }
 
+    /** Returns the own cstr. */
     public CStr getOwnCStr(int nSize)
     {
         if (cstr == null) {
@@ -128,6 +136,7 @@ public class VarBufferPos extends VarBuffer
 //      return cs;
 //  }
 
+    /** Returns the body cstr. */
     public CStr getBodyCStr(VarDefBuffer varDef)
     {
         int nBodyLength = varDef.getBodyLength();
@@ -187,6 +196,7 @@ public class VarBufferPos extends VarBuffer
 //      return bufChunk;
 //  }
 
+    /** Returns the body cstr at absolute position. */
     public CStr getBodyCStrAtAbsolutePosition(ComparisonMode mode, IntegerRef iAbsolutePosition, VarDefBuffer varDef)
     {
         int nBodyLength = varDef.getBodyLength();
@@ -510,6 +520,7 @@ public class VarBufferPos extends VarBuffer
         return getAsLong(nAbsolutePosition, nSize);
     }
 
+    /** Returns the as long. */
     public long getAsLong(int nAbsolutePosition, int nTotalSize)
     {
         if (nTotalSize == 0) {
@@ -557,6 +568,7 @@ public class VarBufferPos extends VarBuffer
         return getAsUnsignedLong(nAbsolutePosition, nSize);
     }
 
+    /** Returns the as unsigned long. */
     public long getAsUnsignedLong(int nAbsolutePosition, int nTotalSize)
     {
         if (nTotalSize == 0) {
@@ -585,6 +597,7 @@ public class VarBufferPos extends VarBuffer
         return lValue;
     }
 
+    /** Executes the copy operation. */
     public void copy(int nNbCharToCopy, VarBufferPos varBufPosSource)
     {
         copyBytes(nAbsolutePosition, nNbCharToCopy, varBufPosSource.nAbsolutePosition, varBufPosSource);
@@ -624,17 +637,4 @@ public class VarBufferPos extends VarBuffer
 //      nLastChecksum = nChecksum;
 //      return false;
 //  }
-}
-
-
-
-class CEditSemanticContextMapAssoc
-{
-    CEditSemanticContextMapAssoc(Edit edit, String csSemantiContext)
-    {
-        this.edit = edit;
-        this.csSemantiContext = csSemantiContext;
-    }
-    Edit edit = null;
-    String csSemantiContext = null;
 }

@@ -22,6 +22,7 @@ public class BtreeKeyComparator implements Comparator<byte[]>
 {
     private BtreeKeyDescription keyDescription = null;
 
+    /** Creates a new btree key comparator instance. */
     public BtreeKeyComparator()
     {
     }

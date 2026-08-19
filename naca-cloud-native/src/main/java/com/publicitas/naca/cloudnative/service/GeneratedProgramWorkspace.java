@@ -10,6 +10,7 @@ public final class GeneratedProgramWorkspace {
     private GeneratedProgramWorkspace() {
     }
 
+    /** Executes the classes directory operation. */
     public static Path classesDirectory() {
         String configured = System.getProperty(OUTPUT_PROPERTY);
         if (configured != null && !configured.isBlank()) {
