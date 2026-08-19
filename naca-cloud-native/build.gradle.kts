@@ -110,6 +110,7 @@ tasks.register<Test>("cardDemoPostgresAcceptance") {
     useJUnitPlatform {
         includeTags("carddemo-postgres")
     }
+    dependsOn("cardDemoOnlineBaseline")
 }
 
 tasks.register<Test>("cardDemoMinimalBmsAcceptance") {
@@ -120,4 +121,8 @@ tasks.register<Test>("cardDemoMinimalBmsAcceptance") {
     useJUnitPlatform {
         includeTags("carddemo-minimal-bms")
     }
+}
+
+tasks.named("bootRun") {
+    dependsOn("cardDemoOnlineBaseline")
 }

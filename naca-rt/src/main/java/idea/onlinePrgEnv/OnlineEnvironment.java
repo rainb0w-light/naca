@@ -250,9 +250,24 @@ public class OnlineEnvironment extends BaseEnvironment
     {
         if (sendMapOrder != null)
         {
-            String csDeclaredFormName = sendMapOrder.varFrom.getDeclaredFormName();
+            String csDeclaredFormName;
+            Document doc;
+            if (sendMapOrder.varFrom != null)
+            {
+                csDeclaredFormName = sendMapOrder.varFrom.getDeclaredFormName();
+                doc = sendMapOrder.varFrom.getXMLData(
+                    sendMapOrder.mapName, sendMapOrder.nCursorPosition);
+            }
+            else if (sendMapOrder.symbolicFrom != null)
+            {
+                csDeclaredFormName = sendMapOrder.mapName;
+                doc = sendMapOrder.buildSymbolicXML(getLanguageCode().toString());
+            }
+            else
+            {
+                throw new IllegalStateException("SEND MAP has no FROM data");
+            }
             session.setIdPage(csDeclaredFormName) ;
-            Document doc = sendMapOrder.varFrom.getXMLData(sendMapOrder.mapName, sendMapOrder.nCursorPosition) ;
             session.setXMLData(doc) ;
         }
 

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.publicitas.naca.cloudnative.service.IncludeGroupSupport;
 import com.publicitas.naca.cloudnative.service.OnlineCorpusSupport;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,10 @@ class CardDemoOnlineTranslationBaselineTest
 {
     private static final Pattern EXEC = Pattern.compile("EXEC\\s+(SQL|CICS)\\s+([A-Z]+)");
     private static final Pattern LINE_NUMBER = Pattern.compile("(\\d+)");
+    private static final Pattern PUBLIC_CLASS = Pattern.compile("public class ([A-Za-z0-9_]+)");
+    private static final List<String> SIGNON_COPYBOOKS = List.of(
+        "COCOM01Y", "COSGN00", "COTTL01Y", "CSDAT01Y", "CSMSG01Y", "CSUSR01Y",
+        "DFHAID", "DFHBMSCA");
 
     private record Statement(int line, String dialect, String command)
     {
@@ -70,7 +75,7 @@ class CardDemoOnlineTranslationBaselineTest
         Path cobolDir = cardDemo.resolve("app/cbl");
         Path bmsDir = temporaryDirectory.resolve("bms");
         Path includeDir = temporaryDirectory.resolve("includes");
-        Path outputDir = temporaryDirectory.resolve("output");
+        Path outputDir = generatedSignonDirectory();
         Files.createDirectories(includeDir);
         Files.createDirectories(bmsDir);
         Files.createDirectories(outputDir);
@@ -156,8 +161,54 @@ class CardDemoOnlineTranslationBaselineTest
             "SEND TEXT must survive generation");
         assertTrue(generated.contains("CESM.assign().sysID("),
             "ASSIGN SYSID must survive generation");
-        assertTrue(generated.contains("CESM.readDataSet(") && generated.contains(".execute();"),
+        assertTrue(generated.contains("CESM.readDataSet(") && generated.contains(".execute()"),
             "READ DATASET must survive generation as an executable runtime command");
+        compileSignonProgram(generated, includeDir, outputDir);
+    }
+
+    private static void compileSignonProgram(String programSource, Path includeDir, Path outputDir)
+        throws Exception
+    {
+        Path sourceDirectory = outputDir.resolve("compile-src");
+        Path classesDirectory = outputDir.resolve("compile-classes");
+        Files.createDirectories(sourceDirectory);
+        Files.createDirectories(classesDirectory);
+        List<Path> sources = new ArrayList<>();
+        Path programFile = sourceDirectory.resolve("Cosgn00c.java");
+        Files.writeString(programFile, programSource);
+        sources.add(programFile);
+
+        IncludeGroupSupport.configure(includeDir.toString(), outputDir.resolve("includes").toString());
+        for (String copybook : SIGNON_COPYBOOKS)
+        {
+            String copybookSource = IncludeGroupSupport.generateCopybookClass(copybook);
+            assertNotNull(copybookSource, "Copybook must generate for Java compilation: " + copybook);
+            Matcher className = PUBLIC_CLASS.matcher(copybookSource);
+            assertTrue(className.find(), "Generated copybook must declare a public class: " + copybook);
+            Path copybookFile = sourceDirectory.resolve(className.group(1) + ".java");
+            Files.writeString(copybookFile, copybookSource);
+            sources.add(copybookFile);
+        }
+
+        List<String> command = new ArrayList<>(List.of(
+            "javac", "-d", classesDirectory.toString(),
+            "-classpath", System.getProperty("java.class.path"), "-proc:none"));
+        sources.forEach(sourceFile -> command.add(sourceFile.toString()));
+        Process compiler = new ProcessBuilder(command).redirectErrorStream(true).start();
+        String compilerOutput = new String(compiler.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        assertTrue(compiler.waitFor() == 0,
+            "Translated COSGN00C and its copybooks must compile:\n" + compilerOutput);
+    }
+
+    static Path generatedSignonClassesDirectory()
+    {
+        return generatedSignonDirectory().resolve("compile-classes");
+    }
+
+    private static Path generatedSignonDirectory()
+    {
+        return Path.of(System.getProperty("user.dir"), "build", "generated-carddemo", "signon")
+            .toAbsolutePath().normalize();
     }
 
     private static JsonNode loadProgramBaseline(String program) throws IOException

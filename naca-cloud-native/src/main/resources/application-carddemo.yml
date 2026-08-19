@@ -1,5 +1,8 @@
 carddemo:
   enabled: true
+  execution:
+    enabled: true
+    generated-classes-dir: ${CARDDEMO_GENERATED_CLASSES_DIR:build/generated-carddemo/signon/compile-classes}
   cics:
     application-id: ${CARDDEMO_CICS_APPLID:CARDDEMO}
     system-id: ${CARDDEMO_CICS_SYSID:NACA}

@@ -59,7 +59,16 @@ class CICSAssignRenderTest
     void assignWithSysid()
     {
         CEntityCICSAssign assign = new CEntityCICSAssign(1, null);
-        assign.AddRequest("sysID", new MockDataEntity(2, "W-SYSID"));
+        MockDataEntity target = new MockDataEntity(2, "W-SYSID")
+        {
+            @Override
+            public boolean ignore()
+            {
+                return GetNbWrittingActions() == 0;
+            }
+        };
+        assign.AddRequest("sysID", target);
+        assertFalse(assign.ignore(), "ASSIGN must register its target as written");
         String output = render(assign);
         assertTrue(output.contains("CESM.assign().sysID(W-SYSID) ;"), output);
     }

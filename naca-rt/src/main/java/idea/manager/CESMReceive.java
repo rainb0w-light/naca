@@ -8,10 +8,12 @@ package idea.manager;
 
 import nacaLib.base.CJMapObject;
 import nacaLib.basePrgEnv.BaseEnvironment;
+import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.CESM.CESMReturnCode;
 import nacaLib.misc.KeyPressed;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.Form;
+import nacaLib.tempCache.TempCacheLocator;
 
 import org.w3c.dom.Document;
 
@@ -32,7 +34,15 @@ public class CESMReceive extends CJMapObject
 
     CESMReceive setMap(String mapName)
     {
-    //  mapName = mapName;
+        BaseProgramManager manager = TempCacheLocator.getTLSTempCache().getProgramManager();
+        if (manager != null)
+        {
+            Var implicitMap = manager.findVariable(mapName + "I");
+            if (implicitMap != null)
+            {
+                into(implicitMap);
+            }
+        }
         return this;
     }
 
@@ -47,8 +57,13 @@ public class CESMReceive extends CJMapObject
     /** Executes the into operation. */
     public CESMReceive into(Var var)
     {
-        // if this function is called, that means a COPY is missing with the map defined in it
         assertIfFalse(var == null) ;
+        SymbolicBmsMapAdapter.receive(xmlData, var);
+        if (xmlData != null)
+        {
+            String key = xmlData.getDocumentElement().getAttribute("keypressed");
+            env.setKeyPressed(KeyPressed.getKey(key));
+        }
         return this;
     }
 

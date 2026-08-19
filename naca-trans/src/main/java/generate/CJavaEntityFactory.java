@@ -243,8 +243,16 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         // Some entries are supplied directly by the runtime environment.
         NewEntitySQLCode("SQLCODE") ;
         NewEntitySQLCode("SQLERRD") ;
-
-
+        NewEntityEnvironmentVariable("EIBCALEN", "getCommAreaLength()", true);
+        NewEntityEnvironmentVariable("EIBRESP", "getConditionOccured()", true);
+        NewEntityGetKeyPressed("EIBAID");
+        NewEntityKeyPressed("DFHCLEAR", "CLEAR");
+        NewEntityKeyPressed("DFHENTER", "ENTER");
+        for (int functionKey = 1; functionKey <= 24; functionKey++)
+        {
+            String name = "PF" + functionKey;
+            NewEntityKeyPressed("DFH" + name, name);
+        }
     }
 
     /**

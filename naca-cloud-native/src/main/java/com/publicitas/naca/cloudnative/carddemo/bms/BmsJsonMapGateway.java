@@ -28,6 +28,7 @@ public class BmsJsonMapGateway
     private static final String CURSOR_ATTRIBUTE = "cursor";
     private static final String UPDATED_ATTRIBUTE = "updated";
     private static final String PASSWORD_TOKEN = "PWD";
+    private static final String COBOL_PASSWORD_TOKEN = "PASSWD";
 
     /** Builds a DOM in memory; no client-provided XML is ever parsed. */
     public Document toReceiveDocument(BmsTerminalRequest request)
@@ -123,6 +124,7 @@ public class BmsJsonMapGateway
 
     private static String publicFieldValue(String name, String value)
     {
-        return name.contains(PASSWORD_TOKEN) || name.contains("PASSWORD") ? "" : value;
+        return name.contains(PASSWORD_TOKEN) || name.contains(COBOL_PASSWORD_TOKEN)
+            || name.contains("PASSWORD") ? "" : value;
     }
 }

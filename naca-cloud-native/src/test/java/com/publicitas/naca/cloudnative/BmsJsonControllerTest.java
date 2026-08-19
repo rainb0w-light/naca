@@ -40,7 +40,7 @@ class BmsJsonControllerTest
     }
 
     @Test
-    void exposesPinnedTransactionCapabilityAndHonestBlocker() throws Exception
+    void exposesAcceptedSignonSliceAndHonestRemainingBlocker() throws Exception
     {
         mockMvc.perform(get("/api/carddemo/capabilities"))
             .andExpect(status().isOk())
@@ -48,9 +48,11 @@ class BmsJsonControllerTest
                 .value("59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e"))
             .andExpect(jsonPath("$.transactions.length()").value(25))
             .andExpect(jsonPath("$.transactions[?(@.transactionId == 'CC00')].status")
-                .value("BLOCKED"))
+                .value("TRANSLATED"))
             .andExpect(jsonPath("$.transactions[?(@.transactionId == 'CC00')].accepted")
-                .value(false));
+                .value(true))
+            .andExpect(jsonPath("$.transactions[?(@.transactionId == 'CC00')].remainingBlocker.code")
+                .value("CARDDEMO_VALID_LOGIN_XCTL_TARGETS_NOT_EXECUTABLE"));
     }
 
     @Test
@@ -69,7 +71,7 @@ class BmsJsonControllerTest
                       "cursorField": "USERID",
                       "fields": {
                         "USERID": {"value": "DEMO0001", "modified": true, "cleared": false},
-                        "USERPWD": {"value": "secret", "modified": true, "cleared": false},
+                        "PASSWD": {"value": "secret", "modified": true, "cleared": false},
                         "TITLE01": {"value": "CardDemo", "modified": false, "cleared": false}
                       }
                     }
@@ -79,8 +81,8 @@ class BmsJsonControllerTest
             .andExpect(jsonPath("$.fields.USERID.value").value("DEMO0001"))
             .andExpect(jsonPath("$.fields.USERID.modified").value(true))
             .andExpect(jsonPath("$.fields.USERID.cursor").value(true))
-            .andExpect(jsonPath("$.fields.USERPWD.value").value(""))
-            .andExpect(jsonPath("$.fields.USERPWD.modified").value(true))
+            .andExpect(jsonPath("$.fields.PASSWD.value").value(""))
+            .andExpect(jsonPath("$.fields.PASSWD.modified").value(true))
             .andExpect(jsonPath("$.terminal.erase").value(true))
             .andExpect(jsonPath("$.terminal.freeKeyboard").value(true))
             .andExpect(jsonPath("$.xml").doesNotExist());

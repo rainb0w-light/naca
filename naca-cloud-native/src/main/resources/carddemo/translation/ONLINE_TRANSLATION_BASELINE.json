@@ -5,9 +5,20 @@
       "program": "COSGN00C",
       "profile": "core-online-postgres",
       "status": "TRANSLATED",
+      "compiled": true,
+      "runtimeDependenciesReady": true,
+      "accepted": true,
+      "acceptedScenarios": [
+        "INITIAL_SCREEN",
+        "UNKNOWN_USER_POSTGRES"
+      ],
       "sourceExecCount": 10,
       "bmsMode": "SYMBOLIC_COPYBOOK_JSON_DEFERRED",
       "firstBlocker": null,
+      "remainingBlocker": {
+        "code": "CARDDEMO_VALID_LOGIN_XCTL_TARGETS_NOT_EXECUTABLE",
+        "detail": "Valid credentials transfer to COADM01C or COMEN01C; those target programs are outside the current executable slice."
+      },
       "knownGaps": []
     }
   ]

@@ -83,6 +83,11 @@ public class BaseCESMManager extends CJMapObject
     {
         returnTrans(varTransaction.getString(), v1, len.getInt(), true);
     }
+    /** Executes RETURN TRANSID with a COBOL variable and an intrinsic integer length. */
+    public void returnTrans(VarAndEdit varTransaction, Var v1, int length)
+    {
+        returnTrans(varTransaction.getString(), v1, length, true);
+    }
     /** Executes the return trans operation. */
     public void returnTrans(VarAndEdit varTransaction, Var v1)
     {

@@ -6,6 +6,7 @@
  */
 package nacaLib.program;
 
+import java.util.Locale;
 import nacaLib.varEx.VarAndEdit;
 
 /** Runtime implementations of COBOL intrinsic functions used by generated programs. */
@@ -36,5 +37,25 @@ public final class CobolIntrinsicFunctions
             throw new IllegalArgumentException("FUNCTION ORD requires a non-null argument");
         }
         return ord(value.getString());
+    }
+
+    /** Implements COBOL FUNCTION UPPER-CASE with locale-independent character mapping. */
+    public static String upper_case(String value)
+    {
+        if (value == null)
+        {
+            throw new IllegalArgumentException("FUNCTION UPPER-CASE requires a non-null argument");
+        }
+        return value.toUpperCase(Locale.ROOT);
+    }
+
+    /** Implements COBOL FUNCTION UPPER-CASE for a NacaRT variable. */
+    public static String upper_case(VarAndEdit value)
+    {
+        if (value == null)
+        {
+            throw new IllegalArgumentException("FUNCTION UPPER-CASE requires a non-null argument");
+        }
+        return upper_case(value.getString());
     }
 }

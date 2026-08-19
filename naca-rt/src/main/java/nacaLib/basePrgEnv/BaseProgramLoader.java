@@ -244,6 +244,22 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         return ms_tabTransID.get(progId);
     }
 
+    /** Registers one transaction-to-program mapping for a controller-managed runtime. */
+    public static void registerTransaction(String transactionId, String programName)
+    {
+        if (ms_tabTransID == null || ms_tabPrograms == null)
+        {
+            throw new IllegalStateException("A program loader must be created before registration");
+        }
+        if (transactionId == null || transactionId.isBlank()
+            || programName == null || programName.isBlank())
+        {
+            throw new IllegalArgumentException("Transaction ID and program name are required");
+        }
+        ms_tabTransID.put(transactionId.trim(), programName.trim());
+        ms_tabPrograms.put(programName.trim(), transactionId.trim());
+    }
+
 
     /**
      * @param transIDMappingFilePath

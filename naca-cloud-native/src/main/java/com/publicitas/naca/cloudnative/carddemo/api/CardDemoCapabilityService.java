@@ -75,14 +75,24 @@ public class CardDemoCapabilityService
         ObjectNode capability = mapper.createObjectNode();
         capability.put("transactionId", transaction.path("transactionId").asText());
         capability.put("program", programName);
-        capability.put("translated", false);
-        capability.put("compiled", false);
-        capability.put("runtimeDependenciesReady", false);
-        capability.put("accepted", false);
+        capability.put("translated", probe != null
+            && "TRANSLATED".equals(probe.path("status").asText()));
+        capability.put("compiled", probe != null && probe.path("compiled").asBoolean(false));
+        capability.put("runtimeDependenciesReady", probe != null
+            && probe.path("runtimeDependenciesReady").asBoolean(false));
+        capability.put("accepted", probe != null && probe.path("accepted").asBoolean(false));
         capability.put("status", probe == null ? "NOT_PROBED" : probe.path("status").asText());
+        if (probe != null && probe.has("acceptedScenarios"))
+        {
+            capability.set("acceptedScenarios", probe.path("acceptedScenarios"));
+        }
         if (probe != null && probe.has("firstBlocker"))
         {
             capability.set("firstBlocker", probe.path("firstBlocker"));
+        }
+        if (probe != null && probe.has("remainingBlocker"))
+        {
+            capability.set("remainingBlocker", probe.path("remainingBlocker"));
         }
         return capability;
     }

@@ -16,6 +16,8 @@ import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationStat
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationStore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -224,5 +226,30 @@ class CardDemoPostgresAcceptanceTest
             verify(environment, times(3)).setCicsRecordStore(recordStore);
             verify(environment, times(3)).releaseSQLConnection();
         }
+    }
+
+    @Test
+    void translatedSignonReadsPostgresAndReturnsTheBusinessError() throws Exception
+    {
+        Flyway.configure()
+            .dataSource(POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword())
+            .locations("classpath:db/migration/carddemo")
+            .defaultSchema("carddemo_runtime")
+            .schemas("carddemo_runtime", "carddemo_vsam", "carddemo", "carddemo_compat")
+            .load().migrate();
+        String classes = CardDemoOnlineTranslationBaselineTest
+            .generatedSignonClassesDirectory().toString();
+        ProcessBuilder runtime = new ProcessBuilder(
+            "java", "-cp", System.getProperty("java.class.path") + File.pathSeparator + classes,
+            CardDemoSignonProgramRunner.class.getName(), classes,
+            POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword());
+        runtime.redirectErrorStream(true);
+        Process execution = runtime.start();
+        String output = new String(execution.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        assertEquals(0, execution.waitFor(), output);
+        assertTrue(output.contains("RESULT_JSON="), output);
+        assertTrue(output.contains("User not found. Try again"), output);
+        assertTrue(output.contains("\"PASSWD\":{\"value\":\"\""),
+            "Password must be masked at the REST boundary: " + output);
     }
 }

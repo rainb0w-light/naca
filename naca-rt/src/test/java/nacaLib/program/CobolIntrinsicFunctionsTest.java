@@ -21,4 +21,17 @@ class CobolIntrinsicFunctionsTest
     {
         assertThrows(IllegalArgumentException.class, () -> CobolIntrinsicFunctions.ord(""));
     }
+
+    @Test
+    void upperCaseUsesLocaleIndependentCobolSemantics()
+    {
+        assertEquals("CARDDEMO 01", CobolIntrinsicFunctions.upper_case("CardDemo 01"));
+    }
+
+    @Test
+    void upperCaseRejectsNull()
+    {
+        assertThrows(IllegalArgumentException.class,
+            () -> CobolIntrinsicFunctions.upper_case((String) null));
+    }
 }

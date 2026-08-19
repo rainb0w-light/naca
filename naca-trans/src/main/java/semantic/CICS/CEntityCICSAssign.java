@@ -46,6 +46,7 @@ public class CEntityCICSAssign extends CBaseActionEntity
     {
         parameters.add(param);
         arrVariables.add(var) ;
+        var.RegisterWritingAction(this);
     }
 
     protected ArrayList<String> parameters = new ArrayList<String>() ;
