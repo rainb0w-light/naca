@@ -50,12 +50,20 @@ tables or seed records.
 ```bash
 ./gradlew :naca-cloud-native:cardDemoOnlineBaseline
 ./gradlew :naca-cloud-native:cardDemoPostgresAcceptance
+./gradlew :naca-cloud-native:cardDemoMinimalBmsAcceptance
 ```
 
 The PostgreSQL gate uses a real PostgreSQL 16 Testcontainer and skips only when
 Docker is unavailable. It validates empty-database migration, readiness,
 Spring-to-NacaRT connection binding, transaction rollback, no-data SQLCODE
 `+100`, and duplicate-key SQLCODE `-803`.
+
+The minimal BMS gate drives a controlled source through the unmodified
+`naca-trans` pipeline, generates the COBOL program plus physical/symbolic BMS
+classes and DFHAID, applies the target-only symbolic Form alias adapter, compiles
+everything into `build/generated-carddemo/minimal`, and executes
+`JSON -> RECEIVE MAP -> COBOL IF/MOVE -> SEND MAP -> JSON`. The expected `PING`
+request must return `PONG`; checking generated text alone is not accepted.
 
 The online translation gate currently records `COSGN00C` as blocked. It uses
 the upstream symbolic BMS copybook so COBOL/CICS translation can be measured
