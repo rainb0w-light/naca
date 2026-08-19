@@ -71,6 +71,11 @@ public class CExecCICSReceive extends CCobolElement
                 CDataEntity into = this.into.GetDataReference(getLine(), factory);
                 recv.SetDataInto(into);
             }
+            CDataEntity responseEntity = response == null
+                ? null : response.GetDataReference(getLine(), factory);
+            CDataEntity response2Entity = response2 == null
+                ? null : response2.GetDataReference(getLine(), factory);
+            recv.SetResponses(responseEntity, response2Entity);
             return recv;
         }
         else
@@ -189,6 +194,34 @@ public class CExecCICSReceive extends CCobolElement
                     }
                 }
             }
+            else if (tok.GetValue().equals("RESP"))
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    response = ReadIdentifier();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("RESP2"))
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    response2 = ReadIdentifier();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
             else
             {
                 isdone = true ;
@@ -235,4 +268,6 @@ public class CExecCICSReceive extends CCobolElement
     protected CTerminal name = null ;
     protected CTerminal setName = null ;
     protected CIdentifier into = null ;
+    protected CIdentifier response = null ;
+    protected CIdentifier response2 = null ;
 }

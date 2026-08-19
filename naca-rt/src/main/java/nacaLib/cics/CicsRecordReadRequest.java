@@ -1,10 +1,10 @@
-package com.publicitas.naca.cloudnative.carddemo.cics;
+package nacaLib.cics;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 
-/** One keyed CICS READ request against the PostgreSQL record store. */
+/** One keyed CICS record read request. */
 public record CicsRecordReadRequest(
     String fileName, byte[] key, int maximumLength, boolean forUpdate)
 {

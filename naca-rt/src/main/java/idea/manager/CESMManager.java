@@ -78,6 +78,19 @@ public class CESMManager extends BaseCESMManager
         return order;
     }
 
+    /** Sends plain text to the cloud terminal response boundary. */
+    public CESMSendText sendText(Var text)
+    {
+        return sendText(text.getString());
+    }
+
+    /** Sends plain text to the cloud terminal response boundary. */
+    public CESMSendText sendText(String text)
+    {
+        cESMEnv.setLastCommandCode(CESMCommandCode.SEND_TEXT);
+        return new CESMSendText(cESMEnv, text);
+    }
+
     /** Executes the retrieve into operation. */
     public void retrieveInto(Var varDest, Var longfrom)
     {

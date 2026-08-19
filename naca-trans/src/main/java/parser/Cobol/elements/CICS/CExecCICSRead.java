@@ -20,6 +20,9 @@ import parser.Cobol.CCobolElement;
 import parser.expression.CTerminal;
 import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
+import semantic.CDataEntity;
+import semantic.CICS.CEntityCICSRead;
+import semantic.CICS.CEntityCICSRead.CEntityCICSReadMode;
 import utils.Transcoder;
 
 /**
@@ -51,10 +54,43 @@ public class CExecCICSRead extends CCobolElement
                 "EXEC CICS READ requires FILE(...) or DATASET(...), plus INTO(...)");
             return null;
         }
-        DiagnosticSink.recordUnsupported("cics.read.runtime-backend-unavailable",
-            "embedded-cics", getLine(),
-            "EXEC CICS READ requires a configured indexed-file backend");
-        return null;
+        CEntityCICSRead read = factory.NewEntityCICSRead(getLine(), CEntityCICSReadMode.NORMAL);
+        parent.AddChild(read);
+        CDataEntity nameEntity = fileName.GetDataEntity(getLine(), factory);
+        if (readType == CCobolKeywordList.DATASET)
+        {
+            read.ReadDataSet(nameEntity);
+        }
+        else
+        {
+            read.ReadFile(nameEntity);
+        }
+        CDataEntity intoEntity = dataInto.GetDataReference(getLine(), factory);
+        CDataEntity lengthEntity = dataLength == null
+            ? null : dataLength.GetDataEntity(getLine(), factory);
+        read.SetDataInto(intoEntity, lengthEntity);
+        if (recIDField != null)
+        {
+            read.SetRecIDField(recIDField.GetDataReference(getLine(), factory));
+        }
+        if (keyLength != null)
+        {
+            read.SetKeyLength(keyLength.GetDataEntity(getLine(), factory));
+        }
+        if (isequal)
+        {
+            read.SetEqual();
+        }
+        if (isupdate)
+        {
+            read.SetUpdate();
+        }
+        CDataEntity responseEntity = response == null
+            ? null : response.GetDataReference(getLine(), factory);
+        CDataEntity response2Entity = response2 == null
+            ? null : response2.GetDataReference(getLine(), factory);
+        read.SetResponses(responseEntity, response2Entity);
+        return read;
     }
 
     /* (non-Javadoc)
@@ -168,6 +204,34 @@ public class CExecCICSRead extends CCobolElement
                 isupdate = true ;
                 tok = GetNext() ;
             }
+            else if (tok.GetValue().equals("RESP"))
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    response = ReadIdentifier();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("RESP2"))
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    response2 = ReadIdentifier();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
             else
             {
                 isdone = true ;
@@ -242,6 +306,8 @@ public class CExecCICSRead extends CCobolElement
     protected CIdentifier recIDField = null ;
     protected CTerminal keyLength = null ;
     protected CTerminal dataLength = null ;
+    protected CIdentifier response = null ;
+    protected CIdentifier response2 = null ;
     protected boolean isequal = false ;
     protected boolean isupdate = false ;
 

@@ -18,12 +18,6 @@ class CICSRuntimeBackendDiagnosticTest
         startBrowse.dataSet = new CStringTerminal("CUSTOMER");
         assertFeature("cics.startbr.runtime-backend-unavailable", startBrowse);
 
-        CExecCICSRead read = new CExecCICSRead(82);
-        read.readType = CCobolKeywordList.FILE;
-        read.fileName = new CStringTerminal("CUSTOMER");
-        read.dataInto = new CIdentifier("CUSTOMER-RECORD");
-        assertFeature("cics.read.runtime-backend-unavailable", read);
-
         CExecCICSReadNext readNext = new CExecCICSReadNext(83);
         readNext.readType = CCobolKeywordList.DATASET;
         readNext.fileName = new CStringTerminal("CUSTOMER");
@@ -70,14 +64,6 @@ class CICSRuntimeBackendDiagnosticTest
     }
 
     private static void assertFeature(String expectedFeature, CExecCICSStartBR element)
-    {
-        UnsupportedFeatureException diagnostic = assertThrows(
-            UnsupportedFeatureException.class,
-            () -> element.DoCustomSemanticAnalysis(null, null));
-        assertEquals(expectedFeature, diagnostic.featureId());
-    }
-
-    private static void assertFeature(String expectedFeature, CExecCICSRead element)
     {
         UnsupportedFeatureException diagnostic = assertThrows(
             UnsupportedFeatureException.class,

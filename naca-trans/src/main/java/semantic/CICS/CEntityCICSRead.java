@@ -67,6 +67,8 @@ public class CEntityCICSRead extends CBaseActionEntity
     protected CDataEntity recIDField = null ;
     protected CDataEntity dataInto = null ;
     protected CDataEntity dataLength = null ;
+    protected CDataEntity response = null ;
+    protected CDataEntity response2 = null ;
     protected CDataEntity name ;
     protected boolean isreadToFile = false ;
     protected boolean isreadtoDataSet = false ;
@@ -103,6 +105,13 @@ public class CEntityCICSRead extends CBaseActionEntity
     {
         isupdate = true;
     }
+
+    /** Sets optional RESP targets. */
+    public void SetResponses(CDataEntity responseValue, CDataEntity response2Value)
+    {
+        response = responseValue;
+        response2 = response2Value;
+    }
     /** Executes the ignore operation. */
     public boolean ignore()
     {
@@ -115,6 +124,8 @@ public class CEntityCICSRead extends CBaseActionEntity
         recIDField = null ;
         dataInto = null ;
         dataLength = null ;
+        response = null;
+        response2 = null;
         name = null ;
         keyLength = null ;
         mode = null ;
@@ -178,6 +189,8 @@ public class CEntityCICSRead extends CBaseActionEntity
     public boolean isNext() { return mode == CEntityCICSReadMode.NEXT; }
     public boolean isEqual() { return isequal; }
     public boolean isUpdate() { return isupdate; }
+    public CDataEntity getResponse() { return response; }
+    public CDataEntity getResponse2() { return response2; }
     public boolean isReadCode() { return specialReadKind == SpecialReadKind.CODE; }
     public boolean isReadCodeMedia() { return specialReadKind == SpecialReadKind.CODE_MEDIA; }
     public boolean isReadMessage() { return specialReadKind == SpecialReadKind.MESSAGE; }

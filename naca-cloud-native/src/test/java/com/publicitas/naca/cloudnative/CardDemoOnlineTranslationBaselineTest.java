@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import diagnostic.DiagnosticSink;
 import diagnostic.UnsupportedFeatureException;
+import generate.templates.TemplateLoader;
+import generate.templates.recursive.JavaTemplateRole;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -144,6 +146,18 @@ class CardDemoOnlineTranslationBaselineTest
         {
             fail("COSGN00C silently dropped EXEC statements: " + silentDrops + report);
         }
+
+        String generated = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(root, JavaTemplateRole.ROOT);
+        assertTrue(generated.contains("CESM.receiveMap(")
+            && generated.contains(".resp(") && generated.contains(".resp2("),
+            "RECEIVE MAP RESP/RESP2 must survive generation");
+        assertTrue(generated.contains("CESM.sendText("),
+            "SEND TEXT must survive generation");
+        assertTrue(generated.contains("CESM.assign().sysID("),
+            "ASSIGN SYSID must survive generation");
+        assertTrue(generated.contains("CESM.readDataSet(") && generated.contains(".execute();"),
+            "READ DATASET must survive generation as an executable runtime command");
     }
 
     private static JsonNode loadProgramBaseline(String program) throws IOException

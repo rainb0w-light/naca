@@ -1,4 +1,4 @@
-package com.publicitas.naca.cloudnative.carddemo.cics;
+package nacaLib.cics;
 
 /** Runtime port for CICS keyed record access. */
 @FunctionalInterface

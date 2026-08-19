@@ -4,21 +4,11 @@
     {
       "program": "COSGN00C",
       "profile": "core-online-postgres",
-      "status": "BLOCKED",
+      "status": "TRANSLATED",
       "sourceExecCount": 10,
       "bmsMode": "SYMBOLIC_COPYBOOK_JSON_DEFERRED",
-      "firstBlocker": {
-        "code": "CARDDEMO_CICS_PARSER_GAPS",
-        "stage": "COBOL_SEMANTIC_ANALYSIS",
-        "detail": "The analyzer returns no semantic root after explicit parser failures for RECEIVE MAP, SEND TEXT, ASSIGN and READ. naca-trans remains unchanged; these gaps are target-adapter acceptance blockers."
-      },
-      "knownGaps": [
-        { "line": 110, "command": "RECEIVE", "code": "CICS_RECEIVE_MAP_PARSE" },
-        { "line": 164, "command": "SEND", "code": "CICS_SEND_TEXT_LOWERING" },
-        { "line": 198, "command": "ASSIGN", "code": "CICS_ASSIGN_PARSE" },
-        { "line": 202, "command": "ASSIGN", "code": "CICS_ASSIGN_PARSE" },
-        { "line": 211, "command": "READ", "code": "CICS_READ_PARSE" }
-      ]
+      "firstBlocker": null,
+      "knownGaps": []
     }
   ]
 }

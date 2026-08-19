@@ -10,8 +10,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.publicitas.naca.cloudnative.carddemo.sql.CardDemoNacaRuntimeBridge;
-import com.publicitas.naca.cloudnative.carddemo.cics.CicsRecordReadRequest;
-import com.publicitas.naca.cloudnative.carddemo.cics.CicsRecordReadResult;
 import com.publicitas.naca.cloudnative.carddemo.cics.PostgresCicsRecordStore;
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationConflictException;
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationState;
@@ -24,6 +22,8 @@ import javax.sql.DataSource;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramManager;
 import nacaLib.CESM.CESMReturnCode;
+import nacaLib.cics.CicsRecordReadRequest;
+import nacaLib.cics.CicsRecordReadResult;
 import nacaLib.sqlSupport.CSQLStatus;
 import nacaLib.sqlSupport.SQLCode;
 import org.flywaydb.core.Flyway;
@@ -221,6 +221,7 @@ class CardDemoPostgresAcceptanceTest
                 .setExternalDbConnection(org.mockito.ArgumentMatchers.any());
             verify(environment, times(3)).setRuntimeConfigOption("APPLID", "CARDDEMO");
             verify(environment, times(3)).setRuntimeConfigOption("SYSID", "NACA");
+            verify(environment, times(3)).setCicsRecordStore(recordStore);
             verify(environment, times(3)).releaseSQLConnection();
         }
     }
