@@ -108,6 +108,23 @@ class CheckstyleCommentBatchTests(unittest.TestCase):
             self.assertGreater(rendered.count("// reported"), 1)
             self.assertEqual(rendered.count("// unreported"), 1)
 
+    def test_repairs_javadoc_paragraph_shapes(self):
+        self.assertEqual(BATCH.fix_javadoc_paragraph(" *", "空行后应有 <p> 标签。"), [])
+        self.assertEqual(
+            BATCH.fix_javadoc_paragraph(" * <p>Text", "<p> 标签前应有空行。"),
+            [" *", " * <p>Text"],
+        )
+        self.assertEqual(
+            BATCH.fix_javadoc_paragraph(" * <p>Text", "多余的 <p> 标签。"),
+            [" * Text"],
+        )
+
+    def test_qualifies_unowned_task_comment(self):
+        self.assertEqual(
+            BATCH.qualify_task_comment("    // TODO implement", ""),
+            ["    // TODO(quality-governance): implement"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

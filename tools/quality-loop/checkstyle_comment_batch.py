@@ -22,6 +22,12 @@ JAVADOC_CONTINUATION_SOURCE = (
     "com.puppycrawl.tools.checkstyle.checks.javadoc."
     "JavadocTagContinuationIndentationCheck"
 )
+JAVADOC_PARAGRAPH_SOURCE = (
+    "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck"
+)
+TASK_COMMENT_SOURCE = (
+    "com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"
+)
 MAXIMUM_COMMENT_INDENT = 40
 
 
@@ -149,6 +155,99 @@ def collect_rule_targets(root, reports, rule_source, parse_errors=None):
                 if parse_errors is None or parse_errors == is_parse_error:
                     targets[path].add(int(error.attrib["line"]) - 1)
     return targets
+
+
+def collect_rule_findings(root, reports, rule_source):
+    """Collect line indexes and messages for one exact Checkstyle rule."""
+    findings = defaultdict(dict)
+    for report in reports:
+        for file_element in ET.parse(report).getroot().findall("file"):
+            path = Path(file_element.attrib["name"]).resolve()
+            try:
+                path.relative_to(root.resolve())
+            except ValueError:
+                continue
+            for error in file_element.findall("error"):
+                if error.attrib.get("source") == rule_source:
+                    findings[path][int(error.attrib["line"]) - 1] = error.attrib.get(
+                        "message", ""
+                    )
+    return findings
+
+
+def apply_comment_policy_batch(findings, policy, apply=False):
+    """Apply one message-aware comment policy in reverse source order."""
+    metrics = {
+        "observed": sum(len(lines) for lines in findings.values()),
+        "fixed": 0,
+        "skipped": 0,
+        "filesChanged": 0,
+    }
+    for path in sorted(findings):
+        source = path.read_text(encoding="latin1")
+        had_final_newline = source.endswith("\n")
+        lines = source.splitlines()
+        changed = False
+        for index, message in sorted(findings[path].items(), reverse=True):
+            if index >= len(lines):
+                metrics["skipped"] += 1
+                continue
+            if policy is fix_javadoc_paragraph and "空行后" in message:
+                if lines[index].strip() != "*":
+                    metrics["skipped"] += 1
+                    continue
+                del lines[index]
+                metrics["fixed"] += 1
+                changed = True
+                continue
+            if policy is fix_javadoc_paragraph and "多余" in message and "<p>" in lines[index]:
+                lines[index] = lines[index].replace("<p>", "", 1).replace("</p>", "", 1)
+                lines[index] = re.sub(r"(\*)\s+", r"\1 ", lines[index]).rstrip()
+                if index > 0 and lines[index - 1].strip() == "*":
+                    del lines[index - 1]
+                metrics["fixed"] += 1
+                changed = True
+                continue
+            replacement = policy(lines[index], message)
+            if not replacement:
+                metrics["skipped"] += 1
+                continue
+            lines[index : index + 1] = replacement
+            metrics["fixed"] += 1
+            changed = True
+        if changed:
+            metrics["filesChanged"] += 1
+            if apply:
+                rendered = "\n".join(lines) + ("\n" if had_final_newline else "")
+                path.write_text(rendered, encoding="latin1")
+    return metrics
+
+
+def fix_javadoc_paragraph(line, message):
+    """Repair the three JavadocParagraph finding shapes."""
+    indentation = line[: len(line) - len(line.lstrip())]
+    stripped = line.strip()
+    if "多余" in message and "<p>" in line:
+        return [line.replace("<p>", "", 1).replace("</p>", "", 1).rstrip()]
+    if "标签前应有空行" in message and "<p>" in line:
+        return [indentation + "*", line]
+    if "标签前应有空行" in message and "<P>" in line:
+        return [line.replace("<P>", "", 1).rstrip()]
+    if "解析" in message and "</p>" in line and "<p>" not in line:
+        marker = line.find("*") + 1
+        repaired = line[:marker] + " <p>" + line[marker:].lstrip()
+        return [indentation + "*", repaired]
+    return []
+
+
+def qualify_task_comment(line, _message):
+    """Attach the governance owner to an unqualified TODO/FIXME comment."""
+    match = re.match(r"^(\s*//\s*)(TODO|FIXME)\s*(.*)$", line)
+    if not match:
+        return []
+    prefix, marker, body = match.groups()
+    separator = ": " if body else ""
+    return [f"{prefix}{marker}(quality-governance){separator}{body}"]
 
 
 def fix_javadoc_continuation(line):
@@ -359,6 +458,8 @@ def main(argv=None):
     parser.add_argument("--fix-javadoc-continuations", action="store_true")
     parser.add_argument("--repair-javadoc-parse", action="store_true")
     parser.add_argument("--split-trailing-comments", action="store_true")
+    parser.add_argument("--fix-javadoc-paragraphs", action="store_true")
+    parser.add_argument("--qualify-task-comments", action="store_true")
     parser.add_argument("--maximum", type=int, default=140)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
@@ -367,7 +468,21 @@ def main(argv=None):
         reports = checkstyle_reports(root)
         if not reports:
             raise ValueError("no Checkstyle XML reports found; run Checkstyle first")
-        if args.split_trailing_comments:
+        if args.qualify_task_comments:
+            result = apply_comment_policy_batch(
+                collect_rule_findings(root, reports, TASK_COMMENT_SOURCE),
+                qualify_task_comment,
+                apply=args.apply,
+            )
+            result["rule"] = "RegexpSinglelineJavaTaskComment"
+        elif args.fix_javadoc_paragraphs:
+            result = apply_comment_policy_batch(
+                collect_rule_findings(root, reports, JAVADOC_PARAGRAPH_SOURCE),
+                fix_javadoc_paragraph,
+                apply=args.apply,
+            )
+            result["rule"] = "JavadocParagraph"
+        elif args.split_trailing_comments:
             result = apply_trailing_comment_batch(
                 collect_targets(root, reports), maximum=args.maximum, apply=args.apply
             )
