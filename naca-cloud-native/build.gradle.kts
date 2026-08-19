@@ -111,3 +111,13 @@ tasks.register<Test>("cardDemoPostgresAcceptance") {
         includeTags("carddemo-postgres")
     }
 }
+
+tasks.register<Test>("cardDemoMinimalBmsAcceptance") {
+    group = "verification"
+    description = "Translates, compiles and executes the CardDemo JSON/BMS proof program"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("carddemo-minimal-bms")
+    }
+}
