@@ -242,8 +242,14 @@ public class CCESMFakeMethodContainer
     /** Executes the sys id operation. */
     public CCESMFakeMethodContainer sysID(Var sysID)
     {
-        throw new UnsupportedOperationException(
-            "Remote CICS SYSID operations require a configured transport backend");
+        requireEnvironment("ASSIGN SYSID");
+        String systemId = environment.getConfigOption("SYSID");
+        if (systemId.isEmpty())
+        {
+            systemId = environment.getConfigOption("SystemId");
+        }
+        sysID.set(systemId);
+        return this;
     }
     /** Executes the count all operation. */
     public CCESMFakeMethodContainer countAll(String string, Var nbClass)

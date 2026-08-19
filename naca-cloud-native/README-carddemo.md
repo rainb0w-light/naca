@@ -56,7 +56,9 @@ tables or seed records.
 The PostgreSQL gate uses a real PostgreSQL 16 Testcontainer and skips only when
 Docker is unavailable. It validates empty-database migration, readiness,
 Spring-to-NacaRT connection binding, transaction rollback, no-data SQLCODE
-`+100`, and duplicate-key SQLCODE `-803`.
+`+100`, duplicate-key SQLCODE `-803`, cloud-provided CICS `APPLID`/`SYSID`,
+and PostgreSQL keyed-record `READ` responses for `NORMAL`, `NOTFND` and
+`LENGERR`.
 
 The minimal BMS gate drives a controlled source through the unmodified
 `naca-trans` pipeline, generates the COBOL program plus physical/symbolic BMS
