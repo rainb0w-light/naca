@@ -10,6 +10,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.publicitas.naca.cloudnative.carddemo.sql.CardDemoNacaRuntimeBridge;
+import com.publicitas.naca.cloudnative.carddemo.cics.CicsRecordReadRequest;
+import com.publicitas.naca.cloudnative.carddemo.cics.CicsRecordReadResult;
+import com.publicitas.naca.cloudnative.carddemo.cics.PostgresCicsRecordStore;
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationConflictException;
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationState;
 import com.publicitas.naca.cloudnative.carddemo.session.CardDemoConversationStore;
@@ -20,6 +23,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import nacaLib.basePrgEnv.BaseEnvironment;
 import nacaLib.basePrgEnv.BaseProgramManager;
+import nacaLib.CESM.CESMReturnCode;
 import nacaLib.sqlSupport.CSQLStatus;
 import nacaLib.sqlSupport.SQLCode;
 import org.flywaydb.core.Flyway;
@@ -71,6 +75,7 @@ class CardDemoPostgresAcceptanceTest
             Flyway flyway = context.getBean(Flyway.class);
             HealthIndicator health = context.getBean("cardDemoPostgres", HealthIndicator.class);
             CardDemoNacaRuntimeBridge bridge = context.getBean(CardDemoNacaRuntimeBridge.class);
+            PostgresCicsRecordStore recordStore = context.getBean(PostgresCicsRecordStore.class);
             CardDemoConversationStore conversations = context.getBean(CardDemoConversationStore.class);
             ObjectMapper objectMapper = context.getBean(ObjectMapper.class);
 
@@ -81,6 +86,39 @@ class CardDemoPostgresAcceptanceTest
             assertEquals("005", flyway.info().current().getVersion().getVersion(),
                 "Unexpected Flyway schema version");
             assertEquals(Status.UP, health.health().getStatus(), "PostgreSQL readiness must be UP");
+
+            byte[] userKey = "USER0001".getBytes(java.nio.charset.StandardCharsets.US_ASCII);
+            byte[] userRecord = "USER0001PASSWORD".getBytes(
+                java.nio.charset.StandardCharsets.US_ASCII);
+            jdbc.update("""
+                insert into carddemo_vsam.file_manifest
+                    (file_name, key_offset, key_length, record_length, encoding)
+                values ('USRSEC', 0, 8, 16, 'ASCII')
+                on conflict (file_name) do nothing
+                """);
+            jdbc.update("""
+                insert into carddemo_vsam.record_store
+                    (file_name, primary_key, record_data, record_length)
+                values (?, ?, ?, ?)
+                on conflict (file_name, primary_key) do update
+                    set record_data = excluded.record_data,
+                        record_length = excluded.record_length
+                """, "USRSEC", userKey, userRecord, userRecord.length);
+
+            CicsRecordReadResult found = recordStore.read(
+                new CicsRecordReadRequest("usrsec", userKey, userRecord.length, false));
+            assertTrue(found.isNormal(), "Existing keyed record must report NORMAL");
+            assertTrue(Arrays.equals(userRecord, found.record()),
+                "CICS READ must preserve fixed record bytes");
+            CicsRecordReadResult missing = recordStore.read(
+                new CicsRecordReadRequest("USRSEC", "MISSING1".getBytes(
+                    java.nio.charset.StandardCharsets.US_ASCII), userRecord.length, false));
+            assertEquals(CESMReturnCode.NOT_FOUND.getCondition(), missing.response(),
+                "Missing keyed record must report NOTFND");
+            CicsRecordReadResult tooLong = recordStore.read(
+                new CicsRecordReadRequest("USRSEC", userKey, userRecord.length - 1, false));
+            assertEquals(CESMReturnCode.LENGERR.getCondition(), tooLong.response(),
+                "An undersized INTO buffer must report LENGERR");
 
             TransactionTemplate transaction =
                 new TransactionTemplate(new DataSourceTransactionManager(dataSource));
@@ -181,6 +219,8 @@ class CardDemoPostgresAcceptanceTest
                 "Conversation state must share the caller's rollback boundary");
             verify(environment, times(3))
                 .setExternalDbConnection(org.mockito.ArgumentMatchers.any());
+            verify(environment, times(3)).setRuntimeConfigOption("APPLID", "CARDDEMO");
+            verify(environment, times(3)).setRuntimeConfigOption("SYSID", "NACA");
             verify(environment, times(3)).releaseSQLConnection();
         }
     }

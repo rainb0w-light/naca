@@ -52,9 +52,9 @@ class BaseCESMManagerRuntimeTest
     }
 
     @Test
-    void compatibilityBuilderRejectsRemoteSysidOperations()
+    void compatibilityBuilderRequiresAnEnvironmentForSysidAssignment()
     {
-        assertThrows(UnsupportedOperationException.class,
+        assertThrows(IllegalStateException.class,
             () -> new nacaLib.misc.CCESMFakeMethodContainer().sysID(null));
     }
 }

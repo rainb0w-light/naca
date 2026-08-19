@@ -1,5 +1,8 @@
 carddemo:
   enabled: true
+  cics:
+    application-id: ${CARDDEMO_CICS_APPLID:CARDDEMO}
+    system-id: ${CARDDEMO_CICS_SYSID:NACA}
 
 naca:
   database:
