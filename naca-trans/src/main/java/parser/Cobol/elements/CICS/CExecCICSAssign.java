@@ -88,6 +88,10 @@ public class CExecCICSAssign extends CCobolElement
             {
                 CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "TCTUALENG") ;
             }
+            else if (cs.equals("SYSID"))
+            {
+                CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "SYSID");
+            }
             else
             {
                 isdone = true ;
@@ -104,7 +108,8 @@ public class CExecCICSAssign extends CCobolElement
                     {
                         tok = GetNext() ;
                     }
-                    tabRequests.put(cs, id) ;
+                    String runtimeMethod = cs.equals("SYSID") ? "sysID" : cs;
+                    tabRequests.put(runtimeMethod, id) ;
                 }
             }
         }

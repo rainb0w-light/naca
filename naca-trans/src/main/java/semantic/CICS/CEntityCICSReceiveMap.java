@@ -49,6 +49,15 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
     protected CDataEntity name = null ;
     protected CDataEntity setName = null ;
     protected CDataEntity dataInto = null ;
+    protected CDataEntity response = null ;
+    protected CDataEntity response2 = null ;
+
+    /** Sets optional RESP targets. */
+    public void SetResponses(CDataEntity responseValue, CDataEntity response2Value)
+    {
+        response = responseValue;
+        response2 = response2Value;
+    }
     /** Executes the clear operation. */
     public void Clear()
     {
@@ -56,6 +65,8 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
         name = null ;
         setName = null ;
         dataInto = null ;
+        response = null;
+        response2 = null;
     }
     /** Executes the ignore operation. */
     public boolean ignore()
@@ -81,5 +92,15 @@ public class CEntityCICSReceiveMap extends CBaseActionEntity
     public CDataEntity getDataInto()
     {
         return dataInto;
+    }
+
+    public CDataEntity getResponse()
+    {
+        return response;
+    }
+
+    public CDataEntity getResponse2()
+    {
+        return response2;
     }
 }

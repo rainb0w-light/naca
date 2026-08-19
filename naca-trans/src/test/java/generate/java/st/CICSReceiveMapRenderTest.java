@@ -54,4 +54,19 @@ class CICSReceiveMapRenderTest
         assertTrue(output.contains("CESM.receiveMap(\"ONLINEF\").mapSet(\"ONLINE1\").into(ONLINEFI) ;"),
             output);
     }
+
+    @Test
+    @DisplayName("RECEIVE MAP renders RESP and RESP2 targets")
+    void receiveMapResponses()
+    {
+        CEntityCICSReceiveMap receive = new CEntityCICSReceiveMap(
+            1, null, new MockDataEntity(2, "\"COSGN0A\""));
+        receive.SetMapSet(new MockDataEntity(3, "\"COSGN00\""));
+        receive.SetResponses(new MockDataEntity(4, "WS-RESP"),
+            new MockDataEntity(5, "WS-RESP2"));
+        String output = TemplateLoader.getRecursiveAssembler()
+            .renderRoot(receive, JavaTemplateRole.REFERENCE);
+        assertTrue(output.contains("CESM.receiveMap(\"COSGN0A\").mapSet(\"COSGN00\")"
+            + ".resp(WS-RESP).resp2(WS-RESP2) ;"), output);
+    }
 }

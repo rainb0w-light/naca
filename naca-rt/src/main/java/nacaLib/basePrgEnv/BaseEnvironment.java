@@ -32,6 +32,8 @@ import nacaLib.accounting.AccountingRecordProgram;
 import nacaLib.accounting.AccountingRecordTrans;
 import nacaLib.accounting.CriteriaEndRunMain;
 import nacaLib.base.CJMapObject;
+import nacaLib.cics.CicsRecordStore;
+import nacaLib.cics.CicsTextOutput;
 import nacaLib.exceptions.AbortSessionException;
 import nacaLib.misc.CCommarea;
 import nacaLib.misc.KeyPressed;
@@ -60,6 +62,8 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private boolean isexternalConnection = false;
     private boolean issimulateRealEnvironment = false;
     private final Map<String, String> runtimeConfigOptions = new ConcurrentHashMap<>();
+    private CicsRecordStore cicsRecordStore;
+    private CicsTextOutput cicsTextOutput;
 
     /** Creates a new base environment instance. */
     public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
@@ -426,6 +430,30 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         {
             runtimeConfigOptions.put(name, value);
         }
+    }
+
+    /** Sets the request-scoped CICS record-store backend. */
+    public void setCicsRecordStore(CicsRecordStore recordStore)
+    {
+        cicsRecordStore = recordStore;
+    }
+
+    /** Returns the request-scoped CICS record-store backend. */
+    public CicsRecordStore getCicsRecordStore()
+    {
+        return cicsRecordStore;
+    }
+
+    /** Publishes the latest SEND TEXT response. */
+    public void setCicsTextOutput(CicsTextOutput output)
+    {
+        cicsTextOutput = output;
+    }
+
+    /** Returns the latest SEND TEXT response. */
+    public CicsTextOutput getCicsTextOutput()
+    {
+        return cicsTextOutput;
     }
 
     public String getUserLanguageId()

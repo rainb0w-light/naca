@@ -46,7 +46,7 @@ class BaseCESMManagerRuntimeTest
         assertThrows(UnsupportedOperationException.class, manager::getMain);
         assertThrows(UnsupportedOperationException.class, manager::inquire);
         assertThrows(UnsupportedOperationException.class,
-            () -> manager.readFile("CUSTOMER"));
+            () -> manager.readFile("CUSTOMER").execute());
         assertThrows(UnsupportedOperationException.class,
             () -> manager.writeDataSet("CUSTOMER"));
     }

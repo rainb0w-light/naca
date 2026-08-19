@@ -32,10 +32,13 @@ class CICSReadRenderTest
         read.SetKeyLength(new MockDataEntity(6, "KEY-LENGTH"));
         read.SetEqual();
         read.SetUpdate();
+        read.SetResponses(new MockDataEntity(7, "RESP-CODE"),
+            new MockDataEntity(8, "RESP2-CODE"));
 
         assertEquals(
             "CESM.readDataSet(\"CUSTOMER\").into(TARGET).length(LENGTH-VAR)"
-                + ".recIDField(RECORD-ID).keyLength(KEY-LENGTH).equal().update() ;",
+                + ".recIDField(RECORD-ID).keyLength(KEY-LENGTH).equal().update()"
+                + ".resp(RESP-CODE).resp2(RESP2-CODE).execute() ;",
             render(read));
     }
 
@@ -52,7 +55,7 @@ class CICSReadRenderTest
         assertTrue(read.isReadToFile());
         assertFalse(read.isReadToDataSet());
         assertEquals(name, read.getName());
-        assertEquals("CESM.readPreviousFile(FILE-NAME).into(TARGET) ;", render(read));
+        assertEquals("CESM.readPreviousFile(FILE-NAME).into(TARGET).execute() ;", render(read));
     }
 
     @Test
@@ -62,7 +65,7 @@ class CICSReadRenderTest
         CEntityCICSRead read = new CEntityCICSRead(1, null, CEntityCICSReadMode.NEXT);
         read.ReadDataSet(new MockDataEntity(2, "DATASET-NAME"));
         read.SetDataInto(new MockDataEntity(3, "TARGET"), null);
-        assertEquals("CESM.readNextDataSet(DATASET-NAME).into(TARGET) ;", render(read));
+        assertEquals("CESM.readNextDataSet(DATASET-NAME).into(TARGET).execute() ;", render(read));
     }
 
     @Test

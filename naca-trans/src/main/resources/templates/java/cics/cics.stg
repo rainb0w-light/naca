@@ -122,7 +122,7 @@ recursiveCICSAddressEntity(entity) ::= <<
 // terminated by " ;". The production-reachable fixture ONLINE1.cbl:163 is
 // MAP('ONLINEF') MAPSET('ONLINE1') INTO(ONLINEFI).
 recursiveCICSReceiveMapEntity(entity) ::= <<
-CESM.receiveMap(<entity.name>).mapSet(<entity.setName>).into(<entity.dataInto>) ;
+CESM.receiveMap(<entity.name>)<if(entity.setName)>.mapSet(<entity.setName>)<endif><if(entity.dataInto)>.into(<entity.dataInto>)<endif><if(entity.response)>.resp(<entity.response>)<endif><if(entity.response2)>.resp2(<entity.response2>)<endif> ;
 >>
 
 // Embedded CICS SEND MAP (EXEC CICS SEND MAP(...) END-EXEC). Emits the
@@ -136,6 +136,12 @@ CESM.receiveMap(<entity.name>).mapSet(<entity.setName>).into(<entity.dataInto>) 
 // (FROM/FREEKB/CURSOR/DATAONLY) render the dataFrom and dataOnlyFrom forms.
 recursiveCICSSendMapEntity(entity) ::= <<
 CESM.sendMap(<entity.name>)<if(entity.setName)>.mapSet(<entity.setName>)<endif><if(entity.dataFrom)>.<if(entity.dataOnly)>dataOnlyFrom<else>dataFrom<endif>(<entity.dataFrom><if(entity.dataLength)>, <entity.dataLength><endif>)<endif><if(entity.cursor)>.cursor(<if(entity.cursorValue)><entity.cursorValue><endif>)<endif><if(entity.accum)>.accum()<endif><if(entity.alarm)>.alarm()<endif><if(entity.erase)>.erase()<endif><if(entity.freeKB)>.freeKB()<endif><if(entity.paging)>.paging()<endif><if(entity.wait)>.waitForCompletion()<endif> ;
+>>
+
+// Embedded CICS SEND TEXT. The target runtime publishes text and terminal flags
+// through the cloud response boundary while preserving optional RESP targets.
+recursiveCICSSendTextEntity(entity) ::= <<
+CESM.sendText(<entity.dataFrom>)<if(entity.dataLength)>.length(<entity.dataLength>)<endif><if(entity.erase)>.erase()<endif><if(entity.freeKeyboard)>.freeKB()<endif><if(entity.response)>.resp(<entity.response>)<endif><if(entity.response2)>.resp2(<entity.response2>)<endif> ;
 >>
 
 // Embedded CICS GETMAIN (EXEC CICS GETMAIN END-EXEC). Emits the CESM.getMain()
@@ -193,7 +199,7 @@ CESM.reWrite<if(entity.writeToDataSet)>DataSet<else>File<endif>(<entity.name>)<i
 // The Pub2000 subtemplates preserve the retired backend's application-specific
 // compatibility hooks. They are intentionally outside the Naca runtime contract.
 recursiveCICSReadEntity(entity) ::= <<
-<if(entity.readCode)><recursiveCICSReadCode(entity)><elseif(entity.readCodeMedia)><recursiveCICSReadCodeMedia(entity)><elseif(entity.readMessage)><recursiveCICSReadMessage(entity)><elseif(entity.readField)><recursiveCICSReadField(entity)><elseif(entity.readFieldPrevious)><recursiveCICSReadFieldPrevious(entity)><elseif(entity.readFieldNext)><recursiveCICSReadFieldNext(entity)><else>CESM.read<if(entity.previous)>Previous<elseif(entity.next)>Next<endif><if(entity.readToDataSet)>DataSet<else>File<endif>(<entity.name>).into(<entity.dataInto>)<if(entity.dataLength)>.length(<entity.dataLength>)<endif><if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.equal)>.equal()<endif><if(entity.update)>.update()<endif> ;<endif>
+<if(entity.readCode)><recursiveCICSReadCode(entity)><elseif(entity.readCodeMedia)><recursiveCICSReadCodeMedia(entity)><elseif(entity.readMessage)><recursiveCICSReadMessage(entity)><elseif(entity.readField)><recursiveCICSReadField(entity)><elseif(entity.readFieldPrevious)><recursiveCICSReadFieldPrevious(entity)><elseif(entity.readFieldNext)><recursiveCICSReadFieldNext(entity)><else>CESM.read<if(entity.previous)>Previous<elseif(entity.next)>Next<endif><if(entity.readToDataSet)>DataSet<else>File<endif>(<entity.name>).into(<entity.dataInto>)<if(entity.dataLength)>.length(<entity.dataLength>)<endif><if(entity.recIDField)>.recIDField(<entity.recIDField>)<endif><if(entity.keyLength)>.keyLength(<entity.keyLength>)<endif><if(entity.equal)>.equal()<endif><if(entity.update)>.update()<endif><if(entity.response)>.resp(<entity.response>)<endif><if(entity.response2)>.resp2(<entity.response2>)<endif>.execute() ;<endif>
 >>
 
 recursiveCICSReadCode(entity) ::= "Pub2000Routines.readCode(getProgramManager(), <entity.dataIntoOwner>) ;"

@@ -2,6 +2,9 @@ package com.publicitas.naca.cloudnative.carddemo.cics;
 
 import java.util.List;
 import nacaLib.CESM.CESMReturnCode;
+import nacaLib.cics.CicsRecordReadRequest;
+import nacaLib.cics.CicsRecordReadResult;
+import nacaLib.cics.CicsRecordStore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
