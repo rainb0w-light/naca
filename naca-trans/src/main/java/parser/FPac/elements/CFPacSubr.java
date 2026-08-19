@@ -61,8 +61,9 @@ public class CFPacSubr extends CFPacCodeBloc
             return false ;
         }
 
-        if (!super.DoParsing())
-            return false ;
+        if (!super.DoParsing()) {
+            return false;
+        }
 
         tok = GetCurrentToken() ;
         if (tok.GetKeyword() == CFPacKeywordList.SUBREND)

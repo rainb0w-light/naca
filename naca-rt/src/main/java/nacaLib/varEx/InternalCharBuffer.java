@@ -74,8 +74,9 @@ public class InternalCharBuffer extends CJMapObject
 
     public void copyFrom(InternalCharBufferCompressedBackup internalCharBufferCompressedBackup)
     {
-        if(internalCharBufferCompressedBackup == null)
+        if (internalCharBufferCompressedBackup == null) {
             return;
+        }
 
         if(!isLargeEnough(internalCharBufferCompressedBackup.getBufferSize()))
         {
@@ -84,10 +85,11 @@ public class InternalCharBuffer extends CJMapObject
         for(int n=0; n<acBuffer.length; n++)
         {
             byte b = internalCharBufferCompressedBackup.abBuffer[n];
-            if(b < 0)
-                acBuffer[n] = (char)(b + 256);
-            else
-                acBuffer[n] = (char)b;
+            if (b < 0) {
+                acBuffer[n] = (char) (b + 256);
+            } else {
+                acBuffer[n] = (char) b;
+            }
         }
     }
 
@@ -128,11 +130,13 @@ public class InternalCharBuffer extends CJMapObject
 
     boolean isLargeEnough(int nLength)
     {
-        if(acBuffer == null)
+        if (acBuffer == null) {
             return false;
+        }
 
-        if(acBuffer.length < nLength)
+        if (acBuffer.length < nLength) {
             return false;
+        }
         return true;
     }
 
@@ -179,8 +183,9 @@ public class InternalCharBuffer extends CJMapObject
 
     public int writeRepeatingCharAt(int nPosition, char c, int nNbChars)
     {
-        for(int n=0; n<nNbChars; n++, nPosition++)
+        for (int n = 0; n < nNbChars; n++, nPosition++) {
             acBuffer[nPosition] = c;
+        }
         return nPosition;
     }
 
@@ -242,8 +247,9 @@ public class InternalCharBuffer extends CJMapObject
     {
         int nStringLength = cs.length();
         int nBufRemainingLength = acBuffer.length - nAbsoluteStartPosition;
-        if(nStringLength > nBufRemainingLength)
+        if (nStringLength > nBufRemainingLength) {
             nStringLength = nBufRemainingLength;
+        }
 
         cs.getChars(0, nStringLength, acBuffer, nAbsoluteStartPosition);
 
@@ -295,10 +301,11 @@ public class InternalCharBuffer extends CJMapObject
         char c = 0;
         for(int n=0; n<nLength && nAbsoluteStartPosition<acBuffer.length; n++)
         {
-            if(n < nStringLength)
+            if (n < nStringLength) {
                 c = cs.charAt(n);
-            else
+            } else {
                 c = 0;
+            }
             acBuffer[nAbsoluteStartPosition] = c;
             nAbsoluteStartPosition++;
         }
@@ -313,12 +320,14 @@ public class InternalCharBuffer extends CJMapObject
 
     public CStr getBufChunkAt(int nAbsolutePosition, int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
         CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
         cs.set(acBuffer, nAbsolutePosition, nSize);
         return cs;
@@ -340,8 +349,9 @@ public class InternalCharBuffer extends CJMapObject
             if(acBuffer != null)
             {
                 int nMaxSize = nEnd-nAbsolutePosition+1;
-                if(nMaxSize > acBuffer.length - nAbsolutePosition)
+                if (nMaxSize > acBuffer.length - nAbsolutePosition) {
                     nMaxSize = acBuffer.length - nAbsolutePosition;
+                }
                 if(nAbsolutePosition < acBuffer.length)
                 {
                     cs.set(acBuffer, nAbsolutePosition, nMaxSize);
@@ -535,8 +545,9 @@ public class InternalCharBuffer extends CJMapObject
 
     public int getBufferSize()
     {
-        if(acBuffer != null)
+        if (acBuffer != null) {
             return acBuffer.length;
+        }
         return 0;
     }
 

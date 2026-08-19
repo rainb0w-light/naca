@@ -221,8 +221,9 @@ public class SemanticManager extends CJMapObject
 
     private void addSemanticCase(String csSemanticId, String csScreenId, CMenuDef MenuDef)
     {
-        if(csScreenId.equals("*"))
+        if (csScreenId.equals("*")) {
             csScreenId = null;
+        }
         CSemanticItem SemanticItem = new CSemanticItem(csScreenId, MenuDef);
         hashSemanticItems.put(csSemanticId, SemanticItem);
     }

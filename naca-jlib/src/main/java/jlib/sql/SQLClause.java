@@ -74,8 +74,9 @@ public class SQLClause
 
     public SQLClause(DbAccessor dbAccessor)
     {
-        if(dbAccessor != null)
+        if (dbAccessor != null) {
             connection = dbAccessor.getConnection();
+        }
     }
 
     // Create a new SQLClause on an alternate DB conenction
@@ -102,8 +103,9 @@ public class SQLClause
     // The main connection cannot ba accessed form the outside
     public DbConnectionBase getAlternateConnection()
     {
-        if(isalternateconnection)
+        if (isalternateconnection) {
             return connection;
+        }
         return null;
     }
 
@@ -117,10 +119,11 @@ public class SQLClause
         List<ColValue> arrParams;
 
 // If the query has been constructed with 'paramInsert(...)':
-        if(insertParams != null)
+        if (insertParams != null) {
             arrParams = insertParams;
-        else
+        } else {
             arrParams = lastInsertParams;
+        }
         if (arrParams!=null)
         {
             StringBuilder sbNames = new StringBuilder(csQuery+" (");
@@ -136,10 +139,11 @@ public class SQLClause
                 }
                 sbNames.append(colValue.getName());
                 String value;
-                if (colValue instanceof ColValueString)
-                    value="'"+colValue.getValue()+"'";
-                else
-                    value=String.valueOf(colValue.getValue());
+                if (colValue instanceof ColValueString) {
+                    value = "'" + colValue.getValue() + "'";
+                } else {
+                    value = String.valueOf(colValue.getValue());
+                }
                 sbValues.append(colValue.getReplacement().replaceAll("\\?", value));
             }
             sbNames.append(") values ");
@@ -150,22 +154,26 @@ public class SQLClause
         }
 
 // If the query has been constructed with 'param(...)':
-        if(arrParams != null)
+        if (arrParams != null) {
             this.arrParams = new ArrayList<ColValue>(arrParams);
-        else
+        } else {
             arrParams = lastParams;
+        }
 
         StringBuilder sb = new StringBuilder();
-        if (csQuery==null)
+        if (csQuery == null) {
             return "";
+        }
         String[] vQuery = csQuery.split("\\?");
         int nNbChunks = vQuery.length;
 
-        if (arrParams == null)
-            return "Statement already executed: "+csQuery;
+        if (arrParams == null) {
+            return "Statement already executed: " + csQuery;
+        }
 
-        if(arrParams.size() !=  nNbChunks-1)
-            sb.append(" NbParams="+arrParams.size() + " Nb Question marks="+nNbChunks);
+        if (arrParams.size() != nNbChunks - 1) {
+            sb.append(" NbParams=" + arrParams.size() + " Nb Question marks=" + nNbChunks);
+        }
 
         int nMax = Math.min(arrParams.size(), nNbChunks);
         for(int nChunk=0; nChunk<nMax; nChunk++)
@@ -173,13 +181,15 @@ public class SQLClause
             sb.append(vQuery[nChunk]);
             ColValue colValue=arrParams.get(nChunk);
 
-            if (colValue instanceof ColValueString)
-                sb.append("'"+colValue.getValue()+"'");
-            else
+            if (colValue instanceof ColValueString) {
+                sb.append("'" + colValue.getValue() + "'");
+            } else {
                 sb.append(colValue.getValue());
+            }
         }
-        if(nMax <= nNbChunks)
-            sb.append(vQuery[nNbChunks-1]);
+        if (nMax <= nNbChunks) {
+            sb.append(vQuery[nNbChunks - 1]);
+        }
 //
 //      csQuery.append("Columns value:\n\n");
 //      for(int nChunk=0; nChunk<nMax; nChunk++)
@@ -213,16 +223,18 @@ public class SQLClause
 
     public String param(ColValue colVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         arrParams.add(colVal);
         return "?";
     }
 
     public SQLClause paramInsert(ColValue colValue)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         insertParams.add(colValue);
 
         return this;
@@ -231,8 +243,9 @@ public class SQLClause
     // String
     public String param(String csVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueString collectionval = new ColValueString("", csVal);
         arrParams.add(collectionval);
 
@@ -241,8 +254,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, String csVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         /*if(StringUtil.isEmpty(csVal))
             csVal = " ";*/
         ColValueString collectionval = new ColValueString(csName, csVal);
@@ -259,8 +273,9 @@ public class SQLClause
             try
             {
                 String val = resultSet.getString(csColName);
-                if(val != null)
+                if (val != null) {
                     val = val.trim();
+                }
                 return val;
             }
             catch (SQLException e)
@@ -280,8 +295,9 @@ public class SQLClause
             try
             {
                 String val = resultSet.getString(nColNumber);
-                if(val != null)
+                if (val != null) {
                     val = val.trim();
+                }
                 return val;
             }
             catch (SQLException e)
@@ -334,8 +350,9 @@ public class SQLClause
     // int
     public String param(int nVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueInt collectionval = new ColValueInt("", nVal);
         arrParams.add(collectionval);
 
@@ -344,8 +361,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, int nVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueInt collectionval = new ColValueInt(csName, nVal);
         insertParams.add(collectionval);
 
@@ -470,8 +488,9 @@ public class SQLClause
     // Long
     public String param(long lVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueLong collectionval = new ColValueLong("", lVal);
         arrParams.add(collectionval);
 
@@ -480,8 +499,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, long lVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueLong collectionval = new ColValueLong(csName, lVal);
         insertParams.add(collectionval);
 
@@ -529,8 +549,9 @@ public class SQLClause
     // boolean
     public String param(boolean bVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueBoolean collectionval = new ColValueBoolean("", bVal);
         arrParams.add(collectionval);
 
@@ -539,11 +560,13 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, Boolean bVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         boolean isnewVal = false;
-        if (bVal != null)
+        if (bVal != null) {
             isnewVal = bVal;
+        }
         ColValueBoolean collectionval = new ColValueBoolean(csName, isnewVal);
         insertParams.add(collectionval);
 
@@ -552,8 +575,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, boolean bVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueBoolean collectionval = new ColValueBoolean(csName, bVal);
         insertParams.add(collectionval);
 
@@ -601,8 +625,9 @@ public class SQLClause
     // BigDecimal
     public String param(BigDecimal bdVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueBigDecimal collectionval = new ColValueBigDecimal("", bdVal);
         arrParams.add(collectionval);
 
@@ -611,8 +636,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, BigDecimal bdVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueBigDecimal collectionval = new ColValueBigDecimal(csName, bdVal);
         insertParams.add(collectionval);
 
@@ -667,8 +693,9 @@ public class SQLClause
     // double
     public String param(double dVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueDouble collectionval = new ColValueDouble("", dVal);
         arrParams.add(collectionval);
 
@@ -677,8 +704,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, double dVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueDouble collectionval = new ColValueDouble(csName, dVal);
         insertParams.add(collectionval);
 
@@ -688,8 +716,9 @@ public class SQLClause
     // Date
     public String param(Date dateVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueDate collectionval = new ColValueDate("", dateVal);
         arrParams.add(collectionval);
 
@@ -698,8 +727,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, Date dateVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueDate collectionval = new ColValueDate(csName, dateVal);
         insertParams.add(collectionval);
 
@@ -709,8 +739,9 @@ public class SQLClause
     // Timestamp
     public String param(Timestamp tsVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueTimestamp collectionval = new ColValueTimestamp("", tsVal);
         arrParams.add(collectionval);
 
@@ -719,8 +750,9 @@ public class SQLClause
 
     public String param(SQLColTypeDate dateVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueTimestamp collectionval = new ColValueTimestamp("", dateVal.getTimeStamp());
         arrParams.add(collectionval);
 
@@ -729,8 +761,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, Timestamp tsVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueTimestamp collectionval = new ColValueTimestamp(csName, tsVal);
         insertParams.add(collectionval);
 
@@ -741,8 +774,9 @@ public class SQLClause
     // Managed SQL Type: BLOB
     public String param(SerialBlob blVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValue collectionval = new ColValueBlob("", blVal);
         arrParams.add(collectionval);
 
@@ -752,8 +786,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, SerialBlob blVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValue collectionval = new ColValueBlob(csName, blVal);
         insertParams.add(collectionval);
 
@@ -854,8 +889,9 @@ public class SQLClause
     // Managed SQL Type: VARBINARY
     public String param(VarBinary vbVal)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValueVarBinary collectionval = new ColValueVarBinary("", vbVal);
         arrParams.add(collectionval);
 
@@ -864,8 +900,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, VarBinary vbVal)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueVarBinary collectionval = new ColValueVarBinary(csName, vbVal);
         insertParams.add(collectionval);
 
@@ -922,8 +959,9 @@ public class SQLClause
     // SQL type managed: LONGVARBINARY
     public String param(InputStream is)
     {
-        if(arrParams == null)
+        if (arrParams == null) {
             arrParams = new ArrayList<ColValue>();
+        }
         ColValue collectionval = new ColValueBinaryStream("", is);
         arrParams.add(collectionval);
 
@@ -932,8 +970,9 @@ public class SQLClause
 
     public SQLClause paramInsert(String csName, InputStream is)
     {
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValue collectionval = new ColValueBinaryStream(csName, is);
         insertParams.add(collectionval);
 
@@ -978,8 +1017,9 @@ public class SQLClause
 
     void fillParameters(DbPreparedStatement preparedStatement)
     {
-        if(preparedStatement == null)
-            return ;
+        if (preparedStatement == null) {
+            return;
+        }
 
         if(arrParams != null)
         {
@@ -1053,8 +1093,9 @@ public class SQLClause
     public void forceCloseOnExceptionCatched()
     {
         close();
-        if(connection != null)
+        if (connection != null) {
             connection.returnConnectionToPool();
+        }
         connection = null;
     }
 
@@ -1133,8 +1174,9 @@ public class SQLClause
     */
     public Connection getJDBCConnection()
     {
-        if(connection != null)
+        if (connection != null) {
             return connection.getDbConnection();
+        }
         return null;
     }
 }

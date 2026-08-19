@@ -28,8 +28,9 @@ public class DbTLSConnectionStorage
         if(storedConnections != null)
         {
             DbConnectionBase dbConnectionBase = storedConnections.getForeignConnection();
-            if(dbConnectionBase == null)    // No foreign connection specified; search for a connection bound to dbId
+            if (dbConnectionBase == null) {    // No foreign connection specified; search for a connection bound to dbId
                 dbConnectionBase = storedConnections.getDbId(dbId);
+            }
             return dbConnectionBase;
         }
         return null;

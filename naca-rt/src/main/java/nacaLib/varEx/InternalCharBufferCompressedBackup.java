@@ -32,8 +32,9 @@ public class InternalCharBufferCompressedBackup
 
     public int getBufferSize()
     {
-        if(abBuffer != null)
+        if (abBuffer != null) {
             return abBuffer.length;
+        }
         return 0;
     }
 

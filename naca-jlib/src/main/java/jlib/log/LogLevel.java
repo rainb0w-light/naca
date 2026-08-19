@@ -169,18 +169,19 @@ public class LogLevel
  */
     static LogLevel getLevel(String csLevel)
     {
-        if(Critical.hasName(csLevel))
+        if (Critical.hasName(csLevel)) {
             return Critical;
-        else if(Important.hasName(csLevel))
+        } else if (Important.hasName(csLevel)) {
             return Important;
-        else if(Normal.hasName(csLevel))
+        } else if (Normal.hasName(csLevel)) {
             return Normal;
-        else if(Verbose.hasName(csLevel))
+        } else if (Verbose.hasName(csLevel)) {
             return Verbose;
-        else if(Debug.hasName(csLevel))
+        } else if (Debug.hasName(csLevel)) {
             return Debug;
-        else if(FineDebug.hasName(csLevel))
+        } else if (FineDebug.hasName(csLevel)) {
             return FineDebug;
+        }
         return Normal;
     }
 /**
@@ -223,8 +224,9 @@ public class LogLevel
  */
     boolean isGreaterOrEqual(LogLevel minLogLevel)
     {
-        if(nLevel >= minLogLevel.nLevel)
+        if (nLevel >= minLogLevel.nLevel) {
             return true;
+        }
         return false;
     }
 

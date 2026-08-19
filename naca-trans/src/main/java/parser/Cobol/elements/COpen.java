@@ -87,8 +87,9 @@ public class COpen extends CCobolElement
             if (tok.GetKeyword() == CCobolKeywordList.INPUT)
             {
                 GetNext() ;
-                if (forInput == null)
-                    forInput = new Vector<CIdentifier>() ;
+                if (forInput == null) {
+                    forInput = new Vector<CIdentifier>();
+                }
                 CIdentifier id = ReadIdentifier() ;
                 forInput.add(id);
                 tok = GetCurrentToken() ;
@@ -109,8 +110,9 @@ public class COpen extends CCobolElement
             else if (tok.GetKeyword() == CCobolKeywordList.OUTPUT)
             {
                 GetNext() ;
-                if (forOutput == null)
-                    forOutput = new Vector<CIdentifier>() ;
+                if (forOutput == null) {
+                    forOutput = new Vector<CIdentifier>();
+                }
                 CIdentifier id = ReadIdentifier() ;
                 forOutput.add(id);
                 tok = GetCurrentToken() ;
@@ -131,8 +133,9 @@ public class COpen extends CCobolElement
             else if (tok.GetKeyword() == CCobolKeywordList.I_O)
             {
                 GetNext() ;
-                if (forIO == null)
-                    forIO = new Vector<CIdentifier>() ;
+                if (forIO == null) {
+                    forIO = new Vector<CIdentifier>();
+                }
                 CIdentifier id = ReadIdentifier() ;
                 forIO.add(id);
                 tok = GetCurrentToken() ;
@@ -153,8 +156,9 @@ public class COpen extends CCobolElement
             else if (tok.GetKeyword() == CCobolKeywordList.EXTEND)
             {
                 GetNext() ;
-                if (forAppend == null)
-                    forAppend = new Vector<CIdentifier>() ;
+                if (forAppend == null) {
+                    forAppend = new Vector<CIdentifier>();
+                }
                 CIdentifier id = ReadIdentifier() ;
                 forAppend.add(id);
                 tok = GetCurrentToken() ;

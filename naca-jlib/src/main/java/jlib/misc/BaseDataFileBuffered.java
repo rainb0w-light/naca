@@ -21,8 +21,9 @@ public abstract class BaseDataFileBuffered extends BaseDataFile
 
     public byte[] getByteBuffer(int nSize)
     {
-        if(buffer == null)
+        if (buffer == null) {
             buffer = new PreallocatedFileBufferManager();
+        }
         return buffer.checkBuffer(nSize);
     }
 

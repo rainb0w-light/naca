@@ -14,7 +14,9 @@ public class CodeConverter
 
     public CodeConverter(String csConversion)
     {
-        if (csConversion == null || csConversion.equals("")) return;
+        if (csConversion == null || csConversion.equals("")) {
+            return;
+        }
 
         String[] csSplit = csConversion.split(",");
         ms_nSize = csSplit.length;
@@ -33,7 +35,9 @@ public class CodeConverter
 
     public String convert(String csIn)
     {
-        if (ms_nSize == 0) return csIn;
+        if (ms_nSize == 0) {
+            return csIn;
+        }
 
         String csOut = csIn;
         for (int n=0; n < ms_nSize; n++)

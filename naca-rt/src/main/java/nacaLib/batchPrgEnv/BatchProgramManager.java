@@ -47,8 +47,9 @@ public class BatchProgramManager extends BaseProgramManager
 
     public void prepareRunMain(BaseProgram prg)
     {
-        if (prg instanceof BatchProgram)
-            ((BatchProgram)prg).prepareRunMain(env);
+        if (prg instanceof BatchProgram) {
+            ((BatchProgram) prg).prepareRunMain(env);
+        }
     }
 
     private BaseEnvironment env = null;

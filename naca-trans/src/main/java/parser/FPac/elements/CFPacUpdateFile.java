@@ -50,16 +50,15 @@ public class CFPacUpdateFile extends CFPacElement
     protected boolean DoParsing()
     {
         CBaseToken tok = GetCurrentToken();
-        if (tok.GetKeyword() == CFPacKeywordList.UPF)
-            ulFileId = 0 ;
-        else if (tok.GetKeyword().name.startsWith("UPF"))
+        if (tok.GetKeyword() == CFPacKeywordList.UPF) {
+            ulFileId = 0;
+        }  else if (tok.GetKeyword().name.startsWith("UPF"))
         {
             ulFileId = NumberParser.getAsInt(tok.GetKeyword().name.substring(3));
-        }
-        else
+        } else
         {
-            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
-            return false ;
+            Transcoder.logError(getLine(), "Unexpecting token : " + tok.toString());
+            return false;
         }
 
         tok = GetNext() ;

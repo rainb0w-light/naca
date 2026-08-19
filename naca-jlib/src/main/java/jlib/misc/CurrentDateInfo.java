@@ -67,8 +67,9 @@ public class CurrentDateInfo
     {
         long l1 = getTimeInMillis();
         long l2 = date2.getTimeInMillis();
-        if(l2 > l1)
+        if (l2 > l1) {
             return l2 - l1;
+        }
         return l1 - l2;
     }
 

@@ -27,8 +27,9 @@ public class Map extends CJMapObject
 
     public void registerForm(VarDefForm varDefForm)
     {
-        if(varDefForm != null)
+        if (varDefForm != null) {
             defForms.add(varDefForm);
+        }
     }
 
 //  public void move(CobolConstant constant)

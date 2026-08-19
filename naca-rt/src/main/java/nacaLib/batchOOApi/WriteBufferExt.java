@@ -49,22 +49,25 @@ public class WriteBufferExt extends VarBufferPos
         if(cs != null)
         {
             nLength = cs.length();
-            if(nNbCharsToWrite < nLength)
+            if (nNbCharsToWrite < nLength) {
                 nLength = nNbCharsToWrite;
+            }
             cs.getChars(0, nLength, acBuffer, nAbsolutePosition);
         }
         if(nLength < nNbCharsToWrite)   // Padding with BLANK on the right
         {
             int nNbChars = nNbCharsToWrite-nLength;
-            for(int n=0; n<nNbChars; n++)
+            for (int n = 0; n < nNbChars; n++) {
                 acBuffer[nAbsolutePosition + n] = ' ';
+            }
         }
     }
 
     String getString(int nSize)
     {
-        if (nAbsolutePosition+nSize > acBuffer.length)
-            nSize = nAbsolutePosition+nSize - acBuffer.length;
+        if (nAbsolutePosition + nSize > acBuffer.length) {
+            nSize = nAbsolutePosition + nSize - acBuffer.length;
+        }
         if(nAbsolutePosition < acBuffer.length)
         {
             String cs = new String(acBuffer, nAbsolutePosition, nSize);

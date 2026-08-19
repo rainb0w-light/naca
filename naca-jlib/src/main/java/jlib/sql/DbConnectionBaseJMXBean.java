@@ -48,8 +48,9 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 
     public int getNbCachedStatements()
     {
-        if(dbConnectionBase != null)
+        if (dbConnectionBase != null) {
             return dbConnectionBase.getNbCachedStatements();
+        }
         return 0;
     }
 
@@ -85,8 +86,9 @@ public class DbConnectionBaseJMXBean extends BaseCloseMBean
 
     synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
     {
-        if(stmts == null)
+        if (stmts == null) {
             stmts = new ArrayList<DbConnectionBaseStmtJMXBean>();
+        }
         stmts.add(dbConnectionBaseStmtJMXBean);
     }
 }

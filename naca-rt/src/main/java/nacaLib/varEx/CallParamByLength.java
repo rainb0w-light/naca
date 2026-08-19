@@ -14,8 +14,9 @@ public class CallParamByLength extends CCallParam
 {
     public CallParamByLength(VarAndEdit var)
     {
-        if(var != null)
+        if (var != null) {
             nLength = var.getTotalSize();
+        }
     }
 
     public int getParamLength()

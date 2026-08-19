@@ -32,8 +32,9 @@ public class UnboundRefId
             for(int n = 0; n< lines.size(); n++)
             {
                 int nVal = lines.get(n);
-                if(nVal == nLine)
+                if (nVal == nLine) {
                     return;
+                }
             }
             lines.add(nLine);
         }
@@ -41,8 +42,9 @@ public class UnboundRefId
 
     int getFirstLine()
     {
-        if(lines != null && lines.size() > 0)
+        if (lines != null && lines.size() > 0) {
             return lines.get(0);
+        }
         return 0;
     }
 
@@ -53,8 +55,9 @@ public class UnboundRefId
         {
             for(int n = 1; n< lines.size(); n++)
             {
-                if(n != 1)
+                if (n != 1) {
                     cs += ", ";
+                }
                 cs += lines.get(n);
             }
         }

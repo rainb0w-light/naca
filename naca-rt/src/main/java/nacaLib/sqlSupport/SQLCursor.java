@@ -62,10 +62,11 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         CSQLStatus sqlStatus = programManager.getSQLStatus();
         if(sQL != null)
         {
-            if(bOpen)
+            if (bOpen) {
                 sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_ALREADY_OPENED);
-            else
+            } else {
                 sqlStatus.reset();
+            }
         }
         bOpen = true;
         return sqlStatus;
@@ -76,10 +77,11 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
         CSQLStatus sqlStatus = programManager.getSQLStatus();
         if(sQL != null)
         {
-            if(!bOpen)
+            if (!bOpen) {
                 sqlStatus.setSQLCode(SQLCode.SQL_CURSOR_NOT_OPEN);
-            else
+            } else {
                 sqlStatus.reset();
+            }
             sQL.close();
         }
         else    // too many close
@@ -108,133 +110,161 @@ public class SQLCursor  extends CJMapObject // extends SQLCursor
 
     public SQLCursor param(int nName, VarAndEdit var)
     {
-        if(isLogSql)
-            Log.logDebug("param "+nName+"="+var.getLoggableValue());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + nName + "=" + var.getLoggableValue());
+        }
+        if (sQL != null) {
             sQL.param(nName, var);
+        }
         return this;
     }
 
     public SQLCursor param(String csName, VarAndEdit var)
     {
-        if(isLogSql)
-            Log.logDebug("param "+csName+"="+var.getLoggableValue());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + csName + "=" + var.getLoggableValue());
+        }
+        if (sQL != null) {
             sQL.param(csName, var);
+        }
         return this;
     }
 
     public SQLCursor param(int nName, int nValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+nName+"="+nValue);
+        if (isLogSql) {
+            Log.logDebug("param " + nName + "=" + nValue);
+        }
         sQL.param(nName, nValue);
         return this;
     }
 
     public SQLCursor param(String csName, int nValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+csName+"="+nValue);
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + csName + "=" + nValue);
+        }
+        if (sQL != null) {
             sQL.param(csName, nValue);
+        }
         return this;
     }
 
     public SQLCursor param(int nName, double dValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+nName+"="+dValue);
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + nName + "=" + dValue);
+        }
+        if (sQL != null) {
             sQL.param(nName, dValue);
+        }
         return this;
     }
 
     public SQLCursor param(String csName, double dValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+csName+"="+dValue);
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + csName + "=" + dValue);
+        }
+        if (sQL != null) {
             sQL.param(csName, dValue);
+        }
         return this;
     }
 
     public SQLCursor param(int nName, String csValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+nName+"="+csValue);
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + nName + "=" + csValue);
+        }
+        if (sQL != null) {
             sQL.param(nName, csValue);
+        }
         return this;
     }
 
     public SQLCursor param(String csName, String csValue)
     {
-        if(isLogSql)
-            Log.logDebug("param "+csName+"="+csValue);
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("param " + csName + "=" + csValue);
+        }
+        if (sQL != null) {
             sQL.param(csName, csValue);
+        }
         return this;
     }
 
     public SQLCursor onWarningGoto(Paragraph paragraphSQGErrorGoto)
     {
-        if(isLogSql)
-            Log.logDebug("onWarningGoto "+paragraphSQGErrorGoto.toString());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("onWarningGoto " + paragraphSQGErrorGoto.toString());
+        }
+        if (sQL != null) {
             sQL.onWarningGoto(paragraphSQGErrorGoto);
+        }
         return this;
     }
 
     public SQLCursor onWarningGoto(Section section)
     {
-        if(isLogSql)
-            Log.logDebug("onWarningGoto "+section.toString());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("onWarningGoto " + section.toString());
+        }
+        if (sQL != null) {
             sQL.onWarningGoto(section);
+        }
         return this;
     }
 
     public SQLCursor onWarningContinue()
     {
-        if(isLogSql)
+        if (isLogSql) {
             Log.logDebug("onWarningContinue");
-        if(sQL != null)
+        }
+        if (sQL != null) {
             sQL.onWarningContinue();
+        }
         return this;
     }
 
     public SQLCursor onErrorGoto(Paragraph paragraphSQGErrorGoto)
     {
-        if(isLogSql)
-            Log.logDebug("onErrorGoto "+paragraphSQGErrorGoto.toString());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("onErrorGoto " + paragraphSQGErrorGoto.toString());
+        }
+        if (sQL != null) {
             sQL.onErrorGoto(paragraphSQGErrorGoto);
+        }
         return this;
     }
 
     public SQLCursor onErrorGoto(Section section)
     {
-        if(isLogSql)
-            Log.logDebug("onErrorGoto "+section.toString());
-        if(sQL != null)
+        if (isLogSql) {
+            Log.logDebug("onErrorGoto " + section.toString());
+        }
+        if (sQL != null) {
             sQL.onErrorGoto(section);
+        }
         return this;
     }
 
     public SQLCursor onErrorContinue()
     {
-        if(isLogSql)
+        if (isLogSql) {
             Log.logDebug("onErrorContinue");
-        if(sQL != null)
+        }
+        if (sQL != null) {
             sQL.onErrorContinue();
+        }
         return this;
     }
 
     public SQLCursorFetch fetch(BaseEnvironment env)
     {
-        if(qLCursorFetch == null)
+        if (qLCursorFetch == null) {
             qLCursorFetch = new SQLCursorFetch(bOpen, sQL);
+        }
         if(bOpen && sQL != null)
         {
             sQL.resetExecuted(env);

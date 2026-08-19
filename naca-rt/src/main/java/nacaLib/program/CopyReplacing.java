@@ -39,8 +39,9 @@ public class CopyReplacing extends CJMapObject
         for(int n=0; n<nNbItems; n++)
         {
             CopyReplacingItem item = arr.get(n);
-            if(item.nOldLevel == nLevel)
+            if (item.nOldLevel == nLevel) {
                 return item.nNewLevel;
+            }
         }
         return nLevel;
     }

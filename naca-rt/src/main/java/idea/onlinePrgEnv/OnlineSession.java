@@ -88,15 +88,17 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
 
     public String getTerminalNet()
     {
-        if(csLUName == null || csLUName.equals(""))
+        if (csLUName == null || csLUName.equals("")) {
             return "L930CON1";
+        }
         return csLUName;
     }
 
     public String getTerminalNetLu62()
     {
-        if(csLUName == null || csLUName.equals(""))
+        if (csLUName == null || csLUName.equals("")) {
             return "L930CON1";
+        }
         return csLUName;
     }
 
@@ -105,8 +107,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         if(csLUName != null && !csLUName.equals(""))
         {
             int nLength = csLUName.length();
-            if(nLength >= 4)
-                return csLUName.substring(nLength-4, nLength);
+            if (nLength >= 4) {
+                return csLUName.substring(nLength - 4, nLength);
+            }
         }
         return "CON1";
     }
@@ -116,8 +119,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         if(csLUName != null && !csLUName.equals(""))
         {
             int nLength = csLUName.length();
-            if(nLength >= 4)
-                return csLUName.substring(nLength-4, nLength);
+            if (nLength >= 4) {
+                return csLUName.substring(nLength - 4, nLength);
+            }
         }
         return "CON1";
     }
@@ -723,8 +727,9 @@ public class OnlineSession extends BaseSession implements HttpSessionBindingList
         else
         {
             setNetwork_ms((int)(stopWatchNetwork.getElapsedTime() - clientElapsedTime));
-            if (getNetwork_ms() < 0)
+            if (getNetwork_ms() < 0) {
                 setNetwork_ms(0);
+            }
         }
     }
 

@@ -26,8 +26,9 @@ public class InitializeManagerDouble extends InitializeManager
     {
         //varDef.write(buffer, csd);
         varDef.write(buffer, csd, nOffset, csd.length());
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.setNotManaged();
+        }
     }
 
     private String csd;

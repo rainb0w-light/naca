@@ -44,8 +44,9 @@ public class CExecSQLOpen extends CBaseExecSQLAction
         {
             CEntitySQLOpenStatement eSQL = factory.NewEntitySQLOpenStatement(getLine(), cur) ;
             CDataEntity var = cur.getVariableStatement() ;
-            if (var != null)
-                eSQL.setVariableStatement(var) ;
+            if (var != null) {
+                eSQL.setVariableStatement(var);
+            }
             parent.AddChild(eSQL) ;
             return eSQL;
         }

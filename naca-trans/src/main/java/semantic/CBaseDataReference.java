@@ -117,8 +117,9 @@ public abstract class CBaseDataReference extends CGenericDataEntityReference
     public void Clear()
     {
         super.Clear();
-        if (reference != null)
-            reference.Clear() ;
+        if (reference != null) {
+            reference.Clear();
+        }
         reference = null ;
     }
 

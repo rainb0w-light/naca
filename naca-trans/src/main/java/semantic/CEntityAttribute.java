@@ -193,8 +193,9 @@ public class CEntityAttribute extends CGenericDataEntityReference implements ITy
         else if (term.IsNumber() && (type.equals("picX") || type.equals("")))
         {
             String typeCopy = type ;
-            if (typeCopy.equals(""))
-                typeCopy = "GROUP" ;
+            if (typeCopy.equals("")) {
+                typeCopy = "GROUP";
+            }
             CEntityAssign asgn = factory.NewEntityAssign(l) ;
             asgn.SetValue(factory.NewEntityString(value)) ;
             asgn.AddRefTo(this) ;

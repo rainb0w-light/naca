@@ -159,16 +159,18 @@ public class Form extends Var
         {
             Edit edit = arrEdits.get(i);
             Element e = edit.exportXML(doc, csLangId) ;
-            if(e != null)
-                setFields.add(e) ;
+            if (e != null) {
+                setFields.add(e);
+            }
         }
 
         for (int i=0; i<arrEdits.size(); i++)
         {
             Edit edit = arrEdits.get(i);
             Element e = edit.exportXML(doc, csLangId) ;
-            if(e != null)
-                setFields.add(e) ;
+            if (e != null) {
+                setFields.add(e);
+            }
         }
     }
 //
@@ -182,8 +184,9 @@ public class Form extends Var
 
     public Edit GetEditAt(int nField)
     {
-        if(nField < arrEdits.size())
-            return arrEdits.get(nField) ;
+        if (nField < arrEdits.size()) {
+            return arrEdits.get(nField);
+        }
         return null;
     }
 
@@ -244,8 +247,9 @@ public class Form extends Var
 
             varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, 0, initializeCache);
 
-            if(initializeCache != null)
+            if (initializeCache != null) {
                 initializeCache.setFilledAndcompress(bufferPos.nAbsolutePosition);
+            }
         }
 
         for (int i=0; i<arrEdits.size(); i++)
@@ -268,10 +272,11 @@ public class Form extends Var
     {
         double varValue = getDouble();
         double d = varValue - dValue;
-        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+        if (d < -0.00001) {    //Consider epsilon precision at 10 e-5
             return -1;
-        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+        } else if (d > 0.00001) {    //Consider epsilon precision at 10 e-5
             return 1;
+        }
         return 0;
     }
 

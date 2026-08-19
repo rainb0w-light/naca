@@ -39,15 +39,17 @@ public class JSon
         sbOut = new StringBuilder();
 
         boolean b = export(oSource, null);
-        if(!b)
+        if (!b) {
             sbOut = null;
+        }
         return b;
     }
 
     public String getResult()
     {
-        if(sbOut != null)
+        if (sbOut != null) {
             return sbOut.toString();
+        }
         return "";
     }
 
@@ -58,8 +60,9 @@ public class JSon
         json.nTabDepth = 0;
         json.sbOut = new StringBuilder();
         boolean b = json.export(oSource, className);
-        if (b)
+        if (b) {
             return json.sbOut.toString();
+        }
         return null;
     }
 
@@ -75,8 +78,9 @@ public class JSon
         {
             beginNewLine(sbOut);
             sbOut.append("{");
-            if(issetLines)
+            if (issetLines) {
                 sbOut.append(EndOfLine.CR);
+            }
             nTabDepth++;
 
             if (className == null)
@@ -98,12 +102,14 @@ public class JSon
                 exportItem(oSource);
             }
 
-            if(issetLines)
+            if (issetLines) {
                 sbOut.append(EndOfLine.CR);
+            }
             beginNewLine(sbOut);
             sbOut.append("}");
-            if(issetLines)
+            if (issetLines) {
                 sbOut.append(EndOfLine.CR);
+            }
         }
         return true;
     }
@@ -118,20 +124,23 @@ public class JSon
             String csName = fld.getName();
             Class type = fld.getType();
             int mod =fld.getModifiers();
-            if (Modifier.isStatic(mod))
+            if (Modifier.isStatic(mod)) {
                 continue;
+            }
             String csTypeName = type.getName();
             try
             {
-                if(nNbItemSet > 0) // Terminates previous line is there was one
+                if (nNbItemSet > 0) { // Terminates previous line is there was one
                     endCurrentLine(sbOut);
+                }
                 beginNewLine(sbOut);
 
                 // remove prefix membership
-                if(csName.startsWith("m_"))
+                if (csName.startsWith("m_")) {
                     csName = csName.substring(2);
-                else if(csName.startsWith("_"))
+                } else if (csName.startsWith("_")) {
                     csName = csName.substring(1);
+                }
 
                 sbOut.append("\"" + csName + "\":");    // Write "<name>":
                 Object oMember = fld.get(oSource);
@@ -143,9 +152,9 @@ public class JSon
                         Log.logCritical("Unsupported JSon serialization format; JLib.JSon.exportItem must be completed");
                         return false;
                     }
-                }
-                else
+                } else {
                     sbOut.append("null");
+                }
                 nNbItemSet++;
             }
             catch (IllegalArgumentException e)
@@ -324,14 +333,16 @@ public class JSon
     private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
     {
         sbOut.append("[ ");
-        if(issetLines)
+        if (issetLines) {
             sbOut.append(EndOfLine.CR);
+        }
         nTabDepth++;
         ArrayList<Object> arr = (ArrayList<Object>)oArray;
         for(int n=0; n<arr.size(); n++)
         {
-            if(n > 0)
+            if (n > 0) {
                 endCurrentLine(sbOut);
+            }
             beginNewLine(sbOut);
             Object oArrItem = arr.get(n);
             boolean isarrayItemsExported = exportItem(oArrItem);
@@ -349,16 +360,18 @@ public class JSon
     {
         if(issetLines)
         {
-            for(int n=0; n<nTabDepth; n++)
+            for (int n = 0; n < nTabDepth; n++) {
                 sbOut.append(EndOfLine.TAB);
+            }
         }
     }
 
     private void endCurrentLine(StringBuilder sbOut)
     {
         sbOut.append(",");
-        if(issetLines)
+        if (issetLines) {
             sbOut.append(EndOfLine.CR);
+        }
     }
 
 }

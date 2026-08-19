@@ -66,8 +66,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
     public boolean open(LogicalFileDescriptor logicalFileDescriptor)
     {
-        if(logicalFileDescriptor != null && logicalFileDescriptor.isDummyFile())
+        if (logicalFileDescriptor != null && logicalFileDescriptor.isDummyFile()) {
             return false;
+        }
 
         boolean isopened = doOpen();
         if(isopened && logicalFileDescriptor != null)
@@ -104,8 +105,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
     public boolean isOpen()
     {
-        if(in != null)
+        if (in != null) {
             return true;
+        }
         return false;
     }
 
@@ -114,8 +116,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
         int n = nFirstPositionInReadAHead;
         while(n < nLastPositionInReadAHead)
         {
-            if(tReadBytesAHead[n] == FileEndOfLine.LF)
+            if (tReadBytesAHead[n] == FileEndOfLine.LF) {
                 return n;
+            }
             n++;
         }
         return -1;
@@ -123,8 +126,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
     private boolean isPositionAtOffsetInReadAHead(int nOffset)
     {
-        if(nFirstPositionInReadAHead + nOffset <= nLastPositionInReadAHead)
+        if (nFirstPositionInReadAHead + nOffset <= nLastPositionInReadAHead) {
             return true;
+        }
         return false;
     }
 
@@ -135,9 +139,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
         if(recordHeader != null)
         {
             int nLength = 0;
-            if(bHeaderIsInt)
+            if (bHeaderIsInt) {
                 nLength = recordHeader.getAsLittleEndingUnsignBinaryInt();
-            else
+            } else
             {
                 // VH Mode
                 // nLength = recordHeader.getAsLittleEndingUnsignBinaryShort(); // The header is 2 bytes long, with the next 2 bytes at 0
@@ -145,8 +149,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
                 nLength = recordHeader.readAndConvertHeaderVHToVBMode();
             }
 
-            if(lineOut == null)
+            if (lineOut == null) {
                 lineOut = new LineRead();
+            }
             lineOut.resetAndGaranteeBufferStorage(4 + nLength, nNbByteReadAHead + 4 + nLength);
             lineOut.append(recordHeader);
 
@@ -179,11 +184,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
     public LineRead readBuffer(int nLength, boolean bTryReadNextLF)
     {
-        if(in == null)
+        if (in == null) {
             return null;
+        }
         int nFullLength = nLength;
-        if(bTryReadNextLF)
+        if (bTryReadNextLF) {
             nFullLength++;
+        }
         // The next recoprd, including optional LF is already read the in read ahead buffer
         if(isPositionAtOffsetInReadAHead(nFullLength))
         {
@@ -210,8 +217,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
         int nLengthSource = nLastPositionInReadAHead - nFirstPositionInReadAHead;
 
         // Keep the data already read
-        for(int n=0; n<nLengthSource; n++)
-            tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead];
+        for (int n = 0; n < nLengthSource; n++) {
+            tReadBytesAHead[nReservedHeaderSpace + n] = tReadBytesAHead[n + nFirstPositionInReadAHead];
+        }
         nFirstPositionInReadAHead = nReservedHeaderSpace;
         nLastPositionInReadAHead = nReservedHeaderSpace+nLengthSource;
 
@@ -250,8 +258,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
     public LineRead readNextUnixLine()
     {
-        if(in == null)
+        if (in == null) {
             return null;
+        }
 
         int nPositionNextLF = getNextLFPosition();
         if(nPositionNextLF != -1)   // Found position of the next LF
@@ -266,8 +275,9 @@ public class DataFileLineReader extends BaseDataFileBuffered
             int nLengthSource = nLastPositionInReadAHead - nFirstPositionInReadAHead;
 
             // Keep the data already read
-            for(int n=0; n<nLengthSource; n++)
-                tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead];
+            for (int n = 0; n < nLengthSource; n++) {
+                tReadBytesAHead[nReservedHeaderSpace + n] = tReadBytesAHead[n + nFirstPositionInReadAHead];
+            }
             nFirstPositionInReadAHead = nReservedHeaderSpace;
             nLastPositionInReadAHead = nReservedHeaderSpace+nLengthSource;
 
@@ -347,10 +357,11 @@ public class DataFileLineReader extends BaseDataFileBuffered
     public String toString()
     {
         String cs = csName + " (";
-        if(isOpen())
+        if (isOpen()) {
             cs += "Opened";
-        else
+        } else {
             cs += "Closed";
+        }
         cs += ")";
         return cs;
     }

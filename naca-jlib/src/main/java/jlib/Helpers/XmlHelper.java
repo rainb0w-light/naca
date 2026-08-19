@@ -74,10 +74,11 @@ public class XmlHelper {
 // System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom","org.apache.xpath.jaxp.XPathFactoryImpl");
 //          System.setProperty("jaxp.debug","yes");
             _xPathFactory=XPathFactory.newInstance(XPathConstants.DOM_OBJECT_MODEL);
-            if (magicValue==null)
+            if (magicValue == null) {
                 System.clearProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom");
-            else
-                System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom",magicValue);
+            } else {
+                System.setProperty("javax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom", magicValue);
+            }
         }
         return _xPathFactory;
     }
@@ -225,11 +226,11 @@ public class XmlHelper {
  */
     public static void Save(Node x,String fileName,String encoding) {
         try {
-            if (x.getNodeType()==Node.DOCUMENT_NODE)
-                Save(x.getFirstChild(),fileName,encoding);
-            else {
-                FileOutputStream fos=new FileOutputStream(fileName);
-                Save(x,fos,encoding);
+            if (x.getNodeType() == Node.DOCUMENT_NODE) {
+                Save(x.getFirstChild(), fileName, encoding);
+            } else {
+                FileOutputStream fos = new FileOutputStream(fileName);
+                Save(x, fos, encoding);
                 fos.close();
             }
         }
@@ -277,31 +278,32 @@ public class XmlHelper {
  */
     public static void Save(Node x,OutputStream os,String encoding,String cdataElements) {
         try {
-            if (x.getNodeType()==Node.DOCUMENT_NODE)
-                Save(x.getFirstChild(),os,encoding,cdataElements);
-            else {
+            if (x.getNodeType() == Node.DOCUMENT_NODE) {
+                Save(x.getFirstChild(), os, encoding, cdataElements);
+            } else {
 //********************* Retrieves the identity transformer ********************
 // The default transfomer is the identity transfomer,
 // which performs no operation: output is equal to input.
-                SAXTransformerFactory tf=(SAXTransformerFactory)SAXTransformerFactory.newInstance();
-                TransformerHandler th=tf.newTransformerHandler();
-                Transformer serializer=th.getTransformer();
-                serializer.setOutputProperty(OutputKeys.METHOD,"xml");
-                serializer.setOutputProperty(OutputKeys.ENCODING,encoding);
-                serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-                if (cdataElements != null)
+                SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+                TransformerHandler th = tf.newTransformerHandler();
+                Transformer serializer = th.getTransformer();
+                serializer.setOutputProperty(OutputKeys.METHOD, "xml");
+                serializer.setOutputProperty(OutputKeys.ENCODING, encoding);
+                serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+                if (cdataElements != null) {
                     serializer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, cdataElements);
+                }
 
 //***************** Sets the input and output for the transformation **********
 // The input is the specified node.
 // The output is is sent through a StreamResult, which
 // is connected to a string writer. Serialization is performed here.
-                DOMSource source=new DOMSource(x);
-                BufferedOutputStream bos=new BufferedOutputStream(os);
-                StreamResult result=new StreamResult(bos);
+                DOMSource source = new DOMSource(x);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+                StreamResult result = new StreamResult(bos);
 
 //****************** Perform the identity transformation **********************
-                serializer.transform(source,result);
+                serializer.transform(source, result);
                 os.close();
             }
         }
@@ -333,8 +335,9 @@ public class XmlHelper {
  */
     public static String SaveToString(Node x,String encoding) {
         try {
-            if (x.getNodeType()==Node.DOCUMENT_NODE)
-                return SaveToString(x.getFirstChild(),encoding);
+            if (x.getNodeType() == Node.DOCUMENT_NODE) {
+                return SaveToString(x.getFirstChild(), encoding);
+            }
 
 //********************* Retrieves the identity transformer ********************
 // The default transfomer is the identity transfomer,
@@ -460,8 +463,9 @@ public class XmlHelper {
                     serializer.setOutputProperty(OutputKeys.METHOD,"xml");
                     serializer.setOutputProperty(OutputKeys.ENCODING,_encoding);
                     serializer.setOutputProperty(OutputKeys.INDENT,"yes");
-                    if (_cdata != null)
+                    if (_cdata != null) {
                         serializer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, _cdata);
+                    }
 
 // Perform the identity transformation:
                     serializer.transform(_source,_result);
@@ -483,8 +487,9 @@ public class XmlHelper {
         PipedThread thread;
         PipedInputStream pis;
         try {
-            if (xml.getNodeType()==Node.DOCUMENT_NODE)
-                return SaveToInputStream(xml.getFirstChild(),encoding, cdataElements);
+            if (xml.getNodeType() == Node.DOCUMENT_NODE) {
+                return SaveToInputStream(xml.getFirstChild(), encoding, cdataElements);
+            }
 
             thread=new PipedThread(xml,encoding, cdataElements);
             pis = new PipedInputStream(thread.getPipedOutputStream());
@@ -505,8 +510,9 @@ public class XmlHelper {
  */
     public static Document newDocument(Node node) {
         try {
-            if (node.getNodeType()==Node.DOCUMENT_NODE)
-                node=node.getFirstChild();
+            if (node.getNodeType() == Node.DOCUMENT_NODE) {
+                node = node.getFirstChild();
+            }
 
 //********************* Retrieves the identity transformer ********************
 // The default transfomer is the identity transfomer,
@@ -555,10 +561,11 @@ public class XmlHelper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (magicValue==null)
+        if (magicValue == null) {
             System.clearProperty("javax.xml.parsers.DocumentBuilderFactory");
-        else
-            System.setProperty("javax.xml.parsers.DocumentBuilderFactory",magicValue);
+        } else {
+            System.setProperty("javax.xml.parsers.DocumentBuilderFactory", magicValue);
+        }
         return doc;
     }
 
@@ -646,10 +653,12 @@ public class XmlHelper {
             FileInputStream fis;
             File file;
             file=new File(fileName);
-            if (!file.exists())
-                throw new ProgrammingException("XMLHELPER","File '"+fileName+"' doesn't exist.");
-            if (!file.isFile())
-                throw new ProgrammingException("XMLHELPER","'"+fileName+"' isn't a file.");
+            if (!file.exists()) {
+                throw new ProgrammingException("XMLHELPER", "File '" + fileName + "' doesn't exist.");
+            }
+            if (!file.isFile()) {
+                throw new ProgrammingException("XMLHELPER", "'" + fileName + "' isn't a file.");
+            }
             fis=new FileInputStream(file);
             return Load(fis);
         }
@@ -732,7 +741,9 @@ public class XmlHelper {
         for(n=0;n<childs.getLength();n++) {
             child=(Node)childs.item(n);
             deep=XMLDeep(child);
-            if (deep>maxdeep) maxdeep=deep;
+            if (deep > maxdeep) {
+                maxdeep = deep;
+            }
         }
         maxdeep+=1;
         return maxdeep;
@@ -761,10 +772,11 @@ public class XmlHelper {
                 s=str.substring(n1,n2);
                 r.append(str.substring(n3,n1));
                 n3=n1+1;
-                if (s.equals("&amp") || s.equals("&gt") || s.equals("&lt"))
+                if (s.equals("&amp") || s.equals("&gt") || s.equals("&lt")) {
                     r.append("&");
-                else
+                } else {
                     r.append("&amp;");
+                }
             } else {
                 r.append(str.substring(n3,n1));
                 r.append("&amp;");
@@ -789,21 +801,24 @@ public class XmlHelper {
         NodeList node_;
         Node x;
         int n,nnode;
-        if (value==null)
-            value="";
-        if(node.getNodeType() == Node.TEXT_NODE)
+        if (value == null) {
+            value = "";
+        }
+        if (node.getNodeType() == Node.TEXT_NODE) {
             node.setNodeValue(value);
-        else {
-            node_=node.getChildNodes();
-            nnode=node_.getLength();
-            if (nnode==0) {
-                x=(Node)node.getOwnerDocument().createTextNode(value);
+        } else {
+            node_ = node.getChildNodes();
+            nnode = node_.getLength();
+            if (nnode == 0) {
+                x = (Node) node.getOwnerDocument().createTextNode(value);
                 node.appendChild(x);
             } else {
-                for (n=0;n<nnode;n++) {
-                    x=(Node)node_.item(n);
-                    if (x==null) continue;
-                    if (x.getNodeType()==Node.TEXT_NODE) {
+                for (n = 0; n < nnode; n++) {
+                    x = (Node) node_.item(n);
+                    if (x == null) {
+                        continue;
+                    }
+                    if (x.getNodeType() == Node.TEXT_NODE) {
                         x.setNodeValue(value);
                         break;
                     }
@@ -848,14 +863,20 @@ public class XmlHelper {
             nodes=parent.getChildNodes();
             for(n=0;n<nodes.getLength();n++) {
                 node=nodes.item(n);
-                if (node.getNodeType()==Node.TEXT_NODE)
+                if (node.getNodeType() == Node.TEXT_NODE) {
                     value.append(node.getNodeValue());
-                if (node.hasChildNodes())
+                }
+                if (node.hasChildNodes()) {
                     value.append(GetNodeText(node));
+                }
             }
         } else {
             s=parent.getNodeValue();
-            if (s!=null) return s; else return "";
+            if (s != null) {
+                return s;
+            } else {
+                return "";
+            }
         }
         return value.toString();
     }
@@ -865,8 +886,9 @@ public class XmlHelper {
 //*****************************************************************************
     static public String GetNodeText(Node parent,String childname) {
         Node x=SelectSingleNode(parent,childname);
-        if (x!=null)
+        if (x != null) {
             return GetNodeText(x);
+        }
         return "";
     }
 
@@ -881,8 +903,9 @@ public class XmlHelper {
         boolean defaultNamespaceAware) throws Exception {
         Node x;
         x=SelectSingleNode(parent,childtype+"[@"+attr+"=\""+value+"\"]",defaultNamespaceAware);
-        if (x!=null)
+        if (x != null) {
             return GetNodeText(x);
+        }
         return "";
     }
 
@@ -978,17 +1001,20 @@ public class XmlHelper {
 // Nodes containing text:
                     case Node.CDATA_SECTION_NODE:
                     case Node.TEXT_NODE:
-                        if (ignoreBlankSpaces)
-                            childContent=child.getNodeValue().trim();
-                        else
-                            childContent=child.getNodeValue();
-                        if (childContent.length()>0)
+                        if (ignoreBlankSpaces) {
+                            childContent = child.getNodeValue().trim();
+                        } else {
+                            childContent = child.getNodeValue();
+                        }
+                        if (childContent.length() > 0) {
                             return true;
+                        }
 
 // Elements (nodes containing nodes):
                     case Node.ELEMENT_NODE:
-                        if (NodeHasContent(child,ignoreBlankSpaces))
+                        if (NodeHasContent(child, ignoreBlankSpaces)) {
                             return true;
+                        }
 
 // Any other type of node are not considered as content:
                     default:
@@ -1022,11 +1048,17 @@ public class XmlHelper {
 //............................ Initialisation .................................
 // On obtient le document:
         owner=parent.getOwnerDocument();
-        if (owner==null) owner=(Document)parent;
+        if (owner == null) {
+            owner = (Document) parent;
+        }
         namespace = source.getNamespaceURI();
 
 //........................... Création du nouvel élément ......................
-        if (cname.length()>0) name = cname; else name = source.getNodeName();
+        if (cname.length() > 0) {
+            name = cname;
+        } else {
+            name = source.getNodeName();
+        }
         type=source.getNodeType();
         switch(type) {
 //****************************** Si la source est un document *****************
@@ -1034,8 +1066,9 @@ public class XmlHelper {
                 if (source.hasChildNodes()) {
                     node=source.getFirstChild();
                     return CopyNode(parent,node,cname);
-                } else
-                    throw new ProgrammingException("XMLHELPER","'source' argument is a DOCUMENT_NODE, but has no childs");
+                } else {
+                    throw new ProgrammingException("XMLHELPER", "'source' argument is a DOCUMENT_NODE, but has no childs");
+                }
 
 //*************************** Si la source est simplement un texte ************
             case Node.TEXT_NODE:

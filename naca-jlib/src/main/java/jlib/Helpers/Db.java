@@ -82,7 +82,9 @@ public class Db {
  * The JDBC connection string to use.
  */
     public void setConString(String conString) throws Exception {
-        if (!_conString.equals(conString)) cleanConnection();
+        if (!_conString.equals(conString)) {
+            cleanConnection();
+        }
         _conString=conString;
     }
 
@@ -101,7 +103,9 @@ public class Db {
  * The JDBC name of the database driver to use.
  */
     public void setDriver(String driver) throws Exception {
-        if (!_driver.equals(driver)) cleanConnection();
+        if (!_driver.equals(driver)) {
+            cleanConnection();
+        }
         _driver=driver;
     }
 
@@ -120,7 +124,9 @@ public class Db {
  * A user with rights to log in the database.
  */
     public void setUser(String user) throws Exception {
-        if (!_user.equals(user)) cleanConnection();
+        if (!_user.equals(user)) {
+            cleanConnection();
+        }
         _user=user;
     }
 
@@ -139,7 +145,9 @@ public class Db {
  * The password for the specified <code>user</code>.
  */
     public void setPassword(String password) throws Exception {
-        if (!_password.equals(password)) cleanConnection();
+        if (!_password.equals(password)) {
+            cleanConnection();
+        }
         _password=password;
     }
 
@@ -203,8 +211,9 @@ public class Db {
         char parameterPrefix;
         try {
 //.............................. Initialisation ...............................
-            if (_connection==null)
+            if (_connection == null) {
                 connectTo();
+            }
 
             parametrizedSql=new StringBuffer();
             parameters=new ArrayList<String>();
@@ -214,21 +223,26 @@ public class Db {
             for(;;) {
 // Looks for a parameters in the SQL string:
                 n1=sql.indexOf('{',n0);
-                if (n1<0)
+                if (n1 < 0) {
                     break;
-                if (n0>0)
-                    if (sql.charAt(n0-1)=='\\')
+                }
+                if (n0 > 0) {
+                    if (sql.charAt(n0 - 1) == '\\') {
                         break;
+                    }
+                }
 
 // Looks for the end of the parameter.
                 n2=sql.indexOf('}', n1);
-                if (n2<0)
-                    throw new Exception("Char '{' at position "+n1+" is not completed with a '}'.");
+                if (n2 < 0) {
+                    throw new Exception("Char '{' at position " + n1 + " is not completed with a '}'.");
+                }
 
 // Isolates the paramters, and checks its validity.
                 parameter=sql.substring(n1+1,n2);
-                if (parameter.indexOf('{')>=0 || parameter.indexOf('}')>=0)
-                    throw new Exception("Parameter starting at position "+n1+" contains nested '{'.");
+                if (parameter.indexOf('{') >= 0 || parameter.indexOf('}') >= 0) {
+                    throw new Exception("Parameter starting at position " + n1 + " contains nested '{'.");
+                }
 
 // Adds the paramter in the collection.
                 parameters.add(parameter);
@@ -335,14 +349,30 @@ public class Db {
  */
     public void connectTo() throws Exception {
         try {
-            if (_driver==null) throw new Exception("Property \"Driver\" is not initialized.");
-            if (_driver.length()==0) throw new Exception("Property \"Driver\" is empty.");
-            if (_conString==null) throw new Exception("Property \"ConString\" is not initialized.");
-            if (_conString.length()==0) throw new Exception("Property \"\" is empty.");
-            if (_user==null) throw new Exception("Property \"User\" is not initialized.");
-            if (_user.length()==0) throw new Exception("Property \"User\" is empty.");
-            if (_password==null) throw new Exception("Property \"Password\" is not initialized.");
-            if (_password.length()==0) throw new Exception("Property \"Password\" is empty.");
+            if (_driver == null) {
+                throw new Exception("Property \"Driver\" is not initialized.");
+            }
+            if (_driver.length() == 0) {
+                throw new Exception("Property \"Driver\" is empty.");
+            }
+            if (_conString == null) {
+                throw new Exception("Property \"ConString\" is not initialized.");
+            }
+            if (_conString.length() == 0) {
+                throw new Exception("Property \"\" is empty.");
+            }
+            if (_user == null) {
+                throw new Exception("Property \"User\" is not initialized.");
+            }
+            if (_user.length() == 0) {
+                throw new Exception("Property \"User\" is empty.");
+            }
+            if (_password == null) {
+                throw new Exception("Property \"Password\" is not initialized.");
+            }
+            if (_password.length() == 0) {
+                throw new Exception("Property \"Password\" is empty.");
+            }
             connectTo(_driver,_conString,_user,_password);
         }
         catch(Exception e) {
@@ -526,8 +556,9 @@ public class Db {
     public void closeResultSet(ResultSet rcs) throws Exception {
         try {
             Statement st=rcs.getStatement();
-            if (st!=null)
+            if (st != null) {
                 st.close();
+            }
             rcs.close();
 
         } catch (SQLException e) {
@@ -596,7 +627,9 @@ public class Db {
  * in the same transaction.
  */
     public void startTransaction() throws Exception {
-        if (_connection==null) connectTo();
+        if (_connection == null) {
+            connectTo();
+        }
         _connection.setAutoCommit(false);
     }
 
@@ -639,8 +672,9 @@ public class Db {
         int n1,n2;
         StringBuffer r=new StringBuffer("");
         try {
-            if (s==null)
+            if (s == null) {
                 return null;
+            }
             n1=0;
             n2=s.indexOf("'");
             while (n1>=0) {

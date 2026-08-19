@@ -365,8 +365,9 @@ public class CExecSQLInsert extends CBaseExecSQLAction
 
     public void AppendRequiredSpace()
     {
-        if(!selectClause.endsWith(" ") && !selectClause.endsWith(":") && !selectClause.endsWith(".") && !selectClause.endsWith("!"))
+        if (!selectClause.endsWith(" ") && !selectClause.endsWith(":") && !selectClause.endsWith(".") && !selectClause.endsWith("!")) {
             selectClause += " ";
+        }
     }
 
     protected String selectClause = "" ;

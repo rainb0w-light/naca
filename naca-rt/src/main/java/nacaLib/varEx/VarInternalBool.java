@@ -60,26 +60,29 @@ public class VarInternalBool extends Var
 
     public void set(int n)
     {
-        if(n == 0)
+        if (n == 0) {
             isvalue = false;
-        else
+        } else {
             isvalue = true;
+        }
     }
 
     public void set(long l)
     {
-        if(l == 0)
+        if (l == 0) {
             isvalue = false;
-        else
+        } else {
             isvalue = true;
+        }
     }
 
     public void set(String cs)
     {
-        if(cs.equalsIgnoreCase("false") || cs.equalsIgnoreCase("0"))
+        if (cs.equalsIgnoreCase("false") || cs.equalsIgnoreCase("0")) {
             isvalue = false;
-        else
+        } else {
             isvalue = true;
+        }
     }
 
     public void set(boolean b)
@@ -99,36 +102,41 @@ public class VarInternalBool extends Var
 
     public int getInt()
     {
-        if(isvalue)
+        if (isvalue) {
             return 1;
+        }
         return 0;
     }
 
     public long getLong()
     {
-        if(isvalue)
+        if (isvalue) {
             return 1L;
+        }
         return 0L;
     }
 
     public double getDouble()
     {
-        if(isvalue)
+        if (isvalue) {
             return 1.0;
+        }
         return 0.0;
     }
 
     public String getString()
     {
-        if(isvalue)
+        if (isvalue) {
             return "1";
+        }
         return "0";
     }
 
     public String toString()
     {
-        if(isvalue)
+        if (isvalue) {
             return "true";
+        }
         return "false";
     }
 
@@ -143,10 +151,11 @@ public class VarInternalBool extends Var
     {
         double varValue = getDouble();
         double d = varValue - dValue;
-        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+        if (d < -0.00001) {    //Consider epsilon precision at 10 e-5
             return -1;
-        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+        } else if (d > 0.00001) {    //Consider epsilon precision at 10 e-5
             return 1;
+        }
         return 0;
     }
 

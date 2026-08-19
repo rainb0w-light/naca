@@ -45,14 +45,20 @@ public class LanguageId
 
     public static LanguageId chooseInstanceByName(String csName)
     {
-        if(csName.equalsIgnoreCase("DE") || csName.equals("01") || csName.equalsIgnoreCase("German") || csName.equalsIgnoreCase("DE_DE"))
+        if (csName.equalsIgnoreCase("DE") || csName.equals("01") || csName.equalsIgnoreCase("German") || csName.equalsIgnoreCase("DE_DE")) {
             return LanguageId.German;
-        if(csName.equalsIgnoreCase("FR") || csName.equals("02") || csName.equalsIgnoreCase("French")|| csName.equalsIgnoreCase("FR_FR"))
+        }
+        if (csName.equalsIgnoreCase("FR") || csName.equals("02") || csName.equalsIgnoreCase("French") || csName.equalsIgnoreCase("FR_FR")) {
             return LanguageId.French;
-        if(csName.equalsIgnoreCase("IT") || csName.equals("03") || csName.equalsIgnoreCase("Italian")|| csName.equalsIgnoreCase("IT_IT"))
+        }
+        if (csName.equalsIgnoreCase("IT") || csName.equals("03") || csName.equalsIgnoreCase("Italian")
+            || csName.equalsIgnoreCase("IT_IT")) {
             return LanguageId.Italian;
-        if(csName.equalsIgnoreCase("EN") || csName.equals("04") || csName.equalsIgnoreCase("English")|| csName.equalsIgnoreCase("EN_EN"))
+        }
+        if (csName.equalsIgnoreCase("EN") || csName.equals("04") || csName.equalsIgnoreCase("English")
+            || csName.equalsIgnoreCase("EN_EN")) {
             return LanguageId.English;
+        }
         Log.logCritical("Unknown languageId: " + csName + "; No language default value is returned");
         return LanguageId.NoLanguage;
     }
@@ -65,11 +71,13 @@ public class LanguageId
         csIsoCode = csCode.toLowerCase();
         this.csNumericCode = csNumericCode;
 
-        if(ms_arrLanguages == null)
+        if (ms_arrLanguages == null) {
             ms_arrLanguages = new ArrayList<LanguageId>();  // List of all language Id
+        }
         ms_arrLanguages.add(this);
-        if(bDefault)
+        if (bDefault) {
             ms_defaultLanguageId = this;
+        }
     }
 
     public String getNumericCode()
@@ -104,8 +112,9 @@ public class LanguageId
         for(int n=0; n<ms_arrLanguages.size(); n++)
         {
             LanguageId languageId = ms_arrLanguages.get(n);
-            if(languageId.getTextCodeUpperCase().equals(cs) || languageId.equals(cs))
+            if (languageId.getTextCodeUpperCase().equals(cs) || languageId.equals(cs)) {
                 return languageId;
+            }
         }
         return ms_defaultLanguageId;
     }

@@ -165,8 +165,9 @@ public class CUnstring extends CCobolElement
             }
         }
         tok = GetCurrentToken();
-        if (tok.GetType()  == CTokenType.COMMA)
-            tok = GetNext() ;
+        if (tok.GetType() == CTokenType.COMMA) {
+            tok = GetNext();
+        }
         while (tok.GetKeyword() == CCobolKeywordList.OR)
         {
             tok = GetNext();
@@ -182,8 +183,9 @@ public class CUnstring extends CCobolElement
                 delimitersSingle.add(t) ;
             }
             tok = GetCurrentToken();
-            if (tok.GetType()  == CTokenType.COMMA)
-                tok = GetNext() ;
+            if (tok.GetType() == CTokenType.COMMA) {
+                tok = GetNext();
+            }
         }
         if (tok.GetKeyword() == CCobolKeywordList.INTO)
         {

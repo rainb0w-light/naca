@@ -66,12 +66,13 @@ public class LogCenterPluginConsole extends LogCenter
         if(pluginMarker != null)
         {
             LogEventType logEventType = logParam.getLogEventType();
-            if(logEventType == LogEventType.Error)
+            if (logEventType == LogEventType.Error) {
                 pluginMarker.error("(0) [Error] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
-            else if(logEventType == LogEventType.Warning)
+            } else if (logEventType == LogEventType.Warning) {
                 pluginMarker.warn("(0) [warning] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
-            else
+            } else {
                 pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
+            }
         }
     }
 

@@ -50,8 +50,9 @@ public class AccountingRecordProgram
 
     long getTimeDateStart()
     {
-        if(dateStart != null)
+        if (dateStart != null) {
             return dateStart.getTime();
+        }
         return 0;
     }
 

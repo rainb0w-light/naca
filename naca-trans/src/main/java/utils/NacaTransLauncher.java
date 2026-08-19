@@ -58,13 +58,14 @@ public class NacaTransLauncher extends Transcoder
                 {
                     csCfg = s;
                     iscfgSet = true;
-                }
-                else
+                } else {
                     csGroupToTranscode = s;
+                }
             }
         }
-        if (csCfg == null || csCfg.isBlank())
+        if (csCfg == null || csCfg.isBlank()) {
             throw new IllegalArgumentException("A transpiler config file must be supplied with -ConfigFile=<path>");
+        }
         doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);
     }
 

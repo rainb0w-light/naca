@@ -28,8 +28,9 @@ public class SortedRecordsPoolOfThreadReader extends PoolOfThreads
     byte [] getNextSortedRecord()
     {
         ThreadPoolRequest req = dequeue();
-        if(req.getTerminaisonRequest())
+        if (req.getTerminaisonRequest()) {
             return null;
+        }
         SortedRecordReq sortedRecordReq = (SortedRecordReq) req;
         return sortedRecordReq.getData();
     }

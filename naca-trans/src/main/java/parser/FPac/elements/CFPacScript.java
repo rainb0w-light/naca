@@ -109,8 +109,9 @@ public class CFPacScript extends CFPacElement
         tok = GetCurrentToken() ;
         while (tok != null && tok.GetKeyword() == CFPacKeywordList.SUBR)
         {
-            if (subr == null)
-                subr = new Vector<CFPacSubr>() ;
+            if (subr == null) {
+                subr = new Vector<CFPacSubr>();
+            }
             CFPacSubr subr = new  CFPacSubr(tok.getLine()) ;
             if (!Parse(subr))
             {

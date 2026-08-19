@@ -23,22 +23,25 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
 
     public int size()
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.size();
+        }
         return 0;
     }
 
     public T get(int n)
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.get(n);
+        }
         return null;
     }
 
     public void add(T t)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new Vector<T>();
+        }
         arr.add(t);
     }
 
@@ -59,8 +62,9 @@ public class VectorDyn<T> extends ArrayFixDyn<T>
 
     public void setSize(int n)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new Vector<T>();
+        }
         arr.setSize(n);
     }
 

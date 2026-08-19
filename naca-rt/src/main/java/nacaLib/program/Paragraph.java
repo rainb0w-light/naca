@@ -36,7 +36,9 @@ public class Paragraph extends CJMapRunnable
 
     public void run()
     {
-        if (csName == null) return;
+        if (csName == null) {
+            return;
+        }
         try
         {
             if (method == null)

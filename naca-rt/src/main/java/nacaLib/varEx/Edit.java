@@ -67,8 +67,9 @@ public abstract class Edit extends VarAndEdit
 
     public boolean hasType(VarTypeEnum e)
     {
-        if(e == VarTypeEnum.TypeFieldEdit)
+        if (e == VarTypeEnum.TypeFieldEdit) {
             return true;
+        }
         return false;
     }
 
@@ -82,8 +83,9 @@ public abstract class Edit extends VarAndEdit
 
     public void setAndFill(String csValue)
     {
-        if(csValue.length() > 0)
+        if (csValue.length() > 0) {
             varDef.writeAndFill(bufferPos, csValue.charAt(0));
+        }
     }
 
     public String getDottedSignedString()
@@ -337,10 +339,12 @@ public abstract class Edit extends VarAndEdit
             if (bWithPadding)
             {
                 String csChar = "";
-                if(attrManager.isFillBlank())
+                if (attrManager.isFillBlank()) {
                     csChar = " ";
-                if(attrManager.isFillZero())
+                }
+                if (attrManager.isFillZero()) {
                     csChar = "0";
+                }
 
                 String csFilling = new String();
 
@@ -611,8 +615,9 @@ public abstract class Edit extends VarAndEdit
                     nPos = charBuffer.writeString(cs, nPos);
                     if(nPos != -1)
                     {
-                        if(isLogCESM)
-                            Log.logDebug("edit encodeIntoCharBuffer cs="+cs+" to edit="+getLoggableValue());
+                        if (isLogCESM) {
+                            Log.logDebug("edit encodeIntoCharBuffer cs=" + cs + " to edit=" + getLoggableValue());
+                        }
                         return nPos;
                     }
                 }
@@ -635,8 +640,9 @@ public abstract class Edit extends VarAndEdit
         nPositionSource += 7;
         bufferPos.copyBytesFromSource(nPositionDest, varSource.bufferPos, nPositionSource, nDestLength);
 
-        if(isLogCESM)
-            Log.logDebug("edit decodeFromVar source="+varSource.getLoggableValue()+" to edit="+getLoggableValue());
+        if (isLogCESM) {
+            Log.logDebug("edit decodeFromVar source=" + varSource.getLoggableValue() + " to edit=" + getLoggableValue());
+        }
         return nPos + 7 + nDestLength;
     }
 
@@ -671,8 +677,9 @@ public abstract class Edit extends VarAndEdit
 
     public boolean equals(String csValue)
     {
-        if(compareTo(ComparisonMode.Unicode, csValue) == 0)
+        if (compareTo(ComparisonMode.Unicode, csValue) == 0) {
             return true;
+        }
         return false;
     }
 
@@ -680,10 +687,12 @@ public abstract class Edit extends VarAndEdit
     {
         String cs1 = getString();
         int n = var2.compareTo(mode, cs1);
-        if(n < 0)
+        if (n < 0) {
             return 1;
-        if(n > 0)
+        }
+        if (n > 0) {
             return -1;
+        }
         return 0;
     }
 
@@ -699,14 +708,17 @@ public abstract class Edit extends VarAndEdit
     public int compareTo(int n2)
     {
         int n1;
-        if (getString().trim().equals(""))
+        if (getString().trim().equals("")) {
             n1 = -1;
-        else
+        } else {
             n1 = getInt();
-        if(n1 < n2)
+        }
+        if (n1 < n2) {
             return -1;
-        if(n1 == n2)
+        }
+        if (n1 == n2) {
             return 0;
+        }
         return 1;
     }
 
@@ -714,10 +726,11 @@ public abstract class Edit extends VarAndEdit
     {
         double varValue = getDouble();
         double d = varValue - dValue;
-        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+        if (d < -0.00001) {    //Consider epsilon precision at 10 e-5
             return -1;
-        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+        } else if (d > 0.00001) {    //Consider epsilon precision at 10 e-5
             return 1;
+        }
         return 0;
     }
 

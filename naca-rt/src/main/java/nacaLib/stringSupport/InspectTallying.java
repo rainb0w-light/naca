@@ -121,16 +121,18 @@ public class InspectTallying
         if(csAfter != null) // We have a starting point
         {
             int nPosAfter = csSource.indexOf(csAfter);
-            if(nPosAfter == -1) // No delimiter found: Nothing to do
+            if (nPosAfter == -1) { // No delimiter found: Nothing to do
                 return this;
+            }
             csSource = csSource.substring(nPosAfter+1);
         }
 
         if(csBefore != null)    // We have a ending point
         {
             int nPosBefore = csSource.indexOf(csBefore);
-            if(nPosBefore == -1)    // No delimiter found: Nothing to do
+            if (nPosBefore == -1) {    // No delimiter found: Nothing to do
                 return this;
+            }
             csSource = csSource.substring(0, nPosBefore);
         }
 

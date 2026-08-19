@@ -49,8 +49,9 @@ public class LdapUtil
     {
         LdapThread th = new LdapThread(nRequestId, csUserId, csPassword, csServer, nbThreadCreated);
 
-        if(thread == null)
+        if (thread == null) {
             thread = new ArrayList<LdapThread>();
+        }
         thread.add(th);
     }
 

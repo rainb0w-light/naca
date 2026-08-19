@@ -37,8 +37,9 @@ public class FileSysinReader extends BaseFileScriptReader
         int nSumNbRecords = 0;
         fileIn.setSession(session);
         String csFileIn = fileIn.getPhysicalName();
-        if(BaseDataFile.isNullFile(csFileIn))
+        if (BaseDataFile.isNullFile(csFileIn)) {
             return false;
+        }
 
         dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
         boolean isinOpened = dataFileIn.open();
@@ -72,8 +73,9 @@ public class FileSysinReader extends BaseFileScriptReader
     private String readSQLLine()
     {
         LineRead lineRead = dataFileIn.readNextUnixLine();
-        if(lineRead == null)
+        if (lineRead == null) {
             return null;
+        }
 
         String csSQLLine = "";
         while(lineRead != null)
@@ -82,8 +84,9 @@ public class FileSysinReader extends BaseFileScriptReader
             csPhysicalLine = removeCrLf(csPhysicalLine);
             csPhysicalLine = removeCommentAndLineNumber(csPhysicalLine);
             csPhysicalLine = csPhysicalLine.trim();
-            if(!StringUtil.isEmpty(csPhysicalLine))
+            if (!StringUtil.isEmpty(csPhysicalLine)) {
                 csSQLLine += " " + csPhysicalLine;
+            }
             if(isEndOfSQLLine(csSQLLine))
             {
                 csSQLLine = csSQLLine.trim();

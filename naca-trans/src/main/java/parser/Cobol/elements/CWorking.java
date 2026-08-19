@@ -74,9 +74,9 @@ public class CWorking extends CCommentContainer
                 Transcoder.logError(tokEntry.getLine(), "Consuming token " + tokEntry.toString());
                 GetNext();
                 isloop = true;
-            }
-            else
+            } else {
                 endParseWorking();
+            }
         }
         return b;
     }

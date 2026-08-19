@@ -44,8 +44,9 @@ public class NumericValue
             {
                 if(nNbDigitDecimal == 0)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefFPacNumIntSignComp3(varDefParent, declareType9, this);
+                    }
                 }
             }
         }
@@ -62,47 +63,53 @@ public class NumericValue
                 {
                     if(bSignLeading)
                     {
-                        if(isIntEnough())
+                        if (isIntEnough()) {
                             return new VarDefNumIntSignLeadingComp0(varDefParent, declareType9, this);
-                        else
+                        } else {
                             return new VarDefNumIntSignLeadingComp0Long(varDefParent, declareType9, this);
+                        }
                     }
                     else    // Trailing
                     {
-                        if(isIntEnough())
+                        if (isIntEnough()) {
                             return new VarDefNumIntSignTrailingComp0(varDefParent, declareType9, this);
-                        else
+                        } else {
                             return new VarDefNumIntSignTrailingComp0Long(varDefParent, declareType9, this);
+                        }
                     }
                 }
                 else if(bSigned)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntSignComp0(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntSignComp0Long(varDefParent, declareType9, this);
+                    }
                 }
                 else
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntComp0(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntComp0Long(varDefParent, declareType9, this);
+                    }
                 }
             }
             else
             {
                 if(bSigned && issignSeparated)
                 {
-                    if(bSignLeading)
+                    if (bSignLeading) {
                         return new VarDefNumDecSignLeadingComp0(varDefParent, declareType9, this);
-                    else    // Trailing
+                    } else {    // Trailing
                         return new VarDefNumDecSignTrailingComp0(varDefParent, declareType9, this);
+                    }
                 }
-                else if(bSigned)
+                else if (bSigned) {
                     return new VarDefNumDecSignComp0(varDefParent, declareType9, this);
-                else
+                } else {
                     return new VarDefNumDecComp0(varDefParent, declareType9, this);
+                }
             }
         }
         else if(nComp == -3)    // Comp-3 specified: 2 digits by char (1 by nibble), with the sign in the rightmost nibble
@@ -111,25 +118,27 @@ public class NumericValue
             {
                 if(nNbDigitDecimal == 0)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntComp3(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntComp3Long(varDefParent, declareType9, this);
-                }
-                else
+                    }
+                } else {
                     return new VarDefNumDecComp3(varDefParent, declareType9, this);
+                }
             }
             else
             {
                 if(nNbDigitDecimal == 0)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntSignComp3(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntSignComp3Long(varDefParent, declareType9, this);
-                }
-                else
+                    }
+                } else {
                     return new VarDefNumDecSignComp3(varDefParent, declareType9, this);
+                }
             }
         }
         else if(nComp == -4 || nComp == -5) // Standard binary or native binary (COMP-5)
@@ -138,25 +147,28 @@ public class NumericValue
             {
                 if(!bSigned)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntComp4(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntComp4Long(varDefParent, declareType9, this);
+                    }
                 }
                 else
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarDefNumIntSignComp4(varDefParent, declareType9, this);
-                    else
+                    } else {
                         return new VarDefNumIntSignComp4Long(varDefParent, declareType9, this);
+                    }
                 }
             }
             else
             {
-                if(!bSigned)
+                if (!bSigned) {
                     return new VarDefNumDecComp4(varDefParent, declareType9, this);
-                else
+                } else {
                     return new VarDefNumDecSignComp4(varDefParent, declareType9, this);
+                }
             }
         }
         return null;
@@ -175,17 +187,19 @@ public class NumericValue
             {
                 if(isIntEnough())
                 {
-                    if(nNbDigitDecimal == 0)
+                    if (nNbDigitDecimal == 0) {
                         return new VarNumIntComp0(declareType9);
-                    else
+                    } else {
                         return new VarNumDecComp0(declareType9);
+                    }
                 }
                 else
                 {
-                    if(nNbDigitDecimal == 0)
+                    if (nNbDigitDecimal == 0) {
                         return new VarNumIntComp0Long(declareType9);
-                    else
+                    } else {
                         return new VarNumDecComp0Long(declareType9);
+                    }
                 }
             }
             else
@@ -194,25 +208,27 @@ public class NumericValue
                 {
                     if(issignSeparated)
                     {
-                        if(bSignLeading)
+                        if (bSignLeading) {
                             return new VarNumIntSignLeadingComp0(declareType9);
-                        else
+                        } else {
                             return new VarNumIntSignTrailingComp0(declareType9);
-                    }
-                    else
+                        }
+                    } else {
                         return new VarNumIntSignComp0(declareType9);
+                    }
                 }
                 else
                 {
                     if(issignSeparated)
                     {
-                        if(bSignLeading)
+                        if (bSignLeading) {
                             return new VarNumDecSignLeadingComp0(declareType9);
-                        else
+                        } else {
                             return new VarNumDecSignTrailingComp0(declareType9);
-                    }
-                    else
+                        }
+                    } else {
                         return new VarNumDecSignComp0(declareType9);
+                    }
                 }
             }
         }
@@ -220,17 +236,19 @@ public class NumericValue
         {
             if(!bSigned)
             {
-                if(nNbDigitDecimal == 0)
+                if (nNbDigitDecimal == 0) {
                     return new VarNumIntComp3(declareType9);
-                else
+                } else {
                     return new VarNumDecComp3(declareType9);
+                }
             }
             else
             {
-                if(nNbDigitDecimal == 0)
+                if (nNbDigitDecimal == 0) {
                     return new VarNumIntSignComp3(declareType9);
-                else
+                } else {
                     return new VarNumDecSignComp3(declareType9);
+                }
             }
         }
         else if(nComp == -4 || nComp == -5)
@@ -239,25 +257,28 @@ public class NumericValue
             {
                 if(!bSigned)
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarNumIntComp4(declareType9);
-                    else
+                    } else {
                         return new VarNumIntComp4Long(declareType9);
+                    }
                 }
                 else
                 {
-                    if(isIntEnough())
+                    if (isIntEnough()) {
                         return new VarNumIntSignComp4(declareType9);
-                    else
+                    } else {
                         return new VarNumIntSignComp4Long(declareType9);
+                    }
                 }
             }
             else
             {
-                if(!bSigned)
+                if (!bSigned) {
                     return new VarNumDecComp4(declareType9);
-                else
+                } else {
                     return new VarNumDecSignComp4(declareType9);
+                }
             }
         }
         return null;

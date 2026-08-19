@@ -34,10 +34,11 @@ public class RecordColTypeManagerDecimalLong extends RecordColTypeManagerBase
         try
         {
             long lValue = resultSetSource.getInt(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setLong(nColSourceIndex, lValue);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.INTEGER);
+            }
             return true;
         }
         catch (SQLException e)

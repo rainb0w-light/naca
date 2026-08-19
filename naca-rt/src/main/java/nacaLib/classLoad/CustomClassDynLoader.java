@@ -42,22 +42,29 @@ public class CustomClassDynLoader extends ClassDynLoader
         char c = csClassName.charAt(0);
         if(c == 'j' || c == 'n' || c == 'i' || c == 'p' || c == 's')
         {
-            if(csClassName.startsWith("java"))
+            if (csClassName.startsWith("java")) {
                 return tryLoadWithPrimordialClassLoader(csClassName);
-            if(csClassName.startsWith("nacaLib"))   // All nacalib classes are directly loaded by promordial class loader
+            }
+            if (csClassName.startsWith("nacaLib")) {   // All nacalib classes are directly loaded by promordial class loader
                 return tryLoadWithPrimordialClassLoader(csClassName);
-            if(csClassName.startsWith("nacaTests")) // All nacaTests classes are directly loaded by promordial class loader
+            }
+            if (csClassName.startsWith("nacaTests")) { // All nacaTests classes are directly loaded by promordial class loader
                 return tryLoadWithPrimordialClassLoader(csClassName);
-            if(csClassName.startsWith("idea"))  // All nacalib classes are directly loaded by promordial class loader
+            }
+            if (csClassName.startsWith("idea")) {  // All nacalib classes are directly loaded by promordial class loader
                 return tryLoadWithPrimordialClassLoader(csClassName);
+            }
             // All nacalib classes are directly loaded by promordial class loader
-            if(csClassName.startsWith("pub2000Utils"))
+            if (csClassName.startsWith("pub2000Utils")) {
                 return tryLoadWithPrimordialClassLoader(csClassName);
-            if(csClassName.startsWith("sun"))
+            }
+            if (csClassName.startsWith("sun")) {
                 return tryLoadWithPrimordialClassLoader(csClassName);
+            }
         }
-        if(!iscanLoadJar && !bCanLoadClass)
+        if (!iscanLoadJar && !bCanLoadClass) {
             return tryLoadWithPrimordialClassLoader(csClassName);
+        }
 
         boolean isprogram = false;
         boolean bCopyOrStdClass = false;
@@ -68,11 +75,12 @@ public class CustomClassDynLoader extends ClassDynLoader
 
         if(csCurrentClassName != null)  // paragraph or copy
         {
-            if(csClassName.equals(csCurrentClassName))  // Program
+            if (csClassName.equals(csCurrentClassName)) {  // Program
                 isprogram = true;
-            else if(csClassName.startsWith(csCurrentClassName) && csClassName.indexOf('$') == csCurrentClassName.length())  // Paragraph
+            } else if (csClassName.startsWith(csCurrentClassName)
+                && csClassName.indexOf('$') == csCurrentClassName.length()) {  // Paragraph
                 isparagraph = true;
-            else
+            } else
             {
                 bCopyOrStdClass = true; // Copy
             }
@@ -80,10 +88,11 @@ public class CustomClassDynLoader extends ClassDynLoader
         else
         {
             // Pub2000Routines must be moved into a package of nacaRT, like pub2000Utils
-        if(csClassName.equals("Pub2000Routines"))
+            if (csClassName.equals("Pub2000Routines")) {
                 bCopyOrStdClass = true; // Copy
-            else
+            } else {
                 iscallOrStdClass = true;    // Call
+            }
         }
 
         boolean isintf = csClassName.endsWith("Intf");
@@ -101,8 +110,9 @@ public class CustomClassDynLoader extends ClassDynLoader
         if(iscallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
         {
             classCode = tryLoadWithPrimordialClassLoader(csClassName);
-            if(classCode != null)
+            if (classCode != null) {
                 return classCode;
+            }
         }
 
         if(iscallOrStdClass)    // If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)

@@ -54,35 +54,37 @@ public class SQLTypeOperation
     {
         if(s.equalsIgnoreCase("SELECT"))
         {
-            if(bCursor)
+            if (bCursor) {
                 return SQLTypeOperation.CursorSelect;
-            else
+            } else {
                 return SQLTypeOperation.Select;
+            }
         }
-        else if(s.equalsIgnoreCase("DELETE"))
+        else if (s.equalsIgnoreCase("DELETE")) {
             return SQLTypeOperation.Delete;
-        else if(s.equalsIgnoreCase("UPDATE"))
+        } else if (s.equalsIgnoreCase("UPDATE")) {
             return SQLTypeOperation.Update;
-        else if(s.equalsIgnoreCase("INSERT"))
+        } else if (s.equalsIgnoreCase("INSERT")) {
             return SQLTypeOperation.Insert;
-        else if(s.equalsIgnoreCase("COMMIT"))
+        } else if (s.equalsIgnoreCase("COMMIT")) {
             return SQLTypeOperation.Commit;
-        else if(s.equalsIgnoreCase("ROLLBACK"))
+        } else if (s.equalsIgnoreCase("ROLLBACK")) {
             return SQLTypeOperation.Rollback;
-        else if(s.equalsIgnoreCase("CREATE"))
+        } else if (s.equalsIgnoreCase("CREATE")) {
             return SQLTypeOperation.Create;
-        else if(s.equalsIgnoreCase("DROP"))
+        } else if (s.equalsIgnoreCase("DROP")) {
             return SQLTypeOperation.Drop;
-        else if(s.equalsIgnoreCase("LOCK"))
+        } else if (s.equalsIgnoreCase("LOCK")) {
             return SQLTypeOperation.Lock;
-        else if(s.equalsIgnoreCase("DECLARE"))
+        } else if (s.equalsIgnoreCase("DECLARE")) {
             return SQLTypeOperation.Declare;
-        else if(s.equalsIgnoreCase("_SELECT"))
+        } else if (s.equalsIgnoreCase("_SELECT"))
         {
-            if(bCursor)
+            if (bCursor) {
                 return SQLTypeOperation.CursorSelect;
-            else
+            } else {
                 return SQLTypeOperation.Select;
+            }
         }
 
         return null;
@@ -92,16 +94,19 @@ public class SQLTypeOperation
     {
         if(nEnd1 >= 0 && nEnd2 >= 0)
         {
-            if(nEnd1 < nEnd2)
+            if (nEnd1 < nEnd2) {
                 return nEnd1;
+            }
             return nEnd2;
         }
 
-        if(nEnd1 >= 0)
+        if (nEnd1 >= 0) {
             return nEnd1;
+        }
 
-        if(nEnd2 >= 0)
+        if (nEnd2 >= 0) {
             return nEnd2;
+        }
         return -1;
     }
 
@@ -289,8 +294,9 @@ public class SQLTypeOperation
             }
         }
 
-        if (nStart == 0)
+        if (nStart == 0) {
             return query;
+        }
 
         String left = query.substring(0, nStart);
         String right = query.substring(nStart);
@@ -324,8 +330,9 @@ public class SQLTypeOperation
 
         String queryUpper = csQuery.toUpperCase();
 
-        if(queryUpper.indexOf(" JOIN ") == -1)  // No JOIN keyword : Use standard parser
+        if (queryUpper.indexOf(" JOIN ") == -1) {  // No JOIN keyword : Use standard parser
             return addEnvironmentPrefixStandardParser(env, csQuery, queryUpper, typeOperation, csForcedReplacedPrefix, false);
+        }
 
         // Custom parser for join keyword support
         int nStart = 0 ;
@@ -430,8 +437,9 @@ public class SQLTypeOperation
             }
         }
 
-        if (nStart == 0)
+        if (nStart == 0) {
             return csQuery;
+        }
 
         String left = csQuery.substring(0, nStart);
         String right = csQuery.substring(nStart);
@@ -450,8 +458,9 @@ public class SQLTypeOperation
 
     private static String setPrefixIfRequired(String env, String right, String forcedReplacedPrefix)
     {
-        if(right.indexOf('.') == -1)    // Prefix not already set
+        if (right.indexOf('.') == -1) {    // Prefix not already set
             return env + "." + right;
+        }
         if(!StringUtil.isEmpty(forcedReplacedPrefix))
         {
             if(StringUtil.startsWithNoCase(right, forcedReplacedPrefix))    // table prefix is a prefix that must be replaced

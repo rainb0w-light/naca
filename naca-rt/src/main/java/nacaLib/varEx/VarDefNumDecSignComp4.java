@@ -73,10 +73,11 @@ public class VarDefNumDecSignComp4 extends VarDefNum
     public int getSingleItemRequiredStorageSize()
     {
         int nNbTotalDigits = nNbDigitInteger + nNbDigitDecimal;
-        if(nNbTotalDigits <= 4)
+        if (nNbTotalDigits <= 4) {
             return 2;   // store in a short
-        else if(nNbTotalDigits <= 8)    // store in a int
+        } else if (nNbTotalDigits <= 8) {    // store in a int
             return 4;
+        }
         return 8;   // store in a long
     }
 
@@ -92,8 +93,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         int nValue = internalReadIntSignComp4(buffer);
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0String(nValue, nNbDigitInteger);
         int n = csNum.getAsInt();
@@ -106,8 +108,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger);
         long l = csNum.getAsLong();
-        if(lValue < 0)
+        if (lValue < 0) {
             l = -l;
+        }
         return l;
     }
 
@@ -120,8 +123,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
         String csInt = cs.substring(0, nNbDigitInteger);
         String csDec = cs.substring(nNbDigitInteger);
         Dec dec = new Dec(csInt, csDec);
-        if(lValue < 0)
+        if (lValue < 0) {
             dec.setPositive(false);
+        }
         return dec;
     }
 
@@ -130,8 +134,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
         int nValue = internalReadIntSignComp4(buffer);
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0String(nValue, nNbDigitInteger);
-        if(nValue < 0)
+        if (nValue < 0) {
             csNum.insert(0, '-');
+        }
         return csNum;
     }
 
@@ -461,8 +466,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
     {
         Dec dec = new Dec(0L, "");
         writeDecComp4(buffer, nOffset, dec);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 
@@ -645,16 +651,18 @@ public class VarDefNumDecSignComp4 extends VarDefNum
             int nPosition2 = buffer2.nAbsolutePosition;
             for(int n=0; n<nTotalSize; n++)
             {
-                if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+                if (buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++]) {
                     return false;
+                }
             }
             return true;
         }
 
         Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
         Dec dec1 = getAsDecodedDec(buffer1);
-        if(dec1.compare(dec2) == 0)
+        if (dec1.compare(dec2) == 0) {
             return true;
+        }
         return false;
     }
 
@@ -857,8 +865,9 @@ public class VarDefNumDecSignComp4 extends VarDefNum
     public String digits(VarBufferPos buffer)
     {
         long lValue = internalReadIntSignComp4AsLong(buffer);
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger+nNbDigitDecimal);
         return csNum.getAsString();

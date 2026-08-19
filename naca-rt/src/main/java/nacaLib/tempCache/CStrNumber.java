@@ -25,16 +25,18 @@ public class CStrNumber extends CStr
     {
         super();
         set(new char[40], 0, 40);
-        for(int n=NB_MAXI_DIGIT; n<40; n++)
+        for (int n = NB_MAXI_DIGIT; n < 40; n++) {
             acBuffer[n] = ' ';
+        }
     }
 
     private void checkBuffer(int nMinBufferLength)
     {
-        if(acBuffer == null)
+        if (acBuffer == null) {
             acBuffer = new char[nMinBufferLength];
-        else if(acBuffer.length < nMinBufferLength)
+        } else if (acBuffer.length < nMinBufferLength) {
             acBuffer = new char[nMinBufferLength];
+        }
     }
 
     public void set(CStr cs, int nReserve)
@@ -172,8 +174,9 @@ public class CStrNumber extends CStr
         checkBuffer(40);
 
         boolean isevenNumberOfDigits = false;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             isevenNumberOfDigits = true;
+        }
 
         int nChar = 0;
         int nBibble = 0;
@@ -212,8 +215,9 @@ public class CStrNumber extends CStr
         checkBuffer(40);
 
         boolean isevenNumberOfDigits = false;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             isevenNumberOfDigits = true;
+        }
 
         int nChar = 0;
         int nBibble = 0;
@@ -229,10 +233,11 @@ public class CStrNumber extends CStr
             if(nIndex == nLg-1) // No sign in right nibble
             {
                 nBibble = nChar % 16;
-                if(nBibble == 12)   // +
+                if (nBibble == 12) {   // +
                     append('+');
-                else
+                } else {
                     append('-');
+                }
             }
             else
             {
@@ -251,8 +256,9 @@ public class CStrNumber extends CStr
 
     public void getAsAbsoluteIntComp0String(int nValue, int nNbDigitInteger)
     {
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
         checkBuffer(40);
 
         nStartPos = NB_MAXI_DIGIT+1;
@@ -278,8 +284,9 @@ public class CStrNumber extends CStr
 
     public void getAsAbsoluteIntComp0StringAsLong(long lValue, int nNbDigitInteger)
     {
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         checkBuffer(40);
 
         nStartPos = NB_MAXI_DIGIT+1;

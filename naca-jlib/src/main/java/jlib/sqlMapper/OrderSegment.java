@@ -27,8 +27,9 @@ public class OrderSegment
 
     String getAsString()
     {
-        if(isascending)
+        if (isascending) {
             return csColName;
+        }
         return csColName + " desc";
     }
 }

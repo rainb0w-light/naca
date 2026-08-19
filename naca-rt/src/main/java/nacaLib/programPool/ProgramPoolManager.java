@@ -25,8 +25,9 @@ public class ProgramPoolManager //extends BaseOpenMBean
     {
         // hash table of ProgramInstancePool, indexed by program name
         hashProgramInstancesPool = new Hashtable<String, ProgramInstancesPool>();
-        if(bUseJmx)
+        if (bUseJmx) {
             JmxGeneralStat.addProgramPoolManager(this);
+        }
     }
 
     public void setShowProgramBeans(boolean b)
@@ -96,8 +97,9 @@ public class ProgramPoolManager //extends BaseOpenMBean
             {
                 ProgramInstancesPool programInstancesPool = arrProgramInstancesPool.get(n);
                 programInstancesPool.unloadProgram();
-                if(bDoGCAfterEachProgramUnload)
+                if (bDoGCAfterEachProgramUnload) {
                     System.gc();
+                }
                 programInstancesPool = null;
             }
             arrProgramInstancesPool = null;

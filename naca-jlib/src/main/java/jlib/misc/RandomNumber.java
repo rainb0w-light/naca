@@ -42,8 +42,9 @@ public class RandomNumber
 
     public static int generateIntBetween(int nMin, int nMax)
     {
-        if(ms_randomNumberSingleton == null)
+        if (ms_randomNumberSingleton == null) {
             ms_randomNumberSingleton = new RandomNumber();
+        }
         return ms_randomNumberSingleton.getIntBetween(nMin, nMax);
     }
 }

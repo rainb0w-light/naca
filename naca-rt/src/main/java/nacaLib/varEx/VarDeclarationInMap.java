@@ -61,8 +61,9 @@ public class VarDeclarationInMap extends VarDeclaration
         Form varForm = new Form(declareTypeForm, csName);
         curDefForm = varForm.getDefForm();
         curVarForm = varForm;
-        if(mapOwner != null)
+        if (mapOwner != null) {
             mapOwner.registerForm(curDefForm);
+        }
 
         return varForm;
 

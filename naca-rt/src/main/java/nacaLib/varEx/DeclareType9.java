@@ -83,30 +83,34 @@ public class DeclareType9 extends DeclareTypeBase
 
     public DeclareType9 value(double d)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(d, false);
+        }
         return this;
     }
 
     public DeclareType9 value(String s)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(s, false);
+        }
         return this;
     }
 
     public DeclareType9 value(int n)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(n, false);
+        }
         return this;
     }
 
     public DeclareType9 valueSpaces()
     {
         //initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = CInitialValueStd.Spaces;
+        }
         return this;
     }
 
@@ -117,8 +121,9 @@ public class DeclareType9 extends DeclareTypeBase
     public DeclareType9 valueZero()
     {
         //initialValue = new CInitialValue(CobolConstant.Zero.getValue(), false);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(0, false);
+        }
         return this ;
     }
 

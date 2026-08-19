@@ -36,8 +36,9 @@ public class CodeManager
         String csPath = StringUtil.extractFirstWordWithStopList(tcsPaths, ";");
         while(!StringUtil.isEmpty(csPath))
         {
-            if(ms_arrPath == null)
+            if (ms_arrPath == null) {
                 ms_arrPath = new ArrayList<String>();
+            }
             csPath = csPath.trim();
             csPath = FileSystem.normalizePath(csPath);
             ms_arrPath.add(csPath);
@@ -142,10 +143,11 @@ public class CodeManager
             if(p.getType().compareTo(MemoryType.NON_HEAP) == 0)
             {
                 String cs = p.getName();
-                if(cs.equalsIgnoreCase("Code Cache"))
-                    p.setUsageThreshold((long)nMaxSizeMemPoolCodeCache * 1024L * 1024L);
-                else if(cs.equalsIgnoreCase("Perm Gen"))
-                    p.setUsageThreshold((long)nMaxSizeMemPoolPermGen * 1024L * 1024L);
+                if (cs.equalsIgnoreCase("Code Cache")) {
+                    p.setUsageThreshold((long) nMaxSizeMemPoolCodeCache * 1024L * 1024L);
+                } else if (cs.equalsIgnoreCase("Perm Gen")) {
+                    p.setUsageThreshold((long) nMaxSizeMemPoolPermGen * 1024L * 1024L);
+                }
             }
         }
     }

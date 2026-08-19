@@ -162,8 +162,9 @@ public class Transcoder
 
                 // Special case for Pub2000GenResJava groups (Transcoder of .res and .java from a .xml file)
                 String csOutputDir2 = null;
-                if(eGroup.isValExisting("OutputPath2"))
-                    csOutputDir2 = eGroup.getVal("OutputPath2") ;
+                if (eGroup.isValExisting("OutputPath2")) {
+                    csOutputDir2 = eGroup.getVal("OutputPath2");
+                }
                 BaseEngine engine = tabEngines.get(engineName) ;
 //              if (engine != null)
 //              {
@@ -295,8 +296,9 @@ public class Transcoder
         {
             String fileName = eFile.getVal("Name") ;
             boolean isresources = false;
-            if (eFile.isValExisting("Resources"))
+            if (eFile.isValExisting("Resources")) {
                 isresources = eFile.getValAsBoolean("Resources");
+            }
             grp.getEngine().doFileTranscoding(fileName, csCurrentApplication, grp, isresources);
             eFile = eApp.getNextChild(cur) ;
         }
@@ -323,8 +325,9 @@ public class Transcoder
 
     public boolean mustGenerate()
     {
-        if(transcoderAction.isGeneration())
+        if (transcoderAction.isGeneration()) {
             return true;
+        }
         return false;
     }
 
@@ -356,8 +359,9 @@ public class Transcoder
     protected static TranscoderAction getTranscoderAction(String csAction)
     {
         TranscoderAction transcoderAction = TranscoderAction.All;
-        if (csAction.equalsIgnoreCase("SyntaxCheck"))
+        if (csAction.equalsIgnoreCase("SyntaxCheck")) {
             transcoderAction = TranscoderAction.SyntaxCheck;
+        }
         return transcoderAction;
     }
 
@@ -414,8 +418,9 @@ public class Transcoder
      */
     private Tag loadConfiguration(String configFilePath)
     {
-        if (configFilePath == null)
+        if (configFilePath == null) {
             return null;
+        }
 
         // Detect file type by extension
         if (configFilePath.toLowerCase().endsWith(".yaml") ||
@@ -464,10 +469,11 @@ public class Transcoder
         }
 
         String message = "Done; Errors="+ms_nNbError + " Warnings="+ms_nNbWarning;
-        if(ms_nNbError > 0)
+        if (ms_nNbError > 0) {
             logError(message);
-        else
+        } else {
             logInfo(message);
+        }
     }
 
     protected void DoApplications(String groupToTranscode)
@@ -487,8 +493,9 @@ public class Transcoder
                         Tag tag = grp.tabApplication.get(app) ;
                         DoApplication(tag, grp) ;
                     }
-                    if (!catalogs.contains(grp.getEngine().getGlobalCatalog()))
-                        catalogs.add(grp.getEngine().getGlobalCatalog()) ;
+                    if (!catalogs.contains(grp.getEngine().getGlobalCatalog())) {
+                        catalogs.add(grp.getEngine().getGlobalCatalog());
+                    }
                 }
             }
             for (CGlobalCatalog cat : catalogs)
@@ -505,8 +512,9 @@ public class Transcoder
             {
                 String fileName = eFile.getVal("Name") ;
                 boolean isresources = false;
-                if (eFile.isValExisting("Resources"))
+                if (eFile.isValExisting("Resources")) {
                     isresources = eFile.getValAsBoolean("Resources");
+                }
                 String csCurrentApplication = eFile.getVal("Application") ;
                 String csCurrentGroup = eFile.getVal("Group") ;
                 CTransApplicationGroup grp = tabGroups.get(csCurrentGroup) ;
@@ -584,8 +592,9 @@ public class Transcoder
                 if (fileName.equals(prgName))
                 {
                     boolean isresources = false;
-                    if (eFile.isValExisting("Resources"))
+                    if (eFile.isValExisting("Resources")) {
                         isresources = eFile.getValAsBoolean("Resources");
+                    }
                     grp.getEngine().doFileTranscoding(prgName, csCurrentApplication, grp, isresources);
                     break;
                 }
@@ -626,13 +635,15 @@ public class Transcoder
     {
         String csFile = Transcoder.getCurrentTranscodedUnit();
         String csUniqueName = csFile + "/" + csName;
-        if(ms_arrUnboundRef == null)
+        if (ms_arrUnboundRef == null) {
             ms_arrUnboundRef = new UnboundRefIdColl();
+        }
         UnboundRefId ref = ms_arrUnboundRef.find(csUniqueName);
-        if(ref == null)
+        if (ref == null) {
             ms_arrUnboundRef.add(nLine, csName, csFile);
-        else
+        } else {
             ref.addLineOnce(nLine);
+        }
     }
 
     public static int dumpUnboundReferences()
@@ -647,11 +658,13 @@ public class Transcoder
                 if(unboundRefId != null)
                 {
                     String csLines = unboundRefId.getAllLinesAsString();
-                    if(!StringUtil.isEmpty(csLines))
+                    if (!StringUtil.isEmpty(csLines)) {
                         csLines = "; Other lines: " + csLines;
+                    }
                     String csfile = unboundRefId.getFile();
-                    if(!StringUtil.isEmpty(csfile))
+                    if (!StringUtil.isEmpty(csfile)) {
                         Transcoder.logError(csfile, unboundRefId.getFirstLine(), "Unbound reference/identity : " + csName + csLines);
+                    }
                 }
             }
         }
@@ -672,15 +685,17 @@ public class Transcoder
 
     public static String getCurrentTranscodedUnit()
     {
-        if(ms_stackTranscodedUnits.size() > 0)
+        if (ms_stackTranscodedUnits.size() > 0) {
             return ms_stackTranscodedUnits.lastElement();
+        }
         return "";
     }
 
     public static String resetCurrentTranscodedUnit()
     {
-        if(ms_stackTranscodedUnits.size() > 0)
+        if (ms_stackTranscodedUnits.size() > 0) {
             return ms_stackTranscodedUnits.lastElement();
+        }
         return "";
     }
 
@@ -724,19 +739,25 @@ public class Transcoder
 
     public static void logError(String csFile, int nLine, String csText)
     {
-        if (ms_logger == null) return;
+        if (ms_logger == null) {
+            return;
+        }
         ms_logger.error(log(csFile, nLine, csText, "Error"));
     }
 
     public static void logWarn(int nLine, String csText)
     {
-        if (ms_logger == null) return;
+        if (ms_logger == null) {
+            return;
+        }
         ms_logger.warn(log(null, nLine, csText, "Warning"));
     }
 
     public static void logInfo(String csText)
     {
-        if (ms_logger == null) return;
+        if (ms_logger == null) {
+            return;
+        }
         ms_logger.info(log(null, 0, csText, "Info"));
     }
 
@@ -747,16 +768,20 @@ public class Transcoder
 
     public static void logDebug(int nLine, String csText)
     {
-        if (ms_logger == null) return;
+        if (ms_logger == null) {
+            return;
+        }
         ms_logger.debug(log(null, nLine, csText, "Debug"));
     }
 
     public static String log(String csFile, int nLine, String csText, String type)
     {
-        if(csFile == null)
+        if (csFile == null) {
             csFile = getCurrentTranscodedUnit();
-        if(nLine <= 0)
+        }
+        if (nLine <= 0) {
             nLine = ms_nLastLine;
+        }
         String cs = makeFullLogText(csFile, nLine, csText, type);
         return cs;
     }

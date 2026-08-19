@@ -63,8 +63,9 @@ public class LogCenters
                     LogCenterLoader logCenterloader = new LogCenterLoader();
                     logCenterloader.loadDefinition(tagLogCenter);
 
-                    if(this.logCenterloader == null)
+                    if (this.logCenterloader == null) {
                         this.logCenterloader = new ArrayList<LogCenterLoader>();
+                    }
                     this.logCenterloader.add(logCenterloader);
                 }
 

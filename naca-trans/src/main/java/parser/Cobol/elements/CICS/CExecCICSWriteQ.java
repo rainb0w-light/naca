@@ -81,10 +81,11 @@ public class CExecCICSWriteQ extends CCobolElement
         {
             CDataEntity e = item.GetDataEntity(getLine(), factory) ;
             eWQ.WriteItem(e);
-            if (bRewrite)
-                e.RegisterReadingAction(eWQ) ;
-            else
-                e.RegisterWritingAction(eWQ) ;
+            if (bRewrite) {
+                e.RegisterReadingAction(eWQ);
+            }  else {
+                e.RegisterWritingAction(eWQ);
+            }
         }
         if (numItem != null)
         {

@@ -74,8 +74,9 @@ public class CSQLItem
                 int nLength = varChildLength.getInt();
                 //String csValue = varChildText.getDottedSignedString();
                 String csValue = varChildText.getDottedSignedStringAsSQLCol();
-                if(nLength < csValue.length())
+                if (nLength < csValue.length()) {
                     csValue = csValue.substring(0, nLength);
+                }
                 return csValue;
             }
             return var.getDottedSignedStringAsSQLCol();
@@ -90,8 +91,9 @@ public class CSQLItem
         for(int n=0; n<t.length; n++)
         {
             byte b = t[n];
-            if(b == 0)
+            if (b == 0) {
                 t[n] = '$';
+            }
         }
         cs = new String(t);
         return cs;
@@ -133,15 +135,17 @@ public class CSQLItem
      */
     public int getIntValue()
     {
-        if(var != null)
-            return var.getInt() ;
+        if (var != null) {
+            return var.getInt();
+        }
         return 0;
     }
 
     public long getLongValue()
     {
-        if(var != null)
-            return var.getLong() ;
+        if (var != null) {
+            return var.getLong();
+        }
         return 0L;
     }
 }

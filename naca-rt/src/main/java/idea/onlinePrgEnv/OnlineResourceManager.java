@@ -121,8 +121,9 @@ public class OnlineResourceManager extends BaseResourceManager
         if(bPreLoadAllProgramFromDir)
         {
             programPreloader = new ProgramPreloader();
-            if(!StringUtil.isEmpty(csApplicationClassPath))
+            if (!StringUtil.isEmpty(csApplicationClassPath)) {
                 programToPreload = programPreloader.buildArrayPreloadProgramFromDir(csApplicationClassPath);
+            }
         }
         else if(bPreLoadAllProgramFromList)
         {
@@ -136,8 +137,9 @@ public class OnlineResourceManager extends BaseResourceManager
             StopWatch sw = new StopWatch();
 
             String csProgramListToKeep = csPreLoadProgramList;
-            if(!iskeepPreloadedProgramList)
+            if (!iskeepPreloadedProgramList) {
                 csProgramListToKeep = null;
+            }
 
             if(BaseResourceManager.isAsynchronousPreloadPrograms())
             {
@@ -147,9 +149,9 @@ public class OnlineResourceManager extends BaseResourceManager
                     programToPreload,
                     csProgramListToKeep);
                 asynchronousProgramPreloaderThread.start();
-            }
-            else
+            } else {
                 programPreloader.preloadProgramsSynchronous(programToPreload, sequencer, csProgramListToKeep);
+            }
 
             Log.logNormal("Program preload ends: it took " + sw.getElapsedTime() + " ms");
         }
@@ -273,20 +275,24 @@ public class OnlineResourceManager extends BaseResourceManager
             stdResourceManager.setXSLFilePath("IDEA", csXSLFilePath) ;
 
             String csXSLFilePathBold = tagRoot.getVal("XSLFilePathBold") ;
-            if (csXSLFilePathBold != null && !csXSLFilePathBold.equals(""))
-                stdResourceManager.setXSLFilePath("IDEA_BOLD", csXSLFilePathBold) ;
+            if (csXSLFilePathBold != null && !csXSLFilePathBold.equals("")) {
+                stdResourceManager.setXSLFilePath("IDEA_BOLD", csXSLFilePathBold);
+            }
 
             String csXSLFilePathZoom = tagRoot.getVal("XSLFilePathZoom") ;
-            if (csXSLFilePathZoom != null && !csXSLFilePathZoom.equals(""))
-                stdResourceManager.setXSLFilePath("IDEA_ZOOM", csXSLFilePathZoom) ;
+            if (csXSLFilePathZoom != null && !csXSLFilePathZoom.equals("")) {
+                stdResourceManager.setXSLFilePath("IDEA_ZOOM", csXSLFilePathZoom);
+            }
 
             String csXSLFilePathZoomBold = tagRoot.getVal("XSLFilePathZoomBold") ;
-            if (csXSLFilePathZoomBold != null && !csXSLFilePathZoomBold.equals(""))
-                stdResourceManager.setXSLFilePath("IDEA_ZOOM_BOLD", csXSLFilePathZoomBold) ;
+            if (csXSLFilePathZoomBold != null && !csXSLFilePathZoomBold.equals("")) {
+                stdResourceManager.setXSLFilePath("IDEA_ZOOM_BOLD", csXSLFilePathZoomBold);
+            }
 
             String csXSLPSFilePath = /*getRootPath() + */tagRoot.getVal("PSXSLFilePath") ;
-            if (csXSLPSFilePath != null && !csXSLPSFilePath.equals(""))
-                stdResourceManager.setXSLFilePath("IDEA_PRINT_SCREEN", csXSLPSFilePath) ;
+            if (csXSLPSFilePath != null && !csXSLPSFilePath.equals("")) {
+                stdResourceManager.setXSLFilePath("IDEA_PRINT_SCREEN", csXSLPSFilePath);
+            }
 
             String csXSLHelpFilePath = /*getRootPath() + */tagRoot.getVal("HelpXSLFilePath") ;
             stdResourceManager.setXSLFilePath("IDEA_HELP", csXSLHelpFilePath) ;
@@ -295,8 +301,9 @@ public class OnlineResourceManager extends BaseResourceManager
             csResourcePath = FileSystem.normalizePath(csResourcePath);
 
             csAlternateResourcePath = getApplicationRootPath() + tagRoot.getVal("AlternateResourcePath") ;
-            if(!StringUtil.isEmpty(csAlternateResourcePath))
+            if (!StringUtil.isEmpty(csAlternateResourcePath)) {
                 csAlternateResourcePath = FileSystem.normalizePath(csAlternateResourcePath);
+            }
 
             bPreLoadAllProgramFromDir = tagRoot.getValAsBoolean("PreLoadAllProgramFromDir") ;
             iskeepPreloadedProgramList = tagRoot.getValAsBoolean("KeepPreloadedProgramList") ;
@@ -381,8 +388,9 @@ public class OnlineResourceManager extends BaseResourceManager
 
     public CMenuDef getMenuForSemanticContext(String csScreen, String csSemanticContext)
     {
-        if(semanticManager != null)
+        if (semanticManager != null) {
             return semanticManager.getMenuForSemanticContext(csScreen, csSemanticContext);
+        }
         return null;
     }
 
@@ -473,8 +481,9 @@ public class OnlineResourceManager extends BaseResourceManager
     {
         int nPos = csXMLFrameFilePath.lastIndexOf('/') ;
         int nPos2 = csXMLFrameFilePath.lastIndexOf('\\') ;
-        if (nPos2>nPos)
-            nPos = nPos2 ;
+        if (nPos2 > nPos) {
+            nPos = nPos2;
+        }
         String dir = csXMLFrameFilePath.substring(0, nPos+1) ;
         String path = dir + string + ".xml" ;
         return XMLUtil.LoadXML(path) ;

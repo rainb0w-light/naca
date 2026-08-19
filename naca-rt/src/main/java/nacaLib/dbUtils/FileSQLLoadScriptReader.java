@@ -49,8 +49,9 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 
         dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
         boolean isinOpened = dataFileIn.open();
-        if(!isinOpened)
+        if (!isinOpened) {
             return SQLLoadStatus.loadFailure;
+        }
         int nLineIndex = 0;
 
         SQLLoadStatus loadGlobalStatus = SQLLoadStatus.loadSuccess;
@@ -124,19 +125,23 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
 
     private String readLogicalLine(int nLine)
     {
-        if(lines == null)
+        if (lines == null) {
             readAllLines();
-        if(nLine >= lines.size())
+        }
+        if (nLine >= lines.size()) {
             return null;
-        if(nLine < 0)
+        }
+        if (nLine < 0) {
             return null;
+        }
         return lines.get(nLine);
     }
 
     private void readAllLines()
     {
-        if(lines != null)
-            return ;
+        if (lines != null) {
+            return;
+        }
         lines = new ArrayList<String>();
 
         String csCurrentLine = new String();
@@ -148,26 +153,29 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
             csPhysicalLine = removeCommentAndLineNumber(csPhysicalLine);
             if(!StringUtil.isEmpty(csPhysicalLine))
             {
-                if(isContinuationLine(csPhysicalLine))  // The csPhysicalLine is the beginnin of a new logical line
+                if (isContinuationLine(csPhysicalLine)) {  // The csPhysicalLine is the beginnin of a new logical line
                     csCurrentLine += " " + csPhysicalLine;
-                else
+                } else
                 {
-                    if(!StringUtil.isEmpty(csCurrentLine))
+                    if (!StringUtil.isEmpty(csCurrentLine)) {
                         lines.add(csCurrentLine);
+                    }
                     csCurrentLine = csPhysicalLine;
                 }
             }
 
             lineRead = dataFileIn.readNextUnixLine();
         }
-        if(!StringUtil.isEmpty(csCurrentLine))
+        if (!StringUtil.isEmpty(csCurrentLine)) {
             lines.add(csCurrentLine);
+        }
     }
 
     private boolean isContinuationLine(String csPhysicalLine)
     {
-        if(csPhysicalLine.startsWith("   "))    // At least 3 spaces indiciates a continuation line
+        if (csPhysicalLine.startsWith("   ")) {    // At least 3 spaces indiciates a continuation line
             return true;
+        }
         return false;
     }
 
@@ -178,8 +186,9 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
         {
             LoadScriptLineInfo info = new LoadScriptLineInfo();
             String csRight = csLine.substring(nPos).trim();
-            if(csRight.indexOf("REPLACE") != -1)    // LOAD REPLACE
+            if (csRight.indexOf("REPLACE") != -1) {    // LOAD REPLACE
                 info.setReplace(true);
+            }
 
             nPos = csRight.indexOf("INDDN");
             if(nPos != -1)  // INDDN
@@ -187,9 +196,9 @@ public class FileSQLLoadScriptReader extends BaseFileScriptReader
                 csRight = csRight.substring(nPos+5);
                 String csInddnValue = StringUtil.getFirstWord(csRight);
                 info.setInddnValue(csInddnValue);
-            }
-            else    // No INDDN
+            } else {    // No INDDN
                 info.setInddnValue("SYSREC");
+            }
 
             nPos = csRight.indexOf("INTO");
             if(nPos != -1)

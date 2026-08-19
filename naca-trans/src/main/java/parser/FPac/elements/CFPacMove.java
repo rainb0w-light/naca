@@ -135,14 +135,16 @@ public class CFPacMove extends CFPacElement
             if (op2.expStart != null)
             {
                 int start2 = NumberParser.getAsInt(op2.expStart.GetConstantValue()) ;
-                if (bMovePacked || (start2>=6000 && start2<7000))
-                    op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+                if (bMovePacked || (start2 >= 6000 && start2 < 7000)) {
+                    op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8));
+                }
             }
             if (op1.expStart != null)
             {
                 int start1 = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ;
-                if ((bMovePacked || (start1>=6000 && start1<7000)))
-                    op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+                if ((bMovePacked || (start1 >= 6000 && start1 < 7000))) {
+                    op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8));
+                }
             }
         }
 
@@ -150,19 +152,21 @@ public class CFPacMove extends CFPacElement
         if (op1.expStart != null)
         {
             CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-            if (bMovePacked || isspecialPacked)
-                conv.convertToPacked(op1.eObject) ;
-            else
-                conv.convertToAlphaNum(op1.eObject) ;
+            if (bMovePacked || isspecialPacked) {
+                conv.convertToPacked(op1.eObject);
+            }  else {
+                conv.convertToAlphaNum(op1.eObject);
+            }
             op1.eObject = conv ;
         }
         if (op2.expStart != null)
         {
             CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-            if (bMovePacked)
-                conv.convertToPacked(op2.eObject) ;
-            else
-                conv.convertToAlphaNum(op2.eObject) ;
+            if (bMovePacked) {
+                conv.convertToPacked(op2.eObject);
+            }  else {
+                conv.convertToAlphaNum(op2.eObject);
+            }
             op2.eObject = conv ;
         }
 

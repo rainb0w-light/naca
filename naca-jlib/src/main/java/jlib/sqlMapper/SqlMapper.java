@@ -22,10 +22,12 @@ public class SqlMapper
 
     public synchronized SqlMapperManagedTable registerTable(String csTableName)
     {
-        if(hashTables == null)
+        if (hashTables == null) {
             hashTables = new Hashtable<String, SqlMapperManagedTable>();
-        if(tables == null)
-             tables = new ArrayList<SqlMapperManagedTable>();
+        }
+        if (tables == null) {
+            tables = new ArrayList<SqlMapperManagedTable>();
+        }
 
         SqlMapperManagedTable managedTable = hashTables.get(csTableName);
         if(managedTable == null)

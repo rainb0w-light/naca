@@ -342,10 +342,11 @@ public class BASE64DecoderInputStream extends InputStream {
                 data=_base64Input.read();
 //   If there are no more data coming from the source:
                 if (data<0){
-                    if (n==0)
+                    if (n == 0) {
                         return -1;
-                    else
+                    } else {
                         throw new IOException("Unexpected end of file.");
+                    }
                 }
                 if (data==61) {
                     padding++;
@@ -367,8 +368,9 @@ public class BASE64DecoderInputStream extends InputStream {
             }
 
 //  ................ Reads three bytes from the union .......................
-            for(n=0;n<padding;n++)
-                union>>>=8;
+            for (n = 0; n < padding; n++) {
+                union >>>= 8;
+            }
 
             for(n=padding;n<3;n++) {
                 data=(int)(union & 255);

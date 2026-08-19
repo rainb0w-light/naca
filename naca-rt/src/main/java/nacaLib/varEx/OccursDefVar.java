@@ -23,8 +23,9 @@ public class OccursDefVar extends OccursDefBase
 
     public int getNbOccurs()
     {
-        if(var != null)
+        if (var != null) {
             return var.getInt();
+        }
         return -1;
     }
 

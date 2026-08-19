@@ -25,8 +25,9 @@ public class ArrayFix<T> extends ArrayFixDyn<T>
 
     public int size()
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.length;
+        }
         return 0;
     }
 

@@ -29,9 +29,11 @@ public class CStr
     {
         nLength = 0;
         nStartPos = 0;
-        if(acBuffer != null)
-            if(acBuffer.length > n)
+        if (acBuffer != null) {
+            if (acBuffer.length > n) {
                 return;
+            }
+        }
         set(new char[n], 0, 0);
     }
 
@@ -168,8 +170,9 @@ public class CStr
         for(int n=nStartPos; n<nMax; n++)
         {
             char c = acBuffer[n];
-            if(!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' '))
+            if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' ')) {
                 return false;
+            }
         }
         return true;
     }
@@ -180,8 +183,9 @@ public class CStr
         for(int n=nStartPos; n<nMax; n++)
         {
             char c = acBuffer[n];
-            if(!((c >= '0' && c <= '9') || c == '+' || c == '-' ))
+            if (!((c >= '0' && c <= '9') || c == '+' || c == '-')) {
                 return false;
+            }
         }
         return true;
     }
@@ -193,10 +197,11 @@ public class CStr
         for(int n=nStartPos; n<nMax-1; n++)
         {
             char c = acBuffer[n];
-            if(c == '.')
+            if (c == '.') {
                 nNbDec++;
-            else if(c < '0' || c > '9')
+            } else if (c < '0' || c > '9') {
                 return false;
+            }
         }
 
         if((bDec && (nNbDec == 0 || nNbDec == 1)) || !bDec) // Maximum 1 . for decimals
@@ -204,14 +209,16 @@ public class CStr
             char c = acBuffer[nMax-1];
             if(bSigned)
             {
-                if((c >= (char)0xC0 && c <= (char)0xC9) || (c >= (char)0xD0 && c <= (char)0xD9))
+                if ((c >= (char) 0xC0 && c <= (char) 0xC9) || (c >= (char) 0xD0 && c <= (char) 0xD9)) {
                     return true;
+                }
                 return false;
             }
             else
             {
-                if(c < '0' || c > '9')
+                if (c < '0' || c > '9') {
                     return false;
+                }
                 return true;
             }
         }
@@ -226,18 +233,22 @@ public class CStr
             int nByte = acBuffer[n];
             int nHigh = (nByte & 0x00F0) >> 4;
             int nLow = nByte & 0x000F;
-            if(nHigh >= 10 || nLow >= 10)
+            if (nHigh >= 10 || nLow >= 10) {
                 return false;
+            }
         }
         int nByte = acBuffer[nMax-1];
         int nHigh = (nByte & 0x00F0) >> 4;
         int nLow = nByte & 0x000F;
-        if(nHigh >= 10)
+        if (nHigh >= 10) {
             return false;
-        if(bSigned && Pic9Comp3BufferSupport.isValidSign(nLow))
+        }
+        if (bSigned && Pic9Comp3BufferSupport.isValidSign(nLow)) {
             return true;
-        if(!bSigned && Pic9Comp3BufferSupport.isValidUnsign(nLow))
+        }
+        if (!bSigned && Pic9Comp3BufferSupport.isValidUnsign(nLow)) {
             return true;
+        }
         return false;
     }
 
@@ -246,17 +257,19 @@ public class CStr
         int nNbDec = 0;
 
         char c = acBuffer[nStartPos];
-        if(c != '-' && c != '+')
+        if (c != '-' && c != '+') {
             return false;
+        }
 
         int nMax = nStartPos+nLength;
         for(int n=nStartPos+1; n<nMax; n++)
         {
             c = acBuffer[n];
-            if(c == '.')
+            if (c == '.') {
                 nNbDec++;
-            else if(c < '0' || c > '9')
+            } else if (c < '0' || c > '9') {
                 return false;
+            }
         }
         return bDec ? nNbDec <= 1 : nNbDec == 0;
     }
@@ -269,22 +282,25 @@ public class CStr
         for(int n=nStartPos; n<nMax-1; n++)
         {
             char c = acBuffer[n];
-            if(c == '.')
+            if (c == '.') {
                 nNbDec++;
-            else if(c < '0' || c > '9')
+            } else if (c < '0' || c > '9') {
                 return false;
+            }
         }
 
         char c = acBuffer[nMax-1];
-        if(c != '-' && c != '+')
+        if (c != '-' && c != '+') {
             return false;
+        }
         return bDec ? nNbDec <= 1 : nNbDec == 0;
     }
 
     public int getAsInt()
     {
-        if(nLength == 0)
+        if (nLength == 0) {
             return 0;
+        }
 
         int nValue = 0;
         int nSource = nStartPos;
@@ -303,22 +319,25 @@ public class CStr
                 isnegative = true;
                 continue;
             }
-            else if(c == '+');
-            else if(c == ' ');
-            else if(c == '.')
+            else if (c == '+') {
+            } else if (c == ' ') {
+            } else if (c == '.') {
                 break;
-            else if (nSource == nStartPos) // first char is not a digit
-                return 0 ;
+            } else if (nSource == nStartPos) { // first char is not a digit
+                return 0;
+            }
         }
-        if(isnegative)
+        if (isnegative) {
             return -nValue;
+        }
         return nValue;
     }
 
     public int getAsUnsignedInt()
     {
-        if(nLength == 0)
+        if (nLength == 0) {
             return 0;
+        }
 
         int nValue = 0;
         int nSource = nStartPos;
@@ -331,20 +350,22 @@ public class CStr
                 nValue = 10 * nValue + (c - '0');
                 continue;
             }
-            else if(c == '+');
-            else if(c == ' ');
-            else if(c == '.')
+            else if (c == '+') {
+            } else if (c == ' ') {
+            } else if (c == '.') {
                 break;
-            else if (nSource == nStartPos) // first char is not a digit
-                return 0 ;
+            } else if (nSource == nStartPos) { // first char is not a digit
+                return 0;
+            }
         }
         return nValue;
     }
 
     public long getAsLong()
     {
-        if(nLength == 0)
+        if (nLength == 0) {
             return 0;
+        }
 
         long lValue = 0;
         boolean isnegative = false;
@@ -363,15 +384,17 @@ public class CStr
                 isnegative = true;
                 continue;
             }
-            else if(c == '+');
-            else if(c == ' ');
-            else if(c == '.')
+            else if (c == '+') {
+            } else if (c == ' ') {
+            } else if (c == '.') {
                 break;
-            else if (nSource == nStartPos) // first char is not a digit
-                return 0 ;
+            } else if (nSource == nStartPos) { // first char is not a digit
+                return 0;
+            }
         }
-        if(isnegative)
+        if (isnegative) {
             return -lValue;
+        }
         return lValue;
     }
 

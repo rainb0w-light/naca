@@ -54,8 +54,9 @@ public class SQLCursorFetch
 
     public SQLCursorFetch into(Var varInto, Var varIndicator)
     {
-        if(bOpen && sQL != null)
+        if (bOpen && sQL != null) {
             sQL.into(varInto, varIndicator);
+        }
         return this;
     }
 

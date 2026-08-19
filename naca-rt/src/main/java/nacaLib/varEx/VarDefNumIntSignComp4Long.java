@@ -429,8 +429,9 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeIntSignComp4AsLong(buffer, nOffset, 0L);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
@@ -550,8 +551,9 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         long l = internalReadIntSignComp4AsLong(buffer);
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         return (int)l;
     }
 
@@ -571,8 +573,9 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
     CStr getAsAlphaNumString(VarBufferPos buffer)
     {
         long lValue = internalReadIntSignComp4AsLong(buffer);
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger);
         return csNum;
@@ -864,8 +867,9 @@ public class VarDefNumIntSignComp4Long extends VarDefNum
     public String digits(VarBufferPos buffer)
     {
         long lValue = internalReadIntSignComp4AsLong(buffer);
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0StringAsLong(lValue, nNbDigitInteger);
         return csNum.getAsString();

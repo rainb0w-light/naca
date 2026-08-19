@@ -87,7 +87,9 @@ public class NumberParserDec extends NumberParser
                     nIndex++;
                 }
 
-                if (csDec.equals("")) csDec = "0";
+                if (csDec.equals("")) {
+                    csDec = "0";
+                }
 
                 Dec dec = new Dec(lInt, csDec);
                 dec.setPositive(ispositive);

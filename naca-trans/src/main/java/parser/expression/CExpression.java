@@ -91,13 +91,14 @@ public abstract class CExpression
     {
         if (o == null)
         {
-            if(expressionSource != null)
+            if (expressionSource != null) {
                 Transcoder.logError(getLine(), "ERROR: generated string is wrong; cannot generate output; please check source syntax; " +
-                    "output: "+expressionSource.toString());
-            else
+                        "output: " + expressionSource.toString());
+            } else {
                 Transcoder.logError(
-                    getLine(),
-                    "ERROR: generated string is wrong; cannot generate output; please check source syntax; output is null");
+                        getLine(),
+                        "ERROR: generated string is wrong; cannot generate output; please check source syntax; output is null");
+            }
             throw new NacaTransAssertException("ASSERTION: Cannot continue transcoding");
         }
     }

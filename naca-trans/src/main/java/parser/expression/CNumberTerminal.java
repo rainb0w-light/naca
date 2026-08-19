@@ -60,15 +60,17 @@ public class CNumberTerminal extends CTerminal
 
     public boolean IsOne()
     {
-        if(Integer.parseInt(csValue) == 1)
+        if (Integer.parseInt(csValue) == 1) {
             return true;
+        }
         return false;
     }
 
     public boolean IsMinusOne()
     {
-        if(Integer.parseInt(csValue) == -1)
+        if (Integer.parseInt(csValue) == -1) {
             return true;
+        }
         return false;
     }
 

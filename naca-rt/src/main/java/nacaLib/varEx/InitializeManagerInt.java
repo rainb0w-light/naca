@@ -25,8 +25,9 @@ public class InitializeManagerInt extends InitializeManager
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeAtOffset(buffer, nOffset, n);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.setNotManaged();
+        }
     }
 
     private int n;

@@ -22,8 +22,9 @@ public class PreloadFileFilter implements FilenameFilter
             if(csName.indexOf('$') == -1)   // No $ in name
             {
                 String cs = csName.toUpperCase();
-                if(cs.endsWith(".CLASS"))
+                if (cs.endsWith(".CLASS")) {
                     return true;
+                }
             }
         }
         return false;

@@ -772,8 +772,9 @@ public class CProgram extends CCommentContainer
             else if (le == eWorking)
             {
                 parent.AddChild(eVariableSection) ;
-                if(eFile != null)
-                    parent.AddChild(eFile.DoSemanticAnalysis(parent, factory)) ;
+                if (eFile != null) {
+                    parent.AddChild(eFile.DoSemanticAnalysis(parent, factory));
+                }
             }
             else if (le == eLinkage)
             {

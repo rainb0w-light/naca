@@ -332,10 +332,11 @@ public abstract class CCobolElement extends CLanguageElement
                 if (e != null)
                 {
                     CProdType type = CProdExpression.CProdType.PROD;
-                    if (tok.GetType() == CTokenType.SLASH)
+                    if (tok.GetType() == CTokenType.SLASH) {
                         type = CProdExpression.CProdType.DIVIDE;
-                    else if (tok.GetType() == CTokenType.STAR_STAR)
+                    } else if (tok.GetType() == CTokenType.STAR_STAR) {
                         type = CProdExpression.CProdType.POW;
+                    }
                     exprProd = new CProdExpression(tok.getLine(), exprProd, e, type) ;
                 }
                 else
@@ -470,8 +471,9 @@ public abstract class CCobolElement extends CLanguageElement
     protected CBaseToken IgnoreComma()
     {
         CBaseToken tok = GetCurrentToken();
-        if(tok.GetType() == CTokenType.COMMA)
-            tok = GetNext() ;
+        if (tok.GetType() == CTokenType.COMMA) {
+            tok = GetNext();
+        }
         return tok;
     }
 

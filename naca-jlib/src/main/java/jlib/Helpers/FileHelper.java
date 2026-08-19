@@ -54,8 +54,9 @@ public class FileHelper implements FilenameFilter
     public FileHelper(String wildcard)
     {
 //******************* Checks if the specified wildcard is not empty ***********
-        if (wildcard == null)
+        if (wildcard == null) {
             wildcard = "";
+        }
         int nn = wildcard.length();
         if (nn > 0)
         {
@@ -118,14 +119,17 @@ public class FileHelper implements FilenameFilter
  */
     public boolean accept(File folder, String filename)
     {
-        if (pattern==null)
+        if (pattern == null) {
             return true;
+        }
 
-        if (filename == null)
-            filename="";
+        if (filename == null) {
+            filename = "";
+        }
 
-        if (filename.length() == 0)
+        if (filename.length() == 0) {
             return false;
+        }
 
         Matcher m = pattern.matcher(filename);
         return m.matches();
@@ -209,16 +213,20 @@ public class FileHelper implements FilenameFilter
         File folder;
 
 //******************************* Initialization ********************************************
-        if (path == null)
+        if (path == null) {
             return new File[0];
+        }
 
-        if (path.length() == 0)
+        if (path.length() == 0) {
             return new File[0];
+        }
 
-        if (defaultFolder == null)
+        if (defaultFolder == null) {
             defaultFolder = "";
-        if (defaultFolder.length() == 0)
+        }
+        if (defaultFolder.length() == 0) {
             defaultFolder = System.getProperty("user.dir");
+        }
 
 
 //************************ Tries the path as a relative path ********************************
@@ -296,15 +304,17 @@ public class FileHelper implements FilenameFilter
             int nFiles = 0;
             int nn = fileList.length;
             for(int n=0; n<nn; n++) {
-                if (fileList[n].isFile())
+                if (fileList[n].isFile()) {
                     nFiles++;
+                }
             }
             filesOnlyList = new File[nFiles];
             nFiles = 0;
             for(int n=0; n<nn; n++)
             {
-                if (fileList[n].isFile())
+                if (fileList[n].isFile()) {
                     filesOnlyList[nFiles++] = fileList[n];
+                }
             }
             return filesOnlyList;
         }
@@ -384,17 +394,20 @@ public class FileHelper implements FilenameFilter
     public static void copyFile(File origin, File destination, String newName) {
         String name;
         //controle que le fichier origin n'est pas null
-        if (origin == null)
-            throw new ProgrammingException(ProgrammingException.INVALID_FILENAME,"origin file is not specified (null).");
+        if (origin == null) {
+            throw new ProgrammingException(ProgrammingException.INVALID_FILENAME, "origin file is not specified (null).");
+        }
         //controle que le fichier origin existe
-        if (!origin.exists())
+        if (!origin.exists()) {
             throw new ProgrammingException(
-                ProgrammingException.IO_ERROR,
-                "The origin file '" + origin.getAbsolutePath() + "' doesn't exist.");
-        if (!origin.isFile())
+                    ProgrammingException.IO_ERROR,
+                    "The origin file '" + origin.getAbsolutePath() + "' doesn't exist.");
+        }
+        if (!origin.isFile()) {
             throw new ProgrammingException(
-                ProgrammingException.IO_ERROR,
-                "The origin file '" + origin.getAbsolutePath() + "' is not a file.");
+                    ProgrammingException.IO_ERROR,
+                    "The origin file '" + origin.getAbsolutePath() + "' is not a file.");
+        }
 
         if (destination!=null) {
             //si destination n'existe pas on assume que c'est un fichier
@@ -402,17 +415,20 @@ public class FileHelper implements FilenameFilter
             if (destination.exists()){
                 if (destination.isDirectory()){
                     //on ajoute au path du dossier le nouveau nom du fichier destination.
-                    if (newName==null)
-                        newName="";
-                    if (newName.length()>0)
-                        name=newName;
-                    else
+                    if (newName == null) {
+                        newName = "";
+                    }
+                    if (newName.length() > 0) {
+                        name = newName;
+                    } else {
                         name = origin.getName();
+                    }
                     destination = new File(destination, name);
                 }
             }
-        } else
-            throw new ProgrammingException(ProgrammingException.INVALID_FILENAME,"destination file or folder is null.");
+        } else {
+            throw new ProgrammingException(ProgrammingException.INVALID_FILENAME, "destination file or folder is null.");
+        }
 
         FileInputStream fis;
         FileOutputStream fos;
@@ -441,16 +457,25 @@ public class FileHelper implements FilenameFilter
  */
     public static boolean isAbsolutePath(String path) {
         String osName;
-        if (path==null) return false;
-        if (path.length()==0) return false;
+        if (path == null) {
+            return false;
+        }
+        if (path.length() == 0) {
+            return false;
+        }
         osName=System.getProperty("os.name").toLowerCase();
 
         if (osName.startsWith("win")) {
-            if (path.length()<2) return false;
-            if (path.charAt(1)==':') return true;
+            if (path.length() < 2) {
+                return false;
+            }
+            if (path.charAt(1) == ':') {
+                return true;
+            }
         }
-        else if (path.startsWith("/"))
+        else if (path.startsWith("/")) {
             return true;
+        }
         return false;
     }
 //**********************************************************************************
@@ -475,8 +500,9 @@ public class FileHelper implements FilenameFilter
  * Ensures that a file name is unique.
  */
     public static File makeUnique(File file) {
-        if (!file.exists())
+        if (!file.exists()) {
             return file;
+        }
         File baseFolder=file.getParentFile();
         String fileName=file.getName();
         return makeUnique(baseFolder,fileName);
@@ -500,8 +526,12 @@ public class FileHelper implements FilenameFilter
         int n,nn;
 
 //********************************** Initialization ********************************
-        if (fileName==null) return null;
-        if (fileName.length()==0) return "";
+        if (fileName == null) {
+            return null;
+        }
+        if (fileName.length() == 0) {
+            return "";
+        }
         standard=new StringBuilder();
 
 //********************** Transforms each char in the specified file name ***********
@@ -554,12 +584,15 @@ public class FileHelper implements FilenameFilter
                 case '+':
                 case '&':
                 default:
-                    if (c>='0' && c<='9')
+                    if (c >= '0' && c <= '9') {
                         break;
-                    if (c>='a' && c<='z')
+                    }
+                    if (c >= 'a' && c <= 'z') {
                         break;
-                    if (c>='A' && c<='Z')
+                    }
+                    if (c >= 'A' && c <= 'Z') {
                         break;
+                    }
                     c='_';
             }
             standard.append(c);
@@ -570,8 +603,9 @@ public class FileHelper implements FilenameFilter
         while(n>0){
             n--;
             n=standard.lastIndexOf(".",n);
-            if (n>0)
-                standard.replace(n,n+1,"_");
+            if (n > 0) {
+                standard.replace(n, n + 1, "_");
+            }
         }
 
 //************************** Returns the standarized file name **********************
@@ -595,7 +629,9 @@ public class FileHelper implements FilenameFilter
 
         File fileToDelete = new File(filePath);
 
-        if (!fileToDelete.isFile()) return false;
+        if (!fileToDelete.isFile()) {
+            return false;
+        }
 
         return fileToDelete.delete();
     }

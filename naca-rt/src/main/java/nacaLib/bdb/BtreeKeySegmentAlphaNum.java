@@ -35,29 +35,29 @@ public class BtreeKeySegmentAlphaNum extends BtreeKeySegment
         {
             b1 = tby1[nPos];
             b2 = tby2[nPos];
-            if (b1 == b2)
+            if (b1 == b2) {
                 continue;
-            else
+            } else
             {
                 // Remember, bytes are signed, so convert to shorts so that we effectively do an unsigned byte comparison.
                 int n1 = b1 & 0xff;
                 int n2 = b2 & 0xff;
 
-                if(iscompareInEbcdic != bFileInEbcdic)  // encoding is different from collating seq
-                {
-                    if(!bFileInEbcdic)  // File is in ascii and collating seq is ecbdic
+                if (iscompareInEbcdic != bFileInEbcdic)  // encoding is different from collating seq
                     {
-                        n1 = AsciiEbcdicConverter.getEbcdicChar((char)n1);
-                        n2 = AsciiEbcdicConverter.getEbcdicChar((char)n2);
+                        if (!bFileInEbcdic)  // File is in ascii and collating seq is ecbdic
+                            {
+                                n1 = AsciiEbcdicConverter.getEbcdicChar((char) n1);
+                                n2 = AsciiEbcdicConverter.getEbcdicChar((char) n2);
+                            } else    // File is ebcdic and collating seq is ascii
+                            {
+                                n1 = AsciiEbcdicConverter.getAsciiChar((char) n1);
+                                n2 = AsciiEbcdicConverter.getAsciiChar((char) n2);
+                            }
                     }
-                    else    // File is ebcdic and collating seq is ascii
-                    {
-                        n1 = AsciiEbcdicConverter.getAsciiChar((char)n1);
-                        n2 = AsciiEbcdicConverter.getAsciiChar((char)n2);
-                    }
-                }
-                if(n1 < n2)
+                if (n1 < n2) {
                     return bAscending ? -1 : 1;
+                }
                 return bAscending ? 1 : -1;
             }
         }

@@ -46,8 +46,9 @@ public class VarLevel extends CJMapObject
     {
         DeclareTypeG declareTypeG = TempCacheLocator.getTLSTempCache().getDeclareTypeG();
         declareTypeG.set(this);
-        if(isvariableLength)
+        if (isvariableLength) {
             declareTypeG.setVariableLengthDeclaration();
+        }
         VarGroup var2G = new VarGroup(declareTypeG);
         return var2G;
     }
@@ -82,8 +83,9 @@ public class VarLevel extends CJMapObject
     {
         DeclareTypeX declareTypeX = TempCacheLocator.getTLSTempCache().getDeclareTypeX();
         declareTypeX.set(this, nLength);
-        if(isvariableLength)
+        if (isvariableLength) {
             declareTypeX.setVariableLengthDeclaration();
+        }
 
         //DeclareTypeX varLevelX = new DeclareTypeX(this, nLength);
         return declareTypeX;
@@ -138,16 +140,18 @@ public class VarLevel extends CJMapObject
     public VarLevel occurs(int nNbOccurs)
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())    // || pm.isLinkageSectionCurrent())
+        if (pm.isFirstInstance()) {    // || pm.isLinkageSectionCurrent())
             occursDef = new OccursDef(nNbOccurs);
+        }
         return this;
     }
 
     public VarLevel occurs(Var varOccurs)
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())    // || pm.isLinkageSectionCurrent())
+        if (pm.isFirstInstance()) {    // || pm.isLinkageSectionCurrent())
             occursDef = new OccursDefVar(varOccurs);
+        }
         return this;
     }
 
@@ -156,10 +160,11 @@ public class VarLevel extends CJMapObject
         BaseProgramManager pm = getProgramManager();
         if(pm.isFirstInstance())    // || pm.isLinkageSectionCurrent())
         {
-            if(varOccurs.isBufferComputed())
+            if (varOccurs.isBufferComputed()) {
                 occurs(varOccurs);
-            else
+            } else {
                 occurs(nNbOccurs);
+            }
         }
         isvariableLength = true;
         return this;
@@ -241,8 +246,9 @@ public class VarLevel extends CJMapObject
         // si c'est un edit occurs; il faut completer son tableau d'items
         BaseProgramManager pm = getProgramManager();
 
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             occursDef = new OccursDef(nNbOccurs);
+        }
 
         Edit varEdit = edit();
 
@@ -283,8 +289,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup value(String cs)
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(cs, false);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -292,8 +299,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueAll(char c)
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(c, true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -301,8 +309,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueAll(String cs)
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(cs, true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -310,8 +319,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueSpaces()
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -319,8 +329,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueZero()
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -328,8 +339,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueHighValue()
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }
@@ -337,8 +349,9 @@ public class VarLevel extends CJMapObject
     public VarLevelGroup valueLowValue()
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm.isFirstInstance())
+        if (pm.isFirstInstance()) {
             initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+        }
         VarLevelGroup varLevelGroup = new VarLevelGroup(this);
         return varLevelGroup;
     }

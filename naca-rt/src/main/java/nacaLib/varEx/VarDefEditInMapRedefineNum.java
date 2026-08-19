@@ -192,8 +192,9 @@ public class VarDefEditInMapRedefineNum extends VarDefEditInMapRedefineBase
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long lValue = bigDecimal.longValue();
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         writeEditLeftPadding(buffer, lValue);
     }
 

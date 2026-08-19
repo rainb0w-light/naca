@@ -288,8 +288,9 @@ public class CEntityResourceForm extends CBaseResourceEntity
             fs.csProtection = f.csProtection ;
             fs.isrightJustified = f.isrightJustified;
             fs.resourceStrings = f.resourceStrings ;
-            if(bFromRes)
+            if (bFromRes) {
                 fs.setDevelopable(f.csDevelopableFlagMark);
+            }
 
             form.arrFields.add(fs) ;
         }

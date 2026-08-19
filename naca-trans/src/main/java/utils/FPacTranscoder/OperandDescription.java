@@ -71,10 +71,11 @@ public class OperandDescription
                 if (add < 5000)
                 { //file buffer
                     CDataEntity buffer ;
-                    if (bFromOutput)
-                        buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
-                    else
-                        buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
+                    if (bFromOutput) {
+                        buffer = getDefaultOutputFileBuffer(factory.programCatalog);
+                    }  else {
+                        buffer = getDefaultInputFileBuffer(factory.programCatalog);
+                    }
                     OperandDescription desc = new OperandDescription() ;
                     desc.eObject = buffer ;
                     desc.expStart = term ;
@@ -131,10 +132,11 @@ public class OperandDescription
                 if (add < 5000)
                 { //file buffer
                     CDataEntity buffer ;
-                    if (bFromOutput)
-                        buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
-                    else
-                        buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
+                    if (bFromOutput) {
+                        buffer = getDefaultOutputFileBuffer(factory.programCatalog);
+                    }  else {
+                        buffer = getDefaultInputFileBuffer(factory.programCatalog);
+                    }
                     OperandDescription desc = new OperandDescription() ;
                     desc.eObject = buffer ;
                     desc.expStart = term ;
@@ -199,10 +201,11 @@ public class OperandDescription
                 if (add < 5000)
                 { //file buffer
                     CDataEntity buffer ;
-                    if (toInput)
-                        buffer = getDefaultInputFileBuffer(factory.programCatalog) ;
-                    else
-                        buffer = getDefaultOutputFileBuffer(factory.programCatalog) ;
+                    if (toInput) {
+                        buffer = getDefaultInputFileBuffer(factory.programCatalog);
+                    }  else {
+                        buffer = getDefaultOutputFileBuffer(factory.programCatalog);
+                    }
                     desc.eObject = buffer ;
                     desc.expStart = term ;
                     desc.expLength = termlen  ;

@@ -88,8 +88,9 @@ public class FileSearchGeneration
             {
                 int nLastGeneration = getGeneration(lst[lst.length - 1]);
                 int nNewGeneration = 1;
-                if (nLastGeneration != 9999)
-                     nNewGeneration = nLastGeneration + 1;
+                if (nLastGeneration != 9999) {
+                    nNewGeneration = nLastGeneration + 1;
+                }
                 return csParameter + StringUtil.FormatWithFill4LeftZero(nNewGeneration);
             }
             else

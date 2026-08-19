@@ -84,8 +84,9 @@ public class JmxAppCloser extends BaseCloseMBean
 
     public String getC_ApplicationCurrentStatus()
     {
-        if(BaseResourceManager.isAppManuallyClosed())
+        if (BaseResourceManager.isAppManuallyClosed()) {
             return getA_ApplicationManualStatus();
+        }
         return BaseResourceManager.getAppPlanifiedOpenState().getString();
     }
 }

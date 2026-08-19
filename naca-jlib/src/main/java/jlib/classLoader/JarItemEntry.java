@@ -20,15 +20,17 @@ public class JarItemEntry
 
     public int getSize()
     {
-        if(zipEntry != null)
+        if (zipEntry != null) {
             return (int) zipEntry.getSize();
+        }
         return 0;
     }
 
     public String getName()
     {
-        if(zipEntry != null)
+        if (zipEntry != null) {
             return zipEntry.getName();
+        }
         return null;
     }
 

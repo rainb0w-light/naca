@@ -87,8 +87,9 @@ public class VarDefNumIntSignComp3Long extends VarDefNum
 
         int nNbDigits = nNbDigitInteger + 1; // need a nibble for sign
         int n = nNbDigits / 2;
-        if((nNbDigits % 2) != 0)
+        if ((nNbDigits % 2) != 0) {
             n++;
+        }
         return n;
     }
 
@@ -499,8 +500,9 @@ public class VarDefNumIntSignComp3Long extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         Pic9Comp3BufferSupport.setFromRightToLeftOffsetSignedLong(buffer, nNbDigitInteger, nTotalSize, nOffset, 0L);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

@@ -79,13 +79,14 @@ public class SQLClauseSPCallBase
         SQLClauseSPParamsDesc paramsDesc = getStoredProcedureParamsList(connection);
 
         StringBuilder sb = new StringBuilder("StoredProc: "+name+"\n");
-        if(paramsDesc == null)
+        if (paramsDesc == null) {
             sb.append("No Description found in DB for the Stored proc !!!\n");
-        else
+        } else
         {
             nMin = Math.min(nNbParams, paramsDesc.getNbParamToProvide());
-            if(nNbParams != paramsDesc.getNbParamToProvide())
+            if (nNbParams != paramsDesc.getNbParamToProvide()) {
                 sb.append("Number of parameters defined in Stored proc is different form the number of parameters provided by caller\n");
+            }
         }
 
         for(int n=0; n<nMin; n++)
@@ -110,17 +111,20 @@ public class SQLClauseSPCallBase
         int n=0;
         for(; n<nNbParams; n++)
         {
-            if(n == 0)
+            if (n == 0) {
                 sql += " (?";
-            else
+            } else {
                 sql += ",?";
+            }
         }
-        if(n != 0)
+        if (n != 0) {
             sql += ")";
+        }
 
         SQLClauseSPParamsDesc paramsDesc = null;
-        if(ischeckParams)
+        if (ischeckParams) {
             paramsDesc = getStoredProcedureParamsList(connection);
+        }
 
         try
         {
@@ -149,15 +153,17 @@ public class SQLClauseSPCallBase
         {
             int nNbParams = params.size();
             int nNbParamDesc = nNbParams;
-            if(paramsDesc != null)  // If we check the parameters; check their number
+            if (paramsDesc != null) {  // If we check the parameters; check their number
                 nNbParamDesc = paramsDesc.getNbParamToProvide();
+            }
             if(nNbParams == nNbParamDesc)   // Correct number of parameters
             {
                 for(int n=0; n<nNbParams; n++)
                 {
                     SQLClauseSPParam param = params.get(n);
-                    if(paramsDesc != null)          // We have parameters to check
+                    if (paramsDesc != null) {          // We have parameters to check
                         paramDesc = paramsDesc.get(n);
+                    }
                     try
                     {
                         param.registerIntoCallableStatement(n, callableStatement, paramDesc);

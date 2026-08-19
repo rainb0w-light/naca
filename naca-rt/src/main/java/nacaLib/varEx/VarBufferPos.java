@@ -71,12 +71,14 @@ public class VarBufferPos extends VarBuffer
 
     public CStr getBufChunkAt(int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
         CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
         cs.set(acBuffer, nAbsolutePosition, nSize);
         return cs;
@@ -84,14 +86,17 @@ public class VarBufferPos extends VarBuffer
 
     public CStr getOwnCStr(int nSize)
     {
-        if(cstr == null)
+        if (cstr == null) {
             cstr = new CStr();
-        if(nSize < 0)
+        }
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
 
         cstr.set(acBuffer, nAbsolutePosition, nSize);
         return cstr;
@@ -130,8 +135,9 @@ public class VarBufferPos extends VarBuffer
         int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 
         int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
-        if(nBodyLength > nMaxSize)
+        if (nBodyLength > nMaxSize) {
             nBodyLength = nMaxSize;
+        }
         //CStr cs = new CStr();
         CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
         cs.set(acBuffer, nBodyAbsolutePosition, nBodyLength);
@@ -190,8 +196,9 @@ public class VarBufferPos extends VarBuffer
         int nBodyAbsolutePosition = nAbsolutePosition + varDef.getHeaderLength();
 
         int nMaxSize = acBuffer.length - nBodyAbsolutePosition;
-        if(nBodyLength > nMaxSize)
+        if (nBodyLength > nMaxSize) {
             nBodyLength = nMaxSize;
+        }
         CStr cs = TempCacheLocator.getTLSTempCache().getMappedCStr();
         cs.set(acBuffer, nBodyAbsolutePosition, nBodyLength);
         CStr csDuplicate = cs.duplicate();
@@ -240,8 +247,9 @@ public class VarBufferPos extends VarBuffer
             for(int nOffset=0; nOffset<nLength; nOffset++)
             {
                 int n = tBySource[nOffset];
-                if(n < 0)
+                if (n < 0) {
                     n += 256;
+                }
                 acBuffer[nPosDest++] = (char)n;
             }
         }
@@ -255,8 +263,9 @@ public class VarBufferPos extends VarBuffer
             for(int n=0; n<nLength; n++)
             {
                 int nSource = tBytesSource[nOffsetSource + n];
-                if(nSource < 0)
+                if (nSource < 0) {
                     nSource += 256;
+                }
                 acBuffer[nPosDest++] = (char)nSource;
             }
         }
@@ -272,13 +281,15 @@ public class VarBufferPos extends VarBuffer
             for(int n=0; n<nSourceLength; n++)
             {
                 int nByte = tSourceBytes[nPosSource++];
-                if(nByte < 0)
+                if (nByte < 0) {
                     nByte += 256;
+                }
 
                 char c = (char)nByte;
                 acBuffer[nPosDest1++] = c;
-                if(n < nDest2Length)
+                if (n < nDest2Length) {
                     buf2.acBuffer[nPosDest2++] = c;
+                }
             }
         }
     }
@@ -404,20 +415,23 @@ public class VarBufferPos extends VarBuffer
 
     int getAsInt(int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
 
         return getAsInt(nAbsolutePosition, nSize);
     }
 
     int getAsInt(int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
         int nValue = 0;
         int n = nAbsolutePosition;
         int nMax = nAbsolutePosition + nTotalSize;
@@ -435,30 +449,35 @@ public class VarBufferPos extends VarBuffer
                 isnegative = true;
                 continue;
             }
-            else if(c == '.')
+            else if (c == '.') {
                 break;
+            }
         }
-        if(isnegative)
+        if (isnegative) {
             return -nValue;
+        }
         return nValue;
     }
 
     int getAsUnsignedInt(int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
 
         return getAsUnsignedInt(nAbsolutePosition, nSize);
     }
 
     int getAsUnsignedInt(int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
         int nValue = 0;
         int n = nAbsolutePosition;
         int nMax = nAbsolutePosition + nTotalSize;
@@ -470,28 +489,32 @@ public class VarBufferPos extends VarBuffer
                 nValue = 10 * nValue + (c - '0');
                 continue;
             }
-            else if(c == '.')
+            else if (c == '.') {
                 break;
+            }
         }
         return nValue;
     }
 
     long getAsLong(int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
 
         return getAsLong(nAbsolutePosition, nSize);
     }
 
     public long getAsLong(int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
 
         long lValue = 0;
         int n = nAbsolutePosition;
@@ -510,30 +533,35 @@ public class VarBufferPos extends VarBuffer
                 isnegative = true;
                 continue;
             }
-            else if(c == '.')
+            else if (c == '.') {
                 break;
+            }
         }
-        if(isnegative)
+        if (isnegative) {
             return -lValue;
+        }
         return lValue;
     }
 
     long getAsUnsignedLong(int nSize)
     {
-        if(nSize < 0)
+        if (nSize < 0) {
             nSize = 0;
+        }
 
         int nMaxSize = acBuffer.length - nAbsolutePosition;
-        if(nSize > nMaxSize)
+        if (nSize > nMaxSize) {
             nSize = nMaxSize;
+        }
 
         return getAsUnsignedLong(nAbsolutePosition, nSize);
     }
 
     public long getAsUnsignedLong(int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
 
         long lValue = 0;
         int n = nAbsolutePosition;
@@ -550,8 +578,9 @@ public class VarBufferPos extends VarBuffer
             {
                 continue;
             }
-            else if(c == '.')
+            else if (c == '.') {
                 break;
+            }
         }
         return lValue;
     }

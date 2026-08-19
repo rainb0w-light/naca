@@ -48,8 +48,9 @@ public class FileExporter
             LineRead lineRead = exportFileIn.readALine(dataFileIn, null);
             while(lineRead != null)
             {
-                if(isvariableLength)
+                if (isvariableLength) {
                     lineRead.shiftOffset(4);    // Skip record header
+                }
                 exportFileOut.writeFrom(lineRead);
                 lineRead = exportFileIn.readALine(dataFileIn, lineRead);
                 nNbLines++;

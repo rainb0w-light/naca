@@ -56,10 +56,11 @@ public class Dumper
                 }
                 String csByte = StringUtil.FormatAs2CharHexa(arr[n]);
                 csHexa += csByte + " ";
-                if(arr[n] < 0)
+                if (arr[n] < 0) {
                     csText += (char) (arr[n] + 256);
-                else
+                } else {
                     csText += (char) (arr[n]);
+                }
             }
             while((n % 16) != 0)
             {
@@ -68,9 +69,9 @@ public class Dumper
             }
 
             dump(csHexa+"|"+csText);
-        }
-        else
+        } else {
             dump("byte array is null");
+        }
     }
 
     public static boolean isFileRecordsOrdered(String csFilePath, boolean bAscending)
@@ -99,19 +100,23 @@ public class Dumper
             {
                 int n1 = (int)tBytesOld[n];
                 int n2 = (int)tBytesNew[n];
-                if(n1 < 0)
+                if (n1 < 0) {
                     n1 += 256;
-                if(n2 < 0)
+                }
+                if (n2 < 0) {
                     n2 += 256;
-                if(n1 == n2)
+                }
+                if (n1 == n2) {
                     continue;
-                else if((n1 < n2 && !bAscending) || (n1 > n2 && bAscending))
+                } else if ((n1 < n2 && !bAscending) || (n1 > n2 && bAscending)) {
                     return false;
-                else
+                } else {
                     break;
+                }
             }
-            if((nRecordLengthOld < nRecordLengthNew && !bAscending) || (nRecordLengthOld > nRecordLengthNew && bAscending))
+            if ((nRecordLengthOld < nRecordLengthNew && !bAscending) || (nRecordLengthOld > nRecordLengthNew && bAscending)) {
                 return false;
+            }
 
             nRecordLengthOld = nRecordLengthNew;
             for(int n=0; n<nRecordLengthNew; n++)

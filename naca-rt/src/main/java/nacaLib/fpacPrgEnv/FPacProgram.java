@@ -68,20 +68,23 @@ public abstract class FPacProgram extends BaseProgram
         int nNext = 0;
         while(nCurrent != END)
         {
-            if(nCurrent == FIRST)
+            if (nCurrent == FIRST) {
                 nNext = first();
-            else if(nCurrent == NORMAL)
+            } else if (nCurrent == NORMAL) {
                 nNext = normal();
-            else if(nCurrent == LAST)
+            } else if (nCurrent == LAST) {
                 nNext = doOnceLast();
+            }
 
-            if(nNext == END)
+            if (nNext == END) {
                 return;
+            }
 
-            if(nNext == NEXT)
+            if (nNext == NEXT) {
                 nCurrent++;
-            else
+            } else {
                 nCurrent = nNext;
+            }
         }
         doOnceLast();
     }
@@ -336,8 +339,9 @@ public abstract class FPacProgram extends BaseProgram
     }
     protected boolean isEof(BaseFileDescriptor fd)
     {
-        if(fd != null)
+        if (fd != null) {
             return fd.isEOF();
+        }
         return true;
     }
 
@@ -346,12 +350,14 @@ public abstract class FPacProgram extends BaseProgram
         for(int n=0; n<cs.length()-1; n++)
         {
             char c = cs.charAt(n);
-            if(c < '0' || c > '9')
+            if (c < '0' || c > '9') {
                 return false;
+            }
         }
         char c = cs.charAt(cs.length()-1);
-        if(c == 'D' || c == 'C')
+        if (c == 'D' || c == 'C') {
             return true;
+        }
         return false;
     }
 

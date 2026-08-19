@@ -29,8 +29,9 @@ public class DbColDefErrorManager
     void reportTruncationError(long lOriginalValue, long lValue, String csColName)
     {
         nErrors++;
-        if(sb == null)
+        if (sb == null) {
             sb = new StringBuilder();
+        }
         int nLineNum = nLine + 1;
         sb.append("Truncation error at file line " + nLineNum + " For column=" + csColName + " : Original Value=" + lOriginalValue
             + " Truncated to=" + lValue + "\r\n");
@@ -39,8 +40,9 @@ public class DbColDefErrorManager
     void reportTruncationError(String csOriginalValue, String csValue, String csColName)
     {
         nErrors++;
-        if(sb == null)
+        if (sb == null) {
             sb = new StringBuilder();
+        }
         int nLineNum = nLine + 1;
         sb.append("Truncation error at file line " + nLineNum + " For column=" + csColName + " : Original Value=" + csOriginalValue
             + " Truncated to=" + csValue + "\r\n");

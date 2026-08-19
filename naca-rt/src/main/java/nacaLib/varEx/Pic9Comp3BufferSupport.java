@@ -26,8 +26,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         int nDigit;
 
         int nBytePos = nNbDigitInteger / 2;
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         nDigit = lValue % 10;
         c = ms_tEncodeByteComp3Unsigned[nDigit];
         lValue /= 10;
@@ -163,8 +164,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         int nDigit;
 
         int nBytePos = nNbDigitInteger / 2;
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         nDigit = (int)(lValue % 10);
         c = ms_tEncodeByteComp3Unsigned[nDigit];
         lValue /= 10;
@@ -200,8 +202,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         int nDigit;
 
         int nBytePos = nNbDigitInteger / 2;
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         nDigit = (int)(lValue % 10);
         c = ms_tEncodeByteComp3Unsigned[nDigit];
         lValue /= 10;
@@ -308,8 +311,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         }
         else
         {
-            if(lValue < 0)
+            if (lValue < 0) {
                 lValue = -lValue;
+            }
             nDigit = (int)(lValue % 10);
             c = ms_tEncodeByteComp3Unsigned[nDigit];
         }
@@ -392,8 +396,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
     public static int getAsInt(VarBufferPos buffer, int nNbDigitInteger)
     {
         int nTotalSize = nNbDigitInteger / 2;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             nTotalSize++;
+        }
         return getAsInt(buffer, nNbDigitInteger, nTotalSize);
     }
 
@@ -406,8 +411,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         for(int n=0; n<nNbChars-1; n++)
         {
             nEncodedByte = buffer.acBuffer[nPosSource++];
-            if(nValue != 0)
+            if (nValue != 0) {
                 nValue *= 100;
+            }
             nValue += ms_tDecodeByteComp3[nEncodedByte];
         }
 
@@ -418,16 +424,18 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         nValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
 
         boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-        if(isnegative)
+        if (isnegative) {
             nValue = -nValue;
+        }
         return nValue;
     }
 
     public static int getAsUnsignedInt(VarBufferPos buffer, int nNbDigitInteger)
     {
         int nTotalSize = nNbDigitInteger / 2;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             nTotalSize++;
+        }
         return getAsUnsignedInt(buffer, nNbDigitInteger, nTotalSize);
     }
 
@@ -441,8 +449,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         {
             nEncodedByte = buffer.acBuffer[nPosSource++];
             //int nEncodedByte = buffer.getCharAtOffset(n);
-            if(nValue != 0)
+            if (nValue != 0) {
                 nValue *= 100;
+            }
             nValue += ms_tDecodeByteComp3[nEncodedByte];
         }
 
@@ -475,8 +484,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         for(int n=0; n<nNbChars-1; n++)
         {
             nEncodedByte = buffer.acBuffer[nPosSource++];
-            if(lValue != 0)
+            if (lValue != 0) {
                 lValue *= 100;
+            }
             lValue += ms_tDecodeByteComp3[nEncodedByte];
         }
 
@@ -486,8 +496,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         lValue += ms_tDecodeLastByteDigitComp3[nEncodedByte];
 
         boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-        if(isnegative)
+        if (isnegative) {
             lValue = -lValue;
+        }
         return lValue;
     }
 
@@ -501,8 +512,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
         {
             nEncodedByte = buffer.acBuffer[nPosSource++];
 //          int nEncodedByte = buffer.getCharAtOffset(nAbsolutePosition+n);
-            if(lValue != 0)
+            if (lValue != 0) {
                 lValue *= 100;
+            }
             lValue += ms_tDecodeByteComp3[nEncodedByte];
         }
 
@@ -520,8 +532,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
     public static String getAsSignedString(VarBufferPos buffer, int nNbDigitInteger, int nTotalSize)
     {
         boolean isevenNumberOfDigits = false;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             isevenNumberOfDigits = true;
+        }
 
         String csOut = new String();
         char c;
@@ -543,10 +556,11 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
             }
             else    // Sign
             {
-                if(nLow == COMP3_SIGN_MINUS)
+                if (nLow == COMP3_SIGN_MINUS) {
                     csOut += "-";
-                else if(nLow == COMP3_SIGN_PLUS)
+                } else if (nLow == COMP3_SIGN_PLUS) {
                     csOut += "+";
+                }
             }
         }
         if(isevenNumberOfDigits)
@@ -578,8 +592,9 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
             int nUnsignedDecValue = decValue.getLeftMostDigitOfDecPartAsInt(nNbDigitDecimal);
             long signedValue = (unsignedIntValue * ms_tModulo[nNbDigitDecimal]) + nUnsignedDecValue;
 
-            if(decValue.isNegative())
+            if (decValue.isNegative()) {
                 signedValue = -signedValue;
+            }
             setFromRightToLeft(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize, nOffset, bSigned, signedValue);
         }
         else
@@ -611,22 +626,25 @@ public class Pic9Comp3BufferSupport extends BasePic9Comp3BufferSupport
             String cs = String.valueOf(lDec);
             String csRight = cs.substring(1);
             Dec dec = new Dec(lInt, csRight);
-            if(isnegative)
+            if (isnegative) {
                 dec.setNegativeForced();
+            }
             return dec;
         }
 
         Dec dec = new Dec(lInt, "0");
-        if(isnegative)
+        if (isnegative) {
             dec.setNegativeForced();
+        }
         return dec;
     }
 
     static public Dec getAsDecUnsigned(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal, int nTotalSize)
     {
         long intDec = getAsLong(buffer, nNbDigitInteger+nNbDigitDecimal, nTotalSize);
-        if(intDec < 0)
+        if (intDec < 0) {
             intDec = -intDec;
+        }
         long lInt = intDec / ms_tModulo[nNbDigitDecimal];
         if(nNbDigitDecimal > 0)
         {

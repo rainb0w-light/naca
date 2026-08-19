@@ -242,8 +242,9 @@ public class CGlobalCatalog
         for (String includeGroupName : csIncludeGroupName.split(":"))
         {
             CTransApplicationGroup grpIncludes = getGroupSafe(includeGroupName) ;
-            if (grpIncludes == null)
+            if (grpIncludes == null) {
                 continue;
+            }
             BaseEngine<CEntityExternalDataStructure> engine = grpIncludes.getEngine() ;
             Transcoder.pushTranscodedUnit(name, grpIncludes.csInputPath);
             ext = engine.doAllAnalysis(name, "", grpIncludes, false) ;

@@ -310,10 +310,12 @@ public class CFormEnhancer
                 Element cas = (Element)lst.item(i) ;
                 String value = null;
                 String protection = null;
-                if (cas.hasAttribute("value"))
-                    value = cas.getAttribute("value") ;
-                if (cas.hasAttribute("protection"))
-                    protection = cas.getAttribute("protection") ;
+                if (cas.hasAttribute("value")) {
+                    value = cas.getAttribute("value");
+                }
+                if (cas.hasAttribute("protection")) {
+                    protection = cas.getAttribute("protection");
+                }
                 Node n = cas.getFirstChild() ;
                 while (n.getNodeType() != Node.ELEMENT_NODE)
                 {

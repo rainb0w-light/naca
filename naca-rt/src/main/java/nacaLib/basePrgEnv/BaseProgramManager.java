@@ -93,14 +93,16 @@ public abstract class BaseProgramManager extends CJMapObject
         this.baseProgramLoader = baseProgramLoader;
         setEnv(env);
 
-        if(env != null)
-            csTransID = env.getNextProgramToLoad() ;
+        if (env != null) {
+            csTransID = env.getNextProgramToLoad();
+        }
         determineCommareaLength(env);
 
         if(env != null && env.getCommarea()!=null)
         {
-            if(arrCallerCallParam == null)
+            if (arrCallerCallParam == null) {
                 arrCallerCallParam = new ArrayList<CCallParam>();
+            }
 
             CCallParam CallParam = env.getCommarea().buildCallParam();
             arrCallerCallParam.add(CallParam);
@@ -140,8 +142,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void mapCalledPrgReturnParameters(ArrayList<BaseCalledPrgPublicArgPositioned> arrCallerCallParam)
     {
-        if (arrCallerCallParam != null)
+        if (arrCallerCallParam != null) {
             dataDivision.mapCalledPrgReturnParameters(arrCallerCallParam, declaredCallArg);
+        }
     }
 
     private void loadNewInstance(ArrayList arrCallerCallParam)
@@ -217,8 +220,9 @@ public abstract class BaseProgramManager extends CJMapObject
             for(int nArg=0; nArg<nNbArg; nArg++)
             {
                 CCallParam CallParam = (CCallParam) arrCallerCallParam.get(nArg);
-                if(CallParam != null)
+                if (CallParam != null) {
                     nTotalParamLength += CallParam.getParamLength();
+                }
             }
         }
         return nTotalParamLength;
@@ -226,8 +230,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public Division dataDivision()
     {
-        if(dataDivision == null)
+        if (dataDivision == null) {
             dataDivision = new DataDivision(program);
+        }
         return dataDivision;
     }
 
@@ -242,24 +247,27 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public DataSection workingStorageSection()
     {
-        if(dataDivision == null)    // Check DataDivision creation
+        if (dataDivision == null) {    // Check DataDivision creation
             dataDivision();
+        }
 
         return dataDivision.grantAndSetCurrentWorkingStorageSection(program);
     }
 
     public DataSection linkageSection()
     {
-        if(dataDivision == null)    // Check DataDivision creation
+        if (dataDivision == null) {    // Check DataDivision creation
             dataDivision();         // Should never occur as WorkingStorageSection() followed
 
+        }
         return dataDivision.grantAndSetCurrentLinkageSection(program);
     }
 
     public DataSectionFile fileSection()
     {
-        if(dataDivision == null)    // Check DataDivision creation
+        if (dataDivision == null) {    // Check DataDivision creation
             dataDivision();
+        }
 
         return dataDivision.grantAndSetCurrentFileSection(program);
     }
@@ -301,8 +309,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     int getReplacedLevel(int nLevel)
     {
-        if(copyReplacing != null)
+        if (copyReplacing != null) {
             return copyReplacing.getReplacedLevel(nLevel);
+        }
         return nLevel;
     }
 
@@ -356,18 +365,20 @@ public abstract class BaseProgramManager extends CJMapObject
                         else if(csTypeName.equals("nacaLib.program.Section"))
                         {
                             Section section = (Section)obj;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 section.name(csPrefixeName + csName);
-                            else
+                            } else {
                                 section.name(csName);
+                            }
                         }
                         else if(csTypeName.equals("nacaLib.program.Paragraph"))
                         {
                             Paragraph para = (Paragraph)obj;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 para.name(csPrefixeName + csName);
-                            else
+                            } else {
                                 para.name(csName);
+                            }
                         }
                         else if(csTypeName.equals("nacaLib.varEx.Form"))
                         {
@@ -414,10 +425,11 @@ public abstract class BaseProgramManager extends CJMapObject
                         else if(csTypeName.equals("nacaLib.varEx.Cond"))
                         {
                             Cond cond = (Cond)obj;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 cond.setName(csPrefixeName + csName);
-                            else
+                            } else {
                                 cond.setName(csName);
+                            }
                         }
                         else if(csTypeName.equals("nacaLib.varEx.ParamDeclaration"))
                         {
@@ -431,8 +443,9 @@ public abstract class BaseProgramManager extends CJMapObject
                         {
                             SQLCursor cursor = (SQLCursor)obj;
                             String csCursorName = csName;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 csCursorName = csPrefixeName + csName;
+                            }
                             cursor.setName(csProgramName, csCursorName);
                             sharedProgramInstanceData.saveCursorName(csCursorName);
                         }
@@ -521,18 +534,20 @@ public abstract class BaseProgramManager extends CJMapObject
                         if(csTypeName.equals("nacaLib.program.Section"))
                         {
                             Section section = (Section)obj;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 section.name(csPrefixeName + csName);
-                            else
+                            } else {
                                 section.name(csName);
+                            }
                         }
                         else if(csTypeName.equals("nacaLib.program.Paragraph"))
                         {
                             Paragraph para = (Paragraph)obj;
-                            if(issetPrefix)
+                            if (issetPrefix) {
                                 para.name(csPrefixeName + csName);
-                            else
+                            } else {
                                 para.name(csName);
+                            }
                         }
                     }
                 }
@@ -546,8 +561,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void using(Var var)
     {
-        if(declaredCallArg == null)
+        if (declaredCallArg == null) {
             declaredCallArg = new ArrayList<Var>();
+        }
         declaredCallArg.add(var);
     }
 
@@ -561,17 +577,19 @@ public abstract class BaseProgramManager extends CJMapObject
         try
         {
             setNextSectionCurrent();
-            if(isLogFlow)
-                Log.logDebug("Run: "+program.getSimpleName()+"."+"procedureDivision()");
+            if (isLogFlow) {
+                Log.logDebug("Run: " + program.getSimpleName() + "." + "procedureDivision()");
+            }
             program.procedureDivision();
         }
         catch (CGotoException e)
         {
             gotoParagraph = e.paragraph;
-            if(gotoParagraph == null)
+            if (gotoParagraph == null) {
                 currentSection = e.section;
-            else
+            } else {
                 currentSection = getSectionOwnerParagraph(gotoParagraph);
+            }
         }
         catch (CESMReturnException e)
         {
@@ -589,10 +607,11 @@ public abstract class BaseProgramManager extends CJMapObject
             {
                 currentSection.runSectionFromParagraph(gotoParagraph);
                 gotoParagraph = null;
-                if(setNext)
+                if (setNext) {
                     setNextSectionCurrent();
-                else
+                } else {
                     currentSection = null;
+                }
             }
             catch (CESMReturnException e)
             {
@@ -631,8 +650,9 @@ public abstract class BaseProgramManager extends CJMapObject
         for(int n=0; n<nNbSection; n++)
         {
             section = this.section.get(n);
-            if(section.isParagraphInCurrentSection(paragraph))
+            if (section.isParagraphInCurrentSection(paragraph)) {
                 return section;
+            }
         }
         return null;
     }
@@ -659,8 +679,9 @@ public abstract class BaseProgramManager extends CJMapObject
     public Section addParagraphToCurrentSection(Paragraph paragraph)
     {
         Section section = getLastSection();
-        if(section == null)
+        if (section == null) {
             section = section("Unnamed");
+        }
         section.addParapgraph(paragraph);
         this.paragraph.add(paragraph);
         return section;
@@ -676,8 +697,9 @@ public abstract class BaseProgramManager extends CJMapObject
     private Section getLastSection()
     {
         int n = section.size();
-        if(n > 0)
-            return section.get(n-1);
+        if (n > 0) {
+            return section.get(n - 1);
+        }
         return null;
     }
 
@@ -690,8 +712,9 @@ public abstract class BaseProgramManager extends CJMapObject
     private Section getFirstSection()
     {
         int n = section.size();
-        if(n > 0)
+        if (n > 0) {
             return section.get(0);
+        }
         return null;
     }
 
@@ -718,12 +741,12 @@ public abstract class BaseProgramManager extends CJMapObject
                 if(nCurrentSectionIndex < nNbSection)
                 {
                      currentSection = section.get(nCurrentSectionIndex);
-                }
-                else    // We are omn the last section: no next paragraph
+                } else {    // We are omn the last section: no next paragraph
                     currentSection = null;
-            }
-            else
+                }
+            } else {
                 currentSection = null;
+            }
         }
     }
 
@@ -750,12 +773,12 @@ public abstract class BaseProgramManager extends CJMapObject
                 if(nCurrentParagraphIndex < nNbParagraph)
                 {
                      currentParagraph = paragraph.get(nCurrentParagraphIndex);
-                }
-                else    // We are omn the last paragraph of the section: no next paragraph
+                } else {    // We are omn the last paragraph of the section: no next paragraph
                     currentParagraph = null;
-            }
-            else
+                }
+            } else {
                 currentParagraph = null;
+            }
         }
     }
 
@@ -766,8 +789,9 @@ public abstract class BaseProgramManager extends CJMapObject
         while(nCurrentParagraphIndex < nNbParagraph)
         {
             Paragraph paragraph = this.paragraph.get(nCurrentParagraphIndex);
-            if(currentParagraph == paragraph)
+            if (currentParagraph == paragraph) {
                 return nCurrentParagraphIndex;
+            }
             nCurrentParagraphIndex++;
         }
         return -1;
@@ -780,8 +804,9 @@ public abstract class BaseProgramManager extends CJMapObject
         while(nCurrentSectionIndex < nNbSection)
         {
             Section section = this.section.get(nCurrentSectionIndex);
-            if(currentSection == section)
+            if (currentSection == section) {
                 return nCurrentSectionIndex;
+            }
             nCurrentSectionIndex++;
         }
         return -1;
@@ -789,8 +814,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void perform(Paragraph paragraph)
     {
-        if(paragraph != null)
+        if (paragraph != null) {
             paragraph.run();
+        }
     }
 
     public void perform(Section section)
@@ -840,16 +866,18 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public VarDefBuffer popLevel(int nReplacedLevel)
     {
-        if(dataDivision == null)    // No working storage section defined
+        if (dataDivision == null) {    // No working storage section defined
             workingStorageSection();
+        }
         VarDefBuffer varDefParent = dataDivision.getVarDefAtParentLevel(nReplacedLevel);
         return varDefParent;
     }
 
     public void pushLevel(VarDefBuffer varDef)
     {
-        if(dataDivision == null)    // No working storage section defined
+        if (dataDivision == null) {    // No working storage section defined
             workingStorageSection();
+        }
         dataDivision.pushLevel(varDef);
     }
 
@@ -860,8 +888,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     private void setLastVarCreated(VarBase var)
     {
-        if(rootVar == null)
+        if (rootVar == null) {
             rootVar = lastVarCreated;
+        }
         lastVarCreated = var;
     }
 
@@ -873,8 +902,9 @@ public abstract class BaseProgramManager extends CJMapObject
     public VarBase getVarFullName(int nId)
     {
         VarBase varBase = arrVarsFullName[nId];
-        if(varBase == null)
+        if (varBase == null) {
             logSevereError(nId);
+        }
         return varBase;
     }
 
@@ -883,8 +913,9 @@ public abstract class BaseProgramManager extends CJMapObject
         if(varDef != null)
         {
             VarBase varBase = arrVarsFullName[varDef.getId()];
-            if(varBase == null)
+            if (varBase == null) {
                 logSevereError(varDef);
+            }
             return varBase;
         }
         logSevereError();
@@ -941,12 +972,13 @@ public abstract class BaseProgramManager extends CJMapObject
         }
 
         sbText.append("\r\n");
-        if(TempCacheLocator.getTLSTempCache().getProgramManager() != this)
+        if (TempCacheLocator.getTLSTempCache().getProgramManager() != this) {
             sbText.append("ERROR: TempCacheLocator.getTLSTempCache().getProgramManager() != currentProgramManager: SEVERE corruption of " +
-                "TLS data\r\n");
-        else
+                    "TLS data\r\n");
+        } else {
             sbText.append("TLS ProgramManger is set correctly: TempCacheLocator.getTLSTempCache().getProgramManager() == " +
-                "currentProgramManager\r\n");
+                    "currentProgramManager\r\n");
+        }
 
         sbText.append("\r\n");
 
@@ -956,9 +988,9 @@ public abstract class BaseProgramManager extends CJMapObject
             sbText.append("\r\nsharedProgramInstanceData:\r\n");
             String cs = sharedProgramInstanceData.dumpAll();
             sbText.append(cs);
-        }
-        else
+        } else {
             sbText.append("\r\nERROR: sharedProgramInstanceData == null !!!\r\n");
+        }
 
         csText += sbText.toString();
         BaseProgramLoader.logMail(csSimpleName + " - " + csTitle, csText);
@@ -987,16 +1019,17 @@ public abstract class BaseProgramManager extends CJMapObject
     {
         setLastVarCreated(var);
 
-        if(dataDivision.isWorkingSectionCurrent())
+        if (dataDivision.isWorkingSectionCurrent()) {
             varsWS.add(var);
-        else if(dataDivision.isLinkageSectionCurrent())
+        } else if (dataDivision.isLinkageSectionCurrent()) {
             varsLS.add(var);
-        else if(dataDivision.isFileSectionCurrent())
+        } else if (dataDivision.isFileSectionCurrent())
         {
             arrVarsFile.add(var);
             short level = var.getVarDef().getLevel();
-            if(level == 1)  // Level 1: Only 1 struct of a a record of a file
-                dataDivision.registerFileVarStruct((Var)var);
+            if (level == 1) {  // Level 1: Only 1 struct of a a record of a file
+                dataDivision.registerFileVarStruct((Var) var);
+            }
         }
     }
 
@@ -1043,8 +1076,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void registerEditInMap(EditInMap edit)
     {
-        if(arrEditInMap == null)
+        if (arrEditInMap == null) {
             arrEditInMap = new ArrayDyn<EditInMap>();
+        }
         arrEditInMap.add(edit);
     }
 
@@ -1129,10 +1163,11 @@ public abstract class BaseProgramManager extends CJMapObject
         }
 
         String csId;
-        if(cursor != null)  // use cursor name instead of hashline
+        if (cursor != null) {  // use cursor name instead of hashline
             csId = cursor.getUniqueCursorName() + "_" + csQuery;
-        else
+        } else {
             csId = csQuery;
+        }
         int nHashQuery = csId.hashCode();
 
         if(!BaseResourceManager.getUseSQLObjectCache())
@@ -1142,10 +1177,11 @@ public abstract class BaseProgramManager extends CJMapObject
         }
 
         SQL sql = null;
-        if(hashSQL != null)
+        if (hashSQL != null) {
             sql = hashSQL.get(nHashQuery);  // The returned value may be a SQLOrderFrontEnd or a SQL object
-        else
+        } else {
             hashSQL = new Hashtable<Integer, SQL>();
+        }
 
         if(sql != null)
         {
@@ -1162,8 +1198,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void compressSharedProgramInstanceData()
     {
-        if(sharedProgramInstanceData != null)
+        if (sharedProgramInstanceData != null) {
             sharedProgramInstanceData.compress();
+        }
     }
 
     public boolean isFirstInstance()
@@ -1216,8 +1253,9 @@ public abstract class BaseProgramManager extends CJMapObject
             for(int n=0; n<nNbVars; n++)
             {
                 VarBase var = varsLS.get(n);
-                if(!var.isWSVar())
+                if (!var.isWSVar()) {
                     var.assignBufferExt(bufferLS);
+                }
             }
             // Do not set to null, as the buffer must be set again on next program reuse
             // Instead, it is compressed
@@ -1288,8 +1326,9 @@ public abstract class BaseProgramManager extends CJMapObject
 
     public void registerCursor(SQLCursor cursor)
     {
-        if(this.cursor == null)
+        if (this.cursor == null) {
             this.cursor = new ArrayDyn<SQLCursor>();
+        }
         this.cursor.add(cursor);
     }
 
@@ -1332,14 +1371,16 @@ public abstract class BaseProgramManager extends CJMapObject
         if(e != null)
         {
             //String csFileLine = StackStraceSupport.getFileLineAtStackDepth(3);    // Caller File Line
-            if(sqlStatus == null)
+            if (sqlStatus == null) {
                 sqlStatus = new CSQLStatus();
+            }
             sqlStatus.setSQLCode("Rollback", e, "sqlRollback"/*, csFileLine*/, null);
         }
         else
         {
-            if(sqlStatus == null)
+            if (sqlStatus == null) {
                 sqlStatus = new CSQLStatus();
+            }
             sqlStatus.setSQLCodeOk();
         }
         return sqlStatus;
@@ -1352,14 +1393,16 @@ public abstract class BaseProgramManager extends CJMapObject
         if(e != null)
         {
             //String csFileLine = StackStraceSupport.getFileLineAtStackDepth(3);    // Caller File Line
-            if(sqlStatus == null)
+            if (sqlStatus == null) {
                 sqlStatus = new CSQLStatus();
+            }
             sqlStatus.setSQLCode("Commit", e, "sqlCommit"/*, csFileLine*/, null);
         }
         else
         {
-            if(sqlStatus == null)
+            if (sqlStatus == null) {
                 sqlStatus = new CSQLStatus();
+            }
             sqlStatus.setSQLCodeOk();
         }
         return sqlStatus;
@@ -1429,8 +1472,9 @@ public abstract class BaseProgramManager extends CJMapObject
         for(int n=0; n<nNbVars; n++)
         {
             VarBase var = arrVarsFullName[n];
-            if(var != null)
+            if (var != null) {
                 var.internalAssignBufferShiftPosition(oldBuffer, nStartPos, nLength, newVarBuffer, nShift);
+            }
         }
     }
 
@@ -1479,8 +1523,9 @@ public abstract class BaseProgramManager extends CJMapObject
     {
         detachFromEnv();
 
-        if(!iscompressed)
+        if (!iscompressed) {
             compress();
+        }
 
         // Close cursors
         if(cursor != null)

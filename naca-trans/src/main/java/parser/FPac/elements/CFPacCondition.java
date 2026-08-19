@@ -43,66 +43,67 @@ public class CFPacCondition extends CFPacElement
         CBaseToken tok = GetCurrentToken();
         if (tok.GetKeyword() == CFPacKeywordList.IF)
         {
-            tok = GetNext() ;
-        }
-        else if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
+            tok = GetNext();
+        } else if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
         {
-            iselseIfStatement = true ;
-            tok = GetNext() ;
+            iselseIfStatement = true;
+            tok = GetNext();
         }
 
-        CExpression exp = ReadCondition() ;
-        if (exp == null)
-            return false ;
-        expCondition = exp ;
-
-        tok = GetCurrentToken() ;
-        if(tok.GetKeyword() == CFPacKeywordList.THEN)
-        {
-            tok = GetNext() ;
+        CExpression exp = ReadCondition();
+        if (exp == null) {
+            return false;
         }
-        thenBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+        expCondition = exp;
+
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() == CFPacKeywordList.THEN)
+        {
+            tok = GetNext();
+        }
+        thenBloc = new CFPacCodeBloc(tok.getLine(), "");
         if (!Parse(thenBloc))
         {
-            return false  ;
+            return false;
         }
 
-        if (iselseIfStatement)
-            return true ; // in case of ELSEIF statement, the ELSE and ENDIF keywords are parsed by parent.
+        if (iselseIfStatement) {
+            return true; // in case of ELSEIF statement, the ELSE and ENDIF keywords are parsed by parent.
 
-        tok = GetCurrentToken() ;
+        }
+        tok = GetCurrentToken();
         if (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
         {
-            elseIfStatement = new Vector<CFPacCondition>() ;
+            elseIfStatement = new Vector<CFPacCondition>();
             while (tok.GetKeyword() == CFPacKeywordList.ELSEIF)
             {
-                CFPacCondition elseIfStatement  = new CFPacCondition(tok.getLine()) ;
+                CFPacCondition elseIfStatement = new CFPacCondition(tok.getLine());
                 if (!Parse(elseIfStatement))
                 {
-                    return false ;
+                    return false;
                 }
-                this.elseIfStatement.add(elseIfStatement) ;
-                tok = GetCurrentToken() ;
+                this.elseIfStatement.add(elseIfStatement);
+                tok = GetCurrentToken();
             }
         }
 
         if (tok.GetKeyword() == CFPacKeywordList.ELSE)
         {
-            elseBloc = new CFPacCodeBloc(tok.getLine(), "") ;
+            elseBloc = new CFPacCodeBloc(tok.getLine(), "");
             StepNext();
             if (!Parse(elseBloc))
             {
-                return false ;
+                return false;
             }
         }
 
-        tok = GetCurrentToken() ;
+        tok = GetCurrentToken();
         if (tok.GetKeyword() == CFPacKeywordList.IFEND)
         {
-            nEndLine = tok.getLine() ;
-            StepNext() ;
+            nEndLine = tok.getLine();
+            StepNext();
         }
-        return true ;
+        return true;
 
     }
 
@@ -148,8 +149,9 @@ public class CFPacCondition extends CFPacElement
     protected Element ExportCustom(Document root)
     {
         String title = "If" ;
-        if (iselseIfStatement)
-            title = "ElseIf" ;
+        if (iselseIfStatement) {
+            title = "ElseIf";
+        }
         Element e = root.createElement(title) ;
         Element eCond = root.createElement("Condition") ;
         e.appendChild(eCond) ;

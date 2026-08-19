@@ -74,12 +74,12 @@ public class Section extends CJMapRunnable
                 if(nCurrentParagraphIndex < nNbParagraph)
                 {
                      currentParagraph = paragraph.get(nCurrentParagraphIndex);
-                }
-                else    // We are omn the last paragraph of the section: no next paragraph
+                } else {    // We are omn the last paragraph of the section: no next paragraph
                     currentParagraph = null;
-            }
-            else
+                }
+            } else {
                 currentParagraph = null;
+            }
         }
     }
 
@@ -90,8 +90,9 @@ public class Section extends CJMapRunnable
         while(nCurrentParagraphIndex < nNbParagraph)
         {
             Paragraph paragraph = this.paragraph.get(nCurrentParagraphIndex);
-            if(currentParagraph == paragraph)
+            if (currentParagraph == paragraph) {
                 return nCurrentParagraphIndex;
+            }
             nCurrentParagraphIndex++;
         }
         return -1;
@@ -99,7 +100,9 @@ public class Section extends CJMapRunnable
 
     public void run()
     {
-        if (!isrun || csName == null) return;
+        if (!isrun || csName == null) {
+            return;
+        }
         try
         {
             if (method == null)
@@ -155,8 +158,9 @@ public class Section extends CJMapRunnable
         {
             if(currentParagraph == null)
             {
-                if(isLogFlow)
-                    Log.logDebug("Run section: "+program.getSimpleName()+"."+toString());
+                if (isLogFlow) {
+                    Log.logDebug("Run section: " + program.getSimpleName() + "." + toString());
+                }
                 run();      // Run the code directly written into the section, not included in a paragraph
                 setNextParagraphCurrent();
             }
@@ -170,8 +174,9 @@ public class Section extends CJMapRunnable
         {
             try
             {
-                if(isLogFlow)
-                    Log.logDebug("Run paragraph:"+program.getSimpleName()+"."+currentParagraph.toString());
+                if (isLogFlow) {
+                    Log.logDebug("Run paragraph:" + program.getSimpleName() + "." + currentParagraph.toString());
+                }
                 currentParagraph.run();
 
                 setNextParagraphCurrent();
@@ -216,8 +221,9 @@ public class Section extends CJMapRunnable
         for(int n=0; n<nNbParagraph; n++)
         {
             Paragraph p = this.paragraph.get(n);
-            if(p == paragraph)
+            if (p == paragraph) {
                 return true;
+            }
         }
         return false;
     }
@@ -227,8 +233,9 @@ public class Section extends CJMapRunnable
         if(paragraph.size() > 0)
         {
             Paragraph ParaFirst = paragraph.get(0);
-            if(ParaFirst != null)
+            if (ParaFirst != null) {
                 ParaFirst.run();
+            }
         }
     }
 }

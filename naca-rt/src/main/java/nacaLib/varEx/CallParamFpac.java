@@ -25,8 +25,9 @@ public class CallParamFpac extends CCallParam
 
     public int getParamLength()
     {
-        if(charBuffer != null)
+        if (charBuffer != null) {
             return charBuffer.getBufferSize();
+        }
         return 0;
     }
 

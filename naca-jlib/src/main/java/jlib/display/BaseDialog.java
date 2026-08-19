@@ -398,8 +398,9 @@ public abstract class BaseDialog
     public boolean HandleRequest(HTTPMapFieldLoader reqLoader)
     {
         Enumeration en = reqLoader.getFieldNames() ;
-        if (en == null)
+        if (en == null) {
             return false;
+        }
 
         Class cl = this.getClass() ;
 

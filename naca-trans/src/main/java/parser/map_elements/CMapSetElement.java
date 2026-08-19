@@ -258,8 +258,9 @@ public class CMapSetElement extends CBMSElement
         while(tagChild != null)
         {
             CBMSElement elem = parseXMLResource(tagChild);
-            if(elem != null)
+            if (elem != null) {
                 AddElement(elem);
+            }
             tagChild = tagCurrent.getNextChild(curChild);
         }
         return this;

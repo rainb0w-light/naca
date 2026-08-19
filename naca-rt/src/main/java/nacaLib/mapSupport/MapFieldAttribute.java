@@ -77,20 +77,27 @@ public class MapFieldAttribute extends CJMapObject
     public String toString()
     {
         String cs = new String();
-        if(protection != null)
+        if (protection != null) {
             cs += protection.toString() + ";";
-        if(intensity != null)
+        }
+        if (intensity != null) {
             cs += intensity.toString() + ";";
-        if(modified != null)
+        }
+        if (modified != null) {
             cs += modified.toString() + ";";
-        if(color != null)
+        }
+        if (color != null) {
             cs += color.toString() + ";";
-        if(justify != null)
+        }
+        if (justify != null) {
             cs += justify.toString() + ";";
-        if(fill != null)
+        }
+        if (fill != null) {
             cs += fill.toString() + ";";
-        if(highlighting != null)
+        }
+        if (highlighting != null) {
             cs += highlighting.toString();
+        }
         return cs;
     }
 
@@ -263,8 +270,9 @@ public class MapFieldAttribute extends CJMapObject
 
     public boolean isFillZero()
     {
-        if(fill != null && fill.isFillZero())
+        if (fill != null && fill.isFillZero()) {
             return true;
+        }
         return false;
     }
 
@@ -272,18 +280,20 @@ public class MapFieldAttribute extends CJMapObject
     {
         if(fill != null)
         {
-            if(fill.isFillBlank())
+            if (fill.isFillBlank()) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
         return true;    // By default
     }
 
     public boolean isJustifyRight()
     {
-        if(justify != null && justify.isJustifyRight())
+        if (justify != null && justify.isJustifyRight()) {
             return true;
+        }
         return false;
     }
 
@@ -291,10 +301,11 @@ public class MapFieldAttribute extends CJMapObject
     {
         if(justify != null)
         {
-            if(justify.isJustifyLeft())
+            if (justify.isJustifyLeft()) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
         return true;    // by default
     }
@@ -304,32 +315,39 @@ public class MapFieldAttribute extends CJMapObject
         int nEncodedValue = 0;
 
         nEncodedValue = nEncodedValue << MapFieldAttrProtection.getNbBitsEncoding();
-        if (protection != null)
+        if (protection != null) {
             nEncodedValue |= protection.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrIntensity.getNbBitsEncoding();
-        if (intensity != null)
+        if (intensity != null) {
             nEncodedValue |= intensity.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrModified.getNbBitsEncoding();
-        if (modified != null)
+        if (modified != null) {
             nEncodedValue |= modified.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrColor.getNbBitsEncoding();
-        if (color != null)
+        if (color != null) {
             nEncodedValue |= color.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrHighlighting.getNbBitsEncoding();
-        if (highlighting != null)
+        if (highlighting != null) {
             nEncodedValue |= highlighting.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrJustify.getNbBitsEncoding();
-        if (justify != null)
+        if (justify != null) {
             nEncodedValue |= justify.getBitEncoding();
+        }
 
         nEncodedValue = nEncodedValue << MapFieldAttrFill.getNbBitsEncoding();
-        if (fill != null)
+        if (fill != null) {
             nEncodedValue |= fill.getBitEncoding();
+        }
 
         return nEncodedValue;
     }

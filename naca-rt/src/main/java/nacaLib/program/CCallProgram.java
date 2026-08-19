@@ -81,8 +81,9 @@ public class CCallProgram extends CJMapObject
      */
     public CCallProgram usingValue(Var var)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
         CallParamByValue CallParam = new CallParamByValue(var);
 
         callParam.add(CallParam);
@@ -97,8 +98,9 @@ public class CCallProgram extends CJMapObject
      */
     public CCallProgram usingContent(Var var)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
         CallParamByValue CallParam = new CallParamByValue(var);
 
         callParam.add(CallParam);
@@ -114,8 +116,9 @@ public class CCallProgram extends CJMapObject
      */
     public CCallProgram using(Var var)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
         CallParamByRef CallParam = new CallParamByRef(var);
 
         callParam.add(CallParam);
@@ -124,8 +127,9 @@ public class CCallProgram extends CJMapObject
 
     public CCallProgram using(Edit edit)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
         CallParamByRef CallParam = new CallParamByRef(edit);
 
         callParam.add(CallParam);
@@ -134,8 +138,9 @@ public class CCallProgram extends CJMapObject
 
     public CCallProgram using(String string)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
         CallParamByStringValue CallParam = new CallParamByStringValue(string);
         callParam.add(CallParam);
         return this;
@@ -148,8 +153,9 @@ public class CCallProgram extends CJMapObject
      */
     public CCallProgram usingLengthOf(VarAndEdit var)
     {
-        if(callParam == null)
+        if (callParam == null) {
             callParam = new ArrayList<CCallParam>();
+        }
 
         CallParamByLength callParam = new CallParamByLength(var);
 

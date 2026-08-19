@@ -20,7 +20,9 @@ public class UpdateThread extends Thread
     public void run()
     {
         String csTomcatStartCommand = BaseResourceManager.getTomcatStartCommand();
-        if (csTomcatStartCommand == null || csTomcatStartCommand.equals("")) return;
+        if (csTomcatStartCommand == null || csTomcatStartCommand.equals("")) {
+            return;
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 4);

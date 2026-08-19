@@ -55,8 +55,9 @@ public class StackStraceSupport
         {
             StackTraceElement item = tStack[nDepth];
             String cs = item.getClassName().toLowerCase();
-            if(cs.indexOf("naca") == -1 && cs.indexOf("jlib") == -1)
+            if (cs.indexOf("naca") == -1 && cs.indexOf("jlib") == -1) {
                 return item.toString();
+            }
         }
         return "";
     }

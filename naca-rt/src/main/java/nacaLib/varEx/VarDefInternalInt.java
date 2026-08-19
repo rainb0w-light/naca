@@ -73,8 +73,9 @@ public class VarDefInternalInt extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         int n = var.getInt();
-        if(n < 0)
+        if (n < 0) {
             return -n;
+        }
         return n;
     }
 
@@ -136,8 +137,9 @@ public class VarDefInternalInt extends VarDefNum
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         var.set(n);
     }
 
@@ -149,8 +151,9 @@ public class VarDefInternalInt extends VarDefNum
     void write(VarBufferPos buffer, double d)
     {
         int n = (int) d;
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         var.set(n);
     }
 
@@ -431,8 +434,9 @@ public class VarDefInternalInt extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         var.set(0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.setNotManaged();
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

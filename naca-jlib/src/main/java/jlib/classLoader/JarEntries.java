@@ -46,8 +46,9 @@ public class JarEntries
     public boolean open(String csFullPathJarFile, boolean bFilterByExtension, String csExtension)
     {
         int nExtensionLength = 0;
-        if(bFilterByExtension)
+        if (bFilterByExtension) {
             nExtensionLength = csExtension.length();
+        }
         try
         {
             Log.logNormal("Preloading JarEntries for file " + csFullPathJarFile);
@@ -62,14 +63,16 @@ public class JarEntries
                 {
                     csEntryName = csEntryName.substring(0, csEntryName.length()-nExtensionLength);  // remove extension
                     JarItemEntry jarItemEntry = new JarItemEntry(zipEntry);
-                    if(hash == null)
+                    if (hash == null) {
                         hash = new Hashtable<String, JarItemEntry>();
+                    }
                     hash.put(csEntryName, jarItemEntry);
                 }
             }
             int nNbEntries = 0;
-            if(hash != null)
+            if (hash != null) {
                 nNbEntries = hash.size();
+            }
             Log.logNormal("Preloaded " + nNbEntries + " entries from jar file " + csFullPathJarFile);
             return true;
         }
@@ -121,15 +124,17 @@ public class JarEntries
 
     public Enumeration<String> getKeys()
     {
-        if(hash != null)
+        if (hash != null) {
             return hash.keys();
+        }
         return null;
     }
 
     public JarItemEntry getEntry(String csKey)
     {
-        if(hash != null)
+        if (hash != null) {
             return hash.get(csKey);
+        }
         return null;
     }
 

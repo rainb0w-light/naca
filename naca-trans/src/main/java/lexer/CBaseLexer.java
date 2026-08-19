@@ -205,8 +205,9 @@ public abstract class CBaseLexer
             while (b != '\n')
             {
                 b = (char)buffer.read() ;
-                if (b == 65535)
+                if (b == 65535) {
                     break;
+                }
                 nReadChar ++ ;
                 if (nReadChar <= nbCharsUtils+nbCharsIgnoredAtBegining
                     && nReadChar > nbCharsIgnoredAtBegining)
@@ -451,8 +452,9 @@ public abstract class CBaseLexer
                             nCurrentPositionInLine = nCurrentLineLength; // end of line
                             continue;
                         default:
-                            if (cCurrent >= 'a' && cCurrent <= 'z')
+                            if (cCurrent >= 'a' && cCurrent <= 'z') {
                                 cCurrent = Character.toUpperCase(cCurrent);
+                            }
                             if (cCurrent >= 'A' && cCurrent <= 'Z')
                             {
                                 int pos = nCurrentPositionInLine ;
@@ -723,10 +725,11 @@ public abstract class CBaseLexer
             {
                 if (!isdone && nCurrentPositionInLine == nCurrentLineLength && nCurrentLineLength < nbCharsUtils)
                 {   // current line has \n in a string, and is to be finished on the next line
-                    if (ReadLineEnd(buffer))
-                        continue ;
-                    else
-                        return null ;
+                    if (ReadLineEnd(buffer)) {
+                        continue;
+                    }  else {
+                        return null;
+                    }
                 }
                 else if (nCurrentPositionInLine == nCurrentLineLength)
                 {
@@ -807,8 +810,9 @@ public abstract class CBaseLexer
         {
             Character b = val.get(i) ;
             res[i] = b.charValue() ;
-            if(res[i] == QUOTE_MARKER)
+            if (res[i] == QUOTE_MARKER) {
                 res[i] = '\'';
+            }
         }
         CBaseToken tok = new CTokenString(res, getLine(), false);
         return tok ;

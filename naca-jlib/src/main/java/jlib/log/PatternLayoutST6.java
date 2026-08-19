@@ -26,17 +26,19 @@ public class PatternLayoutST6 extends LogPatternLayout
         return format(logParams, 0);
     }
 
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     String format(LogParams logParams, int n)
     {
         if(n == 0)
         {
             String csType = "4";    // Rem
             LogEventType logEventType = logParams.getLogEventType();
-            if(logEventType == LogEventType.Error)
+            if (logEventType == LogEventType.Error) {
                 csType = "0";   // Error
-            else if(logEventType == LogEventType.Warning)
+            } else if (logEventType == LogEventType.Warning) {
                 csType = "1";   // Waring
 
+            }
             String csMessage = "";
             String csFile = "";
             String csClass = "";
@@ -47,7 +49,7 @@ public class PatternLayoutST6 extends LogPatternLayout
             csMessage = logParams.toString();
 
             StackTraceElement stackElem = logParams.caller;
-            if(stackElem != null)
+            if (stackElem != null)
             {
                 csFile = stackElem.getFileName();
                 csClass = stackElem.getClassName();
@@ -58,9 +60,10 @@ public class PatternLayoutST6 extends LogPatternLayout
 
             String csDate = DateUtil.getCurrentDisplayableDateTime();
 
-            String csOut = csType + "," + nCode + ",þ" + logParams.getThreadName() + "þ," + (int)logParams.getStartTime() + ",þ" + csDate
-                + "þ,þ" + csFile + "þ," + csLine + ",þ" + csClass + "::" + csMethodName + "þ,þ" + "Log Session" + "þ,þ" + csMessage + "þ,þ"
-                + csMessage + "þ\n";
+            String csOut = csType + "," + nCode + ",þ" + logParams.getThreadName() + "þ," + (int) logParams.getStartTime() + ",þ" + csDate
+                    + "þ,þ" + csFile + "þ," + csLine + ",þ" + csClass + "::" + csMethodName + "þ,þ" + "Log Session" + "þ,þ" + csMessage
+                    + "þ,þ"
+                    + csMessage + "þ\n";
             return csOut;
         }
         return null;

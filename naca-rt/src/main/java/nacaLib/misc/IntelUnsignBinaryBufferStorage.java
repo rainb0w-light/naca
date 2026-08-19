@@ -26,11 +26,13 @@ public class IntelUnsignBinaryBufferStorage
     public final static int readShort(byte buf[], int i)
     {
         int n = buf[i];
-        if(n < 0)
+        if (n < 0) {
             n += 256;
+        }
         int m = buf[i+1];
-        if(m < 0)
+        if (m < 0) {
             m += 256;
+        }
         int v = n + (m << 8);
         return v;
     }

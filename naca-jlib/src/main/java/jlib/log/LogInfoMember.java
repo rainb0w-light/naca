@@ -26,10 +26,12 @@ public class LogInfoMember
 
     String getAsString()
     {
-        if(csValue != null)
+        if (csValue != null) {
             return csName + "=" + csValue;
-        if(value != null)
+        }
+        if (value != null) {
             return csName + "=" + value.toString();
+        }
         return csName + "=?";
     }
 
@@ -40,10 +42,11 @@ public class LogInfoMember
 
     String getValue()
     {
-        if(csValue != null)
+        if (csValue != null) {
             return csValue;
-        else if(value != null)
+        } else if (value != null) {
             return value.toString();
+        }
         return "";
     }
 

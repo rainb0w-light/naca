@@ -38,16 +38,19 @@ public class BtreeKeySegmentComp0 extends BtreeKeySegment
             l2 = Pic9Comp0BufferSupport.getAsLong(tby2, nKeyPosition, nKeyLength);
         }
 
-        if(l1 == l2)
+        if (l1 == l2) {
             return 0;
+        }
         if(l1 < l2)
         {
-            if(bAscending)
+            if (bAscending) {
                 return -1;
+            }
             return 1;
         }
-        if(bAscending)
+        if (bAscending) {
             return 1;
+        }
         return -1;
     }
 }

@@ -41,8 +41,9 @@ public class StopWatch
     {
         long now = System.currentTimeMillis();
         long elapsed = now - start;
-        if(elapsed >= lTimeOut)
+        if (elapsed >= lTimeOut) {
             return true;
+        }
         return false;
     }
 

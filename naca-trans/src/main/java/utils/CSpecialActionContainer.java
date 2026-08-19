@@ -86,8 +86,9 @@ public class CSpecialActionContainer
         for (int i=0; i<n+m; i++)
         {
             CEntityResourceForm form = null ;
-            if (i>=n)
-                issave = true ;
+            if (i >= n) {
+                issave = true;
+            }
             if (!issave)
             {
                 form = cat.GetMap(i) ;
@@ -299,8 +300,9 @@ public class CSpecialActionContainer
 
 //              if (!isActionInCodeRegion(act, arrCodeRegion))
 //              { // drop write access to symbolic map
-                    if (!act.IgnoreVariable(field))
-                        j++ ;
+                if (!act.IgnoreVariable(field)) {
+                    j++;
+                }
 //              }
 //              else
 //              {
@@ -318,8 +320,9 @@ public class CSpecialActionContainer
                     {
 //                      if (!isActionInCodeRegion(act, arrCodeRegion))
 //                      { // drop write access to symbolic map
-                            if (!act.IgnoreVariable(ref))
-                                k++ ;
+                        if (!act.IgnoreVariable(ref)) {
+                            k++;
+                        }
 //                      }
 //                      else
 //                      {
@@ -345,8 +348,9 @@ public class CSpecialActionContainer
 //              if (!isActionInCodeRegion(act, arrCodeRegion))
 //              { // replace write access to save map by access to symbolic map
                     CDataEntity var = cat.GetAssociatedField(field) ;
-                    if (var == null || !act.ReplaceVariable(field, var))
-                        j++ ;
+                if (var == null || !act.ReplaceVariable(field, var)) {
+                    j++;
+                }
 //              }
 //              else
 //              {
@@ -391,8 +395,9 @@ public class CSpecialActionContainer
             for (int j=0; j<sav.GetNbWrittingActions();)
             {
                 CBaseActionEntity act = sav.GetActionWriting(j) ;
-                if (!act.ReplaceVariable(sav, map))
-                    j++ ;
+                if (!act.ReplaceVariable(sav, map)) {
+                    j++;
+                }
 //              if (bHasChildren)
 //              {
 //              }
@@ -409,8 +414,9 @@ public class CSpecialActionContainer
                 {
                     for (int k=0; k<ref.GetNbWrittingActions(); )
                     {
-                        if (!ref.ReplaceVariable(sav, map, false))
-                            k ++ ;
+                        if (!ref.ReplaceVariable(sav, map, false)) {
+                            k++;
+                        }
 //                      CBaseActionEntity act = ref.GetActionWriting(k) ;
 //                      if (act != null)
 //                      {
@@ -1042,8 +1048,9 @@ public class CSpecialActionContainer
         {
             CDataEntity var = desc.getRecordSizeDepending() ;
             CDataEntity var2 = findVariableVarInChildren(desc) ;
-            if (var == null)
-                var = var2 ;
+            if (var == null) {
+                var = var2;
+            }
             if (var != null)
             {
                 CEntityFileDescriptorLengthDependency dep = factory.NewEntityFileDescriptorLengthDependency(desc.GetName()+ "_dependency") ;

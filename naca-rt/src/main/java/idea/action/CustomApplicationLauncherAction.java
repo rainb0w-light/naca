@@ -153,7 +153,9 @@ public class CustomApplicationLauncherAction extends Action
         if (prgseq != null)
         {
             SessionEnvironmentRequester req = prgseq.getSessionEnvironmentRequester(appSession) ;
-            if (req == null) return "";
+            if (req == null) {
+                return "";
+            }
             if (ref.equalsIgnoreCase("LANG"))
             {
                 String lang = req.getUserLanguageId() ;
@@ -265,10 +267,11 @@ public class CustomApplicationLauncherAction extends Action
                 }
                 else
                 {
-                    if (endIndex == 0)
+                    if (endIndex == 0) {
                         return e.getAttribute("value").substring(beginIndex);
-                    else
+                    } else {
                         return e.getAttribute("value").substring(beginIndex, endIndex);
+                    }
                 }
             }
         }

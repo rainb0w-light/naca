@@ -123,10 +123,11 @@ public class CEntityEnvironmentVariable extends CDataEntity
     @Override
     public CDataEntityType GetDataType()
     {
-        if (isnumericVariable)
-            return CDataEntityType.NUMERIC_VAR ;
-        else
+        if (isnumericVariable) {
+            return CDataEntityType.NUMERIC_VAR;
+        }  else {
             return CDataEntityType.VAR;
+        }
     }
 
     public boolean HasAccessors()

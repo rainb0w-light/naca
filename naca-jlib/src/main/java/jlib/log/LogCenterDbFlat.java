@@ -136,8 +136,9 @@ public class LogCenterDbFlat extends LogCenter
         {
             e.printStackTrace();
         }
-        if(dbConnection != null)
+        if (dbConnection != null) {
             loadDefinedLogEvent();
+        }
 
         return b;
     }
@@ -168,20 +169,24 @@ public class LogCenterDbFlat extends LogCenter
             manageLogEventDefinition(logParam, nEventId);
 
             String csRunId=logParam.csRunId;
-            if (csRunId==null)
-                csRunId=getRunId();
+            if (csRunId == null) {
+                csRunId = getRunId();
+            }
 
             String csRuntimeId=logParam.csRuntimeId;
-            if (csRuntimeId==null)
-                csRuntimeId=getRuntimeId();
+            if (csRuntimeId == null) {
+                csRuntimeId = getRuntimeId();
+            }
 
             String csProduct=logParam.logEvent.getProduct();
-            if (csProduct==null)
-                csProduct=getProduct();
+            if (csProduct == null) {
+                csProduct = getProduct();
+            }
 
             String csProcess=logParam.logEvent.getProcess();
-            if (csProcess==null)
-                csProcess=getProcess();
+            if (csProcess == null) {
+                csProcess = getProcess();
+            }
 
             String csParamNames = "";
             String csParamQuestions = "";
@@ -304,8 +309,9 @@ public class LogCenterDbFlat extends LogCenter
         }
 
         int n = stInsert.executeInsert();
-        if(n == 1)
+        if (n == 1) {
             return true;
+        }
         return false;
     }
 /**

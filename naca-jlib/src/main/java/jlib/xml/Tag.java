@@ -110,10 +110,11 @@ public class Tag
         doc = tagParent.doc;
 
         elem = doc.createElement(csTagName);
-        if(tagParent.elem != null)
+        if (tagParent.elem != null) {
             tagParent.elem.appendChild(elem);
-        else
+        } else {
             doc.appendChild(elem);
+        }
     }
 
     private Document CreateDocument()
@@ -148,8 +149,9 @@ public class Tag
 
     public boolean addVal(String csArgName, String csValue)
     {
-        if(csValue == null)
+        if (csValue == null) {
             csValue = "";
+        }
         try
         {
             elem.setAttribute(csArgName, csValue);
@@ -165,8 +167,9 @@ public class Tag
     public boolean addVal(String csArgName, Date dateValue)
     {
         String csValue = "";
-        if(dateValue != null)
+        if (dateValue != null) {
             csValue = String.valueOf(dateValue.getTime());
+        }
         try
         {
             elem.setAttribute(csArgName, csValue);
@@ -251,8 +254,9 @@ public class Tag
 
     public String getVal(String csArgName)
     {
-        if(elem != null)
+        if (elem != null) {
             return elem.getAttribute(csArgName);
+        }
         return null;
     }
 
@@ -260,16 +264,18 @@ public class Tag
     {
         if(elem != null)
         {
-            if(elem.getAttribute(csArgName) != null)
+            if (elem.getAttribute(csArgName) != null) {
                 removeVal(csArgName);
+            }
             addVal(csArgName, csValue);
         }
     }
 
     public String getNodeVal()
     {
-        if(elem != null)
-            return elem.getFirstChild().getNodeValue() ;
+        if (elem != null) {
+            return elem.getFirstChild().getNodeValue();
+        }
         return null;
     }
 
@@ -288,8 +294,9 @@ public class Tag
         if(elem != null)
         {
             String cs = elem.getAttribute(csArgName);
-            if(StringUtil.isEmpty(cs))
+            if (StringUtil.isEmpty(cs)) {
                 return nDefaultValue;
+            }
             return NumberParser.getAsInt(cs);
         }
         return 0;   // Bug: Should be nDefaultValue
@@ -343,8 +350,9 @@ public class Tag
         if(elem != null)
         {
             String cs = elem.getAttribute(csArgName);
-            if(!StringUtil.isEmpty(cs))
+            if (!StringUtil.isEmpty(cs)) {
                 return NumberParser.getAsBoolean(cs);
+            }
         }
         return bDefaultValue;
     }
@@ -369,8 +377,9 @@ public class Tag
     public boolean isNamed(String csNameSearched)
     {
         String cs = elem.getTagName();
-        if(cs.equalsIgnoreCase(csNameSearched))
+        if (cs.equalsIgnoreCase(csNameSearched)) {
             return true;
+        }
         return false;
     }
 
@@ -398,8 +407,9 @@ public class Tag
         Tag currentChild = getFirstChild(curTag, csTagName);
         while(currentChild != null)
         {
-            if(currentChild.hasConstrainedAttribute(csAttributName, csAttributeValue))
+            if (currentChild.hasConstrainedAttribute(csAttributName, csAttributeValue)) {
                 return currentChild;
+            }
             currentChild = getNextChild(curTag);
         }
         return null;
@@ -408,9 +418,11 @@ public class Tag
     public boolean hasConstrainedAttribute(String csAttributName, String csAttributeValueToSearch)
     {
         String csVal = getVal(csAttributName);
-        if(csVal != null)
-            if(csAttributeValueToSearch.equals(csVal))
+        if (csVal != null) {
+            if (csAttributeValueToSearch.equals(csVal)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -420,8 +432,9 @@ public class Tag
         Tag currentChild = getFirstChild(curTag, csTagName);
         while(currentChild != null)
         {
-            if(currentChild.hasConstrainedAttributeNoCase(csAttributName, csAttributeValue))
+            if (currentChild.hasConstrainedAttributeNoCase(csAttributName, csAttributeValue)) {
                 return currentChild;
+            }
             currentChild = getNextChild(curTag);
         }
         return null;
@@ -430,9 +443,11 @@ public class Tag
     public boolean hasConstrainedAttributeNoCase(String csAttributName, String csAttributeValueToSearch)
     {
         String csVal = getVal(csAttributName);
-        if(csVal != null)
-            if(csAttributeValueToSearch.equalsIgnoreCase(csVal))
+        if (csVal != null) {
+            if (csAttributeValueToSearch.equalsIgnoreCase(csVal)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -483,23 +498,26 @@ public class Tag
         {
             curTag = new TagCursor();
             Tag currentChild = getFirstChild(curTag, csName);
-            if(currentChild == null)
+            if (currentChild == null) {
                 curTag = null;
+            }
             return currentChild;
         }
         else
         {
             Tag currentChild = getNextChild(curTag);
-            if(currentChild == null)
+            if (currentChild == null) {
                 curTag = null;
+            }
             return currentChild;
         }
     }
 
     public Tag GetCurrentChild()
     {
-        if(curTag != null)
+        if (curTag != null) {
             return curTag.getCurrentTag();
+        }
         return null;
     }
 
@@ -527,8 +545,9 @@ public class Tag
             }
             node = node.getNextSibling();
         }
-        if(nNbNodeNotText == 0 && nNbNodeNotText == 0 && nNbTextNode == 1)
+        if (nNbNodeNotText == 0 && nNbNodeNotText == 0 && nNbTextNode == 1) {
             return true;
+        }
         return false;
     }
 
@@ -555,16 +574,18 @@ public class Tag
                 if(eChild != null)
                 {
                     Tag tagChild = new Tag(doc, eChild);
-                    if(cur != null)
+                    if (cur != null) {
                         cur.setCurrentTag(tagChild);
+                    }
                     return tagChild;
                 }
             }
 
             node = node.getNextSibling();
         }
-        if(cur != null)
+        if (cur != null) {
             cur.setInvalid();
+        }
         return null;
     }
 
@@ -572,8 +593,9 @@ public class Tag
     {
         String csName = cur.getNameEnumeration();
         Tag tagChild = cur.getCurrentTag();
-        if(tagChild == null)
+        if (tagChild == null) {
             return null;
+        }
         Node node = tagChild.elem.getNextSibling();
         while(node != null)
         {
@@ -738,8 +760,9 @@ public class Tag
         Node node = getFirstParam(cur);
         while(node != null)
         {
-            if(node.getNodeName().equalsIgnoreCase(csParameterName))
+            if (node.getNodeName().equalsIgnoreCase(csParameterName)) {
                 return node.getNodeValue();
+            }
             node = getNextParam(cur);
         }
         return null;
@@ -750,8 +773,9 @@ public class Tag
         Node node = getNextParam(cur);
         while(node != null)
         {
-            if(node.getNodeName().equalsIgnoreCase(csParameterName))
+            if (node.getNodeName().equalsIgnoreCase(csParameterName)) {
                 return node.getNodeValue();
+            }
             node = getNextParam(cur);
         }
         return null;
@@ -800,8 +824,9 @@ public class Tag
         StringWriter sw = new StringWriter();
         StreamResult res = new StreamResult(sw);
         boolean b = exportToStream(res, "ISO8859-1");
-        if(b)
+        if (b) {
             return sw.toString();
+        }
         return null;
     }
 
@@ -810,8 +835,9 @@ public class Tag
         StringWriter sw = new StringWriter();
         StreamResult res = new StreamResult(sw);
         boolean b = exportToStream(res, "ISO8859-1");
-        if(b)
+        if (b) {
             return sw.toString();
+        }
         return "";
     }
 
@@ -879,8 +905,9 @@ public class Tag
     {
         Tag tag = new Tag();
         boolean b = tag.load(csFilePath);
-        if(b)
+        if (b) {
             return tag;
+        }
         return null;
     }
 
@@ -908,8 +935,9 @@ public class Tag
             }
         }
 
-        if(b)
+        if (b) {
             return tag;
+        }
         return null;
     }
 
@@ -917,8 +945,9 @@ public class Tag
     {
         Tag tag = new Tag();
         boolean b = tag.load(is);
-        if(b)
+        if (b) {
             return tag;
+        }
         return null;
     }
 
@@ -926,8 +955,9 @@ public class Tag
     {
         Tag tag = new Tag();
         boolean b = tag.loadFromString(cs);
-        if(b)
+        if (b) {
             return tag;
+        }
         return null;
     }
 
@@ -935,16 +965,18 @@ public class Tag
     {
         Tag tag = new Tag();
         boolean b = tag.load(f);
-        if(b)
+        if (b) {
             return tag;
+        }
         return null;
     }
 
 
     public boolean load(String csFilePath)
     {
-        if (StringUtil.isEmpty(csFilePath))
+        if (StringUtil.isEmpty(csFilePath)) {
             return false;
+        }
         File file = new File(csFilePath);
         return load(file);
     }
@@ -953,8 +985,9 @@ public class Tag
     {
         try
         {
-            if (!f.exists())
+            if (!f.exists()) {
                 return false;
+            }
             FileInputStream fis=new FileInputStream(f);
             return load(fis);
         }
@@ -1152,8 +1185,9 @@ public class Tag
         while(csValue != null)
         {
             ArrayList<String> arr = StringUtil.extractPrefixedKeywords(csValue, csOptionalPrefixed);
-            if(arr != null)
+            if (arr != null) {
                 n += arr.size();
+            }
             csValue = getNextNamedVal(cur,  csParameterName);
         }
         return n;
@@ -1171,8 +1205,9 @@ public class Tag
             ArrayList<String> arr = StringUtil.extractPrefixedKeywords(csValue, csOptionalPrefixed);
             if(arr != null)
             {
-                if(arrs == null)
+                if (arrs == null) {
                     arrs = new ArrayList<String>();
+                }
                 arrs.addAll(arr);
             }
             csValue = getNextNamedVal(cur,  csParameterName);
@@ -1210,8 +1245,9 @@ public class Tag
             ArrayList<String> arr = StringUtil.extractPrefixedKeywordsBracketed(csValue, csOptionalPrefixed);
             if(arr != null)
             {
-                if(arrs == null)
+                if (arrs == null) {
                     arrs = new ArrayList<String>();
+                }
                 arrs.addAll(arr);
             }
             csValue = getNextNamedVal(cur,  csParameterName);

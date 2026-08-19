@@ -25,8 +25,9 @@ public class OpenCalendarWeek
     void addRange(int nDayOfWeek, String csType, String csMin, String csMax)
     {
         CalendarOpenState openState = CalendarOpenState.AppClosed;
-        if(csType.equalsIgnoreCase("Open"))
+        if (csType.equalsIgnoreCase("Open")) {
             openState = CalendarOpenState.AppOpened;
+        }
 
         OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
         if(rangesOfDay == null)

@@ -32,8 +32,9 @@ public class CLevel
 
     boolean hasLowerLevel(int nLevel)
     {
-        if(this.nLevel < nLevel)
+        if (this.nLevel < nLevel) {
             return true;
+        }
         return false;
     }
 

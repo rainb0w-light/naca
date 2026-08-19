@@ -34,17 +34,19 @@ public class SortItemKeySegment
         {
             if(tcKeyValue[n] < sortItemKeySegment2.tcKeyValue[n])
             {
-                if(isascending)
+                if (isascending) {
                     return -1;
-                else
+                } else {
                     return 1;
+                }
             }
             if(tcKeyValue[n] > sortItemKeySegment2.tcKeyValue[n])
             {
-                if(isascending)
+                if (isascending) {
                     return 1;
-                else
+                } else {
                     return -1;
+                }
             }
         }
         return 0;

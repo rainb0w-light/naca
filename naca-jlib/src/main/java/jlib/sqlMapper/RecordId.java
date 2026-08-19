@@ -58,17 +58,20 @@ public class RecordId extends ColValueCollection
 
     boolean hasName(RecordId recordId)  // Sematic comparison
     {
-        if(recordId != null)
-            if(recordId.csName.equalsIgnoreCase(csName))
+        if (recordId != null) {
+            if (recordId.csName.equalsIgnoreCase(csName)) {
                 return true;
+            }
+        }
         return false;
     }
 
     public RecordId orderByAscending(String csName)
     {
         OrderSegment orderBy = new OrderSegmentAscending(csName);
-        if(this.orderBy == null)
+        if (this.orderBy == null) {
             this.orderBy = new ArrayList<OrderSegment>();
+        }
         this.orderBy.add(orderBy);
         return this;
     }
@@ -76,8 +79,9 @@ public class RecordId extends ColValueCollection
     public RecordId orderByDescending(String csName)
     {
         OrderSegment orderBy = new OrderSegmentDescending(csName);
-        if(this.orderBy == null)
+        if (this.orderBy == null) {
             this.orderBy = new ArrayList<OrderSegment>();
+        }
         this.orderBy.add(orderBy);
         return this;
     }
@@ -157,10 +161,11 @@ public class RecordId extends ColValueCollection
             int nNbKeys = getNbColValues();
             for(int nKey=0; nKey<nNbKeys; nKey++)
             {
-                if(nKey != 0)
+                if (nKey != 0) {
                     sbClause.append(" and ");
-                else
+                } else {
                     sbClause.append(" where ");
+                }
                 ColValue col = getColValueAtIndex(nKey);
                 sbClause.append(col.getName() + "=? ");
             }
@@ -170,8 +175,9 @@ public class RecordId extends ColValueCollection
                 sbClause.append(" order by ");
                 for(int n = 0; n< orderBy.size(); n++)
                 {
-                    if(n != 0)
+                    if (n != 0) {
                         sbClause.append(" and ");
+                    }
 
                     OrderSegment orderBy = this.orderBy.get(n);
                     String csOrderBy = orderBy.getAsString();

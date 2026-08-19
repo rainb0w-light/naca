@@ -36,10 +36,11 @@ public class DeclareTypeEditInMap extends DeclareTypeBase
         this.curVarForm = curVarForm;
         this.curDefForm = curDefForm;
         this.nSize = nSize;
-        if(mapFieldAttribute == null)
+        if (mapFieldAttribute == null) {
             mapFieldAttribute = new MapFieldAttribute();
-        else
+        } else {
             mapFieldAttribute.resetDefaultValues();
+        }
         this.csName = csName;
 
         this.localizedString = null;

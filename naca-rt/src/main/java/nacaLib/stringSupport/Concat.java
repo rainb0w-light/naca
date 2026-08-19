@@ -52,8 +52,9 @@ public class Concat
     public Concat concatDelimitedDecimalPoint(String cs)
     {
         int nPos = cs.lastIndexOf('.');
-        if(nPos != -1)
+        if (nPos != -1) {
             cs = cs.substring(0, nPos);
+        }
         arrChunks.add(cs);
         return this;
     }
@@ -67,8 +68,9 @@ public class Concat
     public Concat concatDelimitedBySpaces(String cs)
     {
         int nSpacePos = cs.indexOf(' ');
-        if(nSpacePos != -1)
+        if (nSpacePos != -1) {
             cs = cs.substring(0, nSpacePos);
+        }
         arrChunks.add(cs);
         return this;
     }
@@ -113,8 +115,9 @@ public class Concat
     public Concat concatDelimitedBy(String cs, String csDelimiter)
     {
         int nPos = cs.indexOf(csDelimiter);
-        if(nPos != -1)
+        if (nPos != -1) {
             cs = cs.substring(0, nPos);
+        }
         arrChunks.add(cs);
         return this;
     }
@@ -135,9 +138,9 @@ public class Concat
             int nInitPosition = varPointer.getInt() -1;
             String csInitial = csVar.substring(0, nInitPosition);
             csOut = csInitial + getString();
-        }
-        else
+        } else {
             csOut = getString();
+        }
 
 //      int nNbItems = arrChunks.size();
 //      for(int n=0; n<nNbItems; n++)

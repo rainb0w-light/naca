@@ -55,10 +55,12 @@ public class FileDescriptor extends BaseFileDescriptor
             {
 
                 String csPhysicalDesc = EnvironmentVar.getParamValue(csLogicalName);
-                if(StringUtil.isEmpty(csPhysicalDesc))
+                if (StringUtil.isEmpty(csPhysicalDesc)) {
                     csPhysicalDesc = EnvironmentVar.getParamValue("File_" + csLogicalName);
-                if(csPhysicalDesc != null && !StringUtil.isEmpty(csPhysicalDesc))
+                }
+                if (csPhysicalDesc != null && !StringUtil.isEmpty(csPhysicalDesc)) {
                     return true;
+                }
             }
         }
         return false;
@@ -72,16 +74,18 @@ public class FileDescriptor extends BaseFileDescriptor
 
     private void setStatus(String value)
     {
-        if (status != null)
+        if (status != null) {
             status.set(value);
+        }
     }
 
     @Override
     public FileDescriptor openInput()
     {
         BaseFileDescriptor opened = super.openInput();
-        if (opened != null)
+        if (opened != null) {
             setStatus("00");
+        }
         return opened == null ? null : this;
     }
 
@@ -166,12 +170,14 @@ public class FileDescriptor extends BaseFileDescriptor
 
     private void writeFrom(VarBase varFrom, boolean bRewriteMode)
     {
-        if(fileManagerEntry.isDummyFile())
-            return ;
+        if (fileManagerEntry.isDummyFile()) {
+            return;
+        }
 
         VarBase varLevel01 = this.varLevel01;
-        if(varLevel01 == null)
+        if (varLevel01 == null) {
             varLevel01 = varFrom;
+        }
 
         int nRecordSize = varLevel01.getTotalSize();
         int nVarFromSize = nRecordSize;
@@ -197,14 +203,16 @@ public class FileDescriptor extends BaseFileDescriptor
         // Move bytes of working into record, up to record length
         byte tbyFilebuffer[] = fileManagerEntry.dataFile.getByteBuffer(nMaxSize);
         varFrom.exportToByteArray(tbyFilebuffer, nVarFromSize);
-        if (varLevel01 != varFrom)
+        if (varLevel01 != varFrom) {
             // Used when record buffer is longer than working buffer; we must keep the right part of the record at the initialized values
             varLevel01.setFromByteArray(tbyFilebuffer, 0, nMinSize);
+        }
 
         if(fileManagerEntry.isEbcdic()) // Must convert string chunks
         {
-            if(varDefEncodingConvertibleManagerContainer == null)
+            if (varDefEncodingConvertibleManagerContainer == null) {
                 varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+            }
             varDefEncodingConvertibleManagerContainer.getConvertedBytesAsciiToEbcdic(varLevel01, tbyFilebuffer, nMaxSize);
         }
         else
@@ -218,24 +226,27 @@ public class FileDescriptor extends BaseFileDescriptor
         {
             int nRecordLength = getRecordLength(varLevel01);    // Measure record length
             // write record header
-            if(tbyHeader == null)
+            if (tbyHeader == null) {
                 tbyHeader = new byte[4];
+            }
             // DO not include header length in header !
             LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);
-            if(bRewriteMode)
+            if (bRewriteMode) {
                 fileManagerEntry.dataFile.rewrite(tbyHeader, 0, 4);
-            else
+            } else {
                 fileManagerEntry.dataFile.write(tbyHeader, 0, 4);
+            }
 
             fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, nRecordLength);
             incNbRecordWrite();
         }
         else
         {
-            if(bRewriteMode)
+            if (bRewriteMode) {
                 fileManagerEntry.dataFile.rewriteWithEOL(tbyFilebuffer, nRecordSize);
-            else
+            } else {
                 fileManagerEntry.dataFile.writeWithEOL(tbyFilebuffer, nRecordSize);
+            }
             incNbRecordWrite();
         }
         setStatus("00");
@@ -265,19 +276,22 @@ public class FileDescriptor extends BaseFileDescriptor
 
     private void convertEbcdicToAsciiAndWrite(LineRead lineRead, Var varDest)
     {
-        if(varDefEncodingConvertibleManagerContainer == null)
+        if (varDefEncodingConvertibleManagerContainer == null) {
             varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+        }
 
-        if(varLevel01 != varDest)
+        if (varLevel01 != varDest) {
             varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varDest);
-        else
+        } else {
             varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varLevel01);
+        }
     }
 
     private void convertEbcdicToAsciiAndWrite(LineRead lineRead)
     {
-        if(varDefEncodingConvertibleManagerContainer == null)
+        if (varDefEncodingConvertibleManagerContainer == null) {
             varDefEncodingConvertibleManagerContainer = new VarDefEncodingConvertibleManagerContainer();
+        }
 
         varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varLevel01);
     }
@@ -323,10 +337,9 @@ public class FileDescriptor extends BaseFileDescriptor
             {
                 lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);   // PJD TO UNCOMMENT
                 //lineRead = ((DataFileLineReader)fileManagerEntry.dataFile).readDirect(nRecordLength);
-            }
-
-            else
+            } else {
                 lineRead = fileManagerEntry.dataFile.readNextUnixLine();
+            }
             if(lineRead != null)
             {
                 fillInto(lineRead, varDest);
@@ -343,10 +356,11 @@ public class FileDescriptor extends BaseFileDescriptor
         incNbRecordRead();
         if (varLevel01 != varDest)
         {
-            if (fileManagerEntry.isEbcdic())
+            if (fileManagerEntry.isEbcdic()) {
                 fillInto2DestEbcdic(lineRead, varDest);
-            else
+            } else {
                 varDest.setFromLineRead2DestWithFilling(lineRead, varLevel01);
+            }
         }
         else
         {
@@ -360,8 +374,9 @@ public class FileDescriptor extends BaseFileDescriptor
             {
                 int nRecordSize = varLevel01.getTotalSize();
                 int nNbByteWritten = varLevel01.setFromLineRead(lineRead);
-                if(nRecordSize > nNbByteWritten)
+                if (nRecordSize > nNbByteWritten) {
                     varDest.fillEndOfRecord(nNbByteWritten, nRecordSize);
+                }
             }
         }
     }
@@ -373,8 +388,9 @@ public class FileDescriptor extends BaseFileDescriptor
 
         int nRecordSize = varLevel01.getTotalSize();
         int nDestSize = varDest.getTotalSize();
-        if (nRecordSize > nDestSize)
+        if (nRecordSize > nDestSize) {
             nRecordSize = nDestSize;
+        }
 
         convertEbcdicToAsciiAndWrite(lineRead, varDest);
 
@@ -423,8 +439,9 @@ public class FileDescriptor extends BaseFileDescriptor
 
     public LineRead readALine(BaseDataFileBuffered dataFileIn, LineRead lastLineRead)
     {
-        if(fileManagerEntry.isDummyFile())
+        if (fileManagerEntry.isDummyFile()) {
             return null;
+        }
 
         if(isVariableLength())
         {
@@ -436,9 +453,9 @@ public class FileDescriptor extends BaseFileDescriptor
         else
         {
             RecordLengthDefinition recordLengthDefinition = getRecordLengthDefinition();
-            if(recordLengthDefinition == null)  // No record length defined by the input file descriptor
+            if (recordLengthDefinition == null) {  // No record length defined by the input file descriptor
                 lastLineRead = dataFileIn.readNextUnixLine();
-            else
+            } else
             {
                 int nRecordLength = recordLengthDefinition.getRecordLength();
                 lastLineRead = dataFileIn.readBuffer(nRecordLength, true);
@@ -449,25 +466,29 @@ public class FileDescriptor extends BaseFileDescriptor
 
     public LogicalFileDescriptor getLogicalFileDescriptor()
     {
-        if(fileManagerEntry != null)
+        if (fileManagerEntry != null) {
             return fileManagerEntry.getLogicalFileDescriptor();
+        }
         return null;
     }
 
     public void tryAutoDetermineRecordLengthIfRequired(BaseDataFile dataFileIn)
     {
         // the return value is a flag that indicates if we have a valid file position on output
-        if(isVariableLength())
+        if (isVariableLength()) {
             // We are a variable length file: no need to try to autodetermine record length; file position is valid
-            return ;
-        if(getRecordLengthDefinition() != null)
+            return;
+        }
+        if (getRecordLengthDefinition() != null) {
             // we have the record definition: no need to try to autodetermine record length; file position is valid
-            return ;
+            return;
+        }
 
         // We must try to autodetermine record length
         LogicalFileDescriptor logicalFileDescriptor = getLogicalFileDescriptor();
-        if(logicalFileDescriptor != null)
+        if (logicalFileDescriptor != null) {
             logicalFileDescriptor.tryAutoDetermineRecordLength(dataFileIn);
+        }
     }
 
     // New OO API support
@@ -477,8 +498,9 @@ public class FileDescriptor extends BaseFileDescriptor
         {
             int nRecordLength = writeBufferExt.getRecordCurrentPosition();  // Measure record length
             // write record header
-            if(tbyHeader == null)
+            if (tbyHeader == null) {
                 tbyHeader = new byte[4];
+            }
             // DO not include header length in header !
             LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nRecordLength, 0);
             fileManagerEntry.dataFile.write(tbyHeader, 0, 4);
@@ -505,8 +527,9 @@ public class FileDescriptor extends BaseFileDescriptor
 
     public boolean read(WriteBufferExt writeExt)
     {
-        if(fileManagerEntry.isDummyFile())
+        if (fileManagerEntry.isDummyFile()) {
             return false;
+        }
 
         if(isVariableLength())
         {
@@ -533,14 +556,16 @@ public class FileDescriptor extends BaseFileDescriptor
         }
         else
         {
-            if(fileManagerEntry.dataFile.isEOF())
+            if (fileManagerEntry.dataFile.isEOF()) {
                 return false;
+            }
             int nRecordLength = getRecordLength(null);
             LineRead lineRead = null;
-            if(nRecordLength > 0)
+            if (nRecordLength > 0) {
                 lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);   // PJD TO UNCOMMENT
-            else
+            } else {
                 lineRead = fileManagerEntry.dataFile.readNextUnixLine();
+            }
             if(lineRead != null)
             {
                 writeExt.setFromLineRead(lineRead, 0);

@@ -67,8 +67,9 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
         long originalValue = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
         long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
         stmt.setColParam(nCol, (short)lValue);
-        if(originalValue != lValue)
+        if (originalValue != lValue) {
             dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
+        }
 
         return 2;
     }
@@ -88,8 +89,9 @@ public class DbColDefinitionSmallint extends BaseDbColDefinition
         {
             String value = resultSet.getString(nCol1Based);
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

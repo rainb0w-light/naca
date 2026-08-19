@@ -3,7 +3,7 @@
   "capturedAt": "2026-08-11",
   "capturedAtCommit": "88f69d0e",
   "aggregateLineCoverageMinimum": 0.065,
-  "cpdDuplications": 368,
+  "cpdDuplications": 376,
   "staticAnalysis": {
     "naca-analyzer": {
       "checkstyleMain": 0,
@@ -14,15 +14,15 @@
       "spotbugsTest": 0
     },
     "naca-cloud-native": {
-      "checkstyleMain": 39,
-      "checkstyleTest": 14,
+      "checkstyleMain": 38,
+      "checkstyleTest": 13,
       "pmdMain": 62,
       "pmdTest": 174,
       "spotbugsMain": 21,
       "spotbugsTest": 10
     },
     "naca-jlib": {
-      "checkstyleMain": 3081,
+      "checkstyleMain": 1924,
       "checkstyleTest": 0,
       "pmdMain": 4030,
       "pmdTest": 0,
@@ -30,7 +30,7 @@
       "spotbugsTest": 0
     },
     "naca-rt": {
-      "checkstyleMain": 6391,
+      "checkstyleMain": 3580,
       "checkstyleTest": 0,
       "pmdMain": 9630,
       "pmdTest": 44,
@@ -45,7 +45,7 @@
       "spotbugsTest": 6
     },
     "naca-trans": {
-      "checkstyleMain": 2875,
+      "checkstyleMain": 2656,
       "checkstyleTest": 53,
       "pmdMain": 7305,
       "pmdTest": 2623,

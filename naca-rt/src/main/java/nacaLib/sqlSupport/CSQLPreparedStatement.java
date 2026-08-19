@@ -46,8 +46,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
             try
             {
                 String trimmed = param.getValue();
-                if(BaseResourceManager.isUpdateCodeJavaToDb())
+                if (BaseResourceManager.isUpdateCodeJavaToDb()) {
                     trimmed = BaseResourceManager.updateCodeJavaToDb(trimmed);
+                }
                 preparedStatement.setObject(nParamIndex+1, trimmed);
             }
             catch(IllegalArgumentException e)
@@ -128,8 +129,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
     // hashParam, HashMap<String, CSQLItem> hashValue)
     public CSQLResultSet executeQuery(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeQuery:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeQuery:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -161,8 +163,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     public CSQLResultSet executeQueryCursor(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeQueryCursor:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeQueryCursor:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -209,8 +212,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
     public int executeDelete(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeDelete:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeDelete:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -240,8 +244,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
     public int executeUpdate(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeUpdate:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeUpdate:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -271,8 +276,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
     public int executeInsert(SQL sql)
     {
         sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeInsert:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeInsert:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -293,8 +299,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     public int executeLock(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeLock:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeLock:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -314,8 +321,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     public int executeCreateTable(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeCreateTable:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeCreateTable:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -335,8 +343,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     public int executeDropTable(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeDropTable:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeDropTable:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try
@@ -356,8 +365,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 
     public int executeDeclareOrder(SQL sql)
     {
-        if(isLogSql())
-            Log.logDebug("CSQLPreparedStatement::executeDeclareOrder:"+csQueryString);
+        if (isLogSql()) {
+            Log.logDebug("CSQLPreparedStatement::executeDeclareOrder:" + csQueryString);
+        }
         if(preparedStatement != null)
         {
             try

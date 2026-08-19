@@ -37,10 +37,11 @@ public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
         try
         {
             Timestamp value = resultSetSource.getTimestamp(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setTimestamp(nColSourceIndex, value);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.TIMESTAMP);
+            }
             return true;
         }
         catch (SQLException e)
@@ -62,18 +63,19 @@ public class RecordColTypeManagerTimestamp extends RecordColTypeManagerBase
                 int nNanos = ts.getNanos() / 1000;
                 nNanos = nNanos % 1000000;  // Keep 6 rightmost digit
 
-                if(nNanos >= 100000)
+                if (nNanos >= 100000) {
                     csValue += "" + nNanos;
-                else if(nNanos >= 10000)
+                } else if (nNanos >= 10000) {
                     csValue += "0" + nNanos;
-                else if(nNanos >= 1000)
+                } else if (nNanos >= 1000) {
                     csValue += "00" + nNanos;
-                else if(nNanos >= 100)
+                } else if (nNanos >= 100) {
                     csValue += "000" + nNanos;
-                else if(nNanos >= 10)
+                } else if (nNanos >= 10) {
                     csValue += "0000" + nNanos;
-                else
+                } else {
                     csValue += "00000" + nNanos;
+                }
                 varInto.varDef.write(varInto.bufferPos, csValue);
                 return false;
             }

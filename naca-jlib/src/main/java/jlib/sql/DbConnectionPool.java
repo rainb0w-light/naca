@@ -59,8 +59,9 @@ public class DbConnectionPool
                 int nMaxStatementLiveTime_ms = tagPool.getValAsInt("MaxStatementLiveTime_ms");
 
                 String poolName = tagPool.getVal("Name");
-                if(StringUtil.isEmpty(poolName))
+                if (StringUtil.isEmpty(poolName)) {
                     poolName = "UnknownPoolName";
+                }
                 DbConnectionColl dbConnectionColl = new DbConnectionColl(
                     poolName,
                     nMaxConnection,
@@ -101,22 +102,24 @@ public class DbConnectionPool
 
     private void addProgram(String programId, String parentProgramId, DbConnectionColl dbConnectionColl)
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             hashConnectionsByProgramId = new Hashtable<String, DbConnectionColl>();
+        }
 
         if(!StringUtil.isEmpty(parentProgramId))
         {
             String fullName = makeFullName(programId, parentProgramId);
             hashConnectionsByProgramId.put(fullName, dbConnectionColl);
-        }
-        else
+        } else {
             hashConnectionsByProgramId.put(programId, dbConnectionColl);
+        }
     }
 
     void releaseConnection(DbConnectionBase sqlConnection)
     {
-        if(sqlConnection.dbConnectionColl != null)
+        if (sqlConnection.dbConnectionColl != null) {
             sqlConnection.dbConnectionColl.releaseConnection(sqlConnection);
+        }
     }
 
     synchronized public DbConnectionColl getConnectionCollForPref(String csProgramId, String csProgramParent)
@@ -129,21 +132,24 @@ public class DbConnectionPool
             connectionColl = hashConnectionsByProgramId.get(fullName);
 
             // Not found with a program parent name; try with only required program name
-            if(connectionColl == null && !StringUtil.isEmpty(csProgramParent))
+            if (connectionColl == null && !StringUtil.isEmpty(csProgramParent)) {
                 connectionColl = hashConnectionsByProgramId.get(csProgramId);
+            }
 
-            if(connectionColl == null)  // Still not found; try default naming
+            if (connectionColl == null) {  // Still not found; try default naming
                 connectionColl = hashConnectionsByProgramId.get("");
+            }
         }
         return connectionColl;
     }
 
     private String makeFullName(String programId, String programParent)
     {
-        if(!StringUtil.isEmpty(programId) && !StringUtil.isEmpty(programParent))
+        if (!StringUtil.isEmpty(programId) && !StringUtil.isEmpty(programParent)) {
             return programId + "$" + programParent;
-        else if(!StringUtil.isEmpty(programId))
+        } else if (!StringUtil.isEmpty(programId)) {
             return programId;
+        }
         return "";
     }
 
@@ -222,8 +228,9 @@ public class DbConnectionPool
 
     public synchronized int getNbUnusedConnections()
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
@@ -238,8 +245,9 @@ public class DbConnectionPool
 
     public synchronized int getNbRunningConnections()
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
@@ -282,8 +290,9 @@ public class DbConnectionPool
 
     public synchronized int getNbCachedStatementsForAccessor()
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
@@ -298,8 +307,9 @@ public class DbConnectionPool
 
     public synchronized int getNbAllocConnnections()
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();
@@ -314,8 +324,9 @@ public class DbConnectionPool
 
     public synchronized int getNbMaxConnection()
     {
-        if(hashConnectionsByProgramId == null)
+        if (hashConnectionsByProgramId == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbConnectionColl> colDbConnectionColl = hashConnectionsByProgramId.values();

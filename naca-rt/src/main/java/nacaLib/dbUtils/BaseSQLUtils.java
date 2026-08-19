@@ -43,8 +43,9 @@ public abstract class BaseSQLUtils
         SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
 
         // Remove ending ';' as it is not supported by UDB
-        if(csClause.endsWith(";"))
-            csClause = csClause.substring(0, csClause.length()-1);
+        if (csClause.endsWith(";")) {
+            csClause = csClause.substring(0, csClause.length() - 1);
+        }
 
         if(typeOperation.executeWithStatement())
         {
@@ -70,8 +71,9 @@ public abstract class BaseSQLUtils
         SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
 
         // Remove ending ';' as it is not supported by UDB
-        if(csClause.endsWith(";"))
-            csClause = csClause.substring(0, csClause.length()-1);
+        if (csClause.endsWith(";")) {
+            csClause = csClause.substring(0, csClause.length() - 1);
+        }
 
         int nStatus = -1;
         if(typeOperation.executeWithStatement())
@@ -84,8 +86,9 @@ public abstract class BaseSQLUtils
             for(int nParam=0; nParam<nNbParam && b; nParam++)
             {
                 ColValue colValue = arrColValues.get(nParam);
-                if(colValue != null)
+                if (colValue != null) {
                     b = stmt.setColParam(nParam, colValue);
+                }
             }
             if(b && stmt != null)
             {
@@ -117,8 +120,9 @@ public abstract class BaseSQLUtils
         for(int nParam=0; nParam<nNbParam && b; nParam++)
         {
             ColValue colValue = arrColValues.get(nParam);
-            if(colValue != null)
+            if (colValue != null) {
                 b = stmt.setColParam(nParam, colValue);
+            }
         }
         if(b && stmt != null)
         {

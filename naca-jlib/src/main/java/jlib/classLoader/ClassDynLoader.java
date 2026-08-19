@@ -58,8 +58,9 @@ public class ClassDynLoader extends ClassLoader
 
     public void addPathURL(String csSourcePath)
     {
-        if(arrPaths == null)
+        if (arrPaths == null) {
             arrPaths = new ArrayList<String>();
+        }
         arrPaths.add(csSourcePath);
     }
 
@@ -67,8 +68,9 @@ public class ClassDynLoader extends ClassLoader
     {
         if(arrSourcePath != null)
         {
-            if(arrPaths == null)
+            if (arrPaths == null) {
                 arrPaths = new ArrayList<String>();
+            }
             for(int n=0; n<arrSourcePath.size(); n++)
             {
                 String csPath = arrSourcePath.get(n);
@@ -163,8 +165,9 @@ public class ClassDynLoader extends ClassLoader
     {
         Class classCode = null;
 
-        if(csClassName == null)
+        if (csClassName == null) {
             return null;
+        }
 
         Log.logDebug("ClassDynLoader.loadClass: " + csClassName + " bCanLoadClass=" + bCanLoadClass + " arrPaths="
             + (arrPaths != null ? arrPaths.size() : "null"));

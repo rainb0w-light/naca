@@ -147,9 +147,10 @@ public class BlowfishEasy {
     // get the number of estimated bytes in the string (cut off broken blocks)
     int nLen = (sCipherText.length() >> 1) & ~7;
 
-    // does the given stuff make sense (at least the CBC IV)?
-    if (nLen < BlowfishECB.BLOCKSIZE)
-      return null;
+      // does the given stuff make sense (at least the CBC IV)?
+      if (nLen < BlowfishECB.BLOCKSIZE) {
+          return null;
+      }
 
     // get the CBC IV
     byte[] cbciv = new byte[BlowfishCBC.BLOCKSIZE];
@@ -158,8 +159,9 @@ public class BlowfishEasy {
                                                  0,
                                                  0,
                                                  BlowfishCBC.BLOCKSIZE);
-    if (nNumOfBytes < BlowfishCBC.BLOCKSIZE)
-      return null;
+      if (nNumOfBytes < BlowfishCBC.BLOCKSIZE) {
+          return null;
+      }
 
     // (got it)
     bfish.setCBCIV(cbciv);

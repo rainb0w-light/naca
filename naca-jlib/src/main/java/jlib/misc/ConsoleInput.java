@@ -24,8 +24,9 @@ public class ConsoleInput
 
     public static String getKeyboardLine()
     {
-        if(ms_keyboardInput == null)
+        if (ms_keyboardInput == null) {
             ms_keyboardInput = new BufferedReader(new InputStreamReader(System.in));
+        }
 
         try
         {

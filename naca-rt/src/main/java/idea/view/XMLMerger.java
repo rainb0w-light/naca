@@ -123,14 +123,16 @@ public class XMLMerger
     private void SetPFKeys(Element eOutput, Element eData)
     {
         NodeList temp = eOutput.getElementsByTagName("pfkeydefine") ;
-        if (temp.getLength() == 0)
+        if (temp.getLength() == 0) {
             return;
+        }
         Element eDefine = (Element)temp.item(0);
 
         temp = eOutput.getElementsByTagName("pfkeyaction") ;
         Element eAction = null;
-        if (temp.getLength() != 0)
-            eAction = (Element)temp.item(0);
+        if (temp.getLength() != 0) {
+            eAction = (Element) temp.item(0);
+        }
 
         NodeList lstPFOutput = eOutput.getElementsByTagName("pfkey") ;
         for (int i=0; i<lstPFOutput.getLength(); i++)
@@ -418,14 +420,16 @@ public class XMLMerger
             Element eForm = (Element)lstForms.item(i) ;
             String name = eForm.getAttribute("name") ;
             String dataname = eData.getAttribute("name") ;
-            if (appSession.isZoom())
-                eForm.setAttribute("zoom", "true") ;
-            else
-                eForm.setAttribute("zoom", "false") ;
-            if (appSession.isBold())
-                eForm.setAttribute("bold", "true") ;
-            else
-                eForm.setAttribute("bold", "false") ;
+            if (appSession.isZoom()) {
+                eForm.setAttribute("zoom", "true");
+            }  else {
+                eForm.setAttribute("zoom", "false");
+            }
+            if (appSession.isBold()) {
+                eForm.setAttribute("bold", "true");
+            }  else {
+                eForm.setAttribute("bold", "false");
+            }
             //eForm.setAttribute("cmpSession", appSession.getCmp()) ;
             if (name.equals(dataname))
             {

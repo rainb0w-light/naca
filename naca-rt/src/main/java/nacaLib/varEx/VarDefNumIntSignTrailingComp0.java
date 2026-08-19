@@ -121,15 +121,17 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
     {
         int n = (int) d;
         writeSignSeparatedTrailingIntComp0(buffer, n);
-        if(d < 0 && n == 0)
+        if (d < 0 && n == 0) {
             buffer.acBuffer[buffer.nAbsolutePosition + nTotalSize - 1] = '-';
+        }
     }
 
     void write(VarBufferPos buffer, Dec dec)
     {
         writeSignSeparatedTrailingIntComp0(buffer, dec.getSignedInt());
-        if(dec.isNegative() && dec.getSignedInt() == 0)
+        if (dec.isNegative() && dec.getSignedInt() == 0) {
             buffer.acBuffer[buffer.nAbsolutePosition + nTotalSize - 1] = '-';
+        }
     }
 
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
@@ -436,8 +438,9 @@ public class VarDefNumIntSignTrailingComp0 extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignSeparatedTrailingIntComp0(buffer, nOffset, 0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

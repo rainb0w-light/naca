@@ -78,8 +78,9 @@ public class OpenCalendarRange
 
     boolean isSameType(OpenCalendarRange r)
     {
-        if(openState == r.openState)
+        if (openState == r.openState) {
             return true;
+        }
         return false;
     }
 
@@ -101,9 +102,11 @@ public class OpenCalendarRange
         if(nHourVal > nHour[0] || (nHourVal == nHour[0] && nMinuteVal > nMinute[0]) || (nHourVal == nHour[0] && nMinuteVal == nMinute[0]
             && nSecondVal >= nSecond[0]))
         {
-            if(nHourVal < nHour[1] || (nHourVal == nHour[1] && nMinuteVal < nMinute[1]) || (nHourVal == nHour[1] && nMinuteVal == nMinute[1]
-                && nSecondVal < nSecond[1]))
+            if (nHourVal < nHour[1] || (nHourVal == nHour[1] && nMinuteVal < nMinute[1]) || (nHourVal == nHour[1]
+                && nMinuteVal == nMinute[1]
+                    && nSecondVal < nSecond[1])) {
                 return true;
+            }
         }
         return false;
     }

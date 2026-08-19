@@ -83,8 +83,9 @@ public class DataFileRead extends BaseDataFileBuffered
 
     public boolean isOpen()
     {
-        if(in != null)
+        if (in != null) {
             return true;
+        }
         return false;
     }
 
@@ -94,8 +95,9 @@ public class DataFileRead extends BaseDataFileBuffered
         if(isOpen())
         {
             cs += "Open";
-            if(in != null)
+            if (in != null) {
                 cs += " Read";
+            }
         }
         else
         {
@@ -166,8 +168,9 @@ public class DataFileRead extends BaseDataFileBuffered
             {
                 byte byteBuffer[] = getByteBuffer(nSize);
                 int nNBytesRead = in.read(byteBuffer, 0, nSize);
-                if(nNBytesRead == -1)
+                if (nNBytesRead == -1) {
                     setEOF(true);
+                }
                 return byteBuffer;
             }
             catch (IOException e)
@@ -217,9 +220,9 @@ public class DataFileRead extends BaseDataFileBuffered
                 while(tVal[0] != FileEndOfLine.LF)
                 {
                     int nNBytesRead = in.read(tVal, 0, 1);
-                    if(nNBytesRead != -1)
+                    if (nNBytesRead != -1) {
                         tBytes[n++] = tVal[0];
-                    else
+                    } else
                     {
                         setEOF(true);
                         return n;
@@ -248,9 +251,9 @@ public class DataFileRead extends BaseDataFileBuffered
                 while(tVal[0] != FileEndOfLine.LF)
                 {
                     int nNBytesRead = in.read(tVal, 0, 1);
-                    if(nNBytesRead != -1)
+                    if (nNBytesRead != -1) {
                         tBytes[n++] = tVal[0];
-                    else
+                    } else
                     {
                         setEOF(true);
                         return n;
@@ -274,8 +277,9 @@ public class DataFileRead extends BaseDataFileBuffered
             try
             {
                 int nNBytesRead = in.read(tBytes, 0, nNbBytes);
-                if(nNBytesRead == -1)
+                if (nNBytesRead == -1) {
                     setEOF(true);
+                }
                 return nNBytesRead;
             }
             catch (IOException e)
@@ -294,8 +298,9 @@ public class DataFileRead extends BaseDataFileBuffered
             try
             {
                 int nNBytesRead = in.read(tBytes, nOffset, nNbBytes);
-                if(nNBytesRead == -1)
+                if (nNBytesRead == -1) {
                     setEOF(true);
+                }
                 return nNBytesRead;
             }
             catch (IOException e)
@@ -405,8 +410,9 @@ public class DataFileRead extends BaseDataFileBuffered
         {
             int nLength = recordHeader.getAsLittleEndingUnsignBinaryInt();
 
-            if(lineOut == null)
+            if (lineOut == null) {
                 lineOut = new LineRead();
+            }
             lineOut.resetAndGaranteeBufferStorage(4 + nLength, 4 + nLength);
             lineOut.append(recordHeader);
 

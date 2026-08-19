@@ -23,8 +23,9 @@ public class CoupleCodeLoader
 
     void addInstance(Object obj)
     {
-        if(arrInstances == null)
+        if (arrInstances == null) {
             arrInstances = new ArrayList<Object>();
+        }
         arrInstances.add(obj);
     }
 

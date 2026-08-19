@@ -41,15 +41,16 @@ public class ThreadStatementGC extends Thread
         if(isactive)
         {
             nPeriod_ms = tagGCThread.getValAsInt("GarbageCollectorStatement_ms");
-            if(nPeriod_ms <= 30000)
+            if (nPeriod_ms <= 30000) {
                 nPeriod_ms = 30000; // Cannot be less than 30 seconds
+            }
             nNbStatementForcedRemoved = tagGCThread.getValAsInt("NbStatementForcedRemoved");
             nMaxPermanentHeap_Mo = tagGCThread.getValAsInt("MaxPermanentHeap_Mo");
 
             nNbStatementsToRemoveBeforeGC = tagGCThread.getValAsInt("NbStatementsToRemoveBeforeGC", -1);
             nNbSystemGCCall = tagGCThread.getValAsInt("NbSystemGCCall", 0);
 
-            if(nMaxPermanentHeap_Mo > 0 && nNbStatementForcedRemoved > 0)
+            if (nMaxPermanentHeap_Mo > 0 && nNbStatementForcedRemoved > 0)
             {
                 setMemThreshold();
             }
@@ -103,12 +104,13 @@ public class ThreadStatementGC extends Thread
             {
                 setMemThreshold();
             }
-            if(arrayDbConnectionPool != null)
+            if (arrayDbConnectionPool != null) {
                 arrayDbConnectionPool.handleCleanings(
-                    tenuredPool,
-                    nNbStatementsToRemoveBeforeGC,
-                    nNbStatementForcedRemoved,
-                    nNbSystemGCCall);
+                        tenuredPool,
+                        nNbStatementsToRemoveBeforeGC,
+                        nNbStatementForcedRemoved,
+                        nNbSystemGCCall);
+            }
         }
     }
 

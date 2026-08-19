@@ -478,8 +478,9 @@ public class CFieldElement extends CBMSElement
         posLine = posLineCol.getLine();
         posCol = posLineCol.getCol() + posLineCol.getLength() + 1;
         posLineCol.setLineColLength(posLine+1, 0, 0);
-        if(posCol > 80)
+        if (posCol > 80) {
             return false;
+        }
 
 
         value = "";
@@ -527,8 +528,9 @@ public class CFieldElement extends CBMSElement
         else if(csTagName.equalsIgnoreCase("title"))
         {
             boolean b = fillFromEdit(posLineCol, tag, csCurrentLanguage, "");
-            while(value.length() < length)
+            while (value.length() < length) {
                 value = value + " ";
+            }
             aTTRB.add("ASKIP");
             aTTRB.add("NORM");
             return b;
@@ -557,10 +559,11 @@ public class CFieldElement extends CBMSElement
         if (tag.isValExisting("namecopy")) {
             setName(tag.getVal("namecopy").toUpperCase().replace('_', '-'));
             csDisplayName = tag.getVal("name").toUpperCase();
-        } else if (tag.isValExisting("name"))
+        } else if (tag.isValExisting("name")) {
             setName(tag.getVal("name").toUpperCase());
-        else
+        } else {
             setName("");
+        }
 
         //int nSourceLine = tag.getValAsInt("sourceline");
         //setLine(nSourceLine);
@@ -593,16 +596,18 @@ public class CFieldElement extends CBMSElement
         }
 
         String csJustify = tag.getVal("justify");
-        if(csJustify.equalsIgnoreCase("right"))
-            arrJustify.add(CBMSConstantList.RIGHT.name) ;
-        else if(csJustify.equalsIgnoreCase("left"))
-            arrJustify.add(CBMSConstantList.LEFT.name) ;
+        if (csJustify.equalsIgnoreCase("right")) {
+            arrJustify.add(CBMSConstantList.RIGHT.name);
+        }  else if (csJustify.equalsIgnoreCase("left")) {
+            arrJustify.add(CBMSConstantList.LEFT.name);
+        }
 
         String csFill = tag.getVal("fill");
-        if(csFill.equalsIgnoreCase("blank"))
-            arrJustify.add(CBMSConstantList.BLANK.name) ;
-        else if(csFill.equalsIgnoreCase("zero"))
-            arrJustify.add(CBMSConstantList.ZERO.name) ;
+        if (csFill.equalsIgnoreCase("blank")) {
+            arrJustify.add(CBMSConstantList.BLANK.name);
+        }  else if (csFill.equalsIgnoreCase("zero")) {
+            arrJustify.add(CBMSConstantList.ZERO.name);
+        }
 
         String csProtection = tag.getVal("protection");
         manageAttrib(csProtection);
@@ -611,21 +616,24 @@ public class CFieldElement extends CBMSElement
         manageAttrib(csIntensity);
 
         boolean ismodified = tag.getValAsBoolean("modified");
-        if(ismodified)
+        if (ismodified) {
             aTTRB.add("FSET");
+        }
 
         boolean iscursor = tag.getValAsBoolean("cursor");
-        if(iscursor)
+        if (iscursor) {
             aTTRB.add("IC");
+        }
         return true;
     }
 
     private boolean fillFromSwitch(PosLineCol posLineCol, Tag tag, String csCurrentLanguage, String csAppendColor)
     {
-        if (tag.isValExisting("name"))
+        if (tag.isValExisting("name")) {
             setName(tag.getVal("name").toUpperCase());
-        else
+        } else {
             setName("");
+        }
 
         length = tag.getValAsInt("length");
 
@@ -667,20 +675,20 @@ public class CFieldElement extends CBMSElement
 
     private void manageAttrib(String cs)
     {
-        if(cs.equalsIgnoreCase("autoskip"))
+        if (cs.equalsIgnoreCase("autoskip")) {
             aTTRB.add("ASKIP");
-        else if(cs.equalsIgnoreCase("UNPROTECTED"))
+        } else if (cs.equalsIgnoreCase("UNPROTECTED")) {
             aTTRB.add("UNPROT");
-        else if(cs.equalsIgnoreCase("NUMERIC"))
+        } else if (cs.equalsIgnoreCase("NUMERIC"))
         {
             aTTRB.add("UNPROT");    // correct ?
             aTTRB.add("NUM");
-        }
-        else if(cs.equalsIgnoreCase("NORMAL"))
+        } else if (cs.equalsIgnoreCase("NORMAL")) {
             aTTRB.add("NORM");
-        else if(cs.equalsIgnoreCase("DARK"))
+        } else if (cs.equalsIgnoreCase("DARK")) {
             aTTRB.add("DRK");
-        else if(cs.equalsIgnoreCase("BRIGHT"))
+        } else if (cs.equalsIgnoreCase("BRIGHT")) {
             aTTRB.add("BRT");
+        }
     }
 }

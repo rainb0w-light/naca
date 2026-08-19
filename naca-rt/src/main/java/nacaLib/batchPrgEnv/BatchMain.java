@@ -97,10 +97,12 @@ public class BatchMain
                 else if(argUpper.startsWith("FORCEDCOMPARISONMODE="))
                 {
                     String cs = arg.substring(21);
-                    if(cs.equalsIgnoreCase("ascii"))
+                    if (cs.equalsIgnoreCase("ascii")) {
                         BaseResourceManager.setForcedComparisonInEbcdic(false);
-                    if(cs.equalsIgnoreCase("ebcdic"))
+                    }
+                    if (cs.equalsIgnoreCase("ebcdic")) {
                         BaseResourceManager.setForcedComparisonInEbcdic(true);
+                    }
                 }
                 else if(argUpper.startsWith("ALLOCMEMORY="))
                 {
@@ -127,35 +129,35 @@ public class BatchMain
         }
         JVMReturnCodeManager.setExitCode(0);
 
-        if(csPrgClassName.equalsIgnoreCase("SortMain"))
+        if (csPrgClassName.equalsIgnoreCase("SortMain")) {
             doExternalSort(csConfigFile, csParameter, csExportKeyFileOut);
-        else if(csPrgClassName.equalsIgnoreCase("ExportKeySortMain"))
+        } else if (csPrgClassName.equalsIgnoreCase("ExportKeySortMain")) {
             doExportKeySortMain(csConfigFile, csParameter, csExportKeyFileOut);
-        else if(csPrgClassName.equalsIgnoreCase("EncodingConverter"))
+        } else if (csPrgClassName.equalsIgnoreCase("EncodingConverter")) {
             doEncodingConverter(csConfigFile, csParameter);
-        else if(csPrgClassName.equalsIgnoreCase("FileConverter"))
+        } else if (csPrgClassName.equalsIgnoreCase("FileConverter")) {
             doFileConverter(csConfigFile, csParameter);
-        else if(csPrgClassName.equalsIgnoreCase("FileUtil"))
+        } else if (csPrgClassName.equalsIgnoreCase("FileUtil")) {
             doFileUtil(csConfigFile, csParameter);
-        else if(csPrgClassName.equalsIgnoreCase("FileSearchGeneration"))
+        } else if (csPrgClassName.equalsIgnoreCase("FileSearchGeneration")) {
             doFileSearchGeneration(csConfigFile, csParameter);
-        else if(csPrgClassName.equalsIgnoreCase("MailUtil"))
+        } else if (csPrgClassName.equalsIgnoreCase("MailUtil")) {
             doMailUtil(csConfigFile, csParameter);
-        else if(csPrgClassName.equalsIgnoreCase("dsntiad"))     // Db Util execute statements
+        } else if (csPrgClassName.equalsIgnoreCase("dsntiad")) {     // Db Util execute statements
             doDbExecute(csConfigFile, csDB);
-        else if(csPrgClassName.equalsIgnoreCase("dsntiaul"))    // Db Util unload
+        } else if (csPrgClassName.equalsIgnoreCase("dsntiaul")) {    // Db Util unload
             doDbUnload(csConfigFile, csDB, false);
-        else if(csPrgClassName.equalsIgnoreCase("db2unlot"))    // Db Util unload in excel format
+        } else if (csPrgClassName.equalsIgnoreCase("db2unlot")) {    // Db Util unload in excel format
             doDbUnload(csConfigFile, csDB, true);
-        else if(csPrgClassName.equalsIgnoreCase("dsntial") || csPrgClassName.equalsIgnoreCase("dsnutilb"))  // Db Util load
+        } else if (csPrgClassName.equalsIgnoreCase("dsntial") || csPrgClassName.equalsIgnoreCase("dsnutilb")) {  // Db Util load
             doDbLoad(csConfigFile, csDB);
-        else if(csPrgClassName.equalsIgnoreCase("export"))  // Export file
+        } else if (csPrgClassName.equalsIgnoreCase("export")) {  // Export file
             doExport(csConfigFile);
-        else if(csPrgClassName.equalsIgnoreCase("DbTransfer"))  // Transfer Database
+        } else if (csPrgClassName.equalsIgnoreCase("DbTransfer")) {  // Transfer Database
             dbTransfer(csConfigFile, csDB);
-        else if (csPrgClassName != null && csConfigFile != null)
+        } else if (csPrgClassName != null && csConfigFile != null) {
             doRunBatchProgram(csConfigFile, csDB, isenableInitialConnectDb, csParameter, csPrgClassName);
-        else
+        } else
         {
             displayHelp();
             return;
@@ -319,8 +321,9 @@ public class BatchMain
             String csParameterUpperCase = csParameter.toUpperCase();
 
             boolean ishost = false;
-            if (csParameterUpperCase.indexOf("HOST") != -1)
+            if (csParameterUpperCase.indexOf("HOST") != -1) {
                 ishost = true;
+            }
 
             if(fileIn == null || fileOut == null)
             {
@@ -337,8 +340,9 @@ public class BatchMain
                 int nPos = csParameterUpperCase.indexOf("COPYCLASS=") + 10;
                 String csCopyClass = csParameter.substring(nPos);
                 FileEncodingConverterWithClass conv = new FileEncodingConverterWithClass(fileIn, fileOut);
-                if (ishost)
+                if (ishost) {
                     conv.setHost(csParameter);
+                }
                 conv.execute(csCopyClass);
             }
             else if(csParameterUpperCase.indexOf("DESC=") != -1)
@@ -346,8 +350,9 @@ public class BatchMain
                 int nPos = csParameterUpperCase.indexOf("DESC=") + 5;
                 String csDesc = csParameter.substring(nPos);
                 FileEncodingConverterWithDesc conv = new FileEncodingConverterWithDesc(fileIn, fileOut);
-                if (ishost)
+                if (ishost) {
                     conv.setHost(csParameter);
+                }
                 conv.execute(csDesc);
             }
             else
@@ -721,8 +726,9 @@ public class BatchMain
         BatchResourceManager batchResourceManager = BatchResourceManagerFactory.GetInstance(
             csConfigFile,
             dbConnection.getEnvironmentPrefix());
-        if(batchResourceManager == null)
+        if (batchResourceManager == null) {
             return 8;
+        }
 
         BatchSession session = new BatchSession(batchResourceManager) ;
 

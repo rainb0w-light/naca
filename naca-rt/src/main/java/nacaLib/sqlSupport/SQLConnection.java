@@ -53,19 +53,22 @@ public class SQLConnection extends DbConnectionBase
         int n=0;
         for(; n<nNbParamToProvide; n++)
         {
-            if(n == 0)
+            if (n == 0) {
                 sql += " (?";
-            else
+            } else {
                 sql += ",?";
+            }
         }
-        if(n != 0)
+        if (n != 0) {
             sql += ")";
+        }
 
         try
         {
             CallableStatement callableStatement = getDbConnection().prepareCall(sql);
-            if(callableStatement != null)
+            if (callableStatement != null) {
                 preparedCallableStatement.init(callableStatement);
+            }
         }
         catch (SQLException e)
         {

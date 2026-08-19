@@ -100,8 +100,9 @@ public class CFPacDeclarationZone extends CFPacElement
     private boolean CustomParsing()
     {
         CBaseToken tok = GetCurrentToken() ;
-        if (tok.GetKeyword() == null)
-            return false ;
+        if (tok.GetKeyword() == null) {
+            return false;
+        }
         CFPacElement el = null ;
         if (tok.GetKeyword().name.startsWith("IPF"))
         {
@@ -157,14 +158,15 @@ public class CFPacDeclarationZone extends CFPacElement
                 Transcoder.logError(tok.getLine(), "Expecting '=' after PARM") ;
                 return false ;
             }
+        } else {
+            return false;
         }
-        else
-            return false ;
 
         if (el != null)
         {
-            if (!Parse(el))
-                return false ;
+            if (!Parse(el)) {
+                return false;
+            }
         }
         return true ;
     }

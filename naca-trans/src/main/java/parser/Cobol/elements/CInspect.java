@@ -240,11 +240,13 @@ public class CInspect extends CCobolElement
         tok = GetNext();
         idStringVariable = ReadIdentifier() ;
         CInspectAction a;
-        if(!_parse(GetCurrentToken(), a = new CInspectAction()))
+        if (!_parse(GetCurrentToken(), a = new CInspectAction())) {
             return false;
+        }
         actions.add(a);
-        if(_parse(GetCurrentToken(), a = new CInspectAction()))
+        if (_parse(GetCurrentToken(), a = new CInspectAction())) {
             actions.add(a);
+        }
         return true;
     }
 
@@ -293,8 +295,9 @@ public class CInspect extends CCobolElement
                 GetNext() ;
                 item.valNew = ReadTerminal() ;
                 tok = GetCurrentToken() ;
-                if (tok.GetType() == CTokenType.COMMA)
-                    tok = GetNext() ;
+                if (tok.GetType() == CTokenType.COMMA) {
+                    tok = GetNext();
+                }
                 a.itemToReplace.add(item);
             }
         }
@@ -437,8 +440,9 @@ public class CInspect extends CCobolElement
         }
         else
         {
-            if (actions.isEmpty())
-                Transcoder.logError(tok.getLine(), "Unexpecting INSPECT action : "+tok.GetValue()) ;
+            if (actions.isEmpty()) {
+                Transcoder.logError(tok.getLine(), "Unexpecting INSPECT action : " + tok.GetValue());
+            }
             return false;
         }
         a.method = method;

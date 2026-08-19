@@ -33,8 +33,9 @@ public class VarFPacAlphaNumLengthUndef extends VarFPacLengthUndef
 
     int getParamLength(int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         String cs = String.valueOf(n);
         return cs.length();
     }

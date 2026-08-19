@@ -33,8 +33,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         setLevel(varLevel.getLevel());
         varDefRedefinOrigin = varLevel.getVarDefRedefineOrigin();
         occursDef = varLevel.getOccursDef();
-        if(varDefParent != null)
+        if (varDefParent != null) {
             varDefFormRedefineOrigin = varDefParent.varDefFormRedefineOrigin;
+        }
 
         if(varDefParent != null)
         {
@@ -71,24 +72,28 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     private VarDefBase getVarDefRoot()
     {
-        if(varDefParent == null)
+        if (varDefParent == null) {
             return this;
-        else
+        } else {
             return varDefParent.getVarDefRoot();
+        }
     }
 
     private void getArrVarDefOccursOwner(VarDefBase varDefCurrent)
     {
-        if(occursDef != null)
+        if (occursDef != null) {
             varDefCurrent.addVarDefOccursOwner(this);
-        if(varDefParent != null)
+        }
+        if (varDefParent != null) {
             varDefParent.getArrVarDefOccursOwner(varDefCurrent);
+        }
     }
 
     private void addVarDefOccursOwner(VarDefBase varDefOccursOwner)
     {
-        if(occursItemSettings == null)
+        if (occursItemSettings == null) {
             occursItemSettings = new OccursItemSettings();
+        }
         occursItemSettings.arrVarDefOccursOwner.add(varDefOccursOwner);
     }
 
@@ -100,10 +105,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             for(int n=nNbChildren-1; n>=0; n--)
             {
                 VarDefBase varDefChild = getChild(n);
-                if(varDefChild.getLevel() == sLevel || varDefChild.getLevel() == 77)
+                if (varDefChild.getLevel() == sLevel || varDefChild.getLevel() == 77) {
                     return varDefChild;
-                if(varDefChild.getLevel() < sLevel)
+                }
+                if (varDefChild.getLevel() < sLevel) {
                     return null;
+                }
             }
         }
         return null;
@@ -119,16 +126,18 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
                 VarDefBase varDefChild = getChild(nNbChildren-1);
                 return varDefChild;
             }
-            if(varDefParent != null)
+            if (varDefParent != null) {
                 return varDefParent.getLastVarDefAtAnyLevel();
+            }
         }
         return null;
     }
 
     private void addChild(VarDefBase varDefChild)
     {
-        if(arrChildren == null)
+        if (arrChildren == null) {
             arrChildren = new ArrayDyn<VarDefBase>();
+        }
         arrChildren.add(varDefChild);
     }
 
@@ -162,8 +171,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
         int nSingleItemSize = getSingleItemRequiredStorageSize();
         int nSumChildrenSize = 0;
-        if(isVarDefForm())
+        if (isVarDefForm()) {
             nSumChildrenSize = getHeaderLength();
+        }
 
         if(arrChildren != null)
         {
@@ -172,17 +182,19 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             {
                 VarDefBase varDefChild = getChild(nChild);
                 int nSize = varDefChild.calcSize();
-                if(varDefChild.varDefRedefinOrigin == null || varDefChild.isEditInMapRedefine())
+                if (varDefChild.varDefRedefinOrigin == null || varDefChild.isEditInMapRedefine()) {
                     nSumChildrenSize += nSize;
-                else if(isVarInMapRedefine() && !varDefParent.isEditInMapRedefine())
+                } else if (isVarInMapRedefine() && !varDefParent.isEditInMapRedefine()) {
                     nSumChildrenSize += nSize;
+                }
             }
         }
 
         if(nSingleItemSize == 0)    // We have no size defined for ourself
         {
-            if(isEditInMapRedefine() && occursDef != null)
+            if (isEditInMapRedefine() && occursDef != null) {
                 return nNbOccurs * nSumChildrenSize;
+            }
             if(varDefRedefinOrigin != null) // We are a redefine
             {
                 int n = varDefRedefinOrigin.getTotalSize();
@@ -215,8 +227,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         {
             n = nNbOccurs * nSumChildrenSize;
             // do not change the size of the edit in map redefine, only the size of the var groups in an edit of a map redefine
-            if(!isEditInMapRedefine())
+            if (!isEditInMapRedefine()) {
                 nTotalSize = n;
+            }
         }
         return nTotalSize;
     }
@@ -231,12 +244,13 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             {
                 VarDefBase varDefChild = getChild(nChild);
                 int nSize = varDefChild.calcSizeVarInEdit();
-                if(varDefChild.varDefRedefinOrigin == null)
+                if (varDefChild.varDefRedefinOrigin == null) {
                     nSumSize += nSize;
+                }
             }
-        }
-        else
+        } else {
             nSumSize = getSingleItemRequiredStorageSize();
+        }
         return nSumSize;
     }
 
@@ -276,15 +290,17 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     private int getOneEntrySize()
     {
         int n = getNbOccurs();
-        if(n != 0)
+        if (n != 0) {
             return nTotalSize / n;
+        }
         return nTotalSize;
     }
 
     public boolean isARedefine()
     {
-        if(varDefRedefinOrigin != null)
+        if (varDefRedefinOrigin != null) {
             return true;
+        }
         return false;
     }
 
@@ -308,11 +324,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         else // We are not a redefine
         {
             VarDefBase varDefPreviousSameLevelNonRedefine = getPreviousSameLevelNonRedefine(sharedProgramInstanceData);
-            if(varDefPreviousSameLevelNonRedefine != null)
+            if (varDefPreviousSameLevelNonRedefine != null) {
                 nDefaultAbsolutePosition = varDefPreviousSameLevelNonRedefine.nDefaultAbsolutePosition
-                    + varDefPreviousSameLevelNonRedefine.getTotalSize();
-            else if(varDefParent != null)
+                        + varDefPreviousSameLevelNonRedefine.getTotalSize();
+            } else if (varDefParent != null) {
                 nDefaultAbsolutePosition = varDefParent.nDefaultAbsolutePosition + varDefParent.getHeaderLength();
+            }
         }
 
         calcPositionsIntoBuffer(sharedProgramInstanceData);
@@ -327,9 +344,10 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             if(varDefPrevious.varDefRedefinOrigin != null)  // The previous is a redefine
             {
                 // PJD: previous sibling determination error correction
-                if(varDefPrevious.isEditInMapRedefine())
+                if (varDefPrevious.isEditInMapRedefine()) {
                     // PJD: previous sibling determination error correction
                     return varDefPrevious;
+                }
                 return varDefPrevious.getPreviousSameLevelNonRedefine(sharedProgramInstanceData);
             }
             return varDefPrevious;  // the previous is not a redefine
@@ -345,8 +363,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             for(int nChild=0; nChild<nNbChildren; nChild++)
             {
                 VarDefBase varDefChild = getChild(nChild);
-                if(!varDefChild.isARedefine())
+                if (!varDefChild.isARedefine()) {
                     varDefChild.getChildrenEncodingConvertiblePosition(varDefEncodingConvertibleManager);
+                }
             }
         }
         else    // No child: We are a final node
@@ -354,51 +373,52 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             if(!isARedefine() && isEbcdicAsciiConvertible())
             {
                 int nNbDim = getNbDim();
-                if(nNbDim == 0)
+                if (nNbDim == 0) {
                     varDefEncodingConvertibleManager.add(this);
-                else if(nNbDim == 1)
+                } else if (nNbDim == 1)
                 {
                     TempCache cache = TempCacheLocator.getTLSTempCache();
                     int nNbX = getMaxIndexAtDim(0);
-                    for(int x=0; x<nNbX; x++)
+                    for (int x = 0; x < nNbX; x++)
                     {
-                        VarDefBuffer varDefItem = getCachedGetAt(cache, x+1);
-                        if(varDefItem != null)
+                        VarDefBuffer varDefItem = getCachedGetAt(cache, x + 1);
+                        if (varDefItem != null) {
                             varDefEncodingConvertibleManager.add(varDefItem);
+                        }
                         cache.resetTempVarIndex(varDefItem.getTypeId());
                     }
-                }
-                else if(nNbDim == 2)
+                } else if (nNbDim == 2)
                 {
                     TempCache cache = TempCacheLocator.getTLSTempCache();
                     int nNbY = getMaxIndexAtDim(1);
-                    int nNbX  = getMaxIndexAtDim(0);
-                    for(int y=0; y<nNbY; y++)
+                    int nNbX = getMaxIndexAtDim(0);
+                    for (int y = 0; y < nNbY; y++)
                     {
-                        for(int x=0; x<nNbX; x++)
+                        for (int x = 0; x < nNbX; x++)
                         {
-                            VarDefBuffer varDefItem = getCachedGetAt(cache, y+1, x+1);
-                            if(varDefItem != null)
+                            VarDefBuffer varDefItem = getCachedGetAt(cache, y + 1, x + 1);
+                            if (varDefItem != null) {
                                 varDefEncodingConvertibleManager.add(varDefItem);
+                            }
                             cache.resetTempVarIndex(varDefItem.getTypeId());
                         }
                     }
-                }
-                else if(nNbDim == 3)
+                } else if (nNbDim == 3)
                 {
                     TempCache cache = TempCacheLocator.getTLSTempCache();
                     int nNbZ = getMaxIndexAtDim(2);
                     int nNbY = getMaxIndexAtDim(1);
-                    int nNbX  = getMaxIndexAtDim(0);
-                    for(int z=0; z<nNbZ; z++)
+                    int nNbX = getMaxIndexAtDim(0);
+                    for (int z = 0; z < nNbZ; z++)
                     {
-                        for(int y=0; y<nNbY; y++)
+                        for (int y = 0; y < nNbY; y++)
                         {
-                            for(int x=0; x<nNbX; x++)
+                            for (int x = 0; x < nNbX; x++)
                             {
-                                VarDefBuffer varDefItem = getCachedGetAt(cache, z+1, y+1, x+1);
-                                if(varDefItem != null)
+                                VarDefBuffer varDefItem = getCachedGetAt(cache, z + 1, y + 1, x + 1);
+                                if (varDefItem != null) {
                                     varDefEncodingConvertibleManager.add(varDefItem);
+                                }
                                 cache.resetTempVarIndex(varDefItem.getTypeId());
                             }
                         }
@@ -410,22 +430,25 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     VarDefBuffer getChild(int nChild)
     {
-        if(arrChildren != null && arrChildren.size() > nChild)
-            return (VarDefBuffer)arrChildren.get(nChild);
+        if (arrChildren != null && arrChildren.size() > nChild) {
+            return (VarDefBuffer) arrChildren.get(nChild);
+        }
         return null;
     }
 
     int getNbChildren()
     {
-        if(arrChildren != null)
+        if (arrChildren != null) {
             return arrChildren.size();
+        }
         return 0;
     }
 
     protected int getNbOccurs()
     {
-        if(occursDef != null)
+        if (occursDef != null) {
             return occursDef.getNbOccurs();
+        }
         return 1;
     }
 
@@ -437,9 +460,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         {
             csFullName = csFullName + getDebugIndex();
             cs += "<�" + csFullName + "�>" +"@"+nDefaultAbsolutePosition+"/"+nTotalSize;
-        }
-        else
+        } else {
             cs += "?@" + nDefaultAbsolutePosition + "/" + nTotalSize;
+        }
 
         return cs;
     }
@@ -454,16 +477,18 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         if(s != null)
         {
             String cs = s.getVarFullName(getId());
-            if(cs != null)
+            if (cs != null) {
                 return cs;
+            }
         }
         return "";
     }
 
     int getNbDim()
     {
-        if(occursItemSettings != null)
+        if (occursItemSettings != null) {
             return occursItemSettings.arrVarDefOccursOwner.size();
+        }
         return 0;
     }
 
@@ -483,25 +508,31 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     int getAbsolutePositionOccursOwnerAtDim(int n)
     {
-        if(occursItemSettings.aOccursOwnerLocation != null)
-            if(occursItemSettings.aOccursOwnerLocation.length > n)
+        if (occursItemSettings.aOccursOwnerLocation != null) {
+            if (occursItemSettings.aOccursOwnerLocation.length > n) {
                 return occursItemSettings.aOccursOwnerLocation[n].nAbsolutePositionOccursOwner;
+            }
+        }
         return DEBUGgetDefaultAbsolutePosition();
     }
 
     int getSizeOccursOwnerOf1Entry(int n)
     {
-        if(occursItemSettings.aOccursOwnerLocation != null)
-            if(occursItemSettings.aOccursOwnerLocation.length > n)
+        if (occursItemSettings.aOccursOwnerLocation != null) {
+            if (occursItemSettings.aOccursOwnerLocation.length > n) {
                 return occursItemSettings.aOccursOwnerLocation[n].nSizeOccursOwnerOf1Entry;
+            }
+        }
         return 0;
     }
 
     int getDistanceFromOccursOwner(int n)
     {
-        if(occursItemSettings.aOccursOwnerLocation != null)
-            if(occursItemSettings.aOccursOwnerLocation.length > n)
+        if (occursItemSettings.aOccursOwnerLocation != null) {
+            if (occursItemSettings.aOccursOwnerLocation.length > n) {
                 return occursItemSettings.aOccursOwnerLocation[n].nDistanceFromOccursOwner;
+            }
+        }
         return 0;
     }
 
@@ -558,18 +589,20 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     void setWSVar(boolean bWSVar)
     {
-        if(bWSVar)
+        if (bWSVar) {
             n_Filler_TempDim_Level |= 0x00000800;   // 00000000 00000000 00001000 00000000
-        else
+        } else {
             n_Filler_TempDim_Level &= ~0x00000800;
+        }
     }
 
     void setFiller(boolean bFiller)
     {
-        if(bFiller)
+        if (bFiller) {
             n_Filler_TempDim_Level |= 0x00000400;       // 00000000 00000000 00000100 00000000
-        else
+        } else {
             n_Filler_TempDim_Level &= ~0x00000400;
+        }
     }
 
     void setTempNbDim(int nTempDim)
@@ -588,10 +621,11 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     void setGetAt(boolean b)
     {
-        if(b)
+        if (b) {
             n_Filler_TempDim_Level |= 0x80000000;       // 10000000 00000000 00000000 00000000
-        else
+        } else {
             n_Filler_TempDim_Level &= ~0x80000000;
+        }
     }
 
 
@@ -612,8 +646,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     {
         int n = n_Filler_TempDim_Level & 0x00000800;        // 00000000 00000000 00001000 00000000
         n = n >> 11;
-        if(n == 1)
+        if (n == 1) {
             return true;
+        }
         return false;
     }
 
@@ -621,16 +656,18 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     {
         int n = n_Filler_TempDim_Level & 0x00000400;        // 00000000 00000000 00000100 00000000
         n = n >> 10;
-        if(n == 1)
+        if (n == 1) {
             return true;
+        }
         return false;
     }
 
     public boolean getIsGetAt()
     {
         int n = n_Filler_TempDim_Level & 0x80000000;        // 10000000 00000000 00000000 00000000
-        if(n != 0)
+        if (n != 0) {
             return true;
+        }
         return false;
     }
 
@@ -660,20 +697,22 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     public String getDebugIndex()
     {
         int nNbDim = getTempNbDim();
-        if(nNbDim == 0)
+        if (nNbDim == 0) {
             return "";
+        }
         int n = n_Filler_TempDim_Level & 0x3FFFF000;    // ~00111111 11111111 11110000 00000000
         n = n >> 12;
         int x = n | 0x40;
         n = n >> 6;
         int y = n | 0x40;
         n = n >> 6;
-        if(nNbDim == 3)
+        if (nNbDim == 3) {
             return "[" + n + "," + y + "," + x + "]";
-        else if(nNbDim == 2)
+        } else if (nNbDim == 2) {
             return "[" + y + "," + x + "]";
-        else
+        } else {
             return "[" + x + "]";
+        }
     }
 
     VarDefBuffer getCachedGetAt(TempCache cache, int x)
@@ -912,10 +951,12 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     protected VarDefMapRedefine getMapRedefine()
     {
-        if(isAVarDefMapRedefine())
-            return (VarDefMapRedefine)this;
-        if(varDefParent != null)
+        if (isAVarDefMapRedefine()) {
+            return (VarDefMapRedefine) this;
+        }
+        if (varDefParent != null) {
             return varDefParent.getMapRedefine();
+        }
         return null;
     }
 
@@ -943,10 +984,11 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
                     {
                         int nNbOccurs = varDefChild.getNbOccurs();
                         int n = varDefChild.getNbEditInMapRedefine(varExcluded, nDepth);
-                        if(nDepth >= 2)
+                        if (nDepth >= 2) {
                             nNbEdit += n;   // * nNbOccurs;
-                        else
+                        } else {
                             nNbEdit += n * nNbOccurs;
+                        }
                     }
                 }
             }
@@ -963,15 +1005,17 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             for(int nChild=0; nChild<arrChildren.size(); nChild++)
             {
                 VarDefBase varDefChild = getChild(nChild);
-                if(varDefChild != null && varDefChild.isEditInMapRedefine())
+                if (varDefChild != null && varDefChild.isEditInMapRedefine()) {
                     n += varDefChild.getNbItems();
+                }
             }
-            if(n == 0)
+            if (n == 0) {
                 n = 1;
+            }
             return nNbOccurs * n;
-        }
-        else
+        } else {
             return nNbOccurs;
+        }
     }
 
     public VarDefBase getNamedChild(SharedProgramInstanceData sharedProgramInstanceData, String csName)
@@ -981,14 +1025,17 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         {
             VarDefBase varDefChild = getChild(nIndex);
             String csChildName = varDefChild.getFullName(sharedProgramInstanceData);
-            if(csChildName.equalsIgnoreCase(csName))
+            if (csChildName.equalsIgnoreCase(csName)) {
                 return varDefChild;
+            }
             csChildName = NameManager.getUnprefixedName(csChildName);
-            if(csChildName.equalsIgnoreCase(csName))
+            if (csChildName.equalsIgnoreCase(csName)) {
                 return varDefChild;
+            }
             varDefChild = varDefChild.getNamedChild(sharedProgramInstanceData, csName);
-            if (varDefChild != null)
+            if (varDefChild != null) {
                 return varDefChild;
+            }
         }
         return null;
     }
@@ -1004,13 +1051,15 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             String csChildName = varDefChild.getUnprefixedName(sharedProgramInstanceData).toUpperCase();
             if(csChildName.equals(csUpperName))
             {
-                if(rnChildIndex != null)
+                if (rnChildIndex != null) {
                     rnChildIndex.set(nIndex);
+                }
                 return varDefChild;
             }
             varDefChild = varDefChild.getUnprefixNamedChild(sharedProgramInstanceData, csName, rnChildIndex);
-            if (varDefChild != null)
+            if (varDefChild != null) {
                 return varDefChild;
+            }
         }
         return null;
     }
@@ -1029,8 +1078,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
             String csChildName = varDefChild.getUnprefixedName(sharedProgramInstanceData).toUpperCase();
             if(csChildName.equals(csUpperName))
             {
-                if(rnChildIndex != null)
+                if (rnChildIndex != null) {
                     rnChildIndex.set(nIndex);
+                }
                 return varDefChild;
             }
             else
@@ -1041,15 +1091,17 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
                     String csUnDollarChildName = csChildName.substring(0, nDollarPos);
                     if(csUnDollarChildName.equals(csUpperName))
                     {
-                        if(rnChildIndex != null)
+                        if (rnChildIndex != null) {
                             rnChildIndex.set(nIndex);
+                        }
                         return varDefChild;
                     }
                 }
             }
             varDefChild = varDefChild.getUnprefixNamedChild(sharedProgramInstanceData, csName, rnChildIndex);
-            if (varDefChild != null)
+            if (varDefChild != null) {
                 return varDefChild;
+            }
         }
         return null;
     }
@@ -1058,29 +1110,33 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     {
         String name = getFullName(sharedProgramInstanceData) ;
         int nPosSep = name.indexOf('.');
-        if(nPosSep != -1)
-            return name.substring(nPosSep+1);
+        if (nPosSep != -1) {
+            return name.substring(nPosSep + 1);
+        }
         return name;
     }
 
     public void addRedefinition(VarDefBase varDefRedefinition)
     {
-        if(arrRedefinition == null)
+        if (arrRedefinition == null) {
             arrRedefinition = new ArrayDyn<VarDefBase>();
+        }
         arrRedefinition.add(varDefRedefinition);
     }
 
     public int getNbRedefinition()
     {
-        if(arrRedefinition == null)
+        if (arrRedefinition == null) {
             return 0;
+        }
         return arrRedefinition.size();
     }
 
     public VarDefBase getRedefinitionAt(int nIndex)
     {
-        if(arrRedefinition == null)
+        if (arrRedefinition == null) {
             return null;
+        }
         return arrRedefinition.get(nIndex);
     }
 
@@ -1114,8 +1170,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     private int getNbEdit()
     {
         int  nNbEdit = 0;
-        if(isEditInMapRedefine() && occursDef == null)
+        if (isEditInMapRedefine() && occursDef == null) {
             nNbEdit++;
+        }
 
         int nNbChildren = getNbChildren();
         for(int n=0; n<nNbChildren; n++)
@@ -1137,8 +1194,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     int getNbEditUntil(VarDefBase varChildToFind, FoundFlag foundFlag)
     {
         int nNbEdit = 0;
-        if(isEditInMapRedefine() && occursDef == null)
+        if (isEditInMapRedefine() && occursDef == null) {
             nNbEdit++;
+        }
 
         int nNbChildren = getNbChildren();
         for(int n=0; n<nNbChildren && !foundFlag.isFound(); n++)
@@ -1162,9 +1220,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
                         nNbEdit = nNbEdit + nNbEditUnderChild - nNbEditAlredayCounted;
                         return nNbEdit;
                     }
-                }
-                else
+                } else {
                     nNbEdit += nNbEditUnderChild;
+                }
             }
         }
 
@@ -1192,8 +1250,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
 
     VarDefBase getTopVarDefRedefinOrigin()
     {
-        if(varDefRedefinOrigin != null)
+        if (varDefRedefinOrigin != null) {
             return varDefRedefinOrigin.getTopVarDefRedefinOrigin();
+        }
         return varDefRedefinOrigin;
     }
 
@@ -1218,8 +1277,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
                 arrChildren = childrenFix;  // replace by a fix one (uning less memory)
             }
         }
-        if(occursItemSettings != null)
+        if (occursItemSettings != null) {
             occursItemSettings.compress();
+        }
 
         if(arrRedefinition != null)
         {
@@ -1239,8 +1299,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
     private void setVarDefPreviousSameLevel(VarDefBase varDefPreviousSameLevel)
     {
         int nVarDefPreviousSameLevelId = NULL_ID;
-        if(varDefPreviousSameLevel != null)
+        if (varDefPreviousSameLevel != null) {
             nVarDefPreviousSameLevelId = varDefPreviousSameLevel.getId();
+        }
         n_PreviousSameLevel_Id = setHigh(n_PreviousSameLevel_Id, nVarDefPreviousSameLevelId);
     }
 
@@ -1374,8 +1435,9 @@ public abstract class VarDefBase extends CJMapObject //implements Serializable
         while(varDefLevel01 != null)
         {
             int nLevel = varDefLevel01.getLevel();
-            if(nLevel == 1)
+            if (nLevel == 1) {
                 return varDefLevel01;
+            }
             varDefLevel01 = varDefLevel01.varDefParent;
         }
         return null;

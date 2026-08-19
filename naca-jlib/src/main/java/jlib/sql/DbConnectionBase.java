@@ -87,14 +87,16 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     public void finalize()
     {
-        if(isuseJmx)
+        if (isuseJmx) {
             BaseJmxGeneralStat.decCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbNonFinalizedConnection);
+        }
     }
 
     public void close()
     {
-        if(isuseJmx)
+        if (isuseJmx) {
             BaseJmxGeneralStat.decCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbActiveConnection);
+        }
         doClose();
     }
 
@@ -123,8 +125,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         {
             if(isValid(nTimeBeforeRemoveConnection_ms) && isOpen())
             {
-                if(checkWithQuery(csValidationQuery))
+                if (checkWithQuery(csValidationQuery)) {
                     return true;
+                }
             }
         }
         return false;
@@ -136,11 +139,13 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         {
             try
             {
-                if(dbConnection.isClosed())
+                if (dbConnection.isClosed()) {
                     return false;
+                }
                 // Still open
-                if(stopWatchLastUsage.isTimeElapsed(nTimeBeforeRemoveConnection_ms))    // Obsolete
+                if (stopWatchLastUsage.isTimeElapsed(nTimeBeforeRemoveConnection_ms)) {    // Obsolete
                     return false;
+                }
                 return true;
             }
             catch (SQLException e)
@@ -177,8 +182,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         {
             try
             {
-                if(!dbConnection.isClosed())
+                if (!dbConnection.isClosed()) {
                     dbConnection.close();
+                }
             }
             catch (SQLException e)
             {
@@ -189,8 +195,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     synchronized int garbageCollectorStatementsOptinalResetReservedStatement(boolean bResetReservedStatements)
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return 0;
+        }
 
         int n = 0;
         Set<Map.Entry<String, DbPreparedStatement>> set = hashStatement.entrySet();
@@ -205,8 +212,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
                 iterMapEntry.remove();
                 n++;
             }
-            else if(bResetReservedStatements)
+            else if (bResetReservedStatements) {
                 dbPreparedStatement.resetReserved();
+            }
         }
 
         return n;
@@ -214,15 +222,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     synchronized int getNbCachedStatements()
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return 0;
+        }
         return hashStatement.size();
     }
 
     synchronized void resetReservedStatements()
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return;
+        }
 
         Set<Map.Entry<String, DbPreparedStatement>> set = hashStatement.entrySet();
         Iterator<Map.Entry<String, DbPreparedStatement>> iterMapEntry = set.iterator();
@@ -236,8 +246,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     synchronized void dumpListStatements(SortedMap<Long, StatementPosInPool> mapStatements)
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return;
+        }
 
         Set<Map.Entry<String, DbPreparedStatement>> set = hashStatement.entrySet();
         Iterator<Map.Entry<String, DbPreparedStatement>> iterMapEntry = set.iterator();
@@ -257,8 +268,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     boolean checkWithQuery(String csValidationQuery)
     {
-        if(StringUtil.isEmpty(csValidationQuery))
+        if (StringUtil.isEmpty(csValidationQuery)) {
             return true;
+        }
 
         boolean b = false;
         DbPreparedStatement sqlStatement = prepareStatement(csValidationQuery, 0, false);
@@ -281,8 +293,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
                 Log.logCritical("Error during check DB connection with query " + csValidationQuery);
             }
 
-            if(!isuseCachedStatements)
+            if (!isuseCachedStatements) {
                 sqlStatement.close();
+            }
         }
         return b;
     }
@@ -294,8 +307,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     public synchronized int removeAllPreparedStatements()
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return 0;
+        }
 
         int n = 0;
         Collection<DbPreparedStatement> col = hashStatement.values();
@@ -315,24 +329,28 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     synchronized private DbPreparedStatement getCachedStatement(String queryHash)
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return null;
+        }
 
         DbPreparedStatement SQLStatement = hashStatement.get(queryHash);
-        if(SQLStatement != null)
+        if (SQLStatement != null) {
             SQLStatement.setStatementUsed();
+        }
         return SQLStatement;
     }
 
     synchronized boolean forceRemoveStatement(String csStatementId)
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return false;
+        }
 
         DbPreparedStatement dbPreparedStatement = hashStatement.get(csStatementId);
         boolean b = dbPreparedStatement.closeIfNotReserved();
-        if(b)
+        if (b) {
             hashStatement.remove(csStatementId);
+        }
         return b;
     }
 
@@ -341,15 +359,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         if(typeOperation== SQLTypeOperation.Commit)
         {
             int n = commit();
-            if(n != 0)
+            if (n != 0) {
                 return -1;
+            }
             return 0;
         }
         else if(typeOperation == SQLTypeOperation.Rollback)
         {
             int n = rollBack();
-            if(n != 0)
+            if (n != 0) {
                 return -1;
+            }
             return 0;
         }
         return -1;
@@ -418,8 +438,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
                 catch (ProgrammingException e) {
                     if (e.getCause() instanceof SQLException) {
                         ProgrammingException.throwException(ProgrammingException.DB_ERROR_SELECT, sqlClause, (SQLException)e.getCause());
-                    } else
+                    } else {
                         throw e;
+                    }
                 }
                 return 1;
             }
@@ -439,15 +460,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         if(isuseCachedStatements)
         {
             DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
-            if(SQLStatement != null)
+            if (SQLStatement != null) {
                 return SQLStatement;
+            }
         }
 
         DbPreparedStatement SQLStatement = createAndPrepare(csQuery, bHoldability);
         if(SQLStatement != null && hashStatement != null)
         {
-            if(isuseCachedStatements)
+            if (isuseCachedStatements) {
                 hashStatement.put(queryHash, SQLStatement);
+            }
         }
         return SQLStatement;
     }
@@ -459,15 +482,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         if(isuseCachedStatements)
         {
             DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
-            if(SQLStatement != null)
+            if (SQLStatement != null) {
                 return SQLStatement;
+            }
         }
 
         DbPreparedStatement SQLStatement = createAndPrepareWithException(csQuery, bHoldability);
         if(SQLStatement != null && hashStatement != null)
         {
-            if(isuseCachedStatements)
+            if (isuseCachedStatements) {
                 hashStatement.put(queryHash, SQLStatement);
+            }
         }
         return SQLStatement;
     }
@@ -602,8 +627,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     public boolean supportCursorName()
     {
-        if(isuseRowId)
+        if (isuseRowId) {
             return false;
+        }
         return true;
     }
 
@@ -631,8 +657,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     public void returnConnectionToPool()
     {
-        if(dbConnectionColl != null)
+        if (dbConnectionColl != null) {
             dbConnectionColl.releaseConnection(this);
+        }
     }
 
     String getPrefId()
@@ -700,15 +727,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     private synchronized boolean isBeanCreated()
     {
-        if(dbConnectionBaseJMXBean == null)
+        if (dbConnectionBaseJMXBean == null) {
             return false;
+        }
         return true;
     }
 
     public void setOnceUUID(String csConnId)
     {
-        if(uuid == null)
+        if (uuid == null) {
             uuid = csConnId + "_" + Time_ms.getCurrentTime_ms() + "_" + Threadutil.getCurrentThreadId();
+        }
     }
 
     public String getUUID()
@@ -718,8 +747,9 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
     void createStmtJMXBeans(DbConnectionBaseJMXBean JMXBeanOwner, String csName, String csDescription)
     {
-        if(hashStatement == null)
+        if (hashStatement == null) {
             return;
+        }
 
         int n = 0;
         Enumeration<String> eStsmt = hashStatement.keys();

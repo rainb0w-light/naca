@@ -15,8 +15,9 @@ public class CReservedConstant
     public CReservedConstant(CConstantList list, String name)
     {
         this.name = name ;
-        if(list != null)
-            list.Register(this) ;
+        if (list != null) {
+            list.Register(this);
+        }
     }
     public String name = "" ;
 }

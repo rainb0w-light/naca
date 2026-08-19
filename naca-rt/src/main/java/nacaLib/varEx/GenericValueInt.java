@@ -37,8 +37,9 @@ public class GenericValueInt extends GenericValue
 
     int getAsUnsignedInt()
     {
-        if(n < 0)
+        if (n < 0) {
             return -n;
+        }
         return n;
     }
 

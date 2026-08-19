@@ -40,8 +40,9 @@ public class DbConnectionManagerContext
     public boolean create(String csPropertyPrefix)
         throws TechnicalException
     {
-        if(!csPropertyPrefix.endsWith("."))
+        if (!csPropertyPrefix.endsWith(".")) {
             csPropertyPrefix += ".";
+        }
 
         PropertyLoader pl = new PropertyLoader();
         dbProvider = pl.getProperty(csPropertyPrefix + "driver");
@@ -96,8 +97,9 @@ public class DbConnectionManagerContext
                 nNbMaxConnections,
                 nTimeBeforeRemoveConnection_ms,
                 nMaxStatementLiveTime_ms);
-            if(iscreated)
+            if (iscreated) {
                 dbConnectionManager.setEnvironment(environment);
+            }
             return iscreated;
         }
         catch (TechnicalException e) {
@@ -113,15 +115,17 @@ public class DbConnectionManagerContext
 
     public boolean isOracle()
     {
-        if(dbProvider.equalsIgnoreCase("Oracle"))
+        if (dbProvider.equalsIgnoreCase("Oracle")) {
             return true;
+        }
         return false;
     }
 
     public DbConnectionBase getConnection()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return null;
+        }
 
         try
         {
@@ -149,48 +153,55 @@ public class DbConnectionManagerContext
      */
     public int getNbUnusedConnections()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return 0;
+        }
         return dbConnectionManager.getNbUnusedConnections();
     }
 
     public int getNbRunningConnections()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return 0;
+        }
         return dbConnectionManager.getNbRunningConnections();
     }
 
     public void showHideRunningConnections(boolean bShowRunningCon)
     {
-        if(dbConnectionManager != null)
+        if (dbConnectionManager != null) {
             dbConnectionManager.showHideRunningConnections(bShowRunningCon);
+        }
     }
 
     public void dumpConnections(StringBuilder sbText)
     {
-        if(dbConnectionManager != null)
+        if (dbConnectionManager != null) {
             dbConnectionManager.dumpConnections(sbText);
+        }
     }
 
     public int getNbAllocConnnections()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return 0;
+        }
         return dbConnectionManager.getNbAllocConnnections();
     }
 
     public int getNbMaxConnection()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return 0;
+        }
         return dbConnectionManager.getNbMaxConnection();
     }
 
     public int getNbCachedStatementsForAccessor()
     {
-        if(dbConnectionManager == null)
+        if (dbConnectionManager == null) {
             return 0;
+        }
         return dbConnectionManager.getNbCachedStatementsForAccessor();
     }
 }

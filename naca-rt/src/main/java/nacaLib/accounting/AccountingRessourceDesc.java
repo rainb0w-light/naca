@@ -39,8 +39,9 @@ public class AccountingRessourceDesc
             BaseResourceManager.addDbConnectionPool(dbConnectionPool);
             nMaxLevelDepth = tagAccounting.getValAsInt("MaxLevelDepth");
             String csDbEnvironment = tagAccounting.getVal("dbenvironment");
-            if(csDbEnvironment != null && !StringUtil.isEmpty(csDbEnvironment))
+            if (csDbEnvironment != null && !StringUtil.isEmpty(csDbEnvironment)) {
                 csTableName = csDbEnvironment + "." + csTableName;
+            }
             csInsertClause = "Insert into " + csTableName +
                 "(SESSIONID, TRANSACTIONID, START_TIMESTAMP, LEVEL_DEPTH, TRANSACTIONNAME, PROGRAMNAME, SESSIONTYPE, MACHINEID, " +
                     "TOMCATID, RUNTIME_MS, TERMINALID, LUNAME, USERLDAPID, CRITERIAEND, NBSELECT, NBINSERT, NBUPDATE, NBDELETE, " +
@@ -66,8 +67,9 @@ public class AccountingRessourceDesc
 
     boolean canWrite(int nCurrentDepth)
     {
-        if(nCurrentDepth <= nMaxLevelDepth)
+        if (nCurrentDepth <= nMaxLevelDepth) {
             return true;
+        }
         return false;
     }
 

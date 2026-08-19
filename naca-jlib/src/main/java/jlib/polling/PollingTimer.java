@@ -24,8 +24,9 @@ public class PollingTimer extends Timer
 
     synchronized public void addDirectoryPoller(BaseDirectoryPoller dirPoller)
     {
-        if(dirsPollers == null)
+        if (dirsPollers == null) {
             dirsPollers = new ArrayList<BaseDirectoryPoller>();
+        }
         dirsPollers.add(dirPoller);
     }
 

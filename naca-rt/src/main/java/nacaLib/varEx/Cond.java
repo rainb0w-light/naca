@@ -39,8 +39,9 @@ public class Cond extends CJMapObject
         {
             CondValue condValue = (CondValue) values.get(0);
             String s = condValue.getMin();
-            if(s != null)
+            if (s != null) {
                 var.set(s);
+            }
         }
     }
 
@@ -63,8 +64,9 @@ public class Cond extends CJMapObject
         for(int n=0; n<nNbValues; n++)
         {
             CondValue condValue = (CondValue) values.get(n);
-            if(condValue.is(var))
+            if (condValue.is(var)) {
                 return true;
+            }
         }
         return false;
     }
@@ -110,8 +112,9 @@ public class Cond extends CJMapObject
         String cs = "Cond {";
         for(int n = 0; n< values.size(); n++)
         {
-            if(n != 0)
+            if (n != 0) {
                 cs += "; ";
+            }
             CondValue condValue = (CondValue) values.get(n);
             cs += condValue.toString();
         }

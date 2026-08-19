@@ -84,8 +84,9 @@ public class BTreeCommandSort
     public void set(String csTempDir, String csFileOut, String csKeys)
     {
         setTempDir(csTempDir);
-        if(csFileOut != null)
+        if (csFileOut != null) {
             setPhysicalOutFile(csFileOut);
+        }
         setKeyDescription(csKeys);
     }
 
@@ -124,19 +125,22 @@ public class BTreeCommandSort
         {
             btreeFile.setKeyDescription(keyDescription);
             int nNbRecordRead = importInFile(btreeFile, fileSortIn, nBufferChunkReadAHead, true);
-            if(nNbRecordRead >= 0)
+            if (nNbRecordRead >= 0) {
                 exportToOutFile(btreeFile, false, false);
+            }
             closeAndDelete(btreeFile, csBtreeDir);
-            if(nNbRecordRead < 0)
+            if (nNbRecordRead < 0) {
                 return false;
+            }
         }
         return true;
     }
 
     public String getTempFileName()
     {
-        if(csTempDir == null)
+        if (csTempDir == null) {
             csTempDir = "./";
+        }
         String csTempFile = csTempDir + FileSystem.getTempFileName();
         return csTempFile;
     }
@@ -157,14 +161,17 @@ public class BTreeCommandSort
 
     public void closeAndDelete(BtreeFile btreeFile, String csBtreeDir)
     {
-        if(btreeFile != null)
+        if (btreeFile != null) {
             btreeFile.close();
+        }
 
-        if(btreeEnv != null)
+        if (btreeEnv != null) {
             btreeEnv.close();
+        }
 
-        if(csBtreeDir != null)
+        if (csBtreeDir != null) {
             FileSystem.DeleteDirAndContent(csBtreeDir);
+        }
     }
 
     private boolean connectBtreeEngine(String csDir)
@@ -263,10 +270,11 @@ public class BTreeCommandSort
                     int nRecordLengthWithoutHeader = tBytesData.length;
                     if(bMustSwapByteEncodingOnOutput)
                     {
-                        if(bToEbcdic)
+                        if (bToEbcdic) {
                             AsciiEbcdicConverter.swapByteAsciiToEbcdic(tBytesData, 0, nRecordLengthWithoutHeader);
-                        else
+                        } else {
                             AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, 0, nRecordLengthWithoutHeader);
+                        }
                     }
                     dataFileOut.write(tBytesData, 0, nRecordLengthWithoutHeader);
                     dataFileOut.writeEndOfRecordMarker();

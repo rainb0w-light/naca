@@ -18,8 +18,9 @@ public abstract class BaseDynamicMBean implements DynamicMBean
         {
             AttributeList resultList = new AttributeList();
 
-            if (attributeNames.length == 0)
+            if (attributeNames.length == 0) {
                 return resultList;
+            }
 
             // Build the result attribute list
             for(int i=0 ; i<attributeNames.length; i++)
@@ -48,8 +49,9 @@ public abstract class BaseDynamicMBean implements DynamicMBean
 
             // If attributeNames is empty, nothing more to do
             //
-            if (attributes.isEmpty())
+            if (attributes.isEmpty()) {
                 return resultList;
+            }
 
             // For each attribute, try to set it and add to the result list if
             // successfull

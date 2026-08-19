@@ -41,12 +41,14 @@ public class DbDriverId
     {
         String className = csFullyQualifiedClassName;
         int nIndex = csFullyQualifiedClassName.lastIndexOf(".");
-        if(nIndex != -1)
-            className = csFullyQualifiedClassName.substring(nIndex+1);
+        if (nIndex != -1) {
+            className = csFullyQualifiedClassName.substring(nIndex + 1);
+        }
 
         DbDriverId dbDriver = ms_hashDriverByClass.get(className);
-        if(dbDriver != null)
+        if (dbDriver != null) {
             return dbDriver;
+        }
         return UDB;
     }
 

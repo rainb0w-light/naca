@@ -33,8 +33,9 @@ public class CEntityCondition extends CBaseActionEntity
     public void SetCondition(CBaseEntityCondition exp, CEntityBloc ifyes, CEntityBloc ifnot)
     {
         condition = exp ;
-        if (exp != null)
+        if (exp != null) {
             condition.SetParent(this);
+        }
         elseBloc = ifnot ;
         thenBloc = ifyes ;
     }
@@ -60,8 +61,9 @@ public class CEntityCondition extends CBaseActionEntity
     public void Clear()
     {
         super.Clear();
-        if (condition != null)
-            condition.Clear() ;
+        if (condition != null) {
+            condition.Clear();
+        }
         if (elseBloc != null)
         {
             elseBloc.Clear() ;
@@ -85,8 +87,9 @@ public class CEntityCondition extends CBaseActionEntity
     public void SetAlternativeCondition(CBaseEntityCondition exp, CEntityBloc blocthen)
     {
         condition = exp ;
-        if (exp != null)
+        if (exp != null) {
             condition.SetParent(this);
+        }
         elseBloc = null ;
         thenBloc = blocthen ;
         isalternativeCondition = true ;
@@ -97,8 +100,9 @@ public class CEntityCondition extends CBaseActionEntity
      */
     public void addAlternativeCondition(CBaseLanguageEntity e)
     {
-        if (alternativeConditions == null)
-            alternativeConditions = new Vector<CBaseLanguageEntity>() ;
+        if (alternativeConditions == null) {
+            alternativeConditions = new Vector<CBaseLanguageEntity>();
+        }
         alternativeConditions.add(e) ;
     }
     protected Vector<CBaseLanguageEntity> alternativeConditions = null;

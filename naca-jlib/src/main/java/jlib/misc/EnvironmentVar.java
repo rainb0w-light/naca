@@ -31,19 +31,24 @@ public class EnvironmentVar
     public static String getParamValue(String csName)
     {
         String cs = getProgramVariable(csName);
-        if(cs == null || cs.length() == 0)
+        if (cs == null || cs.length() == 0) {
             cs = getEnvironmentVariable(csName);
-        if(cs == null || cs.length() == 0)
+        }
+        if (cs == null || cs.length() == 0) {
             cs = getCommandArg(csName);
-        if (cs == null) return "";
+        }
+        if (cs == null) {
+            return "";
+        }
         return cs;
     }
 
     public static boolean getParamValueAsBoolean(String csName)
     {
         String cs = getCommandArg(csName);
-        if(cs.equalsIgnoreCase("true") || cs.equalsIgnoreCase("1"))
+        if (cs.equalsIgnoreCase("true") || cs.equalsIgnoreCase("1")) {
             return true;
+        }
         return false;
     }
 
@@ -98,8 +103,9 @@ public class EnvironmentVar
                 if(cs.startsWith("-") || cs.startsWith("/"))
                 {
                     String csArg = cs.substring(1).toUpperCase();
-                    if(csArg.startsWith(csName))
+                    if (csArg.startsWith(csName)) {
                         return true;
+                    }
                 }
             }
         }

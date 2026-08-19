@@ -75,8 +75,9 @@ public class CFPacGenericExpression extends CExpression
                 if (val.startsWith("0x"))
                 {
                     desc.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber((val.length()-2)/2)) ;
-                    if (!isPackedHexa(val.substring(2)))
+                    if (!isPackedHexa(val.substring(2))) {
                         desc.ishexaNoPacked = true;
+                    }
                 }
                 else
                 {
@@ -195,12 +196,14 @@ public class CFPacGenericExpression extends CExpression
         for(int n=0; n<cs.length()-1; n++)
         {
             char c = cs.charAt(n);
-            if(c < '0' || c > '9')
+            if (c < '0' || c > '9') {
                 return false;
+            }
         }
         char c = cs.charAt(cs.length()-1);
-        if(c == 'D' || c == 'C')
+        if (c == 'D' || c == 'C') {
             return true;
+        }
         return false;
     }
 
@@ -224,20 +227,22 @@ public class CFPacGenericExpression extends CExpression
                 }
                 else
                 {
-                    if (desc2.ishexaNoPacked)
-                        conv.convertToAlphaNum(desc1.eObject) ;
-                    else
-                        conv.convertToPacked(desc1.eObject) ;
+                    if (desc2.ishexaNoPacked) {
+                        conv.convertToAlphaNum(desc1.eObject);
+                    }  else {
+                        conv.convertToPacked(desc1.eObject);
+                    }
                 }
             }
             else if (keyword == CFPacKeywordList.EQ || keyword == CFPacKeywordList.NE)
             {
                 if (desc2.eObject.GetDataType() == CDataEntityType.NUMBER)
                 {
-                    if (desc2.ishexaNoPacked)
-                        conv.convertToAlphaNum(desc1.eObject) ;
-                    else
-                        conv.convertToPacked(desc1.eObject) ;
+                    if (desc2.ishexaNoPacked) {
+                        conv.convertToAlphaNum(desc1.eObject);
+                    }  else {
+                        conv.convertToPacked(desc1.eObject);
+                    }
                 }
                 else
                 {

@@ -55,12 +55,13 @@ public class TransThreadManager
         {
             Entry<Integer, TransThreadMBean> entry = iter.next();
             TransThreadMBean transThreadMBean = entry.getValue();
-            if(!bShow)
+            if (!bShow) {
                 transThreadMBean.showBean(bShow);
-            else
+            } else
             {
-                if(transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTime_s)
+                if (transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTime_s) {
                     transThreadMBean.showBean(bShow);
+                }
             }
         }
     }

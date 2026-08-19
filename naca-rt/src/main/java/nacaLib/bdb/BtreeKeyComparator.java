@@ -36,8 +36,9 @@ public class BtreeKeyComparator implements Comparator<byte[]>
     @SuppressWarnings("deprecation")
     private synchronized int doCompare(Object d1, Object d2)
     {
-        if(keyDescription == null)
+        if (keyDescription == null) {
             keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
+        }
 
         int n = keyDescription.compare(d1, d2);
         return n;

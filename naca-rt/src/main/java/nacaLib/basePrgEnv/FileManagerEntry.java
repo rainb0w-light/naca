@@ -63,10 +63,12 @@ public class FileManagerEntry extends CJMapObject
             else    // Logical name not already defines
             {
                 String csPhysicalDesc = EnvironmentVar.getParamValue(csLogicalName);
-                if(StringUtil.isEmpty(csPhysicalDesc))
+                if (StringUtil.isEmpty(csPhysicalDesc)) {
                     csPhysicalDesc = EnvironmentVar.getParamValue("File_" + csLogicalName);
-                if(csPhysicalDesc == null || StringUtil.isEmpty(csPhysicalDesc))
+                }
+                if (csPhysicalDesc == null || StringUtil.isEmpty(csPhysicalDesc)) {
                     csPhysicalDesc = csLogicalName;
+                }
                 logicalFileDescriptor = new LogicalFileDescriptor(csLogicalName, csPhysicalDesc);
                 baseSession.putLogicalFileDescriptor(csLogicalName, logicalFileDescriptor);
             }
@@ -83,8 +85,9 @@ public class FileManagerEntry extends CJMapObject
 
     public boolean isDummyFile()
     {
-        if(logicalFileDescriptor != null)
+        if (logicalFileDescriptor != null) {
             return logicalFileDescriptor.isDummyFile();
+        }
         return true;
     }
 
@@ -133,11 +136,13 @@ public class FileManagerEntry extends CJMapObject
         if(checkCanOpen())
         {
             getPhysicalName(csLogicalName, baseSession);
-            if(isDummyFile())
+            if (isDummyFile()) {
                 return true;
+            }
 
-            if(bVariableLength)
+            if (bVariableLength) {
                 setVariableLength();
+            }
 
             DataFileWrite dataFile = new DataFileWrite(logicalFileDescriptor.getPath(), false);
             this.dataFile = dataFile;
@@ -164,18 +169,21 @@ public class FileManagerEntry extends CJMapObject
         {
             String csPhysicalFileName = getPhysicalName(csLogicalName, baseSession);
 
-            if(logicalFileDescriptor.getExt())  // Force extend mode
+            if (logicalFileDescriptor.getExt()) {  // Force extend mode
                 return doOpenExtend(csLogicalName, baseSession, bVariableLength);
+            }
 
-            if(isDummyFile())   // The logical name is dummy:
+            if (isDummyFile()) {   // The logical name is dummy:
                 return true;
+            }
 
-            if(BaseDataFile.isNullFile(csPhysicalFileName))
+            if (BaseDataFile.isNullFile(csPhysicalFileName)) {
                 isopened = true;    // Physical outout file is null: Simulte a correct open
-            else
+            } else
             {
-                if(bVariableLength)
+                if (bVariableLength) {
                     setVariableLength();
+                }
 
                 boolean bMustWriteFileHeader = false;
                 //if(bCanAuthoriseFileHeaderWrite)
@@ -236,11 +244,13 @@ public class FileManagerEntry extends CJMapObject
         if(checkCanOpen())
         {
             getPhysicalName(csLogicalName, baseSession);
-            if(isDummyFile())
+            if (isDummyFile()) {
                 return true;
+            }
 
-            if(bVariableLength)
+            if (bVariableLength) {
                 setVariableLength();
+            }
 
             dataFile = new DataFileLineReader(logicalFileDescriptor.getPath(), 65536, 0);
             isopened = dataFile.open(logicalFileDescriptor);
@@ -267,11 +277,13 @@ public class FileManagerEntry extends CJMapObject
         if(checkCanOpen())
         {
             getPhysicalName(csLogicalName, baseSession);
-            if(isDummyFile())
+            if (isDummyFile()) {
                 return true;
+            }
 
-            if(bVariableLength)
+            if (bVariableLength) {
                 setVariableLength();
+            }
 
             dataFile = new DataFileReadWrite(logicalFileDescriptor.getPath());
             isopened = dataFile.open(logicalFileDescriptor);
@@ -288,8 +300,9 @@ public class FileManagerEntry extends CJMapObject
 
     public boolean doClose(String csLogicalName, BaseSession baseSession)
     {
-        if(isDummyFile())
+        if (isDummyFile()) {
             return true;
+        }
 
         if(checkCanClose())
         {
@@ -305,15 +318,17 @@ public class FileManagerEntry extends CJMapObject
 
     private boolean checkCanOpen()
     {
-        if(dataFile == null)
+        if (dataFile == null) {
             return true;
+        }
         return false;
     }
 
     private boolean checkCanClose()
     {
-        if(dataFile != null && dataFile.isOpen())
+        if (dataFile != null && dataFile.isOpen()) {
             return true;
+        }
         return false;
     }
 
@@ -339,8 +354,9 @@ public class FileManagerEntry extends CJMapObject
 
     public String toString()
     {
-        if(logicalFileDescriptor != null)
+        if (logicalFileDescriptor != null) {
             return logicalFileDescriptor.toString();
+        }
         return "Unknown LogicalFileDescriptor";
     }
 
@@ -362,18 +378,20 @@ public class FileManagerEntry extends CJMapObject
     public String dumpRWStat()
     {
         String cs;
-        if(logicalFileDescriptor != null)
+        if (logicalFileDescriptor != null) {
             cs = logicalFileDescriptor.getName();
-        else
+        } else {
             cs = "Unknown logicalFileDescriptor ";
+        }
         cs += "Read=" + nNbRecordRead + " / Write=" + nNbRecordWrite;
         return cs;
     }
 
     public boolean isEOF()
     {
-        if(dataFile != null)
+        if (dataFile != null) {
             return dataFile.isEOF();
+        }
         return true;
     }
 }

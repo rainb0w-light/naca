@@ -58,8 +58,9 @@ public class HostFileOuputStream extends OutputStream
                     stream.write(tbyHeader);
                 }
 
-                if (nCurrentRecordLength == 0)
+                if (nCurrentRecordLength == 0) {
                     FileSystem.WriteEOL(stream);
+                }
             }
         }
         else

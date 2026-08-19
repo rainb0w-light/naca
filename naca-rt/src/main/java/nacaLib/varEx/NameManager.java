@@ -15,13 +15,15 @@ public class NameManager
     static public String getUnprefixedName(String csName)
     {
         int nPosSep = csName.indexOf('.');
-        if(nPosSep != -1)
-            csName = csName.substring(nPosSep+1);
+        if (nPosSep != -1) {
+            csName = csName.substring(nPosSep + 1);
+        }
 
         nPosSep = csName.indexOf('$');
-        if(nPosSep != -1)
+        if (nPosSep != -1) {
             csName = csName.substring(0, nPosSep);      // 1st name that follows the dot (File$X.Y$Z$T -> returns Y)
 
+        }
         return csName;
     }
 

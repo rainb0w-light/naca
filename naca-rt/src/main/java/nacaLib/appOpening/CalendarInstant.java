@@ -26,11 +26,12 @@ public class CalendarInstant extends SortableItem
     public int compare(SortableItem item)
     {
         CalendarInstant i = (CalendarInstant)item;
-        if(nHour == i.nHour && nMinute == i.nMinute && nSecond == i.nSecond)
+        if (nHour == i.nHour && nMinute == i.nMinute && nSecond == i.nSecond) {
             return 0;
-        else if(nHour < i.nHour || (nHour == i.nHour && nMinute < i.nMinute) || (nHour == i.nHour && nMinute == i.nMinute
-            && nSecond == i.nSecond))
+        } else if (nHour < i.nHour || (nHour == i.nHour && nMinute < i.nMinute) || (nHour == i.nHour && nMinute == i.nMinute
+                && nSecond == i.nSecond)) {
             return -1;
+        }
         return 1;
     }
 }

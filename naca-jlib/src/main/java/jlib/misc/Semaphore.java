@@ -22,8 +22,9 @@ public class Semaphore
 
     public Semaphore(int n)
     {
-        if (n < 0)
+        if (n < 0) {
             throw new IllegalArgumentException(n + " < 0");
+        }
         counter = n;
     }
 

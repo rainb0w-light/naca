@@ -47,10 +47,11 @@ public class OracleClause extends SQLClause {
  * @return See {@link #param(String)}.
  */
     public String param(boolean bVal) {
-        if (bVal)
+        if (bVal) {
             return super.param(1);
-        else
+        } else {
             return super.param(0);
+        }
     }
 
 /**
@@ -63,10 +64,11 @@ public class OracleClause extends SQLClause {
  * @return See {@link #param(String)}.
  */
     public OracleClause paramInsert(String csName,boolean bVal) {
-        if (bVal)
-            super.paramInsert(csName,1);
-        else
-            super.paramInsert(csName,0);
+        if (bVal) {
+            super.paramInsert(csName, 1);
+        } else {
+            super.paramInsert(csName, 0);
+        }
         return this;
     }
 
@@ -81,8 +83,9 @@ public class OracleClause extends SQLClause {
  */
     public boolean getBoolean(String csColName) {
         int nVal=getInt(csColName);
-        if (nVal>0)
+        if (nVal > 0) {
             return true;
+        }
         return false;
     }
 
@@ -97,8 +100,9 @@ public class OracleClause extends SQLClause {
  */
     public boolean getBoolean(int nColNumber) {
         int nVal=this.getInt(nColNumber);
-        if (nVal>0)
+        if (nVal > 0) {
             return true;
+        }
         return false;
     }
 
@@ -109,8 +113,9 @@ public class OracleClause extends SQLClause {
             try
             {
                 Timestamp timestamp = getResultSet().getTimestamp(csColName);
-                if (timestamp==null)
+                if (timestamp == null) {
                     return null;
+                }
                 Date date = new Date(timestamp.getTime());
                 return date;
             }
@@ -130,8 +135,9 @@ public class OracleClause extends SQLClause {
             try
             {
                 Timestamp timestamp = getResultSet().getTimestamp(nColNumber);
-                if (timestamp==null)
+                if (timestamp == null) {
                     return null;
+                }
                 Date date = new Date(timestamp.getTime());
                 return date;
             }
@@ -166,8 +172,9 @@ public class OracleClause extends SQLClause {
  */
     public OracleClause paramInsert(String csName,Date dVal) {
         String s=String.format("%1$tY/%1$tm/%1$td %1$tH:%1$tM:%1$tS",dVal);
-        if(insertParams == null)
+        if (insertParams == null) {
             insertParams = new ArrayList<ColValue>();
+        }
         ColValueString collectionval = new ColValueString(csName, "to_date(?,'yyyy/mm/dd hh24:mi:ss')",s);
         insertParams.add(collectionval);
         return this;

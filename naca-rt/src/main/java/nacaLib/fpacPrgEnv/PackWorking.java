@@ -61,8 +61,9 @@ public class PackWorking extends FPacVarManager
 
     private boolean isPositionInRangeComp3(int nPosition1Based)
     {
-        if(nPosition1Based >= 6001 && nPosition1Based <= 7000)
+        if (nPosition1Based >= 6001 && nPosition1Based <= 7000) {
             return true;
+        }
         return false;
     }
 

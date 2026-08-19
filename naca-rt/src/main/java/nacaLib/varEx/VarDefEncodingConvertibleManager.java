@@ -46,8 +46,9 @@ public class VarDefEncodingConvertibleManager
     }
     public void add(int nPosition, int nLength, boolean bConvertOnlyIfBlank, boolean bConvertPrint)
     {
-        if(hash == null)
+        if (hash == null) {
             hash = new Hashtable<Integer, EncodingConvertionRange>();
+        }
 
         EncodingConvertionRange ePrevious = hash.get(nPosition);    // Find the entry whose position preceeds us
         if(ePrevious != null
@@ -120,8 +121,9 @@ public class VarDefEncodingConvertibleManager
             for(int n=0; n<arr.size(); n++)
             {
                 EncodingConvertionRange e = arr.get(n);
-                if(n == 0)
-                    nLastPosToConvert = e.getPosition() + nMaxLengthToConvert-1;
+                if (n == 0) {
+                    nLastPosToConvert = e.getPosition() + nMaxLengthToConvert - 1;
+                }
                 e.convertEbcdicToAscii(varDest, nLastPosToConvert);
             }
         }

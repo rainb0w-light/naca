@@ -26,36 +26,39 @@ public class Comp3Support
         String s = new String();
 
         int nNbTotalDigit = nNbDigitInteger + nNbDigitDecimal;
-        if((nNbTotalDigit % 2) == 0)
+        if ((nNbTotalDigit % 2) == 0) {
             s = "0";    // Left most 0 to compensate empty leftmost nibble
+        }
         int nStringLength = absIntValue.length();
-        while(nStringLength < nNbDigitInteger)
+        while (nStringLength < nNbDigitInteger)
         {
             s = s + '0';
             nStringLength++;
         }
-        if(nStringLength > nNbDigitInteger) // Keeping only rightmostchar form source string
+        if (nStringLength > nNbDigitInteger) { // Keeping only rightmostchar form source string
             absIntValue = absIntValue.substring(nStringLength - nNbDigitInteger);
+        }
         s = s + absIntValue;
 
         String dec = null;
         nStringLength = sDecValue.length();
 
-        if(nStringLength > nNbDigitDecimal)
+        if (nStringLength > nNbDigitDecimal) {
             dec = sDecValue.substring(0, nNbDigitDecimal);
-        else if(nStringLength == nNbDigitDecimal)
+        } else if (nStringLength == nNbDigitDecimal) {
             dec = sDecValue;
-        else
+        } else
         {
             dec = sDecValue;
-            while(nStringLength < nNbDigitDecimal)
+            while (nStringLength < nNbDigitDecimal)
             {
                 dec = dec + '0';
                 nStringLength++;
             }
         }
-        if(dec != null && dec.length() != 0)
+        if (dec != null && dec.length() != 0) {
             s = s + dec;
+        }
         return s;
     }
 
@@ -76,17 +79,18 @@ public class Comp3Support
             n++;
 
             if(n == nStringLength)  // No more digit, but the sign
-            {
-                if(bSigned)
                 {
-                    if(bPositive)
-                        nLow = 12;  // C is encoded sign for +
-                    else
-                        nLow = 13;  // D is encoded sign for -
+                    if (bSigned)
+                    {
+                        if (bPositive) {
+                            nLow = 12;  // C is encoded sign for +
+                        } else {
+                            nLow = 13;  // D is encoded sign for -
+                        }
+                    } else {
+                        nLow = 15;  // F is encoded sign for usigned
+                    }
                 }
-                else
-                    nLow = 15;  // F is encoded sign for usigned
-            }
             else
             {
                 low = cs.charAt(n);

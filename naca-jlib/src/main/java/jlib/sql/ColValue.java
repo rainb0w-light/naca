@@ -55,15 +55,17 @@ public abstract class ColValue
 
     boolean hasName(String csKey)
     {
-        if(csName.equalsIgnoreCase(csKey))
+        if (csName.equalsIgnoreCase(csKey)) {
             return true;
+        }
         return false;
     }
 
     boolean isOrder(int nOrder)
     {
-        if(nOrder == nOrder)
+        if (nOrder == nOrder) {
             return true;
+        }
         return false;
     }
 

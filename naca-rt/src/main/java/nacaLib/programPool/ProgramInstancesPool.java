@@ -32,8 +32,9 @@ public class ProgramInstancesPool extends BaseCloseMBean
     {
         super();
 
-        if(JmxGeneralStat.showProgramBeans())
+        if (JmxGeneralStat.showProgramBeans()) {
             createMBean("Prog." + csProgramName, csProgramName);
+        }
 
         this.programPoolManager = programPoolManager;
         this.csProgramName = csProgramName;
@@ -41,10 +42,11 @@ public class ProgramInstancesPool extends BaseCloseMBean
 
     void showBean(boolean bToShow)
     {
-        if(bToShow && !isBeanCreated())
+        if (bToShow && !isBeanCreated()) {
             createMBean("Prog." + csProgramName, csProgramName);
-        else if(!bToShow && isBeanCreated())
+        } else if (!bToShow && isBeanCreated()) {
             unregisterMBean();
+        }
     }
 
     protected void buildDynamicMBeanInfo()
@@ -69,16 +71,18 @@ public class ProgramInstancesPool extends BaseCloseMBean
     public int getMem_WorkingStorageSize()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
-        if(sharedProgramInstanceData != null)
+        if (sharedProgramInstanceData != null) {
             return sharedProgramInstanceData.getBufferSize();
+        }
         return 0;
     }
 
     public int getMem_NbVarDef()
     {
         SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceDataCatalog();
-        if(sharedProgramInstanceData != null)
+        if (sharedProgramInstanceData != null) {
             return sharedProgramInstanceData.getNbVarDef();
+        }
         return 0;
     }
 
@@ -120,14 +124,17 @@ public class ProgramInstancesPool extends BaseCloseMBean
         {
             BaseProgram program = stack.elementAt(n);
             long l = program.getProgramManager().getTimeRun();
-            if(l < min)
+            if (l < min) {
                 min = l;
-            if(l > max)
+            }
+            if (l > max) {
                 max = l;
+            }
             sum += l;
         }
-        if(nNbInstances!= 0)
+        if (nNbInstances != 0) {
             avg = sum / nNbInstances;
+        }
 
         String csAvg = Time_ms.formatHHMMSS_ms(avg);
         String csMin = Time_ms.formatHHMMSS_ms(min);
@@ -144,10 +151,12 @@ public class ProgramInstancesPool extends BaseCloseMBean
         {
             BaseProgram program = stack.elementAt(n);
             long l = program.getProgramManager().getTimeLastRunBegin_ms();
-            if(l < oldRun)
+            if (l < oldRun) {
                 oldRun = l;
-            if(l > recentRun)
+            }
+            if (l > recentRun) {
                 recentRun = l;
+            }
         }
 
         String csOldest = Time_ms.formatDMY_HHMMSS_ms(oldRun);
@@ -175,13 +184,13 @@ public class ProgramInstancesPool extends BaseCloseMBean
     {
         unloadProgramRWLock.readLock().lock();  // Get exclusive lock
 
-        if(stack.size() > 0)
+        if (stack.size() > 0)
         {
             BaseProgram program = stack.pop();
-            if(program != null)
+            if (program != null)
             {
                 BaseProgramManager programManager = program.getProgramManager();
-                if(programManager != null)
+                if (programManager != null)
                 {
                     programManager.setOldInstance();
                     programManager.setLastTimeRunBegin();
@@ -191,10 +200,11 @@ public class ProgramInstancesPool extends BaseCloseMBean
             }
         }
 
-        Log.logVerbose("No available instance in program's pool: "+csProgramName+"; create a new one");
+        Log.logVerbose("No available instance in program's pool: " + csProgramName + "; create a new one");
         BaseProgram program = createNewInstance();
-        if(program == null) // Could not load the class: Release lock
+        if (program == null) { // Could not load the class: Release lock
             unloadProgramRWLock.readLock().unlock();    // Get exclusive lock
+        }
         return program;
     }
 
@@ -202,8 +212,9 @@ public class ProgramInstancesPool extends BaseCloseMBean
     {
         unloadProgramRWLock.readLock().lock();  // Get exclusive lock
         BaseProgram program = createNewInstance();
-        if(program == null) // Could not load the class: Release lock
+        if (program == null) { // Could not load the class: Release lock
             unloadProgramRWLock.readLock().unlock();    // Get exclusive lock
+        }
         return program;
     }
 

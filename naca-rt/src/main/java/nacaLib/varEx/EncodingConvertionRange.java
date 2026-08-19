@@ -43,8 +43,9 @@ public class EncodingConvertionRange
 
     boolean endsJustBefore(int nPosition)
     {
-        if(nPosition + nLength == nPosition)
+        if (nPosition + nLength == nPosition) {
             return true;
+        }
         return false;
     }
 
@@ -58,10 +59,12 @@ public class EncodingConvertionRange
     {
         int nLength = this.nLength;
         int nLastPos = nPosition + nLength -1;
-        if(nLastPos > nLastPosToConvert)
+        if (nLastPos > nLastPosToConvert) {
             nLength = nLastPosToConvert - nPosition;
-        if(nLength > 0)
+        }
+        if (nLength > 0) {
             varDest.bufferPos.convertEbcdicToAscii(nPosition, nLength);
+        }
     }
 
     public void convertEbcdicToAscii(byte tbyDest[], int nOffsetDest, int nMaxLengthDest)
@@ -103,30 +106,39 @@ public class EncodingConvertionRange
 
     private void swapByteEbcdicToAscii(byte tBytesData[], int nOffset, int nLength)
     {
-        if (isconvertOnlyIfBlank)
-            if (!isAll(tBytesData, nOffset, nLength, BLANK_EBCDIC)) return;
-        if (isconvertPrint)
+        if (isconvertOnlyIfBlank) {
+            if (!isAll(tBytesData, nOffset, nLength, BLANK_EBCDIC)) {
+                return;
+            }
+        }
+        if (isconvertPrint) {
             AsciiEbcdicConverter.swapByteEbcdicToAsciiPrintAFP(tBytesData, nOffset, nLength);
-        else
+        } else {
             AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, nOffset, nLength);
+        }
     }
 
     private void swapByteAsciiToEbcdic(byte tBytesData[], int nOffset, int nLength)
     {
-        if (isconvertOnlyIfBlank)
-            if (!isAll(tBytesData, nOffset, nLength, BLANK_ASCII)) return;
-        if (isconvertPrint)
+        if (isconvertOnlyIfBlank) {
+            if (!isAll(tBytesData, nOffset, nLength, BLANK_ASCII)) {
+                return;
+            }
+        }
+        if (isconvertPrint) {
             AsciiEbcdicConverter.swapByteAsciiToEbcdicPrintAFP(tBytesData, nOffset, nLength);
-        else
+        } else {
             AsciiEbcdicConverter.swapByteAsciiToEbcdic(tBytesData, nOffset, nLength);
+        }
     }
 
     private boolean isAll(byte tBytesData[], int nOffset, int nLength, byte byPattern)
     {
         for(int n=0; n<nLength; n++)
         {
-            if (tBytesData[n+nOffset] != byPattern)
+            if (tBytesData[n + nOffset] != byPattern) {
                 return false;
+            }
         }
         return true;
     }

@@ -97,10 +97,11 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
         if(isopen && isenable)
         {
             boolean b = false;
-            if(logParam.csChannel == null)
+            if (logParam.csChannel == null) {
                 b = true;
-            else if(logParam.csChannel.equalsIgnoreCase(csChannel))
+            } else if (logParam.csChannel.equalsIgnoreCase(csChannel)) {
                 b = true;
+            }
             if(b)
             {
                 b = logParam.isAcceptable(logLevel, logFlow);
@@ -111,9 +112,9 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
                         preSendOutput();
                         sendOutput(logParam);
                         postSendOutput();
-                    }
-                    else
+                    } else {
                         addLogParamItem(logParam);
+                    }
                 }
             }
         }
@@ -145,8 +146,9 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  */
     synchronized void flushCachedLogParamsItems()
     {
-        if(logParamItem != null)
+        if (logParamItem != null) {
             outputAllLogParamsItems();
+        }
     }
 
     synchronized private void outputAllLogParamsItems()
@@ -206,8 +208,9 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
 
     boolean doOpen()
     {
-        if(!isopen)
+        if (!isopen) {
             isopen = open();
+        }
         return isopen;
     }
 

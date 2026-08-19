@@ -84,10 +84,11 @@ public class JSonCoupleItem
                 {
                     // Check numeric value
                     this.csValue = csValue;
-                    if(csValue.indexOf(".") >= 0)   // ouble
+                    if (csValue.indexOf(".") >= 0) {   // ouble
                         type = JSonCoupleItemType.TypeDouble;
-                    else
+                    } else {
                         type = JSonCoupleItemType.TypeInteger;
+                    }
                     return true;
                 }
             }

@@ -65,8 +65,9 @@ public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 
     protected int getHeaderLength()
     {
-        if(occursDef == null)
+        if (occursDef == null) {
             return 7;
+        }
         // We are an edit Occurs
         return 0;
     }

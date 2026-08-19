@@ -149,18 +149,20 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, char c)
     {
         String cs = String.valueOf(c);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
     }
 
     public void write(VarBufferPos buffer, String cs)
     {
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
     }
 
     public void inc(VarBufferPos buffer, int n)
@@ -176,13 +178,15 @@ public class VarDefX extends VarDefVariable
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         String cs = String.valueOf(n);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
     }
 
     public void write(VarBufferPos buffer, long l)
@@ -208,10 +212,11 @@ public class VarDefX extends VarDefVariable
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         String cs = bigDecimal.toString();
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
     }
 
 
@@ -225,10 +230,11 @@ public class VarDefX extends VarDefVariable
 
         //String cs = varDefSource.getRawStringExcludingHeader(bufferSource);
         CStr cs = bufferSource.getBodyCStr(varDefSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -320,10 +326,11 @@ public class VarDefX extends VarDefVariable
     {
         //String cs = varDefSource.getRawStringExcludingHeader(bufferSource);
         CStr cs = bufferSource.getBodyCStr(varDefSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -331,10 +338,11 @@ public class VarDefX extends VarDefVariable
     {
         //String cs = varDefSource.getRawStringExcludingHeader(bufferSource);
         CStr cs = bufferSource.getBodyCStr(varDefSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -414,10 +422,11 @@ public class VarDefX extends VarDefVariable
         // The sign character is not moved.
         // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //
 //
@@ -436,10 +445,11 @@ public class VarDefX extends VarDefVariable
         // The sign character is not moved.
         // The size of lit or src-item is considered to be one less than its actual size (in terms of Standard Data Format characters).
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //
 //
@@ -451,10 +461,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPadding(buffer, buffer.nAbsolutePosition, nTotalSize, cs, ' ');
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 
 //      int n = varSource.getUnsignedInt(bufferSource);
@@ -465,10 +476,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 
 //      int n = varSource.getUnsignedInt(bufferSource);
@@ -490,10 +502,11 @@ public class VarDefX extends VarDefVariable
 //      String cs = String.valueOf(n);
 //      writeRightPadding(buffer, cs, ' ');
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -511,20 +524,22 @@ public class VarDefX extends VarDefVariable
 //      String cs = String.valueOf(n);
 //      writeRightPadding(buffer, cs, ' ');
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -534,10 +549,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
         //int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -547,10 +563,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -560,10 +577,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
 //      writeRightPadding(buffer, cs, ' ');
@@ -572,10 +590,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         ////cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -585,10 +604,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -598,10 +618,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -611,10 +632,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -624,10 +646,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -638,10 +661,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -651,10 +675,11 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
 //      int n = varSource.getUnsignedInt(bufferSource);
 //      String cs = String.valueOf(n);
@@ -664,40 +689,44 @@ public class VarDefX extends VarDefVariable
     void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);   // PJD EditInMap TO Var
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -706,10 +735,11 @@ public class VarDefX extends VarDefVariable
     {
         // see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         CStr cs = varSource.getAsDecodedString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             internalWriteRightPaddingSpace(buffer, cs);
-        else
+        } else {
             internalWriteJustifyRightPaddingSpace(buffer, cs);
+        }
         //cs.resetManagerCache();
     }
 
@@ -790,10 +820,11 @@ public class VarDefX extends VarDefVariable
 
     void initializeAtOffset(VarBufferPos buffer, int nOffset, String cs)
     {
-        if(!bJustifyRight)
-            internalWriteRightPaddingSpace(buffer, buffer.nAbsolutePosition+nOffset, nTotalSize, cs);
-        else
-            internalWriteJustifyRightPadding(buffer, buffer.nAbsolutePosition+nOffset, nTotalSize, cs, ' ');
+        if (!bJustifyRight) {
+            internalWriteRightPaddingSpace(buffer, buffer.nAbsolutePosition + nOffset, nTotalSize, cs);
+        } else {
+            internalWriteJustifyRightPadding(buffer, buffer.nAbsolutePosition + nOffset, nTotalSize, cs, ' ');
+        }
     }
 
 
@@ -1344,16 +1375,18 @@ public class VarDefX extends VarDefVariable
         if(cs != null)
         {
             nLength = cs.length();
-            if(nTotalSize < nLength)
+            if (nTotalSize < nLength) {
                 nLength = nTotalSize;
+            }
             cs.getChars(0, nLength, buffer.acBuffer, nPosition);
             nPosition += nLength;
         }
         if(nLength < nTotalSize)    // Padding with spaces on the right
         {
             int nNbChars = nTotalSize-nLength;
-            for(int n=0; n<nNbChars; n++)
+            for (int n = 0; n < nNbChars; n++) {
                 buffer.acBuffer[nPosition++] = ' ';
+            }
         }
     }
 
@@ -1369,8 +1402,9 @@ public class VarDefX extends VarDefVariable
         if(nLength < nTotalSize)    // Padding with BLANK on the right
         {
             int nNbChars = nTotalSize-nLength;
-            for(int n=0; n<nNbChars; n++)
+            for (int n = 0; n < nNbChars; n++) {
                 buffer.acBuffer[nPosition++] = ' ';
+            }
         }
     }
 

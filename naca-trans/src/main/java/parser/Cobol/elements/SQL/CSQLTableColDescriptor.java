@@ -51,8 +51,9 @@ public class CSQLTableColDescriptor
     {
         if(islengthSet)
         {
-            if(isdecimalSet)
+            if (isdecimalSet) {
                 return String.valueOf(nLength) + ", " + String.valueOf(nDecimal);
+            }
             return String.valueOf(nLength);
         }
         return "";

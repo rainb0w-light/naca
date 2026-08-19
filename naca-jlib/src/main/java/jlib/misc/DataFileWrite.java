@@ -78,13 +78,14 @@ public class DataFileWrite extends BaseDataFileBuffered
         boolean isopened = open(bAppend);
         if(isopened && logicalFileDescriptor != null)
         {
-            if(bAppend) // append something to the file: Read it's header as the file must already exists
+            if (bAppend) { // append something to the file: Read it's header as the file must already exists
                 logicalFileDescriptor.readFileHeader(this);
-            else    // Create a new file
-            {
-                if(ismustWriteFileHeader)   // open the file in output not append with writing file header
-                    logicalFileDescriptor.writeFileHeader(this);
-            }
+            } else    // Create a new file
+                {
+                    if (ismustWriteFileHeader) {   // open the file in output not append with writing file header
+                        logicalFileDescriptor.writeFileHeader(this);
+                    }
+                }
         }
         return isopened;
     }
@@ -131,8 +132,9 @@ public class DataFileWrite extends BaseDataFileBuffered
 
     public boolean isOpen()
     {
-        if(out != null)
+        if (out != null) {
             return true;
+        }
         return false;
     }
 
@@ -142,8 +144,9 @@ public class DataFileWrite extends BaseDataFileBuffered
         if(isOpen())
         {
             cs += "Open";
-            if(out != null)
+            if (out != null) {
                 cs += " Write";
+            }
         }
         else
         {

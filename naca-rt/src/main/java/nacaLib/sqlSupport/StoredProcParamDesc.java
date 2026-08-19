@@ -40,8 +40,9 @@ public class StoredProcParamDesc extends StoredProcParamDescBase
             try
             {
                 String csOutLang = callableStatement.getOutValueString(nParamId);
-                if(varInOut != null)
+                if (varInOut != null) {
                     varInOut.set(csOutLang);
+                }
             }
             catch (SQLException e)
             {

@@ -53,9 +53,9 @@ public class FillerReadWriteExt
         {
             int nBufSize = BaseResourceManager.getFileLineReaderBufferSize();
             bufferExt = new WriteBufferExt(nBufSize);
-        }
-        else
+        } else {
             bufferExt.resetCurrentPosition();
+        }
     }
 
     public String fill(String csValue, int nLength)

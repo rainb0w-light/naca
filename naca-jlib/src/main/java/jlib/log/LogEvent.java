@@ -111,34 +111,39 @@ public class LogEvent
 
     public String getName()
     {
-        if (csName==null)
+        if (csName == null) {
             csName = getClass().getName();
+        }
         return csName;
     }
 
     String getShortName()
     {
-        if (csName==null)
+        if (csName == null) {
             csName = getClass().getName();
+        }
         int n = csName.lastIndexOf(".");
-        if (n<0)
+        if (n < 0) {
             return csName;
-        else
-            return csName.substring(n+1);
+        } else {
+            return csName.substring(n + 1);
+        }
     }
 
     public void fillMember(String csName, String csValue)
     {
-        if(logInfoMembers == null)
+        if (logInfoMembers == null) {
             logInfoMembers = new ArrayList<LogInfoMember>();
+        }
         LogInfoMember logInfomember = new LogInfoMember(csName, csValue);
         logInfoMembers.add(logInfomember);
     }
 
     public void fillMember(String csName, int nValue)
     {
-        if(logInfoMembers == null)
+        if (logInfoMembers == null) {
             logInfoMembers = new ArrayList<LogInfoMember>();
+        }
         LogInfoMember logInfomember = new LogInfoMember(csName, nValue);
         logInfoMembers.add(logInfomember);
     }

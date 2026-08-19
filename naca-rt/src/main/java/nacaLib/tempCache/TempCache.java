@@ -95,22 +95,28 @@ public class TempCache
 
     public void resetTempVarIndex(int nVarTypeId)
     {
-        if(getAndResetUseTempVar())
+        if (getAndResetUseTempVar()) {
             tempVarManager.resetTempIndex(nVarTypeId);
-        if(getAndResetUseCStr())
+        }
+        if (getAndResetUseCStr()) {
             manager.reset();
-        if(nCurrentTimeTryCounter-- <= 0)
+        }
+        if (nCurrentTimeTryCounter-- <= 0) {
             breakCurrentSessionIfTimeout();
+        }
     }
 
     public void resetTempVarIndexAndForbidReuse(VarBase varA)
     {
-        if(getAndResetUseTempVar())
+        if (getAndResetUseTempVar()) {
             tempVarManager.resetTempIndexAndForbidReuse(varA.varTypeId);
-        if(getAndResetUseCStr())
+        }
+        if (getAndResetUseCStr()) {
             manager.reset();
-        if(nCurrentTimeTryCounter-- <= 0)
+        }
+        if (nCurrentTimeTryCounter-- <= 0) {
             breakCurrentSessionIfTimeout();
+        }
     }
 
     public void resetTempIndex(VarBase... vars)
@@ -122,10 +128,12 @@ public class TempCache
                 tempVarManager.resetTempIndex(var.varTypeId);
             }
         }
-        if(getAndResetUseCStr())
+        if (getAndResetUseCStr()) {
             manager.reset();
-        if(nCurrentTimeTryCounter-- <= 0)
+        }
+        if (nCurrentTimeTryCounter-- <= 0) {
             breakCurrentSessionIfTimeout();
+        }
     }
 
     private void breakCurrentSessionIfTimeout()
@@ -134,8 +142,9 @@ public class TempCache
         if(currentBaseProgramManager != null)
         {
             BaseEnvironment env = currentBaseProgramManager.getEnv();
-            if(env != null)
+            if (env != null) {
                 env.breakCurrentSessionIfTimeout();
+            }
         }
     }
 
@@ -151,159 +160,180 @@ public class TempCache
 
     public DeclareType9 getDeclareType9()
     {
-        if(declareType9 == null)
+        if (declareType9 == null) {
             declareType9 = new DeclareType9();
+        }
         return declareType9;
     }
 
     public DeclareTypeEditInMap getDeclareTypeEditInMap()
     {
-        if(declareTypeEditInMap == null)
+        if (declareTypeEditInMap == null) {
             declareTypeEditInMap = new DeclareTypeEditInMap();
+        }
         return declareTypeEditInMap;
     }
 
     public DeclareTypeEditInMapRedefine getDeclareTypeEditInMapRedefine()
     {
-        if(declareTypeEditInMapRedefine == null)
+        if (declareTypeEditInMapRedefine == null) {
             declareTypeEditInMapRedefine = new DeclareTypeEditInMapRedefine();
+        }
         return declareTypeEditInMapRedefine;
     }
 
     public DeclareTypeEditInMapRedefineNum getDeclareTypeEditInMapRedefineNum()
     {
-        if(declareTypeEditInMapRedefineNum == null)
+        if (declareTypeEditInMapRedefineNum == null) {
             declareTypeEditInMapRedefineNum = new DeclareTypeEditInMapRedefineNum();
+        }
         return declareTypeEditInMapRedefineNum;
     }
 
     public DeclareTypeEditInMapRedefineNumEdited getDeclareTypeEditInMapRedefineNumEdited()
     {
-        if(declareTypeEditInMapRedefineNumEdited == null)
+        if (declareTypeEditInMapRedefineNumEdited == null) {
             declareTypeEditInMapRedefineNumEdited = new DeclareTypeEditInMapRedefineNumEdited();
+        }
         return declareTypeEditInMapRedefineNumEdited;
     }
 
     public DeclareTypeForm getDeclareTypeForm()
     {
-        if(declareTypeForm == null)
+        if (declareTypeForm == null) {
             declareTypeForm = new DeclareTypeForm();
+        }
         return declareTypeForm;
     }
 
     public DeclareTypeFPacSignComp4 getDeclareTypeFPacSignComp4()
     {
-        if(declareTypeFPacSignComp4 == null)
+        if (declareTypeFPacSignComp4 == null) {
             declareTypeFPacSignComp4 = new DeclareTypeFPacSignComp4();
+        }
         return declareTypeFPacSignComp4;
     }
 
     public DeclareTypeFPacSignIntComp3 getDeclareTypeFPacSignIntComp3()
     {
-        if(declareTypeFPacSignIntComp3 == null)
+        if (declareTypeFPacSignIntComp3 == null) {
             declareTypeFPacSignIntComp3 = new DeclareTypeFPacSignIntComp3();
+        }
         return declareTypeFPacSignIntComp3;
     }
 
     public DeclareTypeG getDeclareTypeG()
     {
-        if(declareTypeG == null)
+        if (declareTypeG == null) {
             declareTypeG = new DeclareTypeG();
+        }
         return declareTypeG;
     }
 
     public DeclareTypeMapRedefine getDeclareTypeMapRedefine()
     {
-        if(declareTypeMapRedefine == null)
+        if (declareTypeMapRedefine == null) {
             declareTypeMapRedefine = new DeclareTypeMapRedefine();
+        }
         return declareTypeMapRedefine;
     }
 
     public DeclareTypeNumEdited getDeclareTypeNumEdited()
     {
-        if(declareTypeNumEdited == null)
+        if (declareTypeNumEdited == null) {
             declareTypeNumEdited = new DeclareTypeNumEdited();
+        }
         return declareTypeNumEdited;
     }
 
     public DeclareTypeCond getDeclareTypeCond()
     {
-        if(declareTypeCond == null)
+        if (declareTypeCond == null) {
             declareTypeCond = new DeclareTypeCond();
+        }
         return declareTypeCond;
     }
 
     public InitializeManagerNone getInitializeManagerNone()
     {
-        if(initializeManagerNone == null)
+        if (initializeManagerNone == null) {
             initializeManagerNone = new InitializeManagerNone();
+        }
         return initializeManagerNone;
     }
 
     public InitializeManagerInt getInitializeManagerInt(int n)
     {
-        if(initializeManagerInt == null)
+        if (initializeManagerInt == null) {
             initializeManagerInt = new InitializeManagerInt(n);
-        else
+        } else {
             initializeManagerInt.set(n);
+        }
         return initializeManagerInt;
     }
 
     public InitializeManagerDouble getInitializeManagerDouble(String cs)
     {
-        if(initializeManagerDouble == null)
+        if (initializeManagerDouble == null) {
             initializeManagerDouble = new InitializeManagerDouble(cs);
-        else
+        } else {
             initializeManagerDouble.set(cs);
+        }
         return initializeManagerDouble;
     }
 
     public InitializeManagerString getInitializeManagerString(String cs)
     {
-        if(initializeManagerString == null)
+        if (initializeManagerString == null) {
             initializeManagerString = new InitializeManagerString(cs);
-        else
+        } else {
             initializeManagerString.set(cs);
+        }
         return initializeManagerString;
     }
 
     public InitializeManagerIntEdited getInitializeManagerIntEdited(int n)
     {
-        if(initializeManagerIntEdited == null)
+        if (initializeManagerIntEdited == null) {
             initializeManagerIntEdited = new InitializeManagerIntEdited(n);
-        else
+        } else {
             initializeManagerIntEdited.set(n);
+        }
         return initializeManagerIntEdited;
     }
 
     public InitializeManagerDoubleEdited getInitializeManagerDoubleEdited(double d)
     {
-        if(initializeManagerDoubleEdited == null)
+        if (initializeManagerDoubleEdited == null) {
             initializeManagerDoubleEdited = new InitializeManagerDoubleEdited(d);
-        else
+        } else {
             initializeManagerDoubleEdited.set(d);
+        }
         return initializeManagerDoubleEdited;
     }
 
     public InitializeManagerStringEdited getInitializeManagerStringEdited()
     {
-        if(initializeManagerStringEdited == null)
+        if (initializeManagerStringEdited == null) {
             initializeManagerStringEdited = new InitializeManagerStringEdited();
+        }
         return initializeManagerStringEdited;
     }
 
     public InitializeManagerLowValue getInitializeManagerLowValue()
     {
-        if(initializeManagerLowValue == null)
+        if (initializeManagerLowValue == null) {
             initializeManagerLowValue = new InitializeManagerLowValue();
+        }
         return initializeManagerLowValue;
     }
 
     public SharedProgramInstanceData getSharedProgramInstanceData()
     {
         BaseProgramManager pm = getProgramManager();
-        if(pm != null)
+        if (pm != null) {
             return pm.getSharedProgramInstanceData();
+        }
         return null;
     }
 
@@ -324,10 +354,11 @@ public class TempCache
             if (!stackPrograms.empty())
             {
                 currentBaseProgramManager = stackPrograms.peek().getProgramManager();
-                if(currentBaseProgramManager != null)
+                if (currentBaseProgramManager != null) {
                     currentBaseProgram = currentBaseProgramManager.getProgram();
-                else
+                } else {
                     currentBaseProgram = null;
+                }
 
             }
         }
@@ -418,8 +449,9 @@ public class TempCache
         if(!isusedTempVar)
         {
             isusedTempVar = true;
-            if(currentBaseProgram != null)
+            if (currentBaseProgram != null) {
                 currentBaseProgram.setUseTempVar();
+            }
         }
     }
 
@@ -428,8 +460,9 @@ public class TempCache
         if(!isusedCStr)
         {
             isusedCStr = true;
-            if(currentBaseProgram != null)
+            if (currentBaseProgram != null) {
                 currentBaseProgram.setUseCStr();
+            }
         }
     }
 
@@ -438,8 +471,9 @@ public class TempCache
         if(isusedTempVar)
         {
             isusedTempVar = false;
-            if(currentBaseProgram != null)
+            if (currentBaseProgram != null) {
                 currentBaseProgram.resetUseTempVar();
+            }
             return true;
         }
         return false;
@@ -450,8 +484,9 @@ public class TempCache
         if(isusedCStr)
         {
             isusedCStr = false;
-            if(currentBaseProgram != null)
+            if (currentBaseProgram != null) {
                 currentBaseProgram.resetUseCStr();
+            }
             return true;
         }
         return false;

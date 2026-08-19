@@ -91,9 +91,13 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
                         while (lineRead != null)
                         {
                             int i1 = lineRead.getBuffer()[lineRead.getOffset()];
-                            if (i1 < 0) i1 = 256 + i1;
+                            if (i1 < 0) {
+                                i1 = 256 + i1;
+                            }
                             int i2 = lineRead.getBuffer()[lineRead.getOffset() + 1];
-                            if (i2 < 0) i2 = 256 + i2;
+                            if (i2 < 0) {
+                                i2 = 256 + i2;
+                            }
                             int nCurrentRecordLength = (i1 * 256) + i2 - 4;
 
                             if (isvariableLength)
@@ -103,10 +107,11 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
                             }
 
                             lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
-                            if (bEbcdicIn && !bEbcdicOut)
+                            if (bEbcdicIn && !bEbcdicOut) {
                                 varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
-                            else
+                            } else {
                                 varRoot.setFromLineRead(lineRead);
+                            }
                             fileOut.writeFrom(varRoot);
                             fileOut.getBaseDataFile().writeEndOfRecordMarker();
                             lineRead = dataFileIn.readBuffer(4, false);
@@ -128,10 +133,11 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
                             }
 
                             lineRead = dataFileIn.readBuffer(nCurrentRecordLength, false);
-                            if (bEbcdicIn && !bEbcdicOut)
+                            if (bEbcdicIn && !bEbcdicOut) {
                                 varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
-                            else
+                            } else {
                                 varRoot.setFromLineRead(lineRead);
+                            }
                             fileOut.writeFrom(varRoot);
                             fileOut.getBaseDataFile().writeEndOfRecordMarker();
                             lineRead = dataFileIn.readBuffer(3, false);
@@ -143,10 +149,11 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
                     LineRead lineRead = dataFileIn.readBuffer(nLengthRecord, false);
                     while (lineRead != null)
                     {
-                        if (bEbcdicIn && !bEbcdicOut)   // Must convert string chunks to ascii
+                        if (bEbcdicIn && !bEbcdicOut) {   // Must convert string chunks to ascii
                             varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
-                        else    // !bEbcdicIn && bEbcdicOut
+                        } else {    // !bEbcdicIn && bEbcdicOut
                             varRoot.setFromLineRead(lineRead);
+                        }
                         fileOut.writeFrom(varRoot);
                         fileOut.getBaseDataFile().writeEndOfRecordMarker();
                         lineRead = dataFileIn.readBuffer(nLengthRecord, false);
@@ -158,16 +165,19 @@ public class FileEncodingConverterWithClass extends FileEncodingConverter
                 LineRead lineRead = fileIn.readALine(dataFileIn, null);
                 while(lineRead != null)
                 {
-                    if(isvariableLength)
+                    if (isvariableLength) {
                         lineRead.shiftOffset(4);    // Skip record header
 
-                    if (bEbcdicIn && !bEbcdicOut)   // Must convert string chunks to ascii
+                    }
+                    if (bEbcdicIn && !bEbcdicOut) {   // Must convert string chunks to ascii
                         varDefEncodingConvertibleManagerContainer.getEncodingManagerConvertAndWrite(lineRead, varRoot);
-                    else    // !bEbcdicIn && bEbcdicOut
+                    } else {    // !bEbcdicIn && bEbcdicOut
                         varRoot.setFromLineRead(lineRead);
+                    }
 
-                    if(isvariableLength)
+                    if (isvariableLength) {
                         lineRead.shiftOffset(-4);
+                    }
 
                     fileOut.writeFrom(varRoot);
                     lineRead = fileIn.readALine(dataFileIn, lineRead);

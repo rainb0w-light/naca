@@ -44,8 +44,9 @@ public class XSLTServlet extends HttpServlet
         HttpSession javaSession = req.getSession(true);
         OnlineSession appSession = (OnlineSession)javaSession.getAttribute("AppSession");
         int n = appSession.getOnceHttpSessionMaxInactiveInterval_s();
-        if(n != 0)
+        if (n != 0) {
             javaSession.setMaxInactiveInterval(n);
+        }
 
         String path = req.getServletPath() ;
 
@@ -166,8 +167,9 @@ public class XSLTServlet extends HttpServlet
     {
         OnlineResourceManager resource = OnlineResourceManagerFactory.GetInstance() ;
         XSLTransformer xformer = resource.getPrintScreenTransformer() ;
-        if (xformer == null)
+        if (xformer == null) {
             xformer = resource.getXSLTransformer();
+        }
         doRenderOutput(xmlOutput, res, xformer) ;
     }
 
@@ -181,15 +183,17 @@ public class XSLTServlet extends HttpServlet
         XSLTransformer xformer = null;
         if (bZoom)
         {
-            if (bBold)
+            if (bBold) {
                 xformer = resource.getXSLTransformerZoomBold();
-            else
+            } else {
                 xformer = resource.getXSLTransformerZoom();
+            }
         }
         else
         {
-            if (bBold)
+            if (bBold) {
                 xformer = resource.getXSLTransformerBold();
+            }
         }
 
         if (xformer == null)

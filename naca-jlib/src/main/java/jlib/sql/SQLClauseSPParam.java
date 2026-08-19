@@ -84,8 +84,9 @@ public abstract class SQLClauseSPParam
 
     public String toString(SQLClauseSPParamDesc paramDesc)
     {
-        if(paramDesc != null)
-            return toString() + " "+ paramDesc.toString();
+        if (paramDesc != null) {
+            return toString() + " " + paramDesc.toString();
+        }
         return toString();
     }
 

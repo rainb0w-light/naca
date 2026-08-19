@@ -34,24 +34,27 @@ public class MailUtil
             {
                 int nPos = csParameterUpper.indexOf("FORCEDMAIL=") + 11;
                 int nPosEnd = csParameterUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csForcedMail = csParameter.substring(nPos);
-                else
+                } else {
                     csForcedMail = csParameter.substring(nPos, nPosEnd);
+                }
             }
             if (csParameterUpper.indexOf("SMTPSERVER=") != -1)
             {
                 int nPos = csParameterUpper.indexOf("SMTPSERVER=") + 11;
                 int nPosEnd = csParameterUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csSmtpServer = csParameter.substring(nPos);
-                else
+                } else {
                     csSmtpServer = csParameter.substring(nPos, nPosEnd);
+                }
             }
         }
 
-        if (csForcedMail != null)
+        if (csForcedMail != null) {
             System.out.println("MailUtil: Forced mail " + csForcedMail);
+        }
 
         try
         {
@@ -110,10 +113,11 @@ public class MailUtil
                         {
                             Mail mail = mailService.createMail();
                             mail.setFrom(csMailFrom);
-                            if (csForcedMail == null)
+                            if (csForcedMail == null) {
                                 mail.addTo(csMail);
-                            else
+                            } else {
                                 mail.addTo(csForcedMail);
+                            }
                             mail.setSubject(csSubject);
                             mail.setText(sbText.toString());
                             mail.send();

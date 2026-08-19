@@ -482,8 +482,9 @@ public class CExecSQL extends CCobolElement
                     {
                         i -- ;
                     }
-                    if (i>0)
-                        i-- ;
+                    if (i > 0) {
+                        i--;
+                    }
                 }
                 else
                 {

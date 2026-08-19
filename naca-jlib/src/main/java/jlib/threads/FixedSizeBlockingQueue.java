@@ -41,8 +41,9 @@ public class FixedSizeBlockingQueue<T>
         {
             arr[nIndexSet] = t;
             nIndexSet++;
-            if(nIndexSet >= nNbEntries)
-                nIndexSet  = 0;
+            if (nIndexSet >= nNbEntries) {
+                nIndexSet = 0;
+            }
         }
         semFilledEntries.release();
     }
@@ -62,8 +63,9 @@ public class FixedSizeBlockingQueue<T>
         {
             T t = (T)arr[nIndexGet];
             nIndexGet++;
-            if(nIndexGet >= nNbEntries)
+            if (nIndexGet >= nNbEntries) {
                 nIndexGet = 0;
+            }
             semNotFilledEntries.release();
             return t;
         }

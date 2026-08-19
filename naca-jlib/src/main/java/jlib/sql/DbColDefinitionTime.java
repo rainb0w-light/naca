@@ -40,8 +40,9 @@ public class DbColDefinitionTime extends BaseDbColDefinition
             value = hh + "." + mm + "." + ss;
             byte[] aBytes = value.getBytes();
 
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)
@@ -67,8 +68,9 @@ public class DbColDefinitionTime extends BaseDbColDefinition
         int nSourceOffset,
         boolean bEbcdicInput)
     {
-        if(bEbcdicInput)    // Must outout in ebcdic
+        if (bEbcdicInput) {    // Must outout in ebcdic
             AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 8);
+        }
         String cs = new String(arrByteValue, nSourceOffset, 8);
 
         CurrentDateInfo cd = new CurrentDateInfo();
@@ -101,8 +103,9 @@ public class DbColDefinitionTime extends BaseDbColDefinition
             value = hh + "." + mm + "." + ss;
             value = "\"" + value + "\"";
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

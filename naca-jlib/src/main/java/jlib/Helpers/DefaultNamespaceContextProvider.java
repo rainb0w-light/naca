@@ -43,25 +43,28 @@ public class DefaultNamespaceContextProvider implements NamespaceContext {
  * @param node The context node for performing XPath operations.
  */
     public DefaultNamespaceContextProvider(Node node) {
-        if (node.getNodeType()==Node.DOCUMENT_NODE)
-            _rootElement=node.getFirstChild();
-        else {
-            _rootElement=node.getOwnerDocument().getFirstChild();
-            while(_rootElement.getNodeType()!=Node.ELEMENT_NODE) {
-                _rootElement=_rootElement.getNextSibling();
-                if (_rootElement==null)
+        if (node.getNodeType() == Node.DOCUMENT_NODE) {
+            _rootElement = node.getFirstChild();
+        } else {
+            _rootElement = node.getOwnerDocument().getFirstChild();
+            while (_rootElement.getNodeType() != Node.ELEMENT_NODE) {
+                _rootElement = _rootElement.getNextSibling();
+                if (_rootElement == null) {
                     break;
+                }
             }
         }
 
-        if (_rootElement.getPrefix()!=null)
-            _defaultNamespaceURI=_rootElement.getNamespaceURI();
-        else {
-            _defaultNamespaceURI=XmlHelper.GetNodeAttribute(_rootElement,"xmlns");
-            if (StringUtil.isEmptyOrOnlyWhitespaces(_defaultNamespaceURI))
-                _defaultNamespaceURI=_rootElement.getNamespaceURI();
-            if (StringUtil.isEmptyOrOnlyWhitespaces(_defaultNamespaceURI))
-                _defaultNamespaceURI=XMLConstants.NULL_NS_URI;
+        if (_rootElement.getPrefix() != null) {
+            _defaultNamespaceURI = _rootElement.getNamespaceURI();
+        } else {
+            _defaultNamespaceURI = XmlHelper.GetNodeAttribute(_rootElement, "xmlns");
+            if (StringUtil.isEmptyOrOnlyWhitespaces(_defaultNamespaceURI)) {
+                _defaultNamespaceURI = _rootElement.getNamespaceURI();
+            }
+            if (StringUtil.isEmptyOrOnlyWhitespaces(_defaultNamespaceURI)) {
+                _defaultNamespaceURI = XMLConstants.NULL_NS_URI;
+            }
         }
     }
 
@@ -124,13 +127,15 @@ public class DefaultNamespaceContextProvider implements NamespaceContext {
     public String getNamespaceURI( String prefix) {
         String namespaceURI;
 //..................... If the default namespace is requested ......................
-        if (prefix.equals("") || prefix.equals("def"))
+        if (prefix.equals("") || prefix.equals("def")) {
             return _defaultNamespaceURI;
+        }
 
 //........................ If any other namespace is requested .....................
         namespaceURI=XmlHelper.GetNodeAttribute(_rootElement,"xmlns:"+prefix);
-        if (namespaceURI.length()>0)
+        if (namespaceURI.length() > 0) {
             return namespaceURI;
+        }
 
 //................... If the requested namespace has not been found ................
         return XMLConstants.NULL_NS_URI;
@@ -140,8 +145,9 @@ public class DefaultNamespaceContextProvider implements NamespaceContext {
  * Returns the prefix corresponding to the specified namespace.
  */
     public String getPrefix(String namespaceURI) {
-        if (namespaceURI.equals(_defaultNamespaceURI))
+        if (namespaceURI.equals(_defaultNamespaceURI)) {
             return "";
+        }
         return null;
     }
 

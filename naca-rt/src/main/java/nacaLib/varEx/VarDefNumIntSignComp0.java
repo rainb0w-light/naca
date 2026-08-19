@@ -177,15 +177,17 @@ public class VarDefNumIntSignComp0 extends VarDefNum
     {
         int n = (int) d;
         writeSignedIntComp0(buffer, n);
-        if(d < 0 && n == 0)
+        if (d < 0 && n == 0) {
             forceNegativeEmbeddedSign(buffer);
+        }
     }
 
     void write(VarBufferPos buffer, Dec dec)
     {
         writeSignedIntComp0(buffer, dec.getSignedInt());
-        if(dec.isNegative() && dec.getSignedInt() == 0)
+        if (dec.isNegative() && dec.getSignedInt() == 0) {
             forceNegativeEmbeddedSign(buffer);
+        }
     }
 
     private void forceNegativeEmbeddedSign(VarBufferPos buffer)
@@ -497,8 +499,9 @@ public class VarDefNumIntSignComp0 extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignedIntComp0(buffer, nOffset, 0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
@@ -554,8 +557,9 @@ public class VarDefNumIntSignComp0 extends VarDefNum
         int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nOffset, nValue, buffer.nAbsolutePosition, nTotalSize);
 
         boolean ispositive = true;
-        if(nValue < 0)
+        if (nValue < 0) {
             ispositive = false;
+        }
         internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
 
         return nPos;
@@ -567,8 +571,9 @@ public class VarDefNumIntSignComp0 extends VarDefNum
         int nPos = RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize);
 
         boolean ispositive = true;
-        if(lValue < 0)
+        if (lValue < 0) {
             ispositive = false;
+        }
         internalWriteEmbeddedComp0Sign(buffer, ispositive);
 
         return nPos;

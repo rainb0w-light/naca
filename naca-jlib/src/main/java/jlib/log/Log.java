@@ -140,8 +140,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel) || csChannel==null)
+                if (logCenter.getChannel().equals(csChannel) || csChannel == null) {
                     logCenter.setRunId(csRunId);
+                }
             }
         }
     }
@@ -164,8 +165,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel) || csChannel==null)
+                if (logCenter.getChannel().equals(csChannel) || csChannel == null) {
                     logCenter.setRuntimeId(csRuntimeId);
+                }
             }
         }
     }
@@ -183,8 +185,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel))
+                if (logCenter.getChannel().equals(csChannel)) {
                     return logCenter.getRunId();
+                }
             }
         }
         return null;
@@ -202,8 +205,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel))
+                if (logCenter.getChannel().equals(csChannel)) {
                     return logCenter.getRuntimeId();
+                }
             }
         }
         return null;
@@ -223,8 +227,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel) || csChannel==null)
+                if (logCenter.getChannel().equals(csChannel) || csChannel == null) {
                     logCenter.setProduct(csProduct);
+                }
             }
         }
     }
@@ -241,8 +246,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel))
+                if (logCenter.getChannel().equals(csChannel)) {
                     return logCenter.getProduct();
+                }
             }
         }
         return null;
@@ -262,8 +268,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel) || csChannel==null)
+                if (logCenter.getChannel().equals(csChannel) || csChannel == null) {
                     logCenter.setProcess(csProcess);
+                }
             }
         }
     }
@@ -280,8 +287,9 @@ public class Log
             for(int n=0; n<nNbLogCenter; n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if (logCenter.getChannel().equals(csChannel))
+                if (logCenter.getChannel().equals(csChannel)) {
                     return logCenter.getProcess();
+                }
             }
         }
         return null;
@@ -367,8 +375,9 @@ public class Log
         boolean b = logCenter.doOpen();
         if(b)
         {
-            if(Log.logCenter == null)
+            if (Log.logCenter == null) {
                 Log.logCenter = new ArrayList<LogCenter>();
+            }
 
             Log.logCenter.add(logCenter);
         }
@@ -381,8 +390,9 @@ public class Log
             for(int n = 0; n< logCenter.size(); n++)
             {
                 LogCenter logCenter = Log.logCenter.get(n);
-                if(logCenter.getType().equalsIgnoreCase("LogCenterPluginConsole"))
-                    return (LogCenterPluginConsole)logCenter;
+                if (logCenter.getType().equalsIgnoreCase("LogCenterPluginConsole")) {
+                    return (LogCenterPluginConsole) logCenter;
+                }
             }
         }
         return null;
@@ -460,8 +470,9 @@ public class Log
     public static void log(String csChannel, LogEvent logEvent, String csMessage)
     {
         LogParams logParams=new LogParams(csChannel,logEvent,csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 /**
@@ -484,8 +495,9 @@ public class Log
     public static void log(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
     {
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage, csRunId, csRuntimeId);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -507,8 +519,9 @@ public class Log
     {
         logEvent.setLogFlow(logFlow);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -517,8 +530,9 @@ public class Log
         logEvent.setLogFlow(logFlow);
         logEvent.setLogLevel(logLevel);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 /**
@@ -533,8 +547,9 @@ public class Log
     {
         logEvent.setLogFlow(LogFlowStd.System);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -550,8 +565,9 @@ public class Log
     {
         logEvent.setLogFlow(LogFlowStd.Monitoring);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -569,8 +585,9 @@ public class Log
         logEvent.setLogLevel(logLevel);
         logEvent.setLogFlow(LogFlowStd.Monitoring);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -586,8 +603,9 @@ public class Log
     {
         logEvent.setLogFlow(LogFlowStd.Trace);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -605,8 +623,9 @@ public class Log
         logEvent.setLogLevel(logLevel);
         logEvent.setLogFlow(LogFlowStd.Trace);
         LogParams logParams=new LogParams(csChannel, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -629,8 +648,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Critical, null, null);
         logEvent.setName("CriticalEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -653,8 +673,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Important, null, null);
         logEvent.setName("ImportantEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 /**
@@ -676,8 +697,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Normal, null, null);
         logEvent.setName("NormalEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -700,8 +722,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Verbose, null, null);
         logEvent.setName("VerboseEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -724,8 +747,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Debug, null, null);
         logEvent.setName("DebugEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 
@@ -748,8 +772,9 @@ public class Log
         LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.FineDebug, null, null);
         logEvent.setName("FineDebugEvent");
         LogParams logParams=new LogParams(null, logEvent, csMessage);
-        if(ms_CallStackExclusion != null)
+        if (ms_CallStackExclusion != null) {
             logParams.fillAppCallerLocation(ms_CallStackExclusion);
+        }
         sendLog(logParams);
     }
 

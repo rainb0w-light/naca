@@ -74,8 +74,9 @@ public class CEntityInline extends CBaseActionEntity
     public void ReplaceParentForChild(CBaseLanguageEntity sub, CBaseLanguageEntity newParent)
     {
         CBaseLanguageEntity le = newParent.FindLastEntityAvailableForLevel(sub.GetInternalLevel()) ;
-        if (le == null)
-            le = newParent ;
+        if (le == null) {
+            le = newParent;
+        }
         sub.parent = le ;
     }
     public void AddChild(CBaseLanguageEntity e)

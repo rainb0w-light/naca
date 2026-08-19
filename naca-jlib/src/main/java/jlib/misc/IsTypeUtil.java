@@ -23,7 +23,9 @@ public class IsTypeUtil {
 
     public static boolean isNumeric(String s){
 
-      if ("".equalsIgnoreCase(s)) return false;
+        if ("".equalsIgnoreCase(s)) {
+            return false;
+        }
 
       String validChars = "0123456789";
       boolean isNumeric = false;

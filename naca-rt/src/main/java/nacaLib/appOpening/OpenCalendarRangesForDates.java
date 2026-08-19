@@ -27,8 +27,9 @@ public class OpenCalendarRangesForDates
 
     void addDateRange(Integer iDate, CalendarOpenState state, String csMin, String csMax)
     {
-        if(hashCalendarRangesByDate == null)
+        if (hashCalendarRangesByDate == null) {
             hashCalendarRangesByDate = new Hashtable<Integer, OpenCalendarRanges>();
+        }
         OpenCalendarRanges ranges = hashCalendarRangesByDate.get(iDate);
         if(ranges == null)
         {
@@ -56,11 +57,13 @@ public class OpenCalendarRangesForDates
     {
         Integer date = cacheManager.getCurrentDateAsIntegerYYYYMMDD();
         OpenCalendarRanges ranges = hashCalendarRangesByDate.get(date);
-        if(ranges != null)  // Ranges have been defined at this date
+        if (ranges != null) {  // Ranges have been defined at this date
             return ranges.getOpenState(cacheManager, bCacheState);
+        }
 
-        if(bCacheState)
+        if (bCacheState) {
             cacheManager.setCurrentOpenStateUnknown();
+        }
         return CalendarOpenState.Unknown;
     }
 

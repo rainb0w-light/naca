@@ -23,8 +23,9 @@ public class ConstantPool
 
     public void add(String csId, String csValue)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new ArrayList<ConstantItem>();
+        }
 
         ConstantItem item = new ConstantItem(csId, csValue);
         arr.add(item);

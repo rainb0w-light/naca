@@ -46,8 +46,9 @@ public class MathBase extends CJMapObject
     {
         boolean ispositive = true;
 
-        if(bd.signum() < 0)
+        if (bd.signum() < 0) {
             ispositive = false;
+        }
 
         String sValue = bd.abs().unscaledValue().toString();
         int nScale = bd.scale();
@@ -175,10 +176,12 @@ public class MathBase extends CJMapObject
 
     public String toString()
     {
-        if(iserror)
+        if (iserror) {
             return "Math Error";
-        if(d != null)
+        }
+        if (d != null) {
             return d.toString();
+        }
         return "Unknown";
     }
 

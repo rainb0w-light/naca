@@ -73,8 +73,9 @@ public class SharedProgramInstanceData extends CJMapObject
 
     synchronized public VarDefBuffer getVarDef(int nId)
     {
-        if(nId == VarDefBase.NULL_ID)
+        if (nId == VarDefBase.NULL_ID) {
             return null;
+        }
         if(nId < arrVarDef.size())
         {
             VarDefBuffer varDef = arrVarDef.get(nId);
@@ -90,8 +91,9 @@ public class SharedProgramInstanceData extends CJMapObject
 
     synchronized public void addVarDefForm(VarDefForm varDefForm)
     {
-        if(arrVarDefForm == null)
+        if (arrVarDefForm == null) {
             arrVarDefForm = new ArrayDyn<VarDefForm>();
+        }
         arrVarDefForm.add(varDefForm);
     }
 
@@ -147,22 +149,25 @@ public class SharedProgramInstanceData extends CJMapObject
 
     synchronized public void addCopy(String csCopyName)
     {
-        if(arrCopyNames == null)
+        if (arrCopyNames == null) {
             arrCopyNames = new ArrayDyn<String>();
+        }
         arrCopyNames.add(csCopyName);
     }
 
     synchronized public int getNbCopy()
     {
-        if(arrCopyNames == null)
+        if (arrCopyNames == null) {
             return 0;
+        }
         return arrCopyNames.size();
     }
 
     synchronized public String getCopy(int n)
     {
-        if(arrCopyNames != null && n < arrCopyNames.size())
+        if (arrCopyNames != null && n < arrCopyNames.size()) {
             return arrCopyNames.get(n);
+        }
         return "";
     }
 
@@ -309,8 +314,9 @@ public class SharedProgramInstanceData extends CJMapObject
 
     public void saveCursorName(String csCursorName)
     {
-        if(arrCursorName == null)
+        if (arrCursorName == null) {
             arrCursorName = new ArrayDyn<String>();
+        }
         arrCursorName.add(csCursorName);
     }
 
@@ -347,29 +353,33 @@ public class SharedProgramInstanceData extends CJMapObject
 
     public int getNbCursor()
     {
-        if(arrCursorName != null)
+        if (arrCursorName != null) {
             return arrCursorName.size();
+        }
         return 0;
     }
 
     public int getBufferSize()
     {
-        if(internalCharBufferCompressedBackup != null)
+        if (internalCharBufferCompressedBackup != null) {
             return internalCharBufferCompressedBackup.getBufferSize();
+        }
         return 0;
     }
 
     public int getNbVarDef()
     {
-        if(arrVarDef != null)
+        if (arrVarDef != null) {
             return arrVarDef.size();
+        }
         return 0;
     }
 
     public int getNbVarDefForm()
     {
-        if(arrVarDefForm != null)
+        if (arrVarDefForm != null) {
             return arrVarDefForm.size();
+        }
         return 0;
     }
 
@@ -380,8 +390,9 @@ public class SharedProgramInstanceData extends CJMapObject
         {
             String csName = varDef.getFullName(this).toUpperCase();
             int nPosSep = csName.indexOf('.');
-            if(nPosSep != -1)
+            if (nPosSep != -1) {
                 return csName.substring(0, nPosSep);
+            }
             return csName;
         }
         return null;
@@ -389,10 +400,12 @@ public class SharedProgramInstanceData extends CJMapObject
 
     public void setVarFullName(int nId, String csFullName)
     {
-        if(arrVarName == null)
+        if (arrVarName == null) {
             arrVarName = new VectorDyn<String>();
-        if(nId+1 > arrVarName.size())
-            arrVarName.setSize(nId+1);
+        }
+        if (nId + 1 > arrVarName.size()) {
+            arrVarName.setSize(nId + 1);
+        }
         arrVarName.set(nId, csFullName);
         //arrVarName.add(csFullName);
     }
@@ -408,17 +421,20 @@ public class SharedProgramInstanceData extends CJMapObject
 
     public void setInitialValue(int nId, CInitialValue initialValue)
     {
-        if(arrInitialValue == null)
+        if (arrInitialValue == null) {
             arrInitialValue = new VectorDyn<CInitialValue>();
-        if(nId+1 > arrInitialValue.size())
-            arrInitialValue.setSize(nId+1);
+        }
+        if (nId + 1 > arrInitialValue.size()) {
+            arrInitialValue.setSize(nId + 1);
+        }
         arrInitialValue.set(nId, initialValue);
     }
 
     public CInitialValue getInitialValue(int nId)
     {
-        if(arrInitialValue != null)
+        if (arrInitialValue != null) {
             return arrInitialValue.get(nId);
+        }
         return null;
     }
 
@@ -461,8 +477,9 @@ public class SharedProgramInstanceData extends CJMapObject
             for(int n=0; n<arrInitialValue.size(); n++)
             {
                 //System.out.println(n);
-                if(arrInitialValue.get(n) != null)
-                    sb.append(arrInitialValue.get(n).toString()+"\r\n");
+                if (arrInitialValue.get(n) != null) {
+                    sb.append(arrInitialValue.get(n).toString() + "\r\n");
+                }
             }
         }
 

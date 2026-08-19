@@ -145,14 +145,16 @@ public class VarBuffer extends InternalCharBuffer
         for(int n=0; n<nSourceLength; n++)
         {
             int nByte = bufSource[nSourceOffset + n];
-            if(nByte < 0)
+            if (nByte < 0) {
                 nByte += 256;
+            }
             acBuffer[nOffsetDest + n] = (char) nByte;
         }
         if(nSourceLength > 0)
         {
-            if(acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF)
-                return nSourceLength-1; // Return length excluding ending LF
+            if (acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF) {
+                return nSourceLength - 1; // Return length excluding ending LF
+            }
         }
         return nSourceLength;
     }
@@ -162,8 +164,9 @@ public class VarBuffer extends InternalCharBuffer
         for(int n=0; n<acBuffer.length; n++)
         {
             byte b = (byte)acBuffer[n];
-            if(b == byEOL)
+            if (b == byEOL) {
                 return n;
+            }
         }
         return acBuffer.length-1;
     }
@@ -191,8 +194,9 @@ public class VarBuffer extends InternalCharBuffer
                 cs = "" + n + nPosition + ": ";
             }
         }
-        if((n % 8) != 0)
+        if ((n % 8) != 0) {
             System.out.println(cs);
+        }
     }
 
 }

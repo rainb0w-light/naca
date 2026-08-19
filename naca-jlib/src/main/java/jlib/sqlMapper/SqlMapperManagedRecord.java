@@ -53,8 +53,9 @@ public class SqlMapperManagedRecord extends ColValueCollection
         }
         catch(TechnicalException e)
         {
-            if(clause != null)
+            if (clause != null) {
                 clause.forceCloseOnExceptionCatched();
+            }
             throw e;
         }
     }
@@ -89,8 +90,9 @@ public class SqlMapperManagedRecord extends ColValueCollection
         }
         catch (TechnicalException e)
         {
-            if(clause != null)
+            if (clause != null) {
                 clause.forceCloseOnExceptionCatched();
+            }
             throw e;
         }
     }

@@ -29,8 +29,9 @@ public class XmlComparator {
  * If the compared nodes are identical, the list is empty (not null).
  */
     public ArrayList<String> getDiagnostic() {
-        if (_diagnostic==null)
+        if (_diagnostic == null) {
             clearDiagnostic();
+        }
         return _diagnostic;
     }
 
@@ -64,13 +65,23 @@ public class XmlComparator {
             clearDiagnostic();
 
 //...................... On commence par les comparaisons triviales ........................
-            if ((x1==null) && (x2==null)) return true;
-            if (x1==null) return false;
-            if (x2==null) return false;
+            if ((x1 == null) && (x2 == null)) {
+                return true;
+            }
+            if (x1 == null) {
+                return false;
+            }
+            if (x2 == null) {
+                return false;
+            }
 
 //........................... Puis les autres ..............................................
-            if (!IsAllInfoPresent(x1,x2,ignoreBlankSpaces,checkAttributes,ignoreEmptyNodes)) return false;
-            if (!IsAllInfoPresent(x2,x1,ignoreBlankSpaces,checkAttributes,ignoreEmptyNodes)) return false;
+            if (!IsAllInfoPresent(x1, x2, ignoreBlankSpaces, checkAttributes, ignoreEmptyNodes)) {
+                return false;
+            }
+            if (!IsAllInfoPresent(x2, x1, ignoreBlankSpaces, checkAttributes, ignoreEmptyNodes)) {
+                return false;
+            }
             return true;
         }
         catch (Exception e) {
@@ -109,25 +120,32 @@ public class XmlComparator {
         int n;                                    // Compteur.
         int m;                                    // Un autre compteur.
         try {
-            if (x1==null) return true;
-            if (x2==null) return false;
-            if (x1.getNodeType()==Node.DOCUMENT_NODE)
-                return  IsAllInfoPresent(x1.getFirstChild(),x2,ignoreBlankSpaces,checkAttributes,ignoreEmptyNodes);
-            if (x2.getNodeType()==Node.DOCUMENT_NODE)
-                return  IsAllInfoPresent(x1,x2.getFirstChild(),ignoreBlankSpaces,checkAttributes,ignoreEmptyNodes);
+            if (x1 == null) {
+                return true;
+            }
+            if (x2 == null) {
+                return false;
+            }
+            if (x1.getNodeType() == Node.DOCUMENT_NODE) {
+                return IsAllInfoPresent(x1.getFirstChild(), x2, ignoreBlankSpaces, checkAttributes, ignoreEmptyNodes);
+            }
+            if (x2.getNodeType() == Node.DOCUMENT_NODE) {
+                return IsAllInfoPresent(x1, x2.getFirstChild(), ignoreBlankSpaces, checkAttributes, ignoreEmptyNodes);
+            }
 
 //************************** On contrôle qu'ils aient les mêmes attributs *****************
-            if (checkAttributes)
-                for(n=0;n<x1.getAttributes().getLength();n++) {
-                    x1Attr=x1.getAttributes().item(n);
-                    x1AttrName=x1Attr.getNodeName();
-                    x1AttrValue=x1Attr.getNodeValue();
-                    x2AttrValue=XmlHelper.GetNodeAttribute(x2,x1AttrName);
+            if (checkAttributes) {
+                for (n = 0; n < x1.getAttributes().getLength(); n++) {
+                    x1Attr = x1.getAttributes().item(n);
+                    x1AttrName = x1Attr.getNodeName();
+                    x1AttrValue = x1Attr.getNodeValue();
+                    x2AttrValue = XmlHelper.GetNodeAttribute(x2, x1AttrName);
                     if (!x2AttrValue.equals(x1AttrValue)) {
-                        _diagnostic.add("Attribute '"+x1AttrName+"' in node '"+x1.getNodeName()+"' is missing or different.");
-                        response=false;
+                        _diagnostic.add("Attribute '" + x1AttrName + "' in node '" + x1.getNodeName() + "' is missing or different.");
+                        response = false;
                     }
                 }
+            }
 
 //************************ Compare les noeuds texte ***************************************
 // Les nodes texte doivent être dans le même ordre.
@@ -137,31 +155,37 @@ public class XmlComparator {
 
 //.................... On cherche le suivant node texte de x1 .............................
                 x1Node=x1.getChildNodes().item(n);
-                if (x1Node.getNodeType()!=Node.TEXT_NODE)
+                if (x1Node.getNodeType() != Node.TEXT_NODE) {
                     continue;
+                }
 
 // Ignore les espaces blancs:
                 if (ignoreBlankSpaces) {
                     x1NodeText=x1Node.getNodeValue().trim();
-                    if (x1NodeText.length()==0)
+                    if (x1NodeText.length() == 0) {
                         continue;
-                } else
-                    x1NodeText=x1Node.getNodeValue();
+                    }
+                } else {
+                    x1NodeText = x1Node.getNodeValue();
+                }
 
 //.................... On cherche le suivant node texte de x2 .............................
                 isTextPresent=false;
                 do {
                     x2Node=x2Nodes.item(m++);
-                    if (x2Node.getNodeType()!=Node.TEXT_NODE)
+                    if (x2Node.getNodeType() != Node.TEXT_NODE) {
                         continue;
+                    }
 
 // On ignore les espaces blancs:
                     if (ignoreBlankSpaces) {
                         x2NodeText=x2Node.getNodeValue().trim();
-                        if (x2NodeText.length()==0)
+                        if (x2NodeText.length() == 0) {
                             continue;
-                    } else
-                        x2NodeText=x2Node.getNodeValue();
+                        }
+                    } else {
+                        x2NodeText = x2Node.getNodeValue();
+                    }
 
 //.................... On compare les deux nodes ..........................................
                     if (x1NodeText.equals(x2NodeText)) {
@@ -181,16 +205,20 @@ public class XmlComparator {
 // Les éléments ne doivent pas forcément être dans le même ordre.
             for(n=0;n<x1.getChildNodes().getLength();n++) {
                 x1Node=x1.getChildNodes().item(n);
-                if (x1Node.getNodeType()!=Node.ELEMENT_NODE)
+                if (x1Node.getNodeType() != Node.ELEMENT_NODE) {
                     continue;
+                }
 
-                if (x1Node.getChildNodes().getLength()==0)
-                    if (ignoreEmptyNodes)
+                if (x1Node.getChildNodes().getLength() == 0) {
+                    if (ignoreEmptyNodes) {
                         continue;
+                    }
+                }
 //............ Il y aura 1 ou plusieurs éléments dans x2 avec le même nom. .................
                 x1NodeName=x1Node.getNodeName();
-                if (x1NodeName.indexOf(":")<0)
-                    x1NodeName="def:"+x1NodeName;
+                if (x1NodeName.indexOf(":") < 0) {
+                    x1NodeName = "def:" + x1NodeName;
+                }
                 x2Nodes=XmlHelper.SelectNodes(x2,x1NodeName,true);
                 if (x2Nodes.getLength()==0) {
                     _diagnostic.add("Node '"+x2.getNodeName()+"' doesn't contain any node named '"+x1NodeName+"'");
@@ -206,7 +234,9 @@ public class XmlComparator {
                     }
                 }
                 // Si il n'y en a aucun, x1<>x2.
-                if (m==x2Nodes.getLength()) return false;
+                if (m == x2Nodes.getLength()) {
+                    return false;
+                }
             }
 
 //***************** Si on arrive jusqu'ici, c'est que le nodes sont identiques ************

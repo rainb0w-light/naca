@@ -96,23 +96,26 @@ public class SQLLoad extends BaseSQLUtils
         {
             lockTable(csTableFullName);
             deleteTable(csTableFullName);
-            if (nBatchCommitSize > 0)
+            if (nBatchCommitSize > 0) {
                 dbConnection.commit();
+            }
         }
 
         FileDescriptor fileDescriptorIn = new FileDescriptor(csLogicalFileDataIn);
         fileDescriptorIn.setSession(getSession());
         String csPhysicalFileIn = fileDescriptorIn.getPhysicalName();
 
-        if (BaseDataFile.isNullFile(csPhysicalFileIn))  // file giving record to insert is nullfile: simulate a correct working
+        if (BaseDataFile.isNullFile(csPhysicalFileIn)) {  // file giving record to insert is nullfile: simulate a correct working
             return SQLLoadStatus.loadSuccess;
+        }
 
         LogicalFileDescriptor logicalFileDescriptor = fileDescriptorIn.getLogicalFileDescriptor();
 
         DataFileLineReader dataFileIn = new DataFileLineReader(csPhysicalFileIn, 65536, 0);
         boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
-        if (!isinOpened)
+        if (!isinOpened) {
             return SQLLoadStatus.loadFailure;
+        }
 
         boolean isebcdicInput = fileDescriptorIn.isEbcdic();
 
@@ -125,8 +128,9 @@ public class SQLLoad extends BaseSQLUtils
         SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csInsertClause, false);
 
         // Remove ending ';' as it is not supported by UDB
-        if(csInsertClause.endsWith(";"))
-            csInsertClause = csInsertClause.substring(0, csInsertClause.length()-1);
+        if (csInsertClause.endsWith(";")) {
+            csInsertClause = csInsertClause.substring(0, csInsertClause.length() - 1);
+        }
 
         csInsertClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csInsertClause, typeOperation, "");
         DbPreparedStatement stmt = dbConnection.prepareStatement(csInsertClause, 0, false);
@@ -138,8 +142,9 @@ public class SQLLoad extends BaseSQLUtils
         }
 
         int nOffsetHeaderVariableLength = 0;
-        if(fileDescriptorIn.isVariableLength())
+        if (fileDescriptorIn.isVariableLength()) {
             nOffsetHeaderVariableLength = 4;
+        }
 
         SQLLoadStatus globalStatus = SQLLoadStatus.loadSuccess;
 

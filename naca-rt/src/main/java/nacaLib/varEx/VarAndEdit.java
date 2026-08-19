@@ -141,8 +141,9 @@ public abstract class VarAndEdit extends VarBase
             {
                 BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
                 VarBase varChild = programManager.getVarFullName(varDefChild);
-                if(!varChild.isEdit())
-                    return (Var)varChild;
+                if (!varChild.isEdit()) {
+                    return (Var) varChild;
+                }
             }
         }
         return null;

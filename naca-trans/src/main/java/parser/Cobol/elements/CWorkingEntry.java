@@ -961,8 +961,9 @@ public class CWorkingEntry extends CCobolElement
                         CEntityResourceForm form = (CEntityResourceForm)e ;
                         //CEntityFormAccessor eAcc = (CEntityFormAccessor)e ;
                         CBaseLanguageEntity ebase = DoSemanticAnalysisForMapRedefine(form, factory);
-                        if (parent != null)
+                        if (parent != null) {
                             parent.AddChild(ebase);
+                        }
                         return ebase ;
                     }
                     else

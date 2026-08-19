@@ -84,8 +84,9 @@ public class YamlConfigLoader
     @SuppressWarnings("unchecked")
     private static Tag convertMapToTag(Map<String, Object> yamlMap)
     {
-        if (yamlMap.isEmpty())
+        if (yamlMap.isEmpty()) {
             return null;
+        }
 
         // Get the root element name (first key)
         String rootName = yamlMap.keySet().iterator().next();

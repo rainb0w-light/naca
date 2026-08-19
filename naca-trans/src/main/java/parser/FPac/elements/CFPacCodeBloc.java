@@ -87,9 +87,9 @@ public class CFPacCodeBloc extends CFPacElement
                     if (tok == GetCurrentToken())
                     {
                         isdone = true ;
+                    } else {
+                        return false;
                     }
-                    else
-                        return false ;
                 }
             }
             else
@@ -542,8 +542,9 @@ public class CFPacCodeBloc extends CFPacElement
             // managed case : if  false -> keyword not recognized, end of bloc parsing
             return false ;
         }
-        if (!Parse(el))
-            return false ;
+        if (!Parse(el)) {
+            return false;
+        }
         AddChild(el) ;
         return true ;
     }
@@ -554,16 +555,18 @@ public class CFPacCodeBloc extends CFPacElement
         if (csName.equals(""))
         {
             CEntityBloc e = factory.NewEntityBloc(getLine()) ;
-            if (parent != null)
-                parent.AddChild(e) ;
+            if (parent != null) {
+                parent.AddChild(e);
+            }
             e.SetEndLine(nEndLine) ;
             return e ;
         }
         else
         {
             CEntityProcedure e = factory.NewEntityProcedure(getLine(), csName, null) ;
-            if (parent != null)
-                parent.AddChild(e) ;
+            if (parent != null) {
+                parent.AddChild(e);
+            }
             e.SetEndLine(nEndLine) ;
 
             if (csName.equalsIgnoreCase("NORMAL"))
@@ -661,8 +664,9 @@ public class CFPacCodeBloc extends CFPacElement
     protected Element ExportCustom(Document root)
     {
         String cs = "Bloc" ;
-        if (!csName.equals(""))
-            cs = csName ;
+        if (!csName.equals("")) {
+            cs = csName;
+        }
         Element eAdd = root.createElement(cs) ;
         return eAdd;
     }

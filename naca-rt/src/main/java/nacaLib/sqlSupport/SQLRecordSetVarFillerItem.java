@@ -63,17 +63,19 @@ public class SQLRecordSetVarFillerItem
         if(varInto != null)
         {
             boolean isnull = resultSet.fillColValue(nColSource, varInto, recordSetCacheColTypeType);
-            if(varIndicator == null)
+            if (varIndicator == null)
             {
-                if(!isnull)
-                    return ;
+                if (!isnull) {
+                    return;
+                }
                 resultSet.bNullError = true;
                 return;
             }
-            if(isnull)
+            if (isnull) {
                 varIndicator.varDef.write(varIndicator.bufferPos, -1);  //set(-1);  // The col is SQL NULL
-            else
+            } else {
                 varIndicator.varDef.write(varIndicator.bufferPos, 0);   //varIndicator.set(0);  // The col is not sql null
+            }
         }
     }
 

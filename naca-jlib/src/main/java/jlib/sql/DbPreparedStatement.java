@@ -112,14 +112,15 @@ public class DbPreparedStatement
         {
             try
             {
-                if(bHoldability)
+                if (bHoldability) {
                     preparedStatement = dbConnection.getDbConnection().prepareStatement(
-                        csQuery,
-                        ResultSet.TYPE_FORWARD_ONLY,
-                        ResultSet.CONCUR_READ_ONLY,
-                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                else
+                            csQuery,
+                            ResultSet.TYPE_FORWARD_ONLY,
+                            ResultSet.CONCUR_READ_ONLY,
+                            ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                } else {
                     preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
+                }
                 return true;
             }
             catch (SQLException e)
@@ -138,14 +139,15 @@ public class DbPreparedStatement
         {
             try
             {
-                if(bHoldability)
+                if (bHoldability) {
                     preparedStatement = dbConnection.getDbConnection().prepareStatement(
-                        csQuery,
-                        ResultSet.TYPE_FORWARD_ONLY,
-                        ResultSet.CONCUR_READ_ONLY,
-                        ResultSet.HOLD_CURSORS_OVER_COMMIT);
-                else
+                            csQuery,
+                            ResultSet.TYPE_FORWARD_ONLY,
+                            ResultSet.CONCUR_READ_ONLY,
+                            ResultSet.HOLD_CURSORS_OVER_COMMIT);
+                } else {
                     preparedStatement = dbConnection.getDbConnection().prepareStatement(csQuery);
+                }
                 return true;
             }
             catch (SQLException e)
@@ -343,13 +345,13 @@ public class DbPreparedStatement
 
     public int execute(SQLTypeOperation typeOperation)
     {
-        if(typeOperation == SQLTypeOperation.Insert)
+        if (typeOperation == SQLTypeOperation.Insert) {
             return executeInsert();
-        else if(typeOperation == SQLTypeOperation.Update)
+        } else if (typeOperation == SQLTypeOperation.Update) {
             return executeUpdate();
-        else if(typeOperation == SQLTypeOperation.Delete)
+        } else if (typeOperation == SQLTypeOperation.Delete) {
             return executeUpdate();
-        else if(typeOperation == SQLTypeOperation.Select)
+        } else if (typeOperation == SQLTypeOperation.Select)
         {
             ResultSet rs = executeSelect();
             if (rs != null)
@@ -357,35 +359,37 @@ public class DbPreparedStatement
                 int i = 0;
                 try
                 {
-                    while (rs.next())
+                    while (rs.next()) {
                         i++;
+                    }
                     rs.close();
                 }
-                catch (SQLException e) {}
+                catch (SQLException e) {
+                }
                 return i;
             }
-        }
-        else
+        } else {
             return execute();
+        }
         return -1;
     }
 
     int executeWithException(SQLTypeOperation typeOperation, SQLClause sqlClause)
         throws TechnicalException
     {
-        if(typeOperation == SQLTypeOperation.Insert)
+        if (typeOperation == SQLTypeOperation.Insert) {
             return executeInsertWithException(sqlClause);
-        else if(typeOperation == SQLTypeOperation.Update)
+        } else if (typeOperation == SQLTypeOperation.Update) {
             return executeUpdateWithException(sqlClause);
-        else if(typeOperation == SQLTypeOperation.Delete)
+        } else if (typeOperation == SQLTypeOperation.Delete) {
             return executeDeleteWithException(sqlClause);
-        else if(typeOperation == SQLTypeOperation.Select)
+        } else if (typeOperation == SQLTypeOperation.Select)
         {
             // Should never happen: This case should be handled only by DbConnectionBase.prepareAndExecuteWithException
-            ProgrammingException.throwException(ProgrammingException.SQL_PARSING_ERROR, "Should never happen; statement: "+csQueryString);
-        }
-        else
+            ProgrammingException.throwException(ProgrammingException.SQL_PARSING_ERROR, "Should never happen; statement: " + csQueryString);
+        } else {
             return executeWithException(sqlClause);
+        }
         return -1;
     }
 
@@ -397,8 +401,9 @@ public class DbPreparedStatement
             try
             {
                 boolean b = preparedStatement.execute();
-                if(b)
+                if (b) {
                     return 1;
+                }
             }
             catch (SQLException e)
             {
@@ -417,8 +422,9 @@ public class DbPreparedStatement
             try
             {
                 boolean b = preparedStatement.execute();
-                if(b)
+                if (b) {
                     return 1;
+                }
             }
             catch (SQLException e)
             {
@@ -503,8 +509,9 @@ public class DbPreparedStatement
 
     private String getDumpClauseString(SQLClause sqlClause)
     {
-        if(sqlClause != null)
+        if (sqlClause != null) {
             return csQueryString + "\n" + sqlClause.toString();
+        }
         return csQueryString;
     }
 

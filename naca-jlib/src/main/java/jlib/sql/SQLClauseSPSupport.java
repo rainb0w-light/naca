@@ -36,8 +36,9 @@ public class SQLClauseSPSupport
             while(resultSetprocs.next() && b)
             {
                 SQLClauseSPInfo info = new SQLClauseSPInfo();
-                if(info.fill(resultSetprocs))
+                if (info.fill(resultSetprocs)) {
                     arr.add(info);
+                }
             }
         }
         catch (SQLException e)
@@ -54,8 +55,9 @@ public class SQLClauseSPSupport
         try
         {
             DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-            if (csStoredProcName.indexOf(".") != -1) // suppress the user if exists in the procedure
+            if (csStoredProcName.indexOf(".") != -1) { // suppress the user if exists in the procedure
                 csStoredProcName = csStoredProcName.substring(csStoredProcName.indexOf(".") + 1);
+            }
             ResultSet resultSetparams = dmd.getProcedureColumns(
                 null,
                 dbConnection.getEnvironmentPrefix(),

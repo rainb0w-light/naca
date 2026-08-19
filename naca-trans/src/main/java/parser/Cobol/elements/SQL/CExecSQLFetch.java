@@ -127,8 +127,9 @@ public class CExecSQLFetch extends CBaseExecSQLAction
             CDataEntity e = (CDataEntity)v.get(i);
             e.RegisterWritingAction(eSQL);
             CDataEntity ind = null ;
-            if (i<arrInd.size())
-                ind = arrInd.get(i) ;
+            if (i < arrInd.size()) {
+                ind = arrInd.get(i);
+            }
             eSQL.AddFetchInto(e, ind) ;
         }
         parent.AddChild(eSQL) ;

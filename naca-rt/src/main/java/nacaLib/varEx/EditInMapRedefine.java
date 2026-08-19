@@ -41,10 +41,11 @@ public class EditInMapRedefine extends Edit
     public String toString()
     {
         String cs = "Var2Edit ";
-        if(attrManager != null)
+        if (attrManager != null) {
             cs += attrManager.toString() + " ";
-        else
+        } else {
             cs += "(No attributes) ";
+        }
         cs += getLoggableValue();
         return cs;
     }
@@ -129,15 +130,17 @@ public class EditInMapRedefine extends Edit
                 int nDebugIndex = VarDefBase.makeDebugIndex(x);
                 varDef.adjustSetting(coupleEditGetAt.varDefBuffer, nAbsStart, nDebugIndex, 1, varDef.varDefParent);
 
-                if(coupleEditGetAt.variable == null)
+                if (coupleEditGetAt.variable == null) {
                     coupleEditGetAt.variable = allocOccursedItem(coupleEditGetAt.varDefBuffer);
+                }
 
                 adjust(coupleEditGetAt.varDefBuffer, (Edit)coupleEditGetAt.variable);
                 return (Edit)coupleEditGetAt.variable;
             }
             VarDefBuffer varDefGetAt = varDef.getAt(x);
-            if(varDefGetAt == null)
+            if (varDefGetAt == null) {
                 return this;
+            }
             Edit editGetAt = allocOccursedItem(varDefGetAt);
             cache.addTempVar(nTypeId, varDefGetAt, editGetAt);
 
@@ -145,8 +148,9 @@ public class EditInMapRedefine extends Edit
         }
 
         VarDefBuffer varDefItem = varDef.getAt(x);
-        if(varDefItem == null)
+        if (varDefItem == null) {
             return this;
+        }
         Edit editItem = allocOccursedItem(varDefItem);
         return editItem;
     }
@@ -191,8 +195,9 @@ public class EditInMapRedefine extends Edit
                 int nDebugIndex = VarDefBase.makeDebugIndex(x, y);
                 varDef.adjustSetting(coupleEditGetAt.varDefBuffer, nAbsStart, nDebugIndex, 2, varDef.varDefParent);
 
-                if(coupleEditGetAt.variable == null)
+                if (coupleEditGetAt.variable == null) {
                     coupleEditGetAt.variable = allocOccursedItem(coupleEditGetAt.varDefBuffer);
+                }
 
 
                 adjust(coupleEditGetAt.varDefBuffer, (Edit)coupleEditGetAt.variable);
@@ -200,8 +205,9 @@ public class EditInMapRedefine extends Edit
                 return (Edit)coupleEditGetAt.variable;
             }
             VarDefBuffer varDefGetAt = varDef.getAt(x, y);
-            if(varDefGetAt == null)
+            if (varDefGetAt == null) {
                 return this;
+            }
             Edit editGetAt = allocOccursedItem(varDefGetAt);
             cache.addTempVar(nTypeId, varDefGetAt, editGetAt);
 
@@ -209,8 +215,9 @@ public class EditInMapRedefine extends Edit
         }
 
         VarDefBuffer varDefItem = varDef.getAt(x, y);
-        if(varDefItem == null)
+        if (varDefItem == null) {
             return this;
+        }
         Edit editItem = allocOccursedItem(varDefItem);
         return editItem;
     }
@@ -239,16 +246,18 @@ public class EditInMapRedefine extends Edit
                 int nDebugIndex = VarDefBase.makeDebugIndex(x, y, z);
                 varDef.adjustSetting(coupleEditGetAt.varDefBuffer, nAbsStart, nDebugIndex, 3, varDef.varDefParent);
 
-                if(coupleEditGetAt.variable == null)
+                if (coupleEditGetAt.variable == null) {
                     coupleEditGetAt.variable = allocOccursedItem(coupleEditGetAt.varDefBuffer);
+                }
 
                 adjust(coupleEditGetAt.varDefBuffer, (Edit)coupleEditGetAt.variable);
                 //Edit oldEdit = getAtOld(x, y);
                 return (Edit)coupleEditGetAt.variable;
             }
             VarDefBuffer varDefGetAt = varDef.getAt(x, y, z);
-            if(varDefGetAt == null)
+            if (varDefGetAt == null) {
                 return this;
+            }
             Edit editGetAt = allocOccursedItem(varDefGetAt);
             cache.addTempVar(nTypeId, varDefGetAt, editGetAt);
 
@@ -256,8 +265,9 @@ public class EditInMapRedefine extends Edit
         }
 
         VarDefBuffer varDefItem = varDef.getAt(x, y, z);
-        if(varDefItem == null)
+        if (varDefItem == null) {
             return this;
+        }
         Edit editItem = allocOccursedItem(varDefItem);
         return editItem;
     }

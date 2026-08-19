@@ -210,26 +210,29 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, char c)
     {
         String cs = String.valueOf(c);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     public void write(VarBufferPos buffer, String cs)
     {
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     void write(VarBufferPos buffer, CStr cs)
     {
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     public void inc(VarBufferPos buffer, int n)
@@ -248,25 +251,29 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         String cs = String.valueOf(n);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
 
     }
 
     public void write(VarBufferPos buffer, long l)
     {
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         String cs = String.valueOf(l);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
 
     }
 
@@ -304,30 +311,33 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
         CStr cs = bufferSource.getBodyCStr(varDefSource);
         //String cs = varDefSource.getRawStringExcludingHeader(bufferSource);
 
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     void write(VarBufferPos buffer, VarDefFPacAlphaNum varDefSource, VarBufferPos bufferSource)
     {
         CStr cs = bufferSource.getBodyCStr(varDefSource);
 
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     void write(VarBufferPos buffer, VarDefFPacRaw varDefSource, VarBufferPos bufferSource)
     {
         CStr cs = bufferSource.getBodyCStr(varDefSource);
 
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
@@ -383,49 +393,54 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
     }
 
     void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
     void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -438,10 +453,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -454,10 +470,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -470,10 +487,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -486,10 +504,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -502,10 +521,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
@@ -520,10 +540,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
@@ -537,10 +558,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
@@ -554,10 +576,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         //cs.resetManagerCache();
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
@@ -572,10 +595,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -588,10 +612,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -604,10 +629,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -620,10 +646,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsAlphaNumString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
         // @see http://www.helsinki.fi/atk/unix/dec_manuals/cobv27ua/cobrm_029.htm#index_x_737
         // parag 11: When dest-item is alphanumeric or alphanumeric edited, alignment and space-filling occur according to the Standard
         // Alignment Rules.
@@ -684,10 +711,11 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
     void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
     {
         CStr cs = varSource.getAsDecodedString(bufferSource);
-        if(!bJustifyRight)
+        if (!bJustifyRight) {
             writeEditRightPadding(buffer, cs, ' ');
-        else
+        } else {
             writeEditJustifyRightPadding(buffer, cs, ' ');
+        }
     }
 
 

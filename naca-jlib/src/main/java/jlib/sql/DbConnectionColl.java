@@ -133,8 +133,9 @@ public class DbConnectionColl
             // No sqlConnection found in the pool: Create a new one if max limit not reached
             sqlConnection = createNewConnection(csPoolName, bUseStatementCache, connectionManager, csValidationQuery);
 
-            if(sqlConnection != null)   // Could create a new connection
+            if (sqlConnection != null) {   // Could create a new connection
                 return sqlConnection;
+            }
 
             BaseJmxGeneralStat.incCounter(BaseJmxGeneralStat.COUNTER_INDEX_NbWaitDuringConnectionCreate);
             waitUntilConnectionAvailableOrCreatable();
@@ -172,8 +173,9 @@ public class DbConnectionColl
                 String right = url.substring(nEndPos+1);
                 String token = url.substring(nStartPos+1, nEndPos);
                 String value = EnvironmentVar.getParamValue(token);
-                if(StringUtil.isEmpty(value))
+                if (StringUtil.isEmpty(value)) {
                     value = "NULL";
+                }
                 url = left + value + right;
             }
             nStartPos = url.indexOf('%');
@@ -196,8 +198,9 @@ public class DbConnectionColl
             try
             {
             String url = dbConnectionParam.csUrl;
-                if(dbConnectionParam.csConnectionUrlOptionalParams != null)
-                url += dbConnectionParam.csConnectionUrlOptionalParams;
+                if (dbConnectionParam.csConnectionUrlOptionalParams != null) {
+                    url += dbConnectionParam.csConnectionUrlOptionalParams;
+                }
             url = StringUtil.replace(url, "$FoundPoolName", poolName, true);
             url = replaceEnvVarsByValue(url);
 
@@ -339,9 +342,9 @@ public class DbConnectionColl
             {
                 removeObsoleteConnections(); // Remove connections in timeout
                 sqlConnection.garbageCollectorStatementsOptinalResetReservedStatement(true);
-            }
-            else
+            } else {
                 sqlConnection.resetReservedStatements();
+            }
 // Log.logNormal("Returning DB connection to pool. "+ tscNbConnectionCreated.get()+" existing connections, out of "+nNbMaxConnection+"
 // allowed.");
             collFreeConnections.addFirst(sqlConnection);
@@ -359,16 +362,18 @@ public class DbConnectionColl
     synchronized private void removeObsoleteConnections()
     {
         DbConnectionBase connection = null;
-        if(collFreeConnections.size() > 0)
+        if (collFreeConnections.size() > 0) {
             connection = collFreeConnections.getLast();
+        }
         while(connection != null && !connection.isValid(nTimeBeforeRemoveConnection_ms))
         {
             removeConnection(connection);
             collFreeConnections.removeLast();
-            if(collFreeConnections.size() > 0)
+            if (collFreeConnections.size() > 0) {
                 connection = collFreeConnections.getLast();
-            else
+            } else {
                 connection = null;
+            }
         }
         swLastCheckRemoveObsoleteConnections.Reset();
     }
@@ -440,15 +445,17 @@ public class DbConnectionColl
      */
     synchronized int getNbFreeConnection()
     {
-        if(collFreeConnections != null)
+        if (collFreeConnections != null) {
             return collFreeConnections.size();
+        }
         return 0;
     }
 
     synchronized int getNbCachedStatementsForAccessor()
     {
-        if(collFreeConnections == null)
+        if (collFreeConnections == null) {
             return 0;
+        }
 
         int n = 0;
         for(int nConnectionId=0; nConnectionId<collFreeConnections.size(); nConnectionId++)
@@ -466,8 +473,9 @@ public class DbConnectionColl
 
     int getNbRunningConnections()
     {
-        if(collUsedConnections != null)
+        if (collUsedConnections != null) {
             return collUsedConnections.size();
+        }
         return 0;
     }
 

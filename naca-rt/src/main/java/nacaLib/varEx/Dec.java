@@ -51,22 +51,25 @@ public class Dec extends DecBase
     {
         String cs = String.valueOf(lInt) + "." + csDec;
         double d = Double.parseDouble(cs);
-        if(!bPositive)
+        if (!bPositive) {
             return -d;
+        }
         return d;
     }
 
     int getSignedInt()
     {
-        if(bPositive)
-            return (int)lInt;
+        if (bPositive) {
+            return (int) lInt;
+        }
         return (int) -lInt;
     }
 
     public long getSignedLong()
     {
-        if(bPositive)
+        if (bPositive) {
             return lInt;
+        }
         return -lInt;
     }
 
@@ -89,12 +92,14 @@ public class Dec extends DecBase
     String getAsString()
     {
         String cs = "";
-        if(isNegative())
+        if (isNegative()) {
             cs = "-";
+        }
         long l = getUnsignedLong();
         cs += String.valueOf(l);
-        if(!csDec.equals(""))
+        if (!csDec.equals("")) {
             cs += "." + csDec;
+        }
         return cs;
     }
 
@@ -111,20 +116,24 @@ public class Dec extends DecBase
         long lThis = getSignedLong();
         long l = n;
 
-        if(lThis < l)
+        if (lThis < l) {
             return -1;
-        if(lThis == l)
+        }
+        if (lThis == l) {
             return 0;
+        }
         return 1;
     }
 
     public int compare(long l)
     {
         long lThis = getSignedLong();
-        if(lThis < l)
+        if (lThis < l) {
             return -1;
-        if(lThis == l)
+        }
+        if (lThis == l) {
             return 0;
+        }
         return 1;
     }
 
@@ -132,16 +141,19 @@ public class Dec extends DecBase
     {
         long signedInt = getSignedLong();
         long signedInt2 = dec2.getSignedLong();
-        if(signedInt < signedInt2)
+        if (signedInt < signedInt2) {
             return -1;
+        }
         if(signedInt == signedInt2)
         {
             long l1 = getDecAsLong();
             long l2 = dec2.getDecAsLong();
-            if(l1 < l2)
+            if (l1 < l2) {
                 return -1;
-            if(l1 == l2)
+            }
+            if (l1 == l2) {
                 return 0;
+            }
         }
         return 1;
     }
@@ -150,15 +162,17 @@ public class Dec extends DecBase
     {
         String csDecPadded = StringUtil.rightPad(this.csDec, 14, '0');
         long l = NumberParser.getAsLong(csDecPadded);
-        if(bPositive)
+        if (bPositive) {
             return l;
+        }
         return -l;
     }
 
     public boolean isZero()
     {
-        if(lInt == 0 && NumberParser.getAsInt(csDec) == 0)
+        if (lInt == 0 && NumberParser.getAsInt(csDec) == 0) {
             return true;
+        }
         return false;
     }
 

@@ -50,15 +50,21 @@ abstract class DumpClassScope
     @SuppressWarnings("unchecked")
     public static Class [] getLoadedClasses (final ClassLoader loader)
     {
-        if (loader == null) throw new IllegalArgumentException ("null input: loader");
-        if (CLASSES_VECTOR_FIELD == null) throw new RuntimeException (
-            "ClassScope::getLoadedClasses() cannot be used in this JRE",
-            CVF_FAILURE);
+        if (loader == null) {
+            throw new IllegalArgumentException("null input: loader");
+        }
+        if (CLASSES_VECTOR_FIELD == null) {
+            throw new RuntimeException(
+                    "ClassScope::getLoadedClasses() cannot be used in this JRE",
+                    CVF_FAILURE);
+        }
 
         try
         {
             final Vector classes = (Vector) CLASSES_VECTOR_FIELD.get(loader);
-            if (classes == null) return EMPTY_CLASS_ARRAY;
+            if (classes == null) {
+                return EMPTY_CLASS_ARRAY;
+            }
 
             final Class [] result;
 
@@ -93,7 +99,9 @@ abstract class DumpClassScope
      */
     public static Class [] getLoadedClasses (final ClassLoader[] loaders)
     {
-        if (loaders == null) throw new IllegalArgumentException ("null input: loaders");
+        if (loaders == null) {
+            throw new IllegalArgumentException("null input: loaders");
+        }
 
         final List<Class> /* Class */ resultList = new LinkedList<Class>();
 
@@ -127,9 +135,11 @@ abstract class DumpClassScope
      */
     public static ClassLoader [] getCallerClassLoaderTree ()
     {
-        if (CALLER_RESOLVER == null) throw new RuntimeException (
-            "ClassScope::getCallerClassLoaderTree() cannot be used in this JRE",
-            CR_FAILURE);
+        if (CALLER_RESOLVER == null) {
+            throw new RuntimeException(
+                    "ClassScope::getCallerClassLoaderTree() cannot be used in this JRE",
+                    CR_FAILURE);
+        }
 
         final Class [] callContext = CALLER_RESOLVER.getClassContext();
 
@@ -155,7 +165,9 @@ abstract class DumpClassScope
      */
     public static URL getClassLocation (final Class cls)
     {
-        if (cls == null) throw new IllegalArgumentException ("null input: cls");
+        if (cls == null) {
+            throw new IllegalArgumentException("null input: cls");
+        }
 
         URL result = null;
         final String clsAsResource = cls.getName ().replace ('.', '/').concat (".class");
@@ -168,7 +180,9 @@ abstract class DumpClassScope
         {
             final CodeSource cs = pd.getCodeSource ();
             // 'cs' can be null depending on the classloader behavior:
-            if (cs != null) result = cs.getLocation ();
+            if (cs != null) {
+                result = cs.getLocation();
+            }
 
             if (result != null)
             {
@@ -178,12 +192,13 @@ abstract class DumpClassScope
                 {
                     try
                     {
-                        if (result.toExternalForm ().endsWith (".jar") ||
-                            result.toExternalForm ().endsWith (".zip"))
-                            result = new URL ("jar:".concat (result.toExternalForm ())
-                                .concat("!/").concat (clsAsResource));
-                        else if (new File (result.getFile ()).isDirectory ())
-                            result = new URL (result, clsAsResource);
+                        if (result.toExternalForm().endsWith(".jar") ||
+                                result.toExternalForm().endsWith(".zip")) {
+                            result = new URL("jar:".concat(result.toExternalForm())
+                                    .concat("!/").concat(clsAsResource));
+                        } else if (new File(result.getFile()).isDirectory()) {
+                            result = new URL(result, clsAsResource);
+                        }
                     }
                     catch (MalformedURLException ignore) {}
                 }
@@ -258,8 +273,9 @@ abstract class DumpClassScope
             // or if the security is too tight:
 
             tempf = ClassLoader.class.getDeclaredField ("classes");
-            if (tempf.getType () != Vector.class)
-                throw new RuntimeException ("not of type java.util.Vector: " + tempf.getType ().getName ());
+            if (tempf.getType() != Vector.class) {
+                throw new RuntimeException("not of type java.util.Vector: " + tempf.getType().getName());
+            }
 
             tempf.setAccessible (true);
         }

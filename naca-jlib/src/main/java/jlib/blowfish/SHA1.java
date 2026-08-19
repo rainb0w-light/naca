@@ -44,13 +44,16 @@ public class SHA1 {
       */
     public void clear() {
       int nI;
-      for (nI = 0; nI < state.length; nI++)
-        state[nI] = 0;
+        for (nI = 0; nI < state.length; nI++) {
+            state[nI] = 0;
+        }
       count = 0;
-      for (nI = 0; nI < digestBits.length; nI++)
-        digestBits[nI] = 0;
-      for (nI = 0; nI < block.length; nI++)
-        block[nI] = 0;
+        for (nI = 0; nI < digestBits.length; nI++) {
+            digestBits[nI] = 0;
+        }
+        for (nI = 0; nI < block.length; nI++) {
+            block[nI] = 0;
+        }
       nBlockIndex = 0;
     }
 
@@ -239,8 +242,9 @@ public class SHA1 {
       */
     public void update(byte[] data) {
 
-      for (int nI = 0; nI < data.length; nI++)
-        update(data[nI]);
+        for (int nI = 0; nI < data.length; nI++) {
+            update(data[nI]);
+        }
     }
 
 
@@ -249,8 +253,9 @@ public class SHA1 {
       */
     public void update(String sData) {
 
-      for (int nI = 0; nI < sData.length(); nI++)
-        update((byte)(sData.charAt(nI) & 0x0ff));
+        for (int nI = 0; nI < sData.length(); nI++) {
+            update((byte) (sData.charAt(nI) & 0x0ff));
+        }
     }
 
 
@@ -268,11 +273,13 @@ public class SHA1 {
         }
 
         update((byte) 128);
-        while (nBlockIndex != 56)
-          update((byte) 0);
+        while (nBlockIndex != 56) {
+            update((byte) 0);
+        }
 
-        for (nI = 0; nI < bits.length; nI++)
-          update(bits[nI]);
+        for (nI = 0; nI < bits.length; nI++) {
+            update(bits[nI]);
+        }
 
         for (nI = 0; nI < 20; nI++) {
           digestBits[nI] = (byte)((state[nI >> 2] >> ((3 - (nI & 3)) << 3)) & 0xff);
@@ -339,9 +346,11 @@ public class SHA1 {
       tester.finalize();
       byte[] digest = tester.getDigest();
       tester.clear();
-      for (int nI = 0; nI < DIGEST_SIZE; nI++)
-        if (digest[nI] != SELFTEST_DIGEST[nI])
-          return false;
+        for (int nI = 0; nI < DIGEST_SIZE; nI++) {
+            if (digest[nI] != SELFTEST_DIGEST[nI]) {
+                return false;
+            }
+        }
 
       // test passed
       return true;

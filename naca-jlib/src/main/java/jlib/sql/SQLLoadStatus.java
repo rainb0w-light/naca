@@ -41,25 +41,29 @@ public class SQLLoadStatus
 
     public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
     {
-        if(!status.issuccess)
+        if (!status.issuccess) {
             return loadFailure;
-        if(globalStatus.isduplicates || status.isduplicates)
+        }
+        if (globalStatus.isduplicates || status.isduplicates) {
             return loadSuccessWithDuplicates;
+        }
         return loadSuccess;
     }
 
     public String toString()
     {
         String cs;
-        if(issuccess)
+        if (issuccess) {
             cs = "Success";
-        else
+        } else {
             cs = "Failure";
+        }
 
-        if(isduplicates)
+        if (isduplicates) {
             cs += " with duplicate keys";
-        else
+        } else {
             cs += " without duplicate keys";
+        }
         return cs;
     }
 }

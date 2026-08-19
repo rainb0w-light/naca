@@ -101,10 +101,11 @@ public class SQL
         this.programManager = programManager;
         if (CJMapObject.isLogSql)
         {
-            if (cursor == null)
+            if (cursor == null) {
                 Log.logDebug("Sql=" + csQuery);
-            else
+            } else {
                 Log.logDebug("SqlCursor=" + csQuery);
+            }
         }
 
         status.setQuery(csQuery);
@@ -125,8 +126,9 @@ public class SQL
         this.isoperationExecuted = false;
 
         boolean iscursor = false;
-        if (cursor != null)
+        if (cursor != null) {
             iscursor = true;
+        }
         this.qLTypeOperation = SQLTypeOperation.determineOperationType(csQueryUpper, iscursor);
 
         boolean isrowIdToAdd = false;
@@ -224,8 +226,9 @@ public class SQL
 
     public void resetErrorManager()
     {
-        if (errorManager != null)
+        if (errorManager != null) {
             errorManager.reuse();
+        }
     }
 
     private void manageColStarDeclarations()
@@ -257,24 +260,27 @@ public class SQL
                 nNbOpenParenthesis--;
                 isstarFound = false;
             }
-            else if (c == '*')
+            else if (c == '*') {
                 isstarFound = true;
-            else if (!Character.isWhitespace(c) && isstarFound) // We have a non
-                                        // whitespace
-                                                                // and ha a
-                                        // star: it's
-                                        // not a select
-                                                                // *
+            } else if (!Character.isWhitespace(c) && isstarFound) { // We have a non
+                // whitespace
+                // and ha a
+                // star: it's
+                // not a select
+                // *
                 isstarFound = false;
+            }
         }
-        if (isstarFound)
+        if (isstarFound) {
             addStarAtCol(nNbComma);
+        }
     }
 
     private void addStarAtCol(int nColId)
     {
-        if (arrColSelectType == null)
+        if (arrColSelectType == null) {
             arrColSelectType = new ArrayDyn<Integer>();
+        }
         Integer collectionid = Integer.valueOf(nColId);
         arrColSelectType.add(collectionid); // The nColId is a *
     }
@@ -362,8 +368,9 @@ public class SQL
     {
         //boolean bExecDone = false;
 
-        if (sQLConnection == null || isoperationExecuted)
+        if (sQLConnection == null || isoperationExecuted) {
             return false;
+        }
 
         if (qLTypeOperation == SQLTypeOperation.CursorSelect)
         {
@@ -380,8 +387,9 @@ public class SQL
                 {
                     accountingRecordManager.incCursorOpen();
                     //JmxGeneralStat.incOpenCursor(1);
-                    if (csExplainQuery != null)
+                    if (csExplainQuery != null) {
                         executeOnceExplainQuery();
+                    }
 
                     CSQLPreparedStatement SQLStatement = executePrepareSelect();
 
@@ -431,8 +439,9 @@ public class SQL
                                         // filled
             {
                 accountingRecordManager.incSelect();
-                if (csExplainQuery != null)
+                if (csExplainQuery != null) {
                     executeOnceExplainQuery();
+                }
 
                 CSQLPreparedStatement SQLStatement = executePrepareSelect();
                 if (SQLStatement != null)
@@ -452,8 +461,9 @@ public class SQL
             if (nNbColToSetToProvide == nNbColToSetDeclared)
             {
                 accountingRecordManager.incInsert();
-                if (csExplainQuery != null)
+                if (csExplainQuery != null) {
                     executeOnceExplainQuery();
+                }
 
                 executeInsert();
                 isoperationExecuted = true;
@@ -468,8 +478,9 @@ public class SQL
             if (nNbWhereParamDeclared == nNbWhereParamToProvide && nNbColToSetDeclared == nNbColToSetToProvide)
             {
                 accountingRecordManager.incUpdate();
-                if (csExplainQuery != null)
+                if (csExplainQuery != null) {
                     executeOnceExplainQuery();
+                }
 
                 executeUpdate();
                 isoperationExecuted = true;
@@ -484,8 +495,9 @@ public class SQL
             if (nNbWhereParamDeclared == nNbWhereParamToProvide)
             {
                 accountingRecordManager.incDelete();
-                if (csExplainQuery != null)
+                if (csExplainQuery != null) {
                     executeOnceExplainQuery();
+                }
 
                 executeDelete();
                 isoperationExecuted = true;
@@ -549,8 +561,9 @@ public class SQL
                 }
             }
             sQLConnection = null;
-            if(!bArrayCompressed)
+            if (!bArrayCompressed) {
                 compressArrays();
+            }
         }
 
         return isoperationExecuted;
@@ -566,8 +579,9 @@ public class SQL
     {
         if(nNbIntoParamDeclared < nNbIntoParamToProvide)    // if (canFillInto())
         {
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug("into " + varDestCol.getLoggableValue());
+            }
             if (/*bReused && */nNbIntoParamDeclared < arrIntoItems.size())
             {
                 CSQLIntoItem sqlIntoItem = arrIntoItems.get(nNbIntoParamDeclared);
@@ -618,8 +632,9 @@ public class SQL
                 arrIntoItems.add(sqlIntoItem);
             }
 
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug(sqlIntoItem.getLoggableValue());
+            }
 
             nNbIntoParamDeclared++;
 
@@ -684,8 +699,9 @@ public class SQL
      */
     public SQL value(String csName, int nValue)
     {
-        if (CJMapObject.isLogSql)
+        if (CJMapObject.isLogSql) {
             Log.logDebug("value " + csName + "=" + nValue);
+        }
         if (bReused)
         {
             CSQLItem Item = hashValue.get(csName);
@@ -733,8 +749,9 @@ public class SQL
      */
     public SQL value(String csName, double dValue)
     {
-        if (CJMapObject.isLogSql)
+        if (CJMapObject.isLogSql) {
             Log.logDebug("value " + csName + "=" + dValue);
+        }
         if (bReused)
         {
             CSQLItem Item = hashValue.get(csName);
@@ -782,8 +799,9 @@ public class SQL
      */
     public SQL value(String csName, String csValue)
     {
-        if (CJMapObject.isLogSql)
+        if (CJMapObject.isLogSql) {
             Log.logDebug("value " + csName + "=" + csValue);
+        }
         if (bReused)
         {
             CSQLItem Item = hashValue.get(csName);
@@ -830,8 +848,9 @@ public class SQL
      */
     public SQL value(String csName, VarAndEdit varValue)
     {
-        if (CJMapObject.isLogSql)
+        if (CJMapObject.isLogSql) {
             Log.logDebug("value " + csName + "=" + varValue.getLoggableValue());
+        }
         if (bReused)
         {
             CSQLItem Item = hashValue.get(csName);
@@ -888,8 +907,9 @@ public class SQL
     {
         if (canFillParam())
         {
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug("param " + csName + "=" + var.getLoggableValue());
+            }
             if (!bReused)
             {
                 CSQLItem Item = new CSQLItem(var);
@@ -944,8 +964,9 @@ public class SQL
     {
         if (canFillParam())
         {
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug("param " + csName + "=" + nValue);
+            }
             if (!bReused)
             {
                 CSQLItem Item = new CSQLItem(nValue);
@@ -999,8 +1020,9 @@ public class SQL
     {
         if (canFillParam())
         {
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug("param " + csName + "=" + dValue);
+            }
             if (!bReused)
             {
                 CSQLItem Item = new CSQLItem(dValue);
@@ -1054,8 +1076,9 @@ public class SQL
     {
         if (canFillParam())
         {
-            if (CJMapObject.isLogSql)
+            if (CJMapObject.isLogSql) {
                 Log.logDebug("param " + csName + "=" + csValue);
+            }
 
             if (!bReused)
             {
@@ -1091,8 +1114,9 @@ public class SQL
 
     private boolean canFillParam()
     {
-        if (nNbWhereParamDeclared < nNbWhereParamToProvide)
+        if (nNbWhereParamDeclared < nNbWhereParamToProvide) {
             return true;
+        }
         return false; // TODO: Crash due to too many param provided ?
     }
 
@@ -1107,18 +1131,19 @@ public class SQL
         while (n < nPosFrom)
         {
             char c = csQueryUpper.charAt(n);
-            if (c == ',' && nNbOpenParenthesis == 0)
+            if (c == ',' && nNbOpenParenthesis == 0) {
                 nNbComma++;
-            else if (c == '(')
+            } else if (c == '(') {
                 nNbOpenParenthesis++;
-            else if (c == ')')
+            } else if (c == ')') {
                 nNbOpenParenthesis--;
-            else if (c == '.')
+            } else if (c == '.') {
                 nNbPoint++;
-            else if (c == '*' && nNbOpenParenthesis == 0) // Exclude (*) for
-                                                            // case of count(*)
-                                                            // or count( *)
+            } else if (c == '*' && nNbOpenParenthesis == 0) { // Exclude (*) for
+                // case of count(*)
+                // or count( *)
                 nNbStar++;
+            }
             n++;
         }
         if (nNbComma == 0 && nNbStar == 1 && nNbPoint == 0)
@@ -1143,17 +1168,19 @@ public class SQL
             int nPosEnd = SQLTypeOperation.minPositive(nPosWhere, nPosOrder);
             int nPosForUpdate = csQueryUpper.indexOf("FOR UPDATE");
             nPosEnd = SQLTypeOperation.minPositive(nPosEnd, nPosForUpdate);
-            if (nPosEnd != -1)
+            if (nPosEnd != -1) {
                 csTables = csQueryUpper.substring(nPosFrom, nPosEnd).trim();
-            else
+            } else {
                 csTables = csQueryUpper;
+            }
 
             int nNbTables = 1;
             for (int n = 0; n < csTables.length(); n++)
             {
                 char c = csTables.charAt(n);
-                if (c == ',')
+                if (c == ',') {
                     nNbTables++;
+                }
             }
             return nNbTables;
         }
@@ -1348,8 +1375,9 @@ public class SQL
                 String csItemName = markerNames.get(nItemNames);
 
                 CSQLItem param = getCol(csItemName);
-                if (param == null) // item is not a col value
+                if (param == null) { // item is not a col value
                     param = getParam(csItemName); // it's maybe a param
+                }
                 SQLStatement.setVarParamValue(this, nItemNames, param);
             }
 
@@ -1457,8 +1485,9 @@ public class SQL
                 {
                     accountingRecordManager.incFetchCursor();
                     //JmxGeneralStat.incFetchCursor(1);
-                    if (qLCursorResultSet.next())
+                    if (qLCursorResultSet.next()) {
                         qLCursorResultSet.fillIntoValues(this, true, isrowIdGenerated, nNbFetch);
+                    }
 
                     nNbFetch++;
                     nNbIntoParamDeclared = 0; // no more into
@@ -1586,15 +1615,17 @@ public class SQL
 
     SQLRecordSetVarFiller getCachedRecordSetVarFiller(long lHashedId)
     {
-        if(hashSqlRecordSetVarFiller != null)
+        if (hashSqlRecordSetVarFiller != null) {
             return hashSqlRecordSetVarFiller.get(lHashedId);
+        }
         return null;
     }
 
     void saveCachedRecordSetVarFiller(long lHashedId, SQLRecordSetVarFiller sqlRecordSetVarFiller)
     {
-        if(hashSqlRecordSetVarFiller == null)
+        if (hashSqlRecordSetVarFiller == null) {
             hashSqlRecordSetVarFiller = new Hashtable<Long, SQLRecordSetVarFiller>();
+        }
         hashSqlRecordSetVarFiller.put(lHashedId, sqlRecordSetVarFiller);
         //sqlRecordSetVarFiller = sqlRecordSetVarFiller;
     }
@@ -1603,8 +1634,9 @@ public class SQL
 
     public void close()
     {
-        if (qLCursorResultSet != null)
+        if (qLCursorResultSet != null) {
             qLCursorResultSet.close();
+        }
     }
 
     private static int getSQLUniqueId()
@@ -1619,8 +1651,9 @@ public class SQL
 
     public String getProgram()
     {
-        if (programManager != null)
+        if (programManager != null) {
             return programManager.program.csSimpleName;
+        }
         return "@UnknownProgram";
     }
 
@@ -1663,8 +1696,9 @@ public class SQL
                 CSQLItem item = entry.getValue();
                 String csKey = entry.getKey();
 
-                if (n != 0)
+                if (n != 0) {
                     csBuffer.append(",");
+                }
                 csBuffer.append("(");
                 csBuffer.append(csKey);
                 csBuffer.append(":");

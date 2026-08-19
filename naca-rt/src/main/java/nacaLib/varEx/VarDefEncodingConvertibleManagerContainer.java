@@ -26,8 +26,9 @@ public class VarDefEncodingConvertibleManagerContainer
 
     public VarDefEncodingConvertibleManager getEncodingManager(VarBase varDest)
     {
-        if(hash == null)
+        if (hash == null) {
             hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
+        }
 
         Integer varId = Integer.valueOf(varDest.getId());
         VarDefEncodingConvertibleManager encodingManager = hash.get(varId);
@@ -54,8 +55,9 @@ public class VarDefEncodingConvertibleManagerContainer
 
     void getConvertedBytesAsciiToEbcdic(VarBase varSource, byte tbyDest[], int nLengthDest)
     {
-        if(hash == null)
+        if (hash == null) {
             hash = new Hashtable<Integer, VarDefEncodingConvertibleManager>();
+        }
 
         Integer varId = Integer.valueOf(varSource.getId());
         VarDefEncodingConvertibleManager v = hash.get(varId);

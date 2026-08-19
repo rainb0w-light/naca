@@ -30,8 +30,9 @@ public class InitializeManagerString extends InitializeManager
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeAtOffset(buffer, nOffset, cs);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.setNotManaged();
+        }
     }
 
 

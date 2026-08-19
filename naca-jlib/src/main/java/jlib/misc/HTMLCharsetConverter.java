@@ -26,8 +26,9 @@ public class HTMLCharsetConverter
 
     public synchronized static void initOnce()
     {
-        if(ms_arrCodes != null) // init only once
-            return ;
+        if (ms_arrCodes != null) { // init only once
+            return;
+        }
         ms_arrCodes = new ArrayList<String>();
         ms_hashCodes = new Hashtable<String, Character>();
 

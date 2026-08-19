@@ -143,8 +143,9 @@ public class CExecSQLDelete extends CBaseExecSQLAction
 
     public void AppendRequiredSpace()
     {
-        if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
+        if (clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false) {
             clause += " ";
+        }
     }
 
 

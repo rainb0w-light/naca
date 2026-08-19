@@ -60,14 +60,16 @@ public class CCommarea extends CJMapObject
     {
         if(var != null)
         {
-            if(islengthSpecified)
+            if (islengthSpecified) {
                 return nLength;
+            }
             return var.getLength();
         }
         if(charBufferCopy != null)
         {
-            if(islengthSpecified)
+            if (islengthSpecified) {
                 return nLength;
+            }
             return charBufferCopy.getBufferSize();
         }
         return 0;

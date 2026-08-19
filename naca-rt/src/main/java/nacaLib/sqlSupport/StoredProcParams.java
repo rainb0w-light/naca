@@ -33,8 +33,9 @@ public class StoredProcParams
     public void addAParam(ResultSet rsParams)
     {
         StoredProcParamDesc param = new StoredProcParamDesc();
-        if(param.fill(rsParams))
+        if (param.fill(rsParams)) {
             paramDesc.add(param);
+        }
     }
 
     public int getNbParamToProvide()

@@ -55,10 +55,11 @@ public class TableToTransfer extends ThreadPoolRequest
 
         this.csTableName = csTableName;
         this.csUpdateClause = csUpdateClause + "'" + csTableName + "'";
-        if(csReplace.equalsIgnoreCase("y"))
+        if (csReplace.equalsIgnoreCase("y")) {
             this.isreplace = true;
-        else
+        } else {
             this.isreplace = false;
+        }
     }
 
     public void execute()
@@ -144,9 +145,9 @@ public class TableToTransfer extends ThreadPoolRequest
                                 sbSQLError = appendIfPossible(sbSQLError, cs);
                                 insertStatement = null;
                                 b = false;
-                            }
-                            else
+                            } else {
                                 insertStatement = dbInsertStatement.getPreparedStatement();
+                            }
 
                             collectiontypes = getColumnsTypes(nNbColumns, resultSetMetaData);
                         }
@@ -183,8 +184,9 @@ public class TableToTransfer extends ThreadPoolRequest
                                 {
                                     nNbRecordWritten += nBatchSize;
                                     nNbBatchWritten++;
-                                    if(nNbBatchWritten % nCommitEveryBatch == 0)
+                                    if (nNbBatchWritten % nCommitEveryBatch == 0) {
                                         dbConnectionDestination.commit();
+                                    }
                                 }
                                 else
                                 {
@@ -198,9 +200,9 @@ public class TableToTransfer extends ThreadPoolRequest
                                     dbTransferDesc.setTransferGlobalFailure();
                                 }
                             }
-                        }
-                        else
+                        } else {
                             dbTransferDesc.setTransferGlobalFailure();
+                        }
                     }
                     // All records have bee transfered
                     if(dbInsertStatement != null)

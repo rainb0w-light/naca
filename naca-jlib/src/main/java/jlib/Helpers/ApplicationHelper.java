@@ -24,13 +24,14 @@ public class ApplicationHelper {
  */
     public static void showStreamOnConsole(InputStream is) throws Exception {
         try {
-            if (is==null)
+            if (is == null) {
                 throw new Exception("No text specified.");
-            else {
+            } else {
                 int c;
-                BufferedInputStream bis=new BufferedInputStream(is);
-                while((c=bis.read())>=0)
-                    System.out.print((char)c);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                while ((c = bis.read()) >= 0) {
+                    System.out.print((char) c);
+                }
             }
         } catch (Exception e) {
             throw new Exception(e);

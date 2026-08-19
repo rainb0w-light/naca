@@ -31,16 +31,18 @@ public class CESMLink extends CJMapObject
 
     public void go()
     {
-        if(isLogCESM)
-            Log.logDebug("Linking program: "+csProgramClassName);
+        if (isLogCESM) {
+            Log.logDebug("Linking program: " + csProgramClassName);
+        }
         BaseProgramLoader baseProgramLoader = BaseProgramLoader.GetProgramLoaderInstance();
         baseProgramLoader.runSubProgram(csProgramClassName, null, environment);
     }
 
     public void commarea(Var var, int length)
     {
-        if(isLogCESM)
-            Log.logDebug("Linking program: "+csProgramClassName);
+        if (isLogCESM) {
+            Log.logDebug("Linking program: " + csProgramClassName);
+        }
         BaseProgramLoader baseProgramLoader = BaseProgramLoader.GetProgramLoaderInstance();
         CCommarea comm = new CCommarea() ;
         environment.setCommarea(comm);

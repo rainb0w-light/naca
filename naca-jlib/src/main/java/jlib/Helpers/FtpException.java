@@ -150,11 +150,13 @@ public class FtpException extends Exception {
             nn=response.length();
             for(n=0;n<nn;n++) {
                 c=response.charAt(n);
-                if (c<'0' || c>'9')
+                if (c < '0' || c > '9') {
                     break;
+                }
             }
-            if (n>0)
-                _errorCode=Integer.parseInt(response.substring(0,n));
+            if (n > 0) {
+                _errorCode = Integer.parseInt(response.substring(0, n));
+            }
         }
     }
 

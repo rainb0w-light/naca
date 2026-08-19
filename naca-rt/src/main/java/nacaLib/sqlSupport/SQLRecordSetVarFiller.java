@@ -38,8 +38,9 @@ public class SQLRecordSetVarFiller
     void addLinkColDestination(int nColSource, VarBase varInto, VarBase varIndicator)
     {
         SQLRecordSetVarFillerItem item = new SQLRecordSetVarFillerItem(nColSource, varInto, varIndicator);
-        if(arrItem == null)
+        if (arrItem == null) {
             arrItem = new ArrayDyn<SQLRecordSetVarFillerItem>();    // new ArrayList<SQLRecordSetVarFillerItem>();
+        }
         arrItem.add(item);
     }
 

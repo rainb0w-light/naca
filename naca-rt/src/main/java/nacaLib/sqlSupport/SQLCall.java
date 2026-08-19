@@ -58,8 +58,9 @@ public class SQLCall
         if(qLConnection != null)
         {
             storedProcParams = spinner.getStoredProcedureParamsList(qLConnection, csStoredProcName);
-            if(storedProcParams != null)
+            if (storedProcParams != null) {
                 nNbParamToProvide = storedProcParams.getNbParamToProvide();
+            }
             manageOperationEnding();
         }
     }
@@ -175,8 +176,9 @@ public class SQLCall
 
     private boolean close()
     {
-        if(preparedCallableStatement != null)
+        if (preparedCallableStatement != null) {
             return preparedCallableStatement.close();
+        }
         return false;
     }
 }

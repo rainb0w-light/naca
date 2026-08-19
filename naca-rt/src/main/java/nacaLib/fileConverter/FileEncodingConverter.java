@@ -49,12 +49,14 @@ public class FileEncodingConverter
             isheaderEbcdic = true;
         }
         System.out.println("FileEncodingConverter: Converting Host file");
-        if (nLengthRecord == 0)
+        if (nLengthRecord == 0) {
             System.out.println("FileEncodingConverter: Length record determined by header");
-        else
+        } else {
             System.out.println("FileEncodingConverter: Length record : " + nLengthRecord);
-        if (isheaderEbcdic)
+        }
+        if (isheaderEbcdic) {
             System.out.println("FileEncodingConverter: Add header ebcdic");
+        }
     }
 
     protected boolean copyFile()

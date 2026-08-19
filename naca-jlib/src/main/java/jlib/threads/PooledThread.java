@@ -38,10 +38,11 @@ public class PooledThread extends BaseThread
                     // Treat the request; the parameter pRequest describes the request to do
                     if(!request.getTerminaisonRequest())
                     {
-                        if(ishandleRequest)
+                        if (ishandleRequest) {
                             handleRequest(request);
-                        else
+                        } else {
                             request.execute();
+                        }
                     }
                     else
                     {

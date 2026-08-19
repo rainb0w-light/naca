@@ -29,8 +29,9 @@ public class DataSectionFile extends DataSection
         isrecordDefSet = false;
         if(fileDescriptor != null)
         {
-            if(fileDefs == null)
-                 fileDefs = new ArrayList<BaseFileDescriptor>();
+            if (fileDefs == null) {
+                fileDefs = new ArrayList<BaseFileDescriptor>();
+            }
             fileDefs.add(fileDescriptor);
         }
     }
@@ -41,8 +42,9 @@ public class DataSectionFile extends DataSection
         isrecordDefSet = false;
         if(sortDescriptor != null)
         {
-            if(fileDefs == null)
-                 fileDefs = new ArrayList<BaseFileDescriptor>();
+            if (fileDefs == null) {
+                fileDefs = new ArrayList<BaseFileDescriptor>();
+            }
             fileDefs.add(sortDescriptor);
         }
     }
@@ -65,8 +67,9 @@ public class DataSectionFile extends DataSection
 
     void defineVarDynLengthMarker(Var var)
     {
-        if(recordDef != null)
+        if (recordDef != null) {
             recordDef.setVarVariableLengthMarker(var);
+        }
     }
 
     public void setOnSession(BaseSession session)

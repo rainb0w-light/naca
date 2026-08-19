@@ -38,8 +38,9 @@ public class SQLClauseSPParamsDesc
     public void addAParam(ResultSet rsParams)
     {
         SQLClauseSPParamDesc param = new SQLClauseSPParamDesc();
-        if(param.fill(rsParams))
+        if (param.fill(rsParams)) {
             arrParamDesc.add(param);
+        }
     }
 
     public int getNbParamToProvide()

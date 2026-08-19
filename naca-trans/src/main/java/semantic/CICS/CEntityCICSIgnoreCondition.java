@@ -25,8 +25,9 @@ public class CEntityCICSIgnoreCondition extends CBaseActionEntity
     public CEntityCICSIgnoreCondition(int line, CObjectCatalog cat)
     {
         super(line, cat);
-        if (cat != null)
+        if (cat != null) {
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor());
+        }
     }
     public void IgnoreCondition(String cond)
     {

@@ -25,16 +25,18 @@ public class SQLWarningErrorType
     public static String getSQLWarningErrorStatement(SQLWarningErrorType type, String csSQLWarningErrorArg)
     {
         String cs = "";
-        if(type == ErrorGoto)
+        if (type == ErrorGoto) {
             cs = ".onErrorGoto(";
-        else if(type == WarningGoto)
+        } else if (type == WarningGoto) {
             cs = ".onWarningGoto(";
-        else
+        } else {
             cs = ".onErrorContinue(";
+        }
         if(!cs.equals(""))
         {
-            if(csSQLWarningErrorArg != null)
+            if (csSQLWarningErrorArg != null) {
                 cs += csSQLWarningErrorArg;
+            }
             cs += ")";
         }
         return cs;

@@ -88,8 +88,9 @@ public class LogParams
     {
         if(logFlow.isAcceptable(logEvent.getLogFlow()))
         {
-            if(logEvent.getLogLevel().isGreaterOrEqual(minLogLevel))
+            if (logEvent.getLogLevel().isGreaterOrEqual(minLogLevel)) {
                 return true;
+            }
         }
         return false;
     }
@@ -155,13 +156,15 @@ public class LogParams
     String getFile()
     {
         String fileName=null;
-        if(caller != null)
+        if (caller != null) {
             fileName = caller.getFileName();
+        }
 
 // If application is compiled without debug information, the file name
 // is not available:
-        if (fileName==null)
-            fileName="N/A";
+        if (fileName == null) {
+            fileName = "N/A";
+        }
 
         return fileName;
     }
@@ -169,19 +172,22 @@ public class LogParams
     String getMethod()
     {
         String method = null;
-        if(caller != null)
+        if (caller != null) {
             method = caller.getMethodName();
+        }
 // If application is compiled without debug information, the method name
 // is not available:
-        if (method==null)
-            method="N/A";
+        if (method == null) {
+            method = "N/A";
+        }
         return method;
     }
 
     int getLine()
     {
-        if(caller != null)
+        if (caller != null) {
             return caller.getLineNumber();
+        }
         return 0;
     }
 
@@ -217,8 +223,9 @@ public class LogParams
 
     String getMessage()
     {
-        if(csMessage != null)
+        if (csMessage != null) {
             return csMessage;
+        }
         return "";
     }
 
@@ -230,8 +237,9 @@ public class LogParams
     int getNbParamInfoMember()
     {
         int n = logEvent.getNbParamInfoMember();
-        if(n > 10)
+        if (n > 10) {
             n = 10;
+        }
         return n;
     }
 

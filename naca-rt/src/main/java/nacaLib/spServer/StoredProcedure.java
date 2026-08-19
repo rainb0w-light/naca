@@ -95,8 +95,9 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
             {
                 ResultSet rs = null;
                 boolean b = statement.execute();
-                if (b)
+                if (b) {
                     rs = statement.getResultSet();
+                }
                 if (rs != null)
                 {
                     if(rs.next())
@@ -155,14 +156,19 @@ public class StoredProcedure extends CalledProgramParamSupportByPosition
 
     private void setConnectionPackage(Connection spConnection, String csSpDbPackage)
     {
-        if (csSpDbPackage.equals("")) return;
-        if (executeConnectionPackage(spConnection, csSpDbPackage))
+        if (csSpDbPackage.equals("")) {
+            return;
+        }
+        if (executeConnectionPackage(spConnection, csSpDbPackage)) {
             isconnectionPackage = true;
+        }
     }
 
     private void resetConnectionPackage(Connection spConnection)
     {
-        if (!isconnectionPackage) return;
+        if (!isconnectionPackage) {
+            return;
+        }
         executeConnectionPackage(spConnection, "NULLID");
     }
 

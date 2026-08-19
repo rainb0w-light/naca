@@ -225,8 +225,9 @@ public class EmulWebRunner extends BaseCloseMBean
             {
                 ms_bOutputExport = false;
             }
-            if(cs.equalsIgnoreCase("-noCheckScenario"))
+            if (cs.equalsIgnoreCase("-noCheckScenario")) {
                 ms_bCheckScenario = false;
+            }
         }
 
     }

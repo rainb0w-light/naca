@@ -40,7 +40,7 @@ public class BlowfishInputStream extends InputStream {
 
       // setup the encryptor (use a dummy IV)
       _cbc = new BlowfishCBC(hasher.getDigest(), 0);
-      hasher.clear();  
+      hasher.clear();
 
       // create the input buffer
       _in_buffer = new byte[BlowfishCBC.BLOCKSIZE];
@@ -99,9 +99,10 @@ public class BlowfishInputStream extends InputStream {
       }
 
       if ( !_started ) {
-         // did the entire CBC IV get read?
-         if ( _bytes_read < _in_buffer.length )
-            return;
+          // did the entire CBC IV get read?
+          if (_bytes_read < _in_buffer.length) {
+              return;
+          }
          // set the CBC IV, it is the first 8 bytes of the input stream
          long iv = BinConverter.byteArrayToLong(_in_buffer, 0);
          _cbc.setCBCIV(iv);
@@ -113,7 +114,7 @@ public class BlowfishInputStream extends InputStream {
       _cbc.decrypt(_in_buffer);
 
       // check for last block -- if the original data did not fit exactly into
-      // an 8 byte block, the block was padded with enough bytes to fill the 
+      // an 8 byte block, the block was padded with enough bytes to fill the
       // block, then encrypted. The last byte is ALWAYS the number of pad bytes,
       // that means the last block could be eight 8's, which is all padding.
       int end = _in.read();
@@ -169,4 +170,4 @@ public class BlowfishInputStream extends InputStream {
 }
 
 
-     
+

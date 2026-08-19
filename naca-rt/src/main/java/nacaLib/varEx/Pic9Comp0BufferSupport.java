@@ -32,8 +32,9 @@ public class Pic9Comp0BufferSupport
         int nValue)
     {
         int nMinIndex = nPosition+nOffset;
-        if(bSigned && bSignLeading)
+        if (bSigned && bSignLeading) {
             nMinIndex++;
+        }
 
         char cSign = '+';
         if(nValue < 0)
@@ -87,8 +88,9 @@ public class Pic9Comp0BufferSupport
         long lValue)
     {
         int nMinIndex = nPosition+nOffset;
-        if(bSigned && bSignLeading)
-            nMinIndex = nPosition+nOffset+1;
+        if (bSigned && bSignLeading) {
+            nMinIndex = nPosition + nOffset + 1;
+        }
 
         char cSign = '+';
         if(lValue < 0)
@@ -200,10 +202,11 @@ public class Pic9Comp0BufferSupport
 
         int nNibblePos = nNbDigitInteger-1;
         int nDigitWithSign = (nValue % 10);
-        if(ispositive)
+        if (ispositive) {
             nDigitWithSign += 0xC0;
-        else
+        } else {
             nDigitWithSign += 0xD0;
+        }
 
         int nMinPosition = nPosition + nOffset;
         int nDigitPosition = nMinPosition + nNibblePos;
@@ -260,8 +263,9 @@ public class Pic9Comp0BufferSupport
         lValue *= 10;
 
         int nDigitSign = tbyBuffer[nAbsolutePosition+nTotalSize-1];
-        if(nDigitSign < 0)
+        if (nDigitSign < 0) {
             nDigitSign += 256;
+        }
         int nDigit = 0;
         if(nDigitSign >= 0xD0)
         {
@@ -288,8 +292,9 @@ public class Pic9Comp0BufferSupport
         lValue *= 10;
 
         int nDigitSign = tbyBuffer[nAbsolutePosition+nTotalSize-1];
-        if(nDigitSign < 0)
+        if (nDigitSign < 0) {
             nDigitSign += 256;
+        }
         int nDigit = 0;
         if(nDigitSign >= 0xD0)
         {
@@ -313,8 +318,9 @@ public class Pic9Comp0BufferSupport
 
     static private long getAsLong_ExceptLastByte(byte tbyBuffer[], int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
 
         long lValue = 0;
         int n = nAbsolutePosition;
@@ -322,8 +328,9 @@ public class Pic9Comp0BufferSupport
         while(n < nMax)
         {
             byte by = tbyBuffer[n];
-            if(by >= '0' && by <= '9')
+            if (by >= '0' && by <= '9') {
                 lValue = 10 * lValue + (by - '0');
+            }
             n++;
         }
         return lValue;
@@ -331,8 +338,9 @@ public class Pic9Comp0BufferSupport
 
     static private long getAsLong_ExceptLastByte_FromEbcdicBuffer(byte tbyBuffer[], int nAbsolutePosition, int nTotalSize)
     {
-        if(nTotalSize == 0)
+        if (nTotalSize == 0) {
             return 0;
+        }
 
         long lValue = 0;
         int n = nAbsolutePosition;
@@ -340,10 +348,12 @@ public class Pic9Comp0BufferSupport
         while(n < nMax)
         {
             int nByte = (int) tbyBuffer[n];
-            if(nByte < 0)
+            if (nByte < 0) {
                 nByte += 256;
-            if(nByte >= 0xF0 && nByte <= 0xF9)
+            }
+            if (nByte >= 0xF0 && nByte <= 0xF9) {
                 lValue = 10 * lValue + (nByte - 0xF0);
+            }
             n++;
         }
         return lValue;

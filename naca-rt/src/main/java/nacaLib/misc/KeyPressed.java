@@ -68,119 +68,92 @@ public class KeyPressed
 
     public static KeyPressed getKeyFromHttp(String csKey)
     {
-        if(csKey == null)
-            return null ;
-        else if (csKey.equals("0"))
+        if (csKey == null) {
+            return null;
+        }  else if (csKey.equals("0"))
         {
-            return KeyPressed.ENTER ;
-        }
-        else if (csKey.equals("1"))
+            return KeyPressed.ENTER;
+        } else if (csKey.equals("1"))
         {
             return KeyPressed.PF1;
-        }
-        else if (csKey.equals("2"))
+        } else if (csKey.equals("2"))
         {
             return KeyPressed.PF2;
-        }
-        else if (csKey.equals("3"))
+        } else if (csKey.equals("3"))
         {
             return KeyPressed.PF3;
-        }
-        else if (csKey.equals("4"))
+        } else if (csKey.equals("4"))
         {
             return KeyPressed.PF4;
-        }
-        else if (csKey.equals("5"))
+        } else if (csKey.equals("5"))
         {
             return KeyPressed.PF5;
-        }
-        else if (csKey.equals("6"))
+        } else if (csKey.equals("6"))
         {
             return KeyPressed.PF6;
-        }
-        else if (csKey.equals("7"))
+        } else if (csKey.equals("7"))
         {
             return KeyPressed.PF7;
-        }
-        else if (csKey.equals("8"))
+        } else if (csKey.equals("8"))
         {
             return KeyPressed.PF8;
-        }
-        else if (csKey.equals("9"))
+        } else if (csKey.equals("9"))
         {
             return KeyPressed.PF9;
-        }
-        else if (csKey.equals("A"))
+        } else if (csKey.equals("A"))
         {
             return KeyPressed.PF10;
-        }
-        else if (csKey.equals("B"))
+        } else if (csKey.equals("B"))
         {
             return KeyPressed.PF11;
-        }
-        else if (csKey.equals("C"))
+        } else if (csKey.equals("C"))
         {
             return KeyPressed.PF12;
-        }
-        else if (csKey.equals("D"))
+        } else if (csKey.equals("D"))
         {
             return KeyPressed.PF13;
-        }
-        else if (csKey.equals("E"))
+        } else if (csKey.equals("E"))
         {
             return KeyPressed.PF14;
-        }
-        else if (csKey.equals("F"))
+        } else if (csKey.equals("F"))
         {
             return KeyPressed.PF15;
-        }
-        else if (csKey.equals("G"))
+        } else if (csKey.equals("G"))
         {
             return KeyPressed.PF16;
-        }
-        else if (csKey.equals("H"))
+        } else if (csKey.equals("H"))
         {
             return KeyPressed.PF17;
-        }
-        else if (csKey.equals("I"))
+        } else if (csKey.equals("I"))
         {
             return KeyPressed.PF18;
-        }
-        else if (csKey.equals("J"))
+        } else if (csKey.equals("J"))
         {
             return KeyPressed.PF19;
-        }
-        else if (csKey.equals("K"))
+        } else if (csKey.equals("K"))
         {
             return KeyPressed.PF20;
-        }
-        else if (csKey.equals("L"))
+        } else if (csKey.equals("L"))
         {
             return KeyPressed.PF21;
-        }
-        else if (csKey.equals("M"))
+        } else if (csKey.equals("M"))
         {
             return KeyPressed.PF22;
-        }
-        else if (csKey.equals("N"))
+        } else if (csKey.equals("N"))
         {
             return KeyPressed.PF23;
-        }
-        else if (csKey.equals("O"))
+        } else if (csKey.equals("O"))
         {
             return KeyPressed.PF24;
-        }
-        else if (csKey.equals("logout"))
+        } else if (csKey.equals("logout"))
         {
             return KeyPressed.LOG_OUT;
-        }
-        else if (csKey.equals("chguser"))
+        } else if (csKey.equals("chguser"))
         {
             return KeyPressed.CHANGE_USER;
-        }
-        else
+        } else
         {
-            return null ;
+            return null;
         }
     }
 

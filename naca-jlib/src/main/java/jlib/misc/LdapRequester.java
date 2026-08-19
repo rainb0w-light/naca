@@ -106,17 +106,21 @@ public class LdapRequester
     {
         int nLdapRequestId = cptLdapRequestId.inc();
         int nNbLdapThread = 1;
-        if(!StringUtil.isEmpty(csLDAPServer2))
+        if (!StringUtil.isEmpty(csLDAPServer2)) {
             nNbLdapThread++;
-        if(!StringUtil.isEmpty(csLDAPServer3))
+        }
+        if (!StringUtil.isEmpty(csLDAPServer3)) {
             nNbLdapThread++;
+        }
 
         ldap = new LdapUtil(nNbLdapThread);
         ldap.addServer(nLdapRequestId, csUser+"@"+csLDAPDomain, csPassword, csLDAPServer1);
-        if(!StringUtil.isEmpty(csLDAPServer2))
-            ldap.addServer(nLdapRequestId, csUser+"@"+csLDAPDomain, csPassword, csLDAPServer2);
-        if(!StringUtil.isEmpty(csLDAPServer3))
-            ldap.addServer(nLdapRequestId, csUser+"@"+csLDAPDomain, csPassword, csLDAPServer3);
+        if (!StringUtil.isEmpty(csLDAPServer2)) {
+            ldap.addServer(nLdapRequestId, csUser + "@" + csLDAPDomain, csPassword, csLDAPServer2);
+        }
+        if (!StringUtil.isEmpty(csLDAPServer3)) {
+            ldap.addServer(nLdapRequestId, csUser + "@" + csLDAPDomain, csPassword, csLDAPServer3);
+        }
         ldap.connectOnAnyServers();
         return ldap.isValid() ;
     }

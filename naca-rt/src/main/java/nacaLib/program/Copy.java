@@ -22,8 +22,9 @@ public class Copy
         declare = new VarDeclaration(program, copyReplacing);
         String csCopyName = toString();
         int n = csCopyName.indexOf('@');
-        if(n > 0)
+        if (n > 0) {
             csCopyName = csCopyName.substring(0, n);
+        }
         if(program != null)
         {
             String csProgramOwnerName = program.getSimpleName();

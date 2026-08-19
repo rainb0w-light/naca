@@ -676,15 +676,17 @@ public class VarDefForm extends VarDefBuffer
 
     int getNbFields()
     {
-        if(arrFields != null)
+        if (arrFields != null) {
             return arrFields.size();
+        }
         return 0;
     }
 
     VarDefEdit getEditAt(int nIndex)
     {
-        if(arrFields != null)
+        if (arrFields != null) {
             return (VarDefEdit) arrFields.get(nIndex);
+        }
         return null;
     }
 
@@ -713,8 +715,9 @@ public class VarDefForm extends VarDefBuffer
             VarDefEdit varDefEdit = null;
             VarDefBuffer varDefChild = null;
             int nEdit = 0;
-            if(nNbEdits > 0)
+            if (nNbEdits > 0) {
                 varDefEdit = getEditAt(nEdit);
+            }
             for(int nChild=0; nChild<nNbChildren && nPos != -1; nChild++)   // Skip first child, as it is the fake header
             {
                 varDefChild = getChild(nChild);
@@ -736,10 +739,11 @@ public class VarDefForm extends VarDefBuffer
                         nPos = var2Edit.encodeIntoCharBuffer(charBuffer, csText, nEditLength, nPos);
 
                         nEdit++;
-                        if(nEdit < nNbEdits)
+                        if (nEdit < nNbEdits) {
                             varDefEdit = getEditAt(nEdit);
-                        else
+                        } else {
                             varDefEdit = null;
+                        }
                     }
                     else    // The child is a var that may be interleaved with edits, or after all edits
                     {
@@ -778,8 +782,9 @@ public class VarDefForm extends VarDefBuffer
         VarDefBuffer varDefChild = null;
 
         int nEdit = 0;
-        if(nNbEdits > 0)
+        if (nNbEdits > 0) {
             varDefEdit = getEditAt(nEdit);
+        }
         for(int nChild=0; nChild<nNbChildren; nChild++) // Skip fake header
         {
             varDefChild = getChild(nChild);
@@ -795,10 +800,11 @@ public class VarDefForm extends VarDefBuffer
 
                     nPosSource = var2Edit.decodeFromVar(varSource, nPosSource, nEditLength);
                     nEdit++;
-                    if(nEdit < nNbEdits)
+                    if (nEdit < nNbEdits) {
                         varDefEdit = getEditAt(nEdit);
-                    else
+                    } else {
                         varDefEdit = null;
+                    }
                 }
                 else    // The child is a var that may be interleaved with edits, or after all edits
                 {
@@ -827,8 +833,9 @@ public class VarDefForm extends VarDefBuffer
         VarDefBuffer varDefChild = null;
 
         int nEdit = 0;
-        if(nNbEdits > 0)
+        if (nNbEdits > 0) {
             varDefEdit = getEditAt(nEdit);
+        }
         for(int nChild=0; nChild<nNbChildren; nChild++) // Skip fake header
         {
             varDefChild = getChild(nChild);
@@ -840,10 +847,11 @@ public class VarDefForm extends VarDefBuffer
                     Edit var2Edit = (Edit)programManager.getVarFullName(varDefEdit);
                     nPosSource = var2Edit.decodeFromCharBuffer(charBuffer, nPosSource, nEditLength);
                     nEdit++;
-                    if(nEdit < nNbEdits)
+                    if (nEdit < nNbEdits) {
                         varDefEdit = getEditAt(nEdit);
-                    else
+                    } else {
                         varDefEdit = null;
+                    }
                 }
                 else    // The child is a var that may be interleaved with edits, or after all edits
                 {
@@ -874,8 +882,9 @@ public class VarDefForm extends VarDefBuffer
         for(int nChild=0; nChild<nNbChildren; nChild++) // Skip fake header
         {
             VarDefBuffer varDefChild = getChild(nChild);
-            if(varDefChild.nDefaultAbsolutePosition == nAbsolutePosition)
+            if (varDefChild.nDefaultAbsolutePosition == nAbsolutePosition) {
                 return varDefChild;
+            }
         }
         return null;
     }

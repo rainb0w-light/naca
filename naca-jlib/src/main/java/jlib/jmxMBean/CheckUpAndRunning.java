@@ -10,10 +10,11 @@ public class CheckUpAndRunning implements CheckUpAndRunningMBean
 {
     public boolean isUp()
     {
-        if(isinc)
+        if (isinc) {
             nbUp++;
-        else
+        } else {
             nbUp--;
+        }
         return true;
     }
 

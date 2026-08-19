@@ -43,8 +43,9 @@ public class CFPacWTO extends CFPacElement
     protected boolean DoParsing()
     {
         CBaseToken tok = GetCurrentToken() ;
-        if  (tok.GetKeyword() == CFPacKeywordList.WTO)
-            tok = GetNext() ;
+        if (tok.GetKeyword() == CFPacKeywordList.WTO) {
+            tok = GetNext();
+        }
 
         if (tok.GetType() == CTokenType.MINUS)
         {

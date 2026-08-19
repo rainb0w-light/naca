@@ -43,15 +43,17 @@ public class MapFieldAttrFill extends MapFieldBaseAttr
 
     boolean isFillZero()
     {
-        if(getInternalValue() == ZERO.getInternalValue())
+        if (getInternalValue() == ZERO.getInternalValue()) {
             return true;
+        }
         return false;
     }
 
     boolean isFillBlank()
     {
-        if(getInternalValue() == BLANK.getInternalValue())
+        if (getInternalValue() == BLANK.getInternalValue()) {
             return true;
+        }
         return false;
     }
 

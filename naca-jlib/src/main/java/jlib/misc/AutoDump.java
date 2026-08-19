@@ -24,8 +24,9 @@ public class AutoDump
      */
     public static String dump(Object oSource)
     {
-        if(oSource == null)
+        if (oSource == null) {
             return "";
+        }
 
         Class programClass = oSource.getClass();
 
@@ -46,9 +47,9 @@ public class AutoDump
                 {
                     String csValue = oMember.toString();
                     out.set(csTypeName + " " + csName, csValue);
-                }
-                else
+                } else {
                     out.set(csTypeName + " " + csName, "(null)");
+                }
             }
             catch (IllegalArgumentException e)
             {

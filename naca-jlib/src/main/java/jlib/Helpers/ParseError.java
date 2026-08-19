@@ -19,8 +19,9 @@ public class ParseError
 
 //************************* On récupere le message d'erreur *******************
             String s = e.getMessage();
-            if (s == null)
+            if (s == null) {
                 s = "...";
+            }
             int n = s.indexOf("##");
 
 //***************** Si l'erreur vient de se produire **************************

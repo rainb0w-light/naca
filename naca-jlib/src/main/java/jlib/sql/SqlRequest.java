@@ -33,8 +33,9 @@ public class SqlRequest extends DbPreparedStatement
             sqInsert.setCol("Name", csSequence);
             sqInsert.setCol("Value", 1);
             boolean b = sqInsert.execSQL(con);
-            if(!b)
+            if (!b) {
                 return -1;  // Error
+            }
             return 1;
         }
         else
@@ -47,8 +48,9 @@ public class SqlRequest extends DbPreparedStatement
             sqUpdate.setCol("Value", nValue);
             sqUpdate.setParam("Name", csSequence);
             boolean b = sqUpdate.execSQL(con);
-            if(!b)
+            if (!b) {
                 return -1;
+            }
             return nValue;
         }
     }
@@ -172,13 +174,15 @@ public class SqlRequest extends DbPreparedStatement
                 for(int nParam=0; nParam<nNbParam; nParam++)
                 {
                     ColValue colValue = getParamAtOrder(nParam);
-                    if(colValue != null)
+                    if (colValue != null) {
                         setColParam(nParam, colValue);
+                    }
                 }
 
                 resultSet = executeSelect();
-                if(resultSet != null)
+                if (resultSet != null) {
                     return true;
+                }
                 return false;
             }
             else if(operation.equalsIgnoreCase("Insert"))
@@ -196,8 +200,9 @@ public class SqlRequest extends DbPreparedStatement
                 }
 
                 int n = executeInsert();
-                if(n > 0)
+                if (n > 0) {
                     return true;
+                }
                 return false;
             }
             else if(operation.equalsIgnoreCase("Update"))
@@ -219,14 +224,16 @@ public class SqlRequest extends DbPreparedStatement
                 for(int nParam=0; nParam<nNbParam; nParam++)
                 {
                     ColValue colValue = getParamAtOrder(nParam);
-                    if(colValue != null)
-                        setColParam(nCol+nParam, colValue);
+                    if (colValue != null) {
+                        setColParam(nCol + nParam, colValue);
+                    }
                 }
 
 
                 int n = executeUpdate();
-                if(n > 0)
+                if (n > 0) {
                     return true;
+                }
                 return false;
             }
         }
@@ -451,8 +458,9 @@ public class SqlRequest extends DbPreparedStatement
         String request = "Update " + table + " set ";
         for(int n = 0; n< col.size(); n++)
         {
-            if(n != 0)
+            if (n != 0) {
                 request += ", ";
+            }
 
             ColValue col = this.col.get(n);
             String cs = col.csName + "=?";  // + col.getValueAsString() + "'";
@@ -548,8 +556,9 @@ public class SqlRequest extends DbPreparedStatement
             for(int n = 0; n< param.size(); n++)
             {
                 colValue = param.get(n);
-                if(colValue.hasName(key))
+                if (colValue.hasName(key)) {
                     return colValue;
+                }
             }
         }
         return null;
@@ -563,8 +572,9 @@ public class SqlRequest extends DbPreparedStatement
             for(int n = 0; n< param.size(); n++)
             {
                 colValue = param.get(n);
-                if(colValue.isOrder(nOrder))
+                if (colValue.isOrder(nOrder)) {
                     return colValue;
+                }
             }
         }
         return null;
@@ -572,8 +582,9 @@ public class SqlRequest extends DbPreparedStatement
 
     private int getNbParam()
     {
-        if(param != null)
+        if (param != null) {
             return param.size();
+        }
         return 0;
     }
 

@@ -90,17 +90,21 @@ public class CExecSQLSelect extends CBaseExecSQLAction
         }
         int nFromEnd = clause.length() ;
         int nWhere = clause.indexOf("WHERE");
-        if (nWhere > 0 && nWhere < nFromEnd)
-            nFromEnd = nWhere ;
+        if (nWhere > 0 && nWhere < nFromEnd) {
+            nFromEnd = nWhere;
+        }
         int nForUpdate = clause.indexOf("FOR UPDATE") ;
-        if (nForUpdate > 0 && nForUpdate < nFromEnd)
-            nFromEnd = nForUpdate ;
+        if (nForUpdate > 0 && nForUpdate < nFromEnd) {
+            nFromEnd = nForUpdate;
+        }
         int nGroup = clause.indexOf("GROUP") ;
-        if (nGroup > 0 && nGroup < nFromEnd)
-            nFromEnd = nGroup ;
+        if (nGroup > 0 && nGroup < nFromEnd) {
+            nFromEnd = nGroup;
+        }
         int nOrder = clause.indexOf("ORDER") ;
-        if (nOrder > 0 && nOrder < nFromEnd)
-            nFromEnd = nOrder ;
+        if (nOrder > 0 && nOrder < nFromEnd) {
+            nFromEnd = nOrder;
+        }
         String select = clause.substring(7, nFrom) ;
         String from = "" ;
         String where = "" ;
@@ -139,19 +143,22 @@ public class CExecSQLSelect extends CBaseExecSQLAction
                     char c = select.charAt(p) ;
                     while (nbPar > 0 || c!=',')
                     {
-                        if (c == '(')
-                            nbPar ++ ;
-                        else if (c == ')')
-                            nbPar -- ;
+                        if (c == '(') {
+                            nbPar++;
+                        }  else if (c == ')') {
+                            nbPar--;
+                        }
                         p ++ ;
-                        if (p == select.length())
-                            break ;
+                        if (p == select.length()) {
+                            break;
+                        }
                         c = select.charAt(p) ;
                     }
-                    if (p == select.length())
-                        nPos = -1 ;
-                    else
-                        nPos = p ;
+                    if (p == select.length()) {
+                        nPos = -1;
+                    }  else {
+                        nPos = p;
+                    }
                     cs = select.substring(0, p).trim() ;
                 }
                 cs = checkAlias(cs) ;
@@ -736,10 +743,12 @@ public class CExecSQLSelect extends CBaseExecSQLAction
 
     public void AppendRequiredSpace(String cs)
     {
-        if(clause.endsWith(" ") || clause.endsWith(":") || clause.endsWith(".") || clause.endsWith("!") || clause.endsWith("("))
-            return  ;
-        if (cs.equals("(") || cs.equals(")"))
-            return ;
+        if (clause.endsWith(" ") || clause.endsWith(":") || clause.endsWith(".") || clause.endsWith("!") || clause.endsWith("(")) {
+            return;
+        }
+        if (cs.equals("(") || cs.equals(")")) {
+            return;
+        }
         clause += " ";
     }
 

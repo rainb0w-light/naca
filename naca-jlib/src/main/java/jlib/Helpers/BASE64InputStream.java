@@ -130,9 +130,10 @@ public class BASE64InputStream extends InputStream {
                     }
                     // If we couldn't retrieve all 3 required bytes:
                     else {
-                        padding=3-n;
-                        for(;n<3;n++)
-                            union<<=8;  // We pad the remaining bytes with zero.
+                        padding = 3 - n;
+                        for (; n < 3; n++) {
+                            union <<= 8;  // We pad the remaining bytes with zero.
+                        }
                         break;
                     }
                 }
@@ -150,10 +151,11 @@ public class BASE64InputStream extends InputStream {
             for(n=0;n<4;n++) {
                 data=(int)(union & 63);
                 b=(byte)data;
-                if (padding-->0)
-                    _buffer[n]='=';
-                else
-                    _buffer[n]=_base64[b];
+                if (padding-- > 0) {
+                    _buffer[n] = '=';
+                } else {
+                    _buffer[n] = _base64[b];
+                }
                 union>>>=6;
             }
             _bufferIndex=3;

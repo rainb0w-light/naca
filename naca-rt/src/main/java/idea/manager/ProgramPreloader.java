@@ -130,8 +130,9 @@ public class ProgramPreloader
                     SharedProgramInstanceData sharedProgramInstanceData = null;
 //                  if(bSerializePreLoadedProgram)
 // sharedProgramInstanceData = tryDeserialize(csVarDefCatalogueSerilizationPath, csProgramName);
-                    if(sharedProgramInstanceData == null)// No serialized file, or obsolete one: Must load the class
+                    if (sharedProgramInstanceData == null) {// No serialized file, or obsolete one: Must load the class
                         sharedProgramInstanceData = seq.forcePreloadSessionProgram(csProgramName, nQty);
+                    }
                     if( sharedProgramInstanceData != null)
                     {
                         nNbProgramPreloaded++;

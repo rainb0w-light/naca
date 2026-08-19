@@ -58,24 +58,28 @@ public class SQLUnload extends BaseSQLUtils
 
         // cursor clause not supported
         SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
-        if(typeOperation == null)
+        if (typeOperation == null) {
             return -1;  // Do not manage this order
 
-        if(typeOperation.equals(SQLTypeOperation.Commit))
+        }
+        if (typeOperation.equals(SQLTypeOperation.Commit))
         {
-            if(dbConnection.commit() == 0)  // success
+            if (dbConnection.commit() == 0) {  // success
                 return 0;
+            }
             return -1;  // failure
         }
 
-        if(!typeOperation.equals(SQLTypeOperation.Select))
+        if (!typeOperation.equals(SQLTypeOperation.Select)) {
             return -1;  // Do not manage this order
 
+        }
         String csSysrecName;
-        if (isexcel)
+        if (isexcel) {
             csSysrecName = "UNLOAD";
-        else
+        } else {
             csSysrecName = getSysrecName(nNbSelectProcessed);
+        }
 
         FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
         fileDescOuput.setSession(getSession());
@@ -84,32 +88,34 @@ public class SQLUnload extends BaseSQLUtils
         BaseDataFile fileOuput = fileDescOuput.getDataFile();
 
         // Remove ending ';' as it is not supported by UDB
-        if(csClause.endsWith(";"))
-            csClause = csClause.substring(0, csClause.length()-1);
+        if (csClause.endsWith(";")) {
+            csClause = csClause.substring(0, csClause.length() - 1);
+        }
 
         csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
         DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
-        if(stmt != null)
+        if (stmt != null)
         {
-            if(typeOperation == SQLTypeOperation.Select)
+            if (typeOperation == SQLTypeOperation.Select)
             {
                 ResultSet rs = stmt.executeSelect();
-                if(rs != null)
+                if (rs != null)
                 {
                     nNbRecords = unloadRecords(rs, csClause, isebcdicOutput, fileOuput);
                 }
             }
         }
 
-        if(fileOuput != null)
+        if (fileOuput != null)
         {
             fileOuput.close();
         }
 
         nNbSelectProcessed++;
 
-        if(isconnectionValid)
+        if (isconnectionValid) {
             return nNbRecords;
+        }
         return -1;
     }
 
@@ -119,8 +125,9 @@ public class SQLUnload extends BaseSQLUtils
         ArrayList<BaseDbColDefinition> dbColDef = null;
 
         byte aSeparatorComma[] = new String(",").getBytes();
-        if(bEbcdicOutput)   // Must outout in ebcdic
+        if (bEbcdicOutput) {   // Must outout in ebcdic
             AsciiEbcdicConverter.swapByteAsciiToEbcdic(aSeparatorComma, 0, aSeparatorComma.length);
+        }
 
         while(next(resultSet))
         {
@@ -139,8 +146,9 @@ public class SQLUnload extends BaseSQLUtils
                         byte aBytes[];
                         if (isexcel)
                         {
-                            if (nCol > 0)
+                            if (nCol > 0) {
                                 fileOuput.write(aSeparatorComma);
+                            }
                             aBytes = dbColDefinition.getExcelValue(resultSet, nCol+1, bEbcdicOutput);
                         }
                         else

@@ -27,41 +27,47 @@ public class ColValueCollection
 
     public ColValueCollection()
     {
-        if(cols == null)
+        if (cols == null) {
             cols = new ArrayList<ColValue>();
-        if(hashColsByName == null)
+        }
+        if (hashColsByName == null) {
             hashColsByName = new Hashtable<String, ColValue>();
+        }
     }
 
     synchronized public boolean isStored(String csColName)
     {
         ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-        if(colValue == null)
+        if (colValue == null) {
             return false;
+        }
         return true;
     }
 
     public String getAsString(String csColName)
     {
         ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-        if(colValue != null)
+        if (colValue != null) {
             return colValue.getValueAsString();
+        }
         return null;
     }
 
     public int getAsInt(String csColName)
     {
         ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-        if(colValue != null)
+        if (colValue != null) {
             return colValue.getValueAsInt();
+        }
         return 0;
     }
 
     public double getAsDouble(String csColName)
     {
         ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-        if(colValue != null)
+        if (colValue != null) {
             return colValue.getValueAsDouble();
+        }
         return 0.0;
     }
 

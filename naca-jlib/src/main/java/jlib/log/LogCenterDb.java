@@ -134,14 +134,15 @@ public class LogCenterDb extends LogCenter
         {
             String cs;
 
-            if(!isuseSequence)
+            if (!isuseSequence) {
                 cs = "Insert into " + csMasterTable + " (" +
-                    "Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message) Values (" +
-                    "?,    ?,    ?,    ?,      ?,      ?,         ?,         ?)";
-            else
+                        "Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message) Values (" +
+                        "?,    ?,    ?,    ?,      ?,      ?,         ?,         ?)";
+            } else {
                 cs = "Insert into " + csMasterTable + " (" +
-                    "Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message, Id) Values (" +
-                    "?,    \t\t?,    \t\t?,    ?,      ?,      ?,         ?,         ?, \t\t SEQ_LOG_ID.nextval)";
+                        "Log_Type, File_Name, Line, Thread, Method, Start_Time, Event_Name, Message, Id) Values (" +
+                        "?,    \t\t?,    \t\t?,    ?,      ?,      ?,         ?,         ?, \t\t SEQ_LOG_ID.nextval)";
+            }
 
             int nCol = 0;
             DbPreparedStatement stInsertHeader = dbConnection.prepareStatement(cs, 0, false);
@@ -175,10 +176,11 @@ public class LogCenterDb extends LogCenter
                 //resultSet.close();    // TBD
             }
 
-            if(!isuseSequence)
+            if (!isuseSequence) {
                 cs = "Insert into " + csDetailsTable + " (Id, Name, Value) Values (?,  ?,    ?)";
-            else
+            } else {
                 cs = "Insert into " + csDetailsTable + "(Id, Name, Value, Detail_Id) Values (?, ?, ?, SEQ_LOGDETAIL_ID.nextval)";
+            }
 
             int nNbMembers = logParam.getNbParamInfoMember();
 

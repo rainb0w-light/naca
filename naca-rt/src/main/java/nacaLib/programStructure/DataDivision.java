@@ -42,13 +42,15 @@ public class DataDivision extends Division
 
         program.getProgramManager().assignBufferLS(varBufferLS);
 
-        if(bFirstInstance)
+        if (bFirstInstance) {
             workingStorageSection.fillWorkingInitialValues(program.getProgramManager().getSharedProgramInstanceData());
+        }
 
         mapLinkageCallParameters(arrCallerCallParam, arrDeclaredCallArg);
 
-        if(IsSTCheck)
+        if (IsSTCheck) {
             workingStorageSection.dumpRootVar("Working Storage");
+        }
 
         return varBufferWS;
     }
@@ -110,8 +112,9 @@ public class DataDivision extends Division
     public void mapLinkageCallParameters(ArrayList arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
     {
         linkageSection.mapCallParameters(arrCallerCallParam, arrDeclaredCallArg);
-        if(IsSTCheck)
+        if (IsSTCheck) {
             linkageSection.dumpRootVar("Linkage Storage");
+        }
     }
 
     public void mapCalledPrgReturnParameters(
@@ -132,21 +135,24 @@ public class DataDivision extends Division
 
     private void grantWorkingStorageSection(BaseProgram prg)
     {
-        if(workingStorageSection == null)
+        if (workingStorageSection == null) {
             workingStorageSection = new DataSectionWorking(prg);
+        }
     }
 
     public boolean isLinkageSectionCurrent()
     {
-        if(linkageSection != null && currentDataSection == linkageSection)
+        if (linkageSection != null && currentDataSection == linkageSection) {
             return true;
+        }
         return false;
     }
 
     public boolean isFileSectionCurrent()
     {
-        if(fileSection != null && currentDataSection == fileSection)
+        if (fileSection != null && currentDataSection == fileSection) {
             return true;
+        }
         return false;
     }
 
@@ -160,8 +166,9 @@ public class DataDivision extends Division
 
     public boolean isWorkingSectionCurrent()
     {
-        if(workingStorageSection != null && currentDataSection == workingStorageSection)
+        if (workingStorageSection != null && currentDataSection == workingStorageSection) {
             return true;
+        }
         return false;
     }
 
@@ -176,8 +183,9 @@ public class DataDivision extends Division
 
     public void grantLinkageSection(BaseProgram prg)
     {
-        if(linkageSection == null)
+        if (linkageSection == null) {
             linkageSection = new DataSectionLinkage(prg);
+        }
     }
 
     public DataSection grantAndSetCurrentLinkageSection(BaseProgram prg)
@@ -193,8 +201,9 @@ public class DataDivision extends Division
     {
         boolean iscreated = grantFileSection(prg);
         currentDataSection = fileSection;
-        if(iscreated)
+        if (iscreated) {
             fileSection.createRootVarOfSection();
+        }
         resetCurrentFileDef();
         return fileSection;
     }
@@ -212,35 +221,40 @@ public class DataDivision extends Division
 
     public VarBuffer getWorkingStorageSectionVarBuffer()
     {
-        if(workingStorageSection != null)
+        if (workingStorageSection != null) {
             return workingStorageSection.buffer;
+        }
         return null;
     }
 
     public VarBuffer getLinkageSectionVarBuffer()
     {
-        if(linkageSection != null)
+        if (linkageSection != null) {
             return linkageSection.buffer;
+        }
         return null;
     }
 
     public VarDefBuffer getVarDefAtParentLevel(int nLevel)
     {
-        if(currentDataSection != null)
+        if (currentDataSection != null) {
             return currentDataSection.getVarDefAtParentLevel(nLevel);
+        }
         return null;
     }
 
     public void pushLevel(VarDefBuffer varDef)
     {
-        if(currentDataSection != null)
+        if (currentDataSection != null) {
             currentDataSection.pushLevel(varDef);
+        }
     }
 
     private void resetCurrentFileDef()
     {
-        if(fileSection != null)
+        if (fileSection != null) {
             fileSection.setCurrentFileDef(null);
+        }
     }
 
     private DataSectionLinkage linkageSection = null;       // Allocated LinkageSection

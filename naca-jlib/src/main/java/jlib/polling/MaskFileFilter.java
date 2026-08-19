@@ -31,8 +31,9 @@ public class MaskFileFilter implements FileFilter
         if(csMasks != null)
         {
             String arr[] = csMasks.split(";");
-            for(int n=0; n<arr.length; n++)
+            for (int n = 0; n < arr.length; n++) {
                 add(arr[n]);
+            }
         }
     }
 
@@ -40,8 +41,9 @@ public class MaskFileFilter implements FileFilter
     {
         if(csMask != null)
         {
-            if(maskFilters == null)
+            if (maskFilters == null) {
                 maskFilters = new ArrayList<FileFilter>();
+            }
 
             csMask = csMask.trim();
             FileFilter fileFilter = new WildcardFileFilter(csMask);
@@ -51,14 +53,16 @@ public class MaskFileFilter implements FileFilter
 
     public boolean accept(File pathname)
     {
-        if(maskFilters == null)
+        if (maskFilters == null) {
             return true;
+        }
 
         for(int n = 0; n< maskFilters.size(); n++)
         {
             FileFilter maskFilter = maskFilters.get(n);
-            if(maskFilter.accept(pathname))
+            if (maskFilter.accept(pathname)) {
                 return true;
+            }
         }
         return false;
     }

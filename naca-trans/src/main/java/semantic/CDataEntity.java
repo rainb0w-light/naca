@@ -95,11 +95,12 @@ public abstract class CDataEntity extends CBaseLanguageEntity
         CBaseEntityCondition.EConditionType type,
         CBaseEntityFactory factory)
     {
-        if(this instanceof CEntityUnknownReference)
-            Transcoder.logError(nLine, "ERROR : special condition needed for value '"+value + "; Undefined variable: "+GetName());
-        else
+        if (this instanceof CEntityUnknownReference) {
+            Transcoder.logError(nLine, "ERROR : special condition needed for value '" + value + "; Undefined variable: " + GetName());
+        } else {
             Transcoder.logError(nLine, "ERROR : special condition needed for value '" + value + "; Undefined variable: " + GetName()
-                + " for class=" + getClass().getName());
+                    + " for class=" + getClass().getName());
+        }
         return null ;
     }
 
@@ -310,38 +311,44 @@ public abstract class CDataEntity extends CBaseLanguageEntity
         for (int j = 0; j<arrActionsReading.size();)
         {
             CBaseActionEntity act = arrActionsReading.get(j);
-            if (!act.ReplaceVariable(this, var))
-                j++ ;
+            if (!act.ReplaceVariable(this, var)) {
+                j++;
+            }
         }
         for (int j = 0; j<arrActionsWriting.size(); )
         {
             CBaseActionEntity act = arrActionsWriting.get(j);
-            if (!act.ReplaceVariable(this, var))
-                j++ ;
+            if (!act.ReplaceVariable(this, var)) {
+                j++;
+            }
         }
         for (int j = 0; j< accessAsValue.size();)
         {
             CBaseEntityCondExpr act = accessAsValue.get(j);
-            if (!act.ReplaceVariable(this, var))
-                j++ ;
+            if (!act.ReplaceVariable(this, var)) {
+                j++;
+            }
         }
         for (int j = 0; j<arrTestsAsVar.size(); )
         {
             CBaseEntityCondition act = arrTestsAsVar.get(j);
-            if (!act.ReplaceVariable(this, var))
-                j++ ;
+            if (!act.ReplaceVariable(this, var)) {
+                j++;
+            }
         }
         for (int j = 0; j< readReference.size(); )
         {
             CGenericDataEntityReference act = readReference.get(j);
-            if (!act.ReplaceVariable(this, var, true))
-                j++ ;
+            if (!act.ReplaceVariable(this, var, true)) {
+                j++;
+            }
         }
         for (int j = 0; j< writeReference.size();)
         {
             CGenericDataEntityReference act = writeReference.get(j);
-            if (!act.ReplaceVariable(this, var, false))
-                j++ ;
+            if (!act.ReplaceVariable(this, var, false)) {
+                j++;
+            }
         }
     }
     public void Clear()

@@ -33,14 +33,16 @@ public abstract class BaseDirectoryPoller
     public void setMasks(String csMasks)
     {
         String arr[] = csMasks.split(";");
-        for(int n=0; n<arr.length; n++)
+        for (int n = 0; n < arr.length; n++) {
             addSingleMask(arr[n]);
+        }
     }
 
     public void addSingleMask(String csMask)
     {
-        if(maskFileFilter == null)
+        if (maskFileFilter == null) {
             maskFileFilter = new MaskFileFilter();
+        }
         maskFileFilter.add(csMask);
     }
 

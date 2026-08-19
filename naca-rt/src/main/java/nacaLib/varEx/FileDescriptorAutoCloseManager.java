@@ -36,8 +36,9 @@ public class FileDescriptorAutoCloseManager
 
     public void registerFileDescriptor(FileDescriptor fileDescriptor)
     {
-        if(hashFileDescriptor == null)
+        if (hashFileDescriptor == null) {
             hashFileDescriptor = new Hashtable<FileDescriptor, FileDescriptorOpenStatus>();
+        }
         hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
     }
 

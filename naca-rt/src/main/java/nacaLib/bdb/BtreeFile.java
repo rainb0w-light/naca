@@ -94,10 +94,11 @@ public class BtreeFile
         {
             // Insert real record
             MultiThreadedSortAddItem item = multiThreadedSortItemCache.getUsusedItem();
-            if(item == null)
+            if (item == null) {
                 item = new MultiThreadedSortAddItem(this, tbyData, nSourceOffset, nTotalLength, nNbRecordRead, bVariableLength);
-            else
+            } else {
                 item.fill(this, tbyData, nSourceOffset, nTotalLength, nNbRecordRead, bVariableLength);
+            }
             threadsPoolWriter.enqueue(item);
             return true;
         }
@@ -185,10 +186,11 @@ public class BtreeFile
         else
         {
             MultiThreadedSortAddItem item = multiThreadedSortItemCache.getUsusedItem();
-            if(item == null)
+            if (item == null) {
                 item = new MultiThreadedSortAddItem(this, tbyData, nOffset, nTotalLength, nNbRecordRead, bFileInVariableLength);
-            else
+            } else {
                 item.fill(this, tbyData, nOffset, nTotalLength, nNbRecordRead, bFileInVariableLength);
+            }
             // MultiThreadedSortAddItem item = new MultiThreadedSortAddItem(this, tbyData, nOffset, nTotalLength, nNbRecordRead,
             // bFileInVariableLength);
             threadsPoolWriter.enqueue(item);
@@ -303,29 +305,33 @@ public class BtreeFile
 
     byte[] getData()
     {
-        if(data != null)
+        if (data != null) {
             return data.getData();
+        }
         return null;
     }
 
     byte[] getKey()
     {
-        if(key != null)
+        if (key != null) {
             return key.getData();
+        }
         return null;
     }
 
     public byte[] getNextSortedRecord()
     {
-        if(nNbRecordExported == 0)
+        if (nNbRecordExported == 0) {
             tryLaunchAsyncSortReader();
+        }
 
         if(threadsPoolReader == null)
         {
-            if(nNbRecordExported == 0)
+            if (nNbRecordExported == 0) {
                 return syncGetFirst();
-            else
+            } else {
                 return syncGetNext();
+            }
         }
         return threadsPoolReader.getNextSortedRecord();
     }

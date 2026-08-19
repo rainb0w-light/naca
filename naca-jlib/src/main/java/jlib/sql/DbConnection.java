@@ -32,8 +32,9 @@ public class DbConnection extends DbConnectionBase
     public DbPreparedStatement createAndPrepare(String csQuery, boolean bHoldability)
     {
         DbPreparedStatement preparedStatement = new DbPreparedStatement();
-        if(preparedStatement.prepare(this, csQuery, bHoldability))
+        if (preparedStatement.prepare(this, csQuery, bHoldability)) {
             return preparedStatement;
+        }
         return null;
     }
 
@@ -41,8 +42,9 @@ public class DbConnection extends DbConnectionBase
         throws TechnicalException
     {
         DbPreparedStatement preparedStatement = new DbPreparedStatement();
-        if(preparedStatement.prepareWithException(this, csQuery, bHoldability))
+        if (preparedStatement.prepareWithException(this, csQuery, bHoldability)) {
             return preparedStatement;
+        }
         return null;
     }
 

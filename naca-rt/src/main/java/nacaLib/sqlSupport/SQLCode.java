@@ -80,29 +80,33 @@ public class SQLCode
         return true;
         */
         //if(n < 0 && n != SQL_MORE_THAN_ONE_ROW)
-        if(n < 0)
+        if (n < 0) {
             return true;
+        }
         return false;
     }
 
     public static boolean isNotFound(int n)
     {
-        if(n == 100)
+        if (n == 100) {
             return true;
+        }
         return false;
     }
 
     public static boolean isWarning(int n)
     {
-        if(n > 0 && n != 100)
+        if (n > 0 && n != 100) {
             return true;
+        }
         return false;
     }
 
     public static boolean isNormal(int n)
     {
-        if(n == 0)
+        if (n == 0) {
             return true;
+        }
         return false;
     }
 
@@ -137,8 +141,9 @@ public class SQLCode
     {
 //      if(n == 100)
 //          return true;    // PJD to remove
-        if(nCodeId < 0)
+        if (nCodeId < 0) {
             nCodeId = -nCodeId;
+        }
         if(nCodeId <= NB_MAXI_SQLCODE)
         {
             int nIntFlags = ms_tnFlagIsKillerSQLCode[nCodeId >> 5];

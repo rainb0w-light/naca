@@ -57,8 +57,9 @@ public class CEntitySQLCursor extends CDataEntity
 
     public int GetNbColumns()
     {
-        if (select == null)
-            return 0 ;
+        if (select == null) {
+            return 0;
+        }
         return select.GetNbColumns() ;
     }
     public boolean ignore()

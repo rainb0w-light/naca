@@ -771,8 +771,9 @@ public class CMapElement extends CBMSElement
         while(tagChild != null)
         {
             CBMSElement elem = parseXMLResource(tagChild);
-            if(elem != null)
+            if (elem != null) {
                 AddElement(elem);
+            }
             tagChild = tagCurrent.getNextChild(curChild);
         }
         return this;
@@ -781,16 +782,17 @@ public class CMapElement extends CBMSElement
     public void loadFromRES(int nLine, String csName, String csLanguage)
     {
         setLine(nLine);
-        if(csLanguage.equalsIgnoreCase("DE"))
+        if (csLanguage.equalsIgnoreCase("DE")) {
             setName(csName + "D");
-        else if(csLanguage.equalsIgnoreCase("FR"))
+        } else if (csLanguage.equalsIgnoreCase("FR")) {
             setName(csName + "F");
-        else if(csLanguage.equalsIgnoreCase("IT"))
+        } else if (csLanguage.equalsIgnoreCase("IT")) {
             setName(csName + "I");
-        else if(csLanguage.equalsIgnoreCase("EN"))
+        } else if (csLanguage.equalsIgnoreCase("EN")) {
             setName(csName + "G");
-        else
+        } else {
             setName(csName);
+        }
 
         size_Col = 100;
         size_Line = 30;

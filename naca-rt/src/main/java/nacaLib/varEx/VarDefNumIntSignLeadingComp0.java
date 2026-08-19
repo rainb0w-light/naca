@@ -120,15 +120,17 @@ public class VarDefNumIntSignLeadingComp0 extends VarDefNum
     {
         int n = (int) d;
         writeSignSeparatedLeadingIntComp0(buffer, n);
-        if(d < 0 && n == 0)
+        if (d < 0 && n == 0) {
             buffer.acBuffer[buffer.nAbsolutePosition] = '-';
+        }
     }
 
     void write(VarBufferPos buffer, Dec dec)
     {
         writeSignSeparatedLeadingIntComp0(buffer, dec.getSignedInt());
-        if(dec.isNegative() && dec.getSignedInt() == 0)
+        if (dec.isNegative() && dec.getSignedInt() == 0) {
             buffer.acBuffer[buffer.nAbsolutePosition] = '-';
+        }
     }
 
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
@@ -437,8 +439,9 @@ public class VarDefNumIntSignLeadingComp0 extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignSeparatedLeadingIntComp0(buffer, nOffset, 0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

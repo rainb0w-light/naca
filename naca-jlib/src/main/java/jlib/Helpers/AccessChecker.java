@@ -180,13 +180,17 @@ public class AccessChecker {
     public void declareUser(String userName,String groupsList) throws Exception {
         try {
 //******************************* Initialization *************************************************
-            if (userName==null) userName="";
-            if (userName.length()==0)
+            if (userName == null) {
+                userName = "";
+            }
+            if (userName.length() == 0) {
                 throw new Exception("'userName' parameter cannot be null or empty.");
+            }
 
 //******************************** Adds the user to the 'users' section ***************************
-            if (_users.containsKey(userName))
-                throw new Exception("User '"+userName+"' is already declared.");
+            if (_users.containsKey(userName)) {
+                throw new Exception("User '" + userName + "' is already declared.");
+            }
 
             _users.put(userName,new ArrayList<String>());
 
@@ -217,19 +221,27 @@ public class AccessChecker {
     public void includeUserInGroups(String userName,String groups) throws Exception {
         try {
 //******************************* Initialization *************************************************
-            if (groups==null) groups="";
-            if (groups.length()==0)
+            if (groups == null) {
+                groups = "";
+            }
+            if (groups.length() == 0) {
                 return;
+            }
 
-            if (userName==null) userName="";
-            if (userName.length()==0)
+            if (userName == null) {
+                userName = "";
+            }
+            if (userName.length() == 0) {
                 throw new Exception("'userName' parameter cannot be null or empty.");
+            }
 
-            if (_groups.size()==0)
+            if (_groups.size() == 0) {
                 throw new Exception("No group has been declared yet in the 'groups' section.");
+            }
 
-            if (!_users.containsKey(userName))
-                throw new Exception("User '"+userName+"' isn't declared in the 'users' section.");
+            if (!_users.containsKey(userName)) {
+                throw new Exception("User '" + userName + "' isn't declared in the 'users' section.");
+            }
 
 //........................... Retrieves the list of groups the user is already in .................
             List<String> groupsList=_users.get(userName);
@@ -247,8 +259,10 @@ public class AccessChecker {
             for(int n=0;n<nn;n++) {
 
 //................................ Checks if the group exists .....................................
-                if (!_groups.containsKey(group[n]))
-                    throw new Exception("Cannot include user '"+userName+"' in group '"+group[n]+"' because this group is not declared.");
+                if (!_groups.containsKey(group[n])) {
+                    throw new Exception("Cannot include user '" + userName + "' in group '" + group[n]
+                        + "' because this group is not declared.");
+                }
 
 //................................ Adds the group in the user's list of groups ....................
                 groupsList.add(group[n]);
@@ -289,8 +303,12 @@ public class AccessChecker {
     public void declareGroup(String groupName,String parentGroups) throws Exception {
         try {
 //********************************* Initialization ******************************************
-            if (groupName==null) throw new Exception("groupName parameter cannot be null or empty.");
-            if (groupName.length()==0) throw new Exception("groupName parameter cannot be null or empty.");
+            if (groupName == null) {
+                throw new Exception("groupName parameter cannot be null or empty.");
+            }
+            if (groupName.length() == 0) {
+                throw new Exception("groupName parameter cannot be null or empty.");
+            }
 
 //************************** Creates the new group *******************************************
             if (!_groups.containsKey(groupName)) {
@@ -324,19 +342,27 @@ public class AccessChecker {
     public void includeGroupInGroups(String groupName,String parentGroups) throws Exception {
         try {
 //******************************* Initialization *************************************************
-            if (parentGroups==null) parentGroups="";
-            if (parentGroups.length()==0)
+            if (parentGroups == null) {
+                parentGroups = "";
+            }
+            if (parentGroups.length() == 0) {
                 return;
+            }
 
-            if (groupName==null) groupName="";
-            if (groupName.length()==0)
+            if (groupName == null) {
+                groupName = "";
+            }
+            if (groupName.length() == 0) {
                 throw new Exception("'groupName' parameter cannot be null or empty.");
+            }
 
-            if (_groups.size()==0)
+            if (_groups.size() == 0) {
                 throw new Exception("No group has been declared yet in the 'groups' section.");
+            }
 
-            if (!_groups.containsKey(groupName))
-                throw new Exception("Group '"+groupName+"' isn't declared in the 'groups' section.");
+            if (!_groups.containsKey(groupName)) {
+                throw new Exception("Group '" + groupName + "' isn't declared in the 'groups' section.");
+            }
 
 //........................... Retrieves the list of groups the group is already in ................
             List<String> groupsList=_groups.get(groupName);
@@ -354,9 +380,10 @@ public class AccessChecker {
             for(int n=0;n<nn;n++) {
 
 //................................ Checks if the group exists .....................................
-                if (!_groups.containsKey(group[n]))
+                if (!_groups.containsKey(group[n])) {
                     throw new Exception("Cannot include group '" + groupName + "' in group '" + group[n] + "' because '" + group[n]
-                        + "' is not declared.");
+                            + "' is not declared.");
+                }
 
 //................................ Adds the group in the groups's list of groups ..................
                 groupsList.add(group[n]);
@@ -614,33 +641,47 @@ public class AccessChecker {
         String parameterValue) throws Exception {
         try {
 //***************************************** Initialization ************************************
-            if (action==null) action="";
-            if (!action.equals("grant") && !action.equals("deny"))
-                throw new Exception("Specified action can be 'grant' or 'deny' but not '"+action+"'");
+            if (action == null) {
+                action = "";
+            }
+            if (!action.equals("grant") && !action.equals("deny")) {
+                throw new Exception("Specified action can be 'grant' or 'deny' but not '" + action + "'");
+            }
 
-            if (access==null) access="";
-            if (!access.equals("read") && !access.equals("write"))
-                throw new Exception("Specified access can be 'read' or 'write' but not '"+access+"'");
+            if (access == null) {
+                access = "";
+            }
+            if (!access.equals("read") && !access.equals("write")) {
+                throw new Exception("Specified access can be 'read' or 'write' but not '" + access + "'");
+            }
 
-            if (functionPath==null) functionPath="";
-            if (functionPath.length()==0)
+            if (functionPath == null) {
+                functionPath = "";
+            }
+            if (functionPath.length() == 0) {
                 throw new Exception("Specified 'functionPath' cannot be null or empty.");
+            }
 
-            if (usersOrGroups==null) usersOrGroups="";
-            if (usersOrGroups.length()==0)
+            if (usersOrGroups == null) {
+                usersOrGroups = "";
+            }
+            if (usersOrGroups.length() == 0) {
                 throw new Exception("Specified list of users cannot be null or empty.");
+            }
 
 //.............................. Checks the users and groups list .............................
             String[] userOrGroup=usersOrGroups.split(",");
             int nn=userOrGroup.length;
             for(int n=0;n<nn;n++) {
 // Maybe it is a user?
-                if (_users.containsKey(userOrGroup[n]))
+                if (_users.containsKey(userOrGroup[n])) {
                     continue;
+                }
 
 // Maybe it is a group?
-                if (_groups.containsKey(userOrGroup[n]))
+                if (_groups.containsKey(userOrGroup[n])) {
                     continue;
+                }
 
 // If none, then it is a problem:
                 throw new Exception("Specified user or group '"+userOrGroup[n]+"' is neither a declared user or a declared group.");
@@ -673,20 +714,22 @@ public class AccessChecker {
                     parameter=new AccessCheckerParameter();
                     parameter.parameterName=parameterName;
                     function.parameters.put(parameterName,parameter);
-                } else
-                    parameter=function.parameters.get(parameterName);
+                } else {
+                    parameter = function.parameters.get(parameterName);
+                }
 
 // Locates or creates the parameter's value:
                 if (!parameter.values.containsKey(parameterValue)) {
                     element=new AccessCheckerElement();
                     parameter.values.put(parameterValue, element);
-                } else
-                    element=parameter.values.get(parameterValue);
-            }
+                } else {
+                    element = parameter.values.get(parameterValue);
+                }
+            } else {
 // If no parameter is specified, then the element to grant is directly
 // the specified function.
-            else
-                element=function;
+                element = function;
+            }
 
 //********************** Establishes the access to the requested element ************************
             List<String> accessList=null;
@@ -705,14 +748,16 @@ public class AccessChecker {
                     accessList=element.denyReading;
                 }
             }
-            if (accessList==null)
-                throw new Exception("Combination of action='"+action+"' and access='"+access+"' didn't determine an access list.");
+            if (accessList == null) {
+                throw new Exception("Combination of action='" + action + "' and access='" + access + "' didn't determine an access list.");
+            }
 
 //..................... Adds the specified users and groups to the access list ..................
             nn=userOrGroup.length;
             for(int n=0;n<nn;n++) {
-                if (!accessList.contains(userOrGroup[n]))
+                if (!accessList.contains(userOrGroup[n])) {
                     accessList.add(userOrGroup[n]);
+                }
             }
         }
 
@@ -766,21 +811,26 @@ public class AccessChecker {
         String parameterName,
         String parameterValue) throws Exception {
         try {
-            if (functionPath==null)
+            if (functionPath == null) {
                 throw new Exception("Specified functionName cannot be null or empty.");
-            if (functionPath.length()==0)
+            }
+            if (functionPath.length() == 0) {
                 throw new Exception("Specified functionName cannot be null or empty.");
+            }
 
-            if (accessType==null)
+            if (accessType == null) {
                 throw new Exception("Specified access cannot be null or empty.");
-            if (!accessType.equals("read") && !accessType.equals("write"))
-                throw new Exception("Specified access can be 'read' or 'write', but not '"+accessType+"'");
+            }
+            if (!accessType.equals("read") && !accessType.equals("write")) {
+                throw new Exception("Specified access can be 'read' or 'write', but not '" + accessType + "'");
+            }
 
 //****************************** If the user is not declared, then he has no access *************
             // Returns the list of groups, and appends the specified user name as one of the groups.
             List<String> userGroups=retrieveUserGroups(userName);
-            if (userGroups.size()==0)
+            if (userGroups.size() == 0) {
                 return false;
+            }
 
 // By default, the user has no access:
             boolean hasUserAccess=false;
@@ -793,8 +843,9 @@ public class AccessChecker {
             for(int n=0;n<nn;n++) {
 //................ If the function is not in the tree, method exits .......................
 // (With the current permission)
-                if(!function.tree.containsKey(functionName[n]))
+                if (!function.tree.containsKey(functionName[n])) {
                     return hasUserAccess;
+                }
                 function=function.tree.get(functionName[n]);
 
 //....................... Checks if the user has access ....................................
@@ -803,14 +854,16 @@ public class AccessChecker {
 
 //**************************** Looks for the parameter ****************************************
             if (parameterName!=null) {
-                if (parameterValue==null)
+                if (parameterValue == null) {
                     throw new Exception("If parameterName is not null, then parameterValue cannot be null or empty.");
+                }
 
 //........................ Checks if the user has access to the parameter .....................
 
 // If the parameter doesn't exist, the method returns the current access:
-                if (!function.parameters.containsKey(parameterName))
+                if (!function.parameters.containsKey(parameterName)) {
                     return hasUserAccess;
+                }
 
 
 // Checks if the user has access to the parameter:
@@ -819,8 +872,9 @@ public class AccessChecker {
 
 //........................ Checks if the user has access to the value .........................
 // If the value doesn't exist, the method returns the current access:
-                if (!parameter.values.containsKey(parameterValue))
+                if (!parameter.values.containsKey(parameterValue)) {
                     return hasUserAccess;
+                }
 
 
 // Checks if the user has access to the value:
@@ -850,8 +904,9 @@ public class AccessChecker {
         try {
 
 //********************** If the user doesn't exist, then the list is empty *****************
-            if (!_users.containsKey(userName))
+            if (!_users.containsKey(userName)) {
                 return new ArrayList<String>();
+            }
 
 //................... Initializes a list with the requested user already included ..........
             List<String> userGroups=new ArrayList<String>();
@@ -883,12 +938,15 @@ public class AccessChecker {
     private List<String> retrieveGroupGroups(String groupName) throws Exception {
         try {
 //*********************************** Initialization **************************************
-            if (groupName==null)
+            if (groupName == null) {
                 return new ArrayList<String>();
-            if (groupName.length()==0)
+            }
+            if (groupName.length() == 0) {
                 return new ArrayList<String>();
-            if (!_groups.containsKey(groupName))
+            }
+            if (!_groups.containsKey(groupName)) {
                 return new ArrayList<String>();
+            }
 
 //............... Initializes the list of groups, including the requested group ...........
             List<String> groupGroups=new ArrayList<String>();
@@ -945,8 +1003,9 @@ public class AccessChecker {
             ss.append("grantReading=\"");
             int n=0;
             for(String s:grantReading) {
-                if (n++>0)
+                if (n++ > 0) {
                     ss.append(", ");
+                }
                 ss.append(s);
             }
 
@@ -954,8 +1013,9 @@ public class AccessChecker {
             ss.append("grantWriting=\"");
             n=0;
             for(String s:grantWriting) {
-                if (n++>0)
+                if (n++ > 0) {
                     ss.append(", ");
+                }
                 ss.append(s);
             }
             ss.append("\" ");
@@ -963,8 +1023,9 @@ public class AccessChecker {
             ss.append("denyReading=\"");
             n=0;
             for(String s:denyReading) {
-                if (n++>0)
+                if (n++ > 0) {
                     ss.append(", ");
+                }
                 ss.append(s);
             }
             ss.append("\" ");
@@ -972,8 +1033,9 @@ public class AccessChecker {
             ss.append("denyWriting=\"");
             n=0;
             for(String s:denyWriting) {
-                if (n++>0)
+                if (n++ > 0) {
                     ss.append(", ");
+                }
                 ss.append(s);
             }
             ss.append("\" ");
@@ -1012,27 +1074,30 @@ public class AccessChecker {
 
 // Retrieves the pertinent list to check:
             if (accessToParent) {
-                if (accessType.equals("read"))
-                    accessList=denyReading;
-                else if (accessType.equals("write"))
-                    accessList=denyWriting;
-                else
-                    throw new Exception("Access type can be 'read' or 'write' but not '"+accessType+"'");
+                if (accessType.equals("read")) {
+                    accessList = denyReading;
+                } else if (accessType.equals("write")) {
+                    accessList = denyWriting;
+                } else {
+                    throw new Exception("Access type can be 'read' or 'write' but not '" + accessType + "'");
+                }
             } else {
-                if (accessType.equals("read"))
-                    accessList=grantReading;
-                else if (accessType.equals("write"))
-                    accessList=grantWriting;
-                else
-                    throw new Exception("Access type can be 'read' or 'write' but not '"+accessType+"'");
+                if (accessType.equals("read")) {
+                    accessList = grantReading;
+                } else if (accessType.equals("write")) {
+                    accessList = grantWriting;
+                } else {
+                    throw new Exception("Access type can be 'read' or 'write' but not '" + accessType + "'");
+                }
             }
 
 // If the user is mentioned in the pertinent list:
             Iterator<String> userGroupsIterator=userGroups.iterator();
             while(userGroupsIterator.hasNext()) {
-                String userGroup=userGroupsIterator.next();
-                if (accessList.contains(userGroup))
+                String userGroup = userGroupsIterator.next();
+                if (accessList.contains(userGroup)) {
                     return !accessToParent;       // Then his access has changed from parent element.
+                }
             }
 
 // If the user is not mentioned in the pertinent list:

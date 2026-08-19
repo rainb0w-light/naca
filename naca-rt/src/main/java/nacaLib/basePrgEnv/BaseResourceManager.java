@@ -47,8 +47,9 @@ public abstract class BaseResourceManager extends CJMapObject
 
     static public void unloadProgram(String csProgramName)
     {
-        if(ms_Instance != null)
+        if (ms_Instance != null) {
             ms_Instance.sequencer.unloadProgram(csProgramName);
+        }
     }
 
     public int getUniqueSessionRequestId()
@@ -64,8 +65,9 @@ public abstract class BaseResourceManager extends CJMapObject
 
             ms_arrayDbConnectionPool = new ArrayDbConnectionPool();
 
-            if(bUseJmx)
+            if (bUseJmx) {
                 ms_baseJmxGeneralStat = new JmxGeneralStat();
+            }
 
             AsciiEbcdicConverter.create();
             Pic9Comp3BufferSupport.init();
@@ -77,8 +79,9 @@ public abstract class BaseResourceManager extends CJMapObject
 
     static public boolean getUsingJmx()
     {
-        if(ms_baseJmxGeneralStat == null)
+        if (ms_baseJmxGeneralStat == null) {
             return false;
+        }
         return true;
     }
 
@@ -89,32 +92,33 @@ public abstract class BaseResourceManager extends CJMapObject
 
         if(tagRoot != null)
         {
-            issimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false) ;
+            issimulateRealEnvironment = tagRoot.getValAsBoolean("SimulateRealEnvironment", false);
 
-            ms_bUseProgramPool = tagRoot.getValAsBoolean("UseProgramPool") ;
-            ms_bUseStatementCache = tagRoot.getValAsBoolean("UseSQLStatementCache") ;
-            ms_bUseSQLObjectCache = tagRoot.getValAsBoolean("UseSQLObjectCache") ;
+            ms_bUseProgramPool = tagRoot.getValAsBoolean("UseProgramPool");
+            ms_bUseStatementCache = tagRoot.getValAsBoolean("UseSQLStatementCache");
+            ms_bUseSQLObjectCache = tagRoot.getValAsBoolean("UseSQLObjectCache");
 
-            if(ms_bUseSQLObjectCache)
-                ms_bUseVarFillCache = tagRoot.getValAsBoolean("UseVarFillCache") ;
-            else
+            if (ms_bUseSQLObjectCache) {
+                ms_bUseVarFillCache = tagRoot.getValAsBoolean("UseVarFillCache");
+            }  else {
                 ms_bUseVarFillCache = false;
+            }
 
-            ms_bAsynchronousPreloadPrograms = tagRoot.getValAsBoolean("AsynchronousPreloadPrograms") ;
+            ms_bAsynchronousPreloadPrograms = tagRoot.getValAsBoolean("AsynchronousPreloadPrograms");
 
             ms_bGCAfterPreloadPrograms = tagRoot.getValAsBoolean("GCAfterPreloadPrograms", false);
             ms_bLoadCopyByPrimordialLoader = tagRoot.getValAsBoolean("LoadCopyByPrimordialLoader", true);
 
-            csApplicationClassPath = tagRoot.getVal("ApplicationClassPath") ;
+            csApplicationClassPath = tagRoot.getVal("ApplicationClassPath");
             csApplicationClassPath = FileSystem.normalizePath(csApplicationClassPath);
-            csJarFile = tagRoot.getVal("JarFile") ;
-            iscanLoadJar = tagRoot.getValAsBoolean("CanLoadJar") ;
-            bCanLoadClass = tagRoot.getValAsBoolean("CanLoadClass") ;
+            csJarFile = tagRoot.getVal("JarFile");
+            iscanLoadJar = tagRoot.getValAsBoolean("CanLoadJar");
+            bCanLoadClass = tagRoot.getValAsBoolean("CanLoadClass");
 
             //ms_bMustWriteFileHeader = tagRoot.getValAsBoolean("MustWriteFileHeader") ;
 
-            csSequencerFactoryClass = tagRoot.getVal("SequencerFactoryClass") ;
-            tagSequencerConfig = tagRoot.getChild("SequencerConfig") ;
+            csSequencerFactoryClass = tagRoot.getVal("SequencerFactoryClass");
+            tagSequencerConfig = tagRoot.getChild("SequencerConfig");
             ms_lMaxSessionExecTime_ms = tagRoot.getValAsLong("MaxSessionExecTime_ms");
 
             csDynamicAllocationPath = tagRoot.getVal("DynamicAllocationPath");
@@ -124,71 +128,77 @@ public abstract class BaseResourceManager extends CJMapObject
             csCmpDefaultTextGif = tagRoot.getVal("CmpDefaultTextGif");
 
             boolean b = tagRoot.isValExisting("NbThreadsSort");
-            if(b)
+            if (b) {
                 ms_nNbThreadsSort = tagRoot.getValAsInt("NbThreadsSort");
-            else
+            } else {
                 ms_nNbThreadsSort = 1;
+            }
 
             b = tagRoot.isValExisting("NbMaxRequestAsyncSortPending");
-            if(b)
-                ms_nNbMaxRequestAsyncSortPending = tagRoot.getValAsInt("NbMaxRequestAsyncSortPending");
-            else
+            if (b) {
+                ms_nNbMaxRequestAsyncSortPending = tagRoot.getValAsInt("NbMaxRequestAsyncSortPending");  // Default value
+
+            } else {
                 ms_nNbMaxRequestAsyncSortPending = 100000;  // Default value
 
+            }
             ms_nFileLineReaderBufferSize = tagRoot.getValAsInt("FileLineReaderBufferSize", 65536);
 
             ms_nSQLInsertStatementBatchSize = tagRoot.getValAsInt("SQLInsertStatementBatchSize", 100);
             ms_nSQLInsertStatementBatchCommitSize = tagRoot.getValAsInt("SQLInsertStatementBatchCommitSize", 100);
 
             String csCalendar = tagRoot.getVal("StandardCalendar");
-            if(csCalendar != null)
+            if (csCalendar != null) {
                 createCalendar(OpenCalendarManager.Standard, csCalendar);
+            }
 
             csCalendar = tagRoot.getVal("CustomCalendar");
-            if(csCalendar != null)
+            if (csCalendar != null) {
                 createCalendar(OpenCalendarManager.Custom, csCalendar);
+            }
 
-            if(!ms_bForcedComparisonInEbcdic)
+            if (!ms_bForcedComparisonInEbcdic)
             {
-                String csComparisonMode = tagRoot.getVal("ComparisonMode") ;
-                if(csComparisonMode.equalsIgnoreCase("EBCDIC"))
+                String csComparisonMode = tagRoot.getVal("ComparisonMode");
+                if (csComparisonMode.equalsIgnoreCase("EBCDIC")) {
                     iscomparisonInEbcdic = true;
-                else
+                } else {
                     iscomparisonInEbcdic = false;
+                }
             }
 
             ms_csTempDir = FileSystem.normalizePath(ms_csTempDir);
             FileSystem.createPath(ms_csTempDir);
 
             String csCode = tagRoot.getVal("CodeJavaToDb");
-            if(!StringUtil.isEmpty(csCode))
+            if (!StringUtil.isEmpty(csCode))
             {
                 ms_CodeJavaToDb = new CodeConverter(csCode);
                 ms_bUpdateCodeJavaToDb = true;
             }
 
             csCode = tagRoot.getVal("CodeDbToJava");
-            if(!StringUtil.isEmpty(csCode))
+            if (!StringUtil.isEmpty(csCode))
             {
                 ms_CodeDbToJava = new CodeConverter(csCode);
                 ms_bUpdateCodeDbToJava = true;
             }
 
             Tag tagGCThread = tagRoot.getChild("GCThread");
-            if(tagGCThread != null)
+            if (tagGCThread != null)
             {
                 ms_threadStatementGC = new ThreadStatementGC(tagGCThread, ms_arrayDbConnectionPool);
             }
 
             Tag tagAccounting = tagRoot.getChild("Accounting");
-            if(tagAccounting != null)
+            if (tagAccounting != null)
             {
                 accountingRessourceDesc = new AccountingRessourceDesc();
                 accountingRessourceDesc.load(tagAccounting);
             }
 
             Tag tagDebugLoadTest = tagRoot.getChild("DebugLoadTest");
-            if(tagDebugLoadTest != null)
+            if (tagDebugLoadTest != null)
             {
                 ms_bLogAllSQLException = tagDebugLoadTest.getValAsBoolean("LogAllSQLException");
                 //ms_bUseSQLMBean = tagDebugLoadTest.getValAsBoolean("UseSQLMBean") ;
@@ -197,8 +207,9 @@ public abstract class BaseResourceManager extends CJMapObject
 
         LoadConfigFromFile(tagRoot);
 
-        if(ms_threadStatementGC != null)
+        if (ms_threadStatementGC != null) {
             ms_threadStatementGC.start();
+        }
 
         setAppManuallyClosed(false);
         return tagRoot;
@@ -211,14 +222,16 @@ public abstract class BaseResourceManager extends CJMapObject
 
     static public void setCurrentMaxPermanentHeap_Mo(int currentMaxPermanentHeap_Mo)
     {
-        if(ms_threadStatementGC != null)
+        if (ms_threadStatementGC != null) {
             ms_threadStatementGC.setCurrentMaxPermanentHeap_Mo(currentMaxPermanentHeap_Mo);
+        }
     }
 
     static public int getCurrentMaxPermanentHeap_Mo()
     {
-        if(ms_threadStatementGC != null)
+        if (ms_threadStatementGC != null) {
             return ms_threadStatementGC.getCurrentMaxPermanentHeap_Mo();
+        }
         return 0;
     }
 
@@ -266,8 +279,9 @@ public abstract class BaseResourceManager extends CJMapObject
         }
 
         seqFactory.init(csDBParameterPrefix, tagSequencerConfig);   //, m_ClassLoader);
-        if(seqFactory != null)
-            sequencer = seqFactory.NewSequencer() ;
+        if (seqFactory != null) {
+            sequencer = seqFactory.NewSequencer();
+        }
     }
 
 
@@ -283,8 +297,9 @@ public abstract class BaseResourceManager extends CJMapObject
                 try
                 {
                     Object obj = clsLoaded.newInstance();
-                    if(obj != null)
-                        return (CBaseProgramLoaderFactory)obj;
+                    if (obj != null) {
+                        return (CBaseProgramLoaderFactory) obj;
+                    }
                 }
                 catch (InstantiationException e)
                 {
@@ -529,14 +544,18 @@ public abstract class BaseResourceManager extends CJMapObject
     }
     public static String getUpdateTimeFormated()
     {
-        if (ms_updateTime == null) return "";
+        if (ms_updateTime == null) {
+            return "";
+        }
         SimpleDateFormat formater = new SimpleDateFormat("HH:mm:ss");
         String cs = formater.format(ms_updateTime);
         return cs;
     }
     public static String getUpdateTimeAutoRefresh()
     {
-        if (ms_updateTime == null || !isInUpdateMode()) return "";
+        if (ms_updateTime == null || !isInUpdateMode()) {
+            return "";
+        }
         long autoRefresh = (ms_updateTime.getTime() - new Date().getTime()) / 1000;
         return Long.valueOf(autoRefresh).toString();
     }
@@ -551,74 +570,86 @@ public abstract class BaseResourceManager extends CJMapObject
     public static void setAppManuallyClosed(boolean bClosed)
     {
         ms_bAppManuallyClosed = bClosed;
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             ms_calendarManager.flushCalendarCache();
+        }
 
         if(bClosed)
         {
-            if(ms_JmxAppOpener == null)
+            if (ms_JmxAppOpener == null) {
                 ms_JmxAppOpener = new JmxAppOpener();
-            if(ms_JmxAppCloser != null)
+            }
+            if (ms_JmxAppCloser != null) {
                 ms_JmxAppCloser.unregisterMBean();
+            }
             ms_JmxAppCloser = null;
         }
         else
         {
             ms_csManualCloseReason = "";
-            if(ms_JmxAppCloser == null)
+            if (ms_JmxAppCloser == null) {
                 ms_JmxAppCloser = new JmxAppCloser();
-            if(ms_JmxAppOpener != null)
+            }
+            if (ms_JmxAppOpener != null) {
                 ms_JmxAppOpener.unregisterMBean();
+            }
             ms_JmxAppOpener = null;
         }
     }
 
     public static CalendarOpenState getAppManualStatusState()
     {
-        if(ms_bAppManuallyClosed)
+        if (ms_bAppManuallyClosed) {
             return CalendarOpenState.AppManuallyClosed;
+        }
         return CalendarOpenState.AppOpened;
     }
 
     public static void reloadCalendarFiles()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             ms_calendarManager.setReloadCalendarFiles();
+        }
     }
 
     private static void createCalendar(int nCalendardId, String csCalendarFilePath)
     {
-        if(ms_calendarManager == null)
+        if (ms_calendarManager == null) {
             ms_calendarManager = new OpenCalendarManager();
+        }
         ms_calendarManager.addCalendarDefinition(nCalendardId, csCalendarFilePath);
     }
 
     public static CalendarOpenState getAppOpenState()
     {
-        if(ms_bAppManuallyClosed)
+        if (ms_bAppManuallyClosed) {
             return CalendarOpenState.AppManuallyClosed;
+        }
         CalendarOpenState state = getAppPlanifiedOpenState();
         return state;
     }
 
     public static CalendarOpenState getAppPlanifiedOpenState()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             return ms_calendarManager.getServiceOpenState();
+        }
         return CalendarOpenState.AppOpened;
     }
 
     public static CalendarOpenState getAppCustomOpenState()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             return ms_calendarManager.getAppCustomOpenState();
+        }
         return CalendarOpenState.AppOpened;
     }
 
     public static CalendarOpenState getAppStandardOpenState()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             return ms_calendarManager.getAppStandardOpenState();
+        }
         return CalendarOpenState.AppOpened;
     }
 
@@ -639,15 +670,17 @@ public abstract class BaseResourceManager extends CJMapObject
 
     public static String getCurrentOpenCalendarRangeString()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             return ms_calendarManager.getCurrentOpenCalendarRangeString();
+        }
         return "Undefined calendar";
     }
 
     public static void flushCalendarCache()
     {
-        if(ms_calendarManager != null)
+        if (ms_calendarManager != null) {
             ms_calendarManager.flushCalendarCache();
+        }
     }
 
     public static boolean getComparisonInEbcdic()
@@ -683,9 +716,9 @@ public abstract class BaseResourceManager extends CJMapObject
 
     public static void registerTransactionMaxExecTime(String csTransactionId, String csMaxExecutionTime_ms)
     {
-        if(StringUtil.isEmpty(csMaxExecutionTime_ms))
+        if (StringUtil.isEmpty(csMaxExecutionTime_ms)) {
             ms_hashMaxExecutionTimeByTrans.put(csTransactionId, ms_lMaxSessionExecTime_ms);
-        else
+        } else
         {
             long maxExecutionTime_ms = NumberParser.getAsLong(csMaxExecutionTime_ms);
             ms_hashMaxExecutionTimeByTrans.put(csTransactionId, maxExecutionTime_ms);

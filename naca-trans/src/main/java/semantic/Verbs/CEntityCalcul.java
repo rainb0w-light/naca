@@ -72,7 +72,9 @@ public class CEntityCalcul extends CBaseActionEntity
     }
     public boolean ignore()
     {
-        if (expression == null) return true;
+        if (expression == null) {
+            return true;
+        }
         boolean ignore = expression.ignore() ;
         boolean b = true ;
         for (int i = 0; i< destinations.size(); i++)

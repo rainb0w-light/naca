@@ -96,8 +96,9 @@ public class VarDefNumDecSignComp0 extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         int n = internalReadSignedIntComp0(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-        if(n < 0)
+        if (n < 0) {
             return -n;
+        }
         return n;
     }
 
@@ -480,8 +481,9 @@ public class VarDefNumDecSignComp0 extends VarDefNum
     {
         Dec dec = new Dec(0L, "");
         writeSignDecComp0(buffer, nOffset, dec);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
     void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
@@ -532,8 +534,9 @@ public class VarDefNumDecSignComp0 extends VarDefNum
     {
         int nPos = internalWriteDecComp0(buffer, nOffset, decValue, nNbDigitInteger, nNbDigitDecimal);
         boolean ispositive = true;
-        if(decValue.isNegative())
+        if (decValue.isNegative()) {
             ispositive = false;
+        }
         internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
         return nPos;
     }
@@ -665,16 +668,18 @@ public class VarDefNumDecSignComp0 extends VarDefNum
             int nPosition2 = buffer2.nAbsolutePosition;
             for(int n=0; n<nTotalSize; n++)
             {
-                if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+                if (buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++]) {
                     return false;
+                }
             }
             return true;
         }
 
         Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
         Dec dec1 = getAsDecodedDec(buffer1);
-        if(dec1.compare(dec2) == 0)
+        if (dec1.compare(dec2) == 0) {
             return true;
+        }
         return false;
     }
 

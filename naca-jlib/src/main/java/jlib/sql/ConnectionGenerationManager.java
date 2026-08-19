@@ -27,8 +27,9 @@ public class ConnectionGenerationManager
 
     static boolean isGenerationCurrent(int nGenerationId)
     {
-        if(ms_nId.get() == nGenerationId)
+        if (ms_nId.get() == nGenerationId) {
             return true;
+        }
         return false;
     }
 

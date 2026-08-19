@@ -31,10 +31,12 @@ public class BtreeKeySegmentBinary extends BtreeKeySegment
         {
             n1 = tby1[nPos] & 0xff; // Get unsigned
             n2 = tby2[nPos] & 0xff;
-            if(n1 == n2)
+            if (n1 == n2) {
                 continue;
-            if(n1 < n2)
+            }
+            if (n1 < n2) {
                 return bAscending ? -1 : 1;
+            }
             return bAscending ? 1 : -1;
         }
         return 0;

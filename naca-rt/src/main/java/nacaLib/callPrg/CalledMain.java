@@ -27,8 +27,9 @@ public class CalledMain
         CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(
             csConfigFile,
             dbConnection.getEnvironmentPrefix());
-        if(calledResourceManager == null)
+        if (calledResourceManager == null) {
             return 8;
+        }
 
         CalledSession session = new CalledSession(calledResourceManager) ;
 

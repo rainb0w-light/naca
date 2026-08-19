@@ -22,8 +22,9 @@ public class ClassHelper
         {
             String cs = cls.getName();
             int n = cs.lastIndexOf(".");
-            if(n != -1)
+            if (n != -1) {
                 cs = cs.substring(n);
+            }
             return cs;
         }
         return "";

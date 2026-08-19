@@ -82,8 +82,9 @@ public class VarDefNumIntSignComp3 extends VarDefNum
     {
         int nNbDigits = nNbDigitInteger + 1; // need a nibble for sign
         int n = nNbDigits / 2;
-        if((nNbDigits % 2) != 0)
+        if ((nNbDigits % 2) != 0) {
             n++;
+        }
         return n;
     }
 
@@ -218,16 +219,18 @@ public class VarDefNumIntSignComp3 extends VarDefNum
     {
         int n = (int) d;
         Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, n);
-        if(d < 0 && n == 0)
+        if (d < 0 && n == 0) {
             Pic9Comp3BufferSupport.forceNegativeSign(buffer, nTotalSize);
+        }
         //writeIntSignComp3(buffer, n, nNbDigitInteger);
     }
 
     void write(VarBufferPos buffer, Dec dec)
     {
         Pic9Comp3BufferSupport.setFromRightToLeftSigned(buffer, nNbDigitInteger, nTotalSize, dec.getSignedInt());
-        if(dec.isNegative() && dec.getSignedInt() == 0)
+        if (dec.isNegative() && dec.getSignedInt() == 0) {
             Pic9Comp3BufferSupport.forceNegativeSign(buffer, nTotalSize);
+        }
         //writeIntSignComp3(buffer, dec.getSignedInt(), nNbDigitInteger);
     }
 
@@ -558,8 +561,9 @@ public class VarDefNumIntSignComp3 extends VarDefNum
     {
         Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, true, 0);
         //writeIntSignComp3(buffer, nOffset, 0, nNbDigitInteger);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

@@ -19,8 +19,9 @@ public class CallParamByStringValue extends CCallParam
 
  public int getParamLength()
  {
-  if(cs != null)
-   return cs.length();
+     if (cs != null) {
+         return cs.length();
+     }
   return 0;
  }
 

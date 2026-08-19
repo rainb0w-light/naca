@@ -33,8 +33,9 @@ public class CalendarCacheManager
     boolean mustCheckServiceOpenState()
     {
         long currentTime_ms = currentDate.setNow();
-        if(currentTime_ms >= timeNextCheck_ms)  // No need to check: not enough tine has elaped
+        if (currentTime_ms >= timeNextCheck_ms) {  // No need to check: not enough tine has elaped
             return true;
+        }
         return false;
     }
 
@@ -97,8 +98,9 @@ public class CalendarCacheManager
 
     String getCurrentOpenCalendarRangeString()
     {
-        if(currentOpenCalendarRange != null)
+        if (currentOpenCalendarRange != null) {
             return currentOpenCalendarRange.getAsString();
+        }
         return "";
     }
 

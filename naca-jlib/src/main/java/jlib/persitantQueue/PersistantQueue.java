@@ -77,8 +77,9 @@ public class PersistantQueue
     public PersistantQueue(String csDir)
     {
         this.csDir = csDir;
-        if(!csDir.endsWith("/"))
+        if (!csDir.endsWith("/")) {
             csDir += '/';
+        }
 
         csIndexFile = csDir + "index.qdx";
         buildIndexes();
@@ -107,8 +108,9 @@ public class PersistantQueue
         while(o == null)
         {
             int nLastMin = incMinIndex();
-            if(nLastMin == -1)  // Empty queue
+            if (nLastMin == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMin + ".q";
 
             o = read(csFileName);
@@ -122,8 +124,9 @@ public class PersistantQueue
         while(!b)
         {
             int nLastMin = incMinIndex();
-            if(nLastMin == -1)  // Empty queue
+            if (nLastMin == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMin + ".q";
 
             String csTag = (String)read(csFileName);
@@ -131,8 +134,9 @@ public class PersistantQueue
             {
                 Tag tagItem = new Tag();
                 b = tagItem.loadFromString(csTag);
-                if(b)
+                if (b) {
                     return tagItem;
+                }
             }
         }
         return null;
@@ -144,8 +148,9 @@ public class PersistantQueue
         while(o == null)
         {
             int nLastMax = decMaxIndex();
-            if(nLastMax == -1)  // Empty queue
+            if (nLastMax == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMax + ".q";
 
             o = read(csFileName);
@@ -159,8 +164,9 @@ public class PersistantQueue
         while(o == null)
         {
             int nLastMax = decMaxIndex();
-            if(nLastMax == -1)  // Empty queue
+            if (nLastMax == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMax + ".q";
 
             o = read(csFileName);
@@ -174,8 +180,9 @@ public class PersistantQueue
         while(o == null)
         {
             int nLastMin = incMinIndex();
-            if(nLastMin == -1)  // Empty queue
+            if (nLastMin == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMin + ".q";
 
             o = read(csFileName, baseQueueItemFactory);
@@ -189,8 +196,9 @@ public class PersistantQueue
         while(o == null)
         {
             int nLastMax = decMaxIndex();
-            if(nLastMax == -1)  // Empty queue
+            if (nLastMax == -1) {  // Empty queue
                 return null;
+            }
             String csFileName = csDir + nLastMax + ".q";
 
             o = read(csFileName);
@@ -208,21 +216,23 @@ public class PersistantQueue
 
         FileSystem.createPath(csDir);
         String tcsNames[] = FileSystem.getFileNameListBySuffix(csDir, ".q");
-        if(tcsNames == null)
+        if (tcsNames == null) {
             nMin = nMax = 0;
-        else if(tcsNames.length == 0)
+        } else if (tcsNames.length == 0) {
             nMin = nMax = 0;
-        else
+        } else
         {
-            for(int n=0; n<tcsNames.length; n++)
+            for (int n = 0; n < tcsNames.length; n++)
             {
                 String csFullName = tcsNames[n];
                 String csName = FileSystem.getNameWithoutExtension(csFullName);
                 int nName = NumberParser.getAsInt(csName);
-                if(nName < nMin)
+                if (nName < nMin) {
                     nMin = nName;
-                if(nName > nMax)
+                }
+                if (nName > nMax) {
                     nMax = nName;
+                }
             }
             nMax++;
         }

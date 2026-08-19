@@ -42,8 +42,9 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 
             value += nanoPadded;
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)
@@ -69,8 +70,9 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
         int nSourceOffset,
         boolean bEbcdicInput)
     {
-        if(bEbcdicInput)    // Must outout in ebcdic
+        if (bEbcdicInput) {    // Must outout in ebcdic
             AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
+        }
         String cs = new String(arrByteValue, nSourceOffset, 26);
         stmt.setColParam(nCol, cs);
         return 26;
@@ -99,8 +101,9 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
             value += nanoPadded;
             value = "\"" + value + "\"";
             byte[] aBytes = value.getBytes();   // 26 bytes
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

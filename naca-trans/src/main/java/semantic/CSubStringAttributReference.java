@@ -135,8 +135,9 @@ public class CSubStringAttributReference extends CBaseDataReference
     }
     public boolean ignore()
     {
-        if (reference == null)
-            return true ;
+        if (reference == null) {
+            return true;
+        }
         return reference.ignore() ;
     }
     public String GetConstantValue()

@@ -43,8 +43,9 @@ public abstract class BaseCheckServiceServlet extends HttpServlet
         xmlRes = xmlRes + "<checkService";
         xmlRes = xmlRes + " name=\"" + getServiceName() + "\"";
         xmlRes = xmlRes + " status=\"" + (serviceStatus ? "ok" : "nok") + "\"";
-        if(errCode.length() > 0)
+        if (errCode.length() > 0) {
             xmlRes = xmlRes + " returnCode=\"" + errCode.toString() + "\"";
+        }
         xmlRes = xmlRes + " time_ms=\"" + String.valueOf(tt) + "\"";
         xmlRes = xmlRes + "/>";
         pw.print(xmlRes);
@@ -85,10 +86,11 @@ public abstract class BaseCheckServiceServlet extends HttpServlet
 
     private void info(String name, boolean status, String code, long tms)
     {
-        if(status)
+        if (status) {
             Log.logDebug(name + " OK, in " + String.valueOf(tms) + " ms");
-        else
+        } else {
             Log.logImportant(name + " NOK, Return Code : " + code + ", in " + String.valueOf(tms) + " ms");
+        }
     }
 
     private static final String mStatusOk = "ok";

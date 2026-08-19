@@ -451,8 +451,9 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
     {
         Dec dec = new Dec(0, "");
         writeSignSeparatedTrailingDecComp0(buffer, nOffset, dec);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
     void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
@@ -585,8 +586,9 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
 
         char cSign = buffer.acBuffer[nPos+nNbDigitDecimal];
         //char cSign = buffer.getCharAt(buffer.nAbsolutePosition+nNbDigitInteger+nNbDigitDecimal);
-        if(cSign == '-')
+        if (cSign == '-') {
             dec.setPositive(false);
+        }
 
         return dec;
     }
@@ -702,16 +704,18 @@ public class VarDefNumDecSignTrailingComp0 extends VarDefNum
             int nPosition2 = buffer2.nAbsolutePosition;
             for(int n=0; n<nTotalSize; n++)
             {
-                if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+                if (buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++]) {
                     return false;
+                }
             }
             return true;
         }
 
         Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
         Dec dec1 = getAsDecodedDec(buffer1);
-        if(dec1.compare(dec2) == 0)
+        if (dec1.compare(dec2) == 0) {
             return true;
+        }
         return false;
     }
 

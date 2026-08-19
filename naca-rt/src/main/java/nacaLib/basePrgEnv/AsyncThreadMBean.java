@@ -47,10 +47,11 @@ public class AsyncThreadMBean extends BaseCloseMBean
 
     void showBean(boolean bToShow)
     {
-        if(bToShow && !isBeanCreated())
+        if (bToShow && !isBeanCreated()) {
             create();
-        else if(!bToShow && isBeanCreated())
+        } else if (!bToShow && isBeanCreated()) {
             unregisterMBean();
+        }
     }
 
     private void create()
@@ -61,8 +62,9 @@ public class AsyncThreadMBean extends BaseCloseMBean
 
     void setWait(boolean bWaiting)
     {
-        if(bWaiting != this.iswaiting)  // Changing state
+        if (bWaiting != this.iswaiting) {  // Changing state
             sw.Reset();
+        }
         this.iswaiting = bWaiting;
         csLastWaitEvent = DateUtil.getDisplayTimeStamp();
     }
@@ -120,10 +122,11 @@ public class AsyncThreadMBean extends BaseCloseMBean
     public String getE_WaitStatus()
     {
         String cs;
-        if(iswaiting)
+        if (iswaiting) {
             cs = "Waiting since " + csLastWaitEvent;
-        else
+        } else {
             cs = "Running since " + csLastWaitEvent;
+        }
         long elapsedTime_s = sw.getElapsedTime() / 1000;
         cs = cs + " (" + elapsedTime_s + " s)";
         return cs;

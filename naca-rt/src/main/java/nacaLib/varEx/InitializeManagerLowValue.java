@@ -15,7 +15,8 @@ public class InitializeManagerLowValue extends InitializeManager
     public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache)
     {
         varDefBuffer.writeRepeatingcharAtOffset(buffer, nOffset, '\0') ;
-        if(initializeCache != null)
-            initializeCache.addItem('\0', buffer.nAbsolutePosition+nOffset, varDefBuffer.nTotalSize);
+        if (initializeCache != null) {
+            initializeCache.addItem('\0', buffer.nAbsolutePosition + nOffset, varDefBuffer.nTotalSize);
+        }
     }
 }

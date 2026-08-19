@@ -198,16 +198,18 @@ public class VarDefEditInMap extends VarDefEdit
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         String cs = String.valueOf(n);
         writeEditRightPadding(buffer, cs, ' ');
     }
 
     public void write(VarBufferPos buffer, long l)
     {
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         String cs = String.valueOf(l);
         writeEditRightPadding(buffer, cs, ' ');
     }
@@ -1148,8 +1150,9 @@ public class VarDefEditInMap extends VarDefEdit
 
     void restoreAttributeManager(EditAttributManager attrManagerDest)
     {
-        if(attrManager != null)
+        if (attrManager != null) {
             attrManager.copyInto(attrManagerDest);
+        }
     }
 
     public String digits(VarBufferPos buffer)

@@ -64,7 +64,9 @@ public class CEntityNumber extends CDataEntity
     }
     public String getNormalizedLiteralValue()
     {
-        if (isDecimalLiteral()) return csValue;
+        if (isDecimalLiteral()) {
+            return csValue;
+        }
         try
         {
             return String.valueOf(Integer.parseInt(csValue));
@@ -83,7 +85,9 @@ public class CEntityNumber extends CDataEntity
     }
     public boolean isLongLiteral()
     {
-        if (isDecimalLiteral()) return false;
+        if (isDecimalLiteral()) {
+            return false;
+        }
         try
         {
             Integer.parseInt(csValue);

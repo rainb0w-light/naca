@@ -49,11 +49,13 @@ public class MultiThreadedSortAddItem extends ThreadPoolRequest
     {
         this.btreeFile = btreeFile;
 
-        if(tbyData.length < nTotalLength)
+        if (tbyData.length < nTotalLength) {
             tbyData = new byte[nTotalLength];
+        }
 
-        for(int n=0; n<nTotalLength; n++)
+        for (int n = 0; n < nTotalLength; n++) {
             tbyData[n] = tbyData[nSourceOffset++];
+        }
 
         this.nTotalLength = nTotalLength;
         this.nNbRecordRead = nNbRecordRead;

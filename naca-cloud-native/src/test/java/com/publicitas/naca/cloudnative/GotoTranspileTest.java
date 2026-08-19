@@ -54,7 +54,9 @@ public class GotoTranspileTest {
         // Collect declared paragraph method names: public void NAME()
         Set<String> methods = new HashSet<>();
         Matcher mm = Pattern.compile("public void ([A-Za-z_0-9]+)\\(\\)").matcher(java);
-        while (mm.find()) methods.add(mm.group(1));
+        while (mm.find()) {
+            methods.add(mm.group(1));
+        }
         assertFalse(methods.isEmpty(), "should declare paragraph methods");
 
         // Every goTo(target) must reference a declared method.

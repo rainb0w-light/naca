@@ -218,8 +218,9 @@ public class CMove extends CCobolElement
                                 else
                                 {
                                     String csName = e.GetName();
-                                    if(StringUtil.isEmpty(csName))
+                                    if (StringUtil.isEmpty(csName)) {
                                         csName = id.GetName();
+                                    }
                                     Transcoder.logError(
                                         getLine(),
                                         "Special assignement needed for value : " + valueFrom.GetValue() + " to variable : "+csName) ;

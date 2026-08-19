@@ -36,8 +36,9 @@ public class FPacFileDeclaration
     {
         DataSectionFile fileSection = section.fileSection();
         FPacFileDescriptor fpacFileDescriptor = new FPacFileDescriptor((FPacProgram)section.getProgram(), csName);
-        if(isrecordLengthForced)
+        if (isrecordLengthForced) {
             fpacFileDescriptor.setRecordLengthForced(nRecordLength);
+        }
         fpacFileDescriptor.setRecordFillers(pacRecordFillerInput, pacRecordFillerOutput);
         fileSection.setCurrentFileDef(fpacFileDescriptor);
         return fpacFileDescriptor;
@@ -76,8 +77,9 @@ public class FPacFileDeclaration
     }
     public FPacFileDeclaration fillOutputBuffer(String cs)
     {
-        if (cs != null && cs.length() >= 1)
+        if (cs != null && cs.length() >= 1) {
             pacRecordFillerOutput.setFiller(cs.charAt(0));
+        }
         return this;
     }
 }

@@ -17,8 +17,9 @@ public class CustomClassDynLoaderFactory extends ClassDynLoaderFactory
 
     public static ClassDynLoaderFactory getInstance()
     {
-        if(ms_instance == null)
+        if (ms_instance == null) {
             ms_instance = new CustomClassDynLoaderFactory();
+        }
         return ms_instance;
     }
 

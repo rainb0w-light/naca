@@ -30,8 +30,9 @@ public class StringRef
 
     public String toString()
     {
-        if(cs != null)
-            return "StringRef: \""+cs + "\"";
+        if (cs != null) {
+            return "StringRef: \"" + cs + "\"";
+        }
         return "StringRef: \"<null>\"";
     }
 

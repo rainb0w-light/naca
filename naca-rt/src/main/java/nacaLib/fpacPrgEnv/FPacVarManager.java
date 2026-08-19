@@ -35,8 +35,9 @@ public class FPacVarManager
     Var createFPacVarNumIntSignComp3(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
     {
         Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarNumIntSignComp3, nPosition1Based, nBufferSize);
-        if(var != null)
+        if (var != null) {
             return var;
+        }
 
         int nPosition0Based = nPosition1Based - 1;
         int nNbDigitsInteger = VarDefNumIntSignComp3.getNbDigitIntegerComp3InBufferLength(nBufferSize);
@@ -58,8 +59,9 @@ public class FPacVarManager
         if(nBufferSize == 2)
         {
             Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumShortSignComp4, nPosition1Based, nBufferSize);
-            if(var != null)
+            if (var != null) {
                 return var;
+            }
 
             declareTypeFPacSignComp4.set(level77, 4);
             VarFPacNumShortSignComp4 v = new VarFPacNumShortSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
@@ -71,8 +73,9 @@ public class FPacVarManager
         else if(nBufferSize == 4)
         {
             Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumIntSignComp4, nPosition1Based, nBufferSize);
-            if(var != null)
+            if (var != null) {
                 return var;
+            }
 
             declareTypeFPacSignComp4.set(level77, 9);
             VarFPacNumIntSignComp4 v = new VarFPacNumIntSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
@@ -84,8 +87,9 @@ public class FPacVarManager
         else if(nBufferSize == 8)
         {
             Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumLongSignComp4, nPosition1Based, nBufferSize);
-            if(var != null)
+            if (var != null) {
                 return var;
+            }
 
             declareTypeFPacSignComp4.set(level77, 20);
             VarFPacNumLongSignComp4 v = new VarFPacNumLongSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
@@ -100,8 +104,9 @@ public class FPacVarManager
     Var createFPacVarAlphaNum(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
     {
         Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFpacAlphaNum, nPosition1Based, nBufferSize);
-        if(var != null)
+        if (var != null) {
             return var;
+        }
 
         int nPosition0Based = nPosition1Based - 1;
         DeclareTypeFPacAlphaNum type = new DeclareTypeFPacAlphaNum(level77, nBufferSize);
@@ -115,8 +120,9 @@ public class FPacVarManager
     Var createFPacVarNumEdited(VarBuffer varBuffer, int nPosition1Based, String csEditMask)
     {
         Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumEdited, nPosition1Based, csEditMask);
-        if(var != null)
+        if (var != null) {
             return var;
+        }
 
         int nPosition0Based = nPosition1Based - 1;
         DeclareTypeFPacNumEdited type = new DeclareTypeFPacNumEdited(level77, csEditMask);
@@ -131,8 +137,9 @@ public class FPacVarManager
     Var createFPacVarRaw(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
     {
         Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarRaw, nPosition1Based, nBufferSize);
-        if(var != null)
+        if (var != null) {
             return var;
+        }
 
         int nPosition0Based = nPosition1Based - 1;
         DeclareTypeFPacRaw type = new DeclareTypeFPacRaw(level77, nBufferSize);

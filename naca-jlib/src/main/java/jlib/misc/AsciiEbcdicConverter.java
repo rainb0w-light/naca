@@ -302,8 +302,9 @@ public class AsciiEbcdicConverter
 
     public static int getEbcdicCorrepondingCode(int nAscii)
     {
-        if(nAscii < 256)
+        if (nAscii < 256) {
             return gs_tEbcdic[nAscii];
+        }
         return 0;
     }
 
@@ -347,15 +348,17 @@ public class AsciiEbcdicConverter
 
     private static char getHexChar(int n)
     {
-        if(n <= 9)
-            return (char)(n + '0');
+        if (n <= 9) {
+            return (char) (n + '0');
+        }
         return (char)((n-10) + 'A');
     }
 
     private static int getHexValue(char c)
     {
-        if(c <= '9')
+        if (c <= '9') {
             return (c - '0');
+        }
         return (c - 'A') + 10;
     }
 
@@ -363,10 +366,12 @@ public class AsciiEbcdicConverter
     {
         int e1 = AsciiEbcdicConverter.getEbcdicCorrepondingCode(n1);
         int e2 = AsciiEbcdicConverter.getEbcdicCorrepondingCode(n2);
-        if(e1 < e2)
+        if (e1 < e2) {
             return -1;
-        if(e1 > e2)
+        }
+        if (e1 > e2) {
             return 1;
+        }
         return 0;
     }
 
@@ -387,8 +392,9 @@ public class AsciiEbcdicConverter
     public static char getAsciiChar(byte byEbcdic)
     {
         int nEbcdic = byEbcdic;
-        if(nEbcdic < 0)
+        if (nEbcdic < 0) {
             nEbcdic += 256;
+        }
         int nAscii = gs_tAscii[nEbcdic];
         char ascii = (char)nAscii;
         return ascii;
@@ -397,8 +403,9 @@ public class AsciiEbcdicConverter
     public static byte getAsciiByte(byte byEbcdic)
     {
         int nEbcdic = byEbcdic;
-        if(nEbcdic < 0)
+        if (nEbcdic < 0) {
             nEbcdic += 256;
+        }
         int nAscii = gs_tAscii[nEbcdic];
         byte byteAscii = (byte)nAscii;
         return byteAscii;
@@ -413,8 +420,9 @@ public class AsciiEbcdicConverter
     public static byte getEbcdicByte(byte byAscii)
     {
         int nAscii = byAscii;
-        if(nAscii < 0)
+        if (nAscii < 0) {
             nAscii += 256;
+        }
         int nEbcdic = gs_tEbcdic[nAscii];
         byte byteEbcdic = (byte)nEbcdic;
         return byteEbcdic;
@@ -444,8 +452,9 @@ public class AsciiEbcdicConverter
             char c = tChars[n];
             byte b = (byte)c;
             int nIndex = b;
-            if(nIndex < 0)
+            if (nIndex < 0) {
                 nIndex += 256;
+            }
             int nOut = gs_tEbcdic[nIndex];
             tOut[n] = (byte)nOut;
         }
@@ -503,8 +512,9 @@ public class AsciiEbcdicConverter
         for(int n=0; n<nLength; n++)
         {
             int nAscii = tBytesData[n+nOffset];
-            if(nAscii < 0)
+            if (nAscii < 0) {
                 nAscii += 256;
+            }
             int nEbcdic = gs_tEbcdic[nAscii];
             tBytesData[n+nOffset] = (byte)nEbcdic;
         }
@@ -515,8 +525,9 @@ public class AsciiEbcdicConverter
         for(int n=0; n<nLength; n++)
         {
             int nEbcdic = tBytesData[n+nOffset];
-            if(nEbcdic < 0)
+            if (nEbcdic < 0) {
                 nEbcdic += 256;
+            }
             int nAscii = gs_tAscii[nEbcdic];
             tBytesData[n+nOffset] = (byte)nAscii;
         }
@@ -606,9 +617,11 @@ public class AsciiEbcdicConverter
 
     private static boolean isSpecialPrintAfp(byte tBytesData[], int nOffset, byte[] arrToCheck)
     {
-        if (tBytesData[nOffset+3] == arrToCheck[0] && tBytesData[nOffset+4] == arrToCheck[1] && tBytesData[nOffset+5] == arrToCheck[2])
+        if (tBytesData[nOffset + 3] == arrToCheck[0] && tBytesData[nOffset + 4] == arrToCheck[1]
+            && tBytesData[nOffset + 5] == arrToCheck[2]) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

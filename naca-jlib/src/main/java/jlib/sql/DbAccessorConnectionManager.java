@@ -42,12 +42,13 @@ public class DbAccessorConnectionManager
         if(dbConnectionManagerContext != null && dbConnectionManagerContext.isCreated())
         {
             DbConnectionBase connection = dbConnectionManagerContext.getConnection();
-            if(connection != null)  // Connection allocated
+            if (connection != null) {  // Connection allocated
                 return connection;
-            else
+            } else {
                 TechnicalException.throwException(
-                    TechnicalException.MISSING_CONFIGURATION,
-                    "Could not allocates valid DB connection, for Db Id="+dbId.getKey());
+                        TechnicalException.MISSING_CONFIGURATION,
+                        "Could not allocates valid DB connection, for Db Id=" + dbId.getKey());
+            }
         }
         TechnicalException.throwException(
             TechnicalException.MISSING_CONFIGURATION,
@@ -57,8 +58,9 @@ public class DbAccessorConnectionManager
 
     private static synchronized DbConnectionManagerContext getOrCreateConnectionManagerContext(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             ms_dbConnectionManagerContext = new Hashtable<DbAccessor, DbConnectionManagerContext>();
+        }
 
         DbConnectionManagerContext dbConnectionManagerContext = ms_dbConnectionManagerContext.get(dbId);
         if(dbConnectionManagerContext == null)
@@ -76,8 +78,9 @@ public class DbAccessorConnectionManager
      */
     public static synchronized int getNbUnusedConnections()
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         int nNbUnusedConnections = 0;
         Enumeration<DbConnectionManagerContext> coll = ms_dbConnectionManagerContext.elements();
@@ -95,8 +98,9 @@ public class DbAccessorConnectionManager
      */
     public static synchronized int getNbUnusedConnectionsForDbAccessor(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         DbConnectionManagerContext context = ms_dbConnectionManagerContext.get(dbId);
         if(context != null)
@@ -109,8 +113,9 @@ public class DbAccessorConnectionManager
 
     public static synchronized int getNbRunningConnectionsForDbAccessor(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         DbConnectionManagerContext context = ms_dbConnectionManagerContext.get(dbId);
         if(context != null)
@@ -147,8 +152,9 @@ public class DbAccessorConnectionManager
 
     public static synchronized int getNbAllocConnnectionsForAccessor(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         DbConnectionManagerContext context = ms_dbConnectionManagerContext.get(dbId);
         if(context != null)
@@ -161,8 +167,9 @@ public class DbAccessorConnectionManager
 
     public static synchronized int getNbMaxConnectionForAccessor(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         DbConnectionManagerContext context = ms_dbConnectionManagerContext.get(dbId);
         if(context != null)
@@ -175,8 +182,9 @@ public class DbAccessorConnectionManager
 
     public static synchronized int getNbCachedStatementsForAccessor(DbAccessor dbId)
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         DbConnectionManagerContext context = ms_dbConnectionManagerContext.get(dbId);
         if(context != null)
@@ -189,8 +197,9 @@ public class DbAccessorConnectionManager
 
     public static synchronized int getNbConnectionManagerContexts()
     {
-        if(ms_dbConnectionManagerContext == null)
+        if (ms_dbConnectionManagerContext == null) {
             return 0;
+        }
 
         int nNbConnectionManagerContexts = ms_dbConnectionManagerContext.size();
         return nNbConnectionManagerContexts;

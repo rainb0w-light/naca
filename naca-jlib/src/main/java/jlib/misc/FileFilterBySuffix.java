@@ -23,8 +23,9 @@ public class FileFilterBySuffix implements FilenameFilter
         if(csSuffix != null && csName != null)
         {
             String cs = csName.toUpperCase();
-            if(cs.endsWith(csSuffix))
+            if (cs.endsWith(csSuffix)) {
                 return true;
+            }
         }
         return false;
     }

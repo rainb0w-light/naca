@@ -40,37 +40,39 @@ public class LogCenterFile extends LogCenter
         csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
         FileSystem.createPath(csFile);
 
-        if(csFileStrategy.equalsIgnoreCase("Append"))
+        if (csFileStrategy.equalsIgnoreCase("Append")) {
             isappend = true;
-        else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))   // Backup On Start
-        {
-            isappend = false;
-
-            // Read the backup strategy tag
-            Tag tagBackup = tagLogCenter.getChild("Backup");
-            if(tagBackup != null)
+        } else if (csFileStrategy.equalsIgnoreCase("BackupOnstart"))   // Backup On Start
             {
-                String csBackupPath = tagBackup.getVal("BackupPath");
-                csBackupPath = FileSystem.normalizePath(csBackupPath);
-                if(csBackupPath.length() > 0 && csBackupPath.startsWith("."))   // Relative to csFilePath
-                    csBackupPath = csFilePath + csBackupPath;
-                csBackupPath = FileSystem.normalizePath(csBackupPath);
-                FileSystem.createPath(csBackupPath);
+                isappend = false;
 
-                String csBackupFileFormat = tagBackup.getVal("BackupFileFormat");
-                csBackupFileFormat = normalizeBackupFileFormat(csBackupFileFormat);
+                // Read the backup strategy tag
+                Tag tagBackup = tagLogCenter.getChild("Backup");
+                if (tagBackup != null)
+                {
+                    String csBackupPath = tagBackup.getVal("BackupPath");
+                    csBackupPath = FileSystem.normalizePath(csBackupPath);
+                    if (csBackupPath.length() > 0 && csBackupPath.startsWith(".")) {   // Relative to csFilePath
+                        csBackupPath = csFilePath + csBackupPath;
+                    }
+                    csBackupPath = FileSystem.normalizePath(csBackupPath);
+                    FileSystem.createPath(csBackupPath);
 
-                String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
+                    String csBackupFileFormat = tagBackup.getVal("BackupFileFormat");
+                    csBackupFileFormat = normalizeBackupFileFormat(csBackupFileFormat);
 
-                FileSystem.moveOrCopy(csFile, csBackupFile);
+                    String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
 
-                int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
-                if(nMaxBackupFileCount >= 0)
-                    FileSystem.keepMoreRecentFile(csBackupPath, nMaxBackupFileCount);
-            }
-        }
-        else
+                    FileSystem.moveOrCopy(csFile, csBackupFile);
+
+                    int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
+                    if (nMaxBackupFileCount >= 0) {
+                        FileSystem.keepMoreRecentFile(csBackupPath, nMaxBackupFileCount);
+                    }
+                }
+            } else {
             isappend = false;
+        }
     }
 
     private String normalizeBackupFileFormat(String csBackupFileFormat)
@@ -125,8 +127,9 @@ public class LogCenterFile extends LogCenter
 
     void postSendOutput()
     {
-        if(printWriter != null)
+        if (printWriter != null) {
             printWriter.flush();
+        }
     }
 
     String getFormat()

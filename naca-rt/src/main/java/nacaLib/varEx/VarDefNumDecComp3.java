@@ -89,8 +89,9 @@ public class VarDefNumDecComp3 extends VarDefNum
 //
         int nNbDigits = nNbDigitInteger + nNbDigitDecimal + 1; // need a nibble for sign
         int n = nNbDigits / 2;
-        if((nNbDigits % 2) != 0)
+        if ((nNbDigits % 2) != 0) {
             n++;
+        }
         return n;
     }
 
@@ -183,10 +184,11 @@ public class VarDefNumDecComp3 extends VarDefNum
         }
 
         // Add sign at beginning
-        if(sign == '-')
+        if (sign == '-') {
             csNum.insert(0, '-');
-        else
+        } else {
             csNum.insert(0, '+');
+        }
 
         return csNum;
     }
@@ -549,8 +551,9 @@ public class VarDefNumDecComp3 extends VarDefNum
     {
         Dec dec = new Dec(0L, "");
         Pic9Comp3BufferSupport.setDec(buffer, nNbDigitInteger, nNbDigitDecimal, nTotalSize, 0, false, dec); // Only unsigned dec
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
@@ -663,16 +666,18 @@ public class VarDefNumDecComp3 extends VarDefNum
             int nPosition2 = buffer2.nAbsolutePosition;
             for(int n=0; n<nTotalSize; n++)
             {
-                if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+                if (buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++]) {
                     return false;
+                }
             }
             return true;
         }
 
         Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
         Dec dec1 = getAsDecodedDec(buffer1);
-        if(dec1.compare(dec2) == 0)
+        if (dec1.compare(dec2) == 0) {
             return true;
+        }
         return false;
     }
 

@@ -59,37 +59,42 @@ public abstract class BaseSession
 
     public LogicalFileDescriptor getLogicalFileDescriptor(String csLogicalName)
     {
-        if(hashLogicalFileDescriptors != null)
+        if (hashLogicalFileDescriptors != null) {
             return hashLogicalFileDescriptors.get(csLogicalName);
+        }
         return null;
     }
 
     public void putLogicalFileDescriptor(String csLogicalName, LogicalFileDescriptor logicalFileDescriptor)
     {
-        if(hashLogicalFileDescriptors == null)
+        if (hashLogicalFileDescriptors == null) {
             hashLogicalFileDescriptors = new Hashtable<String, LogicalFileDescriptor>();
+        }
         hashLogicalFileDescriptors.put(csLogicalName, logicalFileDescriptor);
     }
 
     public void removeLogicalFileDescriptor(String csLogicalName)
     {
-        if(hashLogicalFileDescriptors != null)
+        if (hashLogicalFileDescriptors != null) {
             hashLogicalFileDescriptors.remove(csLogicalName);
+        }
     }
 
     private Hashtable<String, LogicalFileDescriptor> hashLogicalFileDescriptors = null;
 
     public void addBatchInfo(String csInfo, String csValue)
     {
-        if(hashLogicalJobInfo == null)
+        if (hashLogicalJobInfo == null) {
             hashLogicalJobInfo = new Hashtable<String, String>();
+        }
         hashLogicalJobInfo.put(csInfo, csValue);
     }
 
     public String getLogicalJobInfo(String csInfo)
     {
-        if(hashLogicalJobInfo != null)
+        if (hashLogicalJobInfo != null) {
             return hashLogicalJobInfo.get(csInfo);
+        }
         return "";
     }
 
@@ -109,15 +114,17 @@ public abstract class BaseSession
 
     public String getDynamicAllocationInfo(String csKey)
     {
-        if(hashDynamicAllocationInfo != null)
+        if (hashDynamicAllocationInfo != null) {
             return hashDynamicAllocationInfo.get(csKey);
+        }
         return null;
     }
 
     public void addDynamicAllocationInfo(String csKey, String csValue)
     {
-        if(hashDynamicAllocationInfo == null)
+        if (hashDynamicAllocationInfo == null) {
             hashDynamicAllocationInfo = new Hashtable<String, String>();
+        }
         hashDynamicAllocationInfo.put(csKey, csValue);
     }
 
@@ -147,22 +154,25 @@ public abstract class BaseSession
 
     public Object getSpecialObject(String csKey)
     {
-        if(hashSpecialObject != null)
+        if (hashSpecialObject != null) {
             return hashSpecialObject.get(csKey);
+        }
         return null;
     }
 
     public void addSpecialObject(String csKey, Object object)
     {
-        if(hashSpecialObject == null)
+        if (hashSpecialObject == null) {
             hashSpecialObject = new Hashtable<String, Object>();
+        }
         hashSpecialObject.put(csKey, object);
     }
 
     public void removeSpecialObject(String csKey)
     {
-        if(hashSpecialObject != null)
+        if (hashSpecialObject != null) {
             hashSpecialObject.remove(csKey);
+        }
     }
 
     public void resetSpecialObject()

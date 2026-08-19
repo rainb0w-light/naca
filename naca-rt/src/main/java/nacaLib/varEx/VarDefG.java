@@ -1030,8 +1030,9 @@ public class VarDefG extends VarDefVariable
             for(int n=0; n<nNbChildren; n++)
             {
                 VarDefBuffer varDefChild = varDef.getChild(n);
-                if(!varDefChild.isARedefine())  // Exlude redefines
+                if (!varDefChild.isARedefine()) {  // Exlude redefines
                     fillChildrenBuffer(tempCache, mode, csToFill, riAbsolutePosition, varDefChild, buffer);
+                }
             }
         }
     }

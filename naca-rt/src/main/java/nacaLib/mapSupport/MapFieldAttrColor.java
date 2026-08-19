@@ -80,20 +80,21 @@ public class MapFieldAttrColor extends MapFieldBaseAttr
      */
     public static MapFieldAttrColor Select(int nValue)
     {
-        if(nValue == BLUE.getInternalValue())
+        if (nValue == BLUE.getInternalValue()) {
             return BLUE;
-        else if(nValue == RED.getInternalValue())
+        } else if (nValue == RED.getInternalValue()) {
             return RED;
-        else if(nValue == PINK.getInternalValue())
+        } else if (nValue == PINK.getInternalValue()) {
             return PINK;
-        else if(nValue == GREEN.getInternalValue())
+        } else if (nValue == GREEN.getInternalValue()) {
             return GREEN;
-        else if(nValue == TURQUOISE.getInternalValue())
+        } else if (nValue == TURQUOISE.getInternalValue()) {
             return TURQUOISE;
-        else if(nValue == YELLOW.getInternalValue())
+        } else if (nValue == YELLOW.getInternalValue()) {
             return YELLOW;
-        else if(nValue == NEUTRAL.getInternalValue())
+        } else if (nValue == NEUTRAL.getInternalValue()) {
             return NEUTRAL;
+        }
         return null ;
     }
 }

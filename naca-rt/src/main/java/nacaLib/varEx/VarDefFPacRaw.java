@@ -144,8 +144,9 @@ public class VarDefFPacRaw extends VarDefVariable
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         String cs = String.valueOf(n);
         writeRightPadding(buffer, cs, ' ');
     }
@@ -206,8 +207,9 @@ public class VarDefFPacRaw extends VarDefVariable
         {
             char source = csSource.charAt(nPositionSource);
             nPositionSource++;
-            if(nPositionSource == nNbCharSource)
+            if (nPositionSource == nNbCharSource) {
                 nPositionSource = 0;
+            }
             buffer.acBuffer[nPositionDest] = source;
         }
     }
@@ -224,8 +226,9 @@ public class VarDefFPacRaw extends VarDefVariable
         {
             char source = csSource.charAt(nPositionSource);
             nPositionSource++;
-            if(nPositionSource == nNbCharSource)
+            if (nPositionSource == nNbCharSource) {
                 nPositionSource = 0;
+            }
             buffer.acBuffer[nPositionDest] = source;
         }
     }
@@ -242,8 +245,9 @@ public class VarDefFPacRaw extends VarDefVariable
         {
             char source = csSource.charAt(nPositionSource);
             nPositionSource++;
-            if(nPositionSource == nNbCharSource)
+            if (nPositionSource == nNbCharSource) {
                 nPositionSource = 0;
+            }
             buffer.acBuffer[nPositionDest] = source;
         }
     }
@@ -727,8 +731,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -749,8 +754,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
 
         long l2 = getUnsignedLong(buffer2);
@@ -771,8 +777,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // character-string of S9999PPP is moved to a temporary location where it is described as 9999999. If its value is 432J (--4321),
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -794,8 +801,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
 
         long l2 = getUnsignedLong(buffer2);
@@ -817,8 +825,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -839,8 +848,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -862,8 +872,9 @@ public class VarDefFPacRaw extends VarDefVariable
         //String cs1 = varDefNum1.getRawStringExcludingHeader(buffer1);
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
 
         long l2 = getUnsignedLong(buffer2);
@@ -885,8 +896,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -907,8 +919,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
 
         long l2 = getUnsignedLong(buffer2);
@@ -929,8 +942,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -952,8 +966,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
 
         long l2 = getUnsignedLong(buffer2);
@@ -975,8 +990,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         int n1 =  varDefNum1.getAsDecodedInt(buffer1);
-        if(n1 < 0)
+        if (n1 < 0) {
             n1 = -n1;
+        }
         //CStr cs1 = getCStrRightPadded(n1, varDefNum1.getTotalSize());
 
         int n2 = getUnsignedInt(buffer2);
@@ -997,8 +1013,9 @@ public class VarDefFPacRaw extends VarDefVariable
         // the value in the temporary location will be 4321000. The numeric digits take part in the comparison.
         //CStr cs1 = buffer1.getBodyCStr(varDefNum1);
         long l1 =  varDefNum1.getAsDecodedLong(buffer1);
-        if(l1 < 0)
+        if (l1 < 0) {
             l1 = -l1;
+        }
         //CStr cs1 = getCStrRightPadded(l1, varDefNum1.getTotalSize());
         long l2 = getUnsignedLong(buffer2);
         //CStr cs2 = getCStrRightPadded(l2, varDefNum1.getTotalSize());

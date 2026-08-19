@@ -34,22 +34,25 @@ public abstract class BaseJmxGeneralStat extends BaseCloseMBean
 
     public static void incCounter(int nCounter)
     {
-        if (ms_tnCounters == null)
+        if (ms_tnCounters == null) {
             ms_tnCounters = new int[5];
+        }
         ms_tnCounters[nCounter]++;
     }
 
     public static void decCounter(int nCounter)
     {
-        if (ms_tnCounters == null)
+        if (ms_tnCounters == null) {
             ms_tnCounters = new int[5];
+        }
         ms_tnCounters[nCounter]--;
     }
 
     public static void addCounter(int nCounter, int nStep)
     {
-        if (ms_tnCounters == null)
+        if (ms_tnCounters == null) {
             ms_tnCounters = new int[5];
+        }
         ms_tnCounters[nCounter] += nStep;
     }
 }

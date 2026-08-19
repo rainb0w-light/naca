@@ -117,28 +117,32 @@ class UnstringManager
     {
         if(!isfailed && csCurrentSource != null)
         {
-            if(varTallying != null)
+            if (varTallying != null) {
                 nTallying = varTallying.getInt();
+            }
 
             UnstringDelimiter delimiterUsed = null;
 
             // find separator to use
             int nPositionEndSepartorUsed = -1;
-            if(varPointer != null)
+            if (varPointer != null) {
                 nPointer1Based = varPointer.getInt();
+            }
 
             int nPointer0Based = nPointer1Based - 1;    // Must be 0 based
             if(nPointer0Based < 0 || nPointer0Based >= csCurrentSource.length()) // Check position
             {
-                if (nPointer0Based < 0)
+                if (nPointer0Based < 0) {
                     isfailed = true;
+                }
                 return ;
             }
 
             if(delimiters.isEmpty())
             {
-                if (csCurrentSource.length() == 0)
+                if (csCurrentSource.length() == 0) {
                     return;
+                }
                 varDelimiterDest.set(csCurrentSource);
                 int i = Math.min(varDelimiterDest.getLength(),
                         csCurrentSource.length() - 1);
@@ -189,48 +193,57 @@ class UnstringManager
             varPointer.set(nPointer);
         }
 
-        if(varDelimiterDest != null)
+        if (varDelimiterDest != null) {
             varDelimiterDest.set("");
+        }
 
-        if(varDelimiterIn != null)
+        if (varDelimiterIn != null) {
             varDelimiterIn.set("");
+        }
 
-        if(varCountDest != null)
+        if (varCountDest != null) {
             varCountDest.set(0);
+        }
     }
 
     private void fillOutPointer(int nPointer0Based)
     {
         nPointer1Based = nPointer0Based + 1;    // Must be 1 based on output
-        if(varPointer != null)
+        if (varPointer != null) {
             varPointer.set(nPointer1Based);
+        }
     }
 
 
     private void fillChunk(String csChunk, Var varDelimiterDest, Var varCountDest, Var varDelimiterIn, String csDelimiterUsed)
     {
         nCount = csChunk.length();
-        if(varCountDest != null)
+        if (varCountDest != null) {
             varCountDest.set(nCount);
+        }
 
-        if(varDelimiterIn != null)
+        if (varDelimiterIn != null) {
             varDelimiterIn.set(csDelimiterUsed);
+        }
 
-        if(varDelimiterDest != null)
+        if (varDelimiterDest != null) {
             varDelimiterDest.set(csChunk);
+        }
     }
 
     private void incTallyingCount()
     {
         nTallying++;
-        if(varTallying != null)
+        if (varTallying != null) {
             varTallying.set(nTallying);
+        }
     }
 
     boolean failed()
     {
-        if(isfailed)
+        if (isfailed) {
             return isfailed;
+        }
         // If we have some chunks left that have not been conummed by into calls(), then we have an error
         return checkIfRemainingUnfilledChunks();
     }

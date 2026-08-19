@@ -23,8 +23,9 @@ public class FileFilterByPrefix implements FilenameFilter
         if(csPrefix != null && csName != null)
         {
             String cs = csName.toUpperCase();
-            if(cs.startsWith(csPrefix))
+            if (cs.startsWith(csPrefix)) {
                 return true;
+            }
         }
         return false;
     }

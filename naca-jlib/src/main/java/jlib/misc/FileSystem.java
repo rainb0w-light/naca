@@ -47,8 +47,9 @@ public class FileSystem
     public static String normalizePath(String csPath)
     {
         csPath = csPath.replace('\\', '/') ;
-        if(!csPath.endsWith("/"))
+        if (!csPath.endsWith("/")) {
             csPath = csPath + "/";
+        }
         return csPath;
     }
 
@@ -61,8 +62,9 @@ public class FileSystem
     public static String buildFileName(String csFilePath, String csFileName, String csFileExt)
     {
         String cs = normalizePath(csFilePath) + csFileName;
-        if(csFileExt != null && csFileExt.length() > 0)
+        if (csFileExt != null && csFileExt.length() > 0) {
             cs += "." + csFileExt;
+        }
         return cs;
     }
 
@@ -85,11 +87,13 @@ public class FileSystem
     {
         String csFileName = csFilePath.replace('\\', '/') ;
         int nSep = csFileName.lastIndexOf('/') ;
-        if(nSep != -1)
-            csFileName = csFileName.substring(nSep+1) ;
+        if (nSep != -1) {
+            csFileName = csFileName.substring(nSep + 1);
+        }
         nSep = csFileName.lastIndexOf('.');
-        if(nSep != -1)
+        if (nSep != -1) {
             return csFileName.substring(0, nSep);
+        }
         return csFileName;
     }
 
@@ -124,9 +128,9 @@ public class FileSystem
             {
                 rcsExt.set(csFileName.substring(nSep+1));
                 csFileName = csFileName.substring(0, nSep);
-            }
-            else
+            } else {
                 rcsExt.set("");
+            }
         }
         return csFileName;
     }
@@ -505,8 +509,9 @@ public class FileSystem
                 if (lineReadRight == null)
                 {
                     equal = false;
-                    if (nLineDiff == 0)
+                    if (nLineDiff == 0) {
                         nLineDiff = nLinesLeft;
+                    }
                 }
                 else
                 {
@@ -527,8 +532,9 @@ public class FileSystem
             {
                 equal = false;
                 nLinesRight++;
-                if (nLineDiff == 0)
+                if (nLineDiff == 0) {
                     nLineDiff = nLinesRight;
+                }
                 lineReadRight = fileRight.readNextUnixLine();
             }
         }
@@ -553,8 +559,9 @@ public class FileSystem
                     nLinesLeft++;
                     if (lineReadRight == null)
                     {
-                        if (nLineDiff == 0)
+                        if (nLineDiff == 0) {
                             nLineDiff = nLinesLeft;
+                        }
                         equal = false;
                     }
                     else
@@ -588,8 +595,9 @@ public class FileSystem
                 {
                     equal = false;
                     nLinesRight++;
-                    if (nLineDiff == 0)
+                    if (nLineDiff == 0) {
                         nLineDiff = nLinesRight;
+                    }
                     lineReadRight = null;
                     header = fileRight.readBuffer(4, false);
                     if (header != null)
@@ -608,8 +616,9 @@ public class FileSystem
                     nLinesLeft++;
                     if (lineReadRight == null)
                     {
-                        if (nLineDiff == 0)
+                        if (nLineDiff == 0) {
                             nLineDiff = nLinesLeft;
+                        }
                         equal = false;
                     }
                     else
@@ -631,8 +640,9 @@ public class FileSystem
                 {
                     equal = false;
                     nLinesRight++;
-                    if (nLineDiff == 0)
+                    if (nLineDiff == 0) {
                         nLineDiff = nLinesRight;
+                    }
                     lineReadRight = fileRight.readBuffer(nLength, true);
                 }
             }
@@ -656,8 +666,9 @@ public class FileSystem
         Vector<Integer> vFilterPos,
         boolean bAsciiLeft,
         boolean bAsciiRight) {
-        if (lineReadLeft.getTotalLength() != lineReadRight.getTotalLength())
+        if (lineReadLeft.getTotalLength() != lineReadRight.getTotalLength()) {
             return false;
+        }
         for (int i=0; i < lineReadLeft.getTotalLength(); i++)
         {
             if (vFilterPos == null || !vFilterPos.contains(i))
@@ -666,16 +677,18 @@ public class FileSystem
                 byte byteRight = lineReadRight.getBuffer()[lineReadRight.getOffset() + i];
                 if (bAsciiLeft == bAsciiRight)
                 {
-                    if (byteLeft != byteRight)
+                    if (byteLeft != byteRight) {
                         return false;
+                    }
                 }
                 else
                 {
                     if (byteLeft != byteRight)
                     {
                         if ((bAsciiLeft && byteLeft != AsciiEbcdicConverter.getAsciiByte(byteRight)) ||
-                            (bAsciiRight && AsciiEbcdicConverter.getAsciiByte(byteLeft) != byteRight))
+                                (bAsciiRight && AsciiEbcdicConverter.getAsciiByte(byteLeft) != byteRight)) {
                             return false;
+                        }
                     }
                 }
             }
@@ -762,8 +775,9 @@ public class FileSystem
     public static StringBuilder readWholeFile(String csFile)
     {
         BufferedInputStream buf = openRead(csFile);
-        if(buf == null)
+        if (buf == null) {
             return null;
+        }
 
         StringBuilder sbOut = new StringBuilder();
         boolean iscontinue = true;

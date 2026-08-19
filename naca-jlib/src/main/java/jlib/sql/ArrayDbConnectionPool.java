@@ -65,9 +65,10 @@ public class ArrayDbConnectionPool
                     mapStatements,
                     nNbStatementForcedRemoved,
                     nNbSystemGCCall);
-                if(nNbStatementAggressiveRemoved != 0)
+                if (nNbStatementAggressiveRemoved != 0) {
                     Log.logNormal("Aggressivelly removed " + nNbStatementAggressiveRemoved
-                        + " SQL statements, because mem usage is too high");
+                            + " SQL statements, because mem usage is too high");
+                }
             }
             nNbTotalStatementRemoved += nNbStatementAggressiveRemoved;
             if(nNbTotalStatementRemoved >= nNbStatementsToRemoveBeforeGC)

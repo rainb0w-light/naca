@@ -35,10 +35,11 @@ public class RecordColTypeManagerChar extends RecordColTypeManagerBase
         try
         {
             String csValue = resultSetSource.getString(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setString(nColSourceIndex, csValue);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.CHAR);
+            }
             return true;
         }
         catch (SQLException e)
@@ -55,8 +56,9 @@ public class RecordColTypeManagerChar extends RecordColTypeManagerBase
             String csValue = rs.getString(nColSourceIndex);
             if(csValue != null)
             {
-                if(BaseResourceManager.isUpdateCodeDbToJava())
+                if (BaseResourceManager.isUpdateCodeDbToJava()) {
                     csValue = BaseResourceManager.updateCodeDbToJava(csValue);
+                }
                 varInto.varDef.write(varInto.bufferPos, csValue);
                 return false;
             }

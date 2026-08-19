@@ -37,34 +37,39 @@ public class CondValue
 
     public boolean is(Var v)
     {
-        if(constant != null)
+        if (constant != null) {
             return v.is(constant);
-        else
+        } else
         {
-            if(isinterval)
+            if (isinterval)
             {
-                if(v.compareTo(ComparisonMode.Unicode, min) >= 0 && v.compareTo(ComparisonMode.Unicode, max) <= 0)
+                if (v.compareTo(ComparisonMode.Unicode, min) >= 0 && v.compareTo(ComparisonMode.Unicode, max) <= 0) {
                     return true;
+                }
             }
-            if(v.equals(min))
+            if (v.equals(min)) {
                 return true;
+            }
         }
         return false;
     }
 
     public String getMin()
     {
-        if(constant == null)
+        if (constant == null) {
             return min;
+        }
         return null;
     }
 
     public String toString()
     {
-        if(constant != null)
+        if (constant != null) {
             return constant.getSTCheckValue();
-        if(isinterval)
+        }
+        if (isinterval) {
             return "[" + min + "," + max + "]";
+        }
         return min;
     }
 

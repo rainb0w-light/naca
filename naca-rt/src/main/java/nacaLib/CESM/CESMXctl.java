@@ -25,8 +25,9 @@ public class CESMXctl extends CJMapObject
 
     public void go()
     {
-        if(isLogCESM)
-            Log.logDebug("Xctling program: "+environment.getNextProgramToLoad());
+        if (isLogCESM) {
+            Log.logDebug("Xctling program: " + environment.getNextProgramToLoad());
+        }
         CXctlException exp = new CXctlException(environment);
         throw exp ;
     }
@@ -36,8 +37,9 @@ public class CESMXctl extends CJMapObject
         CCommarea comm = new CCommarea() ;
         environment.setCommarea(comm);
         comm.setVarPassedByValue(var, length) ;
-        if(isLogCESM)
-            Log.logDebug("Xctling program: "+environment.getNextProgramToLoad());
+        if (isLogCESM) {
+            Log.logDebug("Xctling program: " + environment.getNextProgramToLoad());
+        }
         CXctlException exp = new CXctlException(environment) ;
         throw exp ;
     }

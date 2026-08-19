@@ -118,8 +118,9 @@ public class CSQLStatus extends CJMapObject
     public int getSQLDiagnosticCode(int n)
     {
         // See http://publib.boulder.ibm.com/infocenter/dzichelp/index.jsp?topic=/com.ibm.db2.doc.apsg/bjnqmstr370.htm
-        if(n == 3)
+        if (n == 3) {
             return nLastNbRecordUpdatedInsertedDeleted;
+        }
         return 0;
     }
 

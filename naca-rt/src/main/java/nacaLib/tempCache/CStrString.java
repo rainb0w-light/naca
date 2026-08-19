@@ -29,10 +29,11 @@ public class CStrString extends CStr
 
     public void set(CStr csIn, char cPad, int nNbCharDest)
     {
-        if(acBuffer == null)
+        if (acBuffer == null) {
             acBuffer = new char[nNbCharDest];
-        else if(acBuffer.length < nNbCharDest)
+        } else if (acBuffer.length < nNbCharDest) {
             acBuffer = new char[nNbCharDest];
+        }
 
         nLength = nNbCharDest;
         nStartPos = 0;

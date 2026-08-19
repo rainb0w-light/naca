@@ -39,15 +39,17 @@ public class UnstringToManager
 
     public boolean failed()
     {
-        if(unstringManager == null)
+        if (unstringManager == null) {
             return true;
+        }
         return unstringManager.failed();
     }
 
     public boolean notFailed()
     {
-        if(unstringManager == null)
+        if (unstringManager == null) {
             return false;
+        }
         return !unstringManager.failed();
     }
 }

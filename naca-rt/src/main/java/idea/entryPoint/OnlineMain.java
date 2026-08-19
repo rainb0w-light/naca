@@ -58,16 +58,19 @@ public class OnlineMain
                     if(argUpper.startsWith("PATH="))
                     {
                         csPath = arg.substring(5);
-                        if(!csPath.endsWith("/"))
+                        if (!csPath.endsWith("/")) {
                             csPath += "/";
+                        }
                         path.add(csPath);
                     }
 
-                    if(argUpper.startsWith("PROGRAM="))
+                    if (argUpper.startsWith("PROGRAM=")) {
                         csPrgClassName = arg.substring(8);
+                    }
 
-                    if(argUpper.startsWith("DB="))
+                    if (argUpper.startsWith("DB=")) {
                         csDB = arg.substring(3);
+                    }
 
                     if(argUpper.startsWith("HELP"))
                     {
@@ -75,8 +78,9 @@ public class OnlineMain
                         return ;
                     }
 
-                    if(argUpper.startsWith("LOG="))
+                    if (argUpper.startsWith("LOG=")) {
                         csLogCfg = arg.substring(4);
+                    }
 
                     if(argUpper.startsWith("NBLOOPS="))
                     {
@@ -195,9 +199,9 @@ public class OnlineMain
                     }
                 }
             }
-        }
-        else
+        } else {
             displayHelp();
+        }
         Log.close();
         JVMReturnCodeManager.exitJVM();
     }

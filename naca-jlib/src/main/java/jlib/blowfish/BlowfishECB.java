@@ -41,86 +41,88 @@ public class BlowfishECB
     */
   public BlowfishECB(byte[] bfkey)
   {
-    // create the boxes
-    int nI;
+      // create the boxes
+      int nI;
 
-    pbox = new int[PBOX_ENTRIES];
+      pbox = new int[PBOX_ENTRIES];
 
-    for (nI = 0; nI < PBOX_ENTRIES; nI++)
-    {
-      pbox[nI] = pbox_init[nI];
-    }
-
-    sbox1 = new int[SBOX_ENTRIES];
-    sbox2 = new int[SBOX_ENTRIES];
-    sbox3 = new int[SBOX_ENTRIES];
-    sbox4 = new int[SBOX_ENTRIES];
-
-    for (nI = 0; nI < SBOX_ENTRIES; nI++)
-    {
-      sbox1[nI] = sbox_init_1[nI];
-      sbox2[nI] = sbox_init_2[nI];
-      sbox3[nI] = sbox_init_3[nI];
-      sbox4[nI] = sbox_init_4[nI];
-    }
-
-    // xor the key over the p-boxes
-
-    int nLen = bfkey.length;
-    if (nLen == 0) return; // such a setup is also valid (zero key "encryption" is possible)
-    int nKeyPos = 0;
-    int nBuild = 0;
-    int nJ;
-
-    for (nI = 0; nI < PBOX_ENTRIES; nI++)
-    {
-      for (nJ = 0; nJ < 4; nJ++)
+      for (nI = 0; nI < PBOX_ENTRIES; nI++)
       {
-        nBuild = (nBuild << 8) | (bfkey[nKeyPos] & 0x0ff);
-
-        if (++nKeyPos == nLen)
-        {
-          nKeyPos = 0;
-        }
+          pbox[nI] = pbox_init[nI];
       }
-      pbox[nI] ^= nBuild;
-    }
+
+      sbox1 = new int[SBOX_ENTRIES];
+      sbox2 = new int[SBOX_ENTRIES];
+      sbox3 = new int[SBOX_ENTRIES];
+      sbox4 = new int[SBOX_ENTRIES];
+
+      for (nI = 0; nI < SBOX_ENTRIES; nI++)
+      {
+          sbox1[nI] = sbox_init_1[nI];
+          sbox2[nI] = sbox_init_2[nI];
+          sbox3[nI] = sbox_init_3[nI];
+          sbox4[nI] = sbox_init_4[nI];
+      }
+
+      // xor the key over the p-boxes
+
+      int nLen = bfkey.length;
+      if (nLen == 0) {
+          return; // such a setup is also valid (zero key "encryption" is possible)
+      }
+      int nKeyPos = 0;
+      int nBuild = 0;
+      int nJ;
+
+      for (nI = 0; nI < PBOX_ENTRIES; nI++)
+      {
+          for (nJ = 0; nJ < 4; nJ++)
+          {
+              nBuild = (nBuild << 8) | (bfkey[nKeyPos] & 0x0ff);
+
+              if (++nKeyPos == nLen)
+              {
+                  nKeyPos = 0;
+              }
+          }
+          pbox[nI] ^= nBuild;
+      }
 
 
-    // encrypt all boxes with the all zero string
-    long zero = 0;
+      // encrypt all boxes with the all zero string
+      long zero = 0;
 
-    // (same as above)
-    for (nI = 0; nI < PBOX_ENTRIES; nI += 2)
-    {
-      zero = encryptBlock(zero);
-      pbox[nI] = (int) (zero >>> 32);
-      pbox[nI+1] = (int) (zero & 0x0ffffffffL);
-    }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
-    {
-      zero = encryptBlock(zero);
-      sbox1[nI] = (int) (zero >>> 32);
-      sbox1[nI+1] = (int) (zero & 0x0ffffffffL);
-    }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
-    {
-      zero = encryptBlock(zero);
-      sbox2[nI] = (int) (zero >>> 32);
-      sbox2[nI+1] = (int) (zero & 0x0ffffffffL);
-    }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
-    {
-      zero = encryptBlock(zero);
-      sbox3[nI] = (int) (zero >>> 32);
-      sbox3[nI+1] = (int) (zero & 0x0ffffffffL);
-    }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
-    {
-      zero = encryptBlock(zero);
-      sbox4[nI] = (int) (zero >>> 32);
-      sbox4[nI+1] = (int) (zero & 0x0ffffffffL);
-    }
+      // (same as above)
+      for (nI = 0; nI < PBOX_ENTRIES; nI += 2)
+      {
+          zero = encryptBlock(zero);
+          pbox[nI] = (int) (zero >>> 32);
+          pbox[nI + 1] = (int) (zero & 0x0ffffffffL);
+      }
+      for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
+      {
+          zero = encryptBlock(zero);
+          sbox1[nI] = (int) (zero >>> 32);
+          sbox1[nI + 1] = (int) (zero & 0x0ffffffffL);
+      }
+      for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
+      {
+          zero = encryptBlock(zero);
+          sbox2[nI] = (int) (zero >>> 32);
+          sbox2[nI + 1] = (int) (zero & 0x0ffffffffL);
+      }
+      for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
+      {
+          zero = encryptBlock(zero);
+          sbox3[nI] = (int) (zero >>> 32);
+          sbox3[nI + 1] = (int) (zero & 0x0ffffffffL);
+      }
+      for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
+      {
+          zero = encryptBlock(zero);
+          sbox4[nI] = (int) (zero >>> 32);
+          sbox4[nI + 1] = (int) (zero & 0x0ffffffffL);
+      }
   }
 
 

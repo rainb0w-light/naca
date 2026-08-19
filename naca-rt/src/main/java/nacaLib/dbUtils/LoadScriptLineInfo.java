@@ -36,8 +36,9 @@ public class LoadScriptLineInfo
 
     String getFullTableName(String csPrefix)
     {
-        if(!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD"))
+        if (!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD")) {
             return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
+        }
         csTablePrefix = csPrefix;
         return StringUtil.makeFullTableName(csPrefix, csUnprefixedTableName);
     }

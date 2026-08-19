@@ -127,14 +127,16 @@ public class CFPacArithmeticOperation extends CFPacElement
             if (op2.expStart != null)
             {
                 int start2 = NumberParser.getAsInt(op2.expStart.GetConstantValue()) ;
-                if (start2>=6000 && start2<7000)
-                    op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+                if (start2 >= 6000 && start2 < 7000) {
+                    op2.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8));
+                }
             }
             if (op1.expStart != null)
             {
                 int start1 = NumberParser.getAsInt(op1.expStart.GetConstantValue()) ;
-                if (start1>=6000 && start1<7000)
-                    op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8)) ;
+                if (start1 >= 6000 && start1 < 7000) {
+                    op1.expLength = factory.NewEntityExprTerminal(factory.NewEntityNumber(8));
+                }
             }
         }
 
@@ -237,10 +239,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                 { //file buffer
                     CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
                     CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                    if (secondPacked)
-                        conv.convertToPacked(buffer) ;
-                    else
-                        conv.convertToAlphaNum(buffer) ;
+                    if (secondPacked) {
+                        conv.convertToPacked(buffer);
+                    }  else {
+                        conv.convertToAlphaNum(buffer);
+                    }
                     desc.eObject = conv ;
                     desc.expStart = term ;
                     desc.expLength = termlen  ;
@@ -249,10 +252,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                 { // working
                     CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
                     CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                    if (secondPacked)
-                        conv.convertToPacked(working) ;
-                    else
-                        conv.convertToAlphaNum(working) ;
+                    if (secondPacked) {
+                        conv.convertToPacked(working);
+                    }  else {
+                        conv.convertToAlphaNum(working);
+                    }
                     desc.eObject = conv ;
                     desc.expStart = term ;
                     desc.expLength = termlen  ;
@@ -268,10 +272,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                 {
                     OperandDescription desc = new OperandDescription() ;
                     CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                    if (secondPacked)
-                        conv.convertToPacked(var) ;
-                    else
-                        conv.convertToAlphaNum(var) ;
+                    if (secondPacked) {
+                        conv.convertToPacked(var);
+                    }  else {
+                        conv.convertToAlphaNum(var);
+                    }
                     desc.eObject = conv ;
                     desc.expStart = termstart ;
                     desc.expLength = null  ;
@@ -329,10 +334,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                     CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
                     OperandDescription desc = new OperandDescription() ;
                     CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                    if (firstPacked)
-                        conv.convertToPacked(buffer) ;
-                    else
-                        conv.convertToAlphaNum(buffer) ;
+                    if (firstPacked) {
+                        conv.convertToPacked(buffer);
+                    }  else {
+                        conv.convertToAlphaNum(buffer);
+                    }
                     desc.eObject = conv ;
                     desc.expStart = term ;
                     desc.expLength = null  ;
@@ -343,10 +349,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                     CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
                     OperandDescription desc = new OperandDescription() ;
                     CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                    if (firstPacked)
-                        conv.convertToPacked(working) ;
-                    else
-                        conv.convertToAlphaNum(working) ;
+                    if (firstPacked) {
+                        conv.convertToPacked(working);
+                    }  else {
+                        conv.convertToAlphaNum(working);
+                    }
                     desc.eObject = conv ;
                     desc.expStart = term ;
                     desc.expLength = null  ;
@@ -365,10 +372,11 @@ public class CFPacArithmeticOperation extends CFPacElement
                     {
                         OperandDescription desc = new OperandDescription() ;
                         CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-                        if (firstPacked)
-                            conv.convertToPacked(var) ;
-                        else
-                            conv.convertToAlphaNum(var) ;
+                        if (firstPacked) {
+                            conv.convertToPacked(var);
+                        }  else {
+                            conv.convertToAlphaNum(var);
+                        }
                         desc.eObject = conv ;
                         desc.expStart = termstart ;
                         desc.expLength = null  ;

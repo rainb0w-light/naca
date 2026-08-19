@@ -162,8 +162,9 @@ public class VarDefNumIntComp0 extends VarDefNum
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         writeIntComp0(buffer, n);
     }
 
@@ -175,8 +176,9 @@ public class VarDefNumIntComp0 extends VarDefNum
     void write(VarBufferPos buffer, double d)
     {
         int n = (int) d;
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         writeIntComp0(buffer, n);
     }
 
@@ -189,8 +191,9 @@ public class VarDefNumIntComp0 extends VarDefNum
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long l = bigDecimal.longValue();
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         writeIntComp0AsLong(buffer, l);
     }
 
@@ -486,8 +489,9 @@ public class VarDefNumIntComp0 extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeIntComp0(buffer, nOffset, 0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
     void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
@@ -526,14 +530,15 @@ public class VarDefNumIntComp0 extends VarDefNum
 
     void writeIntComp0(VarBufferPos buffer, int nValue)
     {
-        if(!isblankWhenZero)
+        if (!isblankWhenZero) {
             RWNumIntComp0.setFromRightToLeft(buffer, 0, nValue, nTotalSize, nNbDigitInteger);
-        else
+        } else
         {
-            if(nValue != 0)
+            if (nValue != 0) {
                 RWNumIntComp0.setFromRightToLeft(buffer, 0, nValue, nTotalSize, nNbDigitInteger);
-            else
+            } else {
                 buffer.fillBlankComp0AtOffset(nTotalSize, 0);
+            }
         }
 // Pic9Comp0BufferSupport pic9Comp0BufferSupport = new Pic9Comp0BufferSupport(buffer, buffer.nAbsolutePosition, nTotalSize, nTotalSize);
 //      pic9Comp0BufferSupport.setFromRightToLeft(0, nValue);
@@ -542,28 +547,30 @@ public class VarDefNumIntComp0 extends VarDefNum
     void writeIntComp0(VarBufferPos buffer, int nOffset, int nValue)
     {
         //RWNumIntComp0.internalWriteAbsoluteIntComp0(buffer, nOffset, nValue, buffer.nAbsolutePosition, nTotalSize);
-        if(!isblankWhenZero)
+        if (!isblankWhenZero) {
             RWNumIntComp0.setFromRightToLeft(buffer, nOffset, nValue, nTotalSize, nNbDigitInteger);
-        else
+        } else
         {
-            if(nValue != 0)
+            if (nValue != 0) {
                 RWNumIntComp0.setFromRightToLeft(buffer, nOffset, nValue, nTotalSize, nNbDigitInteger);
-            else
+            } else {
                 buffer.fillBlankComp0AtOffset(nTotalSize, nOffset);
+            }
         }
     }
 
     void writeIntComp0AsLong(VarBufferPos buffer, long lValue)
     {
         //RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize);
-        if(!isblankWhenZero)
+        if (!isblankWhenZero) {
             RWNumIntComp0.setFromRightToLeft(buffer, 0, lValue, nTotalSize, nNbDigitInteger);
-        else
+        } else
         {
-            if(lValue != 0L)
+            if (lValue != 0L) {
                 RWNumIntComp0.setFromRightToLeft(buffer, 0, lValue, nTotalSize, nNbDigitInteger);
-            else
+            } else {
                 buffer.fillBlankComp0AtOffset(nTotalSize, 0);
+            }
         }
     }
 

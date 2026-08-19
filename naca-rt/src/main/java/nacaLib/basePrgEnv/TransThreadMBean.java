@@ -41,10 +41,11 @@ public class TransThreadMBean extends BaseCloseMBean
 
     void showBean(boolean bToShow)
     {
-        if(bToShow && !isBeanCreated())
+        if (bToShow && !isBeanCreated()) {
             create();
-        else if(!bToShow && isBeanCreated())
+        } else if (!bToShow && isBeanCreated()) {
             unregisterMBean();
+        }
     }
 
     private void create()
@@ -75,36 +76,41 @@ public class TransThreadMBean extends BaseCloseMBean
 
     public String getA_User()
     {
-        if(env != null)
+        if (env != null) {
             return env.getUserId();
+        }
         return "";
     }
 
     public String getA_LDapUser()
     {
-        if(env != null)
+        if (env != null) {
             return env.getUserLdapId();
+        }
         return "";
     }
 
     public String getA_Terminal()
     {
-        if(env != null)
+        if (env != null) {
             return env.getTerminalID();
+        }
         return "";
     }
 
     public String getB_EnvironmentCreationTime()
     {
-        if(env != null)
+        if (env != null) {
             return env.getCreationDateInfo().getDisplayableDateTime();
+        }
         return "";
     }
 
     public String getC_LastTransactionName()
     {
-        if(env != null)
+        if (env != null) {
             return env.csCurrentTransaction;
+        }
         return "";
     }
 
@@ -171,8 +177,9 @@ public class TransThreadMBean extends BaseCloseMBean
     {
         if(env != null)
         {
-            if(!env.isRunning())
-                return (int)env.getStartRunTime().getTimeOffset_ms(env.getEndRunTime()) / 1000;
+            if (!env.isRunning()) {
+                return (int) env.getStartRunTime().getTimeOffset_ms(env.getEndRunTime()) / 1000;
+            }
             return (int)env.getStartRunTime().getTimeOffsetFromNow_ms() / 1000;
         }
         return 0;
@@ -180,7 +187,8 @@ public class TransThreadMBean extends BaseCloseMBean
 
     public void StopProcessing()
     {
-        if(env != null)
+        if (env != null) {
             env.requestStopProcessing();
+        }
     }
 }

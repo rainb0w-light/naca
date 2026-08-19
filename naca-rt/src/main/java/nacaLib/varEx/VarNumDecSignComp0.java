@@ -53,10 +53,11 @@ public class VarNumDecSignComp0 extends VarNum
     {
         double varValue = getDouble();
         double d = varValue - dValue;
-        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+        if (d < -0.00001) {    //Consider epsilon precision at 10 e-5
             return -1;
-        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+        } else if (d > 0.00001) {    //Consider epsilon precision at 10 e-5
             return 1;
+        }
         return 0;
     }
 
@@ -77,8 +78,9 @@ public class VarNumDecSignComp0 extends VarNum
         {
             byte byt = tBytes[nLength-1];
             int n = byt;
-            if(byt < 0)
+            if (byt < 0) {
                 n += 256;
+            }
             t[nLength-1] = (char)n;
         }
         return t;

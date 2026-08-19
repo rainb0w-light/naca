@@ -35,8 +35,9 @@ public class QuickSort<Item extends SortableItem>
 
     public void sort()
     {
-        if(arr != null)
-            sort(0, arr.size()-1);
+        if (arr != null) {
+            sort(0, arr.size() - 1);
+        }
     }
 
     private void sort(int lo0, int hi0)
@@ -61,14 +62,16 @@ public class QuickSort<Item extends SortableItem>
                 /* find the first element that is greater than or equal to
                 * the partition element starting from the left Index.
                 */
-                while( ( lo < hi0 ) && ( arr.get(lo).compare(mid) < 0 ) )
+                while ((lo < hi0) && (arr.get(lo).compare(mid) < 0)) {
                     ++lo;
+                }
 
                 /* find an element that is smaller than or equal to
                 * the partition element starting from the right Index.
                 */
-                while( ( hi > lo0 ) && ( arr.get(hi).compare(mid) > 0 ) )
+                while ((hi > lo0) && (arr.get(hi).compare(mid) > 0)) {
                     --hi;
+                }
 
                 // if the indexes have not crossed, swap
                 if( lo <= hi )
@@ -84,14 +87,16 @@ public class QuickSort<Item extends SortableItem>
             /* If the right index has not reached the left side of array
             * must now sort the left partition.
             */
-            if( lo0 < hi )
-                sort(lo0, hi );
+            if (lo0 < hi) {
+                sort(lo0, hi);
+            }
 
             /* If the left index has not reached the right side of array
             * must now sort the right partition.
             */
-            if( lo < hi0 )
-                sort(lo, hi0 );
+            if (lo < hi0) {
+                sort(lo, hi0);
+            }
 
         }
     }

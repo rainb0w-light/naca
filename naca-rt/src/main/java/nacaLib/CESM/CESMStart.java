@@ -83,10 +83,11 @@ public class CESMStart extends CJMapObject
         // trans_Time uses format HHMMSS
         int nNbSecondsSinceMidnightFromNow_s = DateUtil.getNbSecondSinceMidnight();
         int nNextTime_s = DateUtil.getNbSecondsFromHour(trans_Time.getInt());
-        if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s) // We are before next time
+        if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s) { // We are before next time
             nIntervalTimeSeconds = nNextTime_s - nNbSecondsSinceMidnightFromNow_s;
-        else
+        } else {
             nIntervalTimeSeconds = 0;
+        }
         return this;
     }
     /**

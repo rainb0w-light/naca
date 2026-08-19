@@ -27,7 +27,8 @@ public class InitializeManagerIntEdited extends InitializeManager
     public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
     {
         varDef.initializeEditedAtOffset(buffer, nOffset, nValue);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.setNotManaged();
+        }
     }
 }

@@ -256,8 +256,9 @@ public class OnlineEnvironment extends BaseEnvironment
         configInit(tagCESMConfig);
         if (tagCESMConfig != null)
         {
-            if(tagCESMConfig.isValExisting("StartProgramId"))
+            if (tagCESMConfig.isValExisting("StartProgramId")) {
                 setNextProgramToLoad(tagCESMConfig.getVal("StartProgramId"));
+            }
 
             if(tagCESMConfig.isValExisting("StartCommandCode"))
             {
@@ -397,8 +398,9 @@ public class OnlineEnvironment extends BaseEnvironment
 
     public String getUserLdapId()
     {
-        if(session != null)
+        if (session != null) {
             return session.getUserLdapId();
+        }
         return "";
     }
 

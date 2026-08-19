@@ -25,16 +25,18 @@ public abstract class BaseCalledPrgPublicArgPositioned extends CCallParam
 
     public BaseCalledPrgPublicArgPositioned(boolean bInOut)
     {
-        if(bInOut)
+        if (bInOut) {
             way = BaseCalledPrgPublicArgWay.INOUT;
-        else
+        } else {
             way = BaseCalledPrgPublicArgWay.OUT;
+        }
     }
 
     public void fillWithVar(Var varDest)
     {
-        if(way != BaseCalledPrgPublicArgWay.IN)
+        if (way != BaseCalledPrgPublicArgWay.IN) {
             doFillWithVar(varDest);
+        }
     }
 
     public abstract void doFillWithVar(Var varDest);

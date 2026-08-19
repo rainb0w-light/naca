@@ -38,8 +38,9 @@ public class DbColDefinitionDate extends BaseDbColDefinition
             String dd = value.substring(8, 10);
             value = dd + "." + mm + "." + yyyy;
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)
@@ -68,8 +69,9 @@ public class DbColDefinitionDate extends BaseDbColDefinition
         boolean bEbcdicInput)
     {
         // dd.mm.yyyy
-        if(bEbcdicInput)    // Must outout in ebcdic
+        if (bEbcdicInput) {    // Must outout in ebcdic
             AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 10);
+        }
         String cs = new String(arrByteValue, nSourceOffset, 10);
 
         CurrentDateInfo cd = new CurrentDateInfo();
@@ -101,8 +103,9 @@ public class DbColDefinitionDate extends BaseDbColDefinition
             value = dd + "." + mm + "." + yyyy;
             value = "\"" + value + "\"";
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

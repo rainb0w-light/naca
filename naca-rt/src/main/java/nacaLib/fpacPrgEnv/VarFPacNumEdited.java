@@ -50,8 +50,9 @@ public class VarFPacNumEdited extends Var
 
     public boolean hasType(VarTypeEnum e)
     {
-        if(e == VarTypeEnum.TypeX)
+        if (e == VarTypeEnum.TypeX) {
             return true;
+        }
         return false;
     }
 
@@ -65,10 +66,11 @@ public class VarFPacNumEdited extends Var
     {
         double varValue = getDouble();
         double d = varValue - dValue;
-        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+        if (d < -0.00001) {    //Consider epsilon precision at 10 e-5
             return -1;
-        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+        } else if (d > 0.00001) {    //Consider epsilon precision at 10 e-5
             return 1;
+        }
         return 0;
     }
 

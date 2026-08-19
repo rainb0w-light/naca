@@ -37,8 +37,9 @@ public class SqlMapperRecordsCollection
 
     public SqlMapperManagedRecord getFirstRecord()
     {
-        if(arr.size() > 0)
+        if (arr.size() > 0) {
             return arr.get(0);
+        }
         return null;
     }
 
@@ -107,8 +108,9 @@ public class SqlMapperRecordsCollection
                     recordColsTypeMaster.handleColsType(clause, resultSet);
                 }
                 // Fill the recordCols with the column's value, with typing management
-                if(record.fillColValues(clause, resultSet, recordColsTypeMaster))
+                if (record.fillColValues(clause, resultSet, recordColsTypeMaster)) {
                     arr.add(record);
+                }
             }
 
             // Callback to call to inform application code of the records read; it can filter; It must return only 1 record
@@ -121,8 +123,9 @@ public class SqlMapperRecordsCollection
         }
         catch (TechnicalException e)
         {
-            if(clause != null)
+            if (clause != null) {
                 clause.forceCloseOnExceptionCatched();
+            }
             throw e;
         }
     }

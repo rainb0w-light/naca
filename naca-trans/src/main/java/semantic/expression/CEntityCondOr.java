@@ -69,7 +69,9 @@ public class CEntityCondOr extends CBaseEntityCondition
     }
     private boolean needsGrouping(CBaseEntityCondition child)
     {
-        if (child == null) return false;
+        if (child == null) {
+            return false;
+        }
         int parent = GetPriorityLevel();
         int childPriority = child.GetPriorityLevel();
         return (parent == 2 && childPriority == 1)

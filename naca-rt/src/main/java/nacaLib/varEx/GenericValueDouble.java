@@ -39,8 +39,9 @@ public class GenericValueDouble extends GenericValue
     int getAsUnsignedInt()
     {
         int n = getAsInt();
-        if(n < 0)
+        if (n < 0) {
             return -n;
+        }
         return n;
     }
 

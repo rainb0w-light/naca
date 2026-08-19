@@ -473,8 +473,9 @@ public class VarDefNumEdited extends VarDefNum
     {
         Dec dec = new Dec(0, "");
         internalFormatAndWrite(buffer, nOffset, dec);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItemForBody(buffer, getBodyAbsolutePosition(buffer), nOffset, getBodyLength());
+        }
     }
 
     void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)

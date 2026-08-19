@@ -27,18 +27,22 @@ public class OpenCalendarManager
     synchronized public void setReloadCalendarFiles()
     {
         cacheManager.flush();
-        if(tCalendar == null)
-            return ;
-        if(tCalendar[Standard] != null)
+        if (tCalendar == null) {
+            return;
+        }
+        if (tCalendar[Standard] != null) {
             tCalendar[Standard].reloadDefinition();
-        if(tCalendar[Custom] != null)
+        }
+        if (tCalendar[Custom] != null) {
             tCalendar[Custom].reloadDefinition();
+        }
     }
 
     synchronized public void addCalendarDefinition(int nCalendardId, String csCalendarFilePath)
     {
-        if(tCalendar == null)
+        if (tCalendar == null) {
             tCalendar = new OpenCalendar[2];
+        }
 
         OpenCalendar calendar = new OpenCalendar();
         calendar.loadDefinition(csCalendarFilePath);
@@ -64,8 +68,9 @@ public class OpenCalendarManager
         if(calendar != null)
         {
             CalendarOpenState openState = calendar.getOpenState(cacheManager, false);
-            if(openState.isKnown())
+            if (openState.isKnown()) {
                 return openState;
+            }
         }
         return CalendarOpenState.Unknown;
     }
@@ -83,8 +88,9 @@ public class OpenCalendarManager
         if(calendar != null)
         {
             CalendarOpenState openState = calendar.getOpenState(cacheManager, false);
-            if(openState.isKnown())
+            if (openState.isKnown()) {
                 return openState;
+            }
             return CalendarOpenState.AppClosed; // Missign standard def are same as closed
         }
         // No standard def: open
@@ -99,8 +105,9 @@ public class OpenCalendarManager
             return CalendarOpenState.AppOpened;
         }
 
-        if(!cacheManager.mustCheckServiceOpenState())
+        if (!cacheManager.mustCheckServiceOpenState()) {
             return cacheManager.getCurrentState();
+        }
 
         // Check custom calendar
         OpenCalendar calendar = tCalendar[Custom];
@@ -118,8 +125,9 @@ public class OpenCalendarManager
         if(calendar != null)
         {
             CalendarOpenState openState = calendar.getOpenState(cacheManager, true);
-            if(openState.isKnown())
+            if (openState.isKnown()) {
                 return openState;
+            }
             return CalendarOpenState.AppClosed; // Missign standard def are same as closed
         }
 

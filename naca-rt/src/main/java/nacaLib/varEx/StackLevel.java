@@ -26,8 +26,9 @@ public class StackLevel extends CJMapObject
         for(int n=nTopValidIndex; n>=0; n--)
         {
             level = arr.get(n);
-            if(level.hasLowerLevel(nLevel))
+            if (level.hasLowerLevel(nLevel)) {
                 return level;
+            }
         }
         return null;
     }

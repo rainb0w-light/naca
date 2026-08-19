@@ -43,12 +43,13 @@ public class CalendarOpenState
     {
         if(isknown)
         {
-            if(isopen)
+            if (isopen) {
                 return "Ouvert / ge�ffnet / aperto";
-            else
+            } else
             {
-                if(ismanual)
+                if (ismanual) {
                     return "Ferm� manuellement / Manuell geschlossen / Chiuso manualmente ";
+                }
                 return "Ferm� / geschlossen / chiuso";
             }
         }

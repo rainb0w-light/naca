@@ -270,7 +270,9 @@ public class TranspilerService {
             CJavaEntityFactory factory = new CJavaEntityFactory(catalog, exporter);
             factory.InitCustomCICSEntities();
             CEntityClass rootEntity = program.DoSemanticAnalysis(factory);
-            if (rootEntity == null) return null;
+            if (rootEntity == null) {
+                return null;
+            }
             // Fallback: use programName parameter if parsed program ID is empty
             if (rootEntity.GetName() == null || rootEntity.GetName().isEmpty()) {
                 rootEntity.SetName(programName);

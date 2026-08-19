@@ -45,23 +45,29 @@ public class StringUtil
 
     public static String FormatWithFill4LeftZero(int n)
     {
-        if(n == 0)
+        if (n == 0) {
             return "0000";
-        if(n < 10)
+        }
+        if (n < 10) {
             return "000" + String.valueOf(n);
-        if(n < 100)
+        }
+        if (n < 100) {
             return "00" + String.valueOf(n);
-        if(n < 1000)
+        }
+        if (n < 1000) {
             return "0" + String.valueOf(n);
+        }
         return String.valueOf(n);
     }
 
     public static String FormatWithFill2LeftZero(int n)
     {
-        if(n == 0)
+        if (n == 0) {
             return "00";
-        if(n < 10)
+        }
+        if (n < 10) {
             return "0" + String.valueOf(n);
+        }
         return String.valueOf(n);
     }
 
@@ -89,8 +95,9 @@ public class StringUtil
     public static String decodeSignComp3String(String s, int nNbDigitInteger)
     {
         boolean isevenNumberOfDigits = false;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             isevenNumberOfDigits = true;
+        }
 
         String sOut = new String();
         int nChar = 0;
@@ -107,10 +114,11 @@ public class StringUtil
             if(nIndex == nLg-1) // No sign in right nibble
             {
                 nBibble = nChar % 16;
-                if(nBibble == 12)   // +
+                if (nBibble == 12) {   // +
                     sOut += "+";
-                else
+                } else {
                     sOut += "-";
+                }
             }
             else
             {
@@ -131,8 +139,9 @@ public class StringUtil
     public static String decodeComp3String(String s, int nNbDigitInteger)
     {
         boolean isevenNumberOfDigits = false;
-        if((nNbDigitInteger % 2) == 0)
+        if ((nNbDigitInteger % 2) == 0) {
             isevenNumberOfDigits = true;
+        }
 
         String sOut = new String();
         int nChar = 0;
@@ -175,10 +184,11 @@ public class StringUtil
             String csRight = csSource.substring(n+csOldChunk.length());
             csSource = csLeft + csNewChunk + csRight;
 
-            if(bAll)
-                n =  csSource.indexOf(csOldChunk);
-            else
+            if (bAll) {
+                n = csSource.indexOf(csOldChunk);
+            } else {
                 n = -1;
+            }
         }
         return csSource;
     }
@@ -198,8 +208,9 @@ public class StringUtil
     static public String trimLeft(String s)
     {
         boolean b = false;
-        if (s == null || s.length() == 0)
+        if (s == null || s.length() == 0) {
             return s;
+        }
 
         int n = 0;
         while (Character.isWhitespace(s.charAt(n)))
@@ -207,16 +218,18 @@ public class StringUtil
             n++;
             b = true;
         }
-        if(b)
+        if (b) {
             s = s.substring(n);
+        }
         return s;
     }
 
     static public String trimLeft(String s, char c)
     {
         boolean b = false;
-        if (s == null || s.length() == 0)
+        if (s == null || s.length() == 0) {
             return s;
+        }
         int n = 0;
         int len = s.length();
         while (n < len && s.charAt(n) == c)
@@ -224,40 +237,45 @@ public class StringUtil
             n++;
             b = true;
         }
-        if(b)
+        if (b) {
             s = s.substring(n);
+        }
         return s;
     }
 
     static public String trimRight(String s)
     {
         boolean b = false;
-        if (s == null || s.length() == 0)
+        if (s == null || s.length() == 0) {
             return s;
+        }
         int len = s.length();
         while (len > 0 && Character.isWhitespace(s.charAt(len-1)))
         {
             len--;
             b = true;
         }
-        if(b)
+        if (b) {
             s = s.substring(0, len);
+        }
         return s;
     }
 
     static public String trimRight(String s, char c)
     {
         boolean b = false;
-        if (s == null)
+        if (s == null) {
             return s;
+        }
         int len = s.length();
         while (len > 0 && s.charAt(len-1) == c)
         {
             len--;
             b = true;
         }
-        if(b)
+        if (b) {
             s = s.substring(0, len);
+        }
         return s;
     }
 
@@ -283,24 +301,28 @@ public class StringUtil
 
     static public boolean isEmpty(String cs)
     {
-        if(cs == null)
+        if (cs == null) {
             return true;
-        if(cs.length() == 0)
+        }
+        if (cs.length() == 0) {
             return true;
+        }
         return false;
     }
 
     static public boolean trimEquals(String cs1, String cs2)
     {
-        if(cs1.trim().equals(cs2.trim()))
+        if (cs1.trim().equals(cs2.trim())) {
             return true;
+        }
         return false;
     }
 
     static public boolean isEmptyOrOnlyWhitespaces(String cs)
     {
-        if(cs == null)
+        if (cs == null) {
             return true;
+        }
         return isEmpty(cs.trim());
     }
 
@@ -308,11 +330,13 @@ public class StringUtil
     {
         int n = 0;
         boolean b = isEmpty(cs1.trim());
-        if(b)
+        if (b) {
             n++;
+        }
         b = isEmpty(cs2.trim());
-        if(b)
+        if (b) {
             n++;
+        }
         return n;
     }
 
@@ -320,14 +344,17 @@ public class StringUtil
     {
         int n = 0;
         boolean b = isEmpty(cs1.trim());
-        if(b)
+        if (b) {
             n++;
+        }
         b = isEmpty(cs2.trim());
-        if(b)
+        if (b) {
             n++;
+        }
         b = isEmpty(cs3.trim());
-        if(b)
+        if (b) {
             n++;
+        }
         return n;
     }
 
@@ -335,12 +362,16 @@ public class StringUtil
     {
         if(cs != null)
         {
-            if(cs.length() > 0)
-                if(cs.charAt(0) == '\"')
+            if (cs.length() > 0) {
+                if (cs.charAt(0) == '\"') {
                     cs = cs.substring(1);
-            if(cs.length() > 0)
-                if(cs.charAt(cs.length()-1) == '\"')
-                    cs = cs.substring(0, cs.length()-1);
+                }
+            }
+            if (cs.length() > 0) {
+                if (cs.charAt(cs.length() - 1) == '\"') {
+                    cs = cs.substring(0, cs.length() - 1);
+                }
+            }
         }
         return cs;
     }
@@ -353,10 +384,11 @@ public class StringUtil
         {
             int nChar = nValue % 16;
             nValue = nValue / 16;
-            if(nChar <= 9)
+            if (nChar <= 9) {
                 c = (char) ('0' + nChar);
-            else
+            } else {
                 c = (char) ('A' + nChar - 10);
+            }
             cs = c + cs;
         }
         return cs;
@@ -370,10 +402,11 @@ public class StringUtil
         {
             int nChar = nValue % 16;
             nValue = nValue / 16;
-            if(nChar <= 9)
+            if (nChar <= 9) {
                 c = (char) ('0' + nChar);
-            else
+            } else {
                 c = (char) ('A' + nChar - 10);
+            }
             cs = c + cs;
         }
         return cs;
@@ -381,10 +414,11 @@ public class StringUtil
 
     static public String FormatAs2CharHexa(byte byValue)
     {
-        if(byValue < 0)
-            return FormatAs2CharHexa((int)byValue + 256);
-        else
-            return FormatAs2CharHexa((int)byValue);
+        if (byValue < 0) {
+            return FormatAs2CharHexa((int) byValue + 256);
+        } else {
+            return FormatAs2CharHexa((int) byValue);
+        }
     }
 
     public static String extractCurrentWord(StringRef rcs)
@@ -402,13 +436,16 @@ public class StringUtil
             boolean b = false;
 
             char c = cs.charAt(n);
-            if(bSepIsWithSpace)
-                if(Character.isWhitespace(c))
+            if (bSepIsWithSpace) {
+                if (Character.isWhitespace(c)) {
                     b = true;
+                }
+            }
             if(!b && csOtherSep != null)
             {
-                if(csOtherSep.indexOf(c) != -1)
+                if (csOtherSep.indexOf(c) != -1) {
                     b = true;
+                }
             }
 
             if(b)
@@ -631,8 +668,9 @@ public class StringUtil
     static public String fillString(char c, int nLength)
     {
         String cs = new String();
-        for(int n=0; n<nLength; n++)
+        for (int n = 0; n < nLength; n++) {
             cs += c;
+        }
         return cs;
     }
 
@@ -641,24 +679,27 @@ public class StringUtil
         for(int n=0; n<cs.length(); n++)
         {
             char c = cs.charAt(n);
-            if(c < '0' || c > '9')
+            if (c < '0' || c > '9') {
                 return false;
+            }
         }
         return true;
     }
 
     public static String makeFullTableName(String csPrefix, String csTableName)
     {
-        if(csPrefix != null)
+        if (csPrefix != null) {
             return csPrefix + "." + csTableName;
+        }
         return csTableName;
     }
 
     public static String getTablePrefix(String csFullTableName)
     {
         int nPos = csFullTableName.indexOf('.');
-        if(nPos == -1)
+        if (nPos == -1) {
             return "";
+        }
         String csLeft = csFullTableName.substring(0, nPos);
         return csLeft;
     }
@@ -666,8 +707,9 @@ public class StringUtil
     public static String getUnprefixedTableName(String csFullTableName)
     {
         int nPos = csFullTableName.indexOf('.');
-        if(nPos == -1)
+        if (nPos == -1) {
             return csFullTableName;
+        }
         String csRight = csFullTableName.substring(nPos+1);
         return csRight;
     }
@@ -688,12 +730,15 @@ public class StringUtil
 
     public static int convertHexDigitAsInt(char c)
     {
-        if(c >= '0' && c <= '9')
+        if (c >= '0' && c <= '9') {
             return c - '0';
-        if(c >= 'A' && c <= 'F')
+        }
+        if (c >= 'A' && c <= 'F') {
             return c - 'A' + 10;
-        if(c >= 'a' && c <= 'f')
+        }
+        if (c >= 'a' && c <= 'f') {
             return c - 'a' + 10;
+        }
         return 0;
     }
 
@@ -721,12 +766,14 @@ public class StringUtil
         int hour=0, minutes=0, seconds=0; // heure, minutes, secondes pour la date represent�e par s.
 
 //  ***************************** S�pare la cha�ne en groupes de chiffres *******************************
-        if (s == null)
+        if (s == null) {
             s = "";
+        }
         String[] numbers = s.split("[^0-9]+");  // Liste des groupes de chiffres dans la cha�ne fournie.
         int nn = numbers.length;
-        if (format.length() < nn)
-            nn=format.length();
+        if (format.length() < nn) {
+            nn = format.length();
+        }
 
 //  ******************* Copie chaque groupe de chiffre dans le bon compteur *****************************
         boolean isthereIsDate = false;      // Indique qu'il y � effectivement quelque chose d'assimilable a une date
@@ -744,8 +791,12 @@ public class StringUtil
                     break;
                 case 'Y':
                     year=Integer.parseInt(numbers[n]);
-                    if ((year<=50) && (year>0)) year+=2000;
-                    if ((year>50) && (year<100)) year+=1900;
+                    if ((year <= 50) && (year > 0)) {
+                        year += 2000;
+                    }
+                    if ((year > 50) && (year < 100)) {
+                        year += 1900;
+                    }
                     break;
                 case 'h':
                     hour=Integer.parseInt(numbers[n]);
@@ -766,9 +817,9 @@ public class StringUtil
             d.set(year, month-1+ Calendar.JANUARY, day, hour, minutes, seconds);
             d.set(Calendar.MILLISECOND, 0);
             return d;
-        }
-        else
+        } else {
             return null;
+        }
     }
 
 //  *****************************************************************************************
@@ -812,8 +863,9 @@ public class StringUtil
 
     public static String toString(Object o)
     {
-        if(o == null)
+        if (o == null) {
             return "(null)";
+        }
         return o.toString();
     }
     /**
@@ -826,8 +878,9 @@ public class StringUtil
      */
     public static String encodeAsHTML(String csInput)
     {
-        if(isEmpty(csInput))
+        if (isEmpty(csInput)) {
             return csInput;
+        }
 
         HTMLCharsetConverter.initOnce();
 
@@ -851,8 +904,9 @@ public class StringUtil
      */
     public static String decodeFROMHTML(String csInput)
     {
-        if(isEmpty(csInput))
+        if (isEmpty(csInput)) {
             return csInput;
+        }
 
         HTMLCharsetConverter.initOnce();
 
@@ -872,8 +926,9 @@ public class StringUtil
             nIndexStart = csInput.indexOf("&");
             nIndexEnd = csInput.indexOf(";");
         }
-        if(csInput.length() > 0)
+        if (csInput.length() > 0) {
             sbOut.append(csInput);
+        }
         return sbOut.toString();
 
     }
@@ -895,11 +950,12 @@ public class StringUtil
 
                 if(isusePrefix)
                 {
-                    if(csWord.startsWith(csOptionalPrefixed))
+                    if (csWord.startsWith(csOptionalPrefixed)) {
                         arr = add(arr, csWord);
-                }
-                else
+                    }
+                } else {
                     arr = add(arr, csWord);
+                }
 
                 csValues = csValues.substring(n).trim();
                 n = 0;
@@ -936,8 +992,9 @@ public class StringUtil
                         csRight = csRight.substring(n);
                     }
                 }
-                if(csWord.startsWith(csPattern))
+                if (csWord.startsWith(csPattern)) {
                     arr = add(arr, csWord);
+                }
                 csValues = csLeft + csRight;
             }
 
@@ -976,11 +1033,12 @@ public class StringUtil
 
                 if(isusePrefix)
                 {
-                    if(csWord.startsWith(csOptionalPrefixed))
+                    if (csWord.startsWith(csOptionalPrefixed)) {
                         arr = add(arr, csWord);
-                }
-                else
+                    }
+                } else {
                     arr = add(arr, csWord);
+                }
 
                 csValues = csValues.substring(n).trim();
                 n = 0;
@@ -995,8 +1053,9 @@ public class StringUtil
 
     private static ArrayList<String> add(ArrayList<String> arr, String cs)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new ArrayList<String>();
+        }
 
         arr.add(cs);
         return arr;
@@ -1007,13 +1066,15 @@ public class StringUtil
     public static int getLineCount(String csText)
     {
         int nNblines = 1;
-        if(csText == null)
+        if (csText == null) {
             return 0;
+        }
         for(int n=0; n<csText.length(); n++)
         {
             char c = csText.charAt(n);
-            if(c == '\n')
+            if (c == '\n') {
                 nNblines++;
+            }
         }
         return nNblines;
     }
@@ -1025,38 +1086,45 @@ public class StringUtil
             csMemberName = csMemberName.substring(csPrefix.length());
             if(fieldType.equals(Integer.TYPE))
             {
-                if(csMemberName.startsWith("n"))
+                if (csMemberName.startsWith("n")) {
                     return csMemberName.substring(1);
+                }
             }
             else if(fieldType.equals(String.class))
             {
-                if(csMemberName.startsWith("cs"))
+                if (csMemberName.startsWith("cs")) {
                     return csMemberName.substring(2);
+                }
             }
             else if(fieldType.equals(Double.TYPE))
             {
-                if(csMemberName.startsWith("d"))
+                if (csMemberName.startsWith("d")) {
                     return csMemberName.substring(1);
+                }
             }
             else if(fieldType.equals(Long.TYPE))
             {
-                if(csMemberName.startsWith("l"))
+                if (csMemberName.startsWith("l")) {
                     return csMemberName.substring(1);
+                }
             }
             else if(fieldType.equals(Short.TYPE))
             {
-                if(csMemberName.startsWith("s"))
+                if (csMemberName.startsWith("s")) {
                     return csMemberName.substring(1);
+                }
             }
             else if(fieldType.equals(java.sql.Date.class))
             {
-                if(csMemberName.startsWith("dt"))
+                if (csMemberName.startsWith("dt")) {
                     return csMemberName.substring(2);
+                }
             }
             else if(fieldType.equals(Timestamp.class))
             {
-                if(csMemberName.startsWith("ts"))
+                if (csMemberName.startsWith("ts")) {
                     return csMemberName.substring(2);
+                }
             }
         }
         return csMemberName;

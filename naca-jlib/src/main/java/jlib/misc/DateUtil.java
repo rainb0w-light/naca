@@ -291,7 +291,9 @@ public class DateUtil
      */
     public static String formatDateToString(Date date, String sDateFormat) {
 
-        if (date == null || sDateFormat == null) return null;
+        if (date == null || sDateFormat == null) {
+            return null;
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(sDateFormat);
         String sDate = null;
@@ -440,7 +442,9 @@ public class DateUtil
     public static Date parseStringToDate(String sDate, String sDateFormat) {
 
         if (sDate == null || sDateFormat == null
-            || sDate.length() < sDateFormat.length()) return null;
+                || sDate.length() < sDateFormat.length()) {
+            return null;
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat(sDateFormat);
         Date date = null;

@@ -16,8 +16,9 @@ public class ClassDynLoaderFactory
 
     public static ClassDynLoaderFactory getInstance()
     {
-        if(ms_instance == null)
+        if (ms_instance == null) {
             ms_instance = new ClassDynLoaderFactory();
+        }
         return ms_instance;
     }
 

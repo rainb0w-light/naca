@@ -55,7 +55,9 @@ public class CEntitySQLCode extends CDataEntity
      */
     public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
     {
-        if (eHistoryItem!=null) return null;
+        if (eHistoryItem != null) {
+            return null;
+        }
         int n =0 ;
         try
         {

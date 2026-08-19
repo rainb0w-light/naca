@@ -29,8 +29,9 @@ public class LevelKeywordStackManager
 
     LevelKeywordStackManager getLevelKeywordStackManager()
     {
-        if(levelKeywordStackManager == null)
+        if (levelKeywordStackManager == null) {
             levelKeywordStackManager = new LevelKeywordStackManager();
+        }
         return levelKeywordStackManager;
     }
 
@@ -52,8 +53,9 @@ public class LevelKeywordStackManager
         for(int n=0; n<nNbParents; n++)
         {
             LevelKeywords l = ms_stack.get(n);
-            if(l.isManaging(tok))
+            if (l.isManaging(tok)) {
                 return true;
+            }
         }
         return false;
     }

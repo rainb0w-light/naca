@@ -65,54 +65,61 @@ public class DeclareTypeX extends DeclareTypeBase
 
     public DeclareTypeX value(String cs)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(cs, false);
+        }
         return this;
     }
 
     public DeclareTypeX valueAll(char c)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(c, true);
+        }
         return this;
     }
 
     public DeclareTypeX valueAll(String cs)
     {
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = new CInitialValue(cs, true);
+        }
         return this;
     }
 
     public DeclareTypeX valueSpaces()
     {
         //initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = CInitialValueStd.Spaces;
+        }
         return this;
     }
 
     public DeclareTypeX valueZero()
     {
         //initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = CInitialValueStd.Zero;
+        }
         return this;
     }
 
     public DeclareTypeX valueHighValue()
     {
         //initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = CInitialValueStd.HighValue;
+        }
         return this;
     }
 
     public DeclareTypeX valueLowValue()
     {
         //initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
-        if(getProgramManager().isFirstInstance())
+        if (getProgramManager().isFirstInstance()) {
             initialValue = CInitialValueStd.LowValue;
+        }
         return this;
     }
 

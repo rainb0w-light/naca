@@ -156,8 +156,9 @@ public class ControlerThread extends Thread
                 nCurrentSite = nSite ;
                 BaseControlerStepConfig stepConfig = grpConfig.getStep(nCurrentSite);
                 String context = csControlerName ;
-                if (!context.equals(""))
-                    context += "/" ;
+                if (!context.equals("")) {
+                    context += "/";
+                }
                 context += stepConfig.getName() ;
                 if (!stepConfig.isActive())
                 {

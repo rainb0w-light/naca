@@ -46,15 +46,17 @@ public class ColValueBoolean extends ColValue
 
     public int getValueAsInt()
     {
-        if(isvalue)
+        if (isvalue) {
             return 1;
+        }
         return 0;
     }
 
     double getValueAsDouble()
     {
-        if(isvalue)
+        if (isvalue) {
             return 1.0;
+        }
         return 0.0;
     }
 

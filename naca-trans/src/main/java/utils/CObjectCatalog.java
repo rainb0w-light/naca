@@ -829,12 +829,15 @@ public class CObjectCatalog
     public String getSQLWarningErrorStatement()
     {
         String cs = "" ;
-        if(qLWarning != null)
+        if (qLWarning != null) {
             cs += SQLWarningErrorType.getSQLWarningErrorStatement(qLWarning, csSQLWarningArg);
-        if (qLError != null)
+        }
+        if (qLError != null) {
             cs += SQLWarningErrorType.getSQLWarningErrorStatement(qLError, csSQLErrorArg);
-        if (cs.equals(""))
-            return null ;
+        }
+        if (cs.equals("")) {
+            return null;
+        }
         return cs;
     }
 

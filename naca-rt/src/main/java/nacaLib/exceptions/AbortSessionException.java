@@ -26,10 +26,12 @@ public class AbortSessionException extends NacaRTException
     public String getMessage()
     {
         String cs = "";
-        if(programName != null)
+        if (programName != null) {
             cs = "AbortSessionException Prg=" + programName;
-        if(reason != null && reason.getMessage() != null)
+        }
+        if (reason != null && reason.getMessage() != null) {
             cs += " Reason=" + reason.getMessage();
+        }
         return cs;
     }
 

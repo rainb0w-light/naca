@@ -141,22 +141,25 @@ public class LineRead
         // PJD Next line was if(tbLine[nOffset+nTotalLength-1] == 0x0A);
         // the -1 is wrong as manageTrailingLF() must have already been called previously on this LineReadObject, so nTotalLength was
         // decremented.
-        if(tbLine[nOffset+nTotalLength] == 0x0A)
+        if (tbLine[nOffset + nTotalLength] == 0x0A) {
             return true;
+        }
         return false;
     }
 
     public int getAsLittleEndingUnsignBinaryInt()
     {
-        if(nBodyLength >= 4)
-            return (int)LittleEndingUnsignBinaryBufferStorage.readInt(tbLine, nOffset);
+        if (nBodyLength >= 4) {
+            return (int) LittleEndingUnsignBinaryBufferStorage.readInt(tbLine, nOffset);
+        }
         return -1;  // Error
     }
 
     public int getAsLittleEndingUnsignBinaryShort()
     {
-        if(nBodyLength >= 2)
-            return (int)LittleEndingUnsignBinaryBufferStorage.readShort(tbLine, nOffset);
+        if (nBodyLength >= 2) {
+            return (int) LittleEndingUnsignBinaryBufferStorage.readShort(tbLine, nOffset);
+        }
         return -1;  // Error
     }
 

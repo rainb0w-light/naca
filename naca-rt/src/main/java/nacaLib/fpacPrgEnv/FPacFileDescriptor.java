@@ -85,14 +85,16 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 
     private void fillInputBuffer()
     {
-        if(pacRecordFillerInput != null)
+        if (pacRecordFillerInput != null) {
             pacRecordFillerInput.fillBuffer(acBuffer);
+        }
     }
 
     private void fillOutputBuffer()
     {
-        if(pacRecordFillerOutput != null)
+        if (pacRecordFillerOutput != null) {
             pacRecordFillerOutput.fillBuffer(acBuffer);
+        }
     }
 
     public RecordDescriptorAtEnd read()
@@ -125,16 +127,18 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         else        // Constant record size
         {
             int nRecordLength = 0;
-            if(forcedRecordLengthDefinition == null)
+            if (forcedRecordLengthDefinition == null) {
                 nRecordLength = getRecordLength(null);
-            else
+            } else {
                 nRecordLength = forcedRecordLengthDefinition.getRecordLength();
+            }
 
             LineRead lineRead = null;
-            if(nRecordLength > 0)
+            if (nRecordLength > 0) {
                 lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);
-            else
+            } else {
                 lineRead = fileManagerEntry.dataFile.readNextUnixLine();
+            }
 
             if(lineRead != null)
             {
@@ -143,8 +147,9 @@ public class FPacFileDescriptor extends BaseFileDescriptor
             }
         }
 
-        if(fileManagerEntry.dataFile.isEOF())
+        if (fileManagerEntry.dataFile.isEOF()) {
             return RecordDescriptorAtEnd.End;
+        }
         return RecordDescriptorAtEnd.NotEnd;
     }
 
@@ -155,8 +160,9 @@ public class FPacFileDescriptor extends BaseFileDescriptor
             int nRecordLength = getRecordLength(null);
             if(nRecordLength == 0)
             {
-                if(fileManagerEntry.dataFile.isUpdateable())
+                if (fileManagerEntry.dataFile.isUpdateable()) {
                     nRecordLength = nLastReadRecordLength;
+                }
             }
 
             if(nRecordLength >= 0)
@@ -251,8 +257,9 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 
     public String toString()
     {
-        if(fileManagerEntry != null)
+        if (fileManagerEntry != null) {
             return fileManagerEntry.toString();
+        }
         return "No File Manager";
     }
 }

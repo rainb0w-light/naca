@@ -34,18 +34,21 @@ public class JSonParser
 
     public boolean fill(String cs, Object oTarget, Class cls)
     {
-        if (!(oTarget instanceof List))
+        if (!(oTarget instanceof List)) {
             return false;
+        }
 
         List list = (List)oTarget;
         cs = cs.trim();
 
-        if(!cs.startsWith("[{"))
+        if (!cs.startsWith("[{")) {
             return false;
+        }
         cs = cs.substring(2);
 
-        if(!cs.endsWith("}]"))
+        if (!cs.endsWith("}]")) {
             return false;
+        }
         cs = cs.substring(0, cs.length()-2);
 
         cs = cs.trim();
@@ -58,10 +61,11 @@ public class JSonParser
                 Constructor ct = cls.getConstructor();
                 Object obj = ct.newInstance((Object) null);
                 boolean b = fill("{" + csItem[i] + "}", obj);
-                if (b)
+                if (b) {
                     list.add(obj);
-                else
+                } else {
                     return false;
+                }
             }
             catch (Exception ex)
             {
@@ -76,12 +80,14 @@ public class JSonParser
     {
         cs = cs.trim();
 
-        if(!cs.startsWith("{"))
+        if (!cs.startsWith("{")) {
             return false;
+        }
         cs = cs.substring(1);
 
-        if(!cs.endsWith("}"))
+        if (!cs.endsWith("}")) {
             return false;
+        }
         cs = cs.substring(0, cs.length()-1);
 
         cs = cs.trim();
@@ -91,8 +97,9 @@ public class JSonParser
         {
             JSonCoupleItem couple = new JSonCoupleItem();
             boolean b = couple.parse(csItem[i]);
-            if(!b)
+            if (!b) {
                 return false;
+            }
             hashItems.put(couple.getName(), couple);
         }
 
@@ -128,10 +135,11 @@ public class JSonParser
             String csTypeName = type.getName();
             try
             {
-                if(csName.startsWith("_"))
+                if (csName.startsWith("_")) {
                     csName = csName.substring(1);
-                else if(csName.startsWith("m_"))
+                } else if (csName.startsWith("m_")) {
                     csName = csName.substring(2);
+                }
                 JSonCoupleItem couple = hashItems.get(csName);
                 if(couple != null)
                 {

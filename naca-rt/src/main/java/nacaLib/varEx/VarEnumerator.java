@@ -19,8 +19,9 @@ public class VarEnumerator
     {
         this.programManager = programManager;
         this.var = var;
-        if(var != null)
+        if (var != null) {
             varDef = var.getVarDef();
+        }
     }
 
     public VarBase getFirstVarChild()

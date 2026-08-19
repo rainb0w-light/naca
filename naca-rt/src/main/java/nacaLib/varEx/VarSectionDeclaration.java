@@ -22,8 +22,9 @@ public class VarSectionDeclaration extends VarDeclarationInMap
     public VarSectionDeclaration(BaseProgram program)
     {
         super(program, null);
-        if(program != null)
+        if (program != null) {
             programManager = program.getProgramManager();
+        }
     }
 
     private BaseProgramManager programManager = null;
@@ -61,8 +62,9 @@ public class VarSectionDeclaration extends VarDeclarationInMap
 
     public SQLCursor cursor()
     {
-        if(IsSTCheck)
+        if (IsSTCheck) {
             Log.logFineDebug("cursor");
+        }
 
         SQLCursor sqlCursor = new SQLCursor(programManager);
         return sqlCursor;

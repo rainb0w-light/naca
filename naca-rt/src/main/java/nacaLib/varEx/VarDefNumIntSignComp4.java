@@ -432,8 +432,9 @@ public class VarDefNumIntSignComp4 extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeIntSignComp4(buffer, nOffset, 0);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
@@ -555,8 +556,9 @@ public class VarDefNumIntSignComp4 extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         int n = internalReadIntSignComp4(buffer);
-        if(n < 0)
+        if (n < 0) {
             return -n;
+        }
         return n;
     }
 
@@ -576,8 +578,9 @@ public class VarDefNumIntSignComp4 extends VarDefNum
     CStr getAsAlphaNumString(VarBufferPos buffer)
     {
         int nValue = internalReadIntSignComp4(buffer);
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0String(nValue, nNbDigitInteger);
 
@@ -868,16 +871,18 @@ public class VarDefNumIntSignComp4 extends VarDefNum
 
     boolean isTypedLongVarCharLength()  // The type can contain a long varchar length part
     {
-        if(nNbDigitInteger == 4)
+        if (nNbDigitInteger == 4) {
             return true;
+        }
         return false;
     }
 
     public String digits(VarBufferPos buffer)
     {
         int nValue = internalReadIntSignComp4(buffer);
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
         CStrNumber csNum = TempCacheLocator.getTLSTempCache().getCStrNumber();
         csNum.getAsAbsoluteIntComp0String(nValue, nNbDigitInteger);
         return csNum.getAsString();

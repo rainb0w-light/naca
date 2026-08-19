@@ -35,8 +35,9 @@ public class ResourceManager extends BaseCloseMBean
     {
         int n = 0;
         unloadRWLock.readLock().lock();
-        if(tabXSLFiles != null)
+        if (tabXSLFiles != null) {
             n = tabXSLFiles.size();
+        }
         unloadRWLock.readLock().unlock();
         return n;
     }
@@ -45,8 +46,9 @@ public class ResourceManager extends BaseCloseMBean
     {
         int n = 0;
         unloadRWLock.readLock().lock();
-        if(tabXSLTransformerCache != null)
+        if (tabXSLTransformerCache != null) {
             n = tabXSLTransformerCache.size();
+        }
         unloadRWLock.readLock().unlock();
         return n;
     }
@@ -56,8 +58,9 @@ public class ResourceManager extends BaseCloseMBean
         Log.logImportant("unloadCachedResources started");
         unloadRWLock.writeLock().lock();    // Get exclusive lock
 
-        if(tabXSLTransformerCache != null)
+        if (tabXSLTransformerCache != null) {
             tabXSLTransformerCache.clear();
+        }
 
         // Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
         unloadRWLock.writeLock().unlock();

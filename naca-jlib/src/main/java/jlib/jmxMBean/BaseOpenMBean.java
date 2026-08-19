@@ -181,12 +181,14 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
     {
         Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
         boolean iscanGet = true;
-        if(methodGet == null)
+        if (methodGet == null) {
             iscanGet = false;
+        }
         Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
         boolean iscanSet = true;
-        if(methodSet == null)
+        if (methodSet == null) {
             iscanSet = false;
+        }
 
         OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(
             csMethodName,
@@ -197,8 +199,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
             false);
         OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 
-        if(arrOpenMBeanAttributeInfosWrapper == null)
+        if (arrOpenMBeanAttributeInfosWrapper == null) {
             arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+        }
         arrOpenMBeanAttributeInfosWrapper.add(attr);
     }
 
@@ -206,12 +209,14 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
     {
         Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
         boolean iscanGet = true;
-        if(methodGet == null)
+        if (methodGet == null) {
             iscanGet = false;
+        }
         Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
         boolean iscanSet = true;
-        if(methodSet == null)
+        if (methodSet == null) {
             iscanSet = false;
+        }
 
         OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(
             csMethodName,
@@ -222,8 +227,9 @@ public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements Dyn
             false);
         OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 
-        if(arrOpenMBeanAttributeInfosWrapper == null)
+        if (arrOpenMBeanAttributeInfosWrapper == null) {
             arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+        }
         arrOpenMBeanAttributeInfosWrapper.add(attr);
     }
 

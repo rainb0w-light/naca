@@ -16,8 +16,9 @@ public class CESMStartData
     public CESMStartData(Var var, Var varLength)
     {
         int nSize = var.getLength();
-        if(varLength != null)
+        if (varLength != null) {
             nSize = varLength.getInt();
+        }
 
         buffer = new InternalCharBuffer(var.getBuffer(), var.getAbsolutePosition(), nSize);
     }

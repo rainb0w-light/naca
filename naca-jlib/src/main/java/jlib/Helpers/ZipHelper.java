@@ -36,14 +36,17 @@ public class ZipHelper {
         ZipOutputStream zos;         // Stream zipper.
         try {
 //***************************** Initialization *************************************
-            if (!sourceFolder.exists())
+            if (!sourceFolder.exists()) {
                 throw new Exception("The specified source folder doesn't exist.");
-            if (!sourceFolder.isDirectory())
+            }
+            if (!sourceFolder.isDirectory()) {
                 throw new Exception("The specified source folder isn't a folder.");
+            }
 
             if (destinationZipArchive.exists()) {
-                if (destinationZipArchive.isDirectory())
+                if (destinationZipArchive.isDirectory()) {
                     throw new Exception("The specified zip archive is a folder.");
+                }
                 destinationZipArchive.delete();
             }
 
@@ -54,15 +57,24 @@ public class ZipHelper {
             zos.close();
             fos.close();
 
-            if (moveFiles)
-                _deleteFolder(sourceFolder,"");
+            if (moveFiles) {
+                _deleteFolder(sourceFolder, "");
+            }
         }
 
 //********************** Exception management **************************************
         catch (Exception e) {
             String s1,s2;
-            if (sourceFolder==null) s1="null"; else s1=sourceFolder.getAbsolutePath();
-            if (destinationZipArchive==null) s2="null"; else s2=destinationZipArchive.getAbsolutePath();
+            if (sourceFolder == null) {
+                s1 = "null";
+            } else {
+                s1 = sourceFolder.getAbsolutePath();
+            }
+            if (destinationZipArchive == null) {
+                s2 = "null";
+            } else {
+                s2 = destinationZipArchive.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("ApplicationHelper.zipFolder('"+s1+"','"+s2+"',"+moveFiles+")",e));
         }
     }
@@ -76,13 +88,19 @@ public class ZipHelper {
         try {
 //............................. Initialization .....................................
             currentFolder=new File(baseFolder,path);
-            if (!currentFolder.exists())
-                throw new Exception("Folder '"+baseFolder+"' doesn't exist.");
-            if (!currentFolder.isDirectory())
-                throw new Exception("'"+currentFolder+"' is not a folder.");
+            if (!currentFolder.exists()) {
+                throw new Exception("Folder '" + baseFolder + "' doesn't exist.");
+            }
+            if (!currentFolder.isDirectory()) {
+                throw new Exception("'" + currentFolder + "' is not a folder.");
+            }
 
-            if (path==null) path="";
-            if (path.length()>0) path+="/";
+            if (path == null) {
+                path = "";
+            }
+            if (path.length() > 0) {
+                path += "/";
+            }
 
 //..................... Deletes all content in the folder .........................
             contents=currentFolder.listFiles();
@@ -93,17 +111,21 @@ public class ZipHelper {
                 if (content.isDirectory()) {
                     _deleteFolder(baseFolder,path+content.getName());
                     content.delete();
-                }
+                } else {
 
 // If the current content entry is a file:
-                else
                     content.delete();
+                }
             }
         }
 //............................ Exception management ..............................
         catch (Exception e) {
             String s1;
-            if (baseFolder==null) s1="null"; else s1=baseFolder.getAbsolutePath();
+            if (baseFolder == null) {
+                s1 = "null";
+            } else {
+                s1 = baseFolder.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("ApplicationHelper._deleteFolder('"+s1+"','"+path+"')",e));
         }
     }
@@ -123,13 +145,19 @@ public class ZipHelper {
         try {
 //............................. Initialization .....................................
             currentFolder=new File(baseFolder,path);
-            if (!currentFolder.exists())
-                throw new Exception("Folder '"+baseFolder+"' doesn't exist.");
-            if (!currentFolder.isDirectory())
-                throw new Exception("'"+currentFolder+"' is not a folder.");
+            if (!currentFolder.exists()) {
+                throw new Exception("Folder '" + baseFolder + "' doesn't exist.");
+            }
+            if (!currentFolder.isDirectory()) {
+                throw new Exception("'" + currentFolder + "' is not a folder.");
+            }
 
-            if (path==null) path="";
-            if (path.length()>0) path+="/";
+            if (path == null) {
+                path = "";
+            }
+            if (path.length() > 0) {
+                path += "/";
+            }
 
 //..................... Archives all content in the folder .........................
             contents=currentFolder.listFiles();
@@ -151,7 +179,9 @@ public class ZipHelper {
                         bis=new BufferedInputStream(new FileInputStream(content));
                         for(;;) {
                             bytesRead=bis.read(buffer,0,bufferSize);
-                            if (bytesRead<=0) break;
+                            if (bytesRead <= 0) {
+                                break;
+                            }
                             zos.write(buffer,0,bytesRead);
                         }
                         bis.close();
@@ -160,15 +190,20 @@ public class ZipHelper {
                         zos.closeEntry();
                     }
                     catch (ZipException e) {
-                        if (!e.getMessage().startsWith("duplicate entry"))
-                            throw new Exception(ParseError.parseError("Error zipping '"+content.getAbsolutePath()+"': ",e));
+                        if (!e.getMessage().startsWith("duplicate entry")) {
+                            throw new Exception(ParseError.parseError("Error zipping '" + content.getAbsolutePath() + "': ", e));
+                        }
                     }
                 }
             }
         }
         catch (Exception e) {
             String s1;
-            if (baseFolder==null) s1="null"; else s1=baseFolder.getAbsolutePath();
+            if (baseFolder == null) {
+                s1 = "null";
+            } else {
+                s1 = baseFolder.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("ApplicationHelper._zipFolder('"+s1+"','"+path+"',ZipOutputStream)",e));
         }
     }
@@ -193,9 +228,13 @@ public class ZipHelper {
         }
         catch  (Exception e) {
             String sFile="null";
-            if (file!=null) sFile=file.getAbsolutePath();
+            if (file != null) {
+                sFile = file.getAbsolutePath();
+            }
             String sDestinationZipArchive="null";
-            if (destinationZipArchive!=null) sDestinationZipArchive=destinationZipArchive.getAbsolutePath();
+            if (destinationZipArchive != null) {
+                sDestinationZipArchive = destinationZipArchive.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("ZipHelper.zipFile('"+sFile+"','"+sDestinationZipArchive+"',"+moveFile,e));
         }
     }
@@ -248,15 +287,18 @@ public class ZipHelper {
 
 //................. Checks the destination zip archive ......................
             if (destinationZipArchive.exists()) {
-                if (destinationZipArchive.isDirectory())
-                    throw new Exception("The specified zip archive '"+destinationZipArchive+"' already exists, and it is a folder.");
-                else
+                if (destinationZipArchive.isDirectory()) {
+                    throw new Exception("The specified zip archive '" + destinationZipArchive + "' already exists, and it is a folder.");
+                } else {
                     destinationZipArchive.delete();
+                }
             } else {
                 File destinationFolder=destinationZipArchive.getParentFile();
-                if (!destinationFolder.exists())
-                    if (!destinationFolder.mkdirs())
-                        throw new Exception("Could not create the folder for '"+destinationZipArchive.getAbsolutePath()+"'.");
+                if (!destinationFolder.exists()) {
+                    if (!destinationFolder.mkdirs()) {
+                        throw new Exception("Could not create the folder for '" + destinationZipArchive.getAbsolutePath() + "'.");
+                    }
+                }
             }
 
 //.................... Initializes a ZIP stream .............................
@@ -280,10 +322,12 @@ public class ZipHelper {
                 }
 
 //........................... Checks if the file exists .........................
-                if (!file.exists())
-                    throw new Exception("File '"+file.getAbsolutePath()+"', specified in the files list, doesn't exist.");
-                if (file.isDirectory())
-                    throw new Exception("File '"+file.getAbsolutePath()+"', specified in the files list, is actually a folder.");
+                if (!file.exists()) {
+                    throw new Exception("File '" + file.getAbsolutePath() + "', specified in the files list, doesn't exist.");
+                }
+                if (file.isDirectory()) {
+                    throw new Exception("File '" + file.getAbsolutePath() + "', specified in the files list, is actually a folder.");
+                }
 
 //................ Adds the content of the file in the zip archive ..............
                 ze=new ZipEntry(file.getName());
@@ -295,7 +339,9 @@ public class ZipHelper {
                     bis=new BufferedInputStream(fis);
                     for(;;) {
                         bytesRead=bis.read(buffer,0,bufferSize);
-                        if (bytesRead<=0) break;
+                        if (bytesRead <= 0) {
+                            break;
+                        }
                         zos.write(buffer,0,bytesRead);
                     }
                     fis.close();
@@ -305,8 +351,9 @@ public class ZipHelper {
                     zos.closeEntry();
                 }
                 catch (ZipException e) {
-                    if (!e.getMessage().startsWith("duplicate entry"))
-                        throw new Exception(ParseError.parseError("Error zipping '"+file.getAbsolutePath()+"':",e));
+                    if (!e.getMessage().startsWith("duplicate entry")) {
+                        throw new Exception(ParseError.parseError("Error zipping '" + file.getAbsolutePath() + "':", e));
+                    }
                 }
             }
 
@@ -332,14 +379,16 @@ public class ZipHelper {
                     }
 
 //........................... Deletes the file ..................................
-                    if (file.exists())
+                    if (file.exists()) {
                         if (file.isFile()) {
-                            if (file.delete())
-                                System.out.println("Deleted "+file.getAbsolutePath()+".");
-                            else
-                                System.out.println("Could not delete "+file.getAbsolutePath()+".");
+                            if (file.delete()) {
+                                System.out.println("Deleted " + file.getAbsolutePath() + ".");
+                            } else {
+                                System.out.println("Could not delete " + file.getAbsolutePath() + ".");
+                            }
 
                         }
+                    }
                 }
             }
         }
@@ -347,9 +396,13 @@ public class ZipHelper {
 //************************* Exception management *******************************
         catch (Exception e) {
             String sFiles="null";
-            if (files!=null) sFiles=files.size()+" elements.";
+            if (files != null) {
+                sFiles = files.size() + " elements.";
+            }
             String sDestinationZipArchive="null";
-            if (destinationZipArchive!=null) sDestinationZipArchive=destinationZipArchive.getAbsolutePath();
+            if (destinationZipArchive != null) {
+                sDestinationZipArchive = destinationZipArchive.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("ZipHelper.zipFiles('"+sFiles+"','"+sDestinationZipArchive+"',"+moveFiles,e));
         }
     }

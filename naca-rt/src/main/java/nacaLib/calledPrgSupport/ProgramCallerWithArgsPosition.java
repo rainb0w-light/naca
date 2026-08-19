@@ -47,8 +47,9 @@ public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPo
         CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(
             csConfigFile,
             dbConnection.getEnvironmentPrefix());
-        if(calledResourceManager == null)
+        if (calledResourceManager == null) {
             return false;
+        }
 
         CalledSession session = new CalledSession(calledResourceManager) ;
 

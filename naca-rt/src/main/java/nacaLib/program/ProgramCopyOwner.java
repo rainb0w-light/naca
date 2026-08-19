@@ -22,18 +22,20 @@ public class ProgramCopyOwner extends BaseCloseMBean
     {
         super();
 
-        if(JmxGeneralStat.showCopyBeans())
-            createMBean("Copy."+csCopyName, csCopyName);
+        if (JmxGeneralStat.showCopyBeans()) {
+            createMBean("Copy." + csCopyName, csCopyName);
+        }
         this.csCopyName = csCopyName;
         hashPrograms = new Hashtable<String, String>();
     }
 
     void showBean(boolean bToShow)
     {
-        if(bToShow && !isBeanCreated())
-            createMBean("Copy."+csCopyName, csCopyName);
-        else if(!bToShow && isBeanCreated())
+        if (bToShow && !isBeanCreated()) {
+            createMBean("Copy." + csCopyName, csCopyName);
+        } else if (!bToShow && isBeanCreated()) {
             unregisterMBean();
+        }
     }
 
     void add(String csProgramName)
@@ -74,8 +76,9 @@ public class ProgramCopyOwner extends BaseCloseMBean
 
     public int getNbProgramOwner()
     {
-        if(hashPrograms == null)
+        if (hashPrograms == null) {
             return 0;
+        }
         return hashPrograms.size();
     }
 
@@ -97,9 +100,9 @@ public class ProgramCopyOwner extends BaseCloseMBean
 //          else
 // Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+csCopyName + " but " + m_hashPrograms.size() + "
 // remains uncorrectly loaded");
-        }
-        else
+        } else {
             Log.logImportant("unloadCopy; ERROR: No program to unload");
+        }
     }
 
     private String csCopyName = null;

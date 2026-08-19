@@ -35,8 +35,9 @@ public class BasePic9Comp3BufferSupport
 
     public static void init()
     {
-        if(ms_tModulo != null)
-            return ;
+        if (ms_tModulo != null) {
+            return;
+        }
 
         // arrays for fast encoding
         ms_tModulo = new long[20];
@@ -105,23 +106,26 @@ public class BasePic9Comp3BufferSupport
 
     public static boolean isValidSign(int nLow)
     {
-        if(nLow == COMP3_SIGN_MINUS || nLow == COMP3_SIGN_PLUS)
+        if (nLow == COMP3_SIGN_MINUS || nLow == COMP3_SIGN_PLUS) {
             return true;
+        }
         return false;
     }
 
     public static boolean isValidUnsign(int nLow)
     {
-        if(nLow == COMP3_UNSIGNED)
+        if (nLow == COMP3_UNSIGNED) {
             return true;
+        }
         return false;
     }
 
     public static boolean isNegative(byte by)
     {
         int nLow = by & 0x0F;
-        if(nLow == COMP3_SIGN_MINUS)
+        if (nLow == COMP3_SIGN_MINUS) {
             return true;
+        }
         return false;
     }
 
@@ -133,25 +137,29 @@ public class BasePic9Comp3BufferSupport
         for(int n=0; n<nNbChars-1; n++)
         {
             int nEncodedByte = acBuffer[nPosSource++];
-            if( nEncodedByte < 0)
+            if (nEncodedByte < 0) {
                 nEncodedByte += 256;
+            }
 
-            if( lValue!= 0)
+            if (lValue != 0) {
                 lValue *= 100;
+            }
             lValue += ms_tDecodeByteComp3[nEncodedByte];
         }
 
         // Last byte
         int nEncodedByte = acBuffer[nAbsolutePosition + nNbChars-1];
-        if( nEncodedByte < 0)
+        if (nEncodedByte < 0) {
             nEncodedByte += 256;
+        }
         int nDecodedByte = ms_tDecodeLastByteDigitComp3[nEncodedByte];
         lValue *= 10;
         lValue += nDecodedByte;
 
         boolean isnegative = ms_tDecodeLastByteNegativeComp3[nEncodedByte];
-        if(isnegative)
+        if (isnegative) {
             lValue = -lValue;
+        }
         return lValue;
     }
 
@@ -184,8 +192,9 @@ public class BasePic9Comp3BufferSupport
         long lInt = lValue / power10;
 
         long absValue = lValue;
-        if(absValue < 0)
+        if (absValue < 0) {
             absValue = -absValue;
+        }
         long dec = absValue % power10;
 
         String csDec = "" + dec;

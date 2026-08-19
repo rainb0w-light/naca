@@ -139,34 +139,40 @@ public class FtpPassiveClient {
             _commandOutput=_commandSocket.getOutputStream();
 
             response=_commandInput.readLine();
-            if (response.charAt(0)!='2')
-                throw new FtpException("Server returned error message at connecting to '"+host+"':'"+port+"'",response);
+            if (response.charAt(0) != '2') {
+                throw new FtpException("Server returned error message at connecting to '" + host + "':'" + port + "'", response);
+            }
 
 //*************************** Logs the user in *****************************
             response=executeFTPCommand("USER "+user);
             do {
-                if (response.charAt(0)=='5' || response.charAt(0)=='4' || response.charAt(0)=='1')
+                if (response.charAt(0) == '5' || response.charAt(0) == '4' || response.charAt(0) == '1') {
                     throw new FtpException(
-                        "Server returned error message at login user '"+user+"' to host '"+host+"':'"+port+"'",
-                        response,
-                        _lastCommand);
-                if (response.startsWith("230") || response.startsWith("202"))
+                            "Server returned error message at login user '" + user + "' to host '" + host + "':'" + port + "'",
+                            response,
+                            _lastCommand);
+                }
+                if (response.startsWith("230") || response.startsWith("202")) {
                     return;    // Codes 230 and 202: no password is needed.
-                if (response.startsWith("33"))
+                }
+                if (response.startsWith("33")) {
                     break;     // A response starting by 33X means that authentication is needed.
-                response=_commandInput.readLine();
+                }
+                response = _commandInput.readLine();
             } while (response!=null);
 
 //************************** Sends the user password ************************
             response=executeFTPCommand("PASS "+password);
             do {
-                char c=response.charAt(0);
-                if (c=='5')
+                char c = response.charAt(0);
+                if (c == '5') {
                     throw new FtpException("Server returned error message at sending password '" + password + "' for authenticating user '"
-                        + user + "' to host '" + host + "':'" + port + "'",response,_lastCommand);
-                if (c=='2')
+                            + user + "' to host '" + host + "':'" + port + "'", response, _lastCommand);
+                }
+                if (c == '2') {
                     return;    // A response starting by 2XX means that the password is accepted or no needed.
-                response=_commandInput.readLine();
+                }
+                response = _commandInput.readLine();
             } while (response!=null);
         }
 //************************** Exception management ***************************
@@ -193,12 +199,17 @@ public class FtpPassiveClient {
  */
     public boolean isConnected() throws Exception {
         try {
-            if (_commandSocket.isBound())
-                if (_commandSocket.isConnected())
-                    if (!_commandSocket.isClosed())
-                        if (!_commandSocket.isInputShutdown())
-                            if (!_commandSocket.isOutputShutdown())
+            if (_commandSocket.isBound()) {
+                if (_commandSocket.isConnected()) {
+                    if (!_commandSocket.isClosed()) {
+                        if (!_commandSocket.isInputShutdown()) {
+                            if (!_commandSocket.isOutputShutdown()) {
                                 return true;
+                            }
+                        }
+                    }
+                }
+            }
             return false;
         }
         catch (Exception e) {
@@ -251,15 +262,17 @@ public class FtpPassiveClient {
 
 //******************** Waits for the "230" answer ***************************
             do {
-                char c=response.charAt(0);
-                if (c=='5' || c=='4')
+                char c = response.charAt(0);
+                if (c == '5' || c == '4') {
                     throw new FtpException(
-                        "Server returned error message when changing working directory to '"+remoteFolder+"'",
-                        response,
-                        _lastCommand);
-                if (c=='2')
+                            "Server returned error message when changing working directory to '" + remoteFolder + "'",
+                            response,
+                            _lastCommand);
+                }
+                if (c == '2') {
                     return;    // A response starting by 2XX means that the password is accepted.
-                response=_commandInput.readLine();
+                }
+                response = _commandInput.readLine();
             } while (response!=null);
         }
 
@@ -318,11 +331,14 @@ public class FtpPassiveClient {
             dataSocket=openDataSocket();
 
 //................ Builds the apropriate FTP command .........................
-            if (remoteFolder==null) remoteFolder="";
-            if (remoteFolder.length()>0)
-                command="NLST "+remoteFolder;
-            else
-                command="NLST";
+            if (remoteFolder == null) {
+                remoteFolder = "";
+            }
+            if (remoteFolder.length() > 0) {
+                command = "NLST " + remoteFolder;
+            } else {
+                command = "NLST";
+            }
 
 //*********************** Retrieves the list of files ************************
             executeFTPCommand(command);
@@ -331,11 +347,14 @@ public class FtpPassiveClient {
             fileList=new StringBuilder();
             dataStream=new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
             while((response=dataStream.readLine())!=null) {
-                if (fileList.length()>0)
+                if (fileList.length() > 0) {
                     fileList.append("?");
+                }
                 n1=response.lastIndexOf("/");
                 n2=response.lastIndexOf("\\");
-                if (n2>n1) n1=n2;
+                if (n2 > n1) {
+                    n1 = n2;
+                }
                 fileName=response.substring(n1+1);
                 fileList.append(fileName);
             }
@@ -347,17 +366,20 @@ public class FtpPassiveClient {
             for(;;) {
                 response=_commandInput.readLine();
                 char c=response.charAt(0);
-                if (c=='2')
+                if (c == '2') {
                     break;
-                if (c=='4' || c=='5')
-                    throw new FtpException("Error reading content of folder '"+remoteFolder+"'",response,_lastCommand);
+                }
+                if (c == '4' || c == '5') {
+                    throw new FtpException("Error reading content of folder '" + remoteFolder + "'", response, _lastCommand);
+                }
             }
 
 //****************** Builds the array of files ******************************
-            if (fileList.length()>0)
+            if (fileList.length() > 0) {
                 return fileList.toString().split("\\?");
-            else
+            } else {
                 return new String[0];
+            }
         }
 //**************************** Exception management *************************
         catch (FtpException e) {
@@ -397,12 +419,14 @@ public class FtpPassiveClient {
 //*********************** Checks the server response ************************
             while(!response.startsWith("213")) {
 //................ When the file doesn't exist ..............................
-                if (response.startsWith("550"))
+                if (response.startsWith("550")) {
                     return false;
+                }
 
 //................. Other errors are not normal .............................
-                if (response.startsWith("5"))
-                    throw new FtpException("Server returned an error while checking the file size",response,_lastCommand);
+                if (response.startsWith("5")) {
+                    throw new FtpException("Server returned an error while checking the file size", response, _lastCommand);
+                }
 
 //................... Retrieves a new response ..............................
                 response=_commandInput.readLine();
@@ -449,8 +473,9 @@ public class FtpPassiveClient {
 
 //*********************** Checks the server response ************************
             while(!response.startsWith("213")) {
-                if (response.startsWith("5"))
-                    throw new FtpException("Server returned an error while retrieving  the file size",response,_lastCommand);
+                if (response.startsWith("5")) {
+                    throw new FtpException("Server returned an error while retrieving  the file size", response, _lastCommand);
+                }
 
 //................... Retrieves a new response ..............................
                 response=_commandInput.readLine();
@@ -500,8 +525,9 @@ public class FtpPassiveClient {
 
 //*********************** Checks the server response ************************
             while(!response.startsWith("213")) {
-                if (response.startsWith("5"))
-                    throw new FtpException("Server returned an error while retrieving the file date: "+response);
+                if (response.startsWith("5")) {
+                    throw new FtpException("Server returned an error while retrieving the file date: " + response);
+                }
 
 //................... Retrieves a new response ..............................
                 response=_commandInput.readLine();
@@ -567,12 +593,14 @@ public class FtpPassiveClient {
 //****************** Checks the server response ***************************
             while(!response.startsWith("250")) {
 //............ We admit "file doesn't exist" as a correct response ........
-                if (response.startsWith("550"))
+                if (response.startsWith("550")) {
                     return;
+                }
 
 //.............. We raise exceptions on other errors ......................
-                if (response.startsWith("5") || response.startsWith("4"))
-                    throw new FtpException("Server returned an error while deleting a file",response,_lastCommand);
+                if (response.startsWith("5") || response.startsWith("4")) {
+                    throw new FtpException("Server returned an error while deleting a file", response, _lastCommand);
+                }
 
 //................... Retrieves a new response ..............................
                 response=_commandInput.readLine();
@@ -618,8 +646,9 @@ public class FtpPassiveClient {
             while(!response.startsWith("257")) {
 
 //.............. We raise exceptions on other errors ......................
-                if (response.startsWith("5") || response.startsWith("4"))
-                    throw new FtpException("Server returned an error while creating a file",response,_lastCommand);
+                if (response.startsWith("5") || response.startsWith("4")) {
+                    throw new FtpException("Server returned an error while creating a file", response, _lastCommand);
+                }
 
 //................... Retrieves a new response ..............................
                 response=_commandInput.readLine();
@@ -749,11 +778,15 @@ public class FtpPassiveClient {
         int packageSize;
         int totalBytes;
         try {
-            if (localFileName==null)
+            if (localFileName == null) {
                 throw new Exception("'localFileName' cannot be null.");
-            if (remoteFileName==null) remoteFileName="";
-            if (remoteFileName.length()==0)
+            }
+            if (remoteFileName == null) {
+                remoteFileName = "";
+            }
+            if (remoteFileName.length() == 0) {
                 throw new Exception("Specified 'remoteFileName' cannot be emtpy or null.");
+            }
 
 //************************* Initialization *******************************
             size=fileSize(remoteFileName);
@@ -763,13 +796,15 @@ public class FtpPassiveClient {
             response=executeFTPCommand("RETR "+remoteFileName);
 
             while(!response.startsWith("1")) {
-                if (response.startsWith("4") || response.startsWith("5"))
-                    throw new FtpException("Error retrieving file '"+remoteFileName+"'",response,_lastCommand);
-                if (response.startsWith("2"))
+                if (response.startsWith("4") || response.startsWith("5")) {
+                    throw new FtpException("Error retrieving file '" + remoteFileName + "'", response, _lastCommand);
+                }
+                if (response.startsWith("2")) {
                     throw new FtpException(
-                        "Server returned 'OK' for file '"+remoteFileName+"', but file wasn't retrieved yet.",
-                        response,
-                        _lastCommand);
+                            "Server returned 'OK' for file '" + remoteFileName + "', but file wasn't retrieved yet.",
+                            response,
+                            _lastCommand);
+                }
                 response=_commandInput.readLine();
             }
 
@@ -790,11 +825,12 @@ public class FtpPassiveClient {
 //******************** Retrieves some server blattering ******************
             do {
                 response=_commandInput.readLine();
-                if (response.startsWith("4") || response.startsWith("5"))
+                if (response.startsWith("4") || response.startsWith("5")) {
                     throw new FtpException(
-                        "Error after retrieving "+totalBytes+" bytes of the file '"+remoteFileName+"'.",
-                        response,
-                        _lastCommand);
+                            "Error after retrieving " + totalBytes + " bytes of the file '" + remoteFileName + "'.",
+                            response,
+                            _lastCommand);
+                }
             } while (!response.startsWith("226") && !response.startsWith("250"));
 
 //********************** Returns the file size ***************************
@@ -806,7 +842,9 @@ public class FtpPassiveClient {
         }
         catch (Exception e) {
             String sLocalFileName="null";
-            if (localFileName!=null) sLocalFileName=localFileName.getAbsolutePath();
+            if (localFileName != null) {
+                sLocalFileName = localFileName.getAbsolutePath();
+            }
             throw new Exception(ParseError.parseError("FtpPassiveClient.getFile('"+remoteFileName+"','"+sLocalFileName+"')",e));
         }
     }
@@ -983,20 +1021,23 @@ public class FtpPassiveClient {
             data=openDataSocket();
 
 //.................... Sets the transfer type to binary ...................
-            if (binary)
+            if (binary) {
                 setTransferType(typeIMAGE);
+            }
 
 //............... Sends the command to the server .........................
             response=executeFTPCommand("STOR "+remoteFileName);
 
             while(!response.startsWith("1")) {
-                if (response.startsWith("4") || response.startsWith("5"))
-                    throw new FtpException("Error sending file '"+remoteFileName+"'",response,_lastCommand);
-                if (response.startsWith("2"))
+                if (response.startsWith("4") || response.startsWith("5")) {
+                    throw new FtpException("Error sending file '" + remoteFileName + "'", response, _lastCommand);
+                }
+                if (response.startsWith("2")) {
                     throw new FtpException(
-                        "Server returned 'OK' for file '"+remoteFileName+"', but file wasn't sent yet.",
-                        response,
-                        _lastCommand);
+                            "Server returned 'OK' for file '" + remoteFileName + "', but file wasn't sent yet.",
+                            response,
+                            _lastCommand);
+                }
                 response=_commandInput.readLine();
             }
 
@@ -1015,22 +1056,24 @@ public class FtpPassiveClient {
 //******************** Retrieves some server blattering ******************
             do {
                 response=_commandInput.readLine();
-                if (response.startsWith("4") || response.startsWith("5"))
+                if (response.startsWith("4") || response.startsWith("5")) {
                     throw new FtpException(
-                        "Error after sending "+totalSize+" bytes of the file '"+remoteFileName+"'.",
-                        response,
-                        _lastCommand);
+                            "Error after sending " + totalSize + " bytes of the file '" + remoteFileName + "'.",
+                            response,
+                            _lastCommand);
+                }
             } while (!response.startsWith("226") && !response.startsWith("250"));
         }
 
 //******************** Exception management ******************************
         catch (FtpException e) {
-            if (is!=null)
+            if (is != null) {
                 try {
                     is.close();
                 } catch (IOException ee) {
 
                 }
+            }
             throw e;
         }
         catch (IOException e) {
@@ -1083,8 +1126,9 @@ public class FtpPassiveClient {
         PrintStream ps = new PrintStream(_commandOutput);
         commandLine.append(newLine);
         ps.print(commandLine);
-        if(ps.checkError())
+        if (ps.checkError()) {
             throw new IOException();
+        }
         /*
         int n,nn;
         _lastCommand=command;
@@ -1195,8 +1239,9 @@ public class FtpPassiveClient {
             response=executeFTPCommand("TYPE "+type);
 
             while(!response.startsWith("2")) {
-                if (response.startsWith("4") || response.startsWith("5"))
-                    throw new FtpException("Error setting transfer type to '"+type+"'",response,_lastCommand);
+                if (response.startsWith("4") || response.startsWith("5")) {
+                    throw new FtpException("Error setting transfer type to '" + type + "'", response, _lastCommand);
+                }
                 response=_commandInput.readLine();
             }
         } catch (IOException e) {
@@ -1229,8 +1274,9 @@ public class FtpPassiveClient {
                 throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
             }
             while (!response.startsWith("227")) {
-                if (response.startsWith("5") || response.startsWith("4"))
-                    throw new FtpException("Error trying to open a data socket (PASV command)",response,_lastCommand);
+                if (response.startsWith("5") || response.startsWith("4")) {
+                    throw new FtpException("Error trying to open a data socket (PASV command)", response, _lastCommand);
+                }
                 try {
                     response=_commandInput.readLine();
                 } catch (IOException e) {

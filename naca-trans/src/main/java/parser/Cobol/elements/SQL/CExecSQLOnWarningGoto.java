@@ -39,8 +39,9 @@ public class CExecSQLOnWarningGoto extends CBaseExecSQLAction
         CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnWarningGoto(getLine(), ref) ;
         CEntityProcedureSection sec = parent.getSectionContainer();
         String secName = "" ;
-        if (sec != null)
-            secName = sec.GetName() ;
+        if (sec != null) {
+            secName = sec.GetName();
+        }
         CProcedureReference refNew = new CProcedureReference(this.ref, secName, factory.programCatalog) ;
         factory.programCatalog.getCallTree().RegisterGlobalGoto(refNew) ;
         parent.AddChild(eGoto) ;

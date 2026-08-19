@@ -22,12 +22,15 @@ public abstract class BaseDataFile
 
     public static boolean isNullFile(String csFilePhysicalName)
     {
-        if(StringUtil.isEmpty(csFilePhysicalName))
+        if (StringUtil.isEmpty(csFilePhysicalName)) {
             return true;
-        if(csFilePhysicalName.equalsIgnoreCase("wrk/nullfile"))
+        }
+        if (csFilePhysicalName.equalsIgnoreCase("wrk/nullfile")) {
             return true;
-        if(csFilePhysicalName.toUpperCase().indexOf("NULLFILE") >= 0)
+        }
+        if (csFilePhysicalName.toUpperCase().indexOf("NULLFILE") >= 0) {
             return true;
+        }
         return false;
     }
 
@@ -122,8 +125,9 @@ public abstract class BaseDataFile
                         break;
                     }
                 }
-                if(returnAtSavedPosition())
+                if (returnAtSavedPosition()) {
                     return cs;
+                }
             }
         }
         return null;

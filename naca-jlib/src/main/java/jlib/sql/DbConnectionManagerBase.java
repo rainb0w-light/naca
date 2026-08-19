@@ -60,8 +60,9 @@ public abstract class DbConnectionManagerBase
         DbConnectionColl connectionColl = qLConnectionPool.getConnectionCollForPref(csProgramId, csProgramParent);
         if(connectionColl != null)
         {
-            if(!connectionColl.isInit())
+            if (!connectionColl.isInit()) {
                 connectionColl.init(dbConnectionParam);
+            }
             String poolName = connectionColl.getName();
             DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(
                 csValidationQuery,
@@ -96,8 +97,9 @@ public abstract class DbConnectionManagerBase
         DbConnectionColl connectionColl = qLConnectionPool.getConnectionCollForPref(csProgramId, csParentProgramId);
         if(connectionColl != null)
         {
-            if(!connectionColl.isInit())
+            if (!connectionColl.isInit()) {
                 connectionColl.init(dbConnectionParam);
+            }
             String poolName = connectionColl.getName();
             DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, poolName, bUseStatementCache, this);
             return sqlConnection;
@@ -133,11 +135,11 @@ public abstract class DbConnectionManagerBase
         String user = tagSQLConfig.getVal(csDBParameterPrefix+"dbuser");
         String cryptedDbPassword = tagSQLConfig.getVal(csDBParameterPrefix+"CryptedDbpassword");
         String cryptKey = tagSQLConfig.getVal(csDBParameterPrefix+"CryptKey");
-        if(!StringUtil.isEmpty(cryptedDbPassword) && !StringUtil.isEmpty(cryptKey))
+        if (!StringUtil.isEmpty(cryptedDbPassword) && !StringUtil.isEmpty(cryptKey)) {
             createDriver(driverClass, user, cryptedDbPassword, cryptKey, connectionUrlOptionalParams);
-        else
+        } else
         {
-            String password = tagSQLConfig.getVal(csDBParameterPrefix+"dbpassword");
+            String password = tagSQLConfig.getVal(csDBParameterPrefix + "dbpassword");
             createDriver(driverClass, user, password, connectionUrlOptionalParams);
         }
 
@@ -248,20 +250,22 @@ public abstract class DbConnectionManagerBase
         int nMaxStatementLiveTime_ms,
         int nGarbageCollectorStatement_ms)
     {
-        if(csDriverClass.indexOf("oracle") != -1)   // Oracle doesn't support SetCloseCursorOnCommit
+        if (csDriverClass.indexOf("oracle") != -1) {   // Oracle doesn't support SetCloseCursorOnCommit
             iscanSetCloseCursorOnCommit = false;
-        else
+        } else {
             iscanSetCloseCursorOnCommit = true;
+        }
         dbConnectionParam.csUrl = csUrl;
 
         boolean b = createDriver(csDriverClass, csUser, csPassword, csConnectionUrlOptionalParams);
-        if(b)
+        if (b) {
             qLConnectionPool = new DbConnectionPool(
-                "UnknownPoolName",
-                nNbMaxConnections,
-                nTimeBeforeRemoveConnection_ms,
-                nMaxStatementLiveTime_ms,
-                nGarbageCollectorStatement_ms);
+                    "UnknownPoolName",
+                    nNbMaxConnections,
+                    nTimeBeforeRemoveConnection_ms,
+                    nMaxStatementLiveTime_ms,
+                    nGarbageCollectorStatement_ms);
+        }
         return b;
     }
 
@@ -272,8 +276,9 @@ public abstract class DbConnectionManagerBase
 
     public void setCloseCursorOnCommit(boolean bCloseCursorOnCommit)
     {
-        if(iscanSetCloseCursorOnCommit)
+        if (iscanSetCloseCursorOnCommit) {
             dbConnectionParam.iscloseCursorOnCommit = bCloseCursorOnCommit;
+        }
     }
 
     protected boolean createDriver(String csDriverClass, String csUser, String csPassword, String csConnectionUrlOptionalParams)
@@ -341,16 +346,17 @@ public abstract class DbConnectionManagerBase
     {
         dbConnectionParam.csUrl = csDBUrl;
         String driverClass = null;
-        if(csDBProvider.equalsIgnoreCase("DB2"))
+        if (csDBProvider.equalsIgnoreCase("DB2")) {
             driverClass = "com.ibm.db2.jcc.DB2Driver";
-        else if(csDBProvider.equalsIgnoreCase("Oracle"))
+        } else if (csDBProvider.equalsIgnoreCase("Oracle")) {
             driverClass = "oracle.jdbc.driver.OracleDriver";
-        else if(csDBProvider.equalsIgnoreCase("MySQL"))
+        } else if (csDBProvider.equalsIgnoreCase("MySQL")) {
             driverClass = "com.mysql.jdbc.Driver";
-        else if(csDBProvider.equalsIgnoreCase("SqlServer"))
+        } else if (csDBProvider.equalsIgnoreCase("SqlServer")) {
             driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        else
+        } else {
             driverClass = csDBProvider;
+        }
 
         boolean b = createDriver(driverClass, csDBUser, csDBPassword, "");
         if(b)
@@ -381,48 +387,55 @@ public abstract class DbConnectionManagerBase
 
     public int getNbUnusedConnections()
     {
-        if(qLConnectionPool == null)
+        if (qLConnectionPool == null) {
             return 0;
+        }
         return qLConnectionPool.getNbUnusedConnections();
     }
 
     public int getNbRunningConnections()
     {
-        if(qLConnectionPool == null)
+        if (qLConnectionPool == null) {
             return 0;
+        }
         return qLConnectionPool.getNbRunningConnections();
     }
 
     public void showHideRunningConnections(boolean bShowRunningCon)
     {
-        if(qLConnectionPool != null)
+        if (qLConnectionPool != null) {
             qLConnectionPool.showHideRunningConnections(bShowRunningCon);
+        }
     }
 
     public void dumpConnections(StringBuilder sbText)
     {
-        if(qLConnectionPool != null)
+        if (qLConnectionPool != null) {
             qLConnectionPool.dumpConnections(sbText);
+        }
     }
 
     public int getNbCachedStatementsForAccessor()
     {
-        if(qLConnectionPool == null)
+        if (qLConnectionPool == null) {
             return 0;
+        }
         return qLConnectionPool.getNbCachedStatementsForAccessor();
     }
 
     public int getNbAllocConnnections()
     {
-        if(qLConnectionPool == null)
+        if (qLConnectionPool == null) {
             return 0;
+        }
         return qLConnectionPool.getNbAllocConnnections();
     }
 
     public int getNbMaxConnection()
     {
-        if(qLConnectionPool == null)
+        if (qLConnectionPool == null) {
             return 0;
+        }
         return qLConnectionPool.getNbMaxConnection();
     }
 

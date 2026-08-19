@@ -91,8 +91,9 @@ public class DecBase
 
     public long getSignedLong()
     {
-        if(bPositive)
+        if (bPositive) {
             return lInt;
+        }
         return -lInt;
     }
 
@@ -104,8 +105,9 @@ public class DecBase
 
     public int getLeftMostDigitOfDecPartAsInt(int nNbDigits)
     {
-        if(csDec.length() <= 0)
+        if (csDec.length() <= 0) {
             return 0;
+        }
 
         int n=0;
         int nDec = 0;
@@ -129,8 +131,9 @@ public class DecBase
     {
         boolean ispositive = true;
 
-        if(bd.signum() < 0)
+        if (bd.signum() < 0) {
             ispositive = false;
+        }
 
         String sValue = bd.abs().unscaledValue().toString();
         int nScale = bd.scale();
@@ -161,10 +164,11 @@ public class DecBase
     public String toString()
     {
         String cs;
-        if(isNegative())
+        if (isNegative()) {
             cs = "Negative; Int=";
-        else
+        } else {
             cs = "Positive; Int=";
+        }
         cs += lInt;
         cs += "; Decimal="+csDec;
         return cs;

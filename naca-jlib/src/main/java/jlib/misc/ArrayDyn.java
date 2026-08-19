@@ -27,22 +27,25 @@ public class ArrayDyn<T> extends ArrayFixDyn<T>
 
     public int size()
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.size();
+        }
         return 0;
     }
 
     public T get(int n)
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.get(n);
+        }
         return null;
     }
 
     public void add(T t)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new ArrayList<T>();
+        }
         arr.add(t);
     }
 

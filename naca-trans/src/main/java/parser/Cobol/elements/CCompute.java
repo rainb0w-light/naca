@@ -181,7 +181,9 @@ public class CCompute extends CCobolElement
             {
                 CIdentifier idDestination = destinations.get(i) ;
                 CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
-                if (dest == null) continue;
+                if (dest == null) {
+                    continue;
+                }
                 dest.RegisterWritingAction(assgn);
                 assgn.AddRefTo(dest);
             }
@@ -202,7 +204,9 @@ public class CCompute extends CCobolElement
         {
             CIdentifier idDestination = destinations.get(i) ;
             CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
-            if (dest == null) continue;
+            if (dest == null) {
+                continue;
+            }
             dest.RegisterWritingAction(eCalc);
             eCalc.AddDestination(dest);
         }
@@ -210,7 +214,9 @@ public class CCompute extends CCobolElement
         {
             CIdentifier idDestination = roundedDestinations.get(i) ;
             CDataEntity dest = idDestination.GetDataReference(getLine(), factory) ;
-            if (dest == null) continue;
+            if (dest == null) {
+                continue;
+            }
             dest.RegisterWritingAction(eCalc);
             eCalc.AddRoundedDestination(dest);
         }

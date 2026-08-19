@@ -32,8 +32,9 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
             while(keyIter.hasNext())
             {
                 Integer n = keyIter.next();
-                if(n > nMaxKey)
+                if (n > nMaxKey) {
                     nMaxKey = n;
+                }
             }
             return nMaxKey+1;
         }
@@ -42,8 +43,9 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 
     public T get(int n)
     {
-        if(arr != null)
+        if (arr != null) {
             return arr.get(n);
+        }
         return null;
     }
 
@@ -80,8 +82,9 @@ public class ArrayDynDiscontinuous<T> extends ArrayFixDyn<T>
 
     public void set(int n, T t)
     {
-        if(arr == null)
+        if (arr == null) {
             arr = new Hashtable<Integer, T>();
+        }
         arr.put(n, t);
     }
 }

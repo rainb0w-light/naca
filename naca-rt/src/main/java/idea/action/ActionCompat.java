@@ -218,12 +218,13 @@ public class ActionCompat extends Action
             String csReason = openState.getString();
             String csRemark = null;
 
-            if(openState == CalendarOpenState.AppManuallyClosed)
+            if (openState == CalendarOpenState.AppManuallyClosed) {
                 csRemark = BaseResourceManager.getManualCloseReason();
-            else if(openState == CalendarOpenState.AppClosed)
+            } else if (openState == CalendarOpenState.AppClosed) {
                 csRemark = BaseResourceManager.getCurrentOpenCalendarRangeString();
-            else
+            } else {
                 csRemark = "";
+            }
 
             Document doc = XMLUtil.CreateDocument() ;
             Element eForm = doc.createElement("form") ;

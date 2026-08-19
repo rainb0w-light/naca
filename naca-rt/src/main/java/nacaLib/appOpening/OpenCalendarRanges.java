@@ -34,8 +34,9 @@ public class OpenCalendarRanges
 
     void addRange(OpenCalendarRange range)
     {
-        if(ranges == null)
+        if (ranges == null) {
             ranges = new ArrayList<OpenCalendarRange>();
+        }
         ranges.add(range);
     }
 
@@ -96,13 +97,15 @@ public class OpenCalendarRanges
             if(range.concernDate(currentDate))
             {
                 CalendarOpenState state = range.getOpenState();
-                if(bCacheState)
+                if (bCacheState) {
                     cacheManager.setCurrentOpenState(state, range);
+                }
                 return state;
             }
         }
-        if(bCacheState)
+        if (bCacheState) {
             cacheManager.setCurrentOpenStateUnknown();
+        }
         return CalendarOpenState.Unknown;
     }
 

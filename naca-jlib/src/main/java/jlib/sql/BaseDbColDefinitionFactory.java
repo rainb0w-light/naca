@@ -36,10 +36,11 @@ public class BaseDbColDefinitionFactory
         int nNbCols = arrDbColDefinition.size();
         for(int n=0; n<nNbCols; n++)
         {
-            if(n == 0)
+            if (n == 0) {
                 insert += "?";
-            else
+            } else {
                 insert += ",?";
+            }
         }
 
         insert += ")";
@@ -68,11 +69,11 @@ public class BaseDbColDefinitionFactory
                     {
                         //System.out.println(colDescription.toString());
                         BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
-                        if(dbColDef != null)
+                        if (dbColDef != null) {
                             arrDbColDef.add(dbColDef);
-                        else
+                        } else
                         {
-                            Log.logImportant("Could create DbColDefinition for colDescription="+colDescription.toString());
+                            Log.logImportant("Could create DbColDefinition for colDescription=" + colDescription.toString());
                         }
                     }
                     nDebugStep++;
@@ -82,8 +83,9 @@ public class BaseDbColDefinitionFactory
         catch (SQLException e)
         {
             String cs = csTableName;
-            if(csPrefix != null)
+            if (csPrefix != null) {
                 cs = csPrefix + "." + csTableName;
+            }
             Log.logImportant("SQL excption in makeArrayDbColDefinitions from table " + cs + " at debugStep="+nDebugStep);
             return null;
         }
@@ -106,11 +108,12 @@ public class BaseDbColDefinitionFactory
                 if(b)
                 {
                     BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
-                    if(dbColDef != null)
+                    if (dbColDef != null) {
                         arrDbColDef.add(dbColDef);
-                }
-                else
+                    }
+                } else {
                     return null;
+                }
             }
         }
         catch (SQLException e)

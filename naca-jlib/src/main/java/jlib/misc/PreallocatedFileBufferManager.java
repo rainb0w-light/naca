@@ -31,8 +31,9 @@ public class PreallocatedFileBufferManager
 
     protected byte[] checkBuffer(int nSize)
     {
-        if(tBytes == null || tBytes.length < nSize)
+        if (tBytes == null || tBytes.length < nSize) {
             tBytes = new byte[nSize + nOverheadSize];
+        }
         return tBytes;
     }
 

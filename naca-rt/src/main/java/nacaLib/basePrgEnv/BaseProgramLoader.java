@@ -134,8 +134,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
             SharedProgramInstanceDataCatalog.putSharedProgramInstanceData(csDefaultProgramName, s);
 
             ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csDefaultProgramName);
-            if(programInstancesPool != null)
+            if (programInstancesPool != null) {
                 programInstancesPool.returnProgram(currentProgram);
+            }
 
             TempCache tempCache = TempCacheLocator.getTLSTempCache();
             tempCache.resetStackProgram();
@@ -166,8 +167,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         else    // Destroy program instance pool
         {
             ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csDefaultProgramName);
-            if(programInstancesPool != null)
+            if (programInstancesPool != null) {
                 programInstancesPool.unregisterMBean();
+            }
             programPoolManager.removeProgramInstancesPool(csDefaultProgramName);
         }
         return null;
@@ -181,10 +183,11 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         */
         // Keep original case - don't transform program name
         BaseProgram program = null;
-        if(bUseProgramPool)
+        if (bUseProgramPool) {
             program = loadPooledProgramInstance(csProgram);
-        else
+        } else {
             program = loadUnpooledProgramInstance(csProgram);
+        }
         return program;
     }
 //  private BaseProgram loadProgramInstance(String csProgramName)
@@ -202,8 +205,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
     public void unloadProgram(String csProgramName)
     {
         ProgramInstancesPool programInstancesPool = programPoolManager.getProgramPool(csProgramName);
-        if(programInstancesPool != null)
+        if (programInstancesPool != null) {
             programInstancesPool.unloadProgram();
+        }
     }
 
     private BaseProgram loadPooledProgramInstance(String csProgramName)
@@ -268,8 +272,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
             {
                 env.Init(tagCESMConfig) ;
 
-                if(!appSession.isAsync())
-                    tabSyncSessions.put(appSession, env) ;
+                if (!appSession.isAsync()) {
+                    tabSyncSessions.put(appSession, env);
+                }
                 if (defaultProgramName != null)
                 {
                     env.setNextProgramToLoad(defaultProgramName, csProgramParent) ;
@@ -465,8 +470,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
                 try
                 {
                     env.resetNewTransaction() ;
-                    if(isLogCESM || isLogFlow)
-                        Log.logVerbose("Run program: "+csProgramName);
+                    if (isLogCESM || isLogFlow) {
+                        Log.logVerbose("Run program: " + csProgramName);
+                    }
 
                     env.startRunProgram(csProgramName);
 
@@ -483,8 +489,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
                     currentProgram.getProgramManager().mapCalledPrgReturnParameters(arrCallerCallParam);
                     TempCacheLocator.getTLSTempCache().popCurrentProgram();
                     env.endRunProgram(CriteriaEndRunMain.Return);
-                    if(isLogCESM || isLogFlow)
-                        Log.logVerbose("Program finished: "+csProgramName);
+                    if (isLogCESM || isLogFlow) {
+                        Log.logVerbose("Program finished: " + csProgramName);
+                    }
                     iscontinue = false ;
                 }
                 catch (CExitException e)
@@ -492,8 +499,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
                     currentProgram.getProgramManager().mapCalledPrgReturnParameters(arrCallerCallParam);
                     TempCacheLocator.getTLSTempCache().popCurrentProgram();
                     env.endRunProgram(CriteriaEndRunMain.Exit);
-                    if(isLogCESM || isLogFlow)
-                        Log.logVerbose("Program exited: "+csProgramName);
+                    if (isLogCESM || isLogFlow) {
+                        Log.logVerbose("Program exited: " + csProgramName);
+                    }
                     iscontinue = false ;
                 }
                 catch (CStopRunException e)
@@ -501,8 +509,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
                     currentProgram.getProgramManager().mapCalledPrgReturnParameters(arrCallerCallParam);
                     TempCacheLocator.getTLSTempCache().popCurrentProgram();
                     env.endRunProgram(CriteriaEndRunMain.StopRun);
-                    if(isLogCESM || isLogFlow)
-                        Log.logVerbose("Program exited: "+csProgramName);
+                    if (isLogCESM || isLogFlow) {
+                        Log.logVerbose("Program exited: " + csProgramName);
+                    }
                     iscontinue = false ;
                 }
                 catch (CXctlException e)
@@ -602,8 +611,9 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
 
         try
         {
-            if(isLogFlow)
-                Log.logVerbose("Calling program: "+currentProgram.getSimpleName());
+            if (isLogFlow) {
+                Log.logVerbose("Calling program: " + currentProgram.getSimpleName());
+            }
             CESMEnv.startRunProgram(currentProgram.getSimpleName());
             currentProgram.getProgramManager().prepareRunMain(currentProgram);
             currentProgram.getProgramManager().runMain();
@@ -615,16 +625,18 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
             // program out...
             TempCacheLocator.getTLSTempCache().popCurrentProgram();
             CESMEnv.endRunProgram(CriteriaEndRunMain.Exit);
-            if(isLogCESM || isLogFlow)
-                Log.logVerbose("Program finished: "+currentProgram.getSimpleName());
+            if (isLogCESM || isLogFlow) {
+                Log.logVerbose("Program finished: " + currentProgram.getSimpleName());
+            }
         }
         catch (CExitException e)
         {
             // program out...
             TempCacheLocator.getTLSTempCache().popCurrentProgram();
             CESMEnv.endRunProgram(CriteriaEndRunMain.Exit);
-            if(isLogCESM || isLogFlow)
-                Log.logVerbose("Program finished: "+currentProgram.getSimpleName());
+            if (isLogCESM || isLogFlow) {
+                Log.logVerbose("Program finished: " + currentProgram.getSimpleName());
+            }
         }
         catch (AbortSessionException e)
         {
@@ -751,10 +763,11 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         {
             StringBuffer sb = new StringBuffer();
             String csText;
-            if (e != null)
+            if (e != null) {
                 csText = e.toString() + " : " + csBodyText;
-            else
+            } else {
                 csText = csBodyText;
+            }
 
             sb.append(csText + "\r\n");
             sb.append("Time:        " + date.toString() + "\r\n");

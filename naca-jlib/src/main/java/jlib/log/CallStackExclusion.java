@@ -40,8 +40,9 @@ public class CallStackExclusion
             for(int n=0; n<nNbExclusion; n++)
             {
                 String csExclude = exclude.get(n);
-                if(csClassName.startsWith(csExclude))
+                if (csClassName.startsWith(csExclude)) {
                     return false;
+                }
             }
         }
         return true;

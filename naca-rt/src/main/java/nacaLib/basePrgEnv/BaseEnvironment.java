@@ -96,8 +96,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     public Document getLastScreenXMLData()
     {
-        if(baseSession != null)
+        if (baseSession != null) {
             return baseSession.getLastScreenXMLData();
+        }
         return null;
     }
 
@@ -179,25 +180,27 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     public boolean hasSQLConnection()
     {
-        if(qLConnection == null)
+        if (qLConnection == null) {
             return false;
+        }
         return true;
     }
 
     public void releaseSQLConnection()
     {
-        if(!isexternalConnection)   // Release only internal connection
-        {
-            if (qLConnection != null)
+        if (!isexternalConnection)   // Release only internal connection
             {
-                if(connectionManager != null)
-                    connectionManager.returnConnection(qLConnection);
-            }
-        }
-        else
+                if (qLConnection != null)
+                {
+                    if (connectionManager != null) {
+                        connectionManager.returnConnection(qLConnection);
+                    }
+                }
+            } else {
             isexternalConnection = false;   // Not an external connection (reset status for next reuse of the environment)
 
-        // The environment has no knowledge anymore of the connection
+            // The environment has no knowledge anymore of the connection
+        }
         qLConnection = null;
     }
 
@@ -266,10 +269,11 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     protected void deQueueProgram()
     {
-            if(!qPrograms.isEmpty())
-                csNextProgramToLoad = (String)qPrograms.remove();
-            else
-                csNextProgramToLoad = "";
+        if (!qPrograms.isEmpty()) {
+            csNextProgramToLoad = (String) qPrograms.remove();
+        } else {
+            csNextProgramToLoad = "";
+        }
         commarea = null ;
 
     }
@@ -348,8 +352,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     protected void configInit(Tag tagCESMConfig)
     {
-        if(tagCESMConfig != null)
-            tagConfig = tagCESMConfig.getChild("Config") ;
+        if (tagCESMConfig != null) {
+            tagConfig = tagCESMConfig.getChild("Config");
+        }
     }
 
     public String getLanguageCode()
@@ -582,8 +587,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         {
             qLConnection = null;
             DbConnectionBase con = getSQLConnection();  // Establish a sql connection before lauching 1st program
-            if(con == null)
+            if (con == null) {
                 isstarted = false;
+            }
         }
 
         if(isstarted)
@@ -608,8 +614,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     void startRunProgram(String csProgramName)
     {
-        if(!accountingRecordManager.isFilled())
+        if (!accountingRecordManager.isFilled()) {
             accountingRecordManager.setSessionPub2000Info(getSession(), getProfitCenter(), getUserId());
+        }
 
         AccountingRecordProgram accountingRecord = accountingRecordManager.createNewAccountingRecord(csCurrentTransaction, csTermID);
         accountingRecord.beginRunProgram(csProgramName);
@@ -668,15 +675,17 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     int getLastTransactionExecTime_ms()
     {
-        if(!isRunning())
-            return (int)getStartRunTime().getTimeOffset_ms(getEndRunTime());
+        if (!isRunning()) {
+            return (int) getStartRunTime().getTimeOffset_ms(getEndRunTime());
+        }
         return (int)getStartRunTime().getTimeOffsetFromNow_ms();
     }
 
     int getSumTransactionsExecTime_ms()
     {
-        if(isRunning())
-            return (int)getStartRunTime().getTimeOffset_ms(getEndRunTime()) + nSumTransactionsExecTime_ms;
+        if (isRunning()) {
+            return (int) getStartRunTime().getTimeOffset_ms(getEndRunTime()) + nSumTransactionsExecTime_ms;
+        }
         return (int)nSumTransactionsExecTime_ms;
     }
 
@@ -727,8 +736,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     boolean canManageThreadMBean()
     {
-        if(accountingRecordManager != null)
+        if (accountingRecordManager != null) {
             return true;
+        }
         return false;
     }
 
@@ -746,21 +756,24 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
     public FileManagerEntry getFileManagerEntry(String csLogicalName)
     {
-        if(fileManager == null)
+        if (fileManager == null) {
             fileManager = new FileManager();
+        }
         return fileManager.getFileManagerEntry(csLogicalName);
     }
 
     public void autoCloseOpenFile()
     {
-        if(fileManager != null)
+        if (fileManager != null) {
             fileManager.autoCloseOpenFile();
+        }
     }
 
     public void autoFlushOpenFile()
     {
-        if(fileManager != null)
+        if (fileManager != null) {
             fileManager.autoFlushOpenFile();
+        }
     }
 
     public void cleanupOnExceptionCatched()

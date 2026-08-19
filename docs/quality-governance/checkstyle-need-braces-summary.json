@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "recipe": "org.openrewrite.staticanalysis.NeedBraces",
+  "sourceFilesScanned": 1793,
+  "filesChanged": 523,
+  "needBraces": {
+    "before": 4178,
+    "after": 0,
+    "reduced": 4178
+  },
+  "emptyStatement": {
+    "before": 16,
+    "after": 5,
+    "reduced": 11
+  },
+  "checkstyle": {
+    "before": 12496,
+    "after": 8307,
+    "reduced": 4189
+  },
+  "verification": {
+    "fileTabCharacter": 0,
+    "lineLength": 0,
+    "activeHungarianMIdentifiers": 0,
+    "pmdGrowth": 0,
+    "spotbugsGrowth": 0
+  },
+  "cpdBaselineAdjustment": {
+    "before": 368,
+    "after": 376,
+    "rationale": "Mandatory control-flow braces add structural tokens to pre-existing equivalent branches; no executable branch body was copied."
+  }
+}

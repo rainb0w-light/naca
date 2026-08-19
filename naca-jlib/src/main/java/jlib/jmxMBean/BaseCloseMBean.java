@@ -48,15 +48,17 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 
     public void unregisterMBean()
     {
-        if(csMBeanName != null)
+        if (csMBeanName != null) {
             JmxRegistration.unregisterMBean(csMBeanName);
+        }
         csMBeanName = null;
     }
 
     protected boolean isBeanCreated()
     {
-        if(csMBeanName == null)
+        if (csMBeanName == null) {
             return false;
+        }
         return true;
     }
 
@@ -152,8 +154,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         {
             AttributeList resultList = new AttributeList();
 
-            if (attributeNames.length == 0)
+            if (attributeNames.length == 0) {
                 return resultList;
+            }
 
             // Build the result attribute list
             for(int i=0 ; i<attributeNames.length; i++)
@@ -182,8 +185,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
 
             // If attributeNames is empty, nothing more to do
             //
-            if (attributes.isEmpty())
+            if (attributes.isEmpty()) {
                 return resultList;
+            }
 
             // For each attribute, try to set it and add to the result list if
             // successfull
@@ -274,8 +278,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
         Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
         Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, clsType);
         MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csMethodName, csDescription, methodGet, methodSet);
-        if(arrMBeanAttributeInfosWrapper == null)
+        if (arrMBeanAttributeInfosWrapper == null) {
             arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
+        }
         arrMBeanAttributeInfosWrapper.add(attr);
     }
 
@@ -290,8 +295,9 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     private void addOperation(String csDescription, Method method)
     {
         MBeanOperationInfoWrapper operation = new MBeanOperationInfoWrapper(csDescription, method);
-        if(mBeanOperationInfosWrapper == null)
+        if (mBeanOperationInfosWrapper == null) {
             mBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
+        }
         mBeanOperationInfosWrapper.add(operation);
     }
 

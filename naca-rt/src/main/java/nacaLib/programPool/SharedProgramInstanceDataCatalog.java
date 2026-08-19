@@ -35,8 +35,9 @@ public class SharedProgramInstanceDataCatalog
             for(int n=0; n<nNbForm; n++)
             {
                 String csFormName = s.getFormName(n);
-                if(csFormName != null)
+                if (csFormName != null) {
                     BaseResourceManager.removeResourceCache(csFormName);
+                }
             }
         }
 

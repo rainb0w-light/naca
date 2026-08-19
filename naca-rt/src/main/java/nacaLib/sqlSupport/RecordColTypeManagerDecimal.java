@@ -35,10 +35,11 @@ public class RecordColTypeManagerDecimal extends RecordColTypeManagerBase
         try
         {
             BigDecimal value = resultSetSource.getBigDecimal(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setBigDecimal(nColSourceIndex, value);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.DECIMAL);
+            }
             return true;
         }
         catch (SQLException e)

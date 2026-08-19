@@ -29,8 +29,9 @@ public class LogFlowRegister
             for(int n=0; n<ms_arrFlows.size(); n++)
             {
                 LogFlow flow = ms_arrFlows.get(n);
-                if(flow.hasName(csFlow))
+                if (flow.hasName(csFlow)) {
                     return flow;
+                }
             }
         }
         return null;
@@ -42,8 +43,9 @@ public class LogFlowRegister
  */
     public static void register(LogFlow flow)
     {
-        if(ms_arrFlows == null)
+        if (ms_arrFlows == null) {
             ms_arrFlows = new ArrayList<LogFlow>();
+        }
         ms_arrFlows.add(flow);
     }
 

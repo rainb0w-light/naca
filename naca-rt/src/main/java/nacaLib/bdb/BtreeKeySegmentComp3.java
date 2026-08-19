@@ -34,8 +34,9 @@ public class BtreeKeySegmentComp3 extends BtreeKeySegment
         boolean b2 = Pic9Comp3BufferSupport.isNegative(tby2[nPos]);
         if(b1 != b2)
         {
-            if(b1)  // tb1 is <0 ; tb2 is then > 0
+            if (b1) {  // tb1 is <0 ; tb2 is then > 0
                 return (bAscending) ? -1 : 1;
+            }
             return (bAscending) ? 1 : -1;   // tb1 is > 0, tb2 is < 0
         }
         // They have the same sign
@@ -46,19 +47,23 @@ public class BtreeKeySegmentComp3 extends BtreeKeySegment
         {
             by1 = tby1[nPos];
             by2 = tby2[nPos];
-            if(by1 == by2)
+            if (by1 == by2) {
                 continue;
+            }
 
             int n1 = by1;
-            if(n1 < 0)
+            if (n1 < 0) {
                 n1 += 256;
+            }
 
             int n2 = by2;
-            if(n2 < 0)
+            if (n2 < 0) {
                 n2 += 256;
+            }
 
-            if(n1 < n2)
+            if (n1 < n2) {
                 return (bAscending) ? -1 : 1;
+            }
             return (bAscending) ? 1 : -1;
         }
         return 0;

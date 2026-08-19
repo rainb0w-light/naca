@@ -35,17 +35,20 @@ public class BaseFileScriptReader
 
     protected  String removeCommentAndLineNumber(String csPhysicalLine)
     {
-        if(csPhysicalLine.startsWith("--")) // comment
+        if (csPhysicalLine.startsWith("--")) { // comment
             return "";
+        }
 
-        if(csPhysicalLine.startsWith("**")) // comment
+        if (csPhysicalLine.startsWith("**")) { // comment
             return "";
+        }
 
         if(csPhysicalLine.length() == 80)   // Compatible mode
         {
             String csLineNumber = csPhysicalLine.substring(72, 79);
-            if(isValidLineNumer(csLineNumber))
+            if (isValidLineNumer(csLineNumber)) {
                 csPhysicalLine = csPhysicalLine.substring(0, 72);
+            }
         }
 
         return csPhysicalLine;
@@ -53,8 +56,9 @@ public class BaseFileScriptReader
 
     protected boolean isEndOfSQLLine(String csPhysicalLine)
     {
-        if(csPhysicalLine.endsWith(";"))
+        if (csPhysicalLine.endsWith(";")) {
             return true;
+        }
         return false;
     }
 
@@ -65,8 +69,9 @@ public class BaseFileScriptReader
             for(int n=0; n<7; n++)
             {
                 char c = csLineNumber.charAt(n);
-                if(!(c >= '0' && c <= '9'))
+                if (!(c >= '0' && c <= '9')) {
                     return false;
+                }
             }
             return true;
         }

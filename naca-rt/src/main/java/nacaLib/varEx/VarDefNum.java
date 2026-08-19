@@ -103,27 +103,32 @@ public abstract class VarDefNum extends VarDefVariable
         int integerWidth, int decimalWidth, boolean signed, boolean trailingSign)
     {
         String integer = Long.toString(Math.abs(magnitude));
-        if(integer.length() > integerWidth)
+        if (integer.length() > integerWidth) {
             integer = integer.substring(integer.length() - integerWidth);
-        else if(integer.length() < integerWidth)
+        } else if (integer.length() < integerWidth) {
             integer = "0".repeat(integerWidth - integer.length()) + integer;
+        }
 
         String decimal = decimalDigits == null ? "" : decimalDigits;
-        if(decimal.length() > decimalWidth)
+        if (decimal.length() > decimalWidth) {
             decimal = decimal.substring(0, decimalWidth);
-        else if(decimal.length() < decimalWidth)
+        } else if (decimal.length() < decimalWidth) {
             decimal += "0".repeat(decimalWidth - decimal.length());
+        }
 
         char sign = negative ? '-' : '+';
         StringBuilder formatted = new StringBuilder(
             integerWidth + decimalWidth + (decimalWidth > 0 ? 1 : 0) + (signed ? 1 : 0));
-        if(signed && !trailingSign)
+        if (signed && !trailingSign) {
             formatted.append(sign);
+        }
         formatted.append(integer);
-        if(decimalWidth > 0)
+        if (decimalWidth > 0) {
             formatted.append('.').append(decimal);
-        if(signed && trailingSign)
+        }
+        if (signed && trailingSign) {
             formatted.append(sign);
+        }
 
         CStr result = TempCacheLocator.getTLSTempCache().getReusableCStr();
         result.set(formatted.toString());
@@ -149,11 +154,13 @@ public abstract class VarDefNum extends VarDefVariable
 
     protected long normalizeBinaryValue(long value, int digits)
     {
-        if(nativeBinary || digits <= 0 || digits >= 19)
+        if (nativeBinary || digits <= 0 || digits >= 19) {
             return value;
+        }
         long modulo = 1L;
-        for(int digit = 0; digit < digits; digit++)
+        for (int digit = 0; digit < digits; digit++) {
             modulo *= 10L;
+        }
         return value % modulo;
     }
 
@@ -247,10 +254,11 @@ public abstract class VarDefNum extends VarDefVariable
         char cRightMost = buffer.acBuffer[nPos];
         //char cRightMost = buffer.getCharAt(nPos);
         int nDigit = cRightMost - '0';
-        if(bPositive)
+        if (bPositive) {
             nDigit += 0xC0;
-        else
+        } else {
             nDigit += 0xD0;
+        }
         buffer.acBuffer[nPos] = (char)nDigit;
         //buffer.setCharAt(nPos, (char)nDigit);
     }
@@ -268,10 +276,11 @@ public abstract class VarDefNum extends VarDefVariable
         char cRightMost = buffer.acBuffer[nPos];
         //char cRightMost = buffer.getCharAt(nPos);
         int nDigit = cRightMost - '0';
-        if(bPositive)
+        if (bPositive) {
             nDigit += 0xC0;
-        else
+        } else {
             nDigit += 0xD0;
+        }
         buffer.acBuffer[nPos] = (char)nDigit;
         //buffer.setCharAt(nPos, (char)nDigit);
     }
@@ -464,8 +473,9 @@ public abstract class VarDefNum extends VarDefVariable
             csNum.append(c);
             return csNum;
         }
-        else if(cDigitSign != '-' && cDigitSign != '+')
+        else if (cDigitSign != '-' && cDigitSign != '+') {
             csNum.append(cDigitSign);
+        }
         return csNum;
     }
 
@@ -781,17 +791,19 @@ public abstract class VarDefNum extends VarDefVariable
 
     protected CSQLItemType getIntegerSQLType(int nNbDigitInteger)
     {
-        if(IntLongDeterminator.isIntEnough(nNbDigitInteger))
+        if (IntLongDeterminator.isIntEnough(nNbDigitInteger)) {
             return CSQLItemType.SQL_TYPE_INTEGER;
+        }
         return CSQLItemType.SQL_TYPE_LONG_INTEGER;
     }
 
     protected int getSingleItemRequiredStorageSizeForComp4(int nNbDigitInteger)
     {
-        if(nNbDigitInteger <= 4)
+        if (nNbDigitInteger <= 4) {
             return 2;   // store in a short
-        else if(nNbDigitInteger <= 9)   // store in a int
+        } else if (nNbDigitInteger <= 9) {   // store in a int
             return 4;
+        }
         return 8;   // store in a long
     }
 }

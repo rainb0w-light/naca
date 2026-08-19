@@ -49,11 +49,13 @@ public class OpenCalendar
             }
         }
 
-        if(week != null)
+        if (week != null) {
             week.generateSortedIntervals();
+        }
 
-        if(rangesForDates != null)
+        if (rangesForDates != null) {
             rangesForDates.generateSortedIntervals();
+        }
     }
 
     void reloadDefinition()
@@ -77,26 +79,28 @@ public class OpenCalendar
 
     private void addRange(int nDayId, String csType, String csMin, String csMax)
     {
-        if(week == null)
+        if (week == null) {
             week = new OpenCalendarWeek();
+        }
         week.addRange(nDayId, csType, csMin, csMax);
     }
 
     private int getDayOfWeeekId(String csDayValue)
     {
         csDayValue = csDayValue.toUpperCase();
-        if(csDayValue.startsWith("MON"))
+        if (csDayValue.startsWith("MON")) {
             return Calendar.MONDAY;
-        else if(csDayValue.startsWith("TUE"))
+        } else if (csDayValue.startsWith("TUE")) {
             return Calendar.TUESDAY;
-        else if(csDayValue.startsWith("WED"))
+        } else if (csDayValue.startsWith("WED")) {
             return Calendar.WEDNESDAY;
-        else if(csDayValue.startsWith("THU"))
+        } else if (csDayValue.startsWith("THU")) {
             return Calendar.THURSDAY;
-        else if(csDayValue.startsWith("FRI"))
+        } else if (csDayValue.startsWith("FRI")) {
             return Calendar.FRIDAY;
-        else if(csDayValue.startsWith("SAT"))
+        } else if (csDayValue.startsWith("SAT")) {
             return Calendar.SATURDAY;
+        }
         return Calendar.SUNDAY;
     }
 
@@ -133,12 +137,14 @@ public class OpenCalendar
     {
         if(csType.equalsIgnoreCase("Close") || csType.equalsIgnoreCase("Open"))
         {
-            if(rangesForDates == null)
+            if (rangesForDates == null) {
                 rangesForDates = new OpenCalendarRangesForDates();
+            }
 
             CalendarOpenState state = CalendarOpenState.AppOpened;
-            if(csType.equalsIgnoreCase("Close"))
+            if (csType.equalsIgnoreCase("Close")) {
                 state = CalendarOpenState.AppClosed;
+            }
             rangesForDates.addDateRange(iDate, state, csMin, csMax);
         }
     }
@@ -148,12 +154,14 @@ public class OpenCalendar
         if(rangesForDates != null)  // Check individual dates
         {
             CalendarOpenState state = rangesForDates.getOpenState(cacheManager, bCacheState);
-            if(state.isKnown())
+            if (state.isKnown()) {
                 return state;
+            }
         }
 
-        if(week != null)
+        if (week != null) {
             return week.getOpenState(cacheManager, bCacheState);
+        }
         return CalendarOpenState.Unknown;
     }
 

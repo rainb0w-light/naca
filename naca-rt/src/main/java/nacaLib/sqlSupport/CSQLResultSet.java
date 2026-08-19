@@ -57,8 +57,9 @@ public class CSQLResultSet extends CJMapObject
                 }
                 else
                 {
-                    if (sqlStatus != null)
+                    if (sqlStatus != null) {
                         sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
+                    }
                 }
             }
             catch (SQLException e)
@@ -70,8 +71,9 @@ public class CSQLResultSet extends CJMapObject
                         csProgramName + " - JDBC warning",
                         "Warning while executing CSQLResultSet::next() on result set for program="+csProgramName + ", clause="+csQuery,
                         e);
-                    if (sqlStatus != null)
+                    if (sqlStatus != null) {
                         sqlStatus.setSQLCode(SQLCode.SQL_NOT_FOUND);
+                    }
                 }
                 else
                 {
@@ -90,9 +92,9 @@ public class CSQLResultSet extends CJMapObject
             if(ishasNext == false)
             {
                 return true;
-            }
-            else
+            } else {
                 return false;
+            }
         }
         catch (SQLException e)
         {
@@ -137,8 +139,9 @@ public class CSQLResultSet extends CJMapObject
 
     private void setInto(int nColSource, CSQLIntoItem sqlIntoItem, SQLRecordSetVarFiller sqlRecordSetVarFiller)
     {
-        if(sqlRecordSetVarFiller != null)
+        if (sqlRecordSetVarFiller != null) {
             sqlRecordSetVarFiller.addLinkColDestination(nColSource, sqlIntoItem.getVarInto(), sqlIntoItem.getVarIndicator());
+        }
 
         boolean isnull = fillColValue(nColSource, sqlIntoItem.getVarInto(), sqlRecordSetVarFiller.getRecordSetCacheColTypeType());
         sqlIntoItem.setColValueNull(isnull);
@@ -262,8 +265,9 @@ public class CSQLResultSet extends CJMapObject
             for(int n = 0; n< collectionselectType.size(); n++)
             {
                 Integer collectionid = collectionselectType.get(n);
-                if(collectionid.intValue() == nColDest)
+                if (collectionid.intValue() == nColDest) {
                     return true;
+                }
             }
         }
         return false;
@@ -299,11 +303,12 @@ public class CSQLResultSet extends CJMapObject
                 {
                     int nNbColCached = sqlRecordSetVarFiller.getNbCol();
                     int nNbColResultSet = getRecordSetColumnCount();
-                    if(nNbColResultSet == nNbColCached)
+                    if (nNbColResultSet == nNbColCached) {
                         b = true;
-                }
-                else
+                    }
+                } else {
                     b = true;
+                }
             }
             if(b)
             {
@@ -336,10 +341,11 @@ public class CSQLResultSet extends CJMapObject
         }
         else
         {
-            if(isTheOnlyOne())
-                sqlStatus.setSQLCode(SQLCode.SQL_OK) ;
-            else
-                sqlStatus.setSQLCode(SQLCode.SQL_MORE_THAN_ONE_ROW) ;
+            if (isTheOnlyOne()) {
+                sqlStatus.setSQLCode(SQLCode.SQL_OK);
+            }  else {
+                sqlStatus.setSQLCode(SQLCode.SQL_MORE_THAN_ONE_ROW);
+            }
         }
     }
 
@@ -365,14 +371,15 @@ public class CSQLResultSet extends CJMapObject
             {
                 for(int nColDest = 0; nColDest<nNbColDest; nColDest++)
                 {
-                    if(isSelectStar(nColDest))  // The nth col is a star (Select * From ...)
+                    if (isSelectStar(nColDest)) {  // The nth col is a star (Select * From ...)
                         isskippedStar = true;
-                    else
+                    } else
                     {
-                        if(isskippedStar)
+                        if (isskippedStar) {
                             nNbcolUnitaryRight++;
-                        else
+                        } else {
                             nNbcolUnitaryLeft++;
+                        }
                     }
                 }
             }
@@ -405,8 +412,9 @@ public class CSQLResultSet extends CJMapObject
         }
 
         RecordSetCacheColTypeType recordSetCacheColTypeType = null;
-        if(sqlRecordSetVarFiller != null)
+        if (sqlRecordSetVarFiller != null) {
             recordSetCacheColTypeType = sqlRecordSetVarFiller.getRecordSetCacheColTypeType();
+        }
 
         if(isskippedStar)
         {
@@ -442,9 +450,10 @@ public class CSQLResultSet extends CJMapObject
                             {
                                 int nDestinationNumber = rnChildIndex.get();
                                 // found the index of the destination column; it's the same as the var indicator
-                                if(nDestinationNumber >= 0)
+                                if (nDestinationNumber >= 0) {
                                     // 1 based
-                                    varIndicator = varDestIndicatorParent.getAt(nDestinationNumber+1);
+                                    varIndicator = varDestIndicatorParent.getAt(nDestinationNumber + 1);
+                                }
                             }
 
 //                          String csValue = getColValueAsString(nColRecordSet, recordSetCacheColTypeType);
@@ -461,11 +470,13 @@ public class CSQLResultSet extends CJMapObject
 
                             childrenFilled.add(varChild);
 
-                            if(sqlRecordSetVarFiller != null)
+                            if (sqlRecordSetVarFiller != null) {
                                 sqlRecordSetVarFiller.addLinkColDestination(nColRecordSet, varChild, varIndicator);
+                            }
 
-                            if(isLogSql)
-                                Log.logDebug("sql into filling var="+varChild.getLoggableValue());
+                            if (isLogSql) {
+                                Log.logDebug("sql into filling var=" + varChild.getLoggableValue());
+                            }
                             break;
                         }
                     }
@@ -483,8 +494,9 @@ public class CSQLResultSet extends CJMapObject
         for(int n=0; n<nNbChildren; n++)
         {
             VarBase var = (VarBase)arrChildrenFilled.get(n);
-            if(var == varChild)
+            if (var == varChild) {
                 return true;
+            }
         }
         return false;
     }
@@ -493,8 +505,9 @@ public class CSQLResultSet extends CJMapObject
     {
         try
         {
-            if(r != null)
+            if (r != null) {
                 return r.getCursorName();
+            }
         }
         catch(SQLException e)
         {

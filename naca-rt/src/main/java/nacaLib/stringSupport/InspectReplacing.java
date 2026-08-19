@@ -203,8 +203,9 @@ public class InspectReplacing
         if(csAfter != null) // We have a starting point
         {
             int nPosAfter = csSource.indexOf(csAfter);
-            if(nPosAfter == -1) // No delimiter found: Nothing to do
+            if (nPosAfter == -1) { // No delimiter found: Nothing to do
                 return;
+            }
             csPrefixe = csSource.substring(0, nPosAfter+1);
             csSource = csSource.substring(nPosAfter+1);
         }
@@ -212,8 +213,9 @@ public class InspectReplacing
         if(csBefore != null)    // We have a ending point
         {
             int nPosBefore = csSource.indexOf(csBefore);
-            if(nPosBefore == -1)    // No delimiter found: Nothing to do
+            if (nPosBefore == -1) {    // No delimiter found: Nothing to do
                 return;
+            }
             csSuffixe = csSource.substring(nPosBefore);
             csSource = csSource.substring(0, nPosBefore);
         }
@@ -232,46 +234,52 @@ public class InspectReplacing
                 csDest.setCharAt(nDest, replacingChar);
 
                 nReplacing++;
-                if(nReplacing == csReplacing.length())
+                if (nReplacing == csReplacing.length()) {
                     nReplacing = 0;
+                }
             }
 
             // Find next occurence
             nPos += nReplaceLength;
             int nPosPattern = getReplacePosition(nNbCall, nPos, nReplaceLength);
-            if(nPosPattern == -1)
+            if (nPosPattern == -1) {
                 nPos = -1;
-            else
+            } else {
                 nPos += nPosPattern;
+            }
         }
 
         // Destination string is in csDest
         if(csPrefixe != null || csSuffixe != null)
         {
             String cs = new String(csDest.toString());
-            if(csPrefixe != null)
+            if (csPrefixe != null) {
                 cs = csPrefixe + cs;
-            if(csPrefixe != null)
+            }
+            if (csPrefixe != null) {
                 cs = cs + csSuffixe;
+            }
             var.set(cs);
-        }
-        else
+        } else {
             var.set(csDest.toString());
+        }
     }
 
     private int getReplacePosition(int nNbCall, int nPosStart, int nNbOccurences)
     {
         String csSource = this.csSource;
-        if(nPosStart != 0)
+        if (nPosStart != 0) {
             csSource = csSource.substring(nPosStart);
+        }
         int nLg = csSource.length();
         if(inspectReplacingType == TypeFirst)
         {
             if(nNbCall == 0 && nPosStart == 0)  // 1st call
             {
                 int nPosPattern = csSource.indexOf(csPattern);  // found the 1st position of the pattern
-                if(nPosPattern >= 0)
+                if (nPosPattern >= 0) {
                     return nPosPattern;
+                }
             }
         }
         else if(inspectReplacingType == TypeLeading)
@@ -279,8 +287,9 @@ public class InspectReplacing
             if(nNbCall == 0 && nPosStart == 0)  // 1st call
             {
                 int nPosPattern = csSource.indexOf(csPattern);  // found the 1st position of the pattern
-                if(nPosPattern >= 0)
+                if (nPosPattern >= 0) {
                     return nPosPattern;
+                }
                 return -1;
             }
             int nPosPattern = csSource.indexOf(csPattern);
@@ -302,8 +311,9 @@ public class InspectReplacing
                 if(c == CobolConstant.LowValue.getValue())
                 {
                     nOccurences++;
-                    if(nOccurences == nNbOccurences)
+                    if (nOccurences == nNbOccurences) {
                         return n;
+                    }
                     n++;
                 }
                 else    // Retry from this position
@@ -312,8 +322,9 @@ public class InspectReplacing
                     n++;
                 }
             }
-            if(nOccurences == nNbOccurences)
+            if (nOccurences == nNbOccurences) {
                 return n;
+            }
             return -1;
         }
         else if(inspectReplacingType == TypeAllHighValue)
@@ -327,8 +338,9 @@ public class InspectReplacing
                 if(c == CobolConstant.HighValue.getValue())
                 {
                     nOccurences++;
-                    if(nOccurences == nNbOccurences)
+                    if (nOccurences == nNbOccurences) {
                         return n;
+                    }
                     n++;
                 }
                 else    // Retry from this position
@@ -337,8 +349,9 @@ public class InspectReplacing
                     n++;
                 }
             }
-            if(nOccurences == nNbOccurences)
+            if (nOccurences == nNbOccurences) {
                 return n;
+            }
             return -1;
         }
         else if(inspectReplacingType == TypeLeadingSpaces)
@@ -357,22 +370,25 @@ public class InspectReplacing
         {
             // Try to find all consecutive range of nReplaceLength low value chars
             char c = csSource.charAt(0);    // nPosStart);
-            if(c == p)
+            if (c == p) {
                 return 0;
+            }
         }
         return -1;
     }
 
     private int getReplaceLength()
     {
-        if(inspectReplacingType == TypeLeadingSpaces)
+        if (inspectReplacingType == TypeLeadingSpaces) {
             return 1;
-        if(inspectReplacingType == TypeLeadingZeroes)
+        }
+        if (inspectReplacingType == TypeLeadingZeroes) {
             return 1;
-        else if(inspectReplacingType == TypeAllLowValue)
+        } else if (inspectReplacingType == TypeAllLowValue) {
             return 1;
-        else if(inspectReplacingType == TypeAllHighValue)
+        } else if (inspectReplacingType == TypeAllHighValue) {
             return 1;
+        }
         return csPattern.length();
     }
 

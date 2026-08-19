@@ -35,8 +35,9 @@ public class CTokenType
 
     public String GetSourceValue()
     {
-        if(issourceValueDefined)
+        if (issourceValueDefined) {
             return csSourceValue;
+        }
 
         // Should assert
         return "";

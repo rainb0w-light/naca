@@ -19,15 +19,17 @@ public class VarLevelGroup
 
     public VarGroup var()   // Creates a group
     {
-        if(varLevel != null)
+        if (varLevel != null) {
             return varLevel.var();
+        }
         return null;
     }
 
     public Var filler()
     {
-        if(varLevel != null)
+        if (varLevel != null) {
             return varLevel.filler();
+        }
         return null;
     }
 

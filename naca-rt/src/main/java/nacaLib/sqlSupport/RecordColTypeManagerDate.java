@@ -30,10 +30,11 @@ public class RecordColTypeManagerDate extends RecordColTypeManagerBase
         try
         {
             String csValue = resultSetSource.getString(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setString(nColSourceIndex, csValue);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.DATE);
+            }
             return true;
         }
         catch (SQLException e)

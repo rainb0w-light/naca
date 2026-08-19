@@ -40,22 +40,25 @@ public abstract class StoredProcParamDescBase
 
     public boolean isColOut()
     {
-        if(sColType == DatabaseMetaData.procedureColumnOut)
+        if (sColType == DatabaseMetaData.procedureColumnOut) {
             return true;
+        }
         return false;
     }
 
     public boolean isColInOut()
     {
-        if(sColType == DatabaseMetaData.procedureColumnInOut)
+        if (sColType == DatabaseMetaData.procedureColumnInOut) {
             return true;
+        }
         return false;
     }
 
     public boolean isColIn()
     {
-        if(sColType == DatabaseMetaData.procedureColumnIn)
+        if (sColType == DatabaseMetaData.procedureColumnIn) {
             return true;
+        }
         return false;
     }
 
@@ -94,11 +97,13 @@ public abstract class StoredProcParamDescBase
     public boolean registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement)
     {
         nParamId++; // 1 based
-        if(sColType == DatabaseMetaData.procedureColumnOut)
+        if (sColType == DatabaseMetaData.procedureColumnOut) {
             return callableStatement.registerOutParameter(nParamId, colDescriptionInfo);
+        }
 
-        if(sColType == DatabaseMetaData.procedureColumnInOut)
+        if (sColType == DatabaseMetaData.procedureColumnInOut) {
             callableStatement.registerOutParameter(nParamId, colDescriptionInfo);
+        }
 
         return fillInValue(nParamId, callableStatement);
     }
@@ -106,12 +111,15 @@ public abstract class StoredProcParamDescBase
     public String toString()
     {
         ListCoupleRender lst = ListCoupleRender.set("Column description: ");
-        if(sColType == DatabaseMetaData.procedureColumnOut)
+        if (sColType == DatabaseMetaData.procedureColumnOut) {
             lst.set("Way", "Out");
-        if(sColType == DatabaseMetaData.procedureColumnIn)
+        }
+        if (sColType == DatabaseMetaData.procedureColumnIn) {
             lst.set("Way", "In");
-        if(sColType == DatabaseMetaData.procedureColumnInOut)
+        }
+        if (sColType == DatabaseMetaData.procedureColumnInOut) {
             lst.set("Way", "InOut");
+        }
 
         lst.set("Name", colDescriptionInfo.csColName);
         lst.set("Type", colDescriptionInfo.nTypeId);

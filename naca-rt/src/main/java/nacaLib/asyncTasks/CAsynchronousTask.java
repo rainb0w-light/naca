@@ -85,8 +85,9 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
 
         try
         {
-            if(bUseJmx)
+            if (bUseJmx) {
                 AsyncThreadJmxManager.setRunningAsyncProgram(csThreadId, csThreadName);
+            }
 
             loader.runTopProgram(env, null);
             env.endRunTransaction(CriteriaEndRunMain.Normal);
@@ -102,8 +103,9 @@ public class CAsynchronousTask extends CJMapObject implements Runnable
             env.endRunTransaction(CriteriaEndRunMain.Abort);
             env.resetSession();
         }
-        if(bUseJmx)
+        if (bUseJmx) {
             AsyncThreadJmxManager.endAsyncProgram(csThreadId, csThreadName);
+        }
     }
 
     public void Start()

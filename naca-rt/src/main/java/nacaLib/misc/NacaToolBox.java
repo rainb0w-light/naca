@@ -654,8 +654,9 @@ public class NacaToolBox extends CJMapObject
         else
         {
             String csTarif = csDayOfWeek;
-            if (csFlagHoliday.equals("F"))
+            if (csFlagHoliday.equals("F")) {
                 csTarif = "7";
+            }
             return csDate.substring(2) + csDayOfYear + csLeapYear + csTarif  + csDayOfWeek + csWeekOfYear;
         }
     }
@@ -814,8 +815,9 @@ public class NacaToolBox extends CJMapObject
         try
         {
             long l = Long.parseLong(s);
-            if (l < 0)
+            if (l < 0) {
                 return false;
+            }
         }
         catch (NumberFormatException e)
         {
@@ -1427,16 +1429,18 @@ public class NacaToolBox extends CJMapObject
     }
     public String getJobInfoForKey(String key) {
         String value = EnvironmentVar.getParamValue(key);
-        if (value.equals("") && programManager.getEnv().getBaseSession() != null)
+        if (value.equals("") && programManager.getEnv().getBaseSession() != null) {
             value = programManager.getEnv().getBaseSession().getLogicalJobInfo(key);
+        }
         return value;
     }
 
     public int getCardKey(Var card, Var key, Var value, Var index)
     {
         String csCard = card.getString().trim();
-        if (csCard.length() > 1 && csCard.charAt(csCard.length() - 1) == '*')
+        if (csCard.length() > 1 && csCard.charAt(csCard.length() - 1) == '*') {
             csCard = csCard.substring(0, csCard.length() - 1).trim();
+        }
         String[] parms = csCard.split(",");
         int pos = new Integer(index.getDottedSignedString()).intValue();
 
@@ -1459,17 +1463,20 @@ public class NacaToolBox extends CJMapObject
                 {
                     valueFound = valueFound.substring(1, valueFound.length() - 1);
                 }
-                if (keyFound.length() > key.getVarChildAt(2).getLength())
+                if (keyFound.length() > key.getVarChildAt(2).getLength()) {
                     return 4;
-                if (valueFound.length() > value.getVarChildAt(2).getLength())
+                }
+                if (valueFound.length() > value.getVarChildAt(2).getLength()) {
                     return 12;
+                }
                 key.getVarChildAt(2).set(keyFound);
                 value.getVarChildAt(2).set(valueFound);
             }
-            if (parms.length > pos + 1)
+            if (parms.length > pos + 1) {
                 index.set(pos);
-            else
+            } else {
                 index.set(-1);
+            }
         }
         else
         {
@@ -1822,8 +1829,9 @@ public class NacaToolBox extends CJMapObject
     private int moveEndOfFilePointer(FileDescriptor file, int nNbRecordsToKeep)
     {
         String csPhysicalFileName = file.getPhysicalName();
-        if (BaseDataFile.isNullFile(csPhysicalFileName))
+        if (BaseDataFile.isNullFile(csPhysicalFileName)) {
             return -1;
+        }
 
         int nNbRecordRead = 0;
         DataFileReadWrite dataFileIn = new DataFileReadWrite();
@@ -1843,8 +1851,9 @@ public class NacaToolBox extends CJMapObject
                 while(lineRead != null && nNbRecordRead < nNbRecordsToKeep)
                 {
                     nNbRecordRead++;
-                    if (logicalFileDescriptor.isVariableLength())
+                    if (logicalFileDescriptor.isVariableLength()) {
                         nbBytesRead += 4;
+                    }
                     nbBytesRead += lineRead.getBodyLength() + 1;
                     lineRead = file.readALine(dataFileIn, lineRead);
                 }

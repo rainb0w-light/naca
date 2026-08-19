@@ -42,40 +42,45 @@ public class ListCoupleRender
 
     public ListCoupleRender set(String csName, String csValue)
     {
-        if(csValue != null)
+        if (csValue != null) {
             csValue += "; ";
+        }
         csValue += "(" + csName + ",'" + csValue +"')";
         return this;
     }
 
     public ListCoupleRender set(String csName, Integer nValue)
     {
-        if(csValue != null)
+        if (csValue != null) {
             csValue += "; ";
+        }
         csValue += "(" + csName + ",'" + nValue +"')";
         return this;
     }
 
     public ListCoupleRender set(String csName, Short sValue)
     {
-        if(csValue != null)
+        if (csValue != null) {
             csValue += "; ";
+        }
         csValue += "(" + csName + ",'" + sValue +"')";
         return this;
     }
 
     public ListCoupleRender set(String csName, Double dValue)
     {
-        if(csValue != null)
+        if (csValue != null) {
             csValue += "; ";
+        }
         csValue += "(" + csName + ",'" + dValue +"')";
         return this;
     }
 
     public String toString()
     {
-        if(csValue != null)
+        if (csValue != null) {
             return csValue;
+        }
         return "";
     }
 }

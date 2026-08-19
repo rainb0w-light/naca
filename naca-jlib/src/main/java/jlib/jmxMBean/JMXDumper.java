@@ -98,8 +98,9 @@ public class JMXDumper
         try
         {
             Object oValue = server.getAttribute(name, csAttributeName);
-            if(oValue != null)
+            if (oValue != null) {
                 return oValue.toString();
+            }
         }
         catch (AttributeNotFoundException e)
         {

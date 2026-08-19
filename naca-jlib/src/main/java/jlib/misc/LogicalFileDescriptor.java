@@ -30,9 +30,9 @@ public class LogicalFileDescriptor
     public LogicalFileDescriptor(String csLogicalName, String csPhysicalDesc)
     {
         this.csLogicalName = csLogicalName;
-        if(BaseDataFile.isNullFile(csPhysicalDesc)) //  if(csLogicalName.equalsIgnoreCase("wrk/nullfile"))
+        if (BaseDataFile.isNullFile(csPhysicalDesc)) { //  if(csLogicalName.equalsIgnoreCase("wrk/nullfile"))
             isdummyFile = true;
-        else
+        } else
         {
             isdummyFile = false;
             fill(csPhysicalDesc);
@@ -86,45 +86,42 @@ public class LogicalFileDescriptor
                 nIndex = csPhysicalDesc.indexOf(",");
             }
             manageOptionalWord(csPhysicalDesc);
-        }
-        else
+        } else {
             csPath = csPhysicalDesc.trim();
+        }
     }
 
     private void manageOptionalWord(String csWord)
     {
-        if(csWord.equalsIgnoreCase("ext"))
+        if (csWord.equalsIgnoreCase("ext")) {
             isext = true;
-        else if(csWord.equalsIgnoreCase("ebcdic"))
+        } else if (csWord.equalsIgnoreCase("ebcdic")) {
             isebcdic = true;
-        else if(csWord.equalsIgnoreCase("ascii"))
+        } else if (csWord.equalsIgnoreCase("ascii")) {
             isebcdic = false;
-        else if(csWord.equalsIgnoreCase("fb"))
+        } else if (csWord.equalsIgnoreCase("fb"))
         {
             isvariableLength = false;
             bVariableLength4BytesLF = false;
             recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
-        }
-        else if(csWord.equalsIgnoreCase("vb"))
+        } else if (csWord.equalsIgnoreCase("vb"))
         {
             isvariableLength = true;
             bVariableLength4BytesLF = true;
             recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
-        }
-        else if(csWord.equalsIgnoreCase("vh"))
+        } else if (csWord.equalsIgnoreCase("vh"))
         {
             isvariableLength = true;
             bVariableLength4BytesLF = false;
             recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
-        }
-        else    // Maybe record length if all digits
-        {
-            if(StringUtil.isAllDigits(csWord))
+        } else    // Maybe record length if all digits
             {
-                recordLengthDefinition = new RecordLengthDefinition(NumberParser.getAsInt(csWord));
-                recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+                if (StringUtil.isAllDigits(csWord))
+                {
+                    recordLengthDefinition = new RecordLengthDefinition(NumberParser.getAsInt(csWord));
+                    recordLengthInfoDefinitionType = RecordLengthInfoDefinitionType.FileDescriptorDef;
+                }
             }
-        }
     }
 
     public void setVariableLength()
@@ -145,16 +142,18 @@ public class LogicalFileDescriptor
     public String toString()
     {
         String cs = "";
-        if(csPath != null)
-            cs += "Path="+csPath;
+        if (csPath != null) {
+            cs += "Path=" + csPath;
+        }
         cs += " Ext="+ isext;
         cs += " Ebcdic="+ isebcdic;
         cs += " VariableLength="+ isvariableLength;
         cs += " HAs 4 bytes header and LF="+bVariableLength4BytesLF;
-        if(recordLengthDefinition != null)
-            cs += " RecordLength="+recordLengthDefinition.toString();
-        else
+        if (recordLengthDefinition != null) {
+            cs += " RecordLength=" + recordLengthDefinition.toString();
+        } else {
             cs += " NoRecordLengthDefined";
+        }
         return cs;
     }
 
@@ -176,10 +175,12 @@ public class LogicalFileDescriptor
 
     private String getPathName()
     {
-        if (isdummyFile)
+        if (isdummyFile) {
             return " (Dummy file) ";
-        if(csPath != null)
+        }
+        if (csPath != null) {
             return " (" + csPath + ") ";
+        }
         return " (Unkown physical path) ";
     }
 
@@ -198,24 +199,27 @@ public class LogicalFileDescriptor
     private String getAsFileHeaderString()
     {
         String cs = null;
-        if(isebcdic)
+        if (isebcdic) {
             cs = "<FileHeader Version=\"1\" Encoding=\"ebcdic\" ";
-        else
+        } else {
             cs = "<FileHeader Version=\"1\" Encoding=\"ascii\" ";
+        }
 
         if(isvariableLength)
         {
-            if(bVariableLength4BytesLF)
+            if (bVariableLength4BytesLF) {
                 cs += "Length=\"VB\"";
-            else
+            } else {
                 cs += "Length=\"VH\"";
+            }
         }
         else
         {
-            if(recordLengthDefinition != null)
+            if (recordLengthDefinition != null) {
                 cs += "Length=\"" + recordLengthDefinition.toString() + "\"";
-            else
+            } else {
                 cs += "Length=\"Unknown\"";
+            }
         }
         cs += "/>";
         return cs;
@@ -236,10 +240,12 @@ public class LogicalFileDescriptor
                         String csEncoding = StringUtil.getUncotedParameterValue(cs, "Encoding");
                         if(!StringUtil.isEmpty(csEncoding))
                         {
-                            if(csEncoding.equalsIgnoreCase("ebcdic"))
+                            if (csEncoding.equalsIgnoreCase("ebcdic")) {
                                 isebcdic = true;
-                            if(csEncoding.equalsIgnoreCase("ascii"))
+                            }
+                            if (csEncoding.equalsIgnoreCase("ascii")) {
                                 isebcdic = false;
+                            }
                         }
 
                         String csLength = StringUtil.getUncotedParameterValue(cs, "Length");
@@ -320,8 +326,9 @@ public class LogicalFileDescriptor
 
     public boolean isLengthInfoDefined()
     {
-        if(recordLengthInfoDefinitionType != null)
+        if (recordLengthInfoDefinitionType != null) {
             return true;
+        }
         return false;
     }
 
@@ -367,10 +374,11 @@ public class LogicalFileDescriptor
                         LineRead recordBody = dataFile.readBuffer(nLength, true);
                         if(recordBody != null)
                         {
-                            if(recordBody.isTrailingLF())
+                            if (recordBody.isTrailingLF()) {
                                 nNbRecordHeaderOk++;
-                            else
+                            } else {
                                 nNbRecordHeaderNotOk++;
+                            }
                         }
                     }
                 }
@@ -440,10 +448,11 @@ public class LogicalFileDescriptor
             bVariableLength4BytesLF = false;
             recordLengthDefinition = new RecordLengthDefinition(nLengthFound);  // Length found included trailing LF
         }
-        if (nNbQtyfound == 1)
+        if (nNbQtyfound == 1) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
 }

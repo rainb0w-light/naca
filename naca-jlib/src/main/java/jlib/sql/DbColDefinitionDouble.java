@@ -78,8 +78,9 @@ public class DbColDefinitionDouble extends BaseDbColDefinition
         {
             String value = resultSet.getString(nCol1Based);
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

@@ -431,8 +431,9 @@ public class VarDefNumIntSignTrailingComp0Long extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeSignSeparatedTrailingIntComp0AsLong(buffer, nOffset, 0L);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)

@@ -45,16 +45,15 @@ public class CFPacOutputFile extends CFPacElement
     protected boolean DoParsing()
     {
         CBaseToken tok = GetCurrentToken();
-        if (tok.GetKeyword() == CFPacKeywordList.OPF)
-            csFileId = "" ;
-        else if (tok.GetKeyword().name.startsWith("OPF"))
+        if (tok.GetKeyword() == CFPacKeywordList.OPF) {
+            csFileId = "";
+        }  else if (tok.GetKeyword().name.startsWith("OPF"))
         {
             csFileId = tok.GetKeyword().name.substring(3);
-        }
-        else
+        } else
         {
-            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
-            return false ;
+            Transcoder.logError(getLine(), "Unexpecting token : " + tok.toString());
+            return false;
         }
 
         tok = GetNext() ;

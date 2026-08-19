@@ -122,14 +122,16 @@ public class TechnicalException extends RuntimeException
 
     public static void throwIfNull(Object o, String csError, String csMessage)
     {
-        if(o == null)
+        if (o == null) {
             throw new TechnicalException(csError, csMessage);
+        }
     }
 
     public static void throwIfNullOrEmpty(String csObject, String csError, String csMessage)
     {
-        if(StringUtil.isEmpty(csObject))
+        if (StringUtil.isEmpty(csObject)) {
             throw new TechnicalException(csError, csMessage);
+        }
     }
 
 //  public static void throwIfNullOrInvalid(IValidable validable, String csError, String csMessage)

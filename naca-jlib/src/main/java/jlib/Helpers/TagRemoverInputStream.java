@@ -62,9 +62,9 @@ public class TagRemoverInputStream extends InputStream {
                     while (data != '>' && data != '\r' && data != '\n' && data!='\t'){
                         data=_inputStream.read();
                     }
-                }
-                else
+                } else {
                     return data;
+                }
                 data=_inputStream.read();
                 }
 

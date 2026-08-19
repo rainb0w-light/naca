@@ -66,8 +66,9 @@ public abstract class DeclareTypeBase extends CJMapObject
                 CInitialValue initialValue = getInitialValue();
                 sharedProgramInstanceData.setInitialValue(nId, initialValue);
 
-                if(varDef != null)
+                if (varDef != null) {
                     p.pushLevel(varDef);
+                }
             }
             return varDef;
         }
@@ -80,8 +81,9 @@ public abstract class DeclareTypeBase extends CJMapObject
         if(varLevel != null)
         {
             BaseProgramManager p = varLevel.getProgramManager();
-            if(p != null)
+            if (p != null) {
                 return p.getRoot();
+            }
         }
         return null;
     }

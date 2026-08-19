@@ -41,10 +41,12 @@ public class BtreeKeyDescription
     boolean set(String csKeys, boolean bAddSegmentRecordId)
     {
         this.csKeys = csKeys.trim();
-        if(this.csKeys.startsWith("("))
+        if (this.csKeys.startsWith("(")) {
             this.csKeys = this.csKeys.substring(1);
-        if(this.csKeys.endsWith(")"))
-            this.csKeys = this.csKeys.substring(0, this.csKeys.length()-1);
+        }
+        if (this.csKeys.endsWith(")")) {
+            this.csKeys = this.csKeys.substring(0, this.csKeys.length() - 1);
+        }
 
         nKeyPositionInKey = 0;
         while(!StringUtil.isEmpty(this.csKeys))
@@ -54,28 +56,32 @@ public class BtreeKeyDescription
             String csType = getChunk();
             String csOrder = getChunk();
             boolean isascending = true;
-            if(!csOrder.equalsIgnoreCase("A"))
+            if (!csOrder.equalsIgnoreCase("A")) {
                 isascending = false;
+            }
 
             BtreeKeySegment seg = null;
-            if(csType.equalsIgnoreCase("CH"))
+            if (csType.equalsIgnoreCase("CH")) {
                 seg = new BtreeKeySegmentAlphaNum(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
-            else if(csType.equalsIgnoreCase("PD"))  // packed
+            } else if (csType.equalsIgnoreCase("PD")) {  // packed
                 seg = new BtreeKeySegmentComp3(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
-            else if(csType.equalsIgnoreCase("C4"))  // Binary
+            } else if (csType.equalsIgnoreCase("C4")) {  // Binary
                 seg = new BtreeKeySegmentBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
-            else if(csType.equalsIgnoreCase("BI"))  // Binary or packed
+            } else if (csType.equalsIgnoreCase("BI")) {  // Binary or packed
                 seg = new BtreeKeySegmentUnsignedBinaryOrPacked(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
-            else if(csType.equalsIgnoreCase("FI"))
+            } else if (csType.equalsIgnoreCase("FI")) {
                 seg = new BtreeKeySegmentSignBinary(nKeyPositionInData, nKeyPositionInKey, nKeyLength, isascending);
+            }
 
             nKeyPositionInKey += nKeyLength;
-            if(seg != null)
+            if (seg != null) {
                 keySegment.add(seg);
+            }
         }
 
-        if(bAddSegmentRecordId)
+        if (bAddSegmentRecordId) {
             addRecordIdKeySegment();
+        }
         return true;
     }
 
@@ -175,19 +181,21 @@ public class BtreeKeyDescription
     byte[] fillKeyBuffer(byte tbyData[], int nOffset, int nNbRecordRead, boolean bFileInVariableLength)
     {
         int nPos = 0;
-        if(bFileInVariableLength)   // exclude record header from the key
+        if (bFileInVariableLength) {   // exclude record header from the key
             nOffset += 4;   // Skip record header
 
-        int nNbSegments = keySegment.size();
-        for(int n=0; n<nNbSegments-1; n++)  // Do not append last segment = record id
-        {
-            BtreeKeySegment btreeKeySegment = keySegment.get(n);
-            nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);  //, false);
         }
+        int nNbSegments = keySegment.size();
+        for (int n = 0; n < nNbSegments - 1; n++)  // Do not append last segment = record id
+            {
+                BtreeKeySegment btreeKeySegment = keySegment.get(n);
+                nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);  //, false);
+            }
 
-        if(nPos <= nKeyLength-4)
+        if (nPos <= nKeyLength - 4) {
             LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, nPos);    // Add the record id in Intel format
 
+        }
         return tbyKey;
     }
 
@@ -196,19 +204,21 @@ public class BtreeKeyDescription
         int nOffset = 0;
         byte[] tbyKey = new byte[nKeyLength];
         int nPos = 0;
-        if(bFileInVariableLength)   // exclude record header from the key
+        if (bFileInVariableLength) {   // exclude record header from the key
             nOffset += 4;   // Skip record header
 
-        int nNbSegments = keySegment.size();
-        for(int n=0; n<nNbSegments-1; n++)  // Do not append last segment = record id
-        {
-            BtreeKeySegment btreeKeySegment = keySegment.get(n);
-            nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);  //, false);
         }
+        int nNbSegments = keySegment.size();
+        for (int n = 0; n < nNbSegments - 1; n++)  // Do not append last segment = record id
+            {
+                BtreeKeySegment btreeKeySegment = keySegment.get(n);
+                nPos = btreeKeySegment.appendKeySegmentData(tbyData, nOffset, tbyKey);  //, false);
+            }
 
-        if(nPos <= nKeyLength-4)
+        if (nPos <= nKeyLength - 4) {
             LittleEndingUnsignBinaryBufferStorage.writeInt(tbyKey, nNbRecordRead, nPos);    // Add the record id in Intel format
 
+        }
         return tbyKey;
     }
 
@@ -221,8 +231,9 @@ public class BtreeKeyDescription
         {
             BtreeKeySegment btreeKeySegment = keySegment.get(n);
             int nCompare = btreeKeySegment.compare(tby1, tby2);
-            if(nCompare != 0)
+            if (nCompare != 0) {
                 return nCompare;
+            }
         }
         return 0;
     }

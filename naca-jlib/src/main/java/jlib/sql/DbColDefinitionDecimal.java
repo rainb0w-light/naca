@@ -53,8 +53,9 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
             Asserter.assertIfFalse(nNbDigits == nNbDigits);
             Asserter.assertIfFalse(nNbDecimals == nNbDecimals);
 
-            if((nNbDigits % 2) == 0)
+            if ((nNbDigits % 2) == 0) {
                 nNbDigits++;
+            }
             int nNbCharsInComp3 = (nNbDigits / 2) + 1;
 
             BigDecimal bd = resultSet.getBigDecimal(nCol1Based);
@@ -100,16 +101,18 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
             {
                 long originalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
                 long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
-                if(originalValue != lValue)
+                if (originalValue != lValue) {
                     dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
+                }
                 stmt.setColParam(nCol, lValue);
             }
             else
             {
                 long originalValue = BasePic9Comp3BufferSupport.getAsLong(arrByteValue, nSourceOffset, nNbDigits, nSize);
                 long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
-                if(originalValue != lValue)
+                if (originalValue != lValue) {
                     dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
+                }
                 String value = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
 //              if(csValue.startsWith("815"))
 //              {
@@ -127,28 +130,32 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
             if(nPosDot >= 0)
             {
                 dec = csOriginalValue.substring(nPosDot);
-                if(radioButtonnegative[0])  // A leading sign has been added
+                if (radioButtonnegative[0]) {  // A leading sign has been added
                     csInt = csOriginalValue.substring(1, nPosDot);
-                else
+                } else {
                     csInt = csOriginalValue.substring(0, nPosDot);
-            }
-            else
+                }
+            } else {
                 csInt = csOriginalValue;
+            }
             int nNbDigitsInt = nNbDigits - nNbDecimals;
             if(csInt.length() > nNbDigitsInt)   // Integer part is too long
             {
                 int nNbDigitsToRemoveOnLeft = csInt.length() - nNbDigitsInt;
                 String left = csInt.substring(0, nNbDigitsToRemoveOnLeft);
                 boolean issignificantTruncation = false;
-                if(NumberParser.getAsLong(left) != 0)   // We truncates significant digits on left
+                if (NumberParser.getAsLong(left) != 0) {   // We truncates significant digits on left
                     issignificantTruncation = true;
+                }
 
                 csInt = csInt.substring(nNbDigitsToRemoveOnLeft);
-                if(radioButtonnegative[0])
+                if (radioButtonnegative[0]) {
                     csInt = "-" + csInt;
+                }
                 String value = csInt + dec;
-                if(issignificantTruncation)
+                if (issignificantTruncation) {
                     dbColDefErrorManager.reportTruncationError(csOriginalValue, value, getColumnName());
+                }
                 stmt.setColParam(nCol, value);
             }
         }
@@ -164,15 +171,16 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
         //boolean bAddLeadingDigit = true;
         int nNbDigitsInteger = nNbDigits - nNbDecimals;
 
-        if(nNbDecimals == 0)
-            cs = new StringBuilder(1+nNbDigits);
-        else
+        if (nNbDecimals == 0) {
+            cs = new StringBuilder(1 + nNbDigits);
+        } else
         {
             nPosDecimalDot = nNbDigitsInteger;
-            if((nNbDigits % 2) == 0)    // Even number of digits: A leading nibble has been added
+            if ((nNbDigits % 2) == 0) {    // Even number of digits: A leading nibble has been added
                 nPosDecimalDot++;
+            }
 //              bAddLeadingDigit = false;
-            cs = new StringBuilder(2+nNbDigits);
+            cs = new StringBuilder(2 + nNbDigits);
         }
 
         int nNbChars = nTotalSize;
@@ -199,15 +207,17 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
                 if(nLow == COMP3_SIGN_MINUS)
                 {
                     rbNegative[0] = true;
-                    if(nPosDecimalDot != -1)
+                    if (nPosDecimalDot != -1) {
                         // Right shift decimal dot (if one has been set) as we have added a leading '-'
                         nPosDecimalDot++;
+                    }
                     cs.insert(0, '-');
                 }
             }
         }
-        if(nPosDecimalDot != -1)
+        if (nPosDecimalDot != -1) {
             cs.insert(nPosDecimalDot, '.');
+        }
         return cs.toString();
     }
 
@@ -277,8 +287,9 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
         {
             String value = resultSet.getString(nCol1Based);
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

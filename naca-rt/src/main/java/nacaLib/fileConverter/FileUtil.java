@@ -138,30 +138,33 @@ public class FileUtil
             nDelete = csParameterUpper.indexOf("DELETE", nPosStart);
             nExtract = csParameterUpper.indexOf("EXTRACT", nPosStart);
 
-            if (nReplace != -1 && (nDelete == -1 || nReplace < nDelete) && (nExtract == -1 || nReplace < nExtract))
+            if (nReplace != -1 && (nDelete == -1 || nReplace < nDelete) && (nExtract == -1 || nReplace < nExtract)) {
                 nCommandNext = nReplace;
-            else if (nDelete != -1 && (nReplace == -1 || nDelete < nReplace) && (nExtract == -1 || nDelete < nExtract))
+            } else if (nDelete != -1 && (nReplace == -1 || nDelete < nReplace) && (nExtract == -1 || nDelete < nExtract)) {
                 nCommandNext = nDelete;
-            else if (nExtract != -1 && (nReplace == -1 || nExtract < nReplace) && (nDelete == -1 || nExtract < nDelete))
+            } else if (nExtract != -1 && (nReplace == -1 || nExtract < nReplace) && (nDelete == -1 || nExtract < nDelete)) {
                 nCommandNext = nExtract;
-            else
+            } else {
                 nCommandNext = -1;
+            }
 
             String csParameterPart = csParameter;
-            if (nCommandNext == -1)
+            if (nCommandNext == -1) {
                 csParameterPart = csParameterPart.substring(nPosStart);
-            else
+            } else {
                 csParameterPart = csParameterPart.substring(nPosStart, nCommandNext);
+            }
             String csParameterPartUpper = csParameterPart.toUpperCase();
 
             if (csParameterPartUpper.indexOf("VALUE=") != -1)
             {
                 int nPos = csParameterPartUpper.indexOf("VALUE=") + 6;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csValue = csParameterPart.substring(nPos);
-                else
+                } else {
                     csValue = csParameterPart.substring(nPos, nPosEnd);
+                }
                 String values[] = csValue.split("#or#");
                 byteValue = new ByteBuffer[values.length];
                 for (int i = 0; i < values.length; i++)
@@ -173,10 +176,11 @@ public class FileUtil
             {
                 int nPos = csParameterPartUpper.indexOf("VALUEHEX=") + 9;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csValueHex = csParameterPart.substring(nPos);
-                else
+                } else {
                     csValueHex = csParameterPart.substring(nPos, nPosEnd);
+                }
                 String values[] = csValueHex.split("#or#");
                 byteValue = new ByteBuffer[values.length];
                 for (int i = 0; i < values.length; i++)
@@ -188,20 +192,22 @@ public class FileUtil
             {
                 int nPos = csParameterPartUpper.indexOf("VALUENEW=") + 9;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csValueNew = csParameterPart.substring(nPos);
-                else
+                } else {
                     csValueNew = csParameterPart.substring(nPos, nPosEnd);
+                }
                 byteValueNew = csValueNew.getBytes();
             }
             if (csParameterPartUpper.indexOf("VALUEHEXNEW=") != -1)
             {
                 int nPos = csParameterPartUpper.indexOf("VALUEHEXNEW=") + 12;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     csValueHexNew = csParameterPart.substring(nPos);
-                else
+                } else {
                     csValueHexNew = csParameterPart.substring(nPos, nPosEnd);
+                }
                 byteValueNew = hexToBytes(csValueHexNew);
             }
 
@@ -209,19 +215,21 @@ public class FileUtil
             {
                 int nPos = csParameterPartUpper.indexOf("LINE=") + 5;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nLineBegin = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nLineBegin = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
             }
             if (csParameterPartUpper.indexOf("LINEEND=") != -1)
             {
                 int nPos = csParameterPartUpper.indexOf("LINEEND=") + 8;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nLineEnd = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nLineEnd = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
             }
 
             if (csParameterPartUpper.indexOf("FIRST=") != -1)
@@ -229,10 +237,11 @@ public class FileUtil
                 int nPos = csParameterPartUpper.indexOf("FIRST=") + 6;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
                 int nFirst = 0;
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nFirst = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nFirst = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
                 nLineBegin = 0;
                 nLineEnd = nFirst - 1;
             }
@@ -240,29 +249,32 @@ public class FileUtil
             {
                 int nPos = csParameterPartUpper.indexOf("LAST=") + 5;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nLast = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nLast = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
             }
 
             if (csParameterPartUpper.indexOf("COL=") != -1)
             {
                 int nPos = csParameterPartUpper.indexOf("COL=") + 4;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nColBegin = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nColBegin = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
             }
             if (csParameterPartUpper.indexOf("COLEND=") != -1)
             {
                 int nPos = csParameterPartUpper.indexOf("COLEND=") + 7;
                 int nPosEnd = csParameterPartUpper.indexOf(",", nPos);
-                if (nPosEnd == -1)
+                if (nPosEnd == -1) {
                     nColEnd = Integer.valueOf(csParameterPart.substring(nPos)).intValue();
-                else
+                } else {
                     nColEnd = Integer.valueOf(csParameterPart.substring(nPos, nPosEnd)).intValue();
+                }
             }
 
             if (isreplace)
@@ -296,21 +308,23 @@ public class FileUtil
             }
             else if (isdelete)
             {
-                if (csValue != null)
+                if (csValue != null) {
                     System.out.println("FileUtil: Delete when record contains \"" + csValue + "\"");
-                else if (csValueHex != null)
+                } else if (csValueHex != null) {
                     System.out.println("FileUtil: Delete when record contains hex \"" + csValueHex + "\"");
-                else
+                } else {
                     System.out.println("FileUtil: Delete");
+                }
             }
             else if (isextract)
             {
-                if (csValue != null)
+                if (csValue != null) {
                     System.out.println("FileUtil: Extract when record contains \"" + csValue + "\"");
-                else if (csValueHex != null)
+                } else if (csValueHex != null) {
                     System.out.println("FileUtil: Extract when record contains hex \"" + csValueHex + "\"");
-                else
+                } else {
                     System.out.println("FileUtil: Extract");
+                }
             }
             else if (iscount)
             {
@@ -324,21 +338,23 @@ public class FileUtil
 
             if (nLineBegin != 0 || nLineEnd != 0)
             {
-                if (nLineBegin == 0)
+                if (nLineBegin == 0) {
                     System.out.println("FileUtil: From begin of file to line " + nLineEnd);
-                else if (nLineEnd == 0)
+                } else if (nLineEnd == 0) {
                     System.out.println("FileUtil: From line " + nLineBegin + " to end of file");
-                else
+                } else {
                     System.out.println("FileUtil: From line " + nLineBegin + " to line " + nLineEnd);
+                }
             }
             if (nColBegin != 0 || nColEnd != 0)
             {
-                if (nColBegin == 0)
+                if (nColBegin == 0) {
                     System.out.println("FileUtil: From begin of record to column " + nColEnd);
-                else if (nColEnd == 0)
+                } else if (nColEnd == 0) {
                     System.out.println("FileUtil: From column " + nColBegin + " to end of record");
-                else
+                } else {
                     System.out.println("FileUtil: From column " + nColBegin + " to column " + nColEnd);
+                }
             }
 
             try
@@ -371,8 +387,9 @@ public class FileUtil
                 throw new RuntimeException(ex);
             }
 
-            if (nCommandNext == -1)
+            if (nCommandNext == -1) {
                 break;
+            }
 
             nSequencer++;
         }
@@ -406,8 +423,9 @@ public class FileUtil
     {
         nLine = 0;
         String csFileIn = csFile;
-        if (nSequencer != 0)
+        if (nSequencer != 0) {
             csFileIn += ".util." + (nSequencer - 1);
+        }
         DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
         LogicalFileDescriptor logicalFileDescriptor = new LogicalFileDescriptor("", csFileIn);
         if(logicalFileDescriptor != null)
@@ -419,8 +437,9 @@ public class FileUtil
                 {
                     logicalFileDescriptor.tryAutoDetermineRecordLength(dataFileIn);
                 }
-                if (!iscount)
+                if (!iscount) {
                     fileOutputOpen(csFile);
+                }
                 if (logicalFileDescriptor.isVariableLength())
                 {
                     if (nLast != 0)
@@ -434,8 +453,9 @@ public class FileUtil
                             lineHeader = dataFileIn.readBuffer(4, false);
                         }
                         nLineBegin = nLine - nLast + 1;
-                        if (nLineBegin < 0)
+                        if (nLineBegin < 0) {
                             nLineBegin = 0;
+                        }
                         nLineEnd = nLine;
                         nLine = 0;
                         dataFileIn.close();
@@ -448,8 +468,9 @@ public class FileUtil
                         int nLengthExcludingHeader = lineHeader.getAsLittleEndingUnsignBinaryInt();
                         LittleEndingSignBinaryBufferStorage.writeInt(tbyHeader, nLengthExcludingHeader, 0);
                         LineRead lineRead = dataFileIn.readBuffer(nLengthExcludingHeader, true);
-                        if (utilNext(dataFileIn, lineRead, tbyHeader))
+                        if (utilNext(dataFileIn, lineRead, tbyHeader)) {
                             break;
+                        }
                         lineHeader = dataFileIn.readBuffer(4, false);
                     }
                 }
@@ -467,8 +488,9 @@ public class FileUtil
                                 lineRead = dataFileIn.readBuffer(length, true);
                             }
                             nLineBegin = nLine - nLast + 1;
-                            if (nLineBegin < 0)
+                            if (nLineBegin < 0) {
                                 nLineBegin = 0;
+                            }
                             nLineEnd = nLine;
                             nLine = 0;
                             dataFileIn.close();
@@ -478,17 +500,19 @@ public class FileUtil
                         LineRead lineRead = dataFileIn.readBuffer(length, true);
                         while (lineRead != null)
                         {
-                            if (utilNext(dataFileIn, lineRead, null))
+                            if (utilNext(dataFileIn, lineRead, null)) {
                                 break;
+                            }
                             lineRead = dataFileIn.readBuffer(length, true);
                         }
                     }
                 }
                 dataFileIn.close();
-                if (iscount)
+                if (iscount) {
                     System.out.println("FileUtil: Number of lines " + nLineCount);
-                else
+                } else {
                     fileOutputClose(csFile);
+                }
                 return true;
             }
         }
@@ -524,9 +548,11 @@ public class FileUtil
             iswrite = true;
             if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
             {
-                if (replaceValue(byteData, nLengthLine))
-                    if (isdebug)
+                if (replaceValue(byteData, nLengthLine)) {
+                    if (isdebug) {
                         System.out.println("FileUtil: Line " + nLine + " replaced");
+                    }
+                }
             }
         }
         else if (isdelete)
@@ -535,63 +561,70 @@ public class FileUtil
             {
                 if (byteValue != null)
                 {
-                    if (!existsValue(byteData, nLengthLine))
+                    if (!existsValue(byteData, nLengthLine)) {
                         iswrite = true;
+                    }
                 }
             }
             else
             {
                 iswrite = true;
             }
-            if (isdebug && !iswrite)
+            if (isdebug && !iswrite) {
                 System.out.println("FileUtil: Line " + nLine + " deleted");
+            }
         }
         else if (isextract)
         {
             if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
             {
-                if (byteValue == null)
+                if (byteValue == null) {
                     iswrite = true;
-                else
-                    if (existsValue(byteData, nLengthLine))
-                        iswrite = true;
+                } else if (existsValue(byteData, nLengthLine)) {
+                    iswrite = true;
+                }
             }
             else
             {
-                if (nLine >= nLineBegin)
+                if (nLine >= nLineBegin) {
                     isstop = true;
+                }
             }
-            if (isdebug && iswrite)
+            if (isdebug && iswrite) {
                 System.out.println("FileUtil: Line " + nLine + " extracted");
+            }
         }
         else if (iscount)
         {
             if (nLine >= nLineBegin && (nLineEnd == 0 || nLine <= nLineEnd))
             {
-                if (byteValue == null)
+                if (byteValue == null) {
                     iswrite = true;
-                else
-                    if (existsValue(byteData, nLengthLine))
-                        iswrite = true;
+                } else if (existsValue(byteData, nLengthLine)) {
+                    iswrite = true;
+                }
             }
             else
             {
-                if (nLine >= nLineBegin)
+                if (nLine >= nLineBegin) {
                     isstop = true;
+                }
             }
             if (iswrite)
             {
                 nLineCount++;
                 iswrite = false;
-                if (isdebug)
+                if (isdebug) {
                     System.out.println("FileUtil: Line " + nLine + " counted");
+                }
             }
         }
 
         if (iswrite)
         {
-            if (tbyHeader != null)
+            if (tbyHeader != null) {
                 fileOutput.write(tbyHeader);
+            }
             fileOutput.write(byteData, 0, nLengthLine);
             fileOutput.writeEndOfRecordMarker();
         }
@@ -602,11 +635,13 @@ public class FileUtil
     {
         boolean isreplaced = false;
         int nBegin = 0;
-        if (nColBegin != 0)
+        if (nColBegin != 0) {
             nBegin = nColBegin - 1;
+        }
         int nEnd = nLengthLine;
-        if (nColEnd != 0 && nColEnd < nEnd)
+        if (nColEnd != 0 && nColEnd < nEnd) {
             nEnd = nColEnd;
+        }
         for ( ;nBegin < nEnd; )
         {
             boolean isequal = checkValue(arrByteData, nBegin);
@@ -630,23 +665,28 @@ public class FileUtil
     private boolean existsValue(byte[] arrByteData, int nLengthLine)
     {
         int nBegin = 0;
-        if (nColBegin != 0)
+        if (nColBegin != 0) {
             nBegin = nColBegin - 1;
+        }
         int nEnd = nLengthLine;
-        if (nColEnd != 0 && nColEnd < nEnd)
+        if (nColEnd != 0 && nColEnd < nEnd) {
             nEnd = nColEnd;
+        }
         for ( ;nBegin < nEnd; nBegin++)
         {
             boolean isequal = checkValue(arrByteData, nBegin);
-            if (isequal)
+            if (isequal) {
                 return true;
+            }
         }
         return false;
     }
 
     private boolean checkValue(byte[] arrByteData, int nBegin)
     {
-        if (byteValue == null) return true;
+        if (byteValue == null) {
+            return true;
+        }
 
         for (int i = 0; i < byteValue.length; i++)
         {
@@ -667,18 +707,20 @@ public class FileUtil
                     }
                 }
             }
-            if (isequal)
+            if (isequal) {
                 return true;
+            }
         }
         return false;
     }
 
     private void fileOutputOpen(String csFile)
     {
-        if (nCommandNext == -1)
+        if (nCommandNext == -1) {
             fileOutput = new DataFileWrite(csFile + ".util", false);
-        else
+        } else {
             fileOutput = new DataFileWrite(csFile + ".util." + nSequencer, false);
+        }
         fileOutput.open();
     }
 

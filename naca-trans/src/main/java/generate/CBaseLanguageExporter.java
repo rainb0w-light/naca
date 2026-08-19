@@ -130,8 +130,9 @@ public abstract class CBaseLanguageExporter
             if (commentContainer.GetCurrentCommentLine() == n)
             {
                 CEntityComment com = commentContainer.GetCurrentComment() ;
-                if (!line.equals(""))
-                    line += indentItem ;
+                if (!line.equals("")) {
+                    line += indentItem;
+                }
                 line += renderComment(com) ;
                 //com.DoExportComment() ;
                 if (nLastOriginalLineWritten < n)
@@ -140,8 +141,9 @@ public abstract class CBaseLanguageExporter
                     String orig = catalog.GetOriginalLine(n) ;
                     String comm = com.getOriginalComment() ;
                     orig = orig.replace(comm, "").trim() ;
-                    if (!orig.equals(""))
-                        csOrigLine += orig ;
+                    if (!orig.equals("")) {
+                        csOrigLine += orig;
+                    }
                     nLastOriginalLineWritten = n;
                 }
             }

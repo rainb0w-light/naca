@@ -36,8 +36,9 @@ public class FileManager
     public FileManagerEntry getFileManagerEntry(String csLogicalName)
     {
         FileManagerEntry entry = hashFileManagerEntry.get(csLogicalName);
-        if(entry == null)
+        if (entry == null) {
             entry = createFileManagerEntry(csLogicalName);
+        }
         return entry;
     }
 

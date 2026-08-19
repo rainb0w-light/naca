@@ -42,8 +42,9 @@ public abstract class VarNum extends Var
 
     public boolean hasType(VarTypeEnum e)
     {
-        if(e == VarTypeEnum.Type9)
+        if (e == VarTypeEnum.Type9) {
             return true;
+        }
         return false;
     }
 
@@ -53,8 +54,9 @@ public abstract class VarNum extends Var
         char tc[]  = new char[nLength];
         //if(nLength <= 4)  // 32 bits chunks are high weight - low eight
         {
-            for(int n=0; n<nLength; n++)
+            for (int n = 0; n < nLength; n++) {
                 tc[n] = byteToChar(tBytes[n]);
+            }
         }
 //      else if(nLength == 8)   // for long, host is 32 bit low weight / 32 bit high weight
 //      {
@@ -69,8 +71,9 @@ public abstract class VarNum extends Var
 
     static private char byteToChar(byte b)
     {
-        if(b < 0)
+        if (b < 0) {
             return (char) (b + 256);
+        }
         return (char) b;
     }
 

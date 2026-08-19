@@ -14,8 +14,9 @@ public class IntLongDeterminator
 {
     static boolean isIntEnough(int nNbDigitInteger)
     {
-        if(nNbDigitInteger <= 9)
+        if (nNbDigitInteger <= 9) {
             return true;
+        }
         return false;
     }
 }

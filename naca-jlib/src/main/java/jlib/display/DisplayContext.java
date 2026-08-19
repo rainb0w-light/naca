@@ -62,12 +62,14 @@ public class DisplayContext
     private boolean ShowFrontDialog(DisplayOutput output)
     {
         DisplayedElement element = stackDisplayedElements.lastElement() ;
-        if (element == null || element.dialog == null)
-            return false ;
+        if (element == null || element.dialog == null) {
+            return false;
+        }
 
         Tag tagOutput = element.dialog.getXMLDisplay(element.display) ;
-        if (tagOutput == null)
-            return false  ;
+        if (tagOutput == null) {
+            return false;
+        }
 
         output.setXMLDisplay(tagOutput) ;
         return true;
@@ -75,8 +77,9 @@ public class DisplayContext
 
     private boolean OpenDialog(BaseDialog dlg, DisplayOutput output)
     {
-        if (!dlg.BeforeDisplay())
-            return false ;
+        if (!dlg.BeforeDisplay()) {
+            return false;
+        }
 
         return ShowFrontDialog(output) ;
     }

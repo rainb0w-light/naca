@@ -25,8 +25,9 @@ public class CESMManager extends BaseCESMManager
 
     public CESMSendMap sendMap(Var varMapToSend)
     {
-        if(isLogCESM)
-            Log.logDebug("sendMap Var="+varMapToSend.getLoggableValue());
+        if (isLogCESM) {
+            Log.logDebug("sendMap Var=" + varMapToSend.getLoggableValue());
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
         CESMSendMap order = new CESMSendMap();
         ((OnlineEnvironment)cESMEnv).addMapOrder(order) ;
@@ -36,8 +37,9 @@ public class CESMManager extends BaseCESMManager
 
     public CESMSendMap sendMap(String csMapToSend)
     {
-        if(isLogCESM)
-            Log.logDebug("sendMap String="+csMapToSend);
+        if (isLogCESM) {
+            Log.logDebug("sendMap String=" + csMapToSend);
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.SEND_MAP) ;
         CESMSendMap order = new CESMSendMap();
         ((OnlineEnvironment)cESMEnv).addMapOrder(order) ;
@@ -47,8 +49,9 @@ public class CESMManager extends BaseCESMManager
 
     public CESMReceive receiveMap(String mapName)
     {
-        if(isLogCESM)
-            Log.logDebug("receiveMap String="+mapName);
+        if (isLogCESM) {
+            Log.logDebug("receiveMap String=" + mapName);
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
         //XMLUtil.ExportXML(cESMEnv.getXMLData(), "DataReceived.xml");
         //cESMEnv.recordInput() ;
@@ -58,8 +61,9 @@ public class CESMManager extends BaseCESMManager
     }
     public CESMReceive receiveMap(Var MapToReceive)
     {
-        if(isLogCESM)
-            Log.logDebug("receiveMap Var="+MapToReceive.getLoggableValue());
+        if (isLogCESM) {
+            Log.logDebug("receiveMap Var=" + MapToReceive.getLoggableValue());
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
         //XMLUtil.ExportXML(cESMEnv.getXMLData(), "DataReceived.xml");
         //cESMEnv.recordInput() ;
@@ -70,8 +74,9 @@ public class CESMManager extends BaseCESMManager
 
     public void retrieveInto(Var varDest, Var longfrom)
     {
-        if(isLogCESM)
-            Log.logDebug("retrieveInto to="+varDest.getLoggableValue()+" from="+longfrom.getLoggableValue());
+        if (isLogCESM) {
+            Log.logDebug("retrieveInto to=" + varDest.getLoggableValue() + " from=" + longfrom.getLoggableValue());
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
         CESMStartData data = cESMEnv.GetEnqueuedData();
         if (data != null)
@@ -84,8 +89,9 @@ public class CESMManager extends BaseCESMManager
 
     public void retrieveInto(Var varDest)
     {
-        if(isLogCESM)
-            Log.logDebug("retrieveInto to="+varDest.getLoggableValue());
+        if (isLogCESM) {
+            Log.logDebug("retrieveInto to=" + varDest.getLoggableValue());
+        }
         cESMEnv.setLastCommandCode(CESMCommandCode.RETRIEVE) ;
         CESMStartData data = cESMEnv.GetEnqueuedData();
         if (data != null)

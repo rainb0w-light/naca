@@ -107,8 +107,9 @@ public class AccountingRecordTrans
                     stInsert.setColParam(nCol++, nDepthLevel);  // LEVEL_DEPTH
                     stInsert.setColParam(nCol++, csCurrentTransaction); // TRANSACTIONNAME
                     String csProg = accountingRecordProgram.getProgramName();
-                    if(csProg.length() > 8)
+                    if (csProg.length() > 8) {
                         csProg = csProg.substring(0, 8);
+                    }
                     stInsert.setColParam(nCol++, csProg);   // PROGRAMNAME
                     stInsert.setColParam(nCol++, csSessionType);    // SESSIONTYPE
                     stInsert.setColParam(nCol++, csMachineId);  // MACHINEID
@@ -187,8 +188,9 @@ public class AccountingRecordTrans
         try
         {
             AccountingRecordProgram prg = accountingStack.firstElement();
-            if (prg != null)
+            if (prg != null) {
                 prg.reportDBIOTime(lDbTimeIO_ns);
+            }
         }
         catch (NoSuchElementException e)
         {

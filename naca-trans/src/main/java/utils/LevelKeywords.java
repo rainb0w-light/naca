@@ -33,16 +33,18 @@ public class LevelKeywords
 
     public boolean isManaging(CBaseToken tok)
     {
-        if(tok == null)
+        if (tok == null) {
             return true;
+        }
         CReservedKeyword keyTok = tok.GetKeyword();
         if(keyTok != null)
         {
             String csTokName = keyTok.name;
             for(int n = 0; n< managedKeywords.size(); n++)
             {
-                if(managedKeywords.get(n).name.equalsIgnoreCase(csTokName))
+                if (managedKeywords.get(n).name.equalsIgnoreCase(csTokName)) {
                     return true;
+                }
             }
         }
         return false;

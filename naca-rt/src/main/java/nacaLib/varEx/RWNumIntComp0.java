@@ -19,8 +19,9 @@ public class RWNumIntComp0
     // PJD: To be replaced by setFromRightToLeft ...
     static int internalWriteAbsoluteIntComp0(VarBufferPos buffer, int nOffset, int nValue, int nPosition, int nTotalSize)
     {
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
         String csValue = String.valueOf(nValue);
         return internalWriteAbsoluteIntComp0AsString(buffer, nOffset, csValue, nPosition, nTotalSize);
     }
@@ -37,16 +38,18 @@ public class RWNumIntComp0
 
     static int internalWriteAbsoluteIntComp0AsLong(VarBufferPos buffer, long lValue, int nPosition, int nTotalSize)
     {
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         String csValue = String.valueOf(lValue);
         return internalWriteAbsoluteIntComp0AsString(buffer, csValue, nPosition, nTotalSize);
     }
 
     static int internalWriteAbsoluteIntComp0AsLong(VarBufferPos buffer, int nOffset, long lValue, int nPosition, int nTotalSize)
     {
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
         String csValue = String.valueOf(lValue);
         return internalWriteAbsoluteIntComp0AsString(buffer, nOffset, csValue, nPosition, nTotalSize);
     }
@@ -164,8 +167,9 @@ public class RWNumIntComp0
         // Fill the buffer with '0' on each byte
         //buffer.fillZeroesComp0AtOffset(nTotalSize, nOffset);
 
-        if(nValue < 0)
+        if (nValue < 0) {
             nValue = -nValue;
+        }
 
         int nRelativePosStart = buffer.nAbsolutePosition + nOffset;
         int nRelativePos = buffer.nAbsolutePosition + nOffset + nNbDigitInteger-1;
@@ -192,8 +196,9 @@ public class RWNumIntComp0
         // Fill the buffer with '0' on each byte
         //buffer.fillZeroesComp0AtOffset(nTotalSize, nOffset);
 
-        if(lValue < 0)
+        if (lValue < 0) {
             lValue = -lValue;
+        }
 
         int nRelativePosStart = buffer.nAbsolutePosition + nOffset;
         int nRelativePos = buffer.nAbsolutePosition + nOffset + nNbDigitInteger-1;

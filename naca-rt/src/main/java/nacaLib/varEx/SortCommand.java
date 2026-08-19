@@ -186,8 +186,9 @@ public class SortCommand
             String csFileNameOut = fileDescOut.getPhysicalName();
             boolean isebcdicOut = fileDescOut.isEbcdic();
             boolean ismustSwapByteEncodingOnOutput = false;
-            if(isinputIsFile && isebcdicOut != bEbcdicIn)
+            if (isinputIsFile && isebcdicOut != bEbcdicIn) {
                 ismustSwapByteEncodingOnOutput = true;
+            }
             btreeCommandSort.setPhysicalOutFile(csFileNameOut);
             btreeCommandSort.setFileExportKey(dataFileKeyOut);
             btreeCommandSort.exportToOutFile(btreeFile, ismustSwapByteEncodingOnOutput, isebcdicOut);
@@ -209,8 +210,9 @@ public class SortCommand
 
         btreeCommandSort.closeAndDelete(btreeFile, csBtrieveFileName);
 
-        if(dataFileKeyOut != null)  // Must export key file
+        if (dataFileKeyOut != null) {  // Must export key file
             dataFileKeyOut.close();
+        }
     }
 
     protected void release(Var varRecord)   // A record is given by a paragraph for btrieve importation
@@ -223,11 +225,12 @@ public class SortCommand
             // The sort descriptor has a variable length marker: The data is of variable length
             isvariableLength = sortDescriptorDeclared.hasVarVariableLengthMarker();
             nTotalLength = sortDescriptorDeclared.getRecordLength(varRecord);
-            if(isvariableLength)
+            if (isvariableLength) {
                 nTotalLength += 4;  //Reserve space for record header; it will be stored in the data to sort
-        }
-        else
+            }
+        } else {
             nTotalLength = varRecord.getLength();
+        }
 
         if(nNbRecordImported == 0)
         {
@@ -252,12 +255,12 @@ public class SortCommand
 //              int nDebugf = 0;
 //          }
 
-            if(!isvariableLength)
+            if (!isvariableLength) {
                 varRecord.exportToByteArray(tBytesDataRelease, nTotalLength);
-            else
+            } else
             {
-                LittleEndingSignBinaryBufferStorage.writeInt(tBytesDataRelease, 0, nTotalLength-4);
-                varRecord.exportToByteArray(tBytesDataRelease, 4, nTotalLength-4);
+                LittleEndingSignBinaryBufferStorage.writeInt(tBytesDataRelease, 0, nTotalLength - 4);
+                varRecord.exportToByteArray(tBytesDataRelease, 4, nTotalLength - 4);
             }
 
             boolean b = btreeFile.internalSortInsertWithRecordIndexAtEnd(
@@ -285,8 +288,9 @@ public class SortCommand
 
     private void checkBytebuffer(int nLength)
     {
-        if(tBytesDataRelease == null || tBytesDataRelease.length < nLength)
+        if (tBytesDataRelease == null || tBytesDataRelease.length < nLength) {
             tBytesDataRelease = new byte[nLength];
+        }
     }
 
     protected RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)

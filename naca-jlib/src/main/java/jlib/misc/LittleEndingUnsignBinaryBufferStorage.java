@@ -20,19 +20,22 @@ public class LittleEndingUnsignBinaryBufferStorage
     public final static int readByte(byte buf[], int nPos)
     {
         int n = buf[nPos];
-        if(n < 0)
+        if (n < 0) {
             n += 256;
+        }
         return n;
     }
 
     public final static int readShort(byte buf[], int nPos)
     {
         int h = buf[nPos];
-        if(h < 0)
+        if (h < 0) {
             h += 256;
+        }
         int l = buf[nPos+1];
-        if(l < 0)
+        if (l < 0) {
             l += 256;
+        }
         int n = (h << 8) + l;
         return n;
     }
@@ -53,20 +56,24 @@ public class LittleEndingUnsignBinaryBufferStorage
     public final static long readInt(byte buf[], int nPos)
     {
         long h = buf[nPos];
-        if(h < 0)
+        if (h < 0) {
             h += 256;
+        }
 
         long hm = buf[nPos+1];
-        if(hm < 0)
+        if (hm < 0) {
             hm += 256;
+        }
 
         long lm = buf[nPos+2];
-        if(lm < 0)
+        if (lm < 0) {
             lm += 256;
+        }
 
         long l = buf[nPos+3];
-        if(l < 0)
+        if (l < 0) {
             l += 256;
+        }
 
         long lValue = (h << 24) + (hm << 16) + (lm << 8) + (l << 0);
         return lValue;

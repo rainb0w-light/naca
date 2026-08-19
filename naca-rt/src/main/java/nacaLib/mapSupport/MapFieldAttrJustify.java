@@ -45,15 +45,17 @@ public class MapFieldAttrJustify extends MapFieldBaseAttr
 
     boolean isJustifyLeft()
     {
-        if(getInternalValue() == LEFT.getInternalValue())
+        if (getInternalValue() == LEFT.getInternalValue()) {
             return true;
+        }
         return false;
     }
 
     boolean isJustifyRight()
     {
-        if(getInternalValue() == RIGHT.getInternalValue())
+        if (getInternalValue() == RIGHT.getInternalValue()) {
             return true;
+        }
         return false;
     }
 

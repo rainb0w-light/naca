@@ -47,23 +47,26 @@ public class CSQLIntoItem extends CJMapObject
         }
         if(varIndicator != null)
         {
-            if(bNull)
+            if (bNull) {
                 varIndicator.set(-1);   // The col is SQL NULL
-            else
+            } else {
                 varIndicator.set(0);    // The col is not sql null
+            }
         }
-        if(isLogSql)
-            Log.logDebug("sql into filling:"+getLoggableValue());
+        if (isLogSql) {
+            Log.logDebug("sql into filling:" + getLoggableValue());
+        }
     }
 
     public void setColValueNull(boolean bNull)
     {
         if(varIndicator != null)
         {
-            if(bNull)
+            if (bNull) {
                 varIndicator.set(-1);   // The col is SQL NULL
-            else
+            } else {
                 varIndicator.set(0);    // The col is not sql null
+            }
         }
     }
 
@@ -80,8 +83,9 @@ public class CSQLIntoItem extends CJMapObject
         if(varIndicator != null)
         {
             int n = varIndicator.getInt();
-            if(n == -1)
+            if (n == -1) {
                 return true;    // SQL NULL
+            }
         }
         return false;
     }
@@ -100,10 +104,11 @@ public class CSQLIntoItem extends CJMapObject
     {
         if(varInto != null)
         {
-            if(varIndicator != null)
-                return "into="+varInto.getLoggableValue() + " Indicator="+varIndicator.getLoggableValue();
-            else
-                return "into="+varInto.getLoggableValue() + " IndicatorNull";
+            if (varIndicator != null) {
+                return "into=" + varInto.getLoggableValue() + " Indicator=" + varIndicator.getLoggableValue();
+            } else {
+                return "into=" + varInto.getLoggableValue() + " IndicatorNull";
+            }
         }
         return "into=Null";
     }
@@ -111,8 +116,9 @@ public class CSQLIntoItem extends CJMapObject
     public long getUniqueHashedId()
     {
         long l = 0;
-        if(varInto != null)
+        if (varInto != null) {
             l = varInto.getId();
+        }
         if(varIndicator != null)
         {
             l *= 32678;

@@ -58,8 +58,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
     {
         unloadRWLock.readLock().lock();
         int n = 0;
-        if (tabResourceFiles != null)
+        if (tabResourceFiles != null) {
             n = tabResourceFiles.size();
+        }
         unloadRWLock.readLock().unlock();
         return n;
     }
@@ -68,8 +69,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
     {
         unloadRWLock.readLock().lock();
         int n = 0;
-        if (tabResources != null)
+        if (tabResources != null) {
             n = tabResources.size();
+        }
         unloadRWLock.readLock().unlock();
         return n;
     }
@@ -78,8 +80,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
     {
         unloadRWLock.readLock().lock();
         int n = 0;
-        if (tabResourceStruct != null)
+        if (tabResourceStruct != null) {
             n = tabResourceStruct.size();
+        }
         unloadRWLock.readLock().unlock();
         return n;
     }
@@ -89,12 +92,15 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         Log.logImportant("reloadResourcesFiles started");
         unloadRWLock.writeLock().lock(); // Get exclusive lock
 
-        if (tabResourceStruct != null)
+        if (tabResourceStruct != null) {
             tabResourceStruct.clear();
-        if (tabResources != null)
+        }
+        if (tabResources != null) {
             tabResources.clear();
-        if (tabResourceFiles != null)
+        }
+        if (tabResourceFiles != null) {
             tabResourceFiles.clear();
+        }
 
         LoadResourceCache(OnlineResourceManager.ms_bCacheResourceFiles);
 
@@ -131,8 +137,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
                             String csFormName = eForm.getAttribute("name");
                             csFormName = csFormName.toUpperCase();
                             tabResourceFiles.put(csFormName, file);
-                            if (bCacheResourceFiles)
+                            if (bCacheResourceFiles) {
                                 tabResources.put(csFormName, doc);
+                            }
                         }
                     }
                 }
@@ -156,8 +163,9 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
         int nNbFiles = doLoadResourceFiles(resourceManager.csResourcePath, bCacheResourceFiles);
 
         // can also optionally load the .res files form another resource path
-        if(!StringUtil.isEmpty(resourceManager.csAlternateResourcePath))
+        if (!StringUtil.isEmpty(resourceManager.csAlternateResourcePath)) {
             nNbFiles += doLoadResourceFiles(resourceManager.csAlternateResourcePath, bCacheResourceFiles);
+        }
 
         // bCacheResourceFiles = true;
 
@@ -235,9 +243,10 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
                     throw new AssertException("Missing resource file : " + csIdPageupperCase);
                 }
                 docPage = XMLUtil.LoadXML(file);
-                if (docPage != null) // &&
-                                        // OnlineResourceManager.ms_bCacheResourceFiles)
+                if (docPage != null) { // &&
+                    // OnlineResourceManager.ms_bCacheResourceFiles)
                     tabResources.put(csIdPageupperCase, docPage);
+                }
             }
             unloadRWLock.readLock().unlock();
             return docPage;
@@ -249,10 +258,12 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
     public void removeResourceCache(String csForm)
     {
         unloadRWLock.readLock().lock();
-        if (tabResourceStruct != null)
+        if (tabResourceStruct != null) {
             tabResourceStruct.remove(csForm);
-        if (tabResources != null)
+        }
+        if (tabResources != null) {
             tabResources.remove(csForm);
+        }
         // if(m_tabResourceFiles != null)
         // m_tabResourceFiles.remove(csForm);
         unloadRWLock.readLock().unlock();

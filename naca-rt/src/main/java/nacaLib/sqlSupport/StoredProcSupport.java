@@ -38,8 +38,9 @@ public class StoredProcSupport
             while(resultSetprocs.next() && b)
             {
                 StoredProcInfo info = new StoredProcInfo();
-                if(info.fill(resultSetprocs))
+                if (info.fill(resultSetprocs)) {
                     arr.add(info);
+                }
             }
         }
         catch (SQLException e)

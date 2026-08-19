@@ -63,8 +63,9 @@ public class MapFieldFlag
 
     public char getEncodedValue()
     {
-        if(csValue!=null && csValue.length() >= 1)
+        if (csValue != null && csValue.length() >= 1) {
             return csValue.charAt(0);
+        }
         return 0;
     }
 

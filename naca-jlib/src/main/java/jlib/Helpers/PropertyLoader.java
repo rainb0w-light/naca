@@ -45,8 +45,9 @@ public class PropertyLoader
             if(p != null)
             {
                 String csValue = p.getProperty(csName);
-                if(csValue == null)
+                if (csValue == null) {
                     TechnicalException.throwException(TechnicalException.MISSING_KEY_VALUE_IN_PROPERTY_FILE, csName);
+                }
                 return csValue;
             }
         }
@@ -65,8 +66,9 @@ public class PropertyLoader
             if(p != null)
             {
                 String csValue = p.getProperty(csName);
-                if(csValue != null)
+                if (csValue != null) {
                     return csValue;
+                }
             }
         }
         catch(TechnicalException e)
@@ -116,8 +118,9 @@ public class PropertyLoader
         if (ms_properties==null)
         {
 //........................ When no properties file name is specified ................
-            if (StringUtil.isEmpty(propertiesFileName))
+            if (StringUtil.isEmpty(propertiesFileName)) {
                 propertiesFileName = "app.properties";
+            }
 
 //..................... Searches for the properties file ...........................
             InputStream is=null;
@@ -126,14 +129,17 @@ public class PropertyLoader
 
 // When context is known, starts searching in the class resources collection.
             is = context.getClass().getResourceAsStream("/"+propertiesFileName);
-            if (is == null)
+            if (is == null) {
                 is = context.getClass().getResourceAsStream(propertiesFileName);
+            }
 
 // If context is not known, or nothing has been found in the class resources collection:
-            if (is == null)
-                is = context.getClass().getClassLoader().getResourceAsStream("/"+propertiesFileName);
-            if (is == null)
+            if (is == null) {
+                is = context.getClass().getClassLoader().getResourceAsStream("/" + propertiesFileName);
+            }
+            if (is == null) {
                 is = context.getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+            }
 
 // Raises an exception is the file could not be found:
 
@@ -173,19 +179,23 @@ public class PropertyLoader
     {
 //..................... Searches for the properties file ...........................
         InputStream is=null;
-        if (context == null)
+        if (context == null) {
             throw new RuntimeException("'context' parameter must not be null.");
+        }
 
 // When context is known, starts searching in the class resources collection.
         is = context.getClass().getResourceAsStream("/"+propertiesFileName);
-        if (is == null)
+        if (is == null) {
             is = context.getClass().getResourceAsStream(propertiesFileName);
+        }
 
 // If context is not known, or nothing has been found in the class resources collection:
-        if (is == null)
-            is = context.getClass().getClassLoader().getResourceAsStream("/"+propertiesFileName);
-        if (is == null)
+        if (is == null) {
+            is = context.getClass().getClassLoader().getResourceAsStream("/" + propertiesFileName);
+        }
+        if (is == null) {
             is = context.getClass().getClassLoader().getResourceAsStream(propertiesFileName);
+        }
 
 // Raises an exception is the file could not be found:
         TechnicalException.throwIfNull(is, TechnicalException.MISSINGE_CONFIG_FILE, propertiesFileName);

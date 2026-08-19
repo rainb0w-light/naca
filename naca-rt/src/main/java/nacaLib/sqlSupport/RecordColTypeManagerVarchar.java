@@ -35,10 +35,11 @@ public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
         try
         {
             String csValue = resultSetSource.getString(nColSourceIndex);
-            if (!resultSetSource.wasNull())
+            if (!resultSetSource.wasNull()) {
                 insertStatementInsert.setString(nColSourceIndex, csValue);
-            else
+            } else {
                 insertStatementInsert.setNull(nColSourceIndex, Types.VARCHAR);
+            }
             return true;
         }
         catch (SQLException e)

@@ -24,10 +24,12 @@ public class FileTimestampComparator implements Comparator<File>
     {
         long l1 = file1.lastModified();
         long l2 = file2.lastModified();
-        if(l1 - l2 < 0)
+        if (l1 - l2 < 0) {
             return -1;
-        if(l1 == l2)
+        }
+        if (l1 == l2) {
             return 0;
+        }
         return 1;
     }
 }

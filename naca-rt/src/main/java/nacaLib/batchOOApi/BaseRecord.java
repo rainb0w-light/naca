@@ -39,10 +39,11 @@ public abstract class BaseRecord
         getFiller().allocOrResetBufferExt();
 
         fillRW();
-        if (getFiller().getVariableChunkLength() != -1) // The record has a variable length
+        if (getFiller().getVariableChunkLength() != -1) { // The record has a variable length
             file.write(getFiller().getBuffer(), true);
-        else
+        } else {
             file.write(getFiller().getBuffer(), false);
+        }
 
         getFiller().setMode(ModeReadWriteExt.Unknown);
     }
@@ -72,8 +73,9 @@ public abstract class BaseRecord
 
             getFiller().allocOrResetBufferExt();
             boolean isread = file.read(getFiller().getBuffer());
-            if (isread)
+            if (isread) {
                 fillRW();
+            }
 
             getFiller().setMode(ModeReadWriteExt.Unknown);
             return isread;

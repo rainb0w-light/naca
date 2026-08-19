@@ -36,11 +36,13 @@ public abstract class VarBase extends CJMapObject
             varDef = declareTypeBase.getOrCreateVarDef(sharedProgramInstanceData/*varInstancesHolder*/);
             varTypeId = varDef.getTypeId();
 
-            if(varDef.varDefRedefinOrigin != null)  // We redefine another var
+            if (varDef.varDefRedefinOrigin != null) {  // We redefine another var
                 varDef.varDefRedefinOrigin.addRedefinition(varDef);
+            }
 
-            if(declareTypeBase.isVariableLengthDeclaration())
-                programManager.defineVarDynLengthMarker((Var)this);
+            if (declareTypeBase.isVariableLengthDeclaration()) {
+                programManager.defineVarDynLengthMarker((Var) this);
+            }
 
             programManager.registerVar(this);
             //JmxGeneralStat.incNbVar();
@@ -76,8 +78,9 @@ public abstract class VarBase extends CJMapObject
 
     boolean isBufferComputed()
     {
-        if(bufferPos != null)
+        if (bufferPos != null) {
             return true;
+        }
         return false;
     }
 
@@ -97,8 +100,9 @@ public abstract class VarBase extends CJMapObject
     public SharedProgramInstanceData getSharedProgramInstanceData()
     {
         SharedProgramInstanceData sharedProgramInstanceData = null;
-        if(getProgramManager() != null)
+        if (getProgramManager() != null) {
             sharedProgramInstanceData = getProgramManager().getSharedProgramInstanceData();
+        }
         return sharedProgramInstanceData;
     }
 
@@ -120,9 +124,9 @@ public abstract class VarBase extends CJMapObject
                         cs += " (@" + nAbsolutePosition + ")";
                     }
                     cs += ":" + varDef.getDottedSignedString(bufferPos);
-                }
-                else
+                } else {
                     cs += ":(null)";
+                }
                 return cs;
             }
             return "SharedProgramInstanceData is null";
@@ -189,8 +193,9 @@ public abstract class VarBase extends CJMapObject
 
     public void setAtAdress(VarAndEdit varSource)
     {
-        if(varSource == null)
+        if (varSource == null) {
             return;
+        }
 
         // Old Code
 //      assignBuffer(bufferPos.getProgramManager(), varSource.bufferPos);
@@ -233,8 +238,9 @@ public abstract class VarBase extends CJMapObject
 //      dupVarDefShiftingAbsoluteStartPosition(0 - nShift, arrVarShifted);
 
         // New code
-        if(varDef.getLevel() != 1)  // Only level 01 can have a custom buffer; their children are also mapped the the buffer
-            return ;
+        if (varDef.getLevel() != 1) {  // Only level 01 can have a custom buffer; their children are also mapped the the buffer
+            return;
+        }
 
         int nStartPos = getBodyAbsolutePosition();
         char oldBuffer[] = bufferPos.acBuffer;
@@ -284,8 +290,9 @@ public abstract class VarBase extends CJMapObject
                 nSourceOffset,
                 nDestOffset);
 
-            if(moveCorrespondingEntryManager != null)
+            if (moveCorrespondingEntryManager != null) {
                 moveCorrespondingEntryManager.setFilledAndCompress();
+            }
         }
     }
 
@@ -418,10 +425,11 @@ public abstract class VarBase extends CJMapObject
 
     public void set(VarBase varSource)
     {
-        if(varSource.isEdit())
+        if (varSource.isEdit()) {
             set(varSource);
-        else
+        } else {
             set(varSource);
+        }
     }
 
     public void declareAsFiller()
@@ -636,8 +644,9 @@ public abstract class VarBase extends CJMapObject
 
     public CSQLItemType getSQLType()
     {
-        if(varDef != null)
+        if (varDef != null) {
             return varDef.getSQLType();
+        }
         return null;
     }
 
@@ -677,8 +686,9 @@ public abstract class VarBase extends CJMapObject
 
     public void restoreDefaultAbsolutePosition()
     {
-        if(varDef != null && bufferPos != null)
+        if (varDef != null && bufferPos != null) {
             bufferPos.nAbsolutePosition = varDef.nDefaultAbsolutePosition;
+        }
     }
 
     public double getDouble()
@@ -705,8 +715,9 @@ public abstract class VarBase extends CJMapObject
     {
         int nSourceLength = lineRead.getTotalLength();
         int nDestLength = getBodyLength();
-        if(nSourceLength > nDestLength)
+        if (nSourceLength > nDestLength) {
             nSourceLength = nDestLength;
+        }
         bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength);
         return nSourceLength;
     }
@@ -720,32 +731,38 @@ public abstract class VarBase extends CJMapObject
         int nDest1Length = getBodyLength();
         int nFillLength1 = 0;
 
-        if(nSourceLength < nDest1Length)    // Less data than buffer: We must fill the remaining bytes of the buffer1
+        if (nSourceLength < nDest1Length) {    // Less data than buffer: We must fill the remaining bytes of the buffer1
             nFillLength1 = nDest1Length - nSourceLength;
+        }
 
-        if(nSourceLength > nDest1Length)    // More data than buffer: We must limit the data to copy in the buffer1
+        if (nSourceLength > nDest1Length) {    // More data than buffer: We must limit the data to copy in the buffer1
             // Source length is limited by number of bytes of the destination1 (that is the variable specified by into() method
             nSourceLength = nDest1Length;
+        }
 
 
         int nFillLength2 = 0;
         int nDest2Length = varDest2.getBodyLength();
 
         // The length of destination variable 2 (file descriptor) is longer than the length of the variable specified by into()
-        if(nDest1Length < nDest2Length)
+        if (nDest1Length < nDest2Length) {
             nFillLength2 = nDest1Length - nDest2Length; // We must fill the remaining bytes of varDest2
 
-        // The length of destination variable 2 (file descriptor) is shoreter than the length of the variable specified by into()
-        if(nDest1Length > nDest2Length)
+            // The length of destination variable 2 (file descriptor) is shoreter than the length of the variable specified by into()
+        }
+        if (nDest1Length > nDest2Length) {
             nDest2Length = nDest1Length;
+        }
 
         bufferPos.setByteArray(lineRead.getBuffer(), lineRead.getOffset(), nSourceLength, varDest2.bufferPos, nDest2Length);
 
-        if(nFillLength1 != 0)
+        if (nFillLength1 != 0) {
             fillEndOfRecord(nSourceLength, nFillLength1);
+        }
 
-        if(nFillLength2 != 0)
+        if (nFillLength2 != 0) {
             varDest2.fillEndOfRecord(nSourceLength, nFillLength2);
+        }
     }
 
     public void set(byte[] tBytes)

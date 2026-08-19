@@ -35,12 +35,15 @@ public class DbTransfer
             {
                 dbTransferDesc = new DbTransferDesc();
                 boolean b = dbTransferDesc.load(tagDbTransfer);
-                if(b)
+                if (b) {
                     b = dbTransferDesc.getTablesList(env);
-                if(b)
+                }
+                if (b) {
                     b = dbTransferDesc.doTransfers(env);
-                if(b)
+                }
+                if (b) {
                     return 0;
+                }
             }
         }
         return -1;

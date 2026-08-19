@@ -53,8 +53,9 @@ public class DbTransferDesc
                 nCommitEveryBatch = tagParameters.getValAsInt("CommitEveryBatch");
                 nThreadsQuantity = tagParameters.getValAsInt("ThreadsQuantity");
                 csDefinitionTable = tagParameters.getVal("DefinitionTable");
+            } else {
+                b = false;
             }
-            else b = false;
 
             Tag tagSQLConfig = tagDbTransfer.getChild("SQLConfig");
             if(tagSQLConfig != null)
@@ -62,8 +63,9 @@ public class DbTransferDesc
                 connectionManager = new SQLConnectionManager();
                 DbConnectionPool dbConnectionPool = connectionManager.init("", tagSQLConfig);
                 BaseResourceManager.addDbConnectionPool(dbConnectionPool);
+            } else {
+                b = false;
             }
-            else b = false;
         }
         else
         {

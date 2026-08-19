@@ -193,8 +193,9 @@ public class ThumbnailHelper {
 
 // Calculates the transformation:
         AffineTransform transform = new AffineTransform();
-        if (scale < 1.0d)
+        if (scale < 1.0d) {
             transform.scale(scale, scale);
+        }
 
 //................... Builds the thumbnail ........................................................
         BufferedImage bufferedImage = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB);
@@ -212,11 +213,12 @@ public class ThumbnailHelper {
                 m.invoke(encoder, bufferedImage);
             } catch (InvocationTargetException ex) {
                 Exception e = (Exception) ex.getCause();
-                if(e instanceof IOException)
+                if (e instanceof IOException) {
                     throw new ProgrammingException(
-                        ProgrammingException.IO_ERROR,
-                        "I/O exception while saving the thumbnail: "+e.getMessage(),
-                        e);
+                            ProgrammingException.IO_ERROR,
+                            "I/O exception while saving the thumbnail: " + e.getMessage(),
+                            e);
+                }
             }
         } catch(RuntimeException e){
             throw e;

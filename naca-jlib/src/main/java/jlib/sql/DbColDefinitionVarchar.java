@@ -49,8 +49,9 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
             LittleEndingUnsignBinaryBufferStorage.writeUnsignedShort(aBytes, nValueLength, 0);
 
             byte[] aBytesValue = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytesValue, 0, nValueLength);
+            }
 
             int n=0, nDest=2;
             for(; n<aBytesValue.length; n++, nDest++)
@@ -94,8 +95,9 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
     {
         int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
 
-        if(bEbcdicInput)    // Must outout in ebcdic
+        if (bEbcdicInput) {    // Must outout in ebcdic
             AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
+        }
 
         String cs = new String(arrByteValue, nSourceOffset+2, nLength);
         stmt.setColParam(nCol, cs);
@@ -118,12 +120,14 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
         {
             String value = resultSet.getString(nCol1Based);
             value = value.trim().replace("\"", "'");
-            if (value.length() == 0)
+            if (value.length() == 0) {
                 value = " ";
+            }
             value = "\"" + value + "\"";
             byte[] aBytes = value.getBytes();
-            if(bEbcdicOutput)   // Must outout in ebcdic
+            if (bEbcdicOutput) {   // Must outout in ebcdic
                 AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            }
             return aBytes;
         }
         catch (SQLException e)

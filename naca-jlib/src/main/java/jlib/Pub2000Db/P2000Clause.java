@@ -131,10 +131,11 @@ public class P2000Clause extends SQLClause
  */
     public String param(boolean bVal)
     {
-        if (bVal)
+        if (bVal) {
             return super.param("1");
-        else
+        } else {
             return super.param("");
+        }
     }
 
 /**
@@ -148,10 +149,11 @@ public class P2000Clause extends SQLClause
  */
 public P2000Clause paramInsert(String csName,boolean bVal)
 {
-    if (bVal)
-        super.paramInsert(csName,"1");
-    else
-        super.paramInsert(csName,"");
+    if (bVal) {
+        super.paramInsert(csName, "1");
+    } else {
+        super.paramInsert(csName, "");
+    }
     return this;
 }
 
@@ -225,8 +227,9 @@ public P2000Clause paramInsert(String csName,boolean bVal)
     }
 
     private Date transformToDate(int nVal) {
-        if (nVal==0)
+        if (nVal == 0) {
             return null;
+        }
         if (nVal>=99990000) {
             Calendar c=Calendar.getInstance();
             c.set(Calendar.YEAR,9999);

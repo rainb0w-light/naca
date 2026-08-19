@@ -101,8 +101,9 @@ public class VarDefNumIntComp0Long extends VarDefNum
     int getAsDecodedUnsignedInt(VarBufferPos buffer)
     {
         long l = getAsDecodedLong(buffer);
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         return (int) l;
     }
 
@@ -169,23 +170,26 @@ public class VarDefNumIntComp0Long extends VarDefNum
 
     public void write(VarBufferPos buffer, int n)
     {
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         writeIntComp0AsLong(buffer, n);
     }
 
     public void write(VarBufferPos buffer, long l)
     {
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         writeIntComp0AsLong(buffer, l);
     }
 
     void write(VarBufferPos buffer, double d)
     {
         int n = (int) d;
-        if(n < 0)
+        if (n < 0) {
             n = -n;
+        }
         writeIntComp0AsLong(buffer, n);
     }
 
@@ -198,8 +202,9 @@ public class VarDefNumIntComp0Long extends VarDefNum
     public void write(VarBufferPos buffer, BigDecimal bigDecimal)
     {
         long l = bigDecimal.longValue();
-        if(l < 0)
+        if (l < 0) {
             l = -l;
+        }
         writeIntComp0AsLong(buffer, l);
     }
 
@@ -499,8 +504,9 @@ public class VarDefNumIntComp0Long extends VarDefNum
     public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
     {
         writeIntComp0AsLong(buffer, nOffset, 0L);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
@@ -540,28 +546,30 @@ public class VarDefNumIntComp0Long extends VarDefNum
     void writeIntComp0AsLong(VarBufferPos buffer, long lValue)
     {
         //RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, lValue, buffer.nAbsolutePosition, nTotalSize);
-        if(!isblankWhenZero)
+        if (!isblankWhenZero) {
             RWNumIntComp0.setFromRightToLeft(buffer, 0, lValue, nTotalSize, nNbDigitInteger);
-        else
+        } else
         {
-            if(lValue != 0L)
+            if (lValue != 0L) {
                 RWNumIntComp0.setFromRightToLeft(buffer, 0, lValue, nTotalSize, nNbDigitInteger);
-            else
+            } else {
                 buffer.fillBlankComp0AtOffset(nTotalSize, 0);
+            }
         }
     }
 
     void writeIntComp0AsLong(VarBufferPos buffer, int nOffset, long lValue)
     {
         // RWNumIntComp0.internalWriteAbsoluteIntComp0AsLong(buffer, nOffset, lValue, buffer.nAbsolutePosition, nTotalSize);
-        if(!isblankWhenZero)
+        if (!isblankWhenZero) {
             RWNumIntComp0.setFromRightToLeft(buffer, nOffset, lValue, nTotalSize, nNbDigitInteger);
-        else
+        } else
         {
-            if(lValue != 0L)
+            if (lValue != 0L) {
                 RWNumIntComp0.setFromRightToLeft(buffer, nOffset, lValue, nTotalSize, nNbDigitInteger);
-            else
+            } else {
                 buffer.fillBlankComp0AtOffset(nTotalSize, nOffset);
+            }
         }
     }
 

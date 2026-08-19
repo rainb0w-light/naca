@@ -84,8 +84,9 @@ public abstract class VarDefBuffer extends VarDefBase
         if(cs != null)
         {
             nLength = cs.length();
-            if(nTotalSize < nLength)
+            if (nTotalSize < nLength) {
                 nLength = nTotalSize;
+            }
             cs.getChars(0, nLength, buffer.acBuffer, nPosition);
             nPosition += nLength;
         }
@@ -103,16 +104,18 @@ public abstract class VarDefBuffer extends VarDefBase
         if(cs != null)
         {
             nLength = cs.length();
-            if(nTotalSize < nLength)
+            if (nTotalSize < nLength) {
                 nLength = nTotalSize;
+            }
             cs.getChars(0, nLength, buffer.acBuffer, nPosition);
             nPosition += nLength;
         }
         if(nLength < nTotalSize)    // Padding with BLANK on the right
         {
             int nNbChars = nTotalSize-nLength;
-            for(int n=0; n<nNbChars; n++)
+            for (int n = 0; n < nNbChars; n++) {
                 buffer.acBuffer[nPosition++] = ' ';
+            }
         }
     }
 
@@ -133,8 +136,9 @@ public abstract class VarDefBuffer extends VarDefBase
     {
         if(nTotalSize >= 1)
         {
-            if(initializeCache != null)
+            if (initializeCache != null) {
                 initializeCache.addItem(' ', nPosition, nTotalSize);
+            }
             nPosition = buffer.writeRepeatingCharAt(nPosition, ' ', nTotalSize);
         }
         return nPosition;
@@ -144,8 +148,9 @@ public abstract class VarDefBuffer extends VarDefBase
     {
         if(nTotalSize >= 1)
         {
-            if(initializeCache != null)
+            if (initializeCache != null) {
                 initializeCache.addItem('0', nPosition, nTotalSize);
+            }
             nPosition = buffer.writeRepeatingCharAt(nPosition, '0', nTotalSize);
         }
         return nPosition;
@@ -364,10 +369,12 @@ public abstract class VarDefBuffer extends VarDefBase
                 for(int x=0; x<nNbX; x++)
                 {
                     VarDefBuffer varDefItem = getCachedGetAt(cache, x+1);
-                    if(varDefItem != null)
+                    if (varDefItem != null) {
                         varDefItem.setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
-                    if(cache != null)
+                    }
+                    if (cache != null) {
                         cache.resetTempVarIndex(varDefItem.getTypeId());
+                    }
                 }
             }
             else if(nNbDim == 2)
@@ -380,10 +387,12 @@ public abstract class VarDefBuffer extends VarDefBase
                     {
                         //VarDefBuffer varDefItemOld = getAt(y+1, x+1);
                         VarDefBuffer varDefItem = getCachedGetAt(cache, y+1, x+1);
-                        if(varDefItem != null)
+                        if (varDefItem != null) {
                             varDefItem.setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
-                        if(cache != null)
+                        }
+                        if (cache != null) {
                             cache.resetTempVarIndex(varDefItem.getTypeId());
+                        }
                     }
                 }
             }
@@ -400,10 +409,12 @@ public abstract class VarDefBuffer extends VarDefBase
                         {
                             VarDefBuffer varDefItemOld = getAt(z+1, y+1, x+1);
                             VarDefBuffer varDefItem = getCachedGetAt(cache, z+1, y+1, x+1);
-                            if(varDefItem != null)
+                            if (varDefItem != null) {
                                 varDefItem.setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
-                            if(cache != null)
+                            }
+                            if (cache != null) {
                                 cache.resetTempVarIndex(varDefItem.getTypeId());
+                            }
                         }
                     }
                 }
@@ -415,8 +426,9 @@ public abstract class VarDefBuffer extends VarDefBase
             for(int nChild=0; nChild<nNbChildren; nChild++)
             {
                 VarDefBuffer varDefChild = getChild(nChild);
-                if(varDefChild != null)
+                if (varDefChild != null) {
                     varDefChild.fillInitialValueAndClearUnusedMembers(cache, sharedProgramInstanceData, buffer);
+                }
             }
             setInitialValueAndClearUnusedMembers(sharedProgramInstanceData, buffer);
         }
@@ -432,8 +444,9 @@ public abstract class VarDefBuffer extends VarDefBase
             {
                 char c = 0;
                 String cs = initialValue.genericValue.getAsString();
-                if(cs.length() > 0)
+                if (cs.length() > 0) {
                     c = cs.charAt(0);
+                }
                 writeRepeatingchar(bufferPos, c);
             }
             else
@@ -507,14 +520,15 @@ public abstract class VarDefBuffer extends VarDefBase
             for(int nChild=0; nChild<nNbChildren; nChild++)
             {
                 VarDefBuffer varDefChild = getChild(nChild);
-                if(varDefChild != null)
+                if (varDefChild != null) {
                     varDefChild.moveCorrespondingItemAndChildren(
-                        manager,
-                        sharedProgramInstanceData,
-                        programManager,
-                        varDefDestGroup,
-                        nSourceOffset,
-                        nDestOffset);
+                            manager,
+                            sharedProgramInstanceData,
+                            programManager,
+                            varDefDestGroup,
+                            nSourceOffset,
+                            nDestOffset);
+                }
             }
         }
     }
@@ -570,10 +584,12 @@ public abstract class VarDefBuffer extends VarDefBase
                 {
                     CoupleVar coupleVar = getCoupleCachedGetAt(cache, x+1);
                     VarDefBuffer varDefItem = getCachedGetAt(cache, x+1);
-                    if(varDefItem != null)
+                    if (varDefItem != null) {
                         varDefItem.tryInitialize(varBufferPos, initializeManager, nOffset, initializeCache);
-                    if(cache != null)
+                    }
+                    if (cache != null) {
                         cache.resetTempVarIndex(varDefItem.getTypeId());
+                    }
                 }
             }
             else if(nNbDimRemaining == 2)
@@ -586,10 +602,12 @@ public abstract class VarDefBuffer extends VarDefBase
                     {
                         //VarDefBuffer varDefItem = getAt(y+1, x+1);
                         VarDefBuffer varDefItem = getCachedGetAt(cache, y+1, x+1);
-                        if(varDefItem != null)
+                        if (varDefItem != null) {
                             varDefItem.tryInitialize(varBufferPos, initializeManager, nOffset, initializeCache);
-                        if(cache != null)
+                        }
+                        if (cache != null) {
                             cache.resetTempVarIndex(varDefItem.getTypeId());
+                        }
                     }
                 }
             }
@@ -606,10 +624,12 @@ public abstract class VarDefBuffer extends VarDefBase
                         {
                             //VarDefBuffer varDefItem = getAt(z+1, y+1, x+1);
                             VarDefBuffer varDefItem = getCachedGetAt(cache, z+1, y+1, x+1);
-                            if(varDefItem != null)
+                            if (varDefItem != null) {
                                 varDefItem.tryInitialize(varBufferPos, initializeManager, nOffset, initializeCache);
-                            if(cache != null)
+                            }
+                            if (cache != null) {
                                 cache.resetTempVarIndex(varDefItem.getTypeId());
+                            }
                         }
                     }
                 }
@@ -625,9 +645,11 @@ public abstract class VarDefBuffer extends VarDefBase
             for(int nChild=0; nChild<nNbChildren; nChild++)
             {
                 VarDefBuffer varDefChild = getChild(nChild);
-                if(varDefChild != null)
-                    if(!varDefChild.isARedefine())
+                if (varDefChild != null) {
+                    if (!varDefChild.isARedefine()) {
                         varDefChild.initializeItemAndChildren(cache, varBufferPos, initializeManager, nOffset, nNbDimUsed, initializeCache);
+                    }
+                }
             }
         }
     }
@@ -701,8 +723,9 @@ public abstract class VarDefBuffer extends VarDefBase
     public long getUnsignedLong(VarBufferPos buffer)
     {
         long l = getAsDecodedLong(buffer);
-        if(l < 0)
+        if (l < 0) {
             return -l;
+        }
         return l;
     }
 
@@ -856,47 +879,56 @@ public abstract class VarDefBuffer extends VarDefBase
         int nPosition2 = buffer2.nAbsolutePosition;
         for(int n=0; n<nTotalSize; n++)
         {
-            if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+            if (buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++]) {
                 return false;
+            }
         }
         return true;
     }
 
     protected int internalCompare(int n1, int n2)
     {
-        if(n1 == n2)
+        if (n1 == n2) {
             return 0;
-        if(n1 < n2)
+        }
+        if (n1 < n2) {
             return -1;
+        }
         return 1;
     }
 
     protected int internalCompare(long l1, long l2)
     {
-        if(l1 == l2)
+        if (l1 == l2) {
             return 0;
-        if(l1 < l2)
+        }
+        if (l1 < l2) {
             return -1;
+        }
         return 1;
     }
 
     protected int internalCompare(int n1, Dec d2)
     {
         int n = d2.compare(n1);
-        if(n == 0)  // d2 == n1
+        if (n == 0) {  // d2 == n1
             return 0;
-        if(n < 0)   // d2 < n1
+        }
+        if (n < 0) {   // d2 < n1
             return 1;
+        }
         return -1;
     }
 
     protected int internalCompare(long l1, Dec d2)
     {
         int n = d2.compare(l1);
-        if(n == 0)  // d2 == n1
+        if (n == 0) {  // d2 == n1
             return 0;
-        if(n < 0)   // d2 < n1
+        }
+        if (n < 0) {   // d2 < n1
             return 1;
+        }
         return -1;
     }
 
@@ -1013,8 +1045,9 @@ public abstract class VarDefBuffer extends VarDefBase
         int nNbItems = arrVarShifted.size();
         for(int n=0; n<nNbItems; n++)
         {
-            if(arrVarShifted.get(n) == this)
+            if (arrVarShifted.get(n) == this) {
                 return true;
+            }
         }
         return false;
     }
@@ -1104,8 +1137,9 @@ public abstract class VarDefBuffer extends VarDefBase
                 if(varDefChildLength.isTypedLongVarCharLength())
                 {
                     VarDefBuffer varDefChildText = getChild(1);
-                    if(varDefChildText.isTypedLongVarCharText())
+                    if (varDefChildText.isTypedLongVarCharText()) {
                         return true;
+                    }
                 }
             }
         }
@@ -1137,10 +1171,11 @@ public abstract class VarDefBuffer extends VarDefBase
         {
             VarBase var = programManager.getVarFullName(this);
             byte[] tBytes = null;
-            if(bConvertUnicodeToEbcdic)
+            if (bConvertUnicodeToEbcdic) {
                 tBytes = var.getAsEbcdicByteArray();
-            else
+            } else {
                 tBytes = var.getAsByteArray();
+            }
             dataFile.write(tBytes);
             dataFile.flush();
         }
@@ -1150,8 +1185,9 @@ public abstract class VarDefBuffer extends VarDefBase
             for(int nChild=0; nChild<nNbChildren; nChild++)
             {
                 VarDefBuffer varDefChild = getChild(nChild);
-                if(varDefChild != null)
+                if (varDefChild != null) {
                     varDefChild.writeToFile(programManager, dataFile, bufferPos, bConvertUnicodeToEbcdic);
+                }
             }
         }
     }
@@ -1202,8 +1238,9 @@ public abstract class VarDefBuffer extends VarDefBase
 
     Var getRecordDependingVar()
     {
-        if(occursDef != null)
+        if (occursDef != null) {
             return occursDef.getRecordDependingVar();
+        }
         return null;
     }
 

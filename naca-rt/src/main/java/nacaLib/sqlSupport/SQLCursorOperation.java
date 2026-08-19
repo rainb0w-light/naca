@@ -58,8 +58,9 @@ public class SQLCursorOperation
 
     public SQLCursorOperation value(String csName, int nValue)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.value(csName, nValue);
+        }
         return this;
     }
 
@@ -71,8 +72,9 @@ public class SQLCursorOperation
 
     public SQLCursorOperation value(String csName, double dValue)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.value(csName, dValue);
+        }
         return this;
     }
 
@@ -84,8 +86,9 @@ public class SQLCursorOperation
 
     public SQLCursorOperation value(String csName, String csValue)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.value(csName, csValue);
+        }
         return this;
     }
 
@@ -97,36 +100,41 @@ public class SQLCursorOperation
 
     public SQLCursorOperation value(String csName, Var varValue)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.value(csName, varValue);
+        }
         return this;
     }
 
     public SQLCursorOperation onErrorGoto(Paragraph paragraphSQGErrorGoto)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.onErrorGoto(paragraphSQGErrorGoto);
+        }
         return this;
     }
 
     public SQLCursorOperation onErrorGoto(Section section)
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.onErrorGoto(section);
+        }
         return this;
     }
 
     public SQLCursorOperation onErrorContinue()
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.onErrorContinue();
+        }
         return this;
     }
 
     private void manageOperationEnding()
     {
-        if(sqlUpdateDelete != null)
+        if (sqlUpdateDelete != null) {
             sqlUpdateDelete.manageOperationEnding();
+        }
     }
 
     private SQL sqlUpdateDelete = null;

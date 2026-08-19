@@ -114,8 +114,9 @@ public class VarDefMapRedefine extends VarDefBuffer
 
     public int getSingleItemRequiredStorageSize()
     {
-        if(varDefFormRedefineOrigin != null)
+        if (varDefFormRedefineOrigin != null) {
             return varDefFormRedefineOrigin.getTotalSize();
+        }
         return 0;
     }
 

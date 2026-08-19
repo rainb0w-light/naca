@@ -91,10 +91,11 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
             String table = (String)ms_tabViewRenamed.get(csTableName);
             if (table == null)
             {
-                if (csTableName.length() > 6)
-                    csActualTableName = csTableName.substring(1, csTableName.length()-1);
-                else
+                if (csTableName.length() > 6) {
+                    csActualTableName = csTableName.substring(1, csTableName.length() - 1);
+                } else {
                     csActualTableName = csTableName;
+                }
             }
             else
             {
@@ -212,8 +213,9 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
                         }
                     }
                 }
-                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET) {
                     tok = GetNext();
+                }
             }
 
             if (tok.GetKeyword() == CCobolKeywordList.NOT)

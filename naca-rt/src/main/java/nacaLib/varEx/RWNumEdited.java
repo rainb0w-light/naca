@@ -22,9 +22,10 @@ public class RWNumEdited
         for(int n=0; n<csFormat.length(); n++)
         {
             char c = csFormat.charAt(n);
-            if(!(c == 'Z' || c == '.' || c == 'V' || c == ',' || c == '*' || c == '+' || c == '-' || c == 'C' || c == 'R' || c == 'D'
-                || c == 'B'))
+            if (!(c == 'Z' || c == '.' || c == 'V' || c == ',' || c == '*' || c == '+' || c == '-' || c == 'C' || c == 'R' || c == 'D'
+                    || c == 'B')) {
                 return false;
+            }
         }
         return true;
     }
@@ -32,8 +33,9 @@ public class RWNumEdited
     static String internalFormatAndWrite(Dec dec, String csFormat, boolean bBlankWhenZero)
     {
         boolean issignFilled = false;
-        if(csFormat == null)
+        if (csFormat == null) {
             return "";
+        }
 
         int nLgFormat = csFormat.length();
         if(dec.isZero())
@@ -44,8 +46,9 @@ public class RWNumEdited
             }
         }
 
-        if(nLgFormat == 0)
+        if (nLgFormat == 0) {
             return "";
+        }
 
         if (bBlankWhenZero && dec.isZero())
         {
@@ -61,14 +64,16 @@ public class RWNumEdited
         boolean isdoDecPart = false;
 
         int nDecimalSeparatorFormatPos = Math.max(csFormat.indexOf('.'), csFormat.indexOf('V'));
-        if(nDecimalSeparatorFormatPos == -1)    // dot (special insertion char) in format, then we will have a decimal part
-            nDecimalSeparatorFormatPos = nLgFormat-1;
-        else
+        if (nDecimalSeparatorFormatPos == -1) {    // dot (special insertion char) in format, then we will have a decimal part
+            nDecimalSeparatorFormatPos = nLgFormat - 1;
+        } else {
             isdoDecPart = true;
+        }
 
         int nPos$ = csFormat.indexOf('$');
-        if(nPos$ == -1)
+        if (nPos$ == -1) {
             nPos$ = csFormat.indexOf('\u00A3');
+        }
 
         // Integer part
         boolean issuppressLeading0 = false;
@@ -82,55 +87,53 @@ public class RWNumEdited
                 sDest.setCharAt(nFormatIndex, source);
                 nPosSource--;
             }
-            else if(format == 'B')
+            else if (format == 'B') {
                 sDest.setCharAt(nFormatIndex, ' ');
-            else if(format == ' ')
+            } else if (format == ' ') {
                 sDest.setCharAt(nFormatIndex, ' ');
-            // Warning, ',' stands for 1000 separator, not decimal dot !!!
-            else if(format == '0' || format == '/' || format == ',' || format == '\'')
+                // Warning, ',' stands for 1000 separator, not decimal dot !!!
+            } else if (format == '0' || format == '/' || format == ',' || format == '\'')
             {
-                if(format == '\'')
+                if (format == '\'') {
                     sDest.setCharAt(nFormatIndex, ',');
-                else
+                } else {
                     sDest.setCharAt(nFormatIndex, format);
-            }
-            else if(format == '$' || format == '\u00A3')
+                }
+            } else if (format == '$' || format == '\u00A3')
             {
                 issuppressLeading0 = true;
                 sDest.setCharAt(nFormatIndex, source);
                 nPosSource--;
-            }
-            else if(format == '+' || format == '-')
+            } else if (format == '+' || format == '-')
             {
-                if(nFormatIndex == nDecimalSeparatorFormatPos)  // Last char mask is sign
-                {
-                    issignFilled = true;
-                    if(format == '+')
+                if (nFormatIndex == nDecimalSeparatorFormatPos)  // Last char mask is sign
                     {
-                        if(dec.isNegative())
-                            sDest.setCharAt(nLgFormat-1, '-');
-                        else
-                            sDest.setCharAt(nLgFormat-1, '+');
-                    }
-                    else if(format == '-')
-                    {
-                        if(dec.isNegative())
-                            sDest.setCharAt(nLgFormat-1, '-');
-                        else
-                            sDest.setCharAt(nLgFormat-1, ' ');
-                    }
-                    nFormatIndex--;
+                        issignFilled = true;
+                        if (format == '+')
+                        {
+                            if (dec.isNegative()) {
+                                sDest.setCharAt(nLgFormat - 1, '-');
+                            } else {
+                                sDest.setCharAt(nLgFormat - 1, '+');
+                            }
+                        } else if (format == '-')
+                        {
+                            if (dec.isNegative()) {
+                                sDest.setCharAt(nLgFormat - 1, '-');
+                            } else {
+                                sDest.setCharAt(nLgFormat - 1, ' ');
+                            }
+                        }
+                        nFormatIndex--;
 
-                    issuppressLeading0 = true;
-                    sDest.setCharAt(nFormatIndex, source);
-                }
-                else    // leading - ou +
-                {
-                    sDest.setCharAt(nFormatIndex, source);
-                }
+                        issuppressLeading0 = true;
+                        sDest.setCharAt(nFormatIndex, source);
+                    } else    // leading - ou +
+                    {
+                        sDest.setCharAt(nFormatIndex, source);
+                    }
                 nPosSource--;
-            }
-            else if(format == 'Z' || format == '*')
+            } else if (format == 'Z' || format == '*')
             {
                 issuppressLeading0 = true;
                 // 1st pass: recopy the source char; it will be suppressed in next pass if needed
@@ -154,8 +157,9 @@ public class RWNumEdited
                     sDest.setCharAt(nChar, ' ');
                     nPosLastSuppress = nChar;
                 }
-                else if(format == '*')
+                else if (format == '*') {
                     sDest.setCharAt(nChar, '*');
+                }
             }
             else if(source == ' ' || source == '$' || source == '\u00A3')
             {
@@ -166,14 +170,15 @@ public class RWNumEdited
                 {
                     if(nChar > 0)
                     {
-                        char previous = sDest.charAt(nChar-1);
-                        if(previous == ' ') // we have a previous space
-                        {
-                            sDest.setCharAt(nChar, ' ');    // remove comma
-                            nPosLastSuppress = nChar;
-                        }
-                        if(previous == '*') // we have a previous star
+                        char previous = sDest.charAt(nChar - 1);
+                        if (previous == ' ') // we have a previous space
+                            {
+                                sDest.setCharAt(nChar, ' ');    // remove comma
+                                nPosLastSuppress = nChar;
+                            }
+                        if (previous == '*') { // we have a previous star
                             sDest.setCharAt(nChar, '*');    // remove comma
+                        }
                     }
                 }
             }
@@ -214,19 +219,20 @@ public class RWNumEdited
                     sDest.setCharAt(nFormatIndex, source);
                     nPosSource++;
                 }
-                else if(format == '.' || format == 'V') // Insert dot
+                else if (format == '.' || format == 'V') { // Insert dot
                     sDest.setCharAt(nFormatIndex, '.');
-                else if(format == 'B')  // Insert char
+                } else if (format == 'B') {  // Insert char
                     sDest.setCharAt(nFormatIndex, ' ');
-                else if(format == '0' || format == '/' || format == ',')
+                } else if (format == '0' || format == '/' || format == ',') {
                     sDest.setCharAt(nFormatIndex, format);
-                else if(format == 'Z' || format == '*')
+                } else if (format == 'Z' || format == '*')
                 {
                     char source = getDigitAtPosition(sSourceDecPart, nPosSource);
-                    if(source == '0' && format == '*')
+                    if (source == '0' && format == '*') {
                         sDest.setCharAt(nFormatIndex, '*');
-                    else
+                    } else {
                         sDest.setCharAt(nFormatIndex, source);
+                    }
                     nPosSource++;
                 }
             }
@@ -241,29 +247,31 @@ public class RWNumEdited
                 if(format == '+')
                 {
                     // PJD commented updated because the sign erased the last digit
-    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
-    //              if(dec.isNegative())    //  if(varNumberChunk.isNegative())
-    //                  sDest.append('-');
-    //              else
-    //                  sDest.append('+');
-                    if(dec.isNegative())
-                        sDest.setCharAt(nLgFormat-1, '-');
-                    else
-                        sDest.setCharAt(nLgFormat-1, '+');
+                    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
+                    //              if(dec.isNegative())    //  if(varNumberChunk.isNegative())
+                    //                  sDest.append('-');
+                    //              else
+                    //                  sDest.append('+');
+                    if (dec.isNegative()) {
+                        sDest.setCharAt(nLgFormat - 1, '-');
+                    } else {
+                        sDest.setCharAt(nLgFormat - 1, '+');
+                    }
                 }
                 else if(format == '-')
                 {
                     // PJD commented updated because the sign erased the last digit
-    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
-    //              if(dec.isNegative())    //  if(varNumberChunk.isNegative())
-    //                  sDest.append('-');
-    //              else
-    //                  sDest.append(' ');
+                    // sDest = sDest.deleteCharAt(nLgFormat-1); // Delete first char to have the place to set the sign at the last position
+                    //              if(dec.isNegative())    //  if(varNumberChunk.isNegative())
+                    //                  sDest.append('-');
+                    //              else
+                    //                  sDest.append(' ');
                     // PJD: Added
-                    if(dec.isNegative())
-                        sDest.setCharAt(nLgFormat-1, '-');
-                    else
-                        sDest.setCharAt(nLgFormat-1, ' ');
+                    if (dec.isNegative()) {
+                        sDest.setCharAt(nLgFormat - 1, '-');
+                    } else {
+                        sDest.setCharAt(nLgFormat - 1, ' ');
+                    }
                 }
                 else    // Maybe sign at the begining
                 {
@@ -271,23 +279,26 @@ public class RWNumEdited
                     if(format == '+' || format == '-')
                     {
                         int nPosLastSpace = getLastSpacePosition(sDest.toString(), csFormat);
-                        if(nPosLastSpace == -1)
+                        if (nPosLastSpace == -1) {
                             nPosLastSpace = 0;
+                        }
                         if(nPosLastSpace >= 0)
                         {
                             if(format == '+')
                             {
-                                if(dec.isNegative())        // if(varNumberChunk.isNegative())
+                                if (dec.isNegative()) {        // if(varNumberChunk.isNegative())
                                     sDest.setCharAt(nPosLastSpace, '-');
-                                else
+                                } else {
                                     sDest.setCharAt(nPosLastSpace, '+');
+                                }
                             }
                             else if(format == '-')
                             {
-                                if(dec.isNegative())    //if(varNumberChunk.isNegative())
+                                if (dec.isNegative()) {    //if(varNumberChunk.isNegative())
                                     sDest.setCharAt(nPosLastSpace, '-');
-                                else
+                                } else {
                                     sDest.setCharAt(nPosLastSpace, ' ');
+                                }
                             }
                         }
                     }
@@ -304,28 +315,32 @@ public class RWNumEdited
                         char digit = sDest.charAt(n);
                         if(digit == '0' || digit == ',' || digit == '-' || digit == '+' || digit == ' ')
                         {
-                            if(format == ',' && n > 0 && (lastFormat == '+' || lastFormat == '-'))
+                            if (format == ',' && n > 0 && (lastFormat == '+' || lastFormat == '-')) {
                                 format = lastFormat;
+                            }
 
                             if(format == '+')
                             {
-                                if(dec.isNegative())        // if(varNumberChunk.isNegative())
+                                if (dec.isNegative()) {        // if(varNumberChunk.isNegative())
                                     sDest.setCharAt(n, '-');
-                                else
+                                } else {
                                     sDest.setCharAt(n, '+');
+                                }
                             }
                             else if(format == '-')
                             {
-                                if(dec.isNegative())    //if(varNumberChunk.isNegative())
+                                if (dec.isNegative()) {    //if(varNumberChunk.isNegative())
                                     sDest.setCharAt(n, '-');
-                                else
+                                } else {
                                     sDest.setCharAt(n, ' ');
+                                }
                             }
                             if(n > 0)
                             {
                                 char precDigit = sDest.charAt(n-1);
-                                if(precDigit == '+' || precDigit == '-' || precDigit == ',' || precDigit == ' ')
-                                    sDest.setCharAt(n-1, ' ');
+                                if (precDigit == '+' || precDigit == '-' || precDigit == ',' || precDigit == ' ') {
+                                    sDest.setCharAt(n - 1, ' ');
+                                }
                             }
                         }
                         else
@@ -373,8 +388,9 @@ public class RWNumEdited
 
     static private char getDigitAtPosition(String csSourceDecPart, int nPosSource)
     {
-        if(nPosSource >= 0 && nPosSource < csSourceDecPart.length())
+        if (nPosSource >= 0 && nPosSource < csSourceDecPart.length()) {
             return csSourceDecPart.charAt(nPosSource);
+        }
         return '0';
     }
 }

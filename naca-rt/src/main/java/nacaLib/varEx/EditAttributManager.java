@@ -53,10 +53,11 @@ public class EditAttributManager
     public String toString()
     {
         String cs;
-        if(mapFieldAttribute != null)
+        if (mapFieldAttribute != null) {
             cs = mapFieldAttribute.getLoggableValue();
-        else
+        } else {
             cs = "NoMapFieldAtribute ";
+        }
         return cs;
     }
 
@@ -157,22 +158,25 @@ public class EditAttributManager
 
     public void setFlag(String cs)
     {
-        if(flag == null)
+        if (flag == null) {
             flag = new MapFieldFlag();
+        }
         flag.set(cs);
     }
 
     public void resetFlag()
     {
-        if(flag == null)
+        if (flag == null) {
             flag = new MapFieldFlag();
+        }
         flag.reset();
     }
 
     public boolean isFlag(String cs)
     {
-        if(flag != null)
+        if (flag != null) {
             return flag.isFlag(cs);
+        }
         return false;
     }
 
@@ -316,8 +320,9 @@ public class EditAttributManager
 
     public String getFlag()
     {
-        if(flag != null)
+        if (flag != null) {
             return flag.get();
+        }
         return "" ;
     }
 

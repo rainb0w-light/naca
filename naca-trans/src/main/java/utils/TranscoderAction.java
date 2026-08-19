@@ -41,10 +41,12 @@ public class TranscoderAction
     public String getAsString()
     {
         String cs = "";
-        if(issyntaxCheck)
+        if (issyntaxCheck) {
             cs = "SyntaxCheck";
-        if(isgeneration)
+        }
+        if (isgeneration) {
             cs = " Semantic Generation";
+        }
         return cs;
     }
 }

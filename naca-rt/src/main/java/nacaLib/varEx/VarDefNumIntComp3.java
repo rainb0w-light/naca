@@ -86,8 +86,9 @@ public class VarDefNumIntComp3 extends VarDefNum
 
         int nNbDigits = nNbDigitInteger + 1; // need a nibble for sign
         int n = nNbDigits / 2;
-        if((nNbDigits % 2) != 0)
+        if ((nNbDigits % 2) != 0) {
             n++;
+        }
         return n;
     }
 
@@ -549,8 +550,9 @@ public class VarDefNumIntComp3 extends VarDefNum
     {
         Pic9Comp3BufferSupport.setFromRightToLeft(buffer, nNbDigitInteger, nTotalSize, nOffset, false, 0);
         //writeIntComp3(buffer, nOffset, 0, nNbDigitInteger);
-        if(initializeCache != null)
+        if (initializeCache != null) {
             initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+        }
     }
 
 //  void initialize(VarBufferPos buffer, String cs)
