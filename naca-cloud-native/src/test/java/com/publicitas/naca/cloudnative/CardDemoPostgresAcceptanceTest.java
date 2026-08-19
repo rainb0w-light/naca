@@ -1,0 +1,151 @@
+package com.publicitas.naca.cloudnative;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.publicitas.naca.cloudnative.carddemo.sql.CardDemoNacaRuntimeBridge;
+import java.util.Arrays;
+import javax.sql.DataSource;
+import nacaLib.basePrgEnv.BaseEnvironment;
+import nacaLib.basePrgEnv.BaseProgramManager;
+import nacaLib.sqlSupport.CSQLStatus;
+import nacaLib.sqlSupport.SQLCode;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.actuate.health.Status;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+/** PostgreSQL 16 acceptance for migrations, readiness and transaction rollback. */
+@Tag("carddemo-postgres")
+@Testcontainers(disabledWithoutDocker = true)
+class CardDemoPostgresAcceptanceTest
+{
+    private static final String DATABASE_VALUE = "carddemo";
+
+    @Container
+    private static final PostgreSQLContainer<?> POSTGRES =
+        new PostgreSQLContainer<>("postgres:16-alpine")
+            .withDatabaseName(DATABASE_VALUE)
+            .withUsername(DATABASE_VALUE)
+            .withPassword(DATABASE_VALUE);
+
+    @Test
+    @SuppressWarnings("PMD.UnitTestContainsTooManyAsserts")
+    void emptyDatabaseMigratesAndRollsBackOneUnitOfWork()
+    {
+        try (ConfigurableApplicationContext context = new SpringApplicationBuilder(
+            NacaCloudNativeApplication.class)
+            .web(WebApplicationType.NONE)
+            .profiles("carddemo")
+            .run(
+                "--naca.database.url=" + POSTGRES.getJdbcUrl(),
+                "--naca.database.username=" + POSTGRES.getUsername(),
+                "--naca.database.password=" + POSTGRES.getPassword(),
+                "--naca.database.driver-class-name=org.postgresql.Driver"))
+        {
+            DataSource dataSource = context.getBean(DataSource.class);
+            JdbcTemplate jdbc = context.getBean(JdbcTemplate.class);
+            Flyway flyway = context.getBean(Flyway.class);
+            HealthIndicator health = context.getBean("cardDemoPostgres", HealthIndicator.class);
+            CardDemoNacaRuntimeBridge bridge = context.getBean(CardDemoNacaRuntimeBridge.class);
+
+            assertNotNull(flyway.info().current(),
+                "No migration applied from " + Arrays.toString(flyway.getConfiguration().getLocations())
+                    + "; pending=" + flyway.info().pending().length
+                    + "; all=" + flyway.info().all().length);
+            assertEquals("005", flyway.info().current().getVersion().getVersion(),
+                "Unexpected Flyway schema version");
+            assertEquals(Status.UP, health.health().getStatus(), "PostgreSQL readiness must be UP");
+
+            TransactionTemplate transaction =
+                new TransactionTemplate(new DataSourceTransactionManager(dataSource));
+            transaction.executeWithoutResult(status -> {
+                jdbc.update("""
+                    insert into carddemo.transaction_type
+                        (transaction_type_code, description)
+                    values (?, ?)
+                    """, "TST1", "rollback probe");
+                status.setRollbackOnly();
+            });
+
+            Integer rows = jdbc.queryForObject("""
+                select count(*)
+                  from carddemo.transaction_type
+                 where transaction_type_code = 'TST1'
+                """, Integer.class);
+            assertEquals(0, rows, "Spring transaction must roll back direct JDBC work");
+
+            BaseEnvironment environment = mock(BaseEnvironment.class);
+            BaseProgramManager programManager = mock(BaseProgramManager.class);
+            CSQLStatus sqlStatus = new CSQLStatus();
+            when(programManager.getSQLStatus()).thenReturn(sqlStatus);
+
+            transaction.executeWithoutResult(status -> {
+                try (CardDemoNacaRuntimeBridge.RuntimeBinding binding =
+                         bridge.bind(environment, programManager))
+                {
+                    CSQLStatus result = binding.sql().executeUpdate("""
+                        insert into carddemo.transaction_type
+                            (transaction_type_code, description)
+                        values (?, ?)
+                        """, statement -> {
+                            statement.setString(1, "TST2");
+                            statement.setString(2, "NacaRT bridge rollback probe");
+                        });
+                    assertEquals(SQLCode.SQL_OK, result.getSQLCode(),
+                        "NacaRT bridge insert must report SQLCODE 0");
+                }
+                status.setRollbackOnly();
+            });
+            transaction.executeWithoutResult(status -> {
+                try (CardDemoNacaRuntimeBridge.RuntimeBinding binding =
+                         bridge.bind(environment, programManager))
+                {
+                    CSQLStatus result = binding.sql().queryForVars("""
+                        select description
+                          from carddemo.transaction_type
+                         where transaction_type_code = ?
+                        """, statement -> statement.setString(1, "NONE"), ignored -> { });
+                    assertEquals(SQLCode.SQL_NO_DATA, result.getSQLCode(),
+                        "Missing row must report SQLCODE +100");
+                }
+            });
+
+            jdbc.update("""
+                insert into carddemo.transaction_type(transaction_type_code, description)
+                values ('TST3', 'duplicate probe')
+                """);
+            transaction.executeWithoutResult(status -> {
+                try (CardDemoNacaRuntimeBridge.RuntimeBinding binding =
+                         bridge.bind(environment, programManager))
+                {
+                    CSQLStatus result = binding.sql().executeUpdate("""
+                        insert into carddemo.transaction_type(transaction_type_code, description)
+                        values ('TST3', 'duplicate probe')
+                        """, (nacaLib.sql.dsl.CobolSqlTemplate.ParamSetter) null);
+                    assertEquals(SQLCode.SQL_DUPLICATE_INDEX_KEY, result.getSQLCode(),
+                        "Duplicate PostgreSQL key must report DB2 SQLCODE -803");
+                }
+                status.setRollbackOnly();
+            });
+            jdbc.update("delete from carddemo.transaction_type where transaction_type_code = 'TST3'");
+            verify(environment, times(3))
+                .setExternalDbConnection(org.mockito.ArgumentMatchers.any());
+            verify(environment, times(3)).releaseSQLConnection();
+        }
+    }
+}

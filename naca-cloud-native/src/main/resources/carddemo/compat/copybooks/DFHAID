@@ -1,0 +1,10 @@
+      * Naca CardDemo compatibility subset of the CICS AID definitions.
+      * It contains only identifiers referenced by the pinned online corpus.
+       01  DFHAID.
+           10  DFHENTER       PIC X VALUE X'7F'.
+           10  DFHPF3         PIC X VALUE X'33'.
+           10  DFHPF4         PIC X VALUE X'34'.
+           10  DFHPF5         PIC X VALUE X'35'.
+           10  DFHPF7         PIC X VALUE X'37'.
+           10  DFHPF8         PIC X VALUE X'38'.
+           10  DFHPF12        PIC X VALUE X'3C'.
