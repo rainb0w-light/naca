@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -21,13 +21,13 @@ import jlib.misc.AsciiEbcdicConverter;
 public class DbColDefinitionChar extends BaseDbColDefinition
 {
 	private int nLength = 0;
-	
+
 	DbColDefinitionChar(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
 		nLength = colDescription.getPrecision();
 	}
-	
+
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -35,32 +35,32 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 			String value = resultSet.getString(nCol1Based);
 			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
+				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
-	
+
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);	
+//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 //		String cs = new String(arrByteValue, nSourceOffset, nLength);
 //		colValueGenericDest.setValue(cs);
-//		
+//
 //		return nLength;
 //	}
-	
+
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
 		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);	
+			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 		String value = new String(arrByteValue, nSourceOffset, nLength);
 		stmt.setColParam(nCol, value);
-		
+
 		return nLength;
 	}
 
@@ -69,7 +69,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 		String cs = storedProcParamDescBase.getInValueAsString();
 		return callableStatement.setInValue(nParamId, cs);
 	}
-	
+
 	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -81,7 +81,7 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 			value = "\"" + value + "\"";
 			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
+				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
 		}
 		catch (SQLException e)

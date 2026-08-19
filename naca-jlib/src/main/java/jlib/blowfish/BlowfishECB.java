@@ -14,7 +14,7 @@ package jlib.blowfish;
   */
 
 
-public class BlowfishECB 
+public class BlowfishECB
 {
   /** maximum possible key length */
   public final static int MAXKEYLENGTH = 56;
@@ -39,7 +39,7 @@ public class BlowfishECB
     * default constructor
     * @param bfkey key material, up to MAXKEYLENGTH bytes
     */
-  public BlowfishECB(byte[] bfkey) 
+  public BlowfishECB(byte[] bfkey)
   {
     // create the boxes
     int nI;
@@ -56,7 +56,7 @@ public class BlowfishECB
     sbox3 = new int[SBOX_ENTRIES];
     sbox4 = new int[SBOX_ENTRIES];
 
-    for (nI = 0; nI < SBOX_ENTRIES; nI++) 
+    for (nI = 0; nI < SBOX_ENTRIES; nI++)
     {
       sbox1[nI] = sbox_init_1[nI];
       sbox2[nI] = sbox_init_2[nI];
@@ -74,12 +74,12 @@ public class BlowfishECB
 
     for (nI = 0; nI < PBOX_ENTRIES; nI++)
     {
-      for (nJ = 0; nJ < 4; nJ++) 
+      for (nJ = 0; nJ < 4; nJ++)
       {
         nBuild = (nBuild << 8) | (bfkey[nKeyPos] & 0x0ff);
-      
-        if (++nKeyPos == nLen) 
-        { 
+
+        if (++nKeyPos == nLen)
+        {
           nKeyPos = 0;
         }
       }
@@ -91,31 +91,31 @@ public class BlowfishECB
     long zero = 0;
 
     // (same as above)
-    for (nI = 0; nI < PBOX_ENTRIES; nI += 2) 
+    for (nI = 0; nI < PBOX_ENTRIES; nI += 2)
     {
       zero = encryptBlock(zero);
       pbox[nI] = (int) (zero >>> 32);
       pbox[nI+1] = (int) (zero & 0x0ffffffffL);
     }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
+    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
     {
       zero = encryptBlock(zero);
       sbox1[nI] = (int) (zero >>> 32);
       sbox1[nI+1] = (int) (zero & 0x0ffffffffL);
     }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
+    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
     {
       zero = encryptBlock(zero);
       sbox2[nI] = (int) (zero >>> 32);
       sbox2[nI+1] = (int) (zero & 0x0ffffffffL);
     }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
+    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
     {
       zero = encryptBlock(zero);
       sbox3[nI] = (int) (zero >>> 32);
       sbox3[nI+1] = (int) (zero & 0x0ffffffffL);
     }
-    for (nI = 0; nI < SBOX_ENTRIES; nI += 2) 
+    for (nI = 0; nI < SBOX_ENTRIES; nI += 2)
     {
       zero = encryptBlock(zero);
       sbox4[nI] = (int) (zero >>> 32);
@@ -128,7 +128,7 @@ public class BlowfishECB
   /**
     * to clear data in the boxes before an instance is freed
     */
-  public void cleanUp() 
+  public void cleanUp()
   {
     int nI;
 
@@ -148,7 +148,7 @@ public class BlowfishECB
     * selftest routine, to check e.g. for a valid class file transmission
     * @return true: selftest passed / false: selftest failed
     */
-  public static boolean selfTest() 
+  public static boolean selfTest()
   {
     // test vector #1 (checking for the "signed bug")
     byte[] testKey1 = { (byte) 0x1c, (byte) 0x58, (byte) 0x7f, (byte) 0x1c,
@@ -172,7 +172,7 @@ public class BlowfishECB
 
     testbf1.encrypt(tv_p1, tv_t1);
 
-    if ((tv_t1[0] != tv_c1[0]) || 
+    if ((tv_t1[0] != tv_c1[0]) ||
         (tv_t1[1] != tv_c1[1]))
     {
       return false;
@@ -180,7 +180,7 @@ public class BlowfishECB
 
     testbf1.decrypt(tv_t1);
 
-    if ((tv_t1[0] != tv_p1[0]) || 
+    if ((tv_t1[0] != tv_p1[0]) ||
         (tv_t1[1] != tv_p1[1]))
     {
       return false;
@@ -190,17 +190,17 @@ public class BlowfishECB
 
     testbf2.encrypt(tv_p2, tv_t2);
 
-    if ((tv_t2[0] != tv_c2[0]) || 
+    if ((tv_t2[0] != tv_c2[0]) ||
         (tv_t2[1] != tv_c2[1]))
     {
       return false;
     }
-    
+
     testbf2.decrypt(tv_t2);
-    
-    if ((tv_t2[0] != tv_p2[0]) || 
+
+    if ((tv_t2[0] != tv_p2[0]) ||
         (tv_t2[1] != tv_p2[1]))
-    { 
+    {
       return false;
     }
 
@@ -212,7 +212,7 @@ public class BlowfishECB
 
 
   // internal routine to encrypt a 64bit block
-  protected long encryptBlock(long lPlainBlock) 
+  protected long encryptBlock(long lPlainBlock)
   {
     // split the block in two 32 bit halves
 
@@ -297,13 +297,13 @@ public class BlowfishECB
 
 
   /**
-    * encrypts a byte buffer (should be aligned to an 8 byte border) 
+    * encrypts a byte buffer (should be aligned to an 8 byte border)
     * to another buffer (of the same size or bigger)
     * @param inbuffer buffer with plaintext data
     * @param outbuffer buffer to get the ciphertext data
     */
   public void encrypt(byte[] inbuffer,
-                      byte[] outbuffer) 
+                      byte[] outbuffer)
   {
     int nLen = inbuffer.length;
     long temp;
@@ -322,7 +322,7 @@ public class BlowfishECB
     * encrypts a byte buffer (should be aligned to an 8 byte border) to itself
     * @param buffer buffer to encrypt
     */
-  public void encrypt(byte[] buffer) 
+  public void encrypt(byte[] buffer)
   {
     int nLen = buffer.length;
     long temp;
@@ -340,17 +340,17 @@ public class BlowfishECB
 
   /**
     * encrypts an integer buffer (should be aligned to an
-    * two integer border) to another int buffer (of the 
+    * two integer border) to another int buffer (of the
     * same size or bigger)
     * @param inbuffer buffer with plaintext data
     * @param outBuffer buffer to get the ciphertext data
     */
-  public void encrypt(int[] inbuffer, 
-                      int[] outbuffer) 
+  public void encrypt(int[] inbuffer,
+                      int[] outbuffer)
   {
     int nLen = inbuffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=2) 
+    for (int nI = 0; nI < nLen; nI +=2)
     {
       // encrypt a temporary 64bit block
       temp = BinConverter.intArrayToLong(inbuffer, nI);
@@ -362,14 +362,14 @@ public class BlowfishECB
 
   /**
     * encrypts an int buffer (should be aligned to a
-    * two integer border) 
+    * two integer border)
     * @param buffer buffer to encrypt
     */
-  public void encrypt(int[] buffer) 
+  public void encrypt(int[] buffer)
   {
     int nLen = buffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=2) 
+    for (int nI = 0; nI < nLen; nI +=2)
     {
       // encrypt a temporary 64bit block
       temp = BinConverter.intArrayToLong(buffer, nI);
@@ -385,8 +385,8 @@ public class BlowfishECB
     * @param inbuffer buffer with plaintext data
     * @param outbuffer buffer to get the ciphertext data
     */
-  public void encrypt(long[] inbuffer, 
-                      long[] outbuffer) 
+  public void encrypt(long[] inbuffer,
+                      long[] outbuffer)
   {
     int nLen = inbuffer.length;
     for (int nI = 0; nI < nLen; nI++)
@@ -401,10 +401,10 @@ public class BlowfishECB
     * encrypts a long buffer to itself
     * @param buffer buffer to encrypt
     */
-  public void encrypt(long[] buffer) 
+  public void encrypt(long[] buffer)
   {
     int nLen = buffer.length;
-    for (int nI = 0; nI < nLen; nI++) 
+    for (int nI = 0; nI < nLen; nI++)
     {
       buffer[nI] = encryptBlock(buffer[nI]);
     }
@@ -413,17 +413,17 @@ public class BlowfishECB
 
 
   /**
-    * decrypts a byte buffer (should be aligned to an 8 byte border) 
+    * decrypts a byte buffer (should be aligned to an 8 byte border)
     * to another byte buffer (of the same size or bigger)
     * @param inbuffer buffer with ciphertext data
     * @param outBuffer buffer to get the plaintext data
     */
-  public void decrypt(byte[] inbuffer, 
-                      byte[] outbuffer) 
+  public void decrypt(byte[] inbuffer,
+                      byte[] outbuffer)
   {
     int nLen = inbuffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=8) 
+    for (int nI = 0; nI < nLen; nI +=8)
     {
       // decrypt a temporary 64bit block
       temp = BinConverter.byteArrayToLong(inbuffer, nI);
@@ -438,11 +438,11 @@ public class BlowfishECB
     * decrypts a byte buffer (should be aligned to an 8 byte border) to itself
     * @param buffer buffer to decrypt
     */
-  public void decrypt(byte[] buffer) 
+  public void decrypt(byte[] buffer)
   {
     int nLen = buffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=8) 
+    for (int nI = 0; nI < nLen; nI +=8)
     {
       // decrypt over a temporary 64bit block
       temp = BinConverter.byteArrayToLong(buffer, nI);
@@ -460,12 +460,12 @@ public class BlowfishECB
     * @param inbuffer buffer with ciphertext data
     * @param outbuffer buffer to get the plaintext data
     */
-  public void decrypt(int[] inbuffer, 
-                      int[] outbuffer) 
+  public void decrypt(int[] inbuffer,
+                      int[] outbuffer)
   {
     int nLen = inbuffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=2) 
+    for (int nI = 0; nI < nLen; nI +=2)
     {
       // decrypt a temporary 64bit block
       temp = BinConverter.intArrayToLong(inbuffer, nI);
@@ -477,14 +477,14 @@ public class BlowfishECB
 
   /**
     * decrypts an int buffer (should be aligned to an
-    * two integer border) 
+    * two integer border)
     * @param buffer buffer to decrypt
     */
-  public void decrypt(int[] buffer) 
+  public void decrypt(int[] buffer)
   {
     int nLen = buffer.length;
     long temp;
-    for (int nI = 0; nI < nLen; nI +=2) 
+    for (int nI = 0; nI < nLen; nI +=2)
     {
       // decrypt a temporary 64bit block
       temp = BinConverter.intArrayToLong(buffer, nI);
@@ -500,8 +500,8 @@ public class BlowfishECB
     * @param inbuffer buffer with ciphertext data
     * @param outbuffer buffer to get the plaintext data
     */
-  public void decrypt(long[] inbuffer, 
-                      long[] outbuffer) 
+  public void decrypt(long[] inbuffer,
+                      long[] outbuffer)
   {
     int nLen = inbuffer.length;
     for (int nI = 0; nI < nLen; nI++)
@@ -520,7 +520,7 @@ public class BlowfishECB
 
     int nLen = buffer.length;
     for (int nI = 0; nI < nLen; nI++)
-    {  
+    {
       buffer[nI] = decryptBlock(buffer[nI]);
     }
   }
@@ -729,4 +729,3 @@ public class BlowfishECB
 
 
 }
-     

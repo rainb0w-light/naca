@@ -155,7 +155,7 @@ public class FtpException extends Exception {
 			}
 			if (n>0)
 				_errorCode=Integer.parseInt(response.substring(0,n));
-		}		
+		}
 	}
 
 //******************************************************************************
@@ -163,7 +163,7 @@ public class FtpException extends Exception {
 //******************************************************************************
 /**
  * Creates a FTP exception.
- * @param message Specific message describing the circumstances when the error has been received. 
+ * @param message Specific message describing the circumstances when the error has been received.
  */
 	public FtpException(String message) {
 		super(message);
@@ -173,7 +173,7 @@ public class FtpException extends Exception {
 /**
  * Creates a FTP exception.
  * @param message Specific message describing the circumstances when the error has been received.
- * @param response The response containing the error returned by the FTP server. 
+ * @param response The response containing the error returned by the FTP server.
  */
 	public FtpException(String message, String response) {
 		super(message);
@@ -184,7 +184,7 @@ public class FtpException extends Exception {
  * Creates a FTP exception.
  * @param message Specific message describing the circumstances when the error has been received.
  * @param response The response containing the error returned by the FTP server.
- * @param command The command that produced the error. 
+ * @param command The command that produced the error.
  */
 	public FtpException(String message, String response, String command) {
 		super(message);

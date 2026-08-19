@@ -9,10 +9,10 @@ package jlib.log;
 import jlib.xml.Tag;
 
 /**
- * Reads the <i>LogCenter</i> tag  from a JLib.log xml configuration file, 
+ * Reads the <i>LogCenter</i> tag  from a JLib.log xml configuration file,
  * creates a new instance of {@link LogCenter}, and registers it to the {@link Log}
  * static collection.
- * 
+ *
  * @author PJD
  */
 public class LogCenterLoader
@@ -37,24 +37,24 @@ public class LogCenterLoader
 	{
 		csChannel = tagLogCenter.getVal("Channel");
 		isenable = tagLogCenter.getValAsBoolean("Enable");
-		
+
 		nNbRequestBufferSize = tagLogCenter.getValAsInt("NbRequestBufferSize");
 		isasynchronous = tagLogCenter.getValAsBoolean("Asynchronous");
-		
+
 		String csLevel = tagLogCenter.getVal("Level");
-		String csFlow = tagLogCenter.getVal("Flow");		
-		
+		String csFlow = tagLogCenter.getVal("Flow");
+
 		logLevel  = LogLevel.getLevel(csLevel);
 		logFlow = LogFlow.getNamedFlow(csFlow);
-		
+
 		LogCenter logCenter = createLogCenter(tagLogCenter);
 		if(logCenter != null)
 		{
 			Log.registerLogCenter(logCenter);
 			return true;
-		}	
+		}
 
-		return false;			
+		return false;
 	}
 	boolean saveDefinition(Tag tagLogCenter)
 	{
@@ -66,11 +66,11 @@ public class LogCenterLoader
 		tagLogCenter.addVal("Channel", csChannel);
 		tagLogCenter.addVal("Level", logLevel.getAsString());
 		tagLogCenter.addVal("Flow", LogFlow.getFlow(logFlow));
-		
+
 		return true;
 	}
-	
-	
+
+
 	private LogCenter createLogCenter(Tag tagLogCenter)
 	{
 		csName = tagLogCenter.getVal("Name");
@@ -98,7 +98,7 @@ public class LogCenterLoader
 			logCenter.loadSpecificsEntries(tagLogCenter);
 			logCenter.setPatternLayout(layout);
 			return logCenter;
-		}	
+		}
 		else if(csMode.equalsIgnoreCase("DbFlat"))
 		{
 			PatternLayoutDb layout = new PatternLayoutDb();
@@ -130,7 +130,7 @@ public class LogCenterLoader
 			logCenter.loadSpecificsEntries(tagLogCenter);
 			logCenter.setPatternLayout(layout);
 			return logCenter;
-		}	
+		}
 		else if(csMode.equalsIgnoreCase("PluginConsole"))
 		{
 			LogCenterPluginConsole logCenter = new LogCenterPluginConsole(this);
@@ -141,7 +141,7 @@ public class LogCenterLoader
 		}
 		return null;
 	}
-	
+
 	public boolean isEnable()
 	{
 		return isenable;
@@ -175,11 +175,11 @@ public class LogCenterLoader
 	{
 		return isasynchronous;
 	}
-	
+
 	protected boolean isenable = true;
 	protected int nNbRequestBufferSize = 0;
 	protected boolean isasynchronous = false;
-	protected String csChannel = null;			
+	protected String csChannel = null;
 	protected LogLevel logLevel = null;
 	protected String csName = "";
 	protected String csMode = "";

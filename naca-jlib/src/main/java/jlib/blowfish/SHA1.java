@@ -11,11 +11,11 @@ package jlib.blowfish;
   * SHA-1 message digest implementation
   * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
-  */ 
+  */
 
 public class SHA1 {
 
-     
+
     /** size of a SHA-1 digest in octets */
     public final static int DIGEST_SIZE = 20;
 
@@ -35,7 +35,7 @@ public class SHA1 {
       state = new int[5];
       block = new int[16];
       digestBits = new byte[DIGEST_SIZE];
-      reset(); 
+      reset();
     }
 
 
@@ -44,16 +44,16 @@ public class SHA1 {
       */
     public void clear() {
       int nI;
-      for (nI = 0; nI < state.length; nI++) 
+      for (nI = 0; nI < state.length; nI++)
         state[nI] = 0;
       count = 0;
-      for (nI = 0; nI < digestBits.length; nI++) 
+      for (nI = 0; nI < digestBits.length; nI++)
         digestBits[nI] = 0;
-      for (nI = 0; nI < block.length; nI++) 
+      for (nI = 0; nI < block.length; nI++)
         block[nI] = 0;
       nBlockIndex = 0;
-    }  
- 
+    }
+
 
 
     // some helper methods...
@@ -65,7 +65,7 @@ public class SHA1 {
     }
 
     final int blk0(int nI) {
-      return (block[nI] = (rol(block[nI],24) & 0xff00ff00) | 
+      return (block[nI] = (rol(block[nI],24) & 0xff00ff00) |
                             (rol(block[nI], 8) & 0x00ff00ff));
     }
 
@@ -76,37 +76,37 @@ public class SHA1 {
 
     final void r0(int data[],
                   int nV,
-                  int nW, 
+                  int nW,
                   int nX ,
                   int nY,
                   int nZ,
                   int nI) {
       data[nZ] += ((data[nW] & (data[nX] ^ data[nY])) ^ data[nY]) +
-                  blk0(nI) + 
+                  blk0(nI) +
                   0x5a827999 +
                   rol(data[nV] ,5);
       data[nW] = rol(data[nW], 30);
     }
 
-    final void r1(int data[], 
-                  int nV, 
+    final void r1(int data[],
+                  int nV,
                   int nW,
-                  int nX, 
-                  int nY, 
+                  int nX,
+                  int nY,
                   int nZ,
                   int nI) {
       data[nZ] += ((data[nW] & (data[nX] ^ data[nY])) ^ data[nY]) +
                   blk(nI) +
-                  0x5a827999 + 
+                  0x5a827999 +
                   rol(data[nV] ,5);
       data[nW] = rol(data[nW], 30);
     }
 
-    final void r2(int data[], 
-                  int nV, 
+    final void r2(int data[],
+                  int nV,
                   int nW,
-                  int nX, 
-                  int nY, 
+                  int nX,
+                  int nY,
                   int nZ,
                   int nI) {
       data[nZ] += (data[nW] ^ data[nX] ^ data[nY]) +
@@ -116,11 +116,11 @@ public class SHA1 {
       data[nW] = rol(data[nW], 30);
     }
 
-    final void r3(int data[], 
-                  int nV, 
+    final void r3(int data[],
+                  int nV,
                   int nW,
-                  int nX, 
-                  int nY, 
+                  int nX,
+                  int nY,
                   int nZ,
                   int nI) {
       data[nZ] += (((data[nW] | data[nX]) & data[nY]) | (data[nW] & data[nX])) +
@@ -130,11 +130,11 @@ public class SHA1 {
       data[nW] = rol(data[nW], 30);
     }
 
-    final void r4(int data[], 
-                  int nV, 
+    final void r4(int data[],
+                  int nV,
                   int nW,
-                  int nX, 
-                  int nY, 
+                  int nX,
+                  int nY,
                   int nZ,
                   int nI) {
       data[nZ] += (data[nW] ^ data[nX] ^ data[nY]) +
@@ -145,7 +145,7 @@ public class SHA1 {
     }
 
     void transform() {
-          
+
         int[] dd = new int[5];
         dd[0] = state[0];
         dd[1] = state[1];
@@ -162,35 +162,35 @@ public class SHA1 {
         r0(dd, 1, 2, 3, 4, 0, 14); r0(dd, 0, 1, 2, 3, 4, 15);
         r1(dd, 4, 0, 1, 2, 3, 16); r1(dd, 3, 4, 0, 1, 2, 17);
         r1(dd, 2, 3, 4, 0, 1, 18); r1(dd, 1, 2, 3, 4, 0, 19);
-        r2(dd, 0, 1, 2, 3, 4, 20); r2(dd, 4, 0, 1, 2, 3, 21); 
+        r2(dd, 0, 1, 2, 3, 4, 20); r2(dd, 4, 0, 1, 2, 3, 21);
         r2(dd, 3, 4, 0, 1, 2, 22); r2(dd, 2, 3, 4, 0, 1, 23);
         r2(dd, 1, 2, 3, 4, 0, 24); r2(dd, 0, 1, 2, 3, 4, 25);
         r2(dd, 4, 0, 1, 2, 3, 26); r2(dd, 3, 4, 0, 1, 2, 27);
-        r2(dd, 2, 3, 4, 0, 1, 28); r2(dd, 1, 2, 3, 4, 0, 29); 
+        r2(dd, 2, 3, 4, 0, 1, 28); r2(dd, 1, 2, 3, 4, 0, 29);
         r2(dd, 0, 1, 2, 3, 4, 30); r2(dd, 4, 0, 1, 2, 3, 31);
-        r2(dd, 3, 4, 0, 1, 2, 32); r2(dd, 2, 3, 4, 0, 1, 33); 
+        r2(dd, 3, 4, 0, 1, 2, 32); r2(dd, 2, 3, 4, 0, 1, 33);
         r2(dd, 1, 2, 3, 4, 0, 34); r2(dd, 0, 1, 2, 3, 4, 35);
-        r2(dd, 4, 0, 1, 2, 3, 36); r2(dd, 3, 4, 0, 1, 2, 37); 
+        r2(dd, 4, 0, 1, 2, 3, 36); r2(dd, 3, 4, 0, 1, 2, 37);
         r2(dd, 2, 3, 4, 0, 1, 38); r2(dd, 1, 2, 3, 4, 0, 39);
-        r3(dd, 0, 1, 2, 3, 4, 40); r3(dd, 4, 0, 1, 2, 3, 41); 
+        r3(dd, 0, 1, 2, 3, 4, 40); r3(dd, 4, 0, 1, 2, 3, 41);
         r3(dd, 3, 4, 0, 1, 2, 42); r3(dd, 2, 3, 4, 0, 1, 43);
-        r3(dd, 1, 2, 3, 4, 0, 44); r3(dd, 0, 1, 2, 3, 4, 45); 
+        r3(dd, 1, 2, 3, 4, 0, 44); r3(dd, 0, 1, 2, 3, 4, 45);
         r3(dd, 4, 0, 1, 2, 3, 46); r3(dd, 3, 4, 0, 1, 2, 47);
-        r3(dd, 2, 3, 4, 0, 1, 48); r3(dd, 1, 2, 3, 4, 0, 49); 
+        r3(dd, 2, 3, 4, 0, 1, 48); r3(dd, 1, 2, 3, 4, 0, 49);
         r3(dd, 0, 1, 2, 3, 4, 50); r3(dd, 4, 0, 1, 2, 3, 51);
-        r3(dd, 3, 4, 0, 1, 2, 52); r3(dd, 2, 3, 4, 0, 1, 53); 
+        r3(dd, 3, 4, 0, 1, 2, 52); r3(dd, 2, 3, 4, 0, 1, 53);
         r3(dd, 1, 2, 3, 4, 0, 54); r3(dd, 0, 1, 2, 3, 4, 55);
-        r3(dd, 4, 0, 1, 2, 3, 56); r3(dd, 3, 4, 0, 1, 2, 57); 
+        r3(dd, 4, 0, 1, 2, 3, 56); r3(dd, 3, 4, 0, 1, 2, 57);
         r3(dd, 2, 3, 4, 0, 1, 58); r3(dd, 1, 2, 3, 4, 0, 59);
-        r4(dd, 0, 1, 2, 3, 4, 60); r4(dd, 4, 0, 1, 2, 3, 61); 
+        r4(dd, 0, 1, 2, 3, 4, 60); r4(dd, 4, 0, 1, 2, 3, 61);
         r4(dd, 3, 4, 0, 1, 2, 62); r4(dd, 2, 3, 4, 0, 1, 63);
-        r4(dd, 1, 2, 3, 4, 0, 64); r4(dd, 0, 1, 2, 3, 4, 65); 
+        r4(dd, 1, 2, 3, 4, 0, 64); r4(dd, 0, 1, 2, 3, 4, 65);
         r4(dd, 4, 0, 1, 2, 3, 66); r4(dd, 3, 4, 0, 1, 2, 67);
-        r4(dd, 2, 3, 4, 0, 1, 68); r4(dd, 1, 2, 3, 4, 0, 69); 
+        r4(dd, 2, 3, 4, 0, 1, 68); r4(dd, 1, 2, 3, 4, 0, 69);
         r4(dd, 0, 1, 2, 3, 4, 70); r4(dd, 4, 0, 1, 2, 3, 71);
-        r4(dd, 3, 4, 0, 1, 2, 72); r4(dd, 2, 3, 4, 0, 1, 73); 
+        r4(dd, 3, 4, 0, 1, 2, 72); r4(dd, 2, 3, 4, 0, 1, 73);
         r4(dd, 1, 2, 3, 4, 0, 74); r4(dd, 0, 1, 2, 3, 4, 75);
-        r4(dd, 4, 0, 1, 2, 3, 76); r4(dd, 3, 4, 0, 1, 2, 77); 
+        r4(dd, 4, 0, 1, 2, 3, 76); r4(dd, 3, 4, 0, 1, 2, 77);
         r4(dd, 2, 3, 4, 0, 1, 78); r4(dd, 1, 2, 3, 4, 0, 79);
         state[0] += dd[0];
         state[1] += dd[1];
@@ -233,26 +233,26 @@ public class SHA1 {
         }
     }
 
- 
+
     /**
       * adds a byte array to the digest
       */
     public void update(byte[] data) {
-     
+
       for (int nI = 0; nI < data.length; nI++)
         update(data[nI]);
     }
- 
+
 
     /**
       * adds an ASCII string to the digest
       */
     public void update(String sData) {
-     
+
       for (int nI = 0; nI < sData.length(); nI++)
         update((byte)(sData.charAt(nI) & 0x0ff));
     }
- 
+
 
 
     /**
@@ -279,7 +279,7 @@ public class SHA1 {
         }
     }
 
-     
+
     /**
       * gets the digest
       * @return the digst bytes as an array if DIGEST_SIZE bytes
@@ -301,16 +301,16 @@ public class SHA1 {
       * makes a binhex string representation of the current digest
       * @return the string representation
       */
-    public String toString() {  
-      
-      StringBuffer buf = new StringBuffer(DIGEST_SIZE * 2);       
+    public String toString() {
+
+      StringBuffer buf = new StringBuffer(DIGEST_SIZE * 2);
 
       for (int nI = 0; nI < DIGEST_SIZE; nI++) {
         buf.append(HEXTAB.charAt((digestBits[nI] >>> 4) & 0x0f));
         buf.append(HEXTAB.charAt(digestBits[nI] & 0x0f));
-      } 
+      }
       return buf.toString();
-    } 
+    }
 
 
 
@@ -323,8 +323,8 @@ public class SHA1 {
     private final static byte[] SELFTEST_DIGEST = {
       (byte)0x84, (byte)0x98, (byte)0x3e, (byte)0x44, (byte)0x1c,
       (byte)0x3b, (byte)0xd2, (byte)0x6e, (byte)0xba, (byte)0xae,
-      (byte)0x4a, (byte)0xa1, (byte)0xf9, (byte)0x51, (byte)0x29, 
-      (byte)0xE5, (byte)0xe5, (byte)0x46, (byte)0x70, (byte)0xf1 
+      (byte)0x4a, (byte)0xa1, (byte)0xf9, (byte)0x51, (byte)0x29,
+      (byte)0xE5, (byte)0xe5, (byte)0x46, (byte)0x70, (byte)0xf1
     };
 
 
@@ -337,15 +337,14 @@ public class SHA1 {
       SHA1 tester = new SHA1();
       tester.update(SELFTEST_MESSAGE);
       tester.finalize();
-      byte[] digest = tester.getDigest(); 
+      byte[] digest = tester.getDigest();
       tester.clear();
       for (int nI = 0; nI < DIGEST_SIZE; nI++)
         if (digest[nI] != SELFTEST_DIGEST[nI])
           return false;
-    
+
       // test passed
       return true;
-    }   
+    }
 
 }
- 

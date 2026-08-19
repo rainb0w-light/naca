@@ -12,7 +12,7 @@ import utils.CObjectCatalog;
 public class CEntityFileBuffer extends CDataEntity
 {
 	protected CEntityFileDescriptor fileDescriptor = null ;
-	
+
 	protected CEntityFileBuffer(String name, CEntityFileDescriptor filedesc, CObjectCatalog cat)
 	{
 		super(0, name, cat);
@@ -30,7 +30,7 @@ public class CEntityFileBuffer extends CDataEntity
 	{
 		return fileDescriptor == null ? GetName() : fileDescriptor.GetName();
 	}
-	
+
 	public CEntityFileDescriptor GetFileDescriptor()
 	{
 		return fileDescriptor ;
@@ -39,7 +39,7 @@ public class CEntityFileBuffer extends CDataEntity
 	{
 		return fileDescriptor;
 	}
-	
+
 	@Override
 	public boolean HasAccessors()
 	{
@@ -69,7 +69,7 @@ public class CEntityFileBuffer extends CDataEntity
 		ref.SetReference(this, start, length) ;
 		return ref ;
 	}
-	
+
 	public boolean ignore()
 	{
 		return false ;

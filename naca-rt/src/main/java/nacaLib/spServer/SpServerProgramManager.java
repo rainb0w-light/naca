@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -16,36 +16,36 @@ public class SpServerProgramManager //extends BaseProgramManager
 // bInheritedSharedProgramInstanceData)
 //	{
 //		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-//		
+//
 //		BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
 //		setEnv(env);
 //	}
-//	
+//
 //	public String getTerminalID()
 //	{
 //		return "";
 //	}
-//		
+//
 //	public void setEnv(BaseEnvironment env)
 //	{
 //		//env = (SpServerEnvironment)env;
 //		env = env;
 //	}
-//	
+//
 //	public void detachFromEnv()
 //	{
 //		env = null;
 //	}
-//	
+//
 //	public BaseEnvironment getEnv()
 //	{
 //		return env;
 //	}
-//	
+//
 //	public void prepareRunMain(BaseProgram prg)
 //	{
 //	}
-//	
+//
 //	//private SpServerEnvironment env = null;
 //	private BaseEnvironment env = null;
 }

@@ -21,16 +21,16 @@ public class ResourceManager extends BaseCloseMBean
 	{
 		super("_ XSLTResources", "_ XSLTResources");
 	}
-	
+
 	protected void buildDynamicMBeanInfo()
 	{
     	addAttribute("NbResourcesFiles", getClass(), "NbResourcesFiles", int.class);
     	addAttribute("NbResourcesCached", getClass(), "NbResourcesCached", int.class);
     	addOperation("Unload cached ressource", getClass(), "unloadCachedResources");
 	}
-	
+
 	//public static ArrayList<DbPreparedStatement> arrDEBUG = null;	// To be removed
-	
+
 	public int getNbResourcesFiles()
 	{
 		int n = 0;
@@ -55,10 +55,10 @@ public class ResourceManager extends BaseCloseMBean
 	{
 		Log.logImportant("unloadCachedResources started");
 		unloadRWLock.writeLock().lock();	// Get exclusive lock
-		
+
 		if(tabXSLTransformerCache != null)
-			tabXSLTransformerCache.clear();		
-		
+			tabXSLTransformerCache.clear();
+
         // Release exclusive lock; unlocking optinal thread waiting to obtain read lock in getUnusedInstance()
 		unloadRWLock.writeLock().unlock();
 		Log.logImportant("unloadCachedResources ended");
@@ -68,12 +68,12 @@ public class ResourceManager extends BaseCloseMBean
 	{
 		tabXSLFiles.put(ID, filePath) ;
 	}
-	
+
 	public void setXSLFilePath(String ID, String csXSLFilePath)
 	{
 		setXSLFilePath(ID, new File(csXSLFilePath)) ;
 	}
-	
+
 	public XSLTransformer getXSLTransformer(String ID)
 	{
 		unloadRWLock.readLock().lock();
@@ -84,7 +84,7 @@ public class ResourceManager extends BaseCloseMBean
 			{
 				unloadRWLock.readLock().unlock();
 				return null;
-			}				
+			}
 			XSLTransformer tr = XSLTransformer.loadFromFile(f, true) ;
 			tabXSLTransformerCache.put(ID, tr) ;
 			unloadRWLock.readLock().unlock();

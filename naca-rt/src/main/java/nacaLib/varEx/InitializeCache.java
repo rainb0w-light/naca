@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -24,14 +24,14 @@ public class InitializeCache
 	{
 		arr = new ArrayDyn<InitializeCachedItem>();
 	}
-	
+
 	void setFilledAndcompress(int nBaseAbsolutePosition)
 	{
 		isfilled = true;
 		this.nBaseAbsolutePosition = nBaseAbsolutePosition;
 
 		if(arr != null)
-		{	
+		{
 			// Swap the type inside arr
 			if(arr.isDyn())
 			{
@@ -44,48 +44,48 @@ public class InitializeCache
 			}
 		}
 	}
-	
+
 	void setNotManaged()
 	{
 		ismanaged = false;
 	}
-	
+
 	boolean isFilled()
 	{
 		return isfilled;
 	}
-	
+
 	public boolean isManaged()
 	{
 		return ismanaged;
 	}
-	
+
 	void addItem(char cPad, int nPosition, int nNbChars)
 	{
 		InitializeCachedItem initializeCachedItem = new InitializeCachedItemRepeatingChar(cPad, nPosition, nNbChars);
 		arr.add(initializeCachedItem);
 	}
-	
+
 	void addItem(VarBufferPos buffer, int nOffset, int nNbChars)
 	{
 		char tChars[] = buffer.getAsCharArray(nOffset, nNbChars);
 		int nPos = buffer.nAbsolutePosition+nOffset;
 		doAddItem(tChars, nPos);
 	}
-	
+
 	void addItemForBody(VarBufferPos buffer, int nBodyAbsolutePosition, int nOffset, int nNbChars)
 	{
 		char tChars[] = buffer.getAsCharArray(nOffset, nNbChars);
 		int nPos = nBodyAbsolutePosition+nOffset;
 		doAddItem(tChars, nPos);
 	}
-	
+
 	private void doAddItem(char tChars[], int nPos)
-	{		
+	{
 		InitializeCachedItem initializeCachedItem = new InitializeCachedItemCharsArray(tChars, nPos);
 		arr.add(initializeCachedItem);
 	}
-	
+
 	void applyItems(VarBufferPos varBufferPos, int nCurrentAbsolutePosition)	//, int nOffset)
 	{
 		int nSize = arr.size();
@@ -96,7 +96,7 @@ public class InitializeCache
 			initializeCachedItem.apply(nBaseAbsolutePosition, varBufferPos, nCurrentAbsolutePosition);
 		}
 	}
-	
+
 	private boolean isfilled = false;
 	private boolean ismanaged = true;
 	private ArrayFixDyn<InitializeCachedItem> arr = null;

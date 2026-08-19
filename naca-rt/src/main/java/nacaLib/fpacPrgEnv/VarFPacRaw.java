@@ -22,30 +22,30 @@ public class VarFPacRaw extends Var
 		bufferPos = new VarBufferPos(varBuffer, nPosition);
 		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
 	}
-	
+
 	public VarFPacRaw(DeclareTypeFPacRaw declareTypeFPacRaw)
 	{
 		super(declareTypeFPacRaw);
 	}
-		
+
 	protected VarFPacRaw()
 	{
 		super();
 	}
-	
+
 	public void copy(VarFPacRaw varSource)
 	{
 		int nNbCharToCopy = Math.min(varSource.getLength(), getLength());
         // bufferPos.copyBytes(bufferPos.nAbsolutePosition, nNbCharToCopy, varSource.getBuffer().nAbsolutePosition, varSource.getBuffer());
 		bufferPos.copy(nNbCharToCopy, varSource.getBuffer());
 	}
-	
+
 	protected VarBase allocCopy()
 	{
 		VarFPacRaw v = new VarFPacRaw();
 		return v;
 	}
-	
+
 
 	protected String getAsLoggableString()
 	{
@@ -53,51 +53,49 @@ public class VarFPacRaw extends Var
 		String cs = cstr.getAsString();
 		//cstr.resetManagerCache();
 		return cs;
-	}	
-	
+	}
+
 	public boolean hasType(VarTypeEnum e)
 	{
 		if(e == VarTypeEnum.TypeX)
 			return true;
 		return false;
 	}
-	
+
 	public int compareTo(int nValue)
 	{
 		int nVarValue = getInt();
 		return nVarValue - nValue;
 	}
-		
+
 	public int compareTo(double dValue)
 	{
 		double varValue = getDouble();
 		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
+		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
 			return -1;
 		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
 			return 1;
-		return 0;			
-	} 
+		return 0;
+	}
 
 	protected byte[] convertUnicodeToEbcdic(char[] tChars)
 	{
 		return doConvertUnicodeToEbcdic(tChars);
 	}
-	
+
 	protected char[] convertEbcdicToUnicode(byte[] tBytes)
 	{
 		return doConvertEbcdicToUnicode(tBytes);
 	}
-		
+
 	public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
 	{
 		return new VarFPacAlphaNumLengthUndef(fpacVarManager, varBuffer, nAbsolutePosition);
 	}
-	
+
 	public VarType getVarType()
 	{
-		return VarType.VarFPacVarRaw; 
+		return VarType.VarFPacVarRaw;
 	}
 }
-
-	

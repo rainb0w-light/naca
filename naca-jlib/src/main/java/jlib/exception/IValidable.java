@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.exception;
 
@@ -32,12 +32,12 @@ package jlib.exception;
  *     csSomeNotEmptyValue = csSomeNotEmptyValue;
  *     nSomePositiveValue = nSomePositiveValue;
  *     }
- *  
+ *
  *     void dec()
  *     {
  *     nSomePositiveValue--;
  *     }
- *  
+ *
  *     public boolean isValid()
  *     {
  *     if(nSomePositiveValue > 0)
@@ -47,7 +47,7 @@ package jlib.exception;
  *     }
  *     ...
  *     }
- * 
+ *
  *     In a method that wants to check the validity of some Item instance:
  *     class Manager
  *     {
@@ -60,22 +60,22 @@ package jlib.exception;
  *     handleItem(item);
  *     ...
  *     }
- * 		
+ *
  *     private void handleItem(Item item)
  *     throws CustomApplicativeException
  *     {
  *     item.dec();	// item.nSomePositiveValue is set to 0 !
- * 
+ *
  *     // An exception will be thrown in this sample, as item.nSomePositiveValue == 0 !
  *     CustomApplicativeException.throwIfNullOrInvalid(
- * 				item, 
- * 				CustomApplicativeException.INVALID_ITEM, 
+ * 				item,
+ * 				CustomApplicativeException.INVALID_ITEM,
  * 				"The item has an invalid state: Item="+StringUtil.toString(item));
  *     ...
  *     }
  *     ...
  *     }
- * 
+ *
  *     Note: The StringUtil.toString(item) construction calls item.toString() method if item is not null.
  *     If item is null, then "(null)" is returned.
  */

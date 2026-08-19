@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -22,12 +22,12 @@ import jlib.exception.TechnicalException;
 public abstract class SQLClauseSPParam
 {
 	private SQLClauseSPParamWay wayInOut = null;
-	
+
 	protected SQLClauseSPParam(SQLClauseSPParamWay wayInOut)
 	{
-		this.wayInOut = wayInOut;		
+		this.wayInOut = wayInOut;
 	}
-	
+
 	void registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement, SQLClauseSPParamDesc paramDesc)
 		throws TechnicalException
 	{
@@ -52,9 +52,9 @@ public abstract class SQLClauseSPParam
 					error = TechnicalException.STORED_PROC_CALL_OUT_PARAM_SET_ERROR;
 					registerOutParameterWithException(nParamId, callableStatement);
 					return ;
-				}	
+				}
 			}
-			
+
 			if(wayInOut == SQLClauseSPParamWay.InOut)
 			{
 				if(paramDesc != null && paramDesc.isColInOut())
@@ -65,30 +65,30 @@ public abstract class SQLClauseSPParam
 					return ;
 				}
 			}
-			
+
 			TechnicalException.throwException(TechnicalException.STORED_PROC_CALL_INOUT_PARAM_WAY_NOT_MATCHING_DEF, "ParameterId (1based): "+nParamId);
-			
+
 		}
 		catch (SQLException e)
 		{
 			TechnicalException.throwException(error, "ParameterId (1based): "+nParamId, e);
-		}			
+		}
 	}
-	
+
 	public String toString()
 	{
 		return wayInOut.toString();
 	}
-	
+
 	public String toString(SQLClauseSPParamDesc paramDesc)
 	{
 		if(paramDesc != null)
 			return toString() + " "+ paramDesc.toString();
-		return toString(); 
+		return toString();
 	}
-	
-	
-	
+
+
+
 	protected abstract void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
 	protected abstract void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
 	protected abstract void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;

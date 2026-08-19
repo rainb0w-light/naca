@@ -27,7 +27,7 @@ public class ProgramPreloader
 	public ProgramPreloader()
 	{
 	}
-	
+
 	public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromList(String csPreLoadProgramFile)
 	{
 		Log.logNormal("Building array of programs to preload from file " + csPreLoadProgramFile);
@@ -53,13 +53,13 @@ public class ProgramPreloader
 		Log.logNormal("Done");
 		return programToPreload;
 	}
-	
+
 	public ArrayList<PreloadProgramSettings> buildArrayPreloadProgramFromDir(String csPreLoadProgramDir)
 	{
 		ArrayList<PreloadProgramSettings> programToPreload = new ArrayList<PreloadProgramSettings>();
 		Log.logNormal("Building array of programs to preload from directory " + csPreLoadProgramDir);
-		
-		PreloadFileFilter preloadFileFilter = new PreloadFileFilter();  
+
+		PreloadFileFilter preloadFileFilter = new PreloadFileFilter();
 
 		File[] arrFile = FileSystem.getFileList(csPreLoadProgramDir, preloadFileFilter);
 		for(int n=0; n<arrFile.length; n++)
@@ -69,24 +69,24 @@ public class ProgramPreloader
 			csName = FileSystem.getNameWithoutExtension(csName);
 			long lLastModifiedTime = file.lastModified();
 			long lLength = file.length();
-			//String csId = csName + "_" + lLastModifiedTime + "_" + lLength; 
-			
+			//String csId = csName + "_" + lLastModifiedTime + "_" + lLength;
+
 			PreloadProgramSettings preloadProgramSettings = new PreloadProgramSettings(csName);
 			programToPreload.add(preloadProgramSettings);
 		}
 		Log.logNormal("Done");
-		
+
 		return programToPreload;
 	}
-	
-	
+
+
 //	private SharedProgramInstanceData tryDeserialize(String csVarDefCatalogueSerilizationPath, String csProgramName)
 //	{
 //		SharedProgramInstanceData s = new SharedProgramInstanceData();
 //		boolean b = s.deserialize(csVarDefCatalogueSerilizationPath, csProgramName);
 //		if(b)
 //			return s;
-//		return null;		
+//		return null;
 //	}
 
 // private void serialize(String csVarDefCatalogueSerilizationPath, String csProgramName, SharedProgramInstanceData
@@ -94,7 +94,7 @@ public class ProgramPreloader
 //	{
 //		sharedProgramInstanceData.serialize(csVarDefCatalogueSerilizationPath, csProgramName);
 //	}
-	
+
 	public int preloadProgramsSynchronous(ArrayList<PreloadProgramSettings> arrProgramToPreload, ProgramSequencer seq, String csPreLoadProgramList)
 	{
 		TempCacheLocator.setTempCache();
@@ -102,22 +102,22 @@ public class ProgramPreloader
 		sharedProgramInstanceDataCatalog = new SharedProgramInstanceDataCatalog();
 
 		//OnlineSession session = new OnlineSession() ;
-	
+
 		Tag tagPreloadList = null;
 		if(csPreLoadProgramList != null)
 		{
 			Log.logNormal("Will keep preloaded programs in file " + csPreLoadProgramList);
 			tagPreloadList = new Tag("PreloadedPrograms");
 		}
-				
+
 		int nNbPrograms = arrProgramToPreload.size();
 		int nNbProgramPreloaded = 0;
 		Log.logNormal("Beginning to preload " + nNbPrograms + " programs");
 		for(int n=0; n<nNbPrograms; n++)
 		{
-			PreloadProgramSettings preloadProgramSettings = arrProgramToPreload.get(n); 
+			PreloadProgramSettings preloadProgramSettings = arrProgramToPreload.get(n);
 			String csProgramName = preloadProgramSettings.getName();
-			
+
 			int nQty = preloadProgramSettings.getQty();
 			if(!csProgramName.equalsIgnoreCase("Pub2000Routines"))
 			{
@@ -137,9 +137,9 @@ public class ProgramPreloader
 							Tag tagProgram = tagPreloadList.addTag("Program");
 							tagProgram.addVal("Name", csProgramName);
 							tagProgram.addVal("KeepCode", true);
-							tagProgram.addVal("Qty", nQty);							
+							tagProgram.addVal("Qty", nQty);
 						}
-					}									
+					}
 				}
 				catch(AssertException e)
 				{
@@ -152,22 +152,22 @@ public class ProgramPreloader
 			}
 			Log.logNormal("Program preloaded (success/tried/Entries): " + nNbProgramPreloaded + "/" + n + "/" + nNbPrograms);
 		}
-		
+
 		if(tagPreloadList != null)
 		{
 			tagPreloadList.exportToFile(csPreLoadProgramList);
 		}
-	
+
 		TempCacheLocator.relaseTempCache();
-		
+
 		if(BaseResourceManager.isGCAfterPreloadPrograms())
 		{
 			System.gc();
 		}
-		
+
 		return 0;
 	}
-	
+
 	//private ArrayList<String> arrProgramToPreload = null;
 	SharedProgramInstanceDataCatalog sharedProgramInstanceDataCatalog = null;
 }

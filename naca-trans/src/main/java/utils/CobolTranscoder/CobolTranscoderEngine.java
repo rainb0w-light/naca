@@ -80,7 +80,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		return true ;
 	}
 	/**
-	 * 
+	 *
 	 */
 
 	/**
@@ -99,7 +99,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			}
 		}
 	}
-	
+
 	/**
 	 * @param eConf
 	 */
@@ -139,7 +139,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			Transcoder.logError("COBOL parsing failed") ;
 			return null ;
 		}
-	}				
+	}
 
 
 	private void DoCSDParsing(String csdFilePath, String xmlFilePath)
@@ -230,7 +230,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			Tag docCSD = Tag.createFromFile(xmlFilePath) ;
 			if (docCSD != null)
 			{
-				
+
 				Collection<Tag> lst = docCSD.getChilds("transid") ;
 				for (Tag e : lst)
 				{
@@ -244,11 +244,11 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			}
 		}
 		catch (Exception e)
-		{			
+		{
 		}
-		
+
 	}
-	
+
 	protected CEntityClass doSemanticAnalysis(CParser<CProgram> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
 	{
 		CJavaExporter out = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
@@ -260,7 +260,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		CEntityClass eSem = prg.DoSemanticAnalysis(factory) ;
 		parser.commentContainer.DoSemanticAnalysis(factory) ;
 		DoAlgorythmicAnalysis(cat, factory);
-		
+
 		return eSem ;
 	}
 
@@ -268,7 +268,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	{
 		return new CJavaEntityFactory(cat, out);
 	}
-	
+
 	private void InitGlobalEntitiesFromRules(CBaseEntityFactory factory)
 	{
 		int nb = rulesManager.getNbRules("ignoredCopy") ;
@@ -306,9 +306,9 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			factory.addSpecialConstantValue(text, constant) ;
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
 	{
@@ -345,7 +345,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			String method = e.getVal("method") ;
 			factory.programCatalog.RegisterRoutineEmulation(name, method) ;
 		}
-		
+
 		nb = rulesManager.getNbRules("NoExportResource") ;
 		for (int i=0; i<nb; i++)
 		{
@@ -371,14 +371,14 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 			factory.addSpecialConstantValue(text, constant) ;
 		}
 	}
-	
+
 	protected void DoAlgorythmicAnalysis(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 		CSpecialActionContainer container = new CSpecialActionContainer() ;
 		container.DoExplicitDFHCommarea(cat, factory) ;
 		container.DoRenameSubPrograms(cat, factory);
 		container.DoClearConstantAttributes(cat, factory) ;
-		
+
 		Tag t = rulesManager.getRule("ReduceMaps") ;
 		if (t != null)
 		{
@@ -397,7 +397,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 		container.DoSimplifyFDVariableZones(cat, factory) ;
 		//container.DoReduceSections(cat, factory) ;
 	}
-	
+
 
 	@Override
 	protected void doLogs(String csInput, String csOutput)
@@ -408,7 +408,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
 	@Override
 	protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
 	{
-		engine.RegisterNotificationHandler(new SpecialCobolActionNotifHandler()) ;		
+		engine.RegisterNotificationHandler(new SpecialCobolActionNotifHandler()) ;
 	}
 
 

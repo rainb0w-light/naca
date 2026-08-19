@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -45,10 +45,10 @@ public class ThreadStatementGC extends Thread
 				nPeriod_ms = 30000;	// Cannot be less than 30 seconds
 			nNbStatementForcedRemoved = tagGCThread.getValAsInt("NbStatementForcedRemoved");
 			nMaxPermanentHeap_Mo = tagGCThread.getValAsInt("MaxPermanentHeap_Mo");
-						
+
 			nNbStatementsToRemoveBeforeGC = tagGCThread.getValAsInt("NbStatementsToRemoveBeforeGC", -1);
 			nNbSystemGCCall = tagGCThread.getValAsInt("NbSystemGCCall", 0);
-			
+
 			if(nMaxPermanentHeap_Mo > 0 && nNbStatementForcedRemoved > 0)
 			{
 				setMemThreshold();
@@ -71,7 +71,7 @@ public class ThreadStatementGC extends Thread
 					long l = 1024L * 1024L * (long)nMaxPermanentHeap_Mo;
 					p.setUsageThreshold(l);
 					tenuredPool = p;
-				}				
+				}
 			}
 		}
 	}
@@ -81,19 +81,19 @@ public class ThreadStatementGC extends Thread
 		this.nMaxPermanentHeap_Mo = nMaxPermanentHeap_Mo;
 		ismaxPermanentHeap_MoSet = true;
 	}
-	
+
 	public synchronized int getCurrentMaxPermanentHeap_Mo()
 	{
 		return nMaxPermanentHeap_Mo;
 	}
-	
+
 //	public void addDbConnectionPool(DbConnectionPool dbConnectionPool)
 //	{
 //		if(arrDbConnectionPool == null)
 //			arrDbConnectionPool = new ArrayList<DbConnectionPool>();
 //		arrDbConnectionPool.add(dbConnectionPool);
 //	}
-	
+
 	public void run()
     {
 		while(isactive && waitPeriod())
@@ -111,7 +111,7 @@ public class ThreadStatementGC extends Thread
 //	private synchronized void doRun()
 //	{
 //		if(arrDbConnectionPool != null)
-//		{				
+//		{
 //			for(int n=0; n<arrDbConnectionPool.size(); n++)
 //			{
 //				DbConnectionPool dbConnectionPool = arrDbConnectionPool.get(n);
@@ -120,7 +120,7 @@ public class ThreadStatementGC extends Thread
 //			int nNbStatementAggressiveRemoved = 0;
 //			if(tenuredPool != null && tenuredPool.isUsageThresholdExceeded() && nNbStatementForcedRemoved > 0)
 //			{
-//				// Aggressivelly remove statements is heap usage is to high 
+//				// Aggressivelly remove statements is heap usage is to high
 //				// Collect all statements from all pools
 //				SortedMap<Long, StatementPosInPool> mapStatements = new TreeMap<Long, StatementPosInPool>();
 //				for(int n=0; n<arrDbConnectionPool.size(); n++)
@@ -139,13 +139,13 @@ public class ThreadStatementGC extends Thread
 //				tryForceGC();
 //				nNbTotalStatementRemoved = 0;
 //			}
-//		}				
+//		}
 //	}
-	
+
 	private boolean waitPeriod()
 	{
 		try
-		{			
+		{
 			Thread.sleep(nPeriod_ms);
 			return true;
 		}

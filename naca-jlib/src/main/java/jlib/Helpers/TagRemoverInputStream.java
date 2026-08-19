@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 
+ *
  * @author U930DAN
  *     Cette classe permet de supprimer dans un fichier tout ce qui
  *     est contenu entre les tags < et >
@@ -21,7 +21,7 @@ import java.io.InputStream;
  *     Hello
  */
 public class TagRemoverInputStream extends InputStream {
-	
+
 //	*************************************************************************
 //	**                      The class constructor.                         **
 //	*************************************************************************
@@ -63,7 +63,7 @@ public class TagRemoverInputStream extends InputStream {
 						data=_inputStream.read();
 					}
 				}
-				else 
+				else
 					return data;
 				data=_inputStream.read();
 				}

@@ -207,7 +207,7 @@ public class CSpecialActionContainer
 				}
 			}
 		}
-		
+
 		Collection<CDataEntity> col = factory.getAllSpecialConstantAttributes() ;
 		for (CDataEntity e : col)
 		{
@@ -236,20 +236,20 @@ public class CSpecialActionContainer
 			}
 		}
 	}
-	
+
 //	private class CodeRegion
 //	{
 //		public int start = 0 ;
 //		public int end = 0 ;
 //	}
-	
+
 	public void DoClearSymbolicMap(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 //		int lCopy = cat.GetLineOfMapCopy() ;
 //		int lSend = cat.GetLineOfMapSend() ;
-		
+
 //		Vector<CodeRegion> arrCodeRegion = buildCodeRegionsOfSymbolicMapModification(cat) ;
-		
+
 		int nbSavFields = cat.GetNbSaveFields() ;
 		for (int i=0; i<nbSavFields; i++)
 		{
@@ -296,13 +296,13 @@ public class CSpecialActionContainer
 						}
 					}
 				}
-				
+
 //				if (!isActionInCodeRegion(act, arrCodeRegion))
 //				{ // drop write access to symbolic map
 					if (!act.IgnoreVariable(field))
 						j++ ;
 //				}
-//				else 
+//				else
 //				{
 //					j++ ;
 //				}
@@ -325,7 +325,7 @@ public class CSpecialActionContainer
 //						{
 //							k++ ;
 //						}
-					}	
+					}
 					else
 					{
 						k++ ;
@@ -333,7 +333,7 @@ public class CSpecialActionContainer
 				}
 			}
 		}
-		
+
 		nbSavFields = cat.GetNbSaveFields() ;
 		for (int i=0; i<nbSavFields; i++)
 		{
@@ -347,7 +347,7 @@ public class CSpecialActionContainer
 					CDataEntity var = cat.GetAssociatedField(field) ;
 					if (var == null || !act.ReplaceVariable(field, var))
 						j++ ;
-//				}	
+//				}
 //				else
 //				{
 //					CBaseTranscoder.ms_logger.warn("WARNING Line "+act.GetLine()+" : access to save map") ;
@@ -361,14 +361,14 @@ public class CSpecialActionContainer
 				field.ReplaceBy(var);
 			}
 		}
-		
+
 		int nbMaps = cat.GetNbSaveMap() ;
 		for (int i=0; i<nbMaps; i++)
 		{
 			CEntityResourceForm sav = cat.GetSaveMap(i);
 			CEntityResourceForm map = cat.GetAssociatedMap(sav) ;
 			boolean bHasChildren = false ;
-			
+
 			CEntityInline act1 = map.GetInlineAction() ;
 			CEntityInline act2 = sav.GetInlineAction() ;
 			if (act2 != null && act1 != null)
@@ -381,7 +381,7 @@ public class CSpecialActionContainer
 					act1.AddChild(e) ;
 					e.SetParent(act1) ;
 				}
-			} 
+			}
 			else if (act1 == null && act2 != null)
 			{
 				act2.ReplaceExternalData(sav.of, map.of) ;
@@ -433,7 +433,7 @@ public class CSpecialActionContainer
 //			CEntityResourceForm map = cat.GetAssociatedMap(sav);
 			sav.ReplaceBy(map) ;
 		}
-		
+
 	}
 //	private boolean isActionInCodeRegion(CBaseActionEntity act, Vector<CodeRegion> arrCodeRegion)
 //	{
@@ -451,10 +451,10 @@ public class CSpecialActionContainer
 //	private Vector<CodeRegion> buildCodeRegionsOfSymbolicMapModification(CObjectCatalog cat)
 //	{
 //		Vector<CodeRegion> arrCodeRegions = new Vector<CodeRegion>() ;
-//		
+//
 //		int ncopy = cat.GetNbMapCopy() ;
 //		int nsend = cat.GetNbMapSend() ;
-//		
+//
 //		if (ncopy == 0 || nsend == 0)
 //			return arrCodeRegions ;
 //
@@ -462,7 +462,7 @@ public class CSpecialActionContainer
 //		{
 //			CBaseActionEntity eCopy = cat.getMapCopy(icopy) ;
 //			int nStartLine = eCopy.GetLine() ;
-//			
+//
 //			CBaseLanguageEntity eParent = eCopy.GetParent() ;
 //			CBaseLanguageEntity[] arrFollowingActions = eParent.GetChildrenList(eCopy, null) ;
 //			for (int iFollowing=1; iFollowing<arrFollowingActions.length; iFollowing++)
@@ -517,7 +517,7 @@ public class CSpecialActionContainer
 //				}
 //			}
 //		}
-//		
+//
 //		return arrCodeRegions ;
 //	}
 	public void DoExplicitDFHCommarea(CObjectCatalog cat, CBaseEntityFactory factory)
@@ -551,7 +551,7 @@ public class CSpecialActionContainer
 				dfh = s ;
 				linkage.AddChild(dfh);
 			}
-			
+
 			CEntityProcedureDivision prodiv = cat.getProcedureDivision() ;
 			if (prodiv != null)
 			{
@@ -621,7 +621,7 @@ public class CSpecialActionContainer
 				}
 			}
 		}
-		
+
 	}
 	public void DoRegisterPFKeys(CObjectCatalog cat)
 	{
@@ -673,23 +673,23 @@ public class CSpecialActionContainer
 				{
 					form.setPFActive(pfDefinition[i][1], "false");
 				}
-			}	
+			}
 		}
-	} 
+	}
 	public void DoReplaceCall_RS7ZPA04(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 		int n = cat.getNbCICSLink() ;
 		for (int i=0; i<n; i++)
 		{
 			CEntityCICSLink link = cat.getCICSLink(i);
-			if (link != null) 
+			if (link != null)
 			{
 				CDataEntity ePrg = link.GetProgramReference() ;
 				String prg = ePrg.GetConstantValue() ;
 				if (prg != null && prg.equalsIgnoreCase("RS7ZS04"))
 				{
 					CDataEntity param = link.GetCommareaParameter() ;
-					
+
 					// find parameter
 					if (param.GetName().equals("RS7ZPA04"))
 					{
@@ -699,7 +699,7 @@ public class CSpecialActionContainer
 							if (ent.GetName().equals("TRTMASQUE"))
 							{
 								CDataEntity pass = (CDataEntity)ent ;
-								// find form 
+								// find form
 								int nbWrite = pass.GetNbWrittingActions() ;
 								for (int k=0; k<nbWrite; k++)
 								{
@@ -710,7 +710,7 @@ public class CSpecialActionContainer
 										Tag el = GetAlternativeTreatment(link.GetProgramName()) ;
 										if (el == null)
 										{ // replace LINK by the routine emulation call
-											CEntityRoutineEmulationCall call = factory.NewEntityRoutineEmulationCall(link.getLine()) ;											 
+											CEntityRoutineEmulationCall call = factory.NewEntityRoutineEmulationCall(link.getLine()) ;
 											call.SetDisplay("Pub2000Routines.fillDefaultValueFromDB") ;
 											call.AddParameter(factory.NewEntityNumber("getProgramManager()"));
 											call.AddParameter(param) ;
@@ -722,8 +722,8 @@ public class CSpecialActionContainer
 											CBaseEntityCondition cond  = makeIfStatement(el, cat, factory) ;
 
 											// make bloc if true
-											CEntityRoutineEmulationCall call1 = factory.NewEntityRoutineEmulationCall(link.getLine()) ;											 
-											call1.SetDisplay("Pub2000Routines.fillDefaultValueFromDB") ;											
+											CEntityRoutineEmulationCall call1 = factory.NewEntityRoutineEmulationCall(link.getLine()) ;
+											call1.SetDisplay("Pub2000Routines.fillDefaultValueFromDB") ;
   											call1.AddParameter(factory.NewEntityNumber("getProgramManager()"));
   											call1.AddParameter(param) ; //
 											call1.AddParameter(form) ;
@@ -731,9 +731,9 @@ public class CSpecialActionContainer
 											call1.AddParameter(list1) ;
 											CEntityBloc bloc1 = factory.NewEntityBloc(0) ;
 											bloc1.AddChild(call1) ;
-											
+
 											// make bloc if false
-											CEntityRoutineEmulationCall call2 = factory.NewEntityRoutineEmulationCall(link.getLine()) ;											 
+											CEntityRoutineEmulationCall call2 = factory.NewEntityRoutineEmulationCall(link.getLine()) ;
 											call2.SetDisplay("Pub2000Routines.fillDefaultValueFromDB") ;
 											call2.AddParameter(factory.NewEntityNumber("getProgramManager()"));
 											call2.AddParameter(param) ;
@@ -748,13 +748,13 @@ public class CSpecialActionContainer
 											link.GetParent().UpdateAction(link, ifStatement);
 										}
 										pass.ReplaceBy(form) ;
-										
+
 										// remove any treatment on passzone
 										int nbRead = pass.GetNbReadingActions() ;
 										for (int l=0; l<nbRead; l++)
 										{
 											CBaseActionEntity act = pass.GetActionReading(l) ;
-											Vector vVars = act.getVarsAssigned() ; 
+											Vector vVars = act.getVarsAssigned() ;
 											for (int m=0; m<vVars.size(); m++)
 											{
 												CDataEntity e = (CDataEntity)vVars.get(m) ;
@@ -809,7 +809,7 @@ public class CSpecialActionContainer
 					String disp = field.GetDisplayName() ;
 					CEntityString str = factory.NewEntityString(disp) ;
 					list.AddData(str) ;
-				} 
+				}
 				ef = el.getNextChild(cur) ;
 			}
 		}
@@ -855,7 +855,7 @@ public class CSpecialActionContainer
 		{
 			throw new NacaTransAssertException("Bad entity type : "+csType);
 		}
-		
+
 		CBaseEntityExpression exp1 = factory.NewEntityExprTerminal(eVar) ;
 		CBaseEntityExpression exp2 = factory.NewEntityExprTerminal(eVal) ;
 		CEntityCondEquals eq = factory.NewEntityCondEquals() ;
@@ -882,7 +882,7 @@ public class CSpecialActionContainer
 		return null ;
 	}
 	protected CEntityRenamer subProgramRenamer = null ;
-	
+
 	protected void InitSubProgramRenamer()
 	{
 		subProgramRenamer = new CEntityRenamer() ;
@@ -908,7 +908,7 @@ public class CSpecialActionContainer
 		for (int i=0; i<n; i++)
 		{
 			CEntityCICSLink link = cat.getCICSLink(i);
-			if (link != null) 
+			if (link != null)
 			{
 				CDataEntity ePrg = link.GetProgramReference() ;
 				String prg = ePrg.GetConstantValue() ;
@@ -932,12 +932,12 @@ public class CSpecialActionContainer
 				}
 			}
 		}
-		
+
 		n = cat.getNbCallProgram() ;
 		for (int i=0; i<n; i++)
 		{
 			CEntityCallProgram call = cat.getCallProgram(i);
-			if (call != null) 
+			if (call != null)
 			{
 				CDataEntity ePrg = call.getProgramReference() ;
 				String prg = ePrg.GetConstantValue() ;
@@ -955,7 +955,7 @@ public class CSpecialActionContainer
 			}
 		}
 	}
-	
+
 	public void DoReplacePerformThrough(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 		for (int i=0; i<cat.getNbPerformThrough(); i++)
@@ -981,7 +981,7 @@ public class CSpecialActionContainer
 			}
 		}
 	}
-	
+
 	public void DoReplaceMapName(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 		int n = cat.getNbInitializedStructure() ;
@@ -995,16 +995,16 @@ public class CSpecialActionContainer
 				es.SetInitialValue(le) ;
 			}
 		}
-		
+
 	}
-	
+
 	public void DoReduceSections(CObjectCatalog cat, CBaseEntityFactory factory)
 	{
 		CEntityProcedureDivision div = cat.getProcedureDivision() ;
 		ProcedureCallTree tree = cat.getCallTree() ;
 
 		tree.ComputeTree() ;
-		
+
 		// look for dead code
 		tree.DoFilterSections(factory) ;
 
@@ -1056,7 +1056,7 @@ public class CSpecialActionContainer
 				//checkBinaryFieldsInChildren(desc) ;
 			}
 		}
-		
+
 		if (isfound)
 		{
 			CEntityDataSection linkage = cat.getLinkageSection() ;
@@ -1066,16 +1066,16 @@ public class CSpecialActionContainer
 			}
 			linkage.GetParent().AddChild(depSection, linkage) ;
 		}
-		
+
 	}
 	/**
 	 * @param desc
-	 * @param factory 
-	 * @param depSection 
+	 * @param factory
+	 * @param depSection
 	 * @return
 	 */
-	
-	
+
+
 	private void checkBinaryFieldsInChildren(CBaseLanguageEntity desc)
 	{
 		for (CBaseLanguageEntity le : desc.GetListOfChildren())
@@ -1104,7 +1104,7 @@ public class CSpecialActionContainer
 			}
 		}
 	}
-	
+
 	private CDataEntity findVariableVarInChildren(CBaseLanguageEntity desc)
 	{
 		for (CBaseLanguageEntity le : desc.GetListOfChildren())

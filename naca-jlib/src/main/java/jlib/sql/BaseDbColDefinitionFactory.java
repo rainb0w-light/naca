@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -28,12 +28,12 @@ public class BaseDbColDefinitionFactory
 	public BaseDbColDefinitionFactory()
 	{
 	}
-	
+
 	public static String makeInsertString(String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDefinition)
 	{
 		String insert = "INSERT INTO " + csTableFullName + " VALUES (";
 
-		int nNbCols = arrDbColDefinition.size(); 
+		int nNbCols = arrDbColDefinition.size();
 		for(int n=0; n<nNbCols; n++)
 		{
 			if(n == 0)
@@ -45,24 +45,24 @@ public class BaseDbColDefinitionFactory
 		insert += ")";
 		return insert;
 	}
-	
+
 	public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(DbConnectionBase dbConnection, String csPrefix, String csTableName)
 	{
 		int nDebugStep = 0;
 		ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
 		try
-		{			
+		{
 			ColDescription colDescription = new ColDescription();
-			
+
 			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
 			nDebugStep = 1;
 			ResultSet cols = dmd.getColumns(null, csPrefix, csTableName, "%");
 			nDebugStep = 2;
 			if (cols != null)
-			{		
+			{
 				boolean b = true;
 				while(cols.next() && b)
-				{					
+				{
 					b = colDescription.fill(cols);
 					if(b)
 					{
@@ -89,7 +89,7 @@ public class BaseDbColDefinitionFactory
 		}
 		return arrDbColDef;
 	}
-	
+
 	public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(ResultSet resultSet)
 	{
 		ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
@@ -118,7 +118,7 @@ public class BaseDbColDefinitionFactory
 			Log.logImportant("SQL excption in makeArrayDbColDefinitions from resultset");
 			return null;
 		}
-		
+
 		return arrDbColDef;
 	}
 }

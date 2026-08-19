@@ -15,7 +15,7 @@ public class DumpProgramException extends NacaRTException
 	private String csProgramName = "";
 	private String csVar1 = "";
 	private String csVar2 = "";
-	
+
 	public DumpProgramException(BaseProgramManager programManager, Var var1, Var var2)
 	{
 		csProgramName = programManager.getProgramName();
@@ -24,7 +24,7 @@ public class DumpProgramException extends NacaRTException
 		if (var2 != null)
 			csVar2 = var2.toString();
 	}
-	
+
 	public String getMessage()
 	{
         // + " Stack="+csStack;

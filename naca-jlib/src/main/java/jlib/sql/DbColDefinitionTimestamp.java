@@ -5,17 +5,15 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import jlib.misc.AsciiEbcdicConverter;
-import jlib.misc.CurrentDateInfo;
 import jlib.misc.DateUtil;
 import jlib.misc.StringUtil;
 
@@ -50,35 +48,35 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
-	
+
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);	
+//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
 //		String cs = new String(arrByteValue, nSourceOffset, 26);
 //		colValueGenericDest.setValue(cs);
 //		return 26;
 //	}
-	
+
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
 		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);	
+			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
 		String cs = new String(arrByteValue, nSourceOffset, 26);
 		stmt.setColParam(nCol, cs);
 		return 26;
 	}
-	
-	
+
+
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
 	{
 		String cs = storedProcParamDescBase.getInValueAsString();
 		return callableStatement.setInValue(nParamId, cs);
 	}
-	
+
 	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -98,7 +96,7 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
 }

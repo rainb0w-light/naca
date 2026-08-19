@@ -46,13 +46,13 @@ public class SQL
 	 *            true if a SQL cursor is concerned Internal usage only
 	 */
 	private AccountingRecordTrans accountingRecordManager = null;
-	private boolean bArrayCompressed = false; 
+	private boolean bArrayCompressed = false;
 
 	public SQL(BaseProgramManager programManager)
 	{
 		this.programManager = programManager;
 	}
-	
+
 	public SQL(BaseProgramManager programManager, String csQuery, SQLCursor cursor/*, String csSourceFileLine*/, int nHashFileLine)
 	{
 		nSuffixeHash = nHashFileLine;
@@ -67,7 +67,7 @@ public class SQL
 			{
 				CSQLStatus sqlstatus = programManager.getSQLStatus();
 				create(programManager, SQLConnection, csQuery, cursor, sqlstatus);
-			}	
+			}
 		}
 		//JmxGeneralStat.incNbSQLObjects(1);
 	}
@@ -167,7 +167,7 @@ public class SQL
 		//JmxGeneralStat.incNbSQLObjectsReuse(1);
 		accountingRecordManager = env.getAccountingRecordManager();
 		sqlStatus = status;
-		sqlStatus.setQuery(csQuery);		
+		sqlStatus.setQuery(csQuery);
 		resetExecuted(env);
 		qLCursorResultSet = null;
 		nNbWhereParamDeclared = 0;
@@ -210,7 +210,7 @@ public class SQL
 		isoperationExecuted = false;
 		sQLConnection = env.getSQLConnection();
 	}
-	
+
 	public void resetErrorManager()
 	{
 		if (errorManager != null)
@@ -274,7 +274,7 @@ public class SQL
 		{
 			markerNames = findAndUpdateMarkers();
 			nNbWhereParamToProvide = markerNames.size();
-			nNbWhereParamDeclared = 0;			
+			nNbWhereParamDeclared = 0;
 			nNbIntoParamToProvide = getNbIntoParam();
 			if (qLTypeOperation == SQLTypeOperation.CursorSelect && bMustAddRowId) // Add
                                         // to
@@ -353,7 +353,7 @@ public class SQL
 
 		if (sQLConnection == null || isoperationExecuted)
 			return false;
-		
+
 		if (qLTypeOperation == SQLTypeOperation.CursorSelect)
 		{
 			if (nNbWhereParamDeclared == nNbWhereParamToProvide) // All
@@ -398,7 +398,7 @@ public class SQL
 
 					accountingRecordManager.startDbIO();
 					boolean isnext = qLCursorResultSet.next();
-					
+
 					accountingRecordManager.endDbIO();
 
 					if (isnext)
@@ -520,7 +520,7 @@ public class SQL
 //					compressArrays();
 			//sQLConnection = null;
 		}
-				
+
 		if(isoperationExecuted)
 		{
 			if(sqlStatus != null)
@@ -530,7 +530,7 @@ public class SQL
 				if(b)
 				{
 					sQLConnection.setConnectionUnreusable();	// This connection can't be used anymore
-			
+
 					AbortSessionException exp = new AbortSessionException() ;
 					exp.reason = new Error("Connection killer SQLCode received:"+sqlStatus.toString());
 					exp.programName = null;  // register current program that throws the exception.
@@ -540,8 +540,8 @@ public class SQL
 			sQLConnection = null;
 			if(!bArrayCompressed)
 				compressArrays();
-		}				
-		
+		}
+
 		return isoperationExecuted;
 	}
 
@@ -593,7 +593,7 @@ public class SQL
 	 */
 	public SQL into(VarAndEdit varDestCol, Var varIndicator)
 	{
-		if(nNbIntoParamDeclared < nNbIntoParamToProvide)	// if (canFillInto())	
+		if(nNbIntoParamDeclared < nNbIntoParamToProvide)	// if (canFillInto())
 		{
 			CSQLIntoItem sqlIntoItem = null;
 			if (/*bReused && */nNbIntoParamDeclared < arrIntoItems.size())
@@ -611,7 +611,7 @@ public class SQL
 				Log.logDebug(sqlIntoItem.getLoggableValue());
 
 			nNbIntoParamDeclared++;
-			
+
 			boolean isexecDone = manageOperationEnding();
 			if (isexecDone && varIndicator != null) // Maybe we had an occurs of
 													// indicator given by
@@ -629,7 +629,7 @@ public class SQL
 		}
 		else
 		{
-			CSQLIntoItem sqlIntoItemTemp = new CSQLIntoItem(varDestCol, varIndicator);	
+			CSQLIntoItem sqlIntoItemTemp = new CSQLIntoItem(varDestCol, varIndicator);
 			Log.logCritical("Error: Too many into set; " + sqlIntoItemTemp.getLoggableValue());
 			sqlStatus.setSQLCode("into", -1, "ERROR : too many 'into set'", csQuery/*, csSourceFileLine*/);
 		}
@@ -1066,7 +1066,7 @@ public class SQL
 		}
 		return this;
 	}
-	
+
 	private int getNbWhereParam()
 	{
 		int nPosWhere = csQueryUpper.indexOf("WHERE");
@@ -1129,7 +1129,7 @@ public class SQL
 			String csTables = null;
 			int nPosWhere = csQueryUpper.indexOf("WHERE");
 			int nPosOrder = csQueryUpper.indexOf("ORDER");
-			int nPosEnd = SQLTypeOperation.minPositive(nPosWhere, nPosOrder);			
+			int nPosEnd = SQLTypeOperation.minPositive(nPosWhere, nPosOrder);
 			int nPosForUpdate = csQueryUpper.indexOf("FOR UPDATE");
 			nPosEnd = SQLTypeOperation.minPositive(nPosEnd, nPosForUpdate);
 			if (nPosEnd != -1)
@@ -1383,7 +1383,7 @@ public class SQL
 		SQLStatement.executeLock(this);
 		accountingRecordManager.endDbIO();
 	}
-	
+
 	private void executeCreateTable()
 	{
 		accountingRecordManager.startDbIO();
@@ -1392,7 +1392,7 @@ public class SQL
 		SQLStatement.executeCreateTable(this);
 		accountingRecordManager.endDbIO();
 	}
-	
+
 	private void executeDropTable()
 	{
 		accountingRecordManager.startDbIO();
@@ -1401,7 +1401,7 @@ public class SQL
 		SQLStatement.executeDropTable(this);
 		accountingRecordManager.endDbIO();
 	}
-	
+
 	private void executeDeclareOrder()
 	{
 		accountingRecordManager.startDbIO();
@@ -1448,7 +1448,7 @@ public class SQL
 					//JmxGeneralStat.incFetchCursor(1);
 					if (qLCursorResultSet.next())
 						qLCursorResultSet.fillIntoValues(this, true, isrowIdGenerated, nNbFetch);
-					
+
 					nNbFetch++;
 					nNbIntoParamDeclared = 0; // no more into
 					manageSqlError();
@@ -1512,7 +1512,7 @@ public class SQL
 		}
 		return null;
 	}
-	
+
 	private void manageSqlError()
 	{
 		if(sqlStatus != null)
@@ -1588,7 +1588,7 @@ public class SQL
 		//sqlRecordSetVarFiller = sqlRecordSetVarFiller;
 	}
 
-	private Hashtable<Long, SQLRecordSetVarFiller> hashSqlRecordSetVarFiller = null; 
+	private Hashtable<Long, SQLRecordSetVarFiller> hashSqlRecordSetVarFiller = null;
 
 	public void close()
 	{
@@ -1664,7 +1664,7 @@ public class SQL
 		}
 		return csBuffer.toString();
 	}
-	
+
 	long getIntoAllVarsUniqueHashedId()
 	{
 		long l = 0;
@@ -1677,9 +1677,9 @@ public class SQL
 				l += intoItem.getUniqueHashedId();
 			}
 		}
-		return l; 
+		return l;
 	}
-	
+
 	protected CSQLResultSet qLCursorResultSet = null;
 
 	CSQLStatus sqlStatus = null;
@@ -1746,7 +1746,7 @@ public class SQL
 	private boolean bReused = false;
 
 	private int nSuffixeHash = 0;
-	
+
 	private int nNbFetch = 0;
 
 	//private String csSourceFileLine = null;

@@ -6,7 +6,6 @@
  */
 package jlib.Helpers;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +30,6 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
@@ -51,10 +49,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 
 /**
@@ -64,7 +58,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * the callee functions.
  * This class is currently adapted for the SAXON 8.XX library and the Xerces parser. So
  * the packages xercesImpl.jar, saxon8.jar and saxon8-xpath.jar must be present in
- * the classpath.  
+ * the classpath.
  * @author jmgonet
  */
 public class XmlHelper {
@@ -87,7 +81,7 @@ public class XmlHelper {
 		}
 		return _xPathFactory;
 	}
-	
+
 /**
  * Looks for a single node by using a XPath expression.
  * @param parent The context for the XPath expression.
@@ -147,7 +141,7 @@ public class XmlHelper {
     public static NodeList SelectNodes(Node parent,String expression) {
     	return SelectNodes(parent,expression,false);
     }
- 
+
 /**
  * Returns the list of nodes matching an XPath expression.
  * @param parent The context for the XPath expression.
@@ -243,9 +237,9 @@ public class XmlHelper {
 			throw new ProgrammingException("XMLHELPER","'"+fileName+"' not found.",e);
 		}
 		catch (IOException e) {
-			throw new ProgrammingException("XMLHELPER","I/O problem with file '"+fileName+"'",e);			
+			throw new ProgrammingException("XMLHELPER","I/O problem with file '"+fileName+"'",e);
 		}
-	}	
+	}
 
 /**
  * Saves a Node as a xml file with the specified encoding.
@@ -254,16 +248,16 @@ public class XmlHelper {
  * @param encoding The encoding to use for the xml file.
  */
 	public static void Save(Node x,OutputStream os,String encoding) {
-		Save(x,os,encoding,null);		
+		Save(x,os,encoding,null);
 	}
-	
+
 /**
  * Saves a Node as a xml file with the specified encoding.
  * @param x The node to save.
  * @param fileName The file name where to save the file.
  * @param encoding The encoding to use for the xml file.
  * @param cdataElements CData elements list separated by space to serialize the specified node.
- */	
+ */
 	public static void Save(Node x,String fileName,String encoding,String cdataElements){
 		try {
 			FileOutputStream fos=new FileOutputStream(fileName);
@@ -300,7 +294,7 @@ public class XmlHelper {
 
 //***************** Sets the input and output for the transformation **********
 // The input is the specified node.
-// The output is is sent through a StreamResult, which		
+// The output is is sent through a StreamResult, which
 // is connected to a string writer. Serialization is performed here.
 				DOMSource source=new DOMSource(x);
 				BufferedOutputStream bos=new BufferedOutputStream(os);
@@ -312,16 +306,16 @@ public class XmlHelper {
 			}
 		}
 		catch (TransformerConfigurationException e) {
-    		throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);
 		}
 		catch (TransformerException e) {
-    		throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);
 		}
 		catch (IOException e) {
-    		throw new ProgrammingException("XMLHELPER","Error accessing the provided output stream: "+e.getMessage(),e);						
+            throw new ProgrammingException("XMLHELPER","Error accessing the provided output stream: "+e.getMessage(),e);
 		}
 	}
-	
+
 /**
  * Saves a Node into a <i>ISO-8859-1</i> encoded string.
  * @param x The node to save.
@@ -347,14 +341,14 @@ public class XmlHelper {
 // which performs no operation: output is equal to input.
 			SAXTransformerFactory tf=(SAXTransformerFactory)SAXTransformerFactory.newInstance();
 			TransformerHandler th=tf.newTransformerHandler();
-			Transformer serializer=th.getTransformer();                 
+			Transformer serializer=th.getTransformer();
 			serializer.setOutputProperty(OutputKeys.METHOD,"xml");
 			serializer.setOutputProperty(OutputKeys.ENCODING,encoding);
 			serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 
 //***************** Sets the input and output for the transformation **********
 // The input is the specified node.
-// The output is is sent through a StreamResult, which		
+// The output is is sent through a StreamResult, which
 // is connected to a string writer. Serialization is performed here.
 			DOMSource source=new DOMSource(x);
 			StringWriter sw=new StringWriter();
@@ -367,10 +361,10 @@ public class XmlHelper {
 			return sw.toString();
 		}
 		catch (TransformerConfigurationException e) {
-    		throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);
 		}
 		catch (TransformerException e) {
-    		throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);
 		}
 	}
 
@@ -379,7 +373,7 @@ public class XmlHelper {
 //*****************************************************************************
 /**
  * Returns an {@link InputStream} from which the serialization of the specified
- * node can be read. 
+ * node can be read.
  * This is an example:
  * <pre>
  *  Node node=...;
@@ -406,7 +400,7 @@ public class XmlHelper {
 //*****************************************************************************
 /**
  * Returns an {@link InputStream} from which the serialization of the specified
- * node can be read. 
+ * node can be read.
  * This is an example:
  * <pre>
  *  Node node=...;
@@ -442,10 +436,10 @@ public class XmlHelper {
 // Prepares the node as a source:
 				_source=new DOMSource(xml);
 
-// The result of the serialization is sent to a StreamResult, 
+// The result of the serialization is sent to a StreamResult,
 // which is connected to a PipedOutputStream:
 				_pos=new PipedOutputStream();
-				_result=new StreamResult(_pos);			
+				_result=new StreamResult(_pos);
 			}
 
 //........................ To obtain the PipedOutputStream ......................
@@ -455,20 +449,20 @@ public class XmlHelper {
 
 //...................... Performs the identity transformation ...................
 			@Override
-			public void run() {					
+			public void run() {
 				try {
 // Initializes an identity transformer:
 // (The default transfomer is the identity transfomer,
 // which performs no operation: output is equal to input)
 					SAXTransformerFactory tf=(SAXTransformerFactory)SAXTransformerFactory.newInstance();
 					TransformerHandler th=tf.newTransformerHandler();
-					Transformer serializer=th.getTransformer();                 
+					Transformer serializer=th.getTransformer();
 					serializer.setOutputProperty(OutputKeys.METHOD,"xml");
 					serializer.setOutputProperty(OutputKeys.ENCODING,_encoding);
 					serializer.setOutputProperty(OutputKeys.INDENT,"yes");
 					if (_cdata != null)
 						serializer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, _cdata);
-					
+
 // Perform the identity transformation:
 					serializer.transform(_source,_result);
 
@@ -482,7 +476,7 @@ public class XmlHelper {
 					}
 					throw new RuntimeException(ParseError.parseError("PipedThread.run",e));
 				}
-			}								
+			}
 		}
 
 //********* Launches a new thread performing the node serialization ***********
@@ -497,7 +491,7 @@ public class XmlHelper {
 			thread.start();
 			return pis;
 		} catch (Exception e) {
-   			throw new ProgrammingException("xmlhelper.CopyNode(parent,source,cname)",e.getMessage(),e);						
+            throw new ProgrammingException("xmlhelper.CopyNode(parent,source,cname)",e.getMessage(),e);
 		}
 	}
 
@@ -519,11 +513,11 @@ public class XmlHelper {
 // which performs no operation: output is equal to input.
 			SAXTransformerFactory tf=(SAXTransformerFactory)SAXTransformerFactory.newInstance();
 			TransformerHandler th=tf.newTransformerHandler();
-			Transformer serializer=th.getTransformer();                 
+			Transformer serializer=th.getTransformer();
 
 //***************** Sets the input and output for the transformation **********
 // The input is the specified node.
-// The output is is sent through a StreamResult, which		
+// The output is is sent through a StreamResult, which
 // is connected to a string writer. Serialization is performed here.
 			DOMSource source=new DOMSource(node);
 			DOMResult result=new DOMResult();
@@ -535,13 +529,13 @@ public class XmlHelper {
 			return (Document)result.getNode();
 		}
 		catch (TransformerConfigurationException e) {
-    		throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);
 		}
 		catch (TransformerException e) {
-    		throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);
 		}
 	}
-		
+
 
 //*****************************************************************************
 //**                  Creates a new empty document.                          **
@@ -608,25 +602,25 @@ public class XmlHelper {
 			return (Document)result.getNode();
 		}
 		catch (TransformerConfigurationException e) {
-    		throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error creating a new transformer handler: "+e.getMessage(),e);
 		}
 		catch (TransformerException e) {
-    		throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);			
+            throw new ProgrammingException("XMLHELPER","Error performing identity transformation: "+e.getMessage(),e);
 		}
 		catch (IOException e) {
-    		throw new ProgrammingException("XMLHELPER",e.getMessage(),e);						
+            throw new ProgrammingException("XMLHELPER",e.getMessage(),e);
 		}
 	}
 
 //******************************************************************************
 //**          Charge un document Xml depuis un flux.                          **
 //******************************************************************************
-	
+
 //***************************** depuis une URL *********************************
 	public static Document Load(URL url) {
 //		try {
 //			InputStream is = url.openStream();
-//			BufferedInputStream buffer = new BufferedInputStream(is); 
+//			BufferedInputStream buffer = new BufferedInputStream(is);
 //			return Load(buffer,null);
 //		} catch (IOException e) {
 //			throw new ProgrammingException("XMLHELPER","Error accessing to '"+url.toExternalForm()+"'",e);
@@ -638,13 +632,13 @@ public class XmlHelper {
 	public static Document Load(URL url, EntityResolver er) {
 //		try {
 //			InputStream is = url.openStream();
-//			BufferedInputStream buffer = new BufferedInputStream(is); 
+//			BufferedInputStream buffer = new BufferedInputStream(is);
 //			return Load(buffer,er);
 //		} catch (IOException e) {
 //			throw new ProgrammingException("XMLHELPER","Error accessing to '"+url.toExternalForm()+"'",e);
 //		}
 		return null;
-	}	
+	}
 
 //***************************** depuis un fichier XML **************************
 	public static Document Load(String fileName) {
@@ -660,10 +654,10 @@ public class XmlHelper {
 			return Load(fis);
 		}
 		catch (FileNotFoundException e) {
-			throw new ProgrammingException("XMLHELPER","File '"+fileName+"' doesn't exist.");			
+			throw new ProgrammingException("XMLHELPER","File '"+fileName+"' doesn't exist.");
 		}
 	}
-	
+
 //*************************** depuis une inputStream ************************************************
 	public static Document Load(InputStream is) {
 		//return Load(is,null);
@@ -831,7 +825,7 @@ public class XmlHelper {
 				r.append(orig.substring(n1,orig.length()));
 				break;
 			}
-			r.append(orig.substring(n1,n2));			
+			r.append(orig.substring(n1,n2));
 			r.append(rby);
 			n1=n2+find.length();
 			n2=orig.indexOf(find,n1);
@@ -849,10 +843,10 @@ public class XmlHelper {
 		Node node;
 		int n;
 
-		value=new StringBuffer(""); 
+		value=new StringBuffer("");
 		if (parent.hasChildNodes()) {
 			nodes=parent.getChildNodes();
-			for(n=0;n<nodes.getLength();n++) { 
+			for(n=0;n<nodes.getLength();n++) {
 				node=nodes.item(n);
 				if (node.getNodeType()==Node.TEXT_NODE)
 					value.append(node.getNodeValue());
@@ -871,7 +865,7 @@ public class XmlHelper {
 //*****************************************************************************
 	static public String GetNodeText(Node parent,String childname) {
 		Node x=SelectSingleNode(parent,childname);
-		if (x!=null) 
+		if (x!=null)
 			return GetNodeText(x);
 		return "";
 	}
@@ -931,7 +925,7 @@ public class XmlHelper {
 						b=SelectSingleNode(b,"following-sibling::"+childname+"[position()=1]");
 					} while (b!=null);
 				}
-        
+
 //............. Si on a trouve un element plus petit, on remplace ....................
 				if (replace) {
 					parent.removeChild(min);
@@ -951,7 +945,7 @@ public class XmlHelper {
  * A node is considered as <i>having content</i> when:
  * <ul>
  * 		<li>When the node or any of its childs contains a non-empty attribute.</li>
- * 		<li>When the node or any of its childs contains non-empty text nodes. If the 
+ * 		<li>When the node or any of its childs contains non-empty text nodes. If the
  * 		parameter <b>ignoreBlankSpaces</b> is <i>true</i>, text nodes containing
  * 		only control characters (ascii codes equal or smaller than 32) are considered
  * 		empty.</li>
@@ -1037,7 +1031,7 @@ public class XmlHelper {
 					return CopyNode(parent,node,cname);
 				} else
 					throw new ProgrammingException("XMLHELPER","'source' argument is a DOCUMENT_NODE, but has no childs");
-			
+
 //*************************** Si la source est simplement un texte ************
 			case Node.TEXT_NODE:
 				value=source.getNodeValue();
@@ -1063,7 +1057,7 @@ public class XmlHelper {
 					SetNodeAttribute(destination,name,value);
 				}
 
-//............................ On lui rajoute tous ses fils ...................    
+//............................ On lui rajoute tous ses fils ...................
 				if (source.hasChildNodes()) {
 					nodes=source.getChildNodes();
 					nn=nodes.getLength();

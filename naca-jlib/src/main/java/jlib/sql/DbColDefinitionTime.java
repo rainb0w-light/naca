@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -27,7 +27,7 @@ public class DbColDefinitionTime extends BaseDbColDefinition
 	{
 		super(colDescription);
 	}
-	
+
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -39,17 +39,17 @@ public class DbColDefinitionTime extends BaseDbColDefinition
 			String ss = value.substring(6, 8);
 			value = hh + "." + mm + "." + ss;
 			byte[] aBytes = value.getBytes();
-			
+
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
-	
+
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		if(bEbcdicInput)	// Must outout in ebcdic
@@ -58,28 +58,28 @@ public class DbColDefinitionTime extends BaseDbColDefinition
 //		colValueGenericDest.setValue(cs);
 //		return 8;
 //	}
-	
+
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
 	{
 		if(bEbcdicInput)	// Must outout in ebcdic
 			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 8);
 		String cs = new String(arrByteValue, nSourceOffset, 8);
-		
+
 		CurrentDateInfo cd = new CurrentDateInfo();
 		cd.setHourHHDotMMDotSS(cs);	// csValue must be of type HH.MM.SS
-		long lValue = cd.getTimeInMillis();				
-		Date date = new Date(lValue);							
+		long lValue = cd.getTimeInMillis();
+		Date date = new Date(lValue);
 		stmt.setDateTime(nCol, date);
-		
-		return 8;		
+
+		return 8;
 	}
-	
+
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
 	{
 		String cs = storedProcParamDescBase.getInValueAsString();
 		return callableStatement.setInValue(nParamId, cs);
 	}
-	
+
 	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try

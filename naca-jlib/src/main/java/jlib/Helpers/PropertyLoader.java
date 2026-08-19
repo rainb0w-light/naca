@@ -24,9 +24,9 @@ public class PropertyLoader
  * The properties file content.
  */
 	protected static Properties ms_properties=null;
-	
+
 	public String getProperty(String csName)
-		throws TechnicalException 
+		throws TechnicalException
 	{
 		return getPropertyWithContext(this, csName);
 	}
@@ -35,9 +35,9 @@ public class PropertyLoader
 	{
 		return getPropertyWithContext(this, csName, csDefaultValue);
 	}
-	
+
 	public static String getPropertyWithContext(Object context, String csName)
-		throws TechnicalException 
+		throws TechnicalException
 	{
 		try
 		{
@@ -56,7 +56,7 @@ public class PropertyLoader
 		}
 		return null;
 	}
-	
+
 	public static String getPropertyWithContext(Object context, String csName, String csDefaultValue)
 	{
 		try
@@ -75,7 +75,7 @@ public class PropertyLoader
 		}
 		return csDefaultValue;
 	}
-	
+
 //**********************************************************************************
 //**                    Returns the URL to the properties file.                   **
 //**********************************************************************************
@@ -88,15 +88,15 @@ public class PropertyLoader
  *     itself.
  * @return The content of the properties file.
  */
-	private static Properties getProperties(Object context) 
-		throws TechnicalException 
+	private static Properties getProperties(Object context)
+		throws TechnicalException
 	{
 		return getProperties(context, null);
 	}
-	
-	
-//	public Properties getProperties() 
-//		throws TechnicalException 
+
+
+//	public Properties getProperties()
+//		throws TechnicalException
 //	{
 //		return getProperties(this);
 //	}
@@ -109,8 +109,8 @@ public class PropertyLoader
  *     filename is "app.properties".
  * @return The content of the properties file.
  */
-	public static Properties getProperties(Object context, String propertiesFileName) 
-		throws TechnicalException 
+	public static Properties getProperties(Object context, String propertiesFileName)
+		throws TechnicalException
 	{
 //********************** If the properties are not already loaded *******************
 		if (ms_properties==null)
@@ -121,14 +121,14 @@ public class PropertyLoader
 
 //..................... Searches for the properties file ...........................
 			InputStream is=null;
-			
+
 			TechnicalException.throwIfNull(context, TechnicalException.CONTEXT_IS_NULL, propertiesFileName);
 
 // When context is known, starts searching in the class resources collection.
 			is = context.getClass().getResourceAsStream("/"+propertiesFileName);
 			if (is == null)
 				is = context.getClass().getResourceAsStream(propertiesFileName);
-			
+
 // If context is not known, or nothing has been found in the class resources collection:
 			if (is == null)
 				is = context.getClass().getClassLoader().getResourceAsStream("/"+propertiesFileName);
@@ -136,10 +136,10 @@ public class PropertyLoader
 				is = context.getClass().getClassLoader().getResourceAsStream(propertiesFileName);
 
 // Raises an exception is the file could not be found:
-			
+
 			if(is == null)
 			{
-				String cs = "Property file " + propertiesFileName + " Not found in " + JmxClassPath.getAllPaths();			
+				String cs = "Property file " + propertiesFileName + " Not found in " + JmxClassPath.getAllPaths();
 				TechnicalException.throwIfNull(is, TechnicalException.MISSINGE_CONFIG_FILE, cs);
 			}
 
@@ -163,13 +163,13 @@ public class PropertyLoader
  * the properties file.
  * @param context A pointer to the class requesting the properties file.
  * @param propertiesFileName The properties file name.
- * @return An initialized <code>InputStream</code> from which the content of the 
+ * @return An initialized <code>InputStream</code> from which the content of the
  *     properties file can be retrieved.
  * @throws FileNotFoundException If the specified properties file is not found in the
  *     application's class path.
- */	
-	public static InputStream getInputStream(Object context, String propertiesFileName) 
-		throws TechnicalException 
+ */
+	public static InputStream getInputStream(Object context, String propertiesFileName)
+		throws TechnicalException
 	{
 //..................... Searches for the properties file ...........................
 		InputStream is=null;

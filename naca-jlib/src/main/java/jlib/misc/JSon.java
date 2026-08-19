@@ -22,35 +22,35 @@ public class JSon
 	// Automatically exports a java object into a JSon structre.
 	// The following variables types are supported: int, double, String, StringBuffer, StringBuilder, Array, boolean, short, long
 	// See http://www.json.org/
-	
+
 	private StringBuilder sbOut = null;
 	private int nNbItemSet = 0;
 	private int nTabDepth = 0;
 	private boolean issetLines = true;
-	
+
 	public void setLines(boolean b)
 	{
 		issetLines = b;
 	}
-	
+
 	public boolean exportAsJSon(Object oSource)
 	{
 		nTabDepth = 0;
 		sbOut = new StringBuilder();
-		
+
 		boolean b = export(oSource, null);
 		if(!b)
 			sbOut = null;
 		return b;
 	}
-	
+
 	public String getResult()
 	{
 		if(sbOut != null)
 			return sbOut.toString();
 		return "";
 	}
-	
+
 	public static String exportAsJSon(Object oSource, String className)
 	{
 		JSon json = new JSon();
@@ -62,12 +62,12 @@ public class JSon
 			return json.sbOut.toString();
 		return null;
 	}
-	
+
 	public static String concatJSon(String json1, String json2)
 	{
-		return json1.substring(0, json1.length() - 1) + "," + json2.substring(1); 
+		return json1.substring(0, json1.length() - 1) + "," + json2.substring(1);
 	}
-	
+
 	private boolean export(Object oSource, String className)
 	{
 		nNbItemSet = 0;
@@ -78,7 +78,7 @@ public class JSon
 			if(issetLines)
 				sbOut.append(EndOfLine.CR);
 			nTabDepth++;
-			
+
 			if (className == null)
 			{
 				// Dump current class and it's hierarchy
@@ -87,17 +87,17 @@ public class JSon
 				while(!csClassName.equals("java.lang.Object"))
 				{
 					dumpJSonClass(programClass, oSource);	// Dump current class
-					
+
 					programClass = programClass.getSuperclass();
 					csClassName = programClass.getCanonicalName();
 				}
 			}
 			else
 			{
-				sbOut.append("\"" + className + "\":");				
+				sbOut.append("\"" + className + "\":");
 				exportItem(oSource);
 			}
-			
+
 			if(issetLines)
 				sbOut.append(EndOfLine.CR);
 			beginNewLine(sbOut);
@@ -111,7 +111,7 @@ public class JSon
 	private boolean dumpJSonClass(Class programClass, Object oSource)
 	{
 		Field fieldlist[] = programClass.getDeclaredFields();
-		for (int i=0; i < fieldlist.length; i++) 
+		for (int i=0; i < fieldlist.length; i++)
 		{
 			Field fld = fieldlist[i];
 			fld.setAccessible(true);
@@ -126,13 +126,13 @@ public class JSon
 				if(nNbItemSet > 0) // Terminates previous line is there was one
 					endCurrentLine(sbOut);
 				beginNewLine(sbOut);
-				
+
 				// remove prefix membership
 				if(csName.startsWith("m_"))
 					csName = csName.substring(2);
 				else if(csName.startsWith("_"))
 					csName = csName.substring(1);
-				
+
 				sbOut.append("\"" + csName + "\":");	// Write "<name>":
 				Object oMember = fld.get(oSource);
 				if(oMember != null)
@@ -161,7 +161,7 @@ public class JSon
 		}
 		return true;
 	}
-	
+
 	private boolean exportItem(Object oMember)
 	{
 		if (oMember instanceof String)
@@ -173,7 +173,7 @@ public class JSon
 		}
 		else if (oMember instanceof Boolean)
 		{
-			String csValue = oMember.toString();			
+			String csValue = oMember.toString();
 			sbOut.append(csValue);
 			return true;
 		}
@@ -217,7 +217,7 @@ public class JSon
 			csValue = quoteAndReplaceSpecialChars(csValue);
 			sbOut.append(csValue);
 			return true;
-		}	
+		}
 		else if (oMember instanceof StringBuffer)
 		{
 			String csValue = oMember.toString();
@@ -232,7 +232,7 @@ public class JSon
 			sbOut.append(csValue);
 			return true;
 		}
-		
+
 		// At last position !
 		else if (oMember instanceof Object)	// Applicative Object; must be last test
 		{
@@ -251,7 +251,7 @@ public class JSon
      */
 	private String quoteAndReplaceSpecialChars(String csValue)
 	{
-        if (csValue == null || csValue.length() == 0) 
+        if (csValue == null || csValue.length() == 0)
         {
             return "\"\"";
         }
@@ -311,7 +311,7 @@ public class JSon
                     t = "000" + Integer.toHexString(c);
                     sb.append("\\u" + t.substring(t.length() - 4));
                 }
-                else 
+                else
                 {
                     sb.append(c);
                 }
@@ -320,7 +320,7 @@ public class JSon
         sb.append('"');
         return sb.toString();
     }
-		
+
 	private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
 	{
 		sbOut.append("[ ");
@@ -338,13 +338,13 @@ public class JSon
 			if(!isarrayItemsExported)
 			{
 				return false;
-			}									
+			}
 		}
 		sbOut.append(" ]");
 		nTabDepth--;
 		return true;
 	}
-	
+
 	private void beginNewLine(StringBuilder sbOut)
 	{
 		if(issetLines)
@@ -353,9 +353,9 @@ public class JSon
 				sbOut.append(EndOfLine.TAB);
 		}
 	}
-	
+
 	private void endCurrentLine(StringBuilder sbOut)
-	{		
+	{
 		sbOut.append(",");
 		if(issetLines)
 			sbOut.append(EndOfLine.CR);

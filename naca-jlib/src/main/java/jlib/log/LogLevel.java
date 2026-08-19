@@ -17,7 +17,7 @@ package jlib.log;
  * 	<li>Events raised to signal particular actions during the
  * 	normal application/service activity. Examples of normal actions are:
  * 	starting the application/service, processing one element of information,
- * 	logging in or out a user...</li> 
+ * 	logging in or out a user...</li>
  * </ul>
  * Additionally to their type (see {@link LogEventType}), events can have
  * different importance level. Assigning a level to an event
@@ -33,31 +33,31 @@ package jlib.log;
  * 	be used for exceptions that don't oblige the application to stop (for example,
  * 	an application processing a hundred data elements should raise a <i>Important</i>
  *  level event if one of the elements could not be processed, but this doesn't
- *  compromise the next elements). Also, for non-exception events, the 
+ *  compromise the next elements). Also, for non-exception events, the
  *  <i>Important</i> level should be reserved for high-level informations
  *  like the number of datas processed by an application.</li>
  * 	<li><i>{@link #Normal}</i> Normal events usually signal normal application
  * 	activity, such as those described above.</li>
- * 	<li><i>{@link #Verbose}</i> This level (as <i>Debug</i> and <i>FineDebug</i>) 
- *  should be used to signal particular circumstances detected during a 
+ * 	<li><i>{@link #Verbose}</i> This level (as <i>Debug</i> and <i>FineDebug</i>)
+ *  should be used to signal particular circumstances detected during a
  *  process. If those circumstances are normal, they can be starting or
  *  finishing a phase in the information processing. If those circumstances
  *  are suspicious, they may not have immediat impact on the result, but often
  *  a higher level event will shortly be raised.</li>
- * 	<li><i>{@link #Debug}</i>This level (as <i>Verbose</i> and <i>FineDebug</i>) 
- *  should be used to signal particular circumstances detected during a 
+ * 	<li><i>{@link #Debug}</i>This level (as <i>Verbose</i> and <i>FineDebug</i>)
+ *  should be used to signal particular circumstances detected during a
  *  process. If those circumstances are normal, they can be calling a
- *  delicate method, or switching between two main decisions during the information 
- *  processing. If those circumstances are suspicious, they may not have impact on the 
+ *  delicate method, or switching between two main decisions during the information
+ *  processing. If those circumstances are suspicious, they may not have impact on the
  *  result, but can explain a higher level event being raised shortly after.</li>
- * 	<li><i>{@link #FineDebug}</i>This level (as <i>Verbose</i> and <i>Debug</i>) 
+ * 	<li><i>{@link #FineDebug}</i>This level (as <i>Verbose</i> and <i>Debug</i>)
  *  should be used to signal any debug circumtance happening during normal
  *  application/activity (as entering a method, number of data retrieved from
  *  a sql request...)</li>
  * </ul>
- * 
+ *
  * @see LogEventType
- *  
+ *
  * @author u930di
  *
  */
@@ -77,7 +77,7 @@ public class LogLevel
  * be used for exceptions that don't oblige the application to stop (for example,
  * an application processing a hundred data elements should raise a <i>Important</i>
  * level event if one of the elements could not be processed, but this doesn't
- * compromise the next elements). Also, for non-exception events, the 
+ * compromise the next elements). Also, for non-exception events, the
  * <i>Important</i> level should be reserved for high-level informations
  * like the number of datas processed by an application.
  */
@@ -85,32 +85,32 @@ public class LogLevel
 /**
  * Constant for <i>Normal</i> level.
  * Normal events usually signal normal application
- * activity, such as: starting the application/service, processing 
+ * activity, such as: starting the application/service, processing
  * one element of information, logging in or out a user...
  */
 	public static LogLevel Normal = new LogLevel(3, "Normal");
 /**
  * Constant for <i>Verbose</i> level.
- * This level (as {@link #Debug} and {@link #FineDebug}) 
- * should be used to signal suspicious circumstances detected during a 
- * process, that may not have immediat impact on the result. Very 
- * often a <i>Verbose</i> event is raised shortly before another higher 
+ * This level (as {@link #Debug} and {@link #FineDebug})
+ * should be used to signal suspicious circumstances detected during a
+ * process, that may not have immediat impact on the result. Very
+ * often a <i>Verbose</i> event is raised shortly before another higher
  * level event.
  */
 	public static LogLevel Verbose = new LogLevel(2, "Verbose");
 /**
  * Constant for <i>Debug</i> level.
- * This level (as {@link #Verbose} and {@link #FineDebug}) 
- * should be used to signal particular circumstances detected during a 
+ * This level (as {@link #Verbose} and {@link #FineDebug})
+ * should be used to signal particular circumstances detected during a
  * process. If those circumstances are normal, they can be calling a
- * delicate method, or switching between two main decisions during the information 
- * processing. If those circumstances are suspicious, they may not have impact on the 
+ * delicate method, or switching between two main decisions during the information
+ * processing. If those circumstances are suspicious, they may not have impact on the
  * result, but can explain a higher level event being raised shortly after.
  */
 	public static LogLevel Debug = new LogLevel(1, "Debug");
 /**
  * Constant for <i>FineDebug</i> level.
- * This level (as {@link #Verbose} and {@link #Debug}) 
+ * This level (as {@link #Verbose} and {@link #Debug})
  * should be used to signal any debug circumtance happening during normal
  * application/activity (as entering a method, number of data retrieved from
  * a sql request...)
@@ -140,13 +140,13 @@ public class LogLevel
 		nLevel = logLevel.nLevel;
 		csName = logLevel.csName;
 	}
-	
+
 	private LogLevel(int nLevel, String csName)
 	{
 		this.nLevel = nLevel;
 		this.csName = csName;
 	}
-	
+
 	private boolean hasName(String cs)
 	{
 		return cs.equalsIgnoreCase(csName);
@@ -164,7 +164,7 @@ public class LogLevel
  * </ul>
  * This method should be used together with the class constructor to
  * create new <i>LogLevel</i> instances.
- * @param csLevel The string to translate. 
+ * @param csLevel The string to translate.
  * @return The level corresponding to the specified string.
  */
 	static LogLevel getLevel(String csLevel)
@@ -187,7 +187,7 @@ public class LogLevel
  * Helper to remember which {@link String} values are legal for using as
  * <i>LogLevel</i>.
  * @return A string with all different <i>LogLevel</i> translated to strings.
- */	
+ */
 	static String getListTexts()
 	{
 		return "Critical|Important|Normal|Verbose|Debug|FineDebug";
@@ -196,7 +196,7 @@ public class LogLevel
 /**
  * Sets the log level to the one specified in string.
  * @param cs String specifying to which log level set the <i>LogLevel</i> instance.
- * @see getLevel 
+ * @see getLevel
  */
 	void set(String cs)
 	{
@@ -208,14 +208,14 @@ public class LogLevel
  * Retrieves the current log level as a string.
  * @return A string containing the current log level.
  * @see getLevel
- */		
+ */
 	String getAsString()
 	{
 		return csName;
 	}
 
 /**
- * Compares the current log level to the specified. 
+ * Compares the current log level to the specified.
  * @param minLogLevel A <i>LogLevel</i> instance to compare with the
  *     current one.
  * @return <i>true</i> if the level of the specified instance is
@@ -225,9 +225,9 @@ public class LogLevel
 	{
 		if(nLevel >= minLogLevel.nLevel)
 			return true;
-		return false;			
+		return false;
 	}
-	
+
 	private int nLevel = 0;
 	private String csName = null;
 }

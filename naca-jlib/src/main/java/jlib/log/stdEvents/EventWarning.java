@@ -32,14 +32,14 @@ import jlib.log.*;
  * <ul>
  * 	<li>You can add up to nine custom parameters:
  * 		<pre>
- * 			class EventWarningMyApplication extends EventWarning 
+ * 			class EventWarningMyApplication extends EventWarning
  * 			{
  * public static log(String csChannel, String csProcess, String csProduct, String csParam1, int iParam2, String csMessage)
  * 				{
  * 					EventStart e=new EventStart(csProcess, csProduct, csParam1, iParam2);
  * 					Log.log(csChannel,e,csMessage);
  * 				}
- * 
+ *
  * 				public EventWarningMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
  * 				{
  * 					super(csProcess, csProduct);
@@ -52,14 +52,14 @@ import jlib.log.*;
  * 	<li>You can create a link between the caught exception and the name
  * 	of the "Warning" event you log:
  * 		<pre>
- * 			class EventWarningMyApplication extends EventWarning 
+ * 			class EventWarningMyApplication extends EventWarning
  * 			{
  * 				public static log(String csChannel, String csProcess, String csProduct, Exception exception)
  * 				{
  * 					EventStart e=new EventStart(csProcess, csProduct, exception);
  * 					Log.log(csChannel,e,exception.getMessage());
  * 				}
- * 
+ *
  * 				public EventWarningMyApplication(String csProcess, String csProduct, Exception exception)
  * 				{
  * 					super(csProcess, csProduct);
@@ -75,16 +75,16 @@ import jlib.log.*;
 public class EventWarning extends LogEvent {
 /**
  * Logs a "Warning" event, and allows to specify custom <i>RunId</i> and
- * <i>RuntimeId</i>. 
+ * <i>RuntimeId</i>.
  * For more details about the <i>Product</i>, <i>Process</i>, <i>RunId</i>
  * and <i>RuntimeId</i> identifiers, read the {@link LogCenterDbFlat} overview.
- * @param csChannel The name of the channel where the event is to be sent. If 
+ * @param csChannel The name of the channel where the event is to be sent. If
  *     left <i>null</i> the event is broadcasted to all open channels.
- * @param csProcess The name of the process where the "Warning" has been done. If 
+ * @param csProcess The name of the process where the "Warning" has been done. If
  *     left <i>null</i> the {@link LogCenter} accepting the event will assume
  *     the Warning is coming from its channel default process. To set the
  *     default process of a channel use {@link Log#setProcess}.
- * @param csProduct The name of the product (brand, client, source, etc.) to which the Warning 
+ * @param csProduct The name of the product (brand, client, source, etc.) to which the Warning
  *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
  *     assume the event refers to its channel default product. To set the
  *     default product of a channel use {@link Log#setProduct}.
@@ -98,23 +98,23 @@ public class EventWarning extends LogEvent {
  *     use {@link Log#setRuntimeId}.
  * @param csWarning An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, String csWarning) 
+	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, String csWarning)
 	{
 		EventWarning e=new EventWarning(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csWarning, csRunId, csRuntimeId);				
+		Log.log(csChannel, e, csWarning, csRunId, csRuntimeId);
 	}
 
 /**
- * Logs a "Warning" event. 
- * For more details about the <i>Product</i> and <i>Process</i> identifiers, 
+ * Logs a "Warning" event.
+ * For more details about the <i>Product</i> and <i>Process</i> identifiers,
  * read the {@link LogCenterDbFlat} overview.
- * @param csChannel The name of the channel where the event is to be sent. If 
+ * @param csChannel The name of the channel where the event is to be sent. If
  *     left <i>null</i> the event is broadcasted to all open channels.
- * @param csProcess The name of the process where the "Warning" has been done. If 
+ * @param csProcess The name of the process where the "Warning" has been done. If
  *     left <i>null</i> the {@link LogCenter} accepting the event will assume
  *     the Warning is coming from its channel default process. To set the
  *     default process of a channel use {@link Log#setProcess}.
- * @param csProduct The name of the product (brand, client, source, etc.) to which the Warning 
+ * @param csProduct The name of the product (brand, client, source, etc.) to which the Warning
  *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
  *     assume the event refers to its channel default product. To set the
  *     default product of a channel use {@link Log#setProduct}.
@@ -122,14 +122,14 @@ public class EventWarning extends LogEvent {
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  * @param csWarning An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csWarning) 
+	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csWarning)
 	{
 		EventWarning e=new EventWarning(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csWarning);		
+		Log.log(csChannel, e, csWarning);
 	}
 
 /**
- * Creates an "Warning" event. 
+ * Creates an "Warning" event.
  * @param csProcess The name of the process where the "Warning" has found.
  * @param csProduct The name of the product (brand, client, source, etc.) to which the Warning refers.
  *     "Warning" events aren't usually associated to an information element, rather they are
@@ -138,7 +138,7 @@ public class EventWarning extends LogEvent {
  * @param csName The desired name of the event. If left <i>null</i>, the default
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  */
-	public EventWarning(String csProcess, String csProduct, String csName) 
+	public EventWarning(String csProcess, String csProduct, String csName)
 	{
 		super(LogEventType.Warning, LogFlowStd.System, LogLevel.Important,  csProduct, csProcess, csName);
 	}

@@ -34,35 +34,35 @@ public abstract class LogFlowStd
 {
 /**
  * Declares (and registers) the {@link LogFlowSystem} flow, which
- * is intended for reporting exceptions, wrong data, or anomalous 
+ * is intended for reporting exceptions, wrong data, or anomalous
  * circumstances.
  */
 	public static LogFlow System = new LogFlowSystem();
 /**
  * Declares (and registers) the {@link LogFlowMonitoring} flow, which
- * is intended for reporting normal application/service activity 
+ * is intended for reporting normal application/service activity
  * (like starting, stoping, number of processed elements...)
  */
 	public static LogFlow Monitoring = new LogFlowMonitoring();
 /**
  * Declares (and registers) the {@link LogFlowTrace} flow, which
- * is intended for reporting exceptions, wrong data, or anomalous 
+ * is intended for reporting exceptions, wrong data, or anomalous
  * circumstances.
  */
 	public static LogFlow Trace = new LogFlowTrace();
 /**
  * Declares (and registers) the {@link LogFlowAny} flow, which is used
- * for configuring a {@link LogCenter}s for accepting events of all flows. 
+ * for configuring a {@link LogCenter}s for accepting events of all flows.
  */
 	public static LogFlow Any = new LogFlowAny();
 /**
  * Declares (and registers) the {@link LogFlowNone} flow, which is used
- * for configuring a {@link LogCenter}s for stop accepting events of any flow. 
+ * for configuring a {@link LogCenter}s for stop accepting events of any flow.
  */
 	public static LogFlow None = new LogFlowNone();
 /**
  * Declares and registers all existing flows, which are:
- * <ul> 
+ * <ul>
  * 	<li><i>System</i></li>
  * 	<li><i>Monitor</i></li>
  * 	<li><i>Trace</i></li>

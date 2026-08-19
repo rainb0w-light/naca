@@ -16,45 +16,45 @@ import nacaLib.varEx.VarBuffer;
 
 
 public class FPacFileDescriptor extends BaseFileDescriptor
-{	
+{
 	private FPacRecordFiller pacRecordFillerInput = null;
 	private FPacRecordFiller pacRecordFillerOutput = null;
 	private final static int MAX_RECORD_LENGTH = 32768;
-	
+
 	private byte tBytes[] = null;
 	private char acBuffer[] = null;
-	private VarBuffer varBuffer = null; 
+	private VarBuffer varBuffer = null;
 	private FPacVarManager fpacVarManager = null;
 	RecordLengthDefinition forcedRecordLengthDefinition = null;
 	private int nLastReadRecordLength = -1;
-	
+
 	public FPacFileDescriptor(FPacProgram program, String csLogicalName)
 	{
 		super(program.getProgramManager().getEnv(), csLogicalName);
 		init(program);
 	}
-	
+
 	void setRecordFillers(FPacRecordFiller FPacRecordFillerInput, FPacRecordFiller FPacRecordFillerOutput)
 	{
 		pacRecordFillerInput = FPacRecordFillerInput;
 		pacRecordFillerOutput = FPacRecordFillerOutput;
 	}
-	
+
 	public FPacFileDescriptor openOutput()
 	{
 		super.openOutput();
-		
-		fillOutputBuffer();		
+
+		fillOutputBuffer();
 		return this;
 	}
-	
+
 	public FPacFileDescriptor openInput()
 	{
 		super.openInput();
 		return this;
 	}
-	
-	
+
+
 	public FPacFileDescriptor openInputOutput()
 	{
 		super.openInputOutput();
@@ -67,7 +67,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 		super.openExtend();
 		return this;
 	}
-		
+
 	public void variableLength()
 	{
 		fileManagerEntry.setVariableLength();
@@ -76,13 +76,13 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 	private void init(FPacProgram program)
 	{
 		tBytes = new byte [MAX_RECORD_LENGTH];
-		
+
 		acBuffer = new char [MAX_RECORD_LENGTH];
 		varBuffer = new VarBuffer(acBuffer);
-		
+
 		fpacVarManager = new FPacVarManager(program);
 	}
-	
+
 	private void fillInputBuffer()
 	{
 		if(pacRecordFillerInput != null)
@@ -96,10 +96,10 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 	}
 
 	public RecordDescriptorAtEnd read()
-	{		
+	{
 		fillInputBuffer();
 		nLastReadRecordLength = -1;
-		
+
 		if(fileManagerEntry.isVariableLength())	 // Variable size record
 		{
             // Keep header start position
@@ -119,17 +119,17 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 				{
 					nLastReadRecordLength = varBuffer.setFromLineRead(lineRead, 4) + nHeaderLength;
 					incNbRecordRead();
-				}				
+				}
 			}
 		}
 		else		// Constant record size
 		{
 			int nRecordLength = 0;
 			if(forcedRecordLengthDefinition == null)
-				nRecordLength = getRecordLength(null);				
+				nRecordLength = getRecordLength(null);
 			else
 				nRecordLength = forcedRecordLengthDefinition.getRecordLength();
-			
+
 			LineRead lineRead = null;
 			if(nRecordLength > 0)
 				lineRead = fileManagerEntry.dataFile.readBuffer(nRecordLength, true);
@@ -142,14 +142,14 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 				incNbRecordRead();
 			}
 		}
-		
+
 		if(fileManagerEntry.dataFile.isEOF())
 			return RecordDescriptorAtEnd.End;
 		return RecordDescriptorAtEnd.NotEnd;
 	}
-	
+
 	private void doWrite()
-	{		
+	{
 		if(!fileManagerEntry.isVariableLength())		// Constant record size
 		{
 			int nRecordLength = getRecordLength(null);
@@ -158,7 +158,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 				if(fileManagerEntry.dataFile.isUpdateable())
 					nRecordLength = nLastReadRecordLength;
 			}
-			
+
 			if(nRecordLength >= 0)
 			{
 				fillBuffer(varBuffer.acBuffer, 0, nRecordLength);
@@ -172,13 +172,13 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 		}
 		else
 		{
-			if(fileManagerEntry.dataFile.isUpdateable())	// rewrite, not write 
+			if(fileManagerEntry.dataFile.isUpdateable())	// rewrite, not write
 			{
 				fillBuffer(varBuffer.acBuffer, 0, nLastReadRecordLength);
 				write(tBytes, 0, nLastReadRecordLength, true);
 				incNbRecordWrite();
 			}
-			else	// Use header to get record length 
+			else	// Use header to get record length
 			{
                 // Read record length encoded in the 4 leading bytes; it doesn't includes the record header itself, nor the trailing LF
 				int nRecordLength = varBuffer.getIntAt(0);
@@ -188,12 +188,12 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 				incNbRecordWrite();
 			}
 		}
-		
+
 		fillOutputBuffer();
 	}
-	
+
 	public void write()
-	{		
+	{
 		if(fileManagerEntry.dataFile.isWritable())
 		{
 			if(fileManagerEntry.dataFile.isReadable())	// File open in update mode
@@ -204,7 +204,7 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 			doWrite();
 		}
 	}
-	
+
 	private void fillBuffer(char tcSourceBuffer[], int nSourceOffset, int nRecordLength)
 	{
 		for(int n=0; n<nRecordLength; n++)
@@ -212,22 +212,22 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 			tBytes[n] = (byte)tcSourceBuffer[n + nSourceOffset];
 		}
 	}
-	
+
 	public FPacVarManager getFPacVarManager()
 	{
 		return fpacVarManager;
 	}
-	
+
 	public VarBuffer getVarBuffer()
 	{
 		return varBuffer;
 	}
-	
+
 	Var createFPacVarAlphaNum(int nAbsolutePosition1Based, int nNbDigitsInteger)
 	{
 		return getFPacVarManager().createFPacVarAlphaNum(varBuffer, nAbsolutePosition1Based, nNbDigitsInteger);
 	}
-	
+
 	Var createFPacVarRaw(int nAbsolutePosition1Based, int nNbDigitsInteger)
 	{
 		return getFPacVarManager().createFPacVarRaw(varBuffer, nAbsolutePosition1Based, nNbDigitsInteger);
@@ -237,17 +237,17 @@ public class FPacFileDescriptor extends BaseFileDescriptor
 	{
 		return getFPacVarManager().createFPacVarNumIntSignComp3(varBuffer, nAbsolutePosition1Based, nBufferLength);
 	}
-	
+
 	Var createFPacVarNumSignComp4(int nAbsolutePosition1Based, int nBufferLength)
 	{
 		return getFPacVarManager().createFPacVarNumSignComp4(varBuffer, nAbsolutePosition1Based, nBufferLength);
-	}	
+	}
 
 	public void setRecordLengthForced(int nRecordLengthForced)
 	{
 		forcedRecordLengthDefinition = new RecordLengthDefinition(nRecordLengthForced);
 	}
-	
+
 	public String toString()
 	{
 		if(fileManagerEntry != null)

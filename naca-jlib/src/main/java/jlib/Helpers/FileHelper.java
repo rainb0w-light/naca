@@ -38,11 +38,11 @@ import jlib.exception.ProgrammingException;
  * 	File folder=new File("C:\\temp");
  * 	FileHelper filter=new FileHelper("dd*.java");
  * 	fileList=folder.list(filter);
- * </pre> 
+ * </pre>
  */
-public class FileHelper implements FilenameFilter 
+public class FileHelper implements FilenameFilter
 {
-	
+
 //****************************************************************************
 //**                          The class constructor.                        **
 //****************************************************************************
@@ -54,7 +54,7 @@ public class FileHelper implements FilenameFilter
 	public FileHelper(String wildcard)
 	{
 //******************* Checks if the specified wildcard is not empty ***********
-		if (wildcard == null) 
+		if (wildcard == null)
 			wildcard = "";
 		int nn = wildcard.length();
 		if (nn > 0)
@@ -105,7 +105,7 @@ public class FileHelper implements FilenameFilter
 
 //************************* Compiles the translated pattern ***************************
 			pattern = Pattern.compile(regex.toString(), Pattern.CASE_INSENSITIVE);
-		} 
+		}
 	}
 //************************************************************************************
 //**         Checks if a particular filename matches the specified wildcard         **
@@ -118,17 +118,17 @@ public class FileHelper implements FilenameFilter
 	{
 		if (pattern==null)
 			return true;
-		
+
 		if (filename == null)
 			filename="";
-		
+
 		if (filename.length() == 0)
 			return false;
-		
+
 		Matcher m = pattern.matcher(filename);
 		return m.matches();
 	}
-	
+
 //***********************************************************************************
 //**               Returns the list of files matching
 //***********************************************************************************
@@ -160,7 +160,7 @@ public class FileHelper implements FilenameFilter
 	{
 		ArrayList<File> fileListOutput = new ArrayList<File>();
 		File file = null;
-		
+
 		File [] fileListInput = getFileList(null, path, filesOnly);
 		for (int i=0; i<fileListInput.length; i++) {
 		 	file = fileListInput[i];
@@ -168,7 +168,7 @@ public class FileHelper implements FilenameFilter
 		 		fileListOutput.add(file);
 		 	}
 		}
-		
+
 		return fileListOutput;
 	}
 
@@ -186,7 +186,7 @@ public class FileHelper implements FilenameFilter
 	{
 		return getFileList(null, path, filesOnly);
 	}
-	
+
 /**
  * Returns the list of filenames matching the specified path.
  * The path can contain wildcards in its 'file' section, but
@@ -209,12 +209,12 @@ public class FileHelper implements FilenameFilter
 //******************************* Initialization ********************************************
 		if (path == null)
 			return new File[0];
-		
-		if (path.length() == 0) 
+
+		if (path.length() == 0)
 			return new File[0];
 
 		if (defaultFolder == null)
-			defaultFolder = "";			
+			defaultFolder = "";
 		if (defaultFolder.length() == 0)
 			defaultFolder = System.getProperty("user.dir");
 
@@ -225,14 +225,14 @@ public class FileHelper implements FilenameFilter
 		{
 
 //......................... The source can be a single file .................................
-			if (file.isFile()) 
+			if (file.isFile())
 			{
 				fileList = new File[1];
 				fileList[0] = file;
 			}
 
 //............................. The source can be a folder ..................................
-			else 
+			else
 			{
 				fileList = file.listFiles();
 			}
@@ -242,21 +242,21 @@ public class FileHelper implements FilenameFilter
 		else
 		{
 			folder = new File(file.getParent());
-			if (folder.exists()) 
+			if (folder.exists())
 			{
 				String wildcard = file.getName();
 				FileHelper filter = new FileHelper(wildcard);
 				fileList = folder.listFiles(filter);
 			}
-			else 
+			else
 			{
 //************************ Tries the source as an absolute path *****************************
 				file = new File(path);
-				if (file.exists()) 
+				if (file.exists())
 				{
 
 //......................... The source can be a single file .................................
-					if (file.isFile()) 
+					if (file.isFile())
 					{
 						fileList = new File[1];
 						fileList[0] = file;
@@ -273,18 +273,18 @@ public class FileHelper implements FilenameFilter
 				else
 				{
 					folder = new File(file.getParent());
-					if (folder.exists()) 
+					if (folder.exists())
 					{
 						String wildcard = file.getName();
 						FileHelper filter = new FileHelper(wildcard);
 						fileList = folder.listFiles(filter);
 					}
 //****************************** Nothing is found ******************************************
-					else 
+					else
 					{
 						return new File[0];
 					}
-				}					
+				}
 			}
 		}
 
@@ -299,7 +299,7 @@ public class FileHelper implements FilenameFilter
 			}
 			filesOnlyList = new File[nFiles];
 			nFiles = 0;
-			for(int n=0; n<nn; n++) 
+			for(int n=0; n<nn; n++)
 			{
 				if (fileList[n].isFile())
 					filesOnlyList[nFiles++] = fileList[n];
@@ -309,7 +309,7 @@ public class FileHelper implements FilenameFilter
 
 //******************************* Or else, returns the complete list of items ****************
 // (folders + files).
-		else 
+		else
 		{
 			return fileList;
 		}
@@ -321,16 +321,16 @@ public class FileHelper implements FilenameFilter
 //******************************************************************************************
 /**
  * Copies a file to a folder or to a file.
- * @param origin The source file to copy. The file must exist, and it must be a 
+ * @param origin The source file to copy. The file must exist, and it must be a
  *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
  *     it is assumed to be a file.
- * @trows Exception If the source file is not specified (null), doesn't exist, or 
+ * @trows Exception If the source file is not specified (null), doesn't exist, or
  *     is a folder. Also if the destination can't be created.
  */
 	public static void copyFile(File origin, File destination) {
 		copyFile(origin,destination,null);
-	}	
+	}
 
 /**
  * Copies a file to a folder or to a file.
@@ -341,7 +341,7 @@ public class FileHelper implements FilenameFilter
 		try {
 			byte[] buf = new byte[1024];
 			int i = 0;
-			while((i=origin.read(buf))!=-1) 
+			while((i=origin.read(buf))!=-1)
 			{
 				destination.write(buf, 0, i);
 			}
@@ -354,11 +354,11 @@ public class FileHelper implements FilenameFilter
 
 /**
  * Copies a file to a folder or to a file.
- * @param origin The source file to copy. The file must exist, and it must be a 
+ * @param origin The source file to copy. The file must exist, and it must be a
  *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
  *     it is assumed to be a file.
- * @trows Exception If the source file is not specified (null), doesn't exist, or 
+ * @trows Exception If the source file is not specified (null), doesn't exist, or
  *     is a folder. Also if the destination can't be created.
  */
 	public static void copyFile(String origin, String destination)
@@ -369,16 +369,16 @@ public class FileHelper implements FilenameFilter
 	}
 
 /**
- * 
+ *
  * Copies a file to a folder or to a file.
- * @param origin The source file to copy. The file must exist, and it must be a 
+ * @param origin The source file to copy. The file must exist, and it must be a
  *     file (not a folder).
  * @param destination The destination file or folder. If the destination doesn't exist,
  *     it is assumed to be a file.
  * @newName The name under which we copy the file
- * @trows Exception If the source file is not specified (null), doesn't exist, or 
+ * @trows Exception If the source file is not specified (null), doesn't exist, or
  *     is a folder. Also if the destination can't be created.
- */		
+ */
 	public static void copyFile(File origin, File destination, String newName) {
 		String name;
 		//controle que le fichier origin n'est pas null
@@ -389,10 +389,10 @@ public class FileHelper implements FilenameFilter
 			throw new ProgrammingException(ProgrammingException.IO_ERROR,"The origin file '" + origin.getAbsolutePath() + "' doesn't exist.");
 		if (!origin.isFile())
 			throw new ProgrammingException(ProgrammingException.IO_ERROR,"The origin file '" + origin.getAbsolutePath() + "' is not a file.");
-			
+
 		if (destination!=null) {
 			//si destination n'existe pas on assume que c'est un fichier
-			//sinon 
+			//sinon
 			if (destination.exists()){
 				if (destination.isDirectory()){
 					//on ajoute au path du dossier le nouveau nom du fichier destination.
@@ -404,10 +404,10 @@ public class FileHelper implements FilenameFilter
 						name = origin.getName();
 					destination = new File(destination, name);
 				}
-			} 
-		} else 
+			}
+		} else
 			throw new ProgrammingException(ProgrammingException.INVALID_FILENAME,"destination file or folder is null.");
-				
+
 		FileInputStream fis;
 		FileOutputStream fos;
 		try {
@@ -442,7 +442,7 @@ public class FileHelper implements FilenameFilter
 		if (osName.startsWith("win")) {
 			if (path.length()<2) return false;
 			if (path.charAt(1)==':') return true;
-		} 
+		}
 		else if (path.startsWith("/"))
 			return true;
 		return false;
@@ -486,7 +486,7 @@ public class FileHelper implements FilenameFilter
  * <pre>5. Hönigstrasse 6-a.jpg</pre>
  * is converted to:
  * <pre>5__Hoenigstrasse_6-a.jpg</pre>
- * 
+ *
  */
 	public static String standarizeFilename(String fileName) {
 		StringBuilder standard;
@@ -570,27 +570,27 @@ public class FileHelper implements FilenameFilter
 
 //************************** Returns the standarized file name **********************
 		return standard.toString();
-	}	
+	}
 
 //************************************************************************************
 //**               Delete a file
 //************************************************************************************
-	
+
 	/**
 	 * Delete the file targeted by the filePath
 	 * @param String filePath
 	 * @return Boolean isDeleted
 	 *     !!! the method returns false if :
 	 *     - the filePath targets a folder
-	 *     - the file does not exist 
+	 *     - the file does not exist
 	 *     - the file is locked
 	 */
 	public static boolean deleteFile(String filePath) {
-		
+
 		File fileToDelete = new File(filePath);
-		
+
 		if (!fileToDelete.isFile()) return false;
-		
+
 		return fileToDelete.delete();
 	}
 }

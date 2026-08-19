@@ -25,7 +25,7 @@ import javax.naming.directory.SearchResult;
  * 		private String csLDAPServer2 = "" ;		// 2nd LDAP server address
  * 		private String csLDAPServer3 = "" ;		// 3rd LDAP server address
  *      private String csLDAPDomain = "" ;		// Domain
- * 		private String csLDAPRootOU = "" ;		// Root OU; e.g.: OU=FUTUR_PUBLIGROUPE,DC=Publigroupe,DC=net		
+ * 		private String csLDAPRootOU = "" ;		// Root OU; e.g.: OU=FUTUR_PUBLIGROUPE,DC=Publigroupe,DC=net
  * 		private String csLDAPGenericUser = "" ;	// LDap connection user
  * 		private String csLDAPGenericPassword = "";// LDap connection password
  * 		...
@@ -39,7 +39,7 @@ import javax.naming.directory.SearchResult;
  *
  * Application code:
  * ...
- * LDapRequester ldapReq = resourceManager.getLDAPRequester() ;	
+ * LDapRequester ldapReq = resourceManager.getLDAPRequester() ;
  * String csUserDN = ldapReq.getUserLogin(csUserLdapId, csPassword, bLoginAuto) ;
  * boolean bLogged = !StringUtil.IsEmpty(csUserDN);
  * ...
@@ -49,8 +49,8 @@ import javax.naming.directory.SearchResult;
  * {
  * 		csApplicationCredentials = "" ;
  * }
- * 
- * // To get user complete name 
+ *
+ * // To get user complete name
  * String csSn = ldapReq.getAttribute(csUserDN, "sn") ;
  * if (csSn == null)
  * {
@@ -60,7 +60,7 @@ import javax.naming.directory.SearchResult;
  * {
  * 		csUserLdapName = csSn;
  * 		String csGivenName = ldapReq.getAttribute(csUserDN, "givenName") ;
- * 		if (csGivenName != null) 
+ * 		if (csGivenName != null)
  * 		{
  * 			csUserLdapName += " " + csGivenName;
  * 		}
@@ -89,21 +89,21 @@ public class LdapRequester
 		this.csLDAPGenericUser = csGenericUser;
 		this.csLDAPGenericPassword = csGenericPassword;
 	}
-	
+
 	/**
 	 * @param csUser: User name
 	 * @param csPassword: User password
 	 * @return true if ldap user/password exists, false otherwise
 	 */
 	public boolean validateLogin(String csUser, String csPassword)
-	{		
+	{
 		int nLdapRequestId = cptLdapRequestId.inc();
 		int nNbLdapThread = 1;
 		if(!StringUtil.isEmpty(csLDAPServer2))
 			nNbLdapThread++;
 		if(!StringUtil.isEmpty(csLDAPServer3))
 			nNbLdapThread++;
-		
+
 		ldap = new LdapUtil(nNbLdapThread);
 		ldap.addServer(nLdapRequestId, csUser+"@"+csLDAPDomain, csPassword, csLDAPServer1);
 		if(!StringUtil.isEmpty(csLDAPServer2))
@@ -130,7 +130,7 @@ public class LdapRequester
 			csUserLogin = csLDAPGenericUser;
 			csPasswordLogin = csLDAPGenericPassword;
 		}
-		
+
 		if (!validateLogin(csUserLogin, csPasswordLogin))
 		{
 			return null ;
@@ -139,7 +139,7 @@ public class LdapRequester
 		{
 			return null ;
 		}
-		
+
 		NamingEnumeration enumer = ldap.searchSubtree(csLDAPRootOU, "sAMAccountName="+csUser) ;
 		if (enumer.hasMoreElements())
 		{
@@ -152,9 +152,9 @@ public class LdapRequester
 
 	/**
 	 * @param csUserDN: User DN whose attribute is serached
-	 * @param csAttributName: Attribut name 
-	 * @return String, giving the read attribut value. 
-	 */	
+	 * @param csAttributName: Attribut name
+	 * @return String, giving the read attribut value.
+	 */
 	public String getAttribute(String csUserDN, String csAttributName)
 	{
 		if (ldap == null)

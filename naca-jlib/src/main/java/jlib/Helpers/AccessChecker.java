@@ -61,7 +61,7 @@ import java.util.Map;
  * 		[/functions]
  * 	[/accesstree]
  * </pre>
- * 
+ *
  * Requests for access have to specify:
  * <ul>
  * 	<li>A function path: <code>administration / customers / changePassword</code>.</li>
@@ -69,13 +69,13 @@ import java.util.Map;
  * 	<li>An access method: <code>read</code> or <code>write</code>.</li>
  * 	<li>Possibly, a parameter name, and a parameter value.</li>
  * </ul>
- * 
+ *
  * Access rules are the following:
  * <ul>
- * 	<li>Initially, the user hasn't access to the requested function. A <code>hasAccess</code> flag is 
+ * 	<li>Initially, the user hasn't access to the requested function. A <code>hasAccess</code> flag is
  * 	initialized to <code>false</code>.</li>
  * 	<li>The function tree is parsed from the top, following the function path.</li>
- * 	<li>If the <code>hasAccess</code> is <code>false</code> then only 
+ * 	<li>If the <code>hasAccess</code> is <code>false</code> then only
  * 	the <code>grant</code> list is checked.</li>
  * 	<li>If the <code>hasAccess</code> is <code>true</code> then only
  * 	the <code>deny</code> list is checked.</li>
@@ -95,7 +95,7 @@ public class AccessChecker {
 //**                             Class constructor.                                           **
 //**********************************************************************************************
 /**
- * 
+ *
  */
 	public String toString() {
 		StringBuilder s=new StringBuilder();
@@ -135,7 +135,7 @@ public class AccessChecker {
 		s.append("</accessTree>\r\n");
 		return s.toString();
 	}
-	
+
 
 //**********************************************************************************************
 //**                             Class constructor.                                           **
@@ -250,7 +250,7 @@ public class AccessChecker {
 				if (!_groups.containsKey(group[n]))
 					throw new Exception("Cannot include user '"+userName+"' in group '"+group[n]+"' because this group is not declared.");
 
-//................................ Adds the group in the user's list of groups ....................				
+//................................ Adds the group in the user's list of groups ....................
 				groupsList.add(group[n]);
 			}
 		}
@@ -284,7 +284,7 @@ public class AccessChecker {
  * @param groupName The new group's name.
  * @param parentGroup The name of the parent.
  * @exception Exception If specified name is null or empty.
- * @exception Exception if the parent group doesn't exist. 
+ * @exception Exception if the parent group doesn't exist.
  */
 	public void declareGroup(String groupName,String parentGroups) throws Exception {
 		try {
@@ -357,7 +357,7 @@ public class AccessChecker {
 				if (!_groups.containsKey(group[n]))
 					throw new Exception("Cannot include group '"+groupName+"' in group '"+group[n]+"' because '"+group[n]+"' is not declared.");
 
-//................................ Adds the group in the groups's list of groups ..................				
+//................................ Adds the group in the groups's list of groups ..................
 				groupsList.add(group[n]);
 			}
 		}
@@ -373,7 +373,7 @@ public class AccessChecker {
 //********************************************************************************************
 /**
  * Grants <code>write</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
@@ -388,18 +388,18 @@ public class AccessChecker {
 			establishAccessToUsersOrGroups("grant","write",functionPath,usersOrGroups,null,null);
 		}
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.grantWriteAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.grantWriteAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));
 		}
 	}
 
 /**
  * Grants <code>write</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
- * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
+ * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a
  *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -418,7 +418,7 @@ public class AccessChecker {
 
 /**
  * Grants <code>read</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
@@ -433,18 +433,18 @@ public class AccessChecker {
 			establishAccessToUsersOrGroups("grant","read",functionPath,usersOrGroups,null,null);
 		}
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.grantReadAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.grantReadAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));
 		}
 	}
 
 /**
  * Grants <code>read</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
- * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
+ * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a
  *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -466,7 +466,7 @@ public class AccessChecker {
 //********************************************************************************************
 /**
  * Denies <code>write</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
@@ -481,18 +481,18 @@ public class AccessChecker {
 			establishAccessToUsersOrGroups("deny","write",functionPath,usersOrGroups,null,null);
 		}
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.denyWriteAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.denyWriteAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));
 		}
 	}
 
 /**
  * Denies <code>write</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
- * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
+ * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a
  *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -511,7 +511,7 @@ public class AccessChecker {
 
 /**
  * Denies <code>read</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
@@ -526,18 +526,18 @@ public class AccessChecker {
 			establishAccessToUsersOrGroups("deny","read",functionPath,usersOrGroups,null,null);
 		}
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.denyReadAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.denyReadAccessToUsersOrGroups('"+functionPath+"','"+usersOrGroups+"')",e));
 		}
 	}
 
 /**
  * Denies <code>read</code> access to a function to a list of users and groups.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
- * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
+ * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a
  *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -562,12 +562,12 @@ public class AccessChecker {
  * Method used internally.
  * @param action Can be <code>"grant"</code> or <code>"deny"</code>. Grants or denies the access.
  * @param access Can be <code>"read"</code> or <code>"write"</code>. Specifies the type of access to establish.
- * @param functionPath The path to the function the access is granted. Can be on the form 
+ * @param functionPath The path to the function the access is granted. Can be on the form
  * of: <pre>"userManager/userProfile/userChangePassword"</pre>. If function path doesn't exist yet,
  *     it is created by this call.
  * @param usersOrGroups The list of users and/or groups to set the access. Is a comma separated list.
  * @param parameterName If not <code>null</code>, sets the access to a particular parameter and value.
- * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a 
+ * @param parameterValue Cannot be <code>null</code> if <code>parameterName</code> isn't. Sets the access to a
  *     particular parameter and value.
  * @exception Exception if no user has been yet declared.
  * @exception Exception if <code>parameterName</code> is not null, and <code>parameterValue</code> is.
@@ -612,7 +612,7 @@ public class AccessChecker {
 			}
 
 //**************************** Creates the requested element **********************************
-// The requested element is the concatenation of the 
+// The requested element is the concatenation of the
 // function path, plus the parameter (if any specified).
 			String[] functionName=functionPath.split("/");
 
@@ -661,13 +661,13 @@ public class AccessChecker {
 				if (access.equals("write")) {
 					accessList=element.grantWriting;
 				} else if (access.equals("read")) {
-					accessList=element.grantReading;					
+					accessList=element.grantReading;
 				}
 			} else if (action.equals("deny")) {
 				if (access.equals("write")) {
-					accessList=element.denyWriting;										
+					accessList=element.denyWriting;
 				} else if (access.equals("read")) {
-					accessList=element.denyReading;					
+					accessList=element.denyReading;
 				}
 			}
 			if (accessList==null)
@@ -683,7 +683,7 @@ public class AccessChecker {
 
 //****************************** Exception management ******************************************
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.establishUserOrGroupAccess('"+action+"','"+functionPath+"','"+usersOrGroups+"','"+parameterName+"','"+parameterValue+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.establishUserOrGroupAccess('"+action+"','"+functionPath+"','"+usersOrGroups+"','"+parameterName+"','"+parameterValue+"')",e));
 		}
 	}
 
@@ -696,14 +696,14 @@ public class AccessChecker {
  * @param userName The user name to check.
  * @param accessType Can be <code>read</code> or <code>write</code>.
  * @param functionPath The function name to check. This parameter can be on the
- * form of a relative path, like: <pre>"userManager/userProfile/userChangePassword"</pre> 
+ * form of a relative path, like: <pre>"userManager/userProfile/userChangePassword"</pre>
  * @exception If <code>functionPath</code> is null or empty.
  */
 	public boolean hasUserAccessTo(String userName,String accessType,String functionPath) throws Exception {
 		try {
 			return hasUserAccessTo(userName,accessType,functionPath,null,null);
 		} catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.hasUserAccessTo('"+userName+"','"+accessType+"','"+functionPath+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.hasUserAccessTo('"+userName+"','"+accessType+"','"+functionPath+"')",e));
 		}
 	}
 
@@ -723,11 +723,11 @@ public class AccessChecker {
  */
 	public boolean hasUserAccessTo(String userName,String accessType,String functionPath,String parameterName,String parameterValue) throws Exception {
 		try {
-			if (functionPath==null) 
+			if (functionPath==null)
 				throw new Exception("Specified functionName cannot be null or empty.");
-			if (functionPath.length()==0) 
+			if (functionPath.length()==0)
 				throw new Exception("Specified functionName cannot be null or empty.");
-			
+
 			if (accessType==null)
 				throw new Exception("Specified access cannot be null or empty.");
 			if (!accessType.equals("read") && !accessType.equals("write"))
@@ -760,7 +760,7 @@ public class AccessChecker {
 
 //**************************** Looks for the parameter ****************************************
 			if (parameterName!=null) {
-				if (parameterValue==null) 
+				if (parameterValue==null)
 					throw new Exception("If parameterName is not null, then parameterValue cannot be null or empty.");
 
 //........................ Checks if the user has access to the parameter .....................
@@ -768,7 +768,7 @@ public class AccessChecker {
 // If the parameter doesn't exist, the method returns the current access:
 				if (!function.parameters.containsKey(parameterName))
 					return hasUserAccess;
-				
+
 
 // Checks if the user has access to the parameter:
 				AccessCheckerParameter parameter=function.parameters.get(parameterName);
@@ -778,7 +778,7 @@ public class AccessChecker {
 // If the value doesn't exist, the method returns the current access:
 				if (!parameter.values.containsKey(parameterValue))
 					return hasUserAccess;
-				
+
 
 // Checks if the user has access to the value:
 				AccessCheckerElement value=parameter.values.get(parameterValue);
@@ -791,7 +791,7 @@ public class AccessChecker {
 
 //************************************** Exception manager ********************************
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.hasUserAccessTo('"+userName+"','"+functionPath+"','"+parameterName+"','"+parameterValue+"')",e));			
+			throw new Exception(ParseError.parseError("AccessChecker.hasUserAccessTo('"+userName+"','"+functionPath+"','"+parameterName+"','"+parameterValue+"')",e));
 		}
 	}
 
@@ -828,7 +828,7 @@ public class AccessChecker {
 
 //************************** Exception Management *****************************************
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.userGroups('"+userName+"')",e));						
+			throw new Exception(ParseError.parseError("AccessChecker.userGroups('"+userName+"')",e));
 		}
 	}
 
@@ -838,11 +838,11 @@ public class AccessChecker {
 	private List<String> retrieveGroupGroups(String groupName) throws Exception {
 		try {
 //*********************************** Initialization **************************************
-			if (groupName==null) 
+			if (groupName==null)
 				return new ArrayList<String>();
-			if (groupName.length()==0) 
+			if (groupName.length()==0)
 				return new ArrayList<String>();
-			if (!_groups.containsKey(groupName)) 
+			if (!_groups.containsKey(groupName))
 				return new ArrayList<String>();
 
 //............... Initializes the list of groups, including the requested group ...........
@@ -863,8 +863,8 @@ public class AccessChecker {
 
 //***************************** Exception management **************************************
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("AccessChecker.retrieveGroupGroups('"+groupName+"')",e));						
-		}		
+			throw new Exception(ParseError.parseError("AccessChecker.retrieveGroupGroups('"+groupName+"')",e));
+		}
 	}
 
 //******************************************************************************************
@@ -877,7 +877,7 @@ public class AccessChecker {
  */
 	private class AccessCheckerElement {
 		public List<String> grantReading;
-		public List<String> denyReading;		
+		public List<String> denyReading;
 		public List<String> grantWriting;
 		public List<String> denyWriting;
 
@@ -932,7 +932,7 @@ public class AccessChecker {
 				ss.append(s);
 			}
 			ss.append("\" ");
-		
+
 			return ss.toString();
 		}
 
@@ -942,14 +942,14 @@ public class AccessChecker {
  * <ul>
  * 	<li>Only one of the four access list is tested:
  * 		<ul>
- * 			<li>If the user <b>has</b> access to the parent element (<code>accessToParent=true</code>, and the 
- * 			requested access type is <code>read</code>, then only {@link #denyReading} is checked.</li> 
- * 			<li>If the user <b>has</b> access to the parent element (<code>accessToParent=true</code>, and the 
- * 			requested access type is <code>write</code>, then only {@link #denyWriting} is checked.</li> 
- * 			<li>If the user <b>has no</b> access to the parent element (<code>accessToParent=false</code>, and the 
- * 			requested access type is <code>read</code>, then only {@link #grantReading} is checked.</li> 
- * 			<li>If the user <b>has no</b> access to the parent element (<code>accessToParent=false</code>, and the 
- * 			requested access type is <code>write</code>, then only {@link #grantWriting} is checked.</li> 
+ * 			<li>If the user <b>has</b> access to the parent element (<code>accessToParent=true</code>, and the
+ * 			requested access type is <code>read</code>, then only {@link #denyReading} is checked.</li>
+ * 			<li>If the user <b>has</b> access to the parent element (<code>accessToParent=true</code>, and the
+ * 			requested access type is <code>write</code>, then only {@link #denyWriting} is checked.</li>
+ * 			<li>If the user <b>has no</b> access to the parent element (<code>accessToParent=false</code>, and the
+ * 			requested access type is <code>read</code>, then only {@link #grantReading} is checked.</li>
+ * 			<li>If the user <b>has no</b> access to the parent element (<code>accessToParent=false</code>, and the
+ * 			requested access type is <code>write</code>, then only {@link #grantWriting} is checked.</li>
  * 		</ul></li>
  * 	<li>If the user, or one of the groups he belongs to (parameter <code>userGroups</code>) is found in the
  * 	pertinent list, then the value returned by the method is the negated value of <code>accessToParent</code>.</li>

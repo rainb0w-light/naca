@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -25,13 +25,13 @@ import jlib.misc.NumberParser;
 public class DbColDefinitionInteger extends BaseDbColDefinition
 {
 	private int nNbDigits = 0;
-	
+
 	DbColDefinitionInteger(ColDescriptionInfo colDescription)
 	{
 		super(colDescription);
 		nNbDigits = colDescription.getPrecision();
 	}
-	
+
 	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -44,35 +44,35 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
-	
+
 //	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
 //	{
 //		long lValue = LittleEndingUnsignBinaryBufferStorage.readInt(arrByteValue, nSourceOffset);
 //		colValueGenericDest.setValue(lValue);
-//		
+//
 //		return 4;
 //	}
-	
+
 	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
-	{	
+	{
 		long originalValue = LittleEndingUnsignBinaryBufferStorage.readInt(arrByteValue, nSourceOffset);
 		long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
 		if(originalValue != lValue)
 			dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
-		
+
 		stmt.setColParam(nCol, (int)lValue);
 		return 4;
 	}
-	
+
 	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
 	{
 		int n = storedProcParamDescBase.getInValueAsInt();
 		return callableStatement.setInValue(nParamId, n);
 	}
-	
+
 	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
 	{
 		try
@@ -80,12 +80,12 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 			String value = resultSet.getString(nCol1Based);
 			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
+				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
 		}
 		catch (SQLException e)
 		{
-			return null;		
+			return null;
 		}
 	}
 }

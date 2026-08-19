@@ -15,7 +15,6 @@ import lexer.CTokenList;
 import lexer.Cobol.CCobolLexer;
 import org.junit.jupiter.api.Test;
 import parser.Cobol.CCobolParser;
-import parser.Cobol.elements.CProgram;
 import parser.CGlobalCommentContainer;
 import semantic.CEntityClass;
 import utils.CGlobalCatalog;

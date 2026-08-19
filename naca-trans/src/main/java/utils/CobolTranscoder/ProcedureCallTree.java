@@ -46,7 +46,7 @@ public class ProcedureCallTree
 			return isexplicitCallByGoto || isexplicitCallAsProcedure || isimplicitCall;
 		}
 	}
-	
+
 	private class RootNodeDivision extends BaseNode
 	{
 		public RootNodeDivision()
@@ -78,7 +78,7 @@ public class ProcedureCallTree
 		}
 		public CEntityProcedure proc = null ;
 	}
-	
+
 	/**
 	 * @param division
 	 */
@@ -86,12 +86,12 @@ public class ProcedureCallTree
 	{
 		root.div = division ;
 	}
-	
+
 	protected RootNodeDivision root = new RootNodeDivision() ;
 	protected NodeSection currentNodeSection = null ;
 	protected NodeProcedure currentNodeProcedure = null ;
 	protected Hashtable<CEntityProcedure, BaseNode> tabProcedureNodes = new Hashtable<CEntityProcedure, BaseNode>() ;
-	
+
 	/**
 	 * @param cont
 	 */
@@ -161,7 +161,7 @@ public class ProcedureCallTree
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void ComputeTree()
 	{
@@ -186,11 +186,11 @@ public class ProcedureCallTree
 				ComputeNodeCalls(nodeP) ;
 			}
 		}
-		
+
 		// analyse status of each procedure
 		boolean isprocedureDivisionFinished = root.div.hasExplicitGetout() ;
 		root.ishasExplicitGetOut = isprocedureDivisionFinished;
-		
+
 		boolean isprecedentFinished = isprocedureDivisionFinished;
 		for (int i = 0; i<root.procedures.size(); i++)
 		{
@@ -205,7 +205,7 @@ public class ProcedureCallTree
 
 			isprecedentFinished = node.isexplicitCallAsProcedure || node.ishasExplicitGetOut;
 		}
-		
+
 		for (int i = 0; i<root.sections.size(); i++)
 		{
 			NodeSection node = root.sections.get(i) ;
@@ -216,7 +216,7 @@ public class ProcedureCallTree
 				Transcoder.logDebug("Section implicitly called : "+name) ;
 			}
 			node.ishasExplicitGetOut = node.sec.hasExplicitGetOut() ;
-			
+
 			boolean isprecedentParagraphFinished = !(node.isCalled() && !node.ishasExplicitGetOut) ;
 			for (int j = 0; j<node.procedures.size(); j++)
 			{
@@ -233,10 +233,10 @@ public class ProcedureCallTree
 			}
 
 			isprecedentFinished = node.isexplicitCallAsProcedure || !node.isCalled() || node.ishasExplicitGetOut;
-			
-			
+
+
 		}
-		
+
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class ProcedureCallTree
 		for (int i = 0; i<node.procedureCallRef.size(); i++)
 		{
 			CEntityCallFunction call = node.procedureCallRef.get(i);
-			CProcedureReference ref = call.getReference() ; 
+			CProcedureReference ref = call.getReference() ;
 			CEntityProcedure proc = ref.getProcedure() ;
 			if (proc != null)
 			{
@@ -292,7 +292,7 @@ public class ProcedureCallTree
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void DoFilterSections(CBaseEntityFactory factory)
 	{
@@ -324,14 +324,14 @@ public class ProcedureCallTree
 				}
 			}
 		}
-		
+
 		boolean isallSectionsAreReduced = true ;  // flag to tell is all sections before the current one have been reduced ;
                                         // if so, we can reduce current one, else we can't
 		for (int i = 0; i<root.sections.size(); i++)
 		{
 			NodeSection node = root.sections.get(i) ;
 			String name = node.sec.GetName() ;
-			
+
 			boolean isignoreAllProcedures = true ;
 			boolean iscanReduceCurrentSection = true ;  // flag to tell if current section can be reduced :
 						// -> no procedure in it, or procedures can be ignored (never called or empty)
@@ -435,8 +435,8 @@ public class ProcedureCallTree
 					isignoreAllProcedures = false ;
 					iscanReduceCurrentSection = false ;
 				}
-			}			
-			
+			}
+
 			if (!node.isCalled())
 			{
 				// this section is never called...

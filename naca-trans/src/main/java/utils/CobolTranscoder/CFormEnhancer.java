@@ -68,7 +68,7 @@ public class CFormEnhancer
 		{
 			return ;
 		}
-		
+
 		if (docGlobalTransform != null)
 		{
 			ApplyTransform(form, docGlobalTransform, bResources) ;
@@ -80,7 +80,7 @@ public class CFormEnhancer
 			ApplyTransform(form, transform, bResources) ;
 		}
 		else
-		{		
+		{
 			transform = FindTransformation(cont.GetDisplayName().substring(0, 4));
 			if (transform != null)
 			{
@@ -88,13 +88,13 @@ public class CFormEnhancer
 			}
 		}
 	}
-	
+
 	private void ApplyTransform(CEntityResourceForm form, Document transform, boolean bResources)
 	{
 		Element root = transform.getDocumentElement() ;
 		NodeList lst = root.getChildNodes() ;
 		if (bResources)
-		{	
+		{
 			for (int i=0; i<lst.getLength(); i++)
 			{
 				Node node = lst.item(i) ;
@@ -196,7 +196,7 @@ public class CFormEnhancer
 			}
 		}
 	}
-	
+
 	private void doMoveField(Element element, CEntityResourceForm form)
 	{
 		String col = element.getAttribute("col") ;
@@ -214,7 +214,7 @@ public class CFormEnhancer
 				{
 					form.MoveField(name, nc, nl) ;
 				}
-				else 
+				else
 				{
 					if (col != null && !col.equals(""))
 					{
@@ -222,7 +222,7 @@ public class CFormEnhancer
 						{
 							int c = Integer.parseInt(col);
 							int l = Integer.parseInt(line) ;
-							
+
 							form.MoveField(c, l, nc, nl) ;
 						}
 					}
@@ -244,7 +244,7 @@ public class CFormEnhancer
 					int c = Integer.parseInt(col);
 					int l = Integer.parseInt(line) ;
 					int s = Integer.parseInt(length) ;
-					
+
 					form.AddLine(c, l, s) ;
 				}
 			}
@@ -264,7 +264,7 @@ public class CFormEnhancer
 					int c = Integer.parseInt(col);
 					int l = Integer.parseInt(line) ;
 					int s = Integer.parseInt(length) ;
-					
+
 					Node n = element.getFirstChild() ;
 					while (n.getNodeType() != Node.ELEMENT_NODE)
 					{
@@ -277,7 +277,7 @@ public class CFormEnhancer
 				}
 			}
 		}
-		
+
 	}
 	private void doHideField(Element element, CEntityResourceForm form)
 	{
@@ -301,7 +301,7 @@ public class CFormEnhancer
 	private void doSetSwitchCase(Element element, CEntityResourceForm form)
 	{
 		String field = element.getAttribute("name") ;
-		
+
 		NodeList lst = element.getElementsByTagName("case") ;
 		if (lst != null)
 		{
@@ -335,7 +335,7 @@ public class CFormEnhancer
 			Element tag = (Element)n ;
 			form.AddSwitchCase(field, null, null, tag) ;
 		}
-		
+
 	}
 	/**
 	 * @param element
@@ -432,7 +432,7 @@ public class CFormEnhancer
 				}
 			}
 		}
-		
+
 	}
 	/**
 	 * @param element
@@ -467,7 +467,7 @@ public class CFormEnhancer
 				}
 			}
 		}
-	}	
+	}
 	/**
 	 * @param element
 	 * @param form
@@ -542,7 +542,7 @@ public class CFormEnhancer
 	 */
 	private class TransformFileNameFilter implements FilenameFilter
 	{
-		protected String csName = "" ; 
+		protected String csName = "" ;
 		public TransformFileNameFilter(String name)
 		{
 			csName = name ;
@@ -552,7 +552,7 @@ public class CFormEnhancer
 			return name.toUpperCase().startsWith(csName.toUpperCase() + ".");
 		}
 	}
-	
+
 	private Document FindTransformation(String name)
 	{
 		File dir = new File(csTransformDir);
@@ -562,7 +562,7 @@ public class CFormEnhancer
 		{
 			File trans = lst[0] ;
 			return LoadXML(trans) ;
-		} 
+		}
 		return null;
 	}
 

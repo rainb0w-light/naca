@@ -19,93 +19,93 @@ public class SqlMapperManagedTable
 	//private Hashtable<String, RecordId> m_hashRecordIdByName = null;	// map of all recordId indexed by their names
     // map of all records indexed by their name, given by their RecordId
 	private Hashtable<String, SqlMapperRecordsCollection> hashRecords = null;
-	
+
 	private ArrayList<RecordId> arrRecordIds = null;	// Array of the record id filled; it's in the insertion order
-	
+
 	SqlMapperManagedTable(String csTableName)
 	{
 		this.csTableName = csTableName;
 		checkRecordsContainers();
 	}
-//	
+//
 //	public SqlMapperManagedRecord set(RecordId recordId)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		return record;
 //	}
-//	
+//
 //	public SqlMapperManagedRecord setByName(RecordId recordId)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		return record;
 //	}
-	
+
 //	public boolean isSet(RecordId recordId, String csColName)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		return record.isStored(csColName);
 //	}
-	
+
 //	public String getAsString(RecordId recordId, String csColName)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		return record.getAsString(csColName);
 //	}
-//	
+//
 //	public int getAsInt(RecordId recordId, String csColName)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		return record.getAsInt(csColName);
 //	}
-//	
+//
 //	public double getAsDouble(RecordId recordId, String csColName)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		return record.getAsDouble(csColName);
 //	}
-	
+
 //	void set(RecordId recordId, String csColName, String csValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		record.add(csColName, csValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, int nValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecordByName(recordId);
 //		record.add(csColName, nValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, double dValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		record.add(csColName, dValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, boolean bValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		record.add(csColName, bValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, BigDecimal bdValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		record.add(csColName, bdValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, Date dtValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		record.add(csColName, dtValue);
 //	}
-//	
+//
 //	void set(RecordId recordId, String csColName, Timestamp tsValue)
 //	{
 //		SqlMapperManagedRecord record = getOrCreateRecord(recordId);
 //		record.add(csColName, tsValue);
 //	}
-	
+
 	private void checkRecordsContainers()
 	{
 		if(hashRecords == null)
@@ -115,7 +115,7 @@ public class SqlMapperManagedTable
 		if(arrRecordIds == null)
 			arrRecordIds = new ArrayList<RecordId>();
 	}
-	
+
 //	private synchronized SqlMapperManagedRecord getOrCreateRecordByName(RecordId recordId)
 //	{
 //		RecordId recordIdFoundByName = getRecordIdByName(recordId.getName());
@@ -123,8 +123,8 @@ public class SqlMapperManagedTable
 //			recordIdFoundByName = recordId;
 //		return getOrCreateRecord(recordIdFoundByName);
 //	}
-	
-	// Get a record by it's Id, not by the content of the record Id ! 
+
+	// Get a record by it's Id, not by the content of the record Id !
 //	private synchronized SqlMapperManagedRecord getOrCreateRecord(RecordId recordId)
 //	{
 //		SqlMapperManagedRecord record = m_hashRecords.get(recordId);
@@ -134,33 +134,33 @@ public class SqlMapperManagedTable
 //		}
 //		// New record
 //		m_hashRecordIdByName.put(recordId.getName(), recordId);	// Identifies the recordId by it's name in a map
-//		
+//
 //		record = new SqlMapperManagedRecord();
 //		m_hashRecords.put(recordId, record);
 //		arrRecordIds.add(recordId);
-//		return record;	
+//		return record;
 //	}
-	
+
 //	public synchronized SqlMapperManagedRecord getRecordByRecordId(RecordId recordId)
 //	{
 //		if(recordId == null)
 //			return null;
-//		
+//
 //		SqlMapperManagedRecord record = m_hashRecords.get(recordId);
-//		return record;		
+//		return record;
 //	}
-	
-	// Get a recordId by it's name 
+
+	// Get a recordId by it's name
 //	public synchronized RecordId getRecordIdByName(String csRecordName)
 //	{
 //		if(StringUtil.isEmpty(csRecordName))
 //			return null;
-//		
+//
 //		RecordId recordId = m_hashRecordIdByName.get(csRecordName);
 //		return recordId;
 //	}
-	
-	// Get a record by it's name, not by an object reference 
+
+	// Get a record by it's name, not by an object reference
 //	public synchronized SqlMapperManagedRecord getRecordByName(String csRecordName)
 //	{
 //		RecordId recordId = getRecordIdByName(csRecordName);
@@ -170,47 +170,47 @@ public class SqlMapperManagedTable
 //		SqlMapperManagedRecord record = getRecordByRecordId(recordId);
 //		return record;
 //	}
-	
+
 	public synchronized SqlMapperRecordsCollection getRecords(RecordId recordId)
 	{
 		String csRecordName = recordId.getName();
 		return getRecords(csRecordName);
 	}
-	
+
 	public synchronized SqlMapperRecordsCollection getRecords(String csRecordName)
 	{
 		SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
 		return records;
 	}
-	
+
 	public synchronized SqlMapperManagedRecord getRecordWithId(RecordId recordId)
 	{
 		String csRecordName = recordId.getName();
-		
+
 		SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
 		if(records == null)
 		{
 			return null;
 		}
-		
+
 		SqlMapperManagedRecord record = records.getFirstRecord();
 		if(record == null)
 		{
 			return null;
 		}
-		
+
 		return record;
 	}
-//	
+//
 //	public synchronized SqlMapperManagedRecord createNewRecordWithId(RecordId recordId)
 //	{
 //		return getOrCreateRecordWithId(recordId);
 //	}
-	
+
 	public synchronized SqlMapperManagedRecord getOrCreateRecordWithId(RecordId recordId)
 	{
 		String csRecordName = recordId.getName();
-		
+
 		SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
 		if(records == null)
 		{
@@ -218,7 +218,7 @@ public class SqlMapperManagedTable
 			hashRecords.put(csRecordName, records);
 			arrRecordIds.add(recordId);
 		}
-		
+
 		SqlMapperManagedRecord record = records.getFirstRecord();
 		if(record == null)
 		{
@@ -226,28 +226,28 @@ public class SqlMapperManagedTable
 			records.add(record);
 		}
 		return record;
-	}	
-	
+	}
+
 	public synchronized SqlMapperManagedRecord createNewRecordWithId(RecordId recordId)
 	{
 		String csRecordName = recordId.getName();
 		arrRecordIds.add(recordId);
-		
+
 		SqlMapperRecordsCollection records = hashRecords.get(csRecordName);
 		if(records == null)
 		{
 			records = new SqlMapperRecordsCollection();
 			hashRecords.put(csRecordName, records);
 		}
-		
+
 		SqlMapperManagedRecord record = new SqlMapperManagedRecord();
 		records.add(record);
-		return record;	
+		return record;
 	}
-	
+
 	public int executeInserts(DbAccessor dbAccessor)
 	{
-		for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Write all records for this table 
+		for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Write all records for this table
 		{
 			RecordId recordId = arrRecordIds.get(nRecordId);	// Identify the record itself
 			if(recordId != null)
@@ -264,10 +264,10 @@ public class SqlMapperManagedTable
 		}
 		return 0;
 	}
-	
+
 	public void executeSelects(DbAccessor dbAccessor)
 	{
-		for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Read all records for this table 
+		for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Read all records for this table
 		{
 			RecordId recordId = arrRecordIds.get(nRecordId);	// Identify the record itself
 			if(recordId != null)
@@ -276,7 +276,7 @@ public class SqlMapperManagedTable
 			}
 		}
 	}
-	
+
 	public SqlMapperRecordsCollection executeSelects(DbAccessor dbAccessor, RecordId recordId)
 	{
 		if(recordId != null)
@@ -285,7 +285,7 @@ public class SqlMapperManagedTable
 			SqlMapperRecordsCollection records = hashRecords.get(csName);	// Find all records
 			if(records == null)
 			{
-				records = new SqlMapperRecordsCollection(); 
+				records = new SqlMapperRecordsCollection();
 				hashRecords.put(csName, records);
 				addOnceRecordId(recordId);
 			}
@@ -294,7 +294,7 @@ public class SqlMapperManagedTable
 		}
 		return null;
 	}
-	
+
 	private void addOnceRecordId(RecordId recordId)
 	{
 		for(int n=0; n<arrRecordIds.size(); n++)
@@ -305,12 +305,12 @@ public class SqlMapperManagedTable
 		}
 		arrRecordIds.add(recordId);
 	}
-	
+
 	public boolean executeDeletes(DbAccessor dbAccessor)
 	{
 		try
 		{
-			for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Enum all recordids for this table 
+			for(int nRecordId=0; nRecordId<arrRecordIds.size(); nRecordId++)	// Enum all recordids for this table
 			{
 				RecordId recordId = arrRecordIds.get(nRecordId);	// Identify the record itself
 				if(recordId != null)
@@ -323,7 +323,7 @@ public class SqlMapperManagedTable
 						int nNbRecords = records.getNbRecords();
 						for(int n=0; n<nNbRecords; n++)
 						{
-							SqlMapperManagedRecord record = records.getRecordAt(n);					
+							SqlMapperManagedRecord record = records.getRecordAt(n);
 							if(record != null)	// We have a container record to fill with a select
 							{
 								record.executeDelete(dbAccessor, csTableName, recordId);
@@ -340,7 +340,7 @@ public class SqlMapperManagedTable
 		}
 		return false;
 	}
-	
+
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
@@ -358,11 +358,11 @@ public class SqlMapperManagedTable
 				SqlMapperRecordsCollection records = hashRecords.get(csRecordName);	// Find the values of all columns
 				if(records != null)
 					sb.append(records.toString());
-			}				
+			}
 		}
 		return sb.toString();
 	}
-	
+
 	public void clearValues()
 	{
 	//	m_lastRecord = null;
@@ -374,7 +374,7 @@ public class SqlMapperManagedTable
 			if(recordId != null)
 			{
 				String csRecordName = recordId.getName();
-				SqlMapperRecordsCollection records = hashRecords.get(csRecordName);	// Find the values of all columns 
+				SqlMapperRecordsCollection records = hashRecords.get(csRecordName);	// Find the values of all columns
 				if(records != null)
 					records.clearValues();
 				hashRecords.clear();
@@ -384,4 +384,3 @@ public class SqlMapperManagedTable
 		//m_hashRecords.clear();
 	}
 }
-

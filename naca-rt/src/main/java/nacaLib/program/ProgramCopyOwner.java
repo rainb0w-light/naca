@@ -27,7 +27,7 @@ public class ProgramCopyOwner extends BaseCloseMBean
 		this.csCopyName = csCopyName;
 		hashPrograms = new Hashtable<String, String>();
 	}
-	
+
 	void showBean(boolean bToShow)
 	{
 		if(bToShow && !isBeanCreated())
@@ -35,12 +35,12 @@ public class ProgramCopyOwner extends BaseCloseMBean
 		else if(!bToShow && isBeanCreated())
 			unregisterMBean();
 	}
-	
+
 	void add(String csProgramName)
 	{
 		hashPrograms.put(csProgramName, csProgramName);
-	}	
-	
+	}
+
 	boolean removeProgramOwner(String csProgramName)
 	{
 		if(hashPrograms != null)
@@ -58,27 +58,27 @@ public class ProgramCopyOwner extends BaseCloseMBean
 		}
 		return false;
 	}
-		
+
 	protected void buildDynamicMBeanInfo()
 	{
 		addAttribute("Name", getClass(), "Name", String.class);
 		addAttribute("NbProgramOwner", getClass(), "NbProgramOwner", int.class);
-    	
+
     	addOperation("Unload Copy", getClass(), "unloadCopy");	//Boolean.TYPE);
 	}
-	
+
 	public String getName()
 	{
 		return csCopyName;
 	}
-	
+
 	public int getNbProgramOwner()
 	{
 		if(hashPrograms == null)
 			return 0;
 		return hashPrograms.size();
 	}
-	
+
 	public void unloadCopy()
 	{
 		Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);

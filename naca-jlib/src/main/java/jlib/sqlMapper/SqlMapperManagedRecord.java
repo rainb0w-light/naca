@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sqlMapper;
 
@@ -28,25 +28,25 @@ import jlib.sql.SQLClause;
  * @version $Id: SqlMapperManagedRecord.java,v 1.8 2007/12/04 14:00:23 u930di Exp $
  */
 
-public class SqlMapperManagedRecord extends ColValueCollection	
+public class SqlMapperManagedRecord extends ColValueCollection
 {
 	SqlMapperManagedRecord()
 	{
 		super();
 	}
-	
+
 	boolean executeInsert(DbAccessor dbAccessor, String csTableName)
 	{
 		SQLClause clause = new SQLClause(dbAccessor);
 		try
 		{
 			int nNbCols = getNbColValues();
-			
+
 			clause.set("INSERT INTO " + csTableName);
 			for(int nCol=0; nCol<nNbCols; nCol++)	// Enum all cols of the record
 			{
 				ColValue colValue = getColValueAtIndex(nCol);
-				clause.paramInsert(colValue);			
+				clause.paramInsert(colValue);
 			}
 			int nNbRecords = clause.prepareAndExecute();
 			return true;
@@ -58,7 +58,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 			throw e;
 		}
 	}
-	
+
 	boolean executeDelete(DbAccessor dbAccessor, String csTableName, RecordId recordId)
 		throws TechnicalException
 	{
@@ -66,25 +66,25 @@ public class SqlMapperManagedRecord extends ColValueCollection
 		try
 		{
 			// Execute a select statement with the where parameter defined by recordId
-			
+
 			// Create the select statement
 			StringBuilder sbClause = new StringBuilder("Delete from ");
 			sbClause.append(csTableName);
 			recordId.buildWhereClauseAndMapParams(sbClause, clause);
-//			
+//
 //			String csWhere = recordId.getWhere();
 //			sbClause.append(csWhere);
 //			clause.set(sbClause.toString());
-//			// Set the where parameters		
-//			
+//			// Set the where parameters
+//
 //			for(int nCol=0; nCol<recordId.getNbColValues(); nCol++)	// Enum all cols of the record
 //			{
 //				ColValue colValue = recordId.getColValueAtIndex(nCol);
-//				clause.param(colValue);			
+//				clause.param(colValue);
 //			}
 //
 			clause.prepareAndExecute();	// Execute the statement
-			
+
 			return true;
 		}
 		catch (TechnicalException e)
@@ -94,7 +94,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 			throw e;
 		}
 	}
-	
+
 	void handleColsType(SQLClause clause, ResultSet resultSet)
 	{
 		ResultSetMetaData resultSetmetaData;
@@ -102,7 +102,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 		try
 		{
 			resultSetmetaData = resultSet.getMetaData();
-			
+
 			int nNbCols = resultSetmetaData.getColumnCount();
 			for(nCol=1; nCol<=nNbCols; nCol++)
 			{
@@ -117,7 +117,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 					add(csColName, (int)0);
 				}
 				else if(csColTypeName.equals("DECIMAL"))
-				{				
+				{
 					int nPrecision = resultSetmetaData.getPrecision(nCol);
 					int nScale = resultSetmetaData.getScale(nCol);
 					if(nScale == 0)	// No digits behind comma (integer value)
@@ -179,8 +179,8 @@ public class SqlMapperManagedRecord extends ColValueCollection
 		{
 			TechnicalException.throwException("Error while getting column type or name; 1 based column index="+nCol, clause, e);
 		}
-	}	
-	
+	}
+
 	boolean fillColValues(SQLClause clause, ResultSet resultSet, ColValueCollection recordColsTypeMaster)
 	{
 		int nCol = 0;
@@ -192,7 +192,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 				ColValue collectionvalueMaster = recordColsTypeMaster.getColValueAtIndex(nCol);
 				ColValue collectionvalueTarget = collectionvalueMaster.duplicate();
 				collectionvalueTarget.fillWithResurltSetCol(resultSet, nCol+1);
-							
+
 				add(collectionvalueTarget);
 			}
 			return true;
@@ -203,12 +203,12 @@ public class SqlMapperManagedRecord extends ColValueCollection
 		}
 		return false;
 	}
-	
+
 //	public void fillObject(Object oTarget)	// Fill the members of the object in parameter
 //	{
 //		Class<?> targetClass = oTarget.getClass();
 //		Field fieldlist[] = targetClass.getDeclaredFields();
-//		for (int i=0; i < fieldlist.length; i++) 
+//		for (int i=0; i < fieldlist.length; i++)
 //		{
 //			Field field = fieldlist[i];
 //			field.setAccessible(true);
@@ -222,7 +222,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 //				{
 //					ColValue colValue = getColValueByNameCaseInsensitive(csMember);
 // if(colValue == null) // Not found; maybe the member used m_<typing> prefix; try without this prefix
-//					{	
+//					{
 // String csUnprefixedMemberName = StringUtil.getUnprefixedMemberName(csMember, "m_", fieldType); //
 //						colValue = getColValueByNameCaseInsensitive(csUnprefixedMemberName);
 //					}
@@ -239,7 +239,7 @@ public class SqlMapperManagedRecord extends ColValueCollection
 //							field.set(oTarget, new String(cs));
 //						}
 //					}
-//						
+//
 //				}
 //			}
 //			catch (IllegalArgumentException e)

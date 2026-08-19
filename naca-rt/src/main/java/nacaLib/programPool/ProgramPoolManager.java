@@ -20,7 +20,7 @@ import nacaLib.basePrgEnv.BaseProgram;
 public class ProgramPoolManager //extends BaseOpenMBean
 {
 	private Hashtable<String, ProgramInstancesPool> hashProgramInstancesPool = null;
-	
+
 	public ProgramPoolManager(boolean bUseJmx)
 	{
         // hash table of ProgramInstancePool, indexed by program name
@@ -28,7 +28,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		if(bUseJmx)
 			JmxGeneralStat.addProgramPoolManager(this);
 	}
-	
+
 	public void setShowProgramBeans(boolean b)
 	{
 		Collection<ProgramInstancesPool> col = hashProgramInstancesPool.values();
@@ -39,7 +39,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 			p.showBean(b);
 		}
 	}
-	
+
 	public BaseProgram loadPooledProgramInstance(String csProgramName)
 	{
 		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
@@ -47,10 +47,10 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		{
 			programInstancesPool = createProgramInstancesPool(csProgramName);
 		}
-		
+
 		BaseProgram program = programInstancesPool.getOrCreateUnusedInstance();
 		// if programInstance != null then we are inside a read lock, else no read lock set
-		
+
 		// Double check programInstancesPool, as it may have been destroyed in jmx thread (double check pattern)
 		programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		if(programInstancesPool == null)	// new program pool: this prg has never been loaded
@@ -59,8 +59,8 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		}
 
 		return program;
-	}	
-	
+	}
+
 	public BaseProgram preloadSecondInstanceProgram(String csProgramName)
 	{
 		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
@@ -70,8 +70,8 @@ public class ProgramPoolManager //extends BaseOpenMBean
 			return program;
 		}
 		return null;
-	}	
-	
+	}
+
 	public void unloadAllPrograms(boolean bDoGCAfterEachProgramUnload)
 	{
 		Collection<ProgramInstancesPool> collectionprogramInstancesPool = hashProgramInstancesPool.values();
@@ -89,9 +89,9 @@ public class ProgramPoolManager //extends BaseOpenMBean
 				nNbEntries++;
 			}
 			collectionprogramInstancesPool = null;
-			
-			
-			StopWatch sw = new StopWatch(); 
+
+
+			StopWatch sw = new StopWatch();
 			for(int n=0; n<nNbEntries; n++)
 			{
 				ProgramInstancesPool programInstancesPool = arrProgramInstancesPool.get(n);
@@ -101,7 +101,7 @@ public class ProgramPoolManager //extends BaseOpenMBean
 				programInstancesPool = null;
 			}
 			arrProgramInstancesPool = null;
-			
+
 			Log.logNormal("Unload time="+sw.getElapsedTimeReset());
 			System.gc();
 			Log.logNormal("GC 1 after Unload time="+sw.getElapsedTimeReset());
@@ -109,15 +109,15 @@ public class ProgramPoolManager //extends BaseOpenMBean
 			Log.logNormal("GC 2 after Unload time="+sw.getElapsedTimeReset());
 			System.gc();
 			Log.logNormal("GC 3 after Unload time="+sw.getElapsedTimeReset());
-		}		
+		}
 	}
-	
+
 	public ProgramInstancesPool getProgramPool(String csProgramName)
 	{
 		ProgramInstancesPool programInstancesPool = hashProgramInstancesPool.get(csProgramName);
 		return programInstancesPool;
 	}
-	
+
 	private ProgramInstancesPool createProgramInstancesPool(String csProgramName)
 	{
 		// create a program pool, and register it into the hash table
@@ -125,13 +125,13 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		hashProgramInstancesPool.put(csProgramName, programPool);
 		return programPool;
 	}
-	
+
 	public void removeProgramInstancesPool(String csProgramName)
 	{
 		hashProgramInstancesPool.remove(csProgramName);
 	}
 
-	
+
 	public void returnProgramInstanceToPool(BaseProgram program)
 	{
 		String csProgramName = program.getProgramManager().getProgramName();
@@ -139,9 +139,9 @@ public class ProgramPoolManager //extends BaseOpenMBean
 		if(programInstancesPool != null)
 		{
 			programInstancesPool.returnProgram(program);
-		}		
+		}
 	}
-	
+
 	public int getNbProgramStacked()
 	{
 		int n = 0;

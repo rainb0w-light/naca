@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * event is to be sent to a particular log center.
  */
 public class LogFlowRegister
-{	
+{
 /**
  * Returns the registered flow corresponding to the specified name.
  * @param csFlow The name of the desired flow.
@@ -43,7 +43,7 @@ public class LogFlowRegister
 	public static void register(LogFlow flow)
 	{
 		if(ms_arrFlows == null)
-			ms_arrFlows = new ArrayList<LogFlow>(); 
+			ms_arrFlows = new ArrayList<LogFlow>();
 		ms_arrFlows.add(flow);
 	}
 

@@ -23,8 +23,8 @@ public class BinConverter {
     * @param nStartIndex index from where to read the data
     * @return the 64bit integer
     */
-  public static long byteArrayToLong(byte[] buffer, 
-                                     int nStartIndex) 
+  public static long byteArrayToLong(byte[] buffer,
+                                     int nStartIndex)
   {
     return (((long)buffer[nStartIndex]) << 56) |
            ((buffer[nStartIndex + 1] & 0x0ffL) << 48) |
@@ -40,12 +40,12 @@ public class BinConverter {
   /**
     * converts a long o bytes which are put into a given array
     * @param lValue the 64bit integer to convert
-    * @param buffer the target buffer 
+    * @param buffer the target buffer
     * @param nStartIndex where to place the bytes in the buffer
     */
-  public static void longToByteArray(long lValue, 
-                                     byte[] buffer, 
-                                     int nStartIndex) 
+  public static void longToByteArray(long lValue,
+                                     byte[] buffer,
+                                     int nStartIndex)
   {
     buffer[nStartIndex] = (byte) (lValue >>> 56);
     buffer[nStartIndex + 1] = (byte) ((lValue >>> 48) & 0x0ff);
@@ -64,23 +64,23 @@ public class BinConverter {
     * @param nStartIndex index from where to read the data
     * @return the 64bit integer
     */
-  public static long intArrayToLong(int[] buffer, 
-                                    int nStartIndex) 
+  public static long intArrayToLong(int[] buffer,
+                                    int nStartIndex)
   {
-    return (((long) buffer[nStartIndex]) << 32) | 
+    return (((long) buffer[nStartIndex]) << 32) |
             (buffer[nStartIndex + 1] & 0x0ffffffffL);
   }
-  
+
 
   /**
     * converts a long to integers which are put into a given array
     * @param lValue the 64bit integer to convert
-    * @param buffer the target buffer 
+    * @param buffer the target buffer
     * @param nStartIndex where to place the bytes in the buffer
     */
-  public static void longToIntArray(long lValue, 
+  public static void longToIntArray(long lValue,
                                     int[] buffer,
-                                    int nStartIndex) 
+                                    int nStartIndex)
   {
     buffer[nStartIndex]     = (int) (lValue >>> 32);
     buffer[nStartIndex + 1] = (int) lValue;
@@ -94,33 +94,33 @@ public class BinConverter {
     * @return the built long
     */
   public static long makeLong(int nLo,
-                              int nHi) 
+                              int nHi)
   {
     return (((long)nHi << 32) |
             (nLo & 0x00000000ffffffffL));
   }
 
- 
+
   /**
     * gets the lower 32 bits of a long
     * @param lVal the long integer
     * @return lower 32 bits
     */
-  public static int longLo32(long lVal) 
+  public static int longLo32(long lVal)
   {
     return (int)lVal;
-  } 
-  
+  }
+
 
   /**
     * gets the higher 32 bits of a long
     * @param lVal the long integer
     * @return higher 32 bits
     */
-  public static int longHi32(long lVal) 
+  public static int longHi32(long lVal)
   {
     return (int)(lVal >>> 32);
-  } 
+  }
 
 
   // our table for binhex conversion
@@ -133,10 +133,10 @@ public class BinConverter {
     * @param data the byte array
     * @return the binhex string
     */
-  public static String bytesToBinHex(byte[] data) 
+  public static String bytesToBinHex(byte[] data)
   {
     // just map the call
-    return bytesToBinHex(data, 0, data.length); 
+    return bytesToBinHex(data, 0, data.length);
   }
 
 
@@ -149,20 +149,20 @@ public class BinConverter {
     */
   public static String bytesToBinHex(byte[] data,
                                      int nStartPos,
-                                     int nNumOfBytes) 
+                                     int nNumOfBytes)
   {
     StringBuffer sbuf = new StringBuffer();
     sbuf.setLength(nNumOfBytes << 1);
 
     int nPos = 0;
-    for (int nI = 0; nI < nNumOfBytes; nI++) 
+    for (int nI = 0; nI < nNumOfBytes; nI++)
     {
       sbuf.setCharAt(nPos++, HEXTAB[(data[nI + nStartPos] >> 4) & 0x0f]);
       sbuf.setCharAt(nPos++, HEXTAB[data[nI + nStartPos] & 0x0f]);
-    }    
+    }
     return sbuf.toString();
   }
-  
+
 
   /**
     * converts a binhex string back into a byte array (invalid codes will be skipped)
@@ -170,7 +170,7 @@ public class BinConverter {
     * @param data the target array
     * @param nSrcPos from which character in the string the conversion should begin,
     *                remember that (nSrcPos modulo 2) should equals 0 normally
-    * @param nDstPos to store the bytes from which position in the array 
+    * @param nDstPos to store the bytes from which position in the array
     * @param nNumOfBytes number of bytes to extract
     * @return number of extracted bytes
     */
@@ -178,9 +178,9 @@ public class BinConverter {
                                   byte[] data,
                                   int nSrcPos,
                                   int nDstPos,
-                                  int nNumOfBytes) 
+                                  int nNumOfBytes)
   {
-    // check for correct ranges   
+    // check for correct ranges
 	sBinHex = sBinHex.toLowerCase();
     int nStrLen = sBinHex.length();
 
@@ -190,28 +190,28 @@ public class BinConverter {
       nNumOfBytes = nAvailBytes;
     }
 
-    int nOutputCapacity = data.length - nDstPos; 
+    int nOutputCapacity = data.length - nDstPos;
     if (nNumOfBytes > nOutputCapacity)
     {
       nNumOfBytes = nOutputCapacity;
     }
 
     // convert now
-    int nResult = 0; 
-    for (int nI = 0; nI < nNumOfBytes; nI++) 
+    int nResult = 0;
+    for (int nI = 0; nI < nNumOfBytes; nI++)
     {
       byte isactByte = 0;
       boolean blConvertOK = true;
-      for (int nJ = 0; nJ < 2; nJ++) 
+      for (int nJ = 0; nJ < 2; nJ++)
       {
         isactByte <<= 4;
         char actChar = sBinHex.charAt(nSrcPos++);
 
         if ((actChar >= 'a') && (actChar <= 'f'))
-        { 
+        {
           isactByte |= (byte)(actChar - 'a') + 10;
         }
-        else 
+        else
         {
           if ((actChar >= '0') && (actChar <= '9'))
           {
@@ -219,11 +219,11 @@ public class BinConverter {
           }
           else
           {
-            blConvertOK = false; 
+            blConvertOK = false;
           }
         }
-      }     
-      if (blConvertOK) 
+      }
+      if (blConvertOK)
       {
         data[nDstPos++] = isactByte;
         nResult++;
@@ -243,7 +243,7 @@ public class BinConverter {
     */
   public static String byteArrayToUNCString(byte[] data,
                                             int nStartPos,
-                                            int nNumOfBytes) 
+                                            int nNumOfBytes)
   {
     // we need two bytes for every character
     nNumOfBytes &= ~1;
@@ -254,18 +254,18 @@ public class BinConverter {
     if (nAvailCapacity < nNumOfBytes)
     {
       nNumOfBytes = nAvailCapacity;
-    } 
+    }
 
     StringBuffer sbuf = new StringBuffer();
     sbuf.setLength(nNumOfBytes >> 1);
 
     int nSBufPos = 0;
 
-    while (nNumOfBytes > 0) 
+    while (nNumOfBytes > 0)
     {
       sbuf.setCharAt(nSBufPos++,
                      (char)((data[nStartPos] << 8) | (data[nStartPos + 1] & 0x0ff)));
-      nStartPos += 2; 
+      nStartPos += 2;
       nNumOfBytes -= 2;
     }
 
@@ -273,4 +273,3 @@ public class BinConverter {
   }
 
 }
- 

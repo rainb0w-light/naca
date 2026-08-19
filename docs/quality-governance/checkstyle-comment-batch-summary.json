@@ -3,13 +3,13 @@
   "scope": "all maintained Java main and test source sets",
   "checkstyle": {
     "before": 16902,
-    "after": 14646,
-    "reduced": 2256
+    "after": 14629,
+    "reduced": 2273
   },
   "lineLength": {
     "before": 1928,
-    "after": 787,
-    "reduced": 1141
+    "after": 770,
+    "reduced": 1158
   },
   "javadocTagContinuationIndentation": {
     "before": 1073,

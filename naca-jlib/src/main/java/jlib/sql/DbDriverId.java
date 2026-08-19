@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,37 +19,37 @@ import java.util.Hashtable;
 public class DbDriverId
 {
 	private String name = null;
-	private static Hashtable<String, DbDriverId> ms_hashDriverByClass = new Hashtable<String, DbDriverId>();  
-	
+	private static Hashtable<String, DbDriverId> ms_hashDriverByClass = new Hashtable<String, DbDriverId>();
+
 	public static DbDriverId SQLServer = new DbDriverId("SQLServer", "SQLServerDriver");
 	public static DbDriverId UDB = new DbDriverId("UDB", "DB2Driver");
 	public static DbDriverId Oracle = new DbDriverId("Oracle", "Oracle");
 	//public static DbDriverId MySQL = new DbDriverId("MySQL", "");
-	
+
 	private DbDriverId(String name, String className)
 	{
 		this.name = name;
 		put(className, this);
 	}
-	
+
 	private static synchronized void put(String className, DbDriverId dbDriver)
 	{
 		ms_hashDriverByClass.put(className, dbDriver);
 	}
-	
+
 	public static synchronized DbDriverId getByClassName(String csFullyQualifiedClassName)
 	{
 		String className = csFullyQualifiedClassName;
 		int nIndex = csFullyQualifiedClassName.lastIndexOf(".");
 		if(nIndex != -1)
 			className = csFullyQualifiedClassName.substring(nIndex+1);
-		
+
 		DbDriverId dbDriver = ms_hashDriverByClass.get(className);
 		if(dbDriver != null)
 			return dbDriver;
 		return UDB;
 	}
-	
+
 	public String toString()
 	{
 		return name;

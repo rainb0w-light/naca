@@ -39,8 +39,8 @@ public class XmlComparator {
 //*****************************************************************************************
 /**
  * Compares two Xml nodes and checks if they contain the same information.
- * This method doesn't check the attributes of upper level. (upper level 
- * attributes are attributes present directly in <i>x1</i> and <i>x2</i>; 
+ * This method doesn't check the attributes of upper level. (upper level
+ * attributes are attributes present directly in <i>x1</i> and <i>x2</i>;
  * attributes in child nodes are always compared).
  * @param x1 One of the nodes to be compared.
  * @param x2 The other of the nodes to be compared.
@@ -97,7 +97,7 @@ public class XmlComparator {
 		String x1AttrValue;                       // La valeur d'un des attributes de x2Node.
 		NodeList x2Nodes;                         // Les noeuds de x2 qui ont le même nom de x1Node.
 		Node x2Node;                              // Un des noeuds fils de x2 avec le même nom que x1Node.
-		String x2NodeText;                        // Le texte contenu dans x2Node (quand c'est un node de texte). 
+		String x2NodeText;                        // Le texte contenu dans x2Node (quand c'est un node de texte).
 		String x2AttrValue;                       // La valeur d'un des attributs de x2Node.
 		boolean isTextPresent;                    // Indique si un node texte présent dans x1 est aussi présent dans x2.
 		boolean response=true;
@@ -165,13 +165,13 @@ public class XmlComparator {
 					}
 				} while (m<x2Nodes.getLength());
 
-//............. Si on n'a trouvé aucun node texte dans X2 qui corrésponde ................. 
+//............. Si on n'a trouvé aucun node texte dans X2 qui corrésponde .................
 				if (!isTextPresent) {
 					_diagnostic.add("Text content of node '"+x1.getNodeName()+"' is different.");
 					response=false;
 				}
-			}	
-				
+			}
+
 //************************ Compare les elements *******************************************
 // Les éléments ne doivent pas forcément être dans le même ordre.
 			for(n=0;n<x1.getChildNodes().getLength();n++) {
@@ -195,7 +195,7 @@ public class XmlComparator {
 //............. On en cherche un qui soit identique à x1Node. .............................
 				for (m=0;m<x2Nodes.getLength();m++) {
 					x2Node=x2Nodes.item(m);
-					
+
 					if (IsAllInfoPresent(x1Node,x2Node,ignoreBlankSpaces,checkAttributes,ignoreEmptyNodes)) {
 						break;
 					}

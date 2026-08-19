@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -28,29 +28,29 @@ import com.sleepycat.je.Environment;
 public class BTreeCommandSort
 {
 	private String csTempDir = null;
-	
+
 	//private String csFileIn = null;
 	//private boolean bFileInEbcdic = false;
-	
+
 	private String csFileOut = null;
-	
+
 	private BTreeEnv btreeEnv = null;
 	private BtreeKeyDescription keyDescription = null;
-	
+
 	private DataFileWrite dataFileKeyOut = null;
 	//private boolean bCanSortMultiThreads = false;
-	
+
 	public BTreeCommandSort()
 	{
 		//bCanSortMultiThreads = bCanSortMultiThreads;
 	}
-	
+
 	public void setTempDir(String csTempDir)
 	{
 		csTempDir = FileSystem.normalizePath(csTempDir);
-		FileSystem.createPath(csTempDir);		
+		FileSystem.createPath(csTempDir);
 	}
-	
+
 //	public void setPhysicalInFileName(String csFileIn, boolean bFileInEbcdic)
 //	{
 //		csFileIn = csFileIn;
@@ -66,7 +66,7 @@ public class BTreeCommandSort
 	{
 		this.dataFileKeyOut = dataFileKeyOut;
 	}
-	
+
 	public void setExportKeyFileOut(String csExportKeyFileOut)
 	{
 		if(csExportKeyFileOut != null)
@@ -80,28 +80,28 @@ public class BTreeCommandSort
 			}
 		}
 	}
-	
+
 	public void set(String csTempDir, String csFileOut, String csKeys)
 	{
 		setTempDir(csTempDir);
 		if(csFileOut != null)
 			setPhysicalOutFile(csFileOut);
-		setKeyDescription(csKeys);	
+		setKeyDescription(csKeys);
 	}
-	
+
 	public void setKeyDescription(String csKeys)
 	{
 		keyDescription = new BtreeKeyDescription();
 		keyDescription.set(csKeys, true);
 		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
 	}
-	
+
 	public void setKeyDescription(BtreeKeyDescription keyDescription)
 	{
 		this.keyDescription = keyDescription;
 		TempCacheLocator.getTLSTempCache().setBtreeKeyDescription(keyDescription);
 	}
-	
+
 	public boolean execute(int nBufferChunkReadAHead, FileDescriptor fileSortIn, FileDescriptor fileSortOut)
 	{
 		String csFileIn = fileSortIn.getPhysicalName();
@@ -110,10 +110,10 @@ public class BTreeCommandSort
 			fileSortOut.getPhysicalName();
 			fileSortIn.inheritSettings(fileSortOut);
 		}
-		
+
 		boolean isfileInEbcdic = fileSortIn.isEbcdic();
 		keyDescription.setFileInEncoding(isfileInEbcdic);
-		
+
 		String csBtreeDir = getTempFileName();
 		BtreeFile btreeFile = createAndOpenTempBtrieveFile(csBtreeDir);
 		if(btreeFile == null)
@@ -128,19 +128,19 @@ public class BTreeCommandSort
 				exportToOutFile(btreeFile, false, false);
 			closeAndDelete(btreeFile, csBtreeDir);
 			if(nNbRecordRead < 0)
-				return false;			
+				return false;
 		}
 		return true;
 	}
-	
+
 	public String getTempFileName()
 	{
 		if(csTempDir == null)
 			csTempDir = "./";
 		String csTempFile = csTempDir + FileSystem.getTempFileName();
-		return csTempFile;		
+		return csTempFile;
 	}
-	
+
 	public BtreeFile createAndOpenTempBtrieveFile(String csBtreeDir)
 	{
 		csBtreeDir = FileSystem.normalizePath(csBtreeDir);
@@ -148,25 +148,25 @@ public class BTreeCommandSort
 
 		if(connectBtreeEngine(csBtreeDir))
 		{
-			BtreeFile btreeFile = btreeEnv.createBtreeFile("Btree");	//, bCanSortMultiThreads);	
-			return btreeFile; 
+			BtreeFile btreeFile = btreeEnv.createBtreeFile("Btree");	//, bCanSortMultiThreads);
+			return btreeFile;
 		}
-		
-		return null;			
+
+		return null;
 	}
-	
+
 	public void closeAndDelete(BtreeFile btreeFile, String csBtreeDir)
 	{
 		if(btreeFile != null)
 			btreeFile.close();
-		
+
 		if(btreeEnv != null)
 			btreeEnv.close();
-		
+
 		if(csBtreeDir != null)
 			FileSystem.DeleteDirAndContent(csBtreeDir);
 	}
-	
+
 	private boolean connectBtreeEngine(String csDir)
 	{
 		if(btreeEnv == null)
@@ -177,7 +177,7 @@ public class BTreeCommandSort
 		}
 		return true;
 	}
-	
+
 	public int importInFile(BtreeFile btreeFile, FileDescriptor fileSortIn, int nBufferChunkReadAHead, boolean bExternalSort)
 	{
 		int nNbRecordRead = 0;
@@ -187,7 +187,7 @@ public class BTreeCommandSort
 		if(isinOpened)
 		{
 			fileSortIn.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
-			
+
 			boolean isfileInVariableLength = fileSortIn.hasVarVariableLengthMarker();
 			boolean  b = true;
 			boolean isfileInEbcdic = fileSortIn.isEbcdic();
@@ -199,7 +199,7 @@ public class BTreeCommandSort
 				nNbRecordRead++;
 				lineRead = fileSortIn.readALine(dataFileIn, lineRead);
 			}
-			
+
 			dataFileIn.close();
 			Log.logNormal("" + nNbRecordRead + " records imported into btree file from " + csFileIn);
 		}
@@ -210,7 +210,7 @@ public class BTreeCommandSort
 		}
 		return nNbRecordRead;
 	}
-//	
+//
 //	public int importInFile(BtreeFile btreeFile, int nBufferChunkReadAHead)
 //	{
 //		int nNbRecordRead = 0;
@@ -224,20 +224,20 @@ public class BTreeCommandSort
 //			{
 ////				if(bFileInEbcdic)
 // // AsciiEbcdicConverter.swapByteEbcdicToAscii(lineRead.getBuffer(), lineRead.getOffset(), lineRead.getTotalLength());
-//				
+//
 //				//String cs = lineRead.getChunkAsString();
-//				
+//
 // b = btreeFile.externalSortInsertWithRecordIndexAtEnd(btreeEnv.getEnv(), lineRead, nNbRecordRead, bFileInEbcdic);
 //				lineRead = dataFileIn.readNextUnixLine();
 //				nNbRecordRead++;
 //			}
 //			dataFileIn.close();
-//		}		
+//		}
 //		Log.logCritical("" + nNbRecordRead + " records imported into btree file from " + csFileIn);
-//	
+//
 //		return nNbRecordRead;
 //	}
-	
+
 	public int exportToOutFile(BtreeFile btreeFile, boolean bMustSwapByteEncodingOnOutput, boolean bToEbcdic)
 	{
 		int nNbRecordWrite = 0;
@@ -251,7 +251,7 @@ public class BTreeCommandSort
 			{
 				//btreeFile.tryLaunchAsyncSortReader();
 				//byte tBytesData[] = btreeFile.syncGetFirst();
-				
+
 				byte tBytesData[] = btreeFile.getNextSortedRecord();
 				while(tBytesData != null)
 				{
@@ -266,21 +266,21 @@ public class BTreeCommandSort
 						if(bToEbcdic)
 							AsciiEbcdicConverter.swapByteAsciiToEbcdic(tBytesData, 0, nRecordLengthWithoutHeader);
 						else
-							AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, 0, nRecordLengthWithoutHeader);						
+							AsciiEbcdicConverter.swapByteEbcdicToAscii(tBytesData, 0, nRecordLengthWithoutHeader);
 					}
 					dataFileOut.write(tBytesData, 0, nRecordLengthWithoutHeader);
 					dataFileOut.writeEndOfRecordMarker();
-					
+
 					//tBytesData = btreeFile.syncGetNext();
 					tBytesData = btreeFile.getNextSortedRecord();
-					
+
 					nNbRecordWrite++;
 				}
 				if(dataFileKeyOut != null)
 				{
 					dataFileKeyOut.close();
-					
-					// Check key out file 
+
+					// Check key out file
 					//boolean b = Dumper.isFileRecordsOrdered(dataFileKeyOut.getName(), true);
 					dataFileKeyOut = null;
 				}

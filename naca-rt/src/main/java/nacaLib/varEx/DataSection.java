@@ -17,16 +17,16 @@ import nacaLib.tempCache.TempCache;
 import nacaLib.tempCache.TempCacheLocator;
 
 public class DataSection extends CJMapObject
-{	
+{
 	private DataSectionType dataSectionType = null;
-	
+
 	public DataSection(BaseProgram prg, DataSectionType dataSectionType)
 	{
 		this.dataSectionType = dataSectionType;
 		this.prg = prg;
 		buffer = new VarBuffer();
 	}
-	
+
 	public void createRootVarOfSection()
 	{
 		if(dataSectionType == DataSectionType.Working)
@@ -37,17 +37,17 @@ public class DataSection extends CJMapObject
 			createRootVar(prg, "File");
 		pushLevel(rootVar.getVarDef());
 	}
-	
+
 	private void createRootVar(BaseProgram prg, String csSuffix)
 	{
 		BaseProgramManager pm = prg.getProgramManager();
 		TempCache tempCache = TempCacheLocator.getTLSTempCache();
 		VarLevel varlevel = tempCache.getVarLevel();
 		varlevel.set(prg, (short)0);
-		
+
 		DeclareTypeG declareTypeG = tempCache.getDeclareTypeG();
 		declareTypeG.set(varlevel);
-		
+
 		rootVar = new VarGroup(declareTypeG);
 		if(rootVar.varDef != null)
 		{
@@ -55,20 +55,20 @@ public class DataSection extends CJMapObject
 		}
 	}
 
-	
+
 	public BaseProgram getProgram()
 	{
 		return prg;
 	}
-	
+
 	public void pushLevel(VarDefBuffer varDef)
 	{
 		CLevel level = new CLevel(varDef, varDef.getLevel());
 		if(stackLevel == null)
-			stackLevel = new StackLevel(); 
+			stackLevel = new StackLevel();
 		stackLevel.push(level);
 	}
-	
+
 	public VarDefBuffer getVarDefAtParentLevel(int nLevel)
 	{
 		VarDefBuffer varDefParent = null;
@@ -84,16 +84,16 @@ public class DataSection extends CJMapObject
 	}
 
 	private StackLevel stackLevel = null;
-	
+
 	Var getRootVar()
 	{
 		return rootVar;
 	}
-	
+
 	public VarBuffer computeStorage(boolean bFirstInstance)
 	{
 		stackLevel = null;
-		
+
 		SharedProgramInstanceData sharedProgramInstanceData = prg.getProgramManager().getSharedProgramInstanceData();
 		int nBufferSize = 0;
 		if(rootVar != null)
@@ -103,7 +103,7 @@ public class DataSection extends CJMapObject
 			if(bFirstInstance)
 			{
 				VarDefBuffer varDefBuffer = rootVar.getVarDef();
-				
+
 				varDefBuffer.assignEditInMapRedefine();
 				nBufferSize = varDefBuffer.calcSize();
 				varDefBuffer.calcPositionsIntoBuffer(sharedProgramInstanceData);	// No var used in map redefines
@@ -112,18 +112,18 @@ public class DataSection extends CJMapObject
 			else
 				nBufferSize = rootVar.getTotalSize();
 		}
-		
+
 		buffer.allocBufferStorage(nBufferSize);
 		return buffer;
 	}
-		
+
 	public void fillWorkingInitialValues(SharedProgramInstanceData sharedProgramInstanceData)
-	{			
+	{
 		TempCache cache = TempCacheLocator.getTLSTempCache();
 		if(cache != null && rootVar != null)
 			rootVar.getVarDef().fillInitialValueAndClearUnusedMembers(cache, sharedProgramInstanceData, buffer);
 	}
-	
+
 	public void dumpRootVar(String csSectionName)
 	{
 		if(IsSTCheck)
@@ -135,9 +135,9 @@ public class DataSection extends CJMapObject
 			}
 		}
 	}
-	
+
 	public void mapCallParameters(ArrayList<CCallParam> arrCallerCallParam, ArrayList<Var> arrDeclaredCallArg)
-	{		
+	{
 		if(arrDeclaredCallArg != null)
 		{
 			for(int n=0; n<arrDeclaredCallArg.size(); n++)
@@ -146,14 +146,14 @@ public class DataSection extends CJMapObject
 				varLinkageSection.fill(CobolConstant.LowValue);
 			}
 		}
-			 
+
 		if(arrCallerCallParam != null && arrDeclaredCallArg != null)
 		{
 			int nNbArg = arrCallerCallParam.size();
 			for(int nArg=0; nArg<nNbArg; nArg++)
 			{
 				CCallParam callParam = (CCallParam) arrCallerCallParam.get(nArg);
-				 
+
 				Var varLinkageSection = getDeclaredCallArgAtIndex(arrDeclaredCallArg, nArg);
 				if(varLinkageSection != null)
 				{
@@ -167,9 +167,9 @@ public class DataSection extends CJMapObject
 	{
 		if(nIndex >= 0 && nIndex < arrDeclaredCallArg.size())
 			return (Var)arrDeclaredCallArg.get(nIndex);
-		return null;		
+		return null;
 	}
-	
+
 	protected BaseProgram prg = null;
 	public Var rootVar = null;
 	public VarBuffer buffer = null;

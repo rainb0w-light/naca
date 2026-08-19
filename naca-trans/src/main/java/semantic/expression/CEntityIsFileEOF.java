@@ -18,8 +18,8 @@ public class CEntityIsFileEOF extends CBaseEntityCondition
 {
 	protected CEntityFileDescriptor fileDescriptor ;
 	/**
-	 * @param fb 
-	 * 
+	 * @param fb
+	 *
 	 */
 	public CEntityIsFileEOF(CEntityFileDescriptor fb)
 	{
@@ -60,7 +60,7 @@ public class CEntityIsFileEOF extends CBaseEntityCondition
 	{
 		return null;
 	}
-	
+
 	@Override
 	public boolean ignore()
 	{

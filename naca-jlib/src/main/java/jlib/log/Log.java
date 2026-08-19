@@ -15,31 +15,31 @@ import jlib.xml.Tag;
 
 /**
  * The Log class holds a collection of {@link LogCenter}s, and broacast to them
- * the events received by the static methods {@link #log}, 
+ * the events received by the static methods {@link #log},
  * {@link #logCritical}, {@link #logImportant}...
  * The <i>LogCenter</i>s are loaded via the {@link #open} (and overloads) method.
  * The {@link LogEvent}s are received via the {@link #log} method, or any of its
  * overloads.<p/>
- * 
+ *
  * @author u930di
  */
 public class Log
 {
-	private static CallStackExclusion ms_CallStackExclusion = null; 
+	private static CallStackExclusion ms_CallStackExclusion = null;
 	//private ArrayList ms_arrExclude = null;
 	private static StopWatch ms_processStopWatch = new StopWatch();
 //	private static Hashtable<String, LogChannelSetting> ms_hashSettings = new Hashtable<String, LogChannelSetting>();
 	//private static String csChannel = null;
-	
+
 	Log()
-	{	
+	{
 	}
-	
+
 	public static long getRunningTime_ms()
 	{
 		return ms_processStopWatch.getElapsedTime();
 	}
-	
+
 /**
  * Initializes all {@link LogCenter}s described in the specified
  * configuration file, configured to listen to the specified channel<p/>
@@ -60,7 +60,7 @@ public class Log
 	synchronized public static Tag open(String csChannel, String csConfigFile, String csRunId, String csProduct)
 	{
 		Tag tagConfig = Tag.createFromFile(csConfigFile);
-		setProduct(csChannel, csProduct);		
+		setProduct(csChannel, csProduct);
 		return open(csChannel, csRunId, tagConfig);
 	}
 
@@ -71,7 +71,7 @@ public class Log
  *     initialized.
  * @param csConfigFile The JLib.log xml configuration file containing the description
  *     for one or more <i>LogCenter</i> objects.
- * @return The <i>LogCenter</i> descriptors. 
+ * @return The <i>LogCenter</i> descriptors.
  */
 	synchronized public static Tag open(String csChannel, String csConfigFile)
 	{
@@ -84,22 +84,22 @@ public class Log
  * configuration file, configured to listen to the specified channel<p/>
  * @param csChannel Only <i>LogCenter</i> listening to this channel will be
  *     initialized.
- * @param isConfigFile An input stream opened on the JLib.log xml configuration file 
+ * @param isConfigFile An input stream opened on the JLib.log xml configuration file
  *     containing the description for one or more <i>LogCenter</i> objects.
- * @return The <i>LogCenter</i> descriptors. 
+ * @return The <i>LogCenter</i> descriptors.
  */
 	synchronized public static Tag open(String csChannel, InputStream isConfigFile)
 	{
 		Tag tagConfig = Tag.createFromStream(isConfigFile);
 		return open(csChannel, null, tagConfig);
 	}
-	
+
 /**
  * Opens the specified channel on all the {@link LogCenter} described in the specified
  * configuration file.<p/>
  * @param csConfigFile The JLib.log xml configuration file containing the description
  *     for one or more <i>LogCenter</i> objects.
- * @return The <i>LogCenter</i> descriptors. 
+ * @return The <i>LogCenter</i> descriptors.
  */
 	synchronized public static Tag open(String csConfigFile)
 	{
@@ -111,9 +111,9 @@ public class Log
 /**
  * Opens the specified channel on all the {@link LogCenter} described in the specified
  * configuration file.<p/>
- * @param isConfigFile An input stream opened on the JLib.log xml configuration file 
+ * @param isConfigFile An input stream opened on the JLib.log xml configuration file
  *     containing the description for one or more <i>LogCenter</i> objects.
- * @return The <i>LogCenter</i> descriptors. 
+ * @return The <i>LogCenter</i> descriptors.
  */
 	synchronized public static Tag open(InputStream isConfigFile)
 	{
@@ -141,7 +141,7 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
-					logCenter.setRunId(csRunId);				
+					logCenter.setRunId(csRunId);
 			}
 		}
 	}
@@ -165,16 +165,16 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
-					logCenter.setRuntimeId(csRuntimeId);				
+					logCenter.setRuntimeId(csRuntimeId);
 			}
 		}
 	}
-	
+
 /**
  * Returns the default <i>RunId</i> identifier of the specified channel.
  * @param csChannel The channel.
  * @return The default <i>RunId</i> identifier of the specified channel.
- */		
+ */
 	synchronized public static String getRunId(String csChannel)
 	{
 		if(logCenter != null)
@@ -184,7 +184,7 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
-					return logCenter.getRunId();				
+					return logCenter.getRunId();
 			}
 		}
 		return null;
@@ -193,7 +193,7 @@ public class Log
  * Returns the default <i>RuntimeId</i> identifier of the specified channel.
  * @param csChannel The channel.
  * @return The default <i>RuntimeId</i> identifier of the specified channel.
- */	
+ */
 	synchronized public static String getRuntimeId(String csChannel)
 	{
 		if(logCenter != null)
@@ -203,18 +203,18 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
-					return logCenter.getRuntimeId();				
+					return logCenter.getRuntimeId();
 			}
 		}
 		return null;
 	}
-	
+
 /**
  * Sets the default <i>Product</i> to the specified channel.
  * @param csChannel The channel to which set the defalut <i>Product</i>. Leave it
  *     to <i>null</i> to affect all opened channels.
  * @param csProduct The default <i>Product</i> for the specified channel.
- */	
+ */
 	synchronized public static void setProduct(String csChannel, String csProduct)
 	{
 		if(logCenter != null)
@@ -224,15 +224,15 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
-					logCenter.setProduct(csProduct);				
+					logCenter.setProduct(csProduct);
 			}
 		}
 	}
 /**
  * Returns the default <i>Product</i> for the specified channel.
- * @param csChannel The channel to retrieve the default <i>Product</i>. 
+ * @param csChannel The channel to retrieve the default <i>Product</i>.
  * @return The default <i>Product</i> for the specified channel.
- */	
+ */
 	synchronized public static String getProduct(String csChannel)
 	{
 		if(logCenter != null)
@@ -242,7 +242,7 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
-					return logCenter.getProduct();				
+					return logCenter.getProduct();
 			}
 		}
 		return null;
@@ -253,7 +253,7 @@ public class Log
  * @param csChannel The channel to which set the default <i>Product</i>. Leave it
  *     to <i>null</i> to affect all opened channels.
  * @param csProcess The default <i>Process</i> for the specified channel.
- */	
+ */
 	synchronized public static void setProcess(String csChannel, String csProcess)
 	{
 		if(logCenter != null)
@@ -263,15 +263,15 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel) || csChannel==null)
-					logCenter.setProcess(csProcess);				
+					logCenter.setProcess(csProcess);
 			}
 		}
 	}
 /**
  * Returns the default <i>Process</i> for the specified channel.
- * @param csChannel The channel to retrieve the default <i>Product</i>. 
+ * @param csChannel The channel to retrieve the default <i>Product</i>.
  * @return The default <i>Process</i> for the specified channel.
- */	
+ */
 	synchronized public static String getProcess(String csChannel)
 	{
 		if(logCenter != null)
@@ -281,7 +281,7 @@ public class Log
 			{
 				LogCenter logCenter = Log.logCenter.get(n);
 				if (logCenter.getChannel().equals(csChannel))
-					return logCenter.getProcess();				
+					return logCenter.getProcess();
 			}
 		}
 		return null;
@@ -307,17 +307,17 @@ public class Log
 	synchronized private static Tag open(String csChannel, String csRunId, Tag tagConfig)
 	{
 		LogFlowStd.declare();
-		
+
 		if(tagConfig != null)
 		{
 			LogCenters logCenters = new LogCenters();
 			boolean b = logCenters.loadDefinition(csChannel, tagConfig, null);
 			if(b)
-			{				
+			{
 				Tag tagSettings = tagConfig.getChild("Settings");
 				fillCallStack(tagSettings);
 			}
-			
+
 			if(csChannel == null)
 			{
 				Vector<String> channels = new Vector<String>() ;
@@ -330,7 +330,7 @@ public class Log
 						channels.add(ch) ;
 					}
 				}
-				
+
 				for (String cs : channels)
 				{
 					setRunId(cs, csRunId);
@@ -343,7 +343,7 @@ public class Log
 		}
 		return tagConfig;
 	}
-	
+
 	synchronized public static void close()
 	{
 		if(logCenter != null)
@@ -354,12 +354,12 @@ public class Log
 				LogCenter LogCenter = logCenter.get(n);
 				LogCenter.close();
 			}
-		}			
+		}
 	}
 /**
  * Registers a new {@link LogCenter} in the active log centers collection.
  * Once registered, the log centers receive the log events through the
- * {@link #sendLog} method. 
+ * {@link #sendLog} method.
  * @param logCenter The log center to register.
  */
 	public synchronized static void registerLogCenter(LogCenter logCenter)
@@ -369,11 +369,11 @@ public class Log
 		{
 			if(Log.logCenter == null)
 				Log.logCenter = new ArrayList<LogCenter>();
-			
+
 			Log.logCenter.add(logCenter);
 		}
 	}
-	
+
 	public synchronized static LogCenterPluginConsole getLogCenterPluginConsole()
 	{
 		if(logCenter != null)
@@ -390,14 +390,14 @@ public class Log
 /**
  * Removes a log center from the log centers collection.
  * @param logCenter The log center to unregister.
- */	
+ */
 	synchronized static void unregisterLogCenter(LogCenter logCenter)
 	{
 		logCenter.closeLogCenter();
 	}
-	
+
 	private static ArrayList<LogCenter> logCenter = null;
-	
+
 /**
  * Dispatches the description of to all registered log centers.
  * {@link LogCenter}s are registered with the method {@link #registerLogCenter}.
@@ -408,7 +408,7 @@ public class Log
  * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
  * 	property {@link #logFlow}).</li>
  * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li> 
+ * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li>
  * </ul>
  * Additionally, the <i>LogCenter</i> must be enabled.
  * @param logParams A structure containing all paremeters characterizing
@@ -423,31 +423,31 @@ public class Log
 			for(int n=0; n<nNbLogCenter; n++)
 			{
 				LogCenter LogCenter = logCenter.get(n);
-				LogCenter.output(logParams);				
+				LogCenter.output(logParams);
 			}
 		}
 	}
 /**
- * Loads the list of packages which will be ignored while searching for the 
+ * Loads the list of packages which will be ignored while searching for the
  * origin of an event.
- * @param tagSettings The [Settings] tag of a [LogCenter] definition. 
+ * @param tagSettings The [Settings] tag of a [LogCenter] definition.
  */
 	static void fillCallStack(Tag tagSettings)
 	{
 		if(tagSettings != null)
-		{			
+		{
 			boolean isfillCallStack = tagSettings.getValAsBoolean("GetCallerLocation");
-			
+
 			if(isfillCallStack)
 			{
 				ms_CallStackExclusion = new CallStackExclusion();
 				ms_CallStackExclusion.fillExcluded(tagSettings);
 			}
-		}		
+		}
 	}
 /**
  * Logs an event to the specified channel, with the specified free text message,
- * using the default <i>RunId</i> and <i>RuntimeId</i> identfiers, and the 
+ * using the default <i>RunId</i> and <i>RuntimeId</i> identfiers, and the
  * {@link LogFlow} and {@link LogLevel} of the event.
  * The specified event will be broadcasted to all registered {@link LogCenter}s.
  * <i>LogCenter</i>s are registered based on the JLib.log xml configuration file,
@@ -480,7 +480,7 @@ public class Log
  * @param csRuntimeId Specified a particular <i>RuntimeId</i> identifier
  *     for the event. If <i>null</i>, the default <i>RuntimeId</i> of the specified
  *     channel is used.
- */	
+ */
 	public static void log(String csChannel, LogEvent logEvent, String csMessage, String csRunId, String csRuntimeId)
 	{
 		LogParams logParams=new LogParams(csChannel, logEvent, csMessage, csRunId, csRuntimeId);
@@ -511,7 +511,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 	public static void log(String csChannel, LogFlow logFlow, LogEvent logEvent, LogLevel logLevel, String csMessage)
 	{
 		logEvent.setLogFlow(logFlow);
@@ -537,7 +537,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Logs an event on the {@link LogFlowStd#Monitoring} flow to the specified channel,
  * with the specified message.
@@ -554,7 +554,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Logs an event on the {@link LogFlowStd#Monitoring} flow to the specified channel,
  * with the specified message and the specified {@link LogLevel}.
@@ -573,7 +573,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Logs an event on the {@link LogFlowStd#Trace} flow to the specified channel,
  * with the specified message and the specified {@link LogLevel}.
@@ -590,7 +590,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Logs an event on the {@link LogFlowStd#Trace} flow to the specified channel,
  * with the specified message and the specified {@link LogLevel}.
@@ -609,7 +609,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Simplest method to send an event with the {@link LogLevel#Critical} level.
  * The event will be sent with:
@@ -623,7 +623,7 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logCritical(String csMessage)
 	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Critical, null, null);
@@ -633,7 +633,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Simplest method to send an event with the {@link LogLevel#Critical} level.
  * The event will be sent with:
@@ -647,7 +647,7 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logImportant(String csMessage)
 	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Important, null, null);
@@ -670,7 +670,7 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logNormal(String csMessage)
 	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Normal, null, null);
@@ -680,7 +680,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Simplest method to send an event with the {@link LogLevel#Verbose} level.
  * The event will be sent with:
@@ -694,7 +694,7 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logVerbose(String csMessage)
 	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Verbose, null, null);
@@ -704,7 +704,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Simplest method to send an event with the {@link LogLevel#Debug} level.
  * The event will be sent with:
@@ -718,9 +718,9 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logDebug(String csMessage)
-	{		
+	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.Debug, null, null);
 		logEvent.setName("DebugEvent");
 		LogParams logParams=new LogParams(null, logEvent, csMessage);
@@ -728,7 +728,7 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 /**
  * Simplest method to send an event with the {@link LogLevel#FineDebug} level.
  * The event will be sent with:
@@ -742,9 +742,9 @@ public class Log
  *     this paremeter can be null.
  *     With this method it is not possible to specify the event name. Use instead
  *     a custom {@link LogEvent}, and send it using the standard {@link Log#log} method.
- */	
+ */
 	public static void logFineDebug(String csMessage)
-	{		
+	{
 		LogEvent logEvent=new LogEvent(LogEventType.Remark, LogFlowStd.Any, LogLevel.FineDebug, null, null);
 		logEvent.setName("FineDebugEvent");
 		LogParams logParams=new LogParams(null, logEvent, csMessage);
@@ -752,13 +752,13 @@ public class Log
 			logParams.fillAppCallerLocation(ms_CallStackExclusion);
 		sendLog(logParams);
 	}
-	
+
 	public static int incCounter(String csName)
 	{
 		// TODO
 		return 0;
 	}
-	
+
 	public static int decCounter(String csName)
 	{
 		// TODO
@@ -770,4 +770,3 @@ public class Log
 		// TODO
 	}
 }
-

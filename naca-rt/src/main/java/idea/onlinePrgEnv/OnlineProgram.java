@@ -27,14 +27,14 @@ import nacaLib.varEx.*;
 public class OnlineProgram extends BaseProgram
 {
 	//private OnlineProgramManager programManager = null;
-	private static OnlineProgramManagerFactory ms_onlineProgramManagerFactory = new OnlineProgramManagerFactory();  
-	
+	private static OnlineProgramManagerFactory ms_onlineProgramManagerFactory = new OnlineProgramManagerFactory();
+
 	public OnlineProgram()
 	{
 		super(ms_onlineProgramManagerFactory);
 		declare = new VarSectionDeclaration(this);
 	}
-	
+
 	public OnlineProgramManager getProgramManager()
 	{
 		return (OnlineProgramManager)baseProgramManager;
@@ -45,23 +45,23 @@ public class OnlineProgram extends BaseProgram
 	{
 		return CESM;
 	}
-	
-	protected VarSectionDeclaration declare = null; 
 
-	 
-	
+	protected VarSectionDeclaration declare = null;
+
+
+
 	/**Method: setEnvironment
 	 * Internal usage only
 	 * Defined the current exnvironment for GUI apps
 	 * @param: IN CESMManager man: Current GUI manager
 	 * @param: IN CESMUSerEnv uenv: Current user envionnement
 	 */
-	
+
 	protected int getCursorPosition()
 	{
 		/*
-		 * This EIB field contains the cursor address (position) associated with the last terminal control 
-		 * or Basic Mapping Support (BMS) input operation from a display device such as a terminal. 
+		 * This EIB field contains the cursor address (position) associated with the last terminal control
+		 * or Basic Mapping Support (BMS) input operation from a display device such as a terminal.
 		 * For COBOL: PIC S9(4) COMP
 		 */
 		//TODO fake function getCursorPosition
@@ -70,7 +70,7 @@ public class OnlineProgram extends BaseProgram
 
 		return 0 ;
 	}
-	
+
 	/**
 	 * @return String
 	 *     This EIB field contains the time at which the task is started
@@ -79,7 +79,7 @@ public class OnlineProgram extends BaseProgram
 	 *     For COBOL: PIC S9(7) COMP-3
 	 */
 
-	
+
 	protected Var getCommareaR()
 	{
 		if(IsSTCheck)
@@ -90,7 +90,7 @@ public class OnlineProgram extends BaseProgram
 		assertIfFalse(false);
 		return null;
 	}
-	
+
 	protected boolean isFieldAttribute(Edit e, VarAndEdit v)
 	{
 		if(IsSTCheck)
@@ -108,11 +108,11 @@ public class OnlineProgram extends BaseProgram
 			getTempCache().resetTempVarIndex(e.varTypeId);
 			return false ;
 		}
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e: Edit whose color attribute is to be tested
-	 * @param MapFieldAttrColor color: Color attribute definition 
+	 * @param MapFieldAttrColor color: Color attribute definition
 	 * @return true if the edit e has the color identified in parameter, false otherwise
 	 */
 	protected boolean isFieldColored(Edit e, MapFieldAttrColor color)
@@ -123,8 +123,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.IsColored(color) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isNotFieldColored(Edit e, MapFieldAttrColor color)
 	{
 		if(IsSTCheck)
@@ -135,7 +135,7 @@ public class OnlineProgram extends BaseProgram
 		return b;
 	}
 
-	
+
 	/**
 	 * @param Edit e:
 	 * @return true if the edit e has the bright attribute set, false otherwise
@@ -149,7 +149,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isNotFieldBright(Edit e)
 	{
 		if(IsSTCheck)
@@ -159,7 +159,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	/**
 	 * @param Edit e:
 	 * @return true if the edit e has the blonk attribute set, false otherwise
@@ -173,7 +173,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	/**
 	 * @param Edit e:
 	 * @return true if the edit e has the unprotected attribute set, false otherwise
@@ -198,7 +198,7 @@ public class OnlineProgram extends BaseProgram
 		return b;
 	}
 
-	
+
 	/**
 	 * @param MapFieldAttrIntensity intens: Intensity attribute
 	 * @param Edit e: Destination edit
@@ -211,7 +211,7 @@ public class OnlineProgram extends BaseProgram
 
 		e.intensity(intens) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
+	}
 
 	protected void moveAttribute(Var v, Edit e)
 	{
@@ -222,10 +222,10 @@ public class OnlineProgram extends BaseProgram
 		int n = cs.charAt(0) ;
 		e.setAttributes(n) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-}	
+}
 
-	
-	
+
+
 	/**
 	 * @param MapFieldAttribute att: Contains all edit attribute values (
 	 * @param Edit e: Destination edit
@@ -237,8 +237,8 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("moveAttribute_Attr_E:" + att.getSTCheckValue() + ":" + e.getSTCheckValue());
 		e.setAttribute(att) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
-	
+	}
+
 	protected void moveFlag(int n, Edit e)
 	{
 		if(IsSTCheck)
@@ -247,7 +247,7 @@ public class OnlineProgram extends BaseProgram
 		String cs = String.valueOf(n);
 		e.setFlag(cs) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
+	}
 
 	protected void moveFlag(Var v, Edit e)
 	{
@@ -256,16 +256,16 @@ public class OnlineProgram extends BaseProgram
 
 		String cs = v.getString() ;
 		e.setFlag(cs) ;
-		
+
 		TempCache tempCache = getTempCache();
 		tempCache.resetTempVarIndex(e.varTypeId);
 		tempCache.resetTempVarIndex(v.varTypeId);
 
 //		e.resetTempIndex(getTempCache());
 //		v.resetTempIndex(getTempCache());
-	}	
+	}
 
-	
+
 	/**
 	 * @param Edit e
 	 * @return All attributes of the Edit e
@@ -278,8 +278,8 @@ public class OnlineProgram extends BaseProgram
 		MapFieldAttribute fieldAttribute = e.getAttribute() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return fieldAttribute;
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e
 	 * @return MapFieldAttrHighlighting: Current highlight attribute of Edit e
@@ -292,8 +292,8 @@ public class OnlineProgram extends BaseProgram
 		MapFieldAttrHighlighting a = e.getHighlighting() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return a;
-	}	
-	
+	}
+
 	/**
 	 * @param MapFieldAttrProtection att: Protectection attribute to set to e
 	 * @param Edit e: Destination edit
@@ -306,8 +306,8 @@ public class OnlineProgram extends BaseProgram
 
 		e.protection(att) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
-	
+	}
+
 	protected void moveFlag(String cs, Edit e)
 	{
 		if(IsSTCheck)
@@ -315,7 +315,7 @@ public class OnlineProgram extends BaseProgram
 
 		e.setFlag(cs) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
+	}
 
 	protected void resetFlag(Edit e)
 	{
@@ -324,7 +324,7 @@ public class OnlineProgram extends BaseProgram
 
 		e.resetFlag();
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
+	}
 
 	protected boolean isFieldFlag(Edit e, String cs)
 	{
@@ -334,8 +334,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isFlag(cs) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isFieldFlagSet(Edit e)
 	{
 		if(IsSTCheck)
@@ -344,8 +344,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isFlagSet() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isNotFieldFlag(Edit e, String cs)
 	{
 		if(IsSTCheck)
@@ -354,7 +354,7 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isFlag(cs) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
+	}
 
 	protected boolean isNotFieldFlagSet(Edit e)
 	{
@@ -364,8 +364,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isFlagSet() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	/**
 	 * @param MapFieldAttrModified att: Modified attribute to set to e
 	 * @param Edit e: Destination edit
@@ -381,8 +381,8 @@ public class OnlineProgram extends BaseProgram
 		else
 			e.setModified(att) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e
 	 * @return true if the edit e has attribute modified set, false otherwise
@@ -395,8 +395,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isModified() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isNotFieldModified(Edit e)
 	{
 		if(IsSTCheck)
@@ -405,7 +405,7 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isModified() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
+	}
 
 
 	/**
@@ -420,8 +420,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isCleared() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e
 	 * @return false if the edit e has attribute 'cleared' set, true otherwise
@@ -434,8 +434,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isCleared() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e
 	 * @return true if the edit e has attribute unmodified set, false otherwise
@@ -448,8 +448,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isUnmodified() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	/**
 	 * @param Edit e
 	 * @return true if the edit e has attribute underline set, false otherwise
@@ -459,11 +459,11 @@ public class OnlineProgram extends BaseProgram
 		if(IsSTCheck)
 			Log.logFineDebug("isFieldUnderlined_E:" + e.getSTCheckValue());
 
-		boolean b = e.isUnderlined();	
+		boolean b = e.isUnderlined();
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isNotFieldUnderlined(Edit e)
 	{
 		if(IsSTCheck)
@@ -473,7 +473,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isFieldReverse(Edit e)
 	{
 		if(IsSTCheck)
@@ -483,7 +483,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isNotFieldReverse(Edit e)
 	{
 		if(IsSTCheck)
@@ -493,7 +493,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isFieldHighlightNormal(Edit e)
 	{
 		if(IsSTCheck)
@@ -503,7 +503,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected boolean isNotFieldHighlightNormal(Edit e)
 	{
 		if(IsSTCheck)
@@ -513,9 +513,9 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
 
-	
+
+
 	/**
 	 * @param Edit e
 	 * @return true if the edit e has attribute autoskip set, false otherwise
@@ -528,8 +528,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isAutoSkip() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isNotFieldAutoSkip(Edit e)
 	{
 		if(IsSTCheck)
@@ -538,8 +538,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isAutoSkip() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isFieldDark(Edit e)
 	{
 		if(IsSTCheck)
@@ -548,8 +548,8 @@ public class OnlineProgram extends BaseProgram
 		boolean b = e.isDark() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
-	
+	}
+
 	protected boolean isNotFieldDark(Edit e)
 	{
 		if(IsSTCheck)
@@ -558,7 +558,7 @@ public class OnlineProgram extends BaseProgram
 		boolean b = !e.isDark() ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
-	}	
+	}
 
 	/**
 	 * @param Edit e
@@ -586,9 +586,9 @@ public class OnlineProgram extends BaseProgram
 		tempCache.resetTempVarIndex(e.varTypeId);
 		tempCache.resetTempVarIndex(from.varTypeId);
 //		e.resetTempIndex(getTempCache());
-//		from.resetTempIndex(getTempCache());		
+//		from.resetTempIndex(getTempCache());
 	}
-		
+
 	protected void moveCursor(Var from, Edit e)
 	{
 		if(IsSTCheck)
@@ -600,7 +600,7 @@ public class OnlineProgram extends BaseProgram
 //		from.resetTempIndex(getTempCache());
 		// Fake method
 	}
-		
+
 	protected void removeCursor(Edit e)
 	{
 		if(IsSTCheck)
@@ -609,7 +609,7 @@ public class OnlineProgram extends BaseProgram
 		e.setCursor(false) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-		
+
 	/**
 	 * @param Edit e
 	 * @return true if e has the cursor set, false otherwise
@@ -623,7 +623,7 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 
 	/**
 	 * @param Edit e
@@ -639,7 +639,7 @@ public class OnlineProgram extends BaseProgram
 		return b;
 	}
 
-		
+
 	/**
 	 * @param MapFieldAttrColor color: Source color attribute
 	 * @param Edit e: Destination edit
@@ -649,12 +649,12 @@ public class OnlineProgram extends BaseProgram
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("isColored_E_color:" + e.getSTCheckValue() + ":" + color.getSTCheckValue());
-		
+
 		boolean b = e.isColored(color);
 		getTempCache().resetTempVarIndex(e.varTypeId);
 		return b;
 	}
-	
+
 	protected void moveColor(MapFieldAttrColor color, Edit e)
 	{
 		if(IsSTCheck)
@@ -662,24 +662,24 @@ public class OnlineProgram extends BaseProgram
 
 		e.color(color);
 		getTempCache().resetTempVarIndex(e.varTypeId);
-	}	
-	
+	}
+
 	protected void moveColor(Edit edt, Edit e)
 	{
 		if(IsSTCheck)
 			Log.logFineDebug("moveColor_E_E:" + edt.getSTCheckValue() + ":" +  e.getSTCheckValue());
-		
+
 		MapFieldAttrColor color = edt.getColor() ;
 		e.color(color);
-		
+
 		TempCache tempCache = getTempCache();
 		tempCache.resetTempVarIndex(e.varTypeId);
 		tempCache.resetTempVarIndex(edt.varTypeId);
-		
+
 //		e.resetTempIndex(getTempCache());
 //		edt.resetTempIndex(getTempCache());
-	}	
-	
+	}
+
 	protected void moveColor(Var v, Edit e)
 	{
 		if(IsSTCheck)
@@ -688,13 +688,13 @@ public class OnlineProgram extends BaseProgram
 		int n = v.getInt() ;
 		MapFieldAttrColor color = MapFieldAttrColor.Select(n) ;
 		e.color(color);
-		
+
 		TempCache tempCache = getTempCache();
 		tempCache.resetTempVarIndex(e.varTypeId);
 		tempCache.resetTempVarIndex(v.varTypeId);
 //		e.resetTempIndex(getTempCache());
 //		v.resetTempIndex(getTempCache());
-	}	
+	}
 
 //	CV 27-04-05 : not used any longer
 //	protected void moveLength(int n, Edit e)
@@ -703,7 +703,7 @@ public class OnlineProgram extends BaseProgram
 //			Log.logFineTrace("moveLength_n_E:" + n + ":" +  e.getSTCheckValue());
 //
 //		e.setLength(n);
-//	}	
+//	}
 //	protected void moveLength(String s, Edit e)
 //	{
 //		if(isLog.logFineTrace())
@@ -711,7 +711,7 @@ public class OnlineProgram extends BaseProgram
 //
 //		int n = NumberParser.getAsInt(s);
 //		e.setLength(n);
-//	}	
+//	}
 //	protected void moveLength(Var v, Edit e)
 //	{
 //		if(isLog.logFineTrace())
@@ -719,7 +719,7 @@ public class OnlineProgram extends BaseProgram
 //
 //		int n = v.getInt() ;
 //		e.setLength(n);
-//	}	
+//	}
 
 //	/**
 //	 * @param Var var: Variable indicating highlighting hint
@@ -737,18 +737,18 @@ public class OnlineProgram extends BaseProgram
 			e.highLighting(MapFieldAttrHighlighting.BLINK);
 		else
 			e.highLighting(MapFieldAttrHighlighting.OFF);
-		
+
 		TempCache tempCache = getTempCache();
 		tempCache.resetTempVarIndex(var.varTypeId);
 		tempCache.resetTempVarIndex(e.varTypeId);
 //
 //		var.resetTempIndex(getTempCache());
 //		e.resetTempIndex(getTempCache());
-	}	
-	
-	
+	}
+
+
 	/**
-	 * @param MapFieldAttrHighlighting att: Source highligt attribute 
+	 * @param MapFieldAttrHighlighting att: Source highligt attribute
 	 * @param Edit e: Destination edit
 	 *     Set the edit it's highlighting attribute's value
 	 */
@@ -760,8 +760,8 @@ public class OnlineProgram extends BaseProgram
 		e.highLighting(att);
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-	
-	
+
+
 	/**
 	 * @param Edit e: Destination edit
 	 *     Set the edit highlight attribute as normal
@@ -774,7 +774,7 @@ public class OnlineProgram extends BaseProgram
 		e.highLighting(MapFieldAttrHighlighting.OFF);
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-	
+
 	/**
 	 * @param Edit e: Destination edit
 	 *     Set the edit highlight attribute as reverse
@@ -787,7 +787,7 @@ public class OnlineProgram extends BaseProgram
 		e.highLighting(MapFieldAttrHighlighting.REVERSE) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-	
+
 	/**
 	 * @param Edit e: Destination edit
 	 *     Set the edit highlight attribute as blink
@@ -800,7 +800,7 @@ public class OnlineProgram extends BaseProgram
 		e.highLighting(MapFieldAttrHighlighting.BLINK) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-	
+
 	/**
 	 * @param Edit e: Destination edit
 	 *     Set the edit highlight attribute as underline
@@ -813,9 +813,9 @@ public class OnlineProgram extends BaseProgram
 		e.highLighting(MapFieldAttrHighlighting.UNDERLINE) ;
 		getTempCache().resetTempVarIndex(e.varTypeId);
 	}
-	
 
-	
+
+
 	/**
 	 * @param Var varDest: Destination variable
 	 * @param String csValue: Semantic context value
@@ -828,7 +828,7 @@ public class OnlineProgram extends BaseProgram
 			Log.logFineDebug("setSemanticContextValue_V_cs" + varDest.getSTCheckValue() + ":" + csValue);
 		varDest.setSemanticContextValue(csValue);
 	}
-	
+
 	public void setSemanticContextValue(Edit editDest, String csValue)
 	{
 		if(IsSTCheck)
@@ -836,7 +836,7 @@ public class OnlineProgram extends BaseProgram
 		editDest.setSemanticContextValue(csValue);
 		getTempCache().resetTempVarIndex(editDest.varTypeId);
 	}
-	
+
 	/**
 	 * @param Var varSource: Source variable whose semantic value is to be found
 	 * @return Semantic value associated with the source variable.
@@ -851,11 +851,11 @@ public class OnlineProgram extends BaseProgram
 		return cs;
 	}
 
-	// Var  <-> Key	
+	// Var  <-> Key
 	/**Method: isDifferent
 	 * return false if the var's value equals the key value, true otherwise
 	 * @param: IN Var var
-	 * @param: IN KeyPressed k 
+	 * @param: IN KeyPressed k
 	 * @return:
 	 */
 	protected boolean isDifferent(VarAndEdit var1, KeyPressed key)
@@ -866,11 +866,11 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(var1.varTypeId);
 		return b;
 	}
-	
+
 	/**Method: isDifferent
 	 * return true if the var's value equals the key value
 	 * @param: IN Var var
-	 * @param: IN KeyPressed k 
+	 * @param: IN KeyPressed k
 	 * @return:
 	 */
 	protected boolean isEqual(VarAndEdit var, KeyPressed k)
@@ -883,12 +883,12 @@ public class OnlineProgram extends BaseProgram
 			return true;
 		return false;
 	}
-	
+
 	/**Method: move
-	 * move the key's value into a var 
+	 * move the key's value into a var
 	 * @param: IN KeyPressed k
-	 * @param: OUT Var varDest 
-	 * @return: current program object; enables to chain another Program's method. 
+	 * @param: OUT Var varDest
+	 * @return: current program object; enables to chain another Program's method.
 	 */
 	protected BaseProgram move(KeyPressed k, Var varDest)
 	{
@@ -898,7 +898,7 @@ public class OnlineProgram extends BaseProgram
 		varDest.set(k.getValue());
 		return this;
 	}
-	
+
 	protected BaseProgram move(KeyPressed k, Edit varDest)
 	{
 		if(IsSTCheck)
@@ -909,14 +909,14 @@ public class OnlineProgram extends BaseProgram
 		getTempCache().resetTempVarIndex(varDest.varTypeId);
 		return this;
 	}
-	
+
 
 	void prepareRunMain(BaseEnvironment env)
 	{
 		OnlineEnvironment e = (OnlineEnvironment)env;
 		CESM = (CESMManager)e.createCESMManager();
 	}
-	
+
 	protected boolean isFieldNumeric(Edit edit)
 	{
 		if(IsSTCheck)
@@ -935,7 +935,5 @@ public class OnlineProgram extends BaseProgram
 		return b;
 
 	}
-	
+
 }
-
-

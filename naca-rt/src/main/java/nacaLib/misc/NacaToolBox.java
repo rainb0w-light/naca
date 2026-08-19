@@ -50,12 +50,12 @@ import nacaLib.varEx.VarAndEdit;
 public class NacaToolBox extends CJMapObject
 {
 	private BaseProgramManager programManager;
-	
+
 	public NacaToolBox(BaseProgramManager manager)
 	{
 		programManager = manager ;
 	}
-	
+
 	/**
 	 * @param longcar
 	 * @param mm_Zone
@@ -86,17 +86,17 @@ public class NacaToolBox extends CJMapObject
 		cs = cs.replaceAll("�", "u");
 		cs = cs.replaceAll("�", "u");
 		cs = cs.replaceAll("�", "u");
-		cs = cs.replaceAll("�", "u");		
-		cs = cs.toUpperCase() ; 
+		cs = cs.replaceAll("�", "u");
+		cs = cs.toUpperCase() ;
 		data.set(cs) ;
 	}
 	public void toLower(VarAndEdit data)
 	{
 		String cs = data.getString() ;
-		cs = cs.toLowerCase() ; 
+		cs = cs.toLowerCase() ;
 		data.set(cs) ;
 	}
-	
+
 	/**
 	 * @param language
 	 * @param length
@@ -129,7 +129,7 @@ public class NacaToolBox extends CJMapObject
 	{
 		leftPadding(retCode, data, length, ' ');
 	}
-	
+
 	/**
 	 * @param retCode
 	 * @param data
@@ -172,42 +172,42 @@ public class NacaToolBox extends CJMapObject
 			space += c ;
 		}
 		String fullcs = space + cs ;
-		data.set(fullcs) ;		
+		data.set(fullcs) ;
 	}
-	
+
 	public void checkDate(VarAndEdit format, VarAndEdit date, VarAndEdit retCode)
 	{
 		String csDate;
 		String csFormat;
-		if (format.getInt() == 1) 
+		if (format.getInt() == 1)
 		{
 			csDate = date.getString().substring(0, 6);
 			csFormat = "ddMMyy";
-		} 
-		else if (format.getInt() == 6) 
+		}
+		else if (format.getInt() == 6)
 		{
 			csDate = date.getString().substring(0, 6);
 			csFormat = "yyMMdd";
-		} 
-		else if (format.getInt() == 7) 
+		}
+		else if (format.getInt() == 7)
 		{
 			csDate = date.getString();
 			csFormat = "ddMMyyyy";
-		} 
-		else if (format.getInt() == 12) 
+		}
+		else if (format.getInt() == 12)
 		{
 			csDate = date.getString();
 			csFormat = "yyyyMMdd";
 		}
-		else 
+		else
 		{
 			throw new RuntimeException("Y01S18 format not supported");
 		}
-		if (DateUtil.formatDate(csDate, csFormat, false) == null) 
+		if (DateUtil.formatDate(csDate, csFormat, false) == null)
 		{
 			retCode.set(CobolConstant.HighValue);
-		} 
-		else 
+		}
+		else
 		{
 			retCode.set(CobolConstant.LowValue);
 		}
@@ -238,26 +238,26 @@ public class NacaToolBox extends CJMapObject
 			progName.set(p) ;
 		}
 	}
-	
+
 	public void addDate(VarAndEdit outputDate)
-	{	
+	{
 		String inputYear = outputDate.getString().substring(0, 2).trim();
-		
+
 		GregorianCalendar calendar = new GregorianCalendar();
-		
+
 		if (!inputYear.equals("")) {
 			int year = NumberParser.getAsInt(inputYear) ;
-		    if (year < 80) 
+		    if (year < 80)
 		    {
 		    	year = 2000 + year ;
-		    } 
-		    else 
+		    }
+		    else
 		    {
 		    	year = 1900 + year ;
 		    }
 			calendar = findDateEaster(year);
 		}
-		
+
 	    outputDate.set(completeDate(calendar, false));
 	}
 	public void addDate(VarAndEdit outputDate, VarAndEdit inputDate)
@@ -265,21 +265,21 @@ public class NacaToolBox extends CJMapObject
 		String inputDay = inputDate.getString().substring(4, 6) ;
 		String inputMonth = inputDate.getString().substring(2, 4) ;
 		String inputYear = inputDate.getString().substring(0, 2) ;
-		
+
 		GregorianCalendar calendar = new GregorianCalendar();
 	    int year = NumberParser.getAsInt(inputYear) ;
-	    if (year < 80) 
+	    if (year < 80)
 	    {
 	    	year = 2000 + year ;
-	    } 
-	    else 
+	    }
+	    else
 	    {
 	    	year = 1900 + year ;
 	    }
 	    int month = NumberParser.getAsInt(inputMonth) - 1;
 	    int day = NumberParser.getAsInt(inputDay) ;
 	    calendar.set(year, month, day);
-	    
+
 	    outputDate.set(completeDate(calendar, false));
 	}
 	public void addDate(VarAndEdit outputDate, VarAndEdit inputDate, VarAndEdit arg)
@@ -301,56 +301,56 @@ public class NacaToolBox extends CJMapObject
 		}
 		String argYear = arg.getString().substring(0, 2) ;
 		String argOp = arg.getString().substring(6, 7) ;
-		
+
 		if (!argOp.trim().equals("") && !argOp.equals("+") && !argOp.equals("-"))
 		{
 			Assert("addDate supports only the operator + and -");
 		}
-		
+
 	    GregorianCalendar calendar = new GregorianCalendar();
 	    int add;
 	    int year = NumberParser.getAsInt(inputYear) ;
-	    if (year < 80) 
+	    if (year < 80)
 	    {
 	    	year = 2000 + year ;
-	    } 
-	    else 
+	    }
+	    else
 	    {
 	    	year = 1900 + year ;
 	    }
 	    int month = NumberParser.getAsInt(inputMonth) - 1;
 	    int day = NumberParser.getAsInt(inputDay) ;
 	    calendar.set(year, month, day);
-	    if (!argDay.equals("00")) 
+	    if (!argDay.equals("00"))
 	    {
 	    	add = new Integer(argDay).intValue();
-	    } 
-	    else if (!argMonth.equals("00")) 
+	    }
+	    else if (!argMonth.equals("00"))
 	    {
 			add = new Integer(argMonth).intValue();
-	    } 
-	    else 
+	    }
+	    else
 	    {
 			add = new Integer(argYear).intValue();
 	    }
-	
-	    if (argOp.equals("-")) 
+
+	    if (argOp.equals("-"))
 	    {
 	    	add = add * -1;
 	    }
-	    if (!argDay.equals("00")) 
+	    if (!argDay.equals("00"))
 	    {
 	    	calendar.add(GregorianCalendar.DATE, add);
 	    }
-	    else if (!argMonth.equals("00")) 
+	    else if (!argMonth.equals("00"))
 	    {
 	    	calendar.add(GregorianCalendar.MONTH, add);
-	    } 
-	    else 
+	    }
+	    else
 	    {
 	    	calendar.add(GregorianCalendar.YEAR, add);
 	    }
-	    
+
 	    outputDate.set(completeDate(calendar, false));
 	}
 
@@ -378,7 +378,7 @@ public class NacaToolBox extends CJMapObject
 		String csYear = vParam1.getString().substring(0, 4) ;
     	String csMonth = vParam1.getString().substring(4, 6) ;
     	String csDay = vParam1.getString().substring(6, 8).trim() ;
-    	
+
     	int argYear = 0 ;
     	int argMonth = 0;
     	int argDay = 0;
@@ -390,39 +390,39 @@ public class NacaToolBox extends CJMapObject
     		{
     			argWeek = NumberParser.getAsInt(vParam3.getString().substring(4, 6));
     		}
-    		else if (vParam3.getString().substring(6, 8).trim().length() == 1) 
+            else if (vParam3.getString().substring(6, 8).trim().length() == 1)
 			{
     			argDay = NumberParser.getAsInt(vParam3.getString().substring(4, 7));
-			} 
-			else 
-			{	
+			}
+			else
+			{
 				argMonth = NumberParser.getAsInt(vParam3.getString().substring(4, 6));
     	    	argDay = NumberParser.getAsInt(vParam3.getString().substring(6, 8));
 			}
     	}
-    	
+
     	GregorianCalendar calendar = new GregorianCalendar();
     	calendar.set(GregorianCalendar.HOUR, 0);
-    	
+
     	if (operation.equals(">") || operation.equals("<"))
 		{
 			Assert("doDateJob doesn't implement the operator > and <");
 		}
-		
+
 		if (operation.equals("P"))
 		{
 			calendar = findDateEaster(calendar.get(GregorianCalendar.YEAR));
 		}
-		else if (!operation.equals("J") && !csDay.equals("")) 
+		else if (!operation.equals("J") && !csDay.equals(""))
 		{
 			int year = NumberParser.getAsInt(csYear) ;
-			if (csDay.length() > 1) 
-			{	
+			if (csDay.length() > 1)
+			{
 		    	int month = NumberParser.getAsInt(csMonth) -1 ;
-		    	int day = NumberParser.getAsInt(csDay) ;		    	
+                int day = NumberParser.getAsInt(csDay) ;
 				calendar.set(year, month, day);
 			}
-			else 
+			else
 			{
 				calendar.set(GregorianCalendar.YEAR, year);
 				calendar.set(GregorianCalendar.DAY_OF_YEAR, new Integer(csMonth + csDay.substring(0, 1)).intValue());
@@ -433,11 +433,11 @@ public class NacaToolBox extends CJMapObject
 		{
 			vParam1.set(completeDate(calendar, true));
 		}
-		else if (operation.equals("J") || operation.equals("C")) 
+		else if (operation.equals("J") || operation.equals("C"))
 		{
 			vParam1.set(completeDate(calendar, true));
-		} 
-		else if (operation.equals("A")) 
+		}
+		else if (operation.equals("A"))
 		{
 			vParam1.set(completeDate(calendar, true));
 			vParam2.set(completeDate(calendar, true));
@@ -452,11 +452,11 @@ public class NacaToolBox extends CJMapObject
 				add = argWeek;
 				calendar.add(GregorianCalendar.WEEK_OF_YEAR, add);
 			}
-			if (argMonth != 0) 
+			if (argMonth != 0)
 			{
 				add = argMonth;
 				calendar.add(GregorianCalendar.MONTH, add);
-			} 
+			}
 			if (argYear != 0)
 			{
 				add = argYear;
@@ -478,11 +478,11 @@ public class NacaToolBox extends CJMapObject
 				add = argWeek * -1;
 				calendar.add(GregorianCalendar.WEEK_OF_YEAR, add);
 			}
-			if (argMonth != 0) 
+			if (argMonth != 0)
 			{
 				add = argMonth * -1;
 				calendar.add(GregorianCalendar.MONTH, add);
-			} 
+			}
 			if (argYear != 0)
 			{
 				add = argYear * -1;
@@ -491,19 +491,19 @@ public class NacaToolBox extends CJMapObject
 			vParam2.set(completeDate(calendar, true));
 		}
 		else if (operation.equals("D"))
-		{	
+		{
 			vParam1.set(completeDate(calendar, true));
-			
+
 			GregorianCalendar calendarEnd = new GregorianCalendar();
 			calendarEnd.set(GregorianCalendar.HOUR, 0);
 			csYear = vParam2.getString().substring(0, 4);
 	    	csMonth = vParam2.getString().substring(4, 6);
 	    	csDay = vParam2.getString().substring(6, 8).trim();
 	    	int year = NumberParser.getAsInt(csYear);
-			if (csDay.length() > 1) 
-			{	
+			if (csDay.length() > 1)
+			{
 		    	int month = NumberParser.getAsInt(csMonth) -1;
-		    	int day = NumberParser.getAsInt(csDay);		    	
+                int day = NumberParser.getAsInt(csDay);
 				calendarEnd.set(year, month, day);
 			}
 			else
@@ -518,11 +518,11 @@ public class NacaToolBox extends CJMapObject
 			String csDiffDays = "00";
 			String csDiffDayOfYear = "000";
 			String csDiffDaysTotal = "0000000";
-			
+
 			// int diffDaysTotal = elapsedTime(calendar, calendarEnd, GregorianCalendar.DATE);
 			long diffMillis = calendarEnd.getTimeInMillis() - calendar.getTimeInMillis();
 			long diffDaysTotal = diffMillis/(24*60*60*1000);
-						
+
 			csDiffDaysTotal = StringUtil.leftPad(String.valueOf(diffDaysTotal), 7, '0');
 
 			int diffYears = elapsedTime(calendar, calendarEnd, GregorianCalendar.YEAR);
@@ -551,11 +551,11 @@ public class NacaToolBox extends CJMapObject
 			diffMillis = calendarEnd.getTimeInMillis() - calendar.getTimeInMillis();
 			long diffDays = diffMillis/(24*60*60*1000);
 			csDiffDays = StringUtil.leftPad(String.valueOf(diffDays), 2, '0');
-			
+
 			vParam3.set(csDiffYears + csDiffMonths + csDiffDays + csDiffYears + csDiffDayOfYear + csDiffDaysTotal);
 		}
 	}
-	
+
 	private int elapsedTime(GregorianCalendar gc1, GregorianCalendar gc2, int type)
 	{
 		GregorianCalendar calendarBegin, calendarEnd;
@@ -580,7 +580,7 @@ public class NacaToolBox extends CJMapObject
 	private String completeDate(GregorianCalendar gc, boolean bLongInfo)
 	{
 		GregorianCalendar calendar = (GregorianCalendar)gc.clone();
-		
+
 		String csDate = "00000000";
 		String csDayOfWeek = "0";
 		String csDaysInMonth = "00";
@@ -591,43 +591,43 @@ public class NacaToolBox extends CJMapObject
     	String csDayEaster = "000";
     	String csFlagHoliday = " ";
     	String csLeapYear = "0";
-    	
+
     	calendar.setFirstDayOfWeek(GregorianCalendar.MONDAY);
     	calendar.setMinimalDaysInFirstWeek(4);
-    	
+
     	Format formatter = new SimpleDateFormat("yyyyMMdd");
     	csDate = formatter.format(calendar.getTime());
-		
+
     	int dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
-		if (dayOfWeek == 1) 
+		if (dayOfWeek == 1)
 		{
 			csDayOfWeek = "7";
-		} 
-		else 
+		}
+		else
 		{
 			csDayOfWeek = String.valueOf(dayOfWeek - 1) ;
 		}
-		
+
 		csDaysInMonth = String.valueOf(calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
-		
+
 		csWeekOfYear = StringUtil.leftPad(String.valueOf(calendar.get(GregorianCalendar.WEEK_OF_YEAR)), 2, '0');
-		
+
 		int dayOfYear = calendar.get(GregorianCalendar.DAY_OF_YEAR);
 		calendar.set(GregorianCalendar.MONTH, 11);
-		calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);		
-		int daysInYear = calendar.get(GregorianCalendar.DAY_OF_YEAR);		
+		calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);
+		int daysInYear = calendar.get(GregorianCalendar.DAY_OF_YEAR);
 		csDayOfYear = StringUtil.leftPad(String.valueOf(dayOfYear), 3, '0');
 		csDaysToEndYear = StringUtil.leftPad(String.valueOf(daysInYear - dayOfYear), 3, '0');
 		csDaysInYear = StringUtil.leftPad(String.valueOf(daysInYear), 3, '0');
-		
+
 		GregorianCalendar easterCalendar = findDateEaster(calendar.get(GregorianCalendar.YEAR));
 		easterCalendar.set(GregorianCalendar.HOUR, 0);
 		csDayEaster = StringUtil.leftPad(String.valueOf(easterCalendar.get(GregorianCalendar.DAY_OF_YEAR)), 3, '0');
-		
+
 		//int diffEasterDays = elapsedTime(easterCalendar, calendar, GregorianCalendar.DATE);
 		long diffMillis = gc.getTimeInMillis() - easterCalendar.getTimeInMillis();
 		long diffEasterDays = diffMillis/(24*60*60*1000);
-		
+
 		if (csDate.substring(4).equals("0101") ||
 			csDate.substring(4).equals("0102") ||
 			csDate.substring(4).equals("0801") ||
@@ -640,12 +640,12 @@ public class NacaToolBox extends CJMapObject
 		{
 			csFlagHoliday = "F";
 		}
-		
+
 		if (calendar.isLeapYear(calendar.get(GregorianCalendar.YEAR)))
 		{
 			csLeapYear = "9";
 		}
-		
+
 		if (bLongInfo)
 		{
 			return csDate + csDayOfWeek + csDaysInMonth + csDayOfYear + csDaysToEndYear + csDaysInYear + csWeekOfYear + csDayEaster + csFlagHoliday;
@@ -658,7 +658,7 @@ public class NacaToolBox extends CJMapObject
 			return csDate.substring(2) + csDayOfYear + csLeapYear + csTarif  + csDayOfWeek + csWeekOfYear;
 		}
 	}
-	
+
 	/*
 	 * http://www.tondering.dk/claus/cal/node3.html#SECTION003137000000000000000
 	 */
@@ -672,16 +672,16 @@ public class NacaToolBox extends CJMapObject
         int l = i - j;
         int month = 3 + (l + 40) / 44;
         int day = l + 28 - 31 * (month / 4);
-        
+
 		return new GregorianCalendar(year, month - 1, day);
 	}
-	
+
 	public void getTimeSpecial(VarAndEdit vParam)
 	{
 		GregorianCalendar calendar = new GregorianCalendar();
 		Format formatter = new SimpleDateFormat("HHmmssSSS");
     	vParam.set(formatter.format(calendar.getTime()) + "000");
-	} 
+	}
 
 	public void checkShortNumber(Var returnCode, VarAndEdit input, int length, Var output, Var posBeforeDecimal, Var posAfterDecimal)
 	{
@@ -689,7 +689,7 @@ public class NacaToolBox extends CJMapObject
 	}
 	public void checkLongNumber(Var returnCode, VarAndEdit input, int length, Var output, Var posBeforeDecimal, Var posAfterDecimal)
 	{
-		checkNumber(returnCode, input.getString().substring(0, length).trim(), output, posBeforeDecimal, posAfterDecimal, false);		
+		checkNumber(returnCode, input.getString().substring(0, length).trim(), output, posBeforeDecimal, posAfterDecimal, false);
 	}
 	private void checkNumber(Var returnCode, String input, Var output, Var posBeforeDecimal, Var posAfterDecimal, boolean isShort)
 	{
@@ -698,17 +698,17 @@ public class NacaToolBox extends CJMapObject
 	    String formatSigne = "";
 	    String formatBeforeDecimal = "";
     	String formatAfterDecimal = "";
-    	
+
     	output.set(0);
     	posBeforeDecimal.set(0);
 		posAfterDecimal.set(0);
-		
+
 		if (!input.equals(""))
 		{
 			input = input.replaceAll("" + (char)20, "");
 	    	input = input.replaceAll("" + (char)0, "");
 		}
-    	
+
     	if (input.equals(""))
     	{
     		returnCode.set(1);
@@ -734,7 +734,7 @@ public class NacaToolBox extends CJMapObject
 			{
 	    		formatBeforeDecimal = input;
 			}
-	    	else 
+            else
 			{
 	    		formatBeforeDecimal = input.substring(0, posSearch);
 	    		if (posSearch + 1 < input.length())
@@ -750,12 +750,12 @@ public class NacaToolBox extends CJMapObject
 				return;
 	    	}
 	    }
-		if ((isShort && length > 9) || (!isShort && length > 14)) 
+		if ((isShort && length > 9) || (!isShort && length > 14))
 		{
 			returnCode.set(2);
 			return;
 		}
-		if ((isShort && lengthDecimal > 9) || (!isShort && lengthDecimal > 4)) 
+		if ((isShort && lengthDecimal > 9) || (!isShort && lengthDecimal > 4))
 		{
 			returnCode.set(3);
 			return;
@@ -773,13 +773,13 @@ public class NacaToolBox extends CJMapObject
 		}
 	}
 
-	private int checkNumberGetLength(String s) 
+	private int checkNumberGetLength(String s)
 	{
 		int length = 0;
 		boolean found = false;
-	    for (int i=0; i < s.length(); i++) 
+	    for (int i=0; i < s.length(); i++)
 	    {
-	    	if (found || s.charAt(i) != '0') 
+            if (found || s.charAt(i) != '0')
 	    	{
 	    		found = true;
 	    		length++;
@@ -788,13 +788,13 @@ public class NacaToolBox extends CJMapObject
 	    return length;
 	}
 
-	private int checkNumberGetLengthDecimal(String s) 
+	private int checkNumberGetLengthDecimal(String s)
 	{
 	  	int length = 0;
 	  	boolean found = false;
-	    for (int i=s.length() - 1; i > -1; i--) 
+	    for (int i=s.length() - 1; i > -1; i--)
 	    {
-	    	if (found || s.charAt(i) != '0') 
+            if (found || s.charAt(i) != '0')
 	    	{
 	    		found = true;
 	    		length++;
@@ -802,7 +802,7 @@ public class NacaToolBox extends CJMapObject
 	    }
 	    return length;
 	}
-	
+
 	private boolean checkNumberIsLong(String s)
 	{
 		if (s.equals(""))
@@ -815,14 +815,14 @@ public class NacaToolBox extends CJMapObject
 			long l = Long.parseLong(s);
 			if (l < 0)
 				return false;
-		}	
+		}
 		catch (NumberFormatException e)
 		{
 			return false ;
 		}
 		return true;
 	}
-	
+
 	/*
 	 * Var dfhcommarea = declare.level(1).var() ;                               // (41) 01   DFHCOMMAREA.
 		Var net = declare.level(5).picX(8).var() ;                              // (42)      05  NET                  PIC X(08).
@@ -837,7 +837,7 @@ public class NacaToolBox extends CJMapObject
 		String netLu62 = "L930CON1";
 		String termLu62 = "CON1";
 
-		OnlineSession session = (OnlineSession) baseSession; 
+		OnlineSession session = (OnlineSession) baseSession;
 		if(session != null)
 		{
 			net = session.getTerminalNet();
@@ -845,19 +845,19 @@ public class NacaToolBox extends CJMapObject
 			netLu62 = session.getTerminalNetLu62();
 			termLu62 = session.getTerminalTermLu62();
 		}
-		
+
 		param.set(StringUtil.rightPad(net, 8, ' ') +
   				StringUtil.rightPad(term, 4, ' ') +
 				StringUtil.rightPad(netLu62, 8, ' ') +
 				StringUtil.rightPad(termLu62, 4, ' '));
 	}
-	
+
 	public void generateRandomNumber(Var param)
 	{
 		Random generator = new Random();
 		param.set(generator.nextInt(param.getInt() + 1));
 	}
-	
+
 	/*
      * Var p2_Loce = declare.level(1).var() ; // (46) 01 P2-LOCE.
         // (47) 05 P2-ADRPAYN PIC X(3).
@@ -889,14 +889,14 @@ public class NacaToolBox extends CJMapObject
 		Var adrloce = param.getVarChildAt(3) ;
 		Var adrpays = param.getVarChildAt(4) ;
 		Var adrpayl = param.getVarChildAt(5) ;
-		
-		String formatting = "";		
+
+		String formatting = "";
 		if (adrpayn.getString().equals("998") || adrpayn.getString().equals("999"))
 		{
 			formatting = "1";
 		}
 		//else
-		//{	
+		//{
 		//	VI0801Sql vi0801sql = new VI0801Sql();
 		//	vi0801sql.read(programManager, adrpayn.getString());
 		//	formatting = vi0801sql.getAdrpyem();
@@ -1003,9 +1003,9 @@ public class NacaToolBox extends CJMapObject
 
 		param.set(StringUtil.rightPad(line1, 30, ' ') + StringUtil.rightPad(line2, 30, ' '));
 	}
-	
+
 	/*
-	 * 
+	 *
 	Var vc01pa24 = declare.level(1).var() ;                                     // (238)  01  VC01PA24.
 		Var dicjob = declare.level(5).picX(8).var() ;                           // (239)      05 DICJOB     PIC X(8).
 		Var filler$48 = declare.level(5).redefines(dicjob).filler() ;           // (240)      05 FILLER     REDEFINES DICJOB.
@@ -1024,7 +1024,7 @@ public class NacaToolBox extends CJMapObject
 	public void startBatch(Var param)
 	{
 		Var returnCode = param.getVarChildAt(1);
-		String job = param.getString().substring(0, 8).trim();		
+		String job = param.getString().substring(0, 8).trim();
 		String account = param.getString().substring(8, 16).trim();
 		String entity = param.getString().substring(16, 22).trim();
 		String procedure = param.getString().substring(22, 30).trim();
@@ -1043,7 +1043,7 @@ public class NacaToolBox extends CJMapObject
 		{
 			String prefix = programManager.getEnv().getConfigOption("StartBatchPrefix");
 			String jobId = OnlineEnvironment.getNextJobBatchID();
-			
+
 			File temp = File.createTempFile(programManager.getEnv().getTerminalID() + new DateUtil("HHmmssSSS").toString(), null);
 			if (programManager.getEnv().getConfigOption("StartBatchHostFtpUrl").equals(""))
 			{
@@ -1053,7 +1053,7 @@ public class NacaToolBox extends CJMapObject
 				String ftpUrl = programManager.getEnv().getConfigOption("StartBatchLinuxFtpUrl") ;
 				String date = new DateUtil("yyyyMMdd").toString();
 				String time = new DateUtil("HHmmssSSS").toString().substring(0, 7) + jobId.substring(2);
-				String filename = "temp." + procedure + "." + date + "." + time;				
+				String filename = "temp." + procedure + "." + date + "." + time;
 				int rc = 0;
 				if (rc == 0)
 				{
@@ -1068,17 +1068,17 @@ public class NacaToolBox extends CJMapObject
 			}
 			temp.delete();
 		}
-		catch (Exception ex) 
+		catch (Exception ex)
 		{
 			throw new RuntimeException(ex);
 	    }
 	}
-	
-	public int startBatchLinuxSsh(boolean isLocal, String sshPath, String sshUser, String url, String sshCommand, 
+
+	public int startBatchLinuxSsh(boolean isLocal, String sshPath, String sshUser, String url, String sshCommand,
 								  String procedure, String account, String entity, String reference, String fileName, String date, String time, String jobclass, String jobname)
 	{
 		int rc = 0;
-		
+
 		try
 		{
 			String[] commands;
@@ -1151,14 +1151,14 @@ public class NacaToolBox extends CJMapObject
 
 		return rc;
 	}
-	
-	private void startBatchLinuxPrepareFtp(File temp, String[] cards) throws IOException 
+
+	private void startBatchLinuxPrepareFtp(File temp, String[] cards) throws IOException
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(temp));
 	    for (int i=0; i < cards.length; i++)
     	{
     		String cs = cards[i];
-    		if (!(cs.startsWith("JOB") || cs.startsWith("OUTPUT") || cs.startsWith("PROC"))) 
+            if (!(cs.startsWith("JOB") || cs.startsWith("OUTPUT") || cs.startsWith("PROC")))
     		{
     			out.write(cs);
     			out.write((char)FileEndOfLine.LF);
@@ -1166,7 +1166,7 @@ public class NacaToolBox extends CJMapObject
     	}
 	    out.close();
 	}
-	private String startBatchLinuxGetJobclass(String[] cards) 
+	private String startBatchLinuxGetJobclass(String[] cards)
 	{
 		String jobCard = "";
 		if (cards.length > 0)
@@ -1199,18 +1199,18 @@ public class NacaToolBox extends CJMapObject
 
 		return jobclass;
 	}
-	
+
 	private void startBatchHostPrepareFtp(File temp,
-			   String job, String account, String entity, String procedure, String reference, String[] cards, 
-			   String prefix, String jobId) throws IOException 
+			   String job, String account, String entity, String procedure, String reference, String[] cards,
+			   String prefix, String jobId) throws IOException
 	{
 		BufferedWriter out = new BufferedWriter(new FileWriter(temp));
-		
+
 		String test = programManager.getEnv().getConfigOption("StartBatchHostTest");
 		boolean isTest = Boolean.parseBoolean(test);
-		
+
 		int cardItem = 0;
-		
+
 		// job card
 		String jobCard = "";
 		if (cards.length > 0)
@@ -1225,7 +1225,7 @@ public class NacaToolBox extends CJMapObject
 
 		String jobCardCopy = jobCard;
 		String msgClass = "";
-		if (jobCardCopy.indexOf("MSGCLASS=") == -1) 
+		if (jobCardCopy.indexOf("MSGCLASS=") == -1)
 		{
 			if (isTest)
 			{
@@ -1242,7 +1242,7 @@ public class NacaToolBox extends CJMapObject
 		}
 
 		String jobClass = "";
-		if (jobCardCopy.indexOf("CLASS=") == -1) 
+		if (jobCardCopy.indexOf("CLASS=") == -1)
 		{
 			if (isTest)
 			{
@@ -1266,13 +1266,13 @@ public class NacaToolBox extends CJMapObject
 		out.write(" JOB (" + account + "," + entity + "),");
 		out.newLine();
 		out.write("// " + programManager.getEnv().getSQLConnection().getEnvironmentPrefix() + jobClass + msgClass + jobCard);
-	
+
 		// output card
 		int cardOutput = 0;
-		for (int i=cardItem; i < cards.length; i++) 
+		for (int i=cardItem; i < cards.length; i++)
 		{
 	   		String cs = cards[i];
-			if (cs.startsWith("OUTPUT")) 
+			if (cs.startsWith("OUTPUT"))
 			{
 				cardOutput++;
 			}
@@ -1283,7 +1283,7 @@ public class NacaToolBox extends CJMapObject
 		}
 		if (cardOutput > 0)
 		{
-			for (int i=0; i < cardOutput; i++) 
+			for (int i=0; i < cardOutput; i++)
 			{
 				if (i != 0)
 				{
@@ -1303,10 +1303,10 @@ public class NacaToolBox extends CJMapObject
 				cardItem++;
 			}
 		}
-		
+
 		// exec card
 		String execName = "";
-		for (int i=cardItem; i < cards.length; i++) 
+		for (int i=cardItem; i < cards.length; i++)
 		{
 	   		String cs = cards[i];
 			if (cs.startsWith("PROC"))
@@ -1329,13 +1329,13 @@ public class NacaToolBox extends CJMapObject
 			out.newLine();
 			out.write("//       " + execName);
 		}
-		
+
 		// orsparam card
 		if (cardItem < cards.length)
 		{
 			out.newLine();
 			out.write("//ST5.ORSPARAM DD *");
-			for (; cardItem < cards.length; cardItem++) 
+			for (; cardItem < cards.length; cardItem++)
 			{
 				out.newLine();
 				out.write(cards[cardItem]);
@@ -1343,39 +1343,39 @@ public class NacaToolBox extends CJMapObject
 			out.newLine();
 			out.write("/*");
 		}
-		
+
 		// end card
 		out.newLine();
 		out.write("//");
 		out.close();
-	}	
-	
+	}
+
 	public void dumpProgram(Var var1, Var var2)
 	{
 		JVMReturnCodeManager.setExitCode(var1.getInt());
 		DumpProgramException dumpProgramException = new DumpProgramException(programManager, var1, var2);
 		throw dumpProgramException;
-	}	
-	
+	}
+
 	public void dumpProgram(Var var1)
 	{
 		JVMReturnCodeManager.setExitCode(var1.getInt());
 		DumpProgramException dumpProgramException = new DumpProgramException(programManager, var1, null);
 		throw dumpProgramException;
-	}	
-	
+	}
+
 	public void formatSQLCode(Var varErrorMessage, Var varErrorTextLen)
 	{
 		int nSizeBufferError = varErrorMessage.getVarChildAt(1).getInt();
 		int nSizeLine = varErrorTextLen.getInt();
-		
+
 		CSQLStatus sqlStatus = programManager.getSQLStatus();
 		if (sqlStatus != null)
-		{		
+		{
 			varErrorMessage.getVarChildAt(2).set(sqlStatus.toString());
 		}
 	}
-	
+
 	public void getJobInfo(VarFPacLengthUndef jobInfo)
 	{
 		Var varSource = jobInfo.createVar();
@@ -1392,14 +1392,14 @@ public class NacaToolBox extends CJMapObject
 	}
 	public void getJobInfo(Var jobInfo, Var account1Info)
 	{
-		getJobInfo(jobInfo);		
-		String account1 = getJobInfoForKey("ACCOUNT1");				
+		getJobInfo(jobInfo);
+		String account1 = getJobInfoForKey("ACCOUNT1");
 		account1Info.set(StringUtil.rightPad(account1, 8, ' '));
 	}
 	public void getJobInfo(Var jobInfo, Var account1Info, Var account2Info)
 	{
-		getJobInfo(jobInfo, account1Info);		
-		String account2 = getJobInfoForKey("ACCOUNT2");		
+		getJobInfo(jobInfo, account1Info);
+		String account2 = getJobInfoForKey("ACCOUNT2");
 		account2Info.set(StringUtil.rightPad(account2, 8, ' '));
 	}
 	public String getJobInfoForKey(String key) {
@@ -1416,7 +1416,7 @@ public class NacaToolBox extends CJMapObject
 			csCard = csCard.substring(0, csCard.length() - 1).trim();
 		String[] parms = csCard.split(",");
 		int pos = new Integer(index.getDottedSignedString()).intValue();
-		
+
 		if (parms.length > pos + 1)
 		{
 			pos++;
@@ -1462,7 +1462,7 @@ public class NacaToolBox extends CJMapObject
 	public void dynamicAllocation(Var[] params)
 	{
 		int operation = new Integer(params[0].getDottedSignedString()).intValue();
-		
+
 		if (operation == 1 || operation == 11)
 		{
 			for (int i=1; i < params.length; i++)
@@ -1476,7 +1476,7 @@ public class NacaToolBox extends CJMapObject
 				else
 				{
 					value = params[i].getString().substring(8).trim();
-				} 
+				}
 				programManager.getEnv().getBaseSession().addDynamicAllocationInfo(key, value);
 			}
 		}
@@ -1484,11 +1484,11 @@ public class NacaToolBox extends CJMapObject
 		{
 			Assert("dynamicAllocation doesn't implement the operation " + operation);
 		}
-		
+
 		if (operation == 1)
 		{
 			String dynamicAllocationPath = FileSystem.normalizePath(BaseResourceManager.getDynamicAllocationPath());
-			
+
 			String ddname = programManager.getEnv().getBaseSession().getDynamicAllocationInfo("DDNAME");
 			String dsn = programManager.getEnv().getBaseSession().getDynamicAllocationInfo("DSN");
 
@@ -1500,13 +1500,13 @@ public class NacaToolBox extends CJMapObject
 				String csDate = formatter.format(date);
 				formatter.applyPattern("HHmm");
 				String csHour = formatter.format(date);
-				dsn = dynamicAllocationPath + 
+				dsn = dynamicAllocationPath +
 					"temp/linux." +
 					getJobInfoForKey("JOBID") +
 					"." +
 					getJobInfoForKey("STEPID") +
 					".I" + csDate +
-					".H" + csHour + 
+					".H" + csHour +
 					programManager.getEnv().getBaseSession().getNextDynamicAllocationID();
 				dsn = dsn.toLowerCase();
 			}
@@ -1517,7 +1517,7 @@ public class NacaToolBox extends CJMapObject
 				if (dsn.length() > 44)
 				{
 					issearchGeneration = true;
-					nGeneration = new Integer(dsn.substring(44)).intValue();					
+					nGeneration = new Integer(dsn.substring(44)).intValue();
 					dsn = dsn.substring(0, 44);
 				}
 				dsn = dsn.toLowerCase();
@@ -1563,7 +1563,7 @@ public class NacaToolBox extends CJMapObject
 	{
 		int len = new Integer(length.getDottedSignedString()).intValue();
 		String cs = inBits.getString();
-		
+
 		String csX = "";
 		for (int i = 0, k = 0; i < (len * 8) + 1; i++, k++)
 		{
@@ -1606,8 +1606,8 @@ public class NacaToolBox extends CJMapObject
 		Var varLmode = varColonne.getVarChildAt(5);
 		Var varYline = varColonne.getVarChildAt(6);
 		Var varCyline = varColonne.getVarChildAt(7);
-		Var varTrc = varColonne.getVarChildAt(8);		
-				
+		Var varTrc = varColonne.getVarChildAt(8);
+
 		ColumnDef[] cols = new ColumnDef[nbColumn.getInt()];
 		for (int i=0, j=1; i < nbColumn.getInt(); i++, j++)
 		{
@@ -1624,7 +1624,7 @@ public class NacaToolBox extends CJMapObject
 		FormatDef format = new FormatDef(cols, interline.getInt());*/
 		/*
 		FormatDef format = null;
-		int nRule = rule.getVarChildAt(1).getVarChildAt(9).getAt(1).getInt();		
+		int nRule = rule.getVarChildAt(1).getVarChildAt(9).getAt(1).getInt();
 		switch (nRule)
 		{
 			case 1:
@@ -1686,44 +1686,44 @@ public class NacaToolBox extends CJMapObject
 	public void formatPSFText(Var input, Var blockMode, Var output, Var blockHeight, Var returnCode)
 	{
 		//TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
-		
+
 // Var s32_Input = declare.level(5).var() ; // (2497) 05 S32-INPUT.
 // Var s32_Inbch = declare.level(10).picS9(9).comp().var() ; // (2498) 10 S32-INBCH PIC S9(9) COMP.
 // Var s32_Imaxch = declare.level(10).picS9(9).comp().value(4001).var() ; // (2499) 10 S32-IMAXCH PIC S9(9) COMP VALUE 4001.
 // Var s32_Intxt = declare.level(10).var() ; // (2500) 10 S32-INTXT.
 // Var s32_Ichar = declare.level(15).occurs(4001).picX(1).var() ; // (2501) 15 S32-ICHAR OCCURS 4001 PIC X.
-		
+
 		/*ReturnCode rc;
 		PSFOutputBuffer psf = new PSFOutputBuffer(4001);
 		if (blockMode.getInt() == 1)
 			rc = textPrintHelper.printText(input.getVarChildAt(3).getString().substring(0, input.getVarChildAt(1).getInt()), TextBlockMode.BLKM_MORE, psf);
 		else
 			rc = textPrintHelper.printText(input.getVarChildAt(3).getString().substring(0, input.getVarChildAt(1).getInt()), TextBlockMode.BLKM_ENDOFBLOCK, psf);
-		
+
 // Var s32_Output = declare.level(5).var() ; // (2493) 05 S32-OUTPUT.
 // Var s32_Onbch = declare.level(10).picS9(9).comp().var() ; // (2494) 10 S32-ONBCH PIC S9(9) COMP.
 // Var s32_Omaxch =declare.level(10).picS9(9).comp().value(4001).var();// (2495) 10 S32-OMAXCH PIC S9(9) COMP VALUE 4001.
 // Var s32_Outxt = declare.level(10).var() ; // (2496) 10 S32-OUTXT.
 // Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ; // (2497) 15 S32-OCHAR OCCURS 4001 PIC X.
 		output.getVarChildAt(1).set(psf.getLength() - 1);
-		output.getVarChildAt(3).importFromByteArray(psf.getBytes(), psf.getLength());		
+		output.getVarChildAt(3).importFromByteArray(psf.getBytes(), psf.getLength());
 		blockHeight.set(psf.getHeight());
 		returnCode.set(rc.getCode());*/
 	}
 	public void formatPSFLine(Var input, Var blockMode, Var output, Var blockHeight, Var returnCode)
 	{
 		//TextPrintHelper textPrintHelper = formatPSFTextGetInstance();
-		
+
 // Var s33_Input = declare.level(5).var() ; // (2508) 05 S33-INPUT.
 // Var s33_Pos = declare.level(10).picS9(9).comp().var() ; // (2509) 10 S33-POS PIC S9(9) COMP.
 // Var s33_Large = declare.level(10).picS9(9).comp().var() ; // (2510) 10 S33-LARGE PIC S9(9) COMP.
 // Var s33_Yline = declare.level(10).picS9(9).comp().var() ; // (2511) 10 S33-YLINE PIC S9(9) COMP.
 // Var s33_Cyline = declare.level(10).picS9(9).comp().var() ; // (2512) 10 S33-CYLINE PIC S9(9) COMP.
 		/*LineDef lineDef = new LineDef(input.getVarChildAt(1).getInt(), input.getVarChildAt(2).getInt(), input.getVarChildAt(3).getInt(), input.getVarChildAt(4).getInt());
-		
+
 		ReturnCode rc;
 		PSFOutputBuffer psf = new PSFOutputBuffer(4001);
-		if (blockMode.getInt() == 1)			
+		if (blockMode.getInt() == 1)
 			rc = textPrintHelper.drawLine(lineDef, TextBlockMode.BLKM_MORE, psf);
 		else
 			rc = textPrintHelper.drawLine(lineDef, TextBlockMode.BLKM_ENDOFBLOCK, psf);
@@ -1734,7 +1734,7 @@ public class NacaToolBox extends CJMapObject
 // Var s32_Outxt = declare.level(10).var() ; // (2496) 10 S32-OUTXT.
 // Var s32_Ochar = declare.level(15).occurs(4001).picX(1).var() ; // (2497) 15 S32-OCHAR OCCURS 4001 PIC X.
 		output.getVarChildAt(1).set(psf.getLength() - 1);
-		output.getVarChildAt(3).setFromByteArray(psf.getBytes(), 0, psf.getLength());		
+		output.getVarChildAt(3).setFromByteArray(psf.getBytes(), 0, psf.getLength());
 		blockHeight.set(psf.getHeight());
 		returnCode.set(rc.getCode());*/
 	}
@@ -1763,7 +1763,7 @@ public class NacaToolBox extends CJMapObject
 		imagePrintHelper.print(input, output);
 		*/
 	}
-	
+
 	public void formatXMLOrder(Var input, Var output)
 	{
 		/*
@@ -1777,20 +1777,20 @@ public class NacaToolBox extends CJMapObject
 		xmlPrintHelper.print(input, output);
 		*/
 	}
-	
+
 	public void restartFile(Var outputFile)
 	{
 		String csLogicalFileName = outputFile.getVarChildAt(1).getString().trim();
 		int nNbRecordsToKeep = outputFile.getVarChildAt(2).getInt();
 		restartFile(csLogicalFileName, nNbRecordsToKeep);
 	}
-	
+
 	public void restartFile(String csLogicalFileName, int nNbRecordsToKeep)
 	{
 		FileDescriptor file = new FileDescriptor(csLogicalFileName, programManager.getEnv().getBaseSession());
-		moveEndOfFilePointer(file, nNbRecordsToKeep);	
+		moveEndOfFilePointer(file, nNbRecordsToKeep);
 	}
-	
+
 	private int moveEndOfFilePointer(FileDescriptor file, int nNbRecordsToKeep)
 	{
 		String csPhysicalFileName = file.getPhysicalName();
@@ -1828,22 +1828,22 @@ public class NacaToolBox extends CJMapObject
 				return nNbRecordRead;
 			}
 		}
-		Log.logCritical("Could not open file " + csPhysicalFileName);	
+		Log.logCritical("Could not open file " + csPhysicalFileName);
 		return -1;
 	}
-	
+
 	public void doEncodingUTF8(Var input, Var output)
 	{
 		String utf8 = input.getString().trim();
 		utf8 = utf8.replace("&", "&amp;");
-		utf8 = utf8.replace("\"", "&quot;");		
+		utf8 = utf8.replace("\"", "&quot;");
 		utf8 = utf8.replace("'", "&apos;");
 		utf8 = utf8.replace("<", "&lt;");
 		utf8 = utf8.replace(">", "&gt;");
 		byte[] utf8Bytes;
 		try
 		{
-			utf8Bytes = utf8.getBytes("UTF8");			
+			utf8Bytes = utf8.getBytes("UTF8");
 		}
 		catch (Exception ex)
 		{

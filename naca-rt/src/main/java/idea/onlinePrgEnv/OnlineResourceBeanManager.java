@@ -109,7 +109,7 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 	{
 		this.csJarXMLFile = csJarXMLFile;
 	}
-	
+
 	private int doLoadResourceFiles(String csResourcePath, boolean bCacheResourceFiles)
 	{
 		File lst[] = FileSystem.getFileListBySuffix(csResourcePath, ".res");
@@ -154,11 +154,11 @@ public class OnlineResourceBeanManager extends BaseCloseMBean
 
 		// 1st load the .res files form standard resource path
 		int nNbFiles = doLoadResourceFiles(resourceManager.csResourcePath, bCacheResourceFiles);
-		
+
 		// can also optionally load the .res files form another resource path
 		if(!StringUtil.isEmpty(resourceManager.csAlternateResourcePath))
 			nNbFiles += doLoadResourceFiles(resourceManager.csAlternateResourcePath, bCacheResourceFiles);
-		
+
 		// bCacheResourceFiles = true;
 
 		int nXMLResource = 0;

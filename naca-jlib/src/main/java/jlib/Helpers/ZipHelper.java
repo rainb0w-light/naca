@@ -74,7 +74,7 @@ public class ZipHelper {
 		int n,nn;                         // To parse the list of contents of the current folder.
 		File content;                     // One entry in the content list.
 		try {
-//............................. Initialization ..................................... 
+//............................. Initialization .....................................
 			currentFolder=new File(baseFolder,path);
 			if (!currentFolder.exists())
 				throw new Exception("Folder '"+baseFolder+"' doesn't exist.");
@@ -114,14 +114,14 @@ public class ZipHelper {
 		File[] contents;                  // The list of contents of the current folder.
 		int n,nn;                         // To parse the list of contents of the current folder.
 		File content;                     // One entry in the content list.
-		
+
 		ZipEntry ze;                      // Each file in the current folder is inserted as a new ZipEntry.
 		BufferedInputStream bis;          // To read one file in the current folder.
 		byte buffer[]=new byte[1000];     // A buffer between the content of the file and the zip archive.
 		int bufferSize=buffer.length;     // The size of the buffer.
 		int bytesRead;                    // The number of bytes read from the file.
 		try {
-//............................. Initialization ..................................... 
+//............................. Initialization .....................................
 			currentFolder=new File(baseFolder,path);
 			if (!currentFolder.exists())
 				throw new Exception("Folder '"+baseFolder+"' doesn't exist.");
@@ -178,7 +178,7 @@ public class ZipHelper {
 /**
  * Zips the specified file.
  * @param file The file to archive.
- * @param destinationZipArchive Specifies the zip archive where to store the specified 
+ * @param destinationZipArchive Specifies the zip archive where to store the specified
  *     file. If the zip archive already exists, it is deleted before starting
  *     the process. Folders and subfolders are created if needed. If the specified file
  *     already exists and it is a folder, an exception is raised.
@@ -213,7 +213,7 @@ public class ZipHelper {
  * 	for (int n=0;n&lt;files.length;n++)
  * 		if (files[n].isFile())
  * 			list.add(files[n].getAbsolutePath());
- * 
+ *
  * 	ApplicationHelper.zipFiles(list,new File("C:\\MyFolder\MyArchive.zip"),false);
  * </pre>
  * @param files The list of files to add to the zip archive. Entries in the list
@@ -233,8 +233,8 @@ public class ZipHelper {
 		String fileName;               // Absolute path to one of the files in the list.
 		File file;                     // One of the files in the list.
 
-		FileOutputStream fos;          // A stream to create the ZIP archive. 
-		ZipOutputStream zos;           // The Zip deflater. 
+		FileOutputStream fos;          // A stream to create the ZIP archive.
+		ZipOutputStream zos;           // The Zip deflater.
 		ZipEntry ze;                   // Each file in the list is one zip entry.
 
 		FileInputStream fis;           // To read the content of one file in the list.
@@ -262,7 +262,7 @@ public class ZipHelper {
 //.................... Initializes a ZIP stream .............................
 			fos=new FileOutputStream(destinationZipArchive);
 			zos=new ZipOutputStream(fos);
-				
+
 //**************** Puts every file in the list in the zip archive ***********
 			nnFiles=files.size();
 			for(nFiles=0;nFiles<nnFiles;nFiles++) {
@@ -313,7 +313,7 @@ public class ZipHelper {
 //************************* Closes the Zip archive ******************************
 			zos.close();
 			fos.close();
-				
+
 //*********************** Deletes all files in the list *************************
 			if (moveFiles) {
 				nnFiles=files.size();
@@ -338,7 +338,7 @@ public class ZipHelper {
 								System.out.println("Deleted "+file.getAbsolutePath()+".");
 							else
 								System.out.println("Could not delete "+file.getAbsolutePath()+".");
-							
+
 						}
 				}
 			}

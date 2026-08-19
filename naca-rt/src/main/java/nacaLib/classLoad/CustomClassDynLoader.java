@@ -20,25 +20,25 @@ public class CustomClassDynLoader extends ClassDynLoader
 	{
 		super();
 	}
-	
+
 	public CustomClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
 	{
 		super(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
 	}
-	
+
 //    private synchronized Class loadClassInternal(String name) throws ClassNotFoundException
 //    {
 //    	return loadClass(name);
 //    }
 
-	
+
 	public Class loadClass(String csClassName)
     {
 		//if(csClassName.equals("FUF1A00"))
 		//{
 		//	int gg = 0;
 		//}
-		
+
 		char c = csClassName.charAt(0);
 		if(c == 'j' || c == 'n' || c == 'i' || c == 'p' || c == 's')
 		{
@@ -58,14 +58,14 @@ public class CustomClassDynLoader extends ClassDynLoader
 		}
 		if(!iscanLoadJar && !bCanLoadClass)
 			return tryLoadWithPrimordialClassLoader(csClassName);
-		
+
 		boolean isprogram = false;
 		boolean bCopyOrStdClass = false;
 		boolean isparagraph = false;
 		boolean iscallOrStdClass = false;
-		
+
     	Class classCode = null;
-    	
+
     	if(csCurrentClassName != null)	// paragraph or copy
     	{
     		if(csClassName.equals(csCurrentClassName))	// Program
@@ -85,9 +85,9 @@ public class CustomClassDynLoader extends ClassDynLoader
     		else
     			iscallOrStdClass = true;	// Call
     	}
-		
+
     	boolean isintf = csClassName.endsWith("Intf");
-    	
+
     	if(iscallOrStdClass || isprogram || isintf)
     	{
 	    	CoupleCodeLoader couple = ms_hashByName.get(csClassName);
@@ -97,37 +97,37 @@ public class CustomClassDynLoader extends ClassDynLoader
 				return classCode;
 			}
     	}
-    	
+
     	if(iscallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
     	{
     		classCode = tryLoadWithPrimordialClassLoader(csClassName);
     		if(classCode != null)
-    			return classCode; 
+                return classCode;
     	}
-        
+
        	if(iscallOrStdClass)	// If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
     	{
     		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, iscanLoadJar);
     		Class cls = newCustomClassDynLoader.doLoadClass(csClassName);
     		return cls;
     	}
-  
-        // Try to load it from our paths 
+
+        // Try to load it from our paths
         byte  arrbyteClassData[] = getClassFileBytes(csClassName);
         if (arrbyteClassData == null)
         {
         	return null;	// Class not found
         }
 
-        // Define it (parse the class file) 
+        // Define it (parse the class file)
         classCode = defineClass(csClassName, arrbyteClassData, 0, arrbyteClassData.length);
         if (classCode == null)
         {
         	throw new ClassFormatError();
         }
-        
+
         resolveClass(classCode);
-		
+
 		if(classCode != null)
 		{
 			if(iscallOrStdClass || isprogram || isintf)
@@ -135,7 +135,7 @@ public class CustomClassDynLoader extends ClassDynLoader
 				CoupleCodeLoader couple = new CoupleCodeLoader(classCode, this);
 				register(csClassName, couple);
 			}
-		} 
+		}
 
 		return classCode;
     }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.Pub2000Db;
 
@@ -24,17 +24,17 @@ import jlib.sql.SQLClause;
  * @version $Id: P2000Clause.java,v 1.10 2008/02/14 15:21:34 u930bm Exp $
  */
 /* Sample usage of P2000Clause with a main and alternate connection:
-   P2000Clause clause = new P2000Clause(); 
-  
+   P2000Clause clause = new P2000Clause();
+
    DbConnectionBase mainConnection = clause.getAlternateConnection();
    Asserter.assertIfNotNull(mainConnection); // mainConnection is null as it's not an alternate connection
    // L a connection principale est gérée dans le TLS. Il n'y a pas besoin de la passer explicitement d'une méthode à l'autre; elle n'est
    // pas accessible publiquement
-   
+
    clause.set("SELECT * FROM RSGV43");
    clause.prepareAndExecute();
    clause.next();
-   
+
    // 1st call to establish an alternate connection; it's identified by the null parameter
    P2000Clause clauseAlternate = new P2000Clause(P2000Accessor.accessor, null);
    DbConnectionBase alternateConnection = clauseAlternate.getAlternateConnection(); // Access to the alternate connection
@@ -51,32 +51,32 @@ import jlib.sql.SQLClause;
    // The previously allocated alternate connection is given in second parameter
    P2000Clause clauseAlternate2 = new P2000Clause(P2000Accessor.accessor, alternateConnection);
    // Do some actions on the seond clause, using the alternate connection
-   clauseAlternate2.set("SELECT count(*) FROM RSGV01"); 
+   clauseAlternate2.set("SELECT count(*) FROM RSGV01");
    clauseAlternate2.prepareAndExecute();
    clauseAlternate2.next();
    clauseAlternate2.close();
-   
+
    // alternateConnection.commitWithException();    // If we wanted to commit operations done on alternate connection
    // alternateConnection.rollbackWithException();    // Or roolback operations done on alternate connection
-    
+
    alternateConnection.returnConnectionToPool(); // Return alternate connection to pool
-      
-   clause.close(); // Close 1st clause, 
+
+   clause.close(); // Close 1st clause,
    P2000Accessor.returnConnectionToPool(); // Return main connection to pool
    */
 
 public class P2000Clause extends SQLClause
 {
 	/**
-	 * Use this ctor to have the connection to DB automatically established. 
-	 * The clause uses automatically the DB defined under the PUB2000Db section of 
+	 * Use this ctor to have the connection to DB automatically established.
+	 * The clause uses automatically the DB defined under the PUB2000Db section of
 	 * the app.properties file. This is defined by the accessor used (@see P2000Accessor.accessor)
 	 */
 	public P2000Clause()
 	{
 		super(P2000Accessor.accessor);	// Identifies the DB that we access
 	}
-	
+
 	/**
 	 * @param connection: Valid conection already established
 	 *     Use this ctor to create a new specific SQLClause, without automatic connection allocation.
@@ -84,25 +84,25 @@ public class P2000Clause extends SQLClause
 	 */
 	public P2000Clause(DbAccessor accessor)
 	{
-		super(accessor);		
+		super(accessor);
 	}
-	
+
 	// CTor used to access DB with an aleternate connection (not managed in TLS)
 	// Call with connection==null to establish 1st alternate connection
 	// Call with connection filled to reused an already established alternate connection
 	public P2000Clause(DbAccessor accessor, DbConnectionBase connection)
 	{
-		super(accessor, connection);		
+		super(accessor, connection);
 	}
-	
-	
+
+
 	/**
-	 * Call this method to pass a languageId as a "Where" parameter of a SQLClause.  
+	 * Call this method to pass a languageId as a "Where" parameter of a SQLClause.
 	 * @param languageId Valid languageId identifying a language in the Pub2000 system
 	 */
 	public String param(LanguageId languageId)
 	{
-		return super.param(languageId.getNumericCode());		
+		return super.param(languageId.getNumericCode());
 	}
 
 	/**
@@ -112,10 +112,10 @@ public class P2000Clause extends SQLClause
 	 */
 	public SQLClause paramInsert(String csName, LanguageId languageId)
 	{
-		super.paramInsert(csName, languageId.getNumericCode());		
+		super.paramInsert(csName, languageId.getNumericCode());
 		return this;
 	}
-	
+
 
 //	***************************************************************************
 //	**                  MYPPUM handles booleans as char type.                **
@@ -154,7 +154,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
 		super.paramInsert(csName,"");
 	return this;
 }
-	
+
 //	**************************************************************************
 //	**                  Handles Date parameters in the MYPPUM database.     **
 //	**************************************************************************
@@ -172,7 +172,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
 		int n=Integer.parseInt(s.toString());
 		return super.param(n);
 	}
-	
+
 	public String paramDateNow()
 	{
 		String csNowYYYYMMDD = DateUtil.getDateNowYYYYMMDD();
@@ -189,7 +189,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
  * @param bVal A <code>Date</code> parameter.
  * @return See {@link #param(int)}.
  */
-	public P2000Clause paramInsertDate(String csName, Date bVal) 
+	public P2000Clause paramInsertDate(String csName, Date bVal)
 	{
 		String s=String.format("%1$tY%1$tm%1$td",bVal);
 		int n=Integer.parseInt(s.toString());
@@ -219,7 +219,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
  * @param bVal A <code>Date</code> parameter.
  * @return See {@link #param(int)}.
  */
-	public Date getDate(int nColNumber) { 
+	public Date getDate(int nColNumber) {
 		int nVal = getInt(nColNumber);
 		return transformToDate(nVal);
 	}
@@ -270,10 +270,10 @@ public P2000Clause paramInsert(String csName,boolean bVal)
 	{
 		String s=String.format("%1$tH%1$tM%1$tS",bVal);
 		int n=Integer.parseInt(s.toString());
-	
-		return super.param(n);		
+
+		return super.param(n);
 	}
-	
+
 	public String paramTimeNow()
 	{
 		String csNowHHMMSS = DateUtil.getTimeNowHHMMSS();
@@ -298,7 +298,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
 		super.paramInsert(csName,n);
 		return this;
 	}
-	
+
 	/**
 	 * Insert the current date in format YYYYMMDD as an int in the identified column
 	 * @param csName Column's name; it must be typed as an int
@@ -311,7 +311,7 @@ public P2000Clause paramInsert(String csName,boolean bVal)
 		super.paramInsert(csName, nNowYYYYMMDD);
 		return this;
 	}
-	
+
 	/**
 	 * Insert the current time in format HHMMSS as an int in the identified column
 	 * @param csName Column's name; it must be typed as an int

@@ -50,7 +50,7 @@ import jlib.misc.StringUtil;
  * 	db.closeResultSet(rcs);
  * 	</pre></li>
  * </ul>
- * 
+ *
  * @author U930GN
  */
 public class Db {
@@ -59,9 +59,9 @@ public class Db {
 //       substr(s.machine,1,20) as machine,
 //       substr(s.osuser,1,10) as osuser,
 //       substr(s.username,1,10) as username
-//  FROM V$SESSTAT v, V$SESSION s   
-//  WHERE v.statistic# = 3 
-//    and v.sid = s.sid 
+//  FROM V$SESSTAT v, V$SESSION s
+//  WHERE v.statistic# = 3
+//    and v.sid = s.sid
 //  GROUP by s.machine,s.osuser,s.username
 //******************************************************************************
 //**                      Class properties.                                   **
@@ -142,7 +142,7 @@ public class Db {
 		if (!_password.equals(password)) cleanConnection();
 		_password=password;
 	}
-	
+
 //******************************************************************************
 //**                       Class variables.                                   **
 //******************************************************************************
@@ -174,7 +174,7 @@ public class Db {
 /**
  * Prepares a SQL statement.
  * The sql request is specified as a simple string, as it would be when typed
- * on a command line console. Variable sections can be enclosed withing 
+ * on a command line console. Variable sections can be enclosed withing
  * brackets <code>{x...}</code>, where:
  * <ul>
  * 	<li><b><code>x</code></b> represents the value type. Supported types are:
@@ -185,9 +185,9 @@ public class Db {
  * 		</ul></li>
  *	<li><b><code>...</code></b> Represents the value, as a plain string.</li>
  * </ul>
- * For example: 
+ * For example:
  * <pre>
- * select * from table where field1={sA string} and field2={n1020} 
+ * select * from table where field1={sA string} and field2={n1020}
  * </pre>
  * This method is called by {@link #getResultSet}, {@link #getResultSetCount} and {@link #executeSQL}.
  * @return The precompiled statement corresponding to the specified <code>sql</code> statement.
@@ -201,9 +201,9 @@ public class Db {
 		String parameter;
 		PreparedStatement preparedStatement;
 		char parameterPrefix;
-		try { 
+		try {
 //.............................. Initialisation ...............................
-			if (_connection==null) 
+			if (_connection==null)
 				connectTo();
 
 			parametrizedSql=new StringBuffer();
@@ -314,7 +314,7 @@ public class Db {
 //.................. Constructeur avec param�tres de connection ................
 /**
  * Immediately establishes a connection to the specified database.
- * The specified parameters are copied into the properties {@link #_driver}, 
+ * The specified parameters are copied into the properties {@link #_driver},
  * {@link #_conString}, {@link #_driver} and {@link #_password}.
  */
 	public Db(String driver,String conString,String user,String password) throws Exception {
@@ -351,7 +351,7 @@ public class Db {
 //*********************************** Cr�e une connection **********************
 /**
  * Establishes a new connection to the specified database.
- * The specified parameters are copied into the properties {@link #_driver}, 
+ * The specified parameters are copied into the properties {@link #_driver},
  * {@link #_conString}, {@link #_driver} and {@link #_password}.
  * @param driver The JDBC name of the database driver to use.
  * @param conString The JDBC connection string to use.
@@ -371,7 +371,7 @@ public class Db {
 				Class.forName(driver);
 			} catch (ClassNotFoundException e) {
 				throw new Exception(driver+" not found.");
-			}    
+			}
 
 //........................ Establishes a new connection ........................
 			cleanConnection();
@@ -383,7 +383,7 @@ public class Db {
 			throw new SQLException(e.getMessage()+" while connecting to '"+driver+"','"+conString+"','"+user+"','"+password+"'",e.getSQLState(),e.getErrorCode());
 		}
 		catch (Exception e) {
-			throw new Exception(ParseError.parseError("Db.ConnectTo('"+driver+"','"+conString+"','"+user+"','"+password+"')",e));	
+			throw new Exception(ParseError.parseError("Db.ConnectTo('"+driver+"','"+conString+"','"+user+"','"+password+"')",e));
 		}
 	}
 
@@ -397,7 +397,7 @@ public class Db {
 		if (_connection!=null) {
 			_connection.close();
 			_connection=null;
-		}	
+		}
 	}
 
 //*****************************************************************************
@@ -416,7 +416,7 @@ public class Db {
  * 			<li><code>d</code> A date.</li>
  * 		</ul></li>
  *	<li><b><code>...</code></b> Represents the value, as a plain string.</li>
- * </ul> 
+ * </ul>
  * @param sql A <code>SELECT</code> sql statement.
  * @return The number of rows selected by the specified <code>SELECT</code> statement.
  *     use the {@link #closeResultSet} method.
@@ -439,7 +439,7 @@ public class Db {
 			throw new SQLException(e.getMessage()+" while selecting '"+sql+"'",e.getSQLState(),e.getErrorCode());
 		}
 		catch(Exception e) {
-			throw new Exception(ParseError.parseError("Db.getResultSetCount('"+sql+"')",e));		
+			throw new Exception(ParseError.parseError("Db.getResultSetCount('"+sql+"')",e));
 		}
 	}
 
@@ -459,7 +459,7 @@ public class Db {
  * 			<li><code>d</code> A date.</li>
  * 		</ul></li>
  *	<li><b><code>...</code></b> Represents the value, as a plain string.</li>
- * </ul> 
+ * </ul>
  * This is an example:
  * <pre>
  * 	db=new MyDb();
@@ -490,7 +490,7 @@ public class Db {
 			throw new SQLException(e.getMessage()+" while selecting '"+sql+"'",e.getSQLState(),e.getErrorCode());
 		}
 		catch(Exception e) {
-			throw new Exception(ParseError.parseError("Db.getResultSet('"+sql+"')",e));		
+			throw new Exception(ParseError.parseError("Db.getResultSet('"+sql+"')",e));
 		}
 	}
 
@@ -529,7 +529,7 @@ public class Db {
 			throw new SQLException(e.getMessage(),e.getSQLState(),e.getErrorCode());
 		}
 		catch(Exception e) {
-			throw new Exception(ParseError.parseError("Db.closeResultSet()",e));		
+			throw new Exception(ParseError.parseError("Db.closeResultSet()",e));
 		}
 	}
 
@@ -549,7 +549,7 @@ public class Db {
  * 			<li><code>d</code> A date.</li>
  * 		</ul></li>
  *	<li><b><code>...</code></b> Represents the value, as a plain string.</li>
- * </ul> 
+ * </ul>
  * This is an example:
  * <pre>
  * 	db=new MyDb();
@@ -576,8 +576,8 @@ public class Db {
 			throw new SQLException(e.getMessage()+" while executing '"+sql+"'",e.getSQLState(),e.getErrorCode());
 		}
 		catch(Exception e) {
-			throw new Exception(ParseError.parseError("Db.executeSQL('"+sql+"')",e));		
-		}		
+			throw new Exception(ParseError.parseError("Db.executeSQL('"+sql+"')",e));
+		}
 	}
 
 //*****************************************************************************
@@ -588,9 +588,9 @@ public class Db {
  * When a transaction is started, changes made with {@link #executeSQL} are not commited
  * until {@link #commitTransaction} is called.
  * Result sets returned by {@link #getResultSet} and {@link #getResultSetCount} are
- * in the same transaction. 
+ * in the same transaction.
  */
-	public void startTransaction() throws Exception {		
+	public void startTransaction() throws Exception {
 		if (_connection==null) connectTo();
 		_connection.setAutoCommit(false);
 	}
@@ -600,10 +600,10 @@ public class Db {
 //*****************************************************************************
 /**
  * Accepts the current transaction.
- * After a transaction is started (with {@link #startTransaction}), changes made 
+ * After a transaction is started (with {@link #startTransaction}), changes made
  * with {@link #executeSQL} are not commited until {@link #commitTransaction} is called.
  * Result sets returned by {@link #getResultSet} and {@link #getResultSetCount} are
- * in the same transaction. 
+ * in the same transaction.
  */
 	public void commitTransaction() throws Exception {
 		_connection.commit();
@@ -612,10 +612,10 @@ public class Db {
 
 /**
  * Cancels the current transaction and all modifications made within it.
- * After a transaction is started (with {@link #startTransaction}), changes made 
+ * After a transaction is started (with {@link #startTransaction}), changes made
  * with {@link #executeSQL} are not commited until {@link #commitTransaction} is called.
  * Result sets returned by {@link #getResultSet} and {@link #getResultSetCount} are
- * in the same transaction. 
+ * in the same transaction.
  */
 	public void rollbackTransaction() throws Exception {
 		_connection.rollback();
@@ -643,7 +643,7 @@ public class Db {
 					r.append(s.substring(n1,s.length()));
 					break;
 				}
-				r.append(s.substring(n1,n2));			
+				r.append(s.substring(n1,n2));
 				r.append("''");
 				n1=n2+1;
 				n2=s.indexOf("'",n1);
@@ -651,6 +651,6 @@ public class Db {
 			return r.toString();
 		} catch (Exception e) {
 			throw new Exception(ParseError.parseError("Db.ParseForSQL",e));
-		}		
+		}
 	}
 }

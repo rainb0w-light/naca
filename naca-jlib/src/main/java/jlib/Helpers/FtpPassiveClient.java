@@ -38,7 +38,7 @@ import jlib.exception.TechnicalException;
  * 	<li>Open InputStream and OutputStream to files on the server (This
  * 		allows "on the fly" operations).</li>
  * </ul>
- * 
+ *
  * @author Jean-Michel Gonet
  */
 public class FtpPassiveClient {
@@ -91,7 +91,7 @@ public class FtpPassiveClient {
 //**                     Connect to a FTP server.                        **
 //*************************************************************************
 /**
- * Connects to a FTP server using the port number 21. 
+ * Connects to a FTP server using the port number 21.
  * @param url Address or IP to the FTP server.
  * @param user User name (warning, the user name and password are
  *     transmitted unencrypted in the FTP protocol).
@@ -104,7 +104,7 @@ public class FtpPassiveClient {
 
 /**
  * Connects to a FTP server using the specified port number (the default
- * port number for FTP protocol is 21). 
+ * port number for FTP protocol is 21).
  * @param host Address or IP to the FTP server.
  * @param user User name (warning, the user name and password are
  *     transmitted unencrypted in the FTP protocol).
@@ -141,8 +141,8 @@ public class FtpPassiveClient {
 			response=_commandInput.readLine();
 			if (response.charAt(0)!='2')
 				throw new FtpException("Server returned error message at connecting to '"+host+"':'"+port+"'",response);
-	
-//*************************** Logs the user in *****************************		
+
+//*************************** Logs the user in *****************************
 			response=executeFTPCommand("USER "+user);
 			do {
 				if (response.charAt(0)=='5' || response.charAt(0)=='4' || response.charAt(0)=='1')
@@ -163,7 +163,7 @@ public class FtpPassiveClient {
 				if (c=='2')
 					return;    // A response starting by 2XX means that the password is accepted or no needed.
 				response=_commandInput.readLine();
-			} while (response!=null);			
+			} while (response!=null);
 		}
 //************************** Exception management ***************************
 		catch (FtpException e) {
@@ -268,7 +268,7 @@ public class FtpPassiveClient {
 /**
  * Retrieves the list of files and folders of the current folder.
  * To change the current folder, use {@link #changeCurrentDirectory}.
- * @param remoteFolder The name of the folder to list the contents from. 
+ * @param remoteFolder The name of the folder to list the contents from.
  *     To specify an absolute path, start with '/'.
  * @return An array of strings, each element containing the simple file name (without its path).
  * @exception FtpException When the FTP returns an error. Error codes can be
@@ -388,7 +388,7 @@ public class FtpPassiveClient {
 					return false;
 
 //................. Other errors are not normal .............................
-				if (response.startsWith("5")) 
+				if (response.startsWith("5"))
 					throw new FtpException("Server returned an error while checking the file size",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
@@ -436,7 +436,7 @@ public class FtpPassiveClient {
 
 //*********************** Checks the server response ************************
 			while(!response.startsWith("213")) {
-				if (response.startsWith("5")) 
+				if (response.startsWith("5"))
 					throw new FtpException("Server returned an error while retrieving  the file size",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
@@ -487,7 +487,7 @@ public class FtpPassiveClient {
 
 //*********************** Checks the server response ************************
 			while(!response.startsWith("213")) {
-				if (response.startsWith("5")) 
+				if (response.startsWith("5"))
 					throw new FtpException("Server returned an error while retrieving the file date: "+response);
 
 //................... Retrieves a new response ..............................
@@ -503,7 +503,7 @@ public class FtpPassiveClient {
 			day=Integer.parseInt(response.substring(6,8));
 			hour=Integer.parseInt(response.substring(8,10));
 			minute=Integer.parseInt(response.substring(10,12));
-			
+
 // Builds a calendar with the retrieved data:
 			gc=new GregorianCalendar();
 			gc.set(year,month-1+Calendar.JANUARY,day,hour,minute,0);
@@ -563,7 +563,7 @@ public class FtpPassiveClient {
 
 //................... Retrieves a new response ..............................
 				response=_commandInput.readLine();
-			}			
+			}
 		}
 
 //*************************** Exception management **************************
@@ -610,7 +610,7 @@ public class FtpPassiveClient {
 
 //................... Retrieves a new response ..............................
 				response=_commandInput.readLine();
-			}			
+			}
 		}
 
 //*************************** Exception management **************************
@@ -840,7 +840,7 @@ public class FtpPassiveClient {
  * @param remoteFileName Remote file on the FTP server. This path
  *     is relative to the <code>Current Working Directory</code> (see
  *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
- * @param binary If <code>true</code>, binary mode is asked to the server before 
+ * @param binary If <code>true</code>, binary mode is asked to the server before
  *     starting the file transfer.
  * @exception FtpException When the FTP returns an error. Error codes can be
  *     any of:
@@ -875,7 +875,7 @@ public class FtpPassiveClient {
 		FileInputStream fis=new FileInputStream(localFileName);
 		putFile(fis,remoteFileName,binary);
 	}
-	
+
 /**
  * Uploads a file to the FTP server.
  * @param is An input stream opened on the local data.
@@ -921,7 +921,7 @@ public class FtpPassiveClient {
  * @param remoteFileName Remote file on the FTP server. This path
  *     is relative to the <code>Current Working Directory</code> (see
  *     {@link changeWorkingDirectory} and {@link getCurrentWorkingDirectoy}.
- * @param binary If <code>true</code>, binary mode is asked to the server before 
+ * @param binary If <code>true</code>, binary mode is asked to the server before
  *     starting the file transfer.
  * @exception FtpException When the FTP returns an error. Error codes can be
  *     any of:
@@ -977,11 +977,11 @@ public class FtpPassiveClient {
 					throw new FtpException("Server returned 'OK' for file '"+remoteFileName+"', but file wasn't sent yet.",response,_lastCommand);
 				response=_commandInput.readLine();
 			}
-			
+
 //******************** Retrieves the file contents ***********************
 			totalSize=0;
 			os=data.getOutputStream();
-			
+
 			while((packageSize=is.read(buffer))>=0) {
 				os.write(buffer,0,packageSize);
 				totalSize+=packageSize;
@@ -1004,17 +1004,17 @@ public class FtpPassiveClient {
 				try {
 					is.close();
 				} catch (IOException ee) {
-					
+
 				}
 			throw e;
 		}
 		catch (IOException e) {
 			throw new TechnicalException(TechnicalException.IO_ERROR,"While sending a file to '"+remoteFileName+"': "+e.getMessage(),e);
 		}
-	}	
-	
+	}
 
-	
+
+
 
 //*************************************************************************
 //**               Sends an order through the command socket.            **
@@ -1077,29 +1077,29 @@ public class FtpPassiveClient {
 //**                    Sets the transfer type                           **
 //*************************************************************************
 
-/** 
+/**
  * To specify a binary transfer type.
  * The data are sent as contiguous bits which, for transfer,
- * are packed into the 8-bit transfer bytes.  The receiving site must store 
- * the data as contiguous bits.  The structure of the storage system might 
- * necessitate the padding of the file (or of each record, for a record-structured file) 
- * to some convenient boundary (byte, word or block).  This padding, which must be all 
- * zeros, may occur only at the end of the file (or at the end of each record) and 
+ * are packed into the 8-bit transfer bytes.  The receiving site must store
+ * the data as contiguous bits.  The structure of the storage system might
+ * necessitate the padding of the file (or of each record, for a record-structured file)
+ * to some convenient boundary (byte, word or block).  This padding, which must be all
+ * zeros, may occur only at the end of the file (or at the end of each record) and
  * there must be a way of identifying the padding bits so that they may be
- * stripped off if the file is retrieved.  The padding transformation should be well 
+ * stripped off if the file is retrieved.  The padding transformation should be well
  * publicized to enable a user to process a file at the storage site.<p/>
- * Image type is intended for the efficient storage and retrieval of files and for the 
- * transfer of binary data.  It is recommended that this type be accepted by 
+ * Image type is intended for the efficient storage and retrieval of files and for the
+ * transfer of binary data.  It is recommended that this type be accepted by
  * all FTP implementations.
- * See {@link #setTransferType}. 
+ * See {@link #setTransferType}.
  */
 	public final String typeIMAGE="I";
 
-/** 
+/**
  * To specify a text transfer type.
  * This is the default type and must be accepted by all FTP
  * implementations.  It is intended primarily for the transfer
- * of text files, except when both hosts would find the EBCDIC type 
+ * of text files, except when both hosts would find the EBCDIC type
  * more convenient.<p/>
  * The sender converts the data from an internal character
  * representation to the standard 8-bit NVT-ASCII
@@ -1133,7 +1133,7 @@ public class FtpPassiveClient {
  */
 	public final String typeEBCDIC="E";
 
-/** 
+/**
  * To specify a LOCAL transfer type.
  * The data is transferred in logical bytes of the size
  * specified by the obligatory second parameter, Byte size.
@@ -1149,7 +1149,7 @@ public class FtpPassiveClient {
 
 /**
  * Sets the transfer type.
- * @param type Specifies the transfert type. Available types are {@link #typeIMAGE}, 
+ * @param type Specifies the transfert type. Available types are {@link #typeIMAGE},
  *     {@link #typeASCII}, {@link #typeEBCDIC} and {@link #typeLOCAL}.
  * @exception FtpException When the FTP returns an error. Error codes can be
  *     any of:
@@ -1168,7 +1168,7 @@ public class FtpPassiveClient {
 		String response;
 		try {
 			response=executeFTPCommand("TYPE "+type);
-	
+
 			while(!response.startsWith("2")) {
 				if (response.startsWith("4") || response.startsWith("5"))
 					throw new FtpException("Error setting transfer type to '"+type+"'",response,_lastCommand);
@@ -1178,7 +1178,7 @@ public class FtpPassiveClient {
 			throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
 		}
 	}
-	
+
 //*************************************************************************
 //**                    Opens a data connection.                         **
 //*************************************************************************
@@ -1192,7 +1192,7 @@ public class FtpPassiveClient {
 	private Socket openDataSocket() throws FtpException {
 		String response;           // Contains server response to commands.
 		String numbers[];            // Contains the 6 numbers returned by the FTP server.
-		String ip;                 // The ip adress to open the passive connection.        
+		String ip;                 // The ip adress to open the passive connection.
 		int port;               // The port number to open the passive connection.
 		int n1,n2;                 // Auxiliary to compute the port number.
 
@@ -1214,7 +1214,7 @@ public class FtpPassiveClient {
 			}
 
 //****************** Reads the server response ***************************
-// The response is something like: 
+// The response is something like:
 //    "227 Entering Passive Mode (195,13,58,68,183,29)"
 // The first 4 numbers compose the IP address.
 // The last 2 numbers contain the port number.

@@ -21,24 +21,24 @@ import nacaLib.misc.SemanticContextDef;
 public class CSQLPreparedStatement extends DbPreparedStatement
 {
 	SemanticContextDef semanticContextDef = null;
-		
+
 	CSQLPreparedStatement(/*DbConnectionBase dbConnection*/)
 	{
 		super(/*dbConnection*/);
 		JmxGeneralStat.incNbPreparedStatement(1);
 	}
-	
+
 	public void finalize()
 	{
 		JmxGeneralStat.decNbNonFinalizedPreparedStatement(1);
 	}
-	
+
 	public boolean close()
 	{
 		JmxGeneralStat.decNbActivePreparedStatement(1);
 		return doClose();
 	}
-	
+
 	public void setVarParamValue(SQL sql, int nParamIndex, CSQLItem param)
 	{
 		if(preparedStatement != null)
@@ -58,8 +58,8 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 				{
 					CurrentDateInfo cd = new CurrentDateInfo();
 					cd.setHourHHDotMMDotSS(cs);	// csValue must be of type HH.MM.SS
-					long lValue = cd.getTimeInMillis();				
-					Date date = new Date(lValue);							
+					long lValue = cd.getTimeInMillis();
+					Date date = new Date(lValue);
 					try
 					{
 						preparedStatement.setDate(nParamIndex+1, date);
@@ -71,11 +71,11 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 					}
 				}
 				else if(cs.length() == 10)	// Date dd.mm.yyyy
-				{					
+				{
 					CurrentDateInfo cd = new CurrentDateInfo();
 					cd.setDateDDDotMMDotYYYY(cs);	// csValue must be of type DD.MM.YYYY
-					long lValue = cd.getTimeInMillis();				
-					Date date = new Date(lValue);							
+					long lValue = cd.getTimeInMillis();
+					Date date = new Date(lValue);
 					try
 					{
 						preparedStatement.setDate(nParamIndex+1, date);
@@ -99,7 +99,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			}
 		}
 	}
-	
+
 	public CSQLResultSet executeQueryAndFillInto(SQL sql, int nNbFetch)
 	{
         // sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
@@ -115,12 +115,12 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		}
 		return null;
 	}
-	
+
 	void setSemanticContextDef(SemanticContextDef semanticContextDef)
 	{
 		this.semanticContextDef = semanticContextDef;
 	}
-	
+
     // CSQLStatus sqlStatus, ArrayFixDyn<Integer> arrColSelectType, AccountingRecordTrans accountingRecordManager, HashMap<String, CSQLItem>
     // hashParam, HashMap<String, CSQLItem> hashValue)
 	public CSQLResultSet executeQuery(SQL sql)
@@ -132,11 +132,11 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			try
 			{
 				//JmxGeneralStat.incNbSelect(1);
-				
+
 				sql.startDbIO();
 				ResultSet r = preparedStatement.executeQuery();
 				sql.endDbIO();
-				
+
 				if(r != null)
 				{
 					CSQLResultSet rs = new CSQLResultSet(r, semanticContextDef, sql);
@@ -155,7 +155,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		}
 		return null;
 	}
-		
+
 	public CSQLResultSet executeQueryCursor(SQL sql)
 	{
 		if(isLogSql())
@@ -182,7 +182,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			catch (SQLException e)
 			{
 				sql.endDbIO();
-				manageSQLException("executeQueryCursor", e, sql);				
+				manageSQLException("executeQueryCursor", e, sql);
 			}
 		}
 		return null;
@@ -196,13 +196,13 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			sqlStatus.setSQLCode(csMethod, e, csQueryString/*, csSourceFileLine*/, sql) ;
 			sqlStatus.fillLastSQLCodeErrorText();
 		}
-		
+
 		if(BaseResourceManager.ms_bLogAllSQLException || e.getErrorCode() == -499)
 		{
 			Log.logCritical("SQL EXCEPTION in " + csMethod + ": "+e.getErrorCode() + "; "+ e.getMessage() + " Clause="+getQueryString());
 		}
 	}
-	
+
 	public int executeDelete(SQL sql)
 	{
 		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -231,9 +231,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 				manageSQLException("executeDelete", e, sql);
 			}
 		}
-		return -1;		
+		return -1;
 	}
-	
+
 	public int executeUpdate(SQL sql)
 	{
 		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -262,9 +262,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 				manageSQLException("executeUpdate", e, sql);
 			}
 		}
-		return -1;		
+		return -1;
 	}
-		
+
 	public int executeInsert(SQL sql)
 	{
 		sql.sqlStatus.setLastNbRecordUpdatedInsertedDeleted(0);
@@ -285,9 +285,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 				manageSQLException("executeInsert", e, sql);
 			}
 		}
-		return -1;		
+		return -1;
 	}
-	
+
 	public int executeLock(SQL sql)
 	{
 		if(isLogSql())
@@ -308,7 +308,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		}
 		return -1;
 	}
-	
+
 	public int executeCreateTable(SQL sql)
 	{
 		if(isLogSql())
@@ -329,7 +329,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		}
 		return -1;
 	}
-	
+
 	public int executeDropTable(SQL sql)
 	{
 		if(isLogSql())
@@ -350,7 +350,7 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 		}
 		return -1;
 	}
-	
+
 	public int executeDeclareOrder(SQL sql)
 	{
 		if(isLogSql())
@@ -366,12 +366,12 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			catch (SQLException e)
 			{
 				sql.sqlStatus.setSQLCode(SQLCode.SQL_ERROR) ;
-				manageSQLException("execute", e, sql);				
+				manageSQLException("execute", e, sql);
 			}
 		}
 		return -1;
 	}
-		
+
 	public void setCursorName(String csName, SQL sql)
 	{
 		try
@@ -383,9 +383,9 @@ public class CSQLPreparedStatement extends DbPreparedStatement
 			manageSQLException("setCursorName", e, sql);
 		}
 	}
-	
+
 	boolean isLogSql()
 	{
 		return true;
-	}	
+	}
 }

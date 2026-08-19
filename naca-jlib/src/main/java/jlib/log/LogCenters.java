@@ -21,7 +21,7 @@ import jlib.xml.Tag;
  * Those objects will be registered to the {@link Log} singleton, and will eventually
  * change their configuration. The new configuration can be retrieve in the form
  * of a {@link Tag} instance through {@link #saveDefinition}.
- * 
+ *
  * @author PJD
  *
  */
@@ -35,10 +35,10 @@ public class LogCenters
  * one {@link LogCenterLoader} for each [LogCenter] tag in it. The <i>LogCenterLoader</i>
  * reads the [LogCenter] tag and builds a new {@link LogCenter} instance with it,
  * and then registers the new instance to the {@link Log} singleton.<p/>
- * 
+ *
  * The general effect of calling this method is that all log centers described in
  * the specified configuration are registered to the {@link Log} singleton.
- *  
+ *
  * @param csChannelRestriction If not <i>null</i>, the method will only load
  *     [LogCenter] belonging to the specified channel.
  * @param tagOrganisation The [Organisation] tag to be read (comming from a JLib.log
@@ -62,15 +62,15 @@ public class LogCenters
 				{
 					LogCenterLoader logCenterloader = new LogCenterLoader();
 					logCenterloader.loadDefinition(tagLogCenter);
-					
+
 					if(this.logCenterloader == null)
 						this.logCenterloader = new ArrayList<LogCenterLoader>();
 					this.logCenterloader.add(logCenterloader);
 				}
-				
+
 				tagLogCenter = tagLogCenters.getEnumChild();
 			}
-			
+
 			// Maybe a file is indicated
 			String csFileLogIni = tagLogCenters.getVal("File");
 			if(csFileLogIni != null && csFileLogIni.length() != 0)
@@ -81,14 +81,14 @@ public class LogCenters
 					loadDefinition(csChannelRestriction, tagLogIni, arrIncludePath);
 				}
 			}
-			
+
 		}
-		return true;	
+		return true;
 	}
-	
+
 	void openLogCenters()
 	{
-			
+
 	}
 /**
  * Saves the configuration of all {@link LogCenterLoader} instances into
@@ -105,12 +105,12 @@ public class LogCenters
 			for(int n = 0; n< logCenterloader.size(); n++)
 			{
 				LogCenterLoader logCenterloader = getLogCenterloader(n);
-				
+
 				Tag tagLogCenter = tagLogCenters.addTag("LogCenter");
 				logCenterloader.saveDefinition(tagLogCenter);
 			}
 		}
-		return true;	
+		return true;
 	}
 
 /**
@@ -132,6 +132,6 @@ public class LogCenters
 	{
 		return logCenterloader.size();
 	}
-			
+
 	private ArrayList<LogCenterLoader> logCenterloader = null;
 }

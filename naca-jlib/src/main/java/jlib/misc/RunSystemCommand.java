@@ -17,11 +17,11 @@ import java.io.InputStreamReader;
 *     2004-02-27
 *     Run a system command
 */
-public class RunSystemCommand 
+public class RunSystemCommand
 {
-	public static BufferedReader run(String command, String[] args, String directory) 
+	public static BufferedReader run(String command, String[] args, String directory)
 	{
-		try 
+		try
 		{
 			Process proc = Launch(command, args, directory) ;
 			int i = proc.waitFor();
@@ -30,34 +30,34 @@ public class RunSystemCommand
 				BufferedReader stdOutput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 				return stdOutput ;
 			}
-			else 
+			else
 			{
 				BufferedReader stdErr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 				return stdErr ;
 			}
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
 		return null ;
 	}
-	
-	public static Process Launch(String commandLine) 
+
+	public static Process Launch(String commandLine)
 	{
-		try 
+		try
 		{
 			Process proc = Runtime.getRuntime().exec(commandLine);
 			return proc ;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
 		return null ;
 	}
-	
-	public static Process Launch(String command, String[] args) 
+
+	public static Process Launch(String command, String[] args)
 	{
 		String[] com = new String[args.length+1] ;
 		com[0] = command ;
@@ -67,13 +67,13 @@ public class RunSystemCommand
 		}
 		return Launch(com) ;
 	}
-	
-	public static Process Launch(String command, String[] args, String directory) 
+
+	public static Process Launch(String command, String[] args, String directory)
 	{
 		return Launch(command, args, new File(directory)) ;
 	}
 
-	public static Process Launch(String command, String[] args, File directory) 
+	public static Process Launch(String command, String[] args, File directory)
 	{
 		String[] com = new String[args.length+1] ;
 		com[0] = command ;
@@ -83,44 +83,44 @@ public class RunSystemCommand
 		}
 		return Launch(com, directory) ;
 	}
-	
-	public static Process Launch(String[] commandAndArgs) 
+
+	public static Process Launch(String[] commandAndArgs)
 	{
-		try 
+		try
 		{
 			Process proc = Runtime.getRuntime().exec(commandAndArgs);
 			return proc ;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
 		return null ;
 	}
 
-	public static Process Launch(String[] commandAndArgs, File workDir) 
+	public static Process Launch(String[] commandAndArgs, File workDir)
 	{
-		try 
+		try
 		{
 			Process proc = Runtime.getRuntime().exec(commandAndArgs, null, workDir);
 			return proc ;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
 		return null ;
 	}
-	
-	public static Process Launch(String commandLine, String directory) 
+
+	public static Process Launch(String commandLine, String directory)
 	{
 		File workDir = new File(directory);
-		try 
+		try
 		{
 			Process proc = Runtime.getRuntime().exec(commandLine, null, workDir);
 			return proc ;
 		}
-		catch (Exception e) 
+		catch (Exception e)
 		{
 			System.out.println(e);
 		}
@@ -139,7 +139,7 @@ public class RunSystemCommand
 		}
 		return Launch(task.csCommand, args, task.dirRuntimeDir) ;
 	}
-	
+
 	public static boolean runSystemCommand(String command, String[] args)
 	{
 		try
@@ -182,12 +182,12 @@ public class RunSystemCommand
 			}
 		}
 		catch (IOException e)
-		{	
+		{
 			return false;
 		}
 		return true;
 	}
-	
+
 	public static boolean isTerminated(Process proc)
 	{
 		try

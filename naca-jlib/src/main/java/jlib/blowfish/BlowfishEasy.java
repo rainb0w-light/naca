@@ -14,7 +14,7 @@ import java.util.*;
 /**
   * support class for easy string encryption with the Blowfish algorithm,
   * now in CBC mode with a SHA-1 key setup and correct padding - the
-  * purposes of this module is mainly to show a possible implementation 
+  * purposes of this module is mainly to show a possible implementation
   * with Blowfish ...
   * @author Markus Hahn &lt;markus_hahn@gmx.net&gt;
   * @version August 10, 2001
@@ -33,23 +33,23 @@ public class BlowfishEasy {
   static {
     rndGen = new Random();
   }
- 
+
 
 
   /**
     * constructor to set up a string as the key (oversized password will be cut)
     * @param sPassword the password (treated as a real unicode array)
     */
-  public BlowfishEasy(String sPassword) 
+  public BlowfishEasy(String sPassword)
   {
     // hash down the password to a 160bit key
     SHA1 hasher = new SHA1();
     hasher.update(sPassword);
     hasher.finalize();
-    
+
     // setup the encryptor (use a dummy IV)
     bfish = new BlowfishCBC(hasher.getDigest(), 0);
-    hasher.clear();  
+    hasher.clear();
   }
 
 
@@ -61,11 +61,11 @@ public class BlowfishEasy {
     * @param sPlainText string to encrypt
     * @return encrypted string in binhex format
     */
-  public String encryptString(String sPlainText) 
+  public String encryptString(String sPlainText)
   {
     // get the IV
     long bCIV;
-    synchronized (rndGen) 
+    synchronized (rndGen)
     {
       bCIV = rndGen.nextLong();
     }
@@ -83,7 +83,7 @@ public class BlowfishEasy {
     * @return encrypted string in binhex format
     */
   public String encryptString(String sPlainText,
-                              Random rndGen) 
+                              Random rndGen)
   {
     // get the IV
     long bCIV = rndGen.nextLong();
@@ -97,16 +97,16 @@ public class BlowfishEasy {
   // internal routine for string encryption
 
   private String encStr(String sPlainText,
-                        long lNewCBCIV) 
+                        long lNewCBCIV)
   {
     // allocate the buffer (align to the next 8 byte border plus padding)
     int nStrLen = sPlainText.length();
     byte[] buf = new byte [((nStrLen << 1) & 0xfffffff8) + 8];
 
     // copy all bytes of the string into the buffer (use network byte order)
-    int nI; 
+    int nI;
     int nPos = 0;
-    for (nI = 0; nI < nStrLen; nI++) 
+    for (nI = 0; nI < nStrLen; nI++)
     {
       char actChar = sPlainText.charAt(nI);
       buf[nPos++] = (byte) ((actChar >> 8) & 0x0ff);
@@ -125,24 +125,24 @@ public class BlowfishEasy {
 
     // encrypt the buffer
     bfish.encrypt(buf);
-    
+
     // return the binhex string
     byte[] newCBCIV = new byte[BlowfishCBC.BLOCKSIZE];
-    BinConverter.longToByteArray(lNewCBCIV, 
+    BinConverter.longToByteArray(lNewCBCIV,
                                  newCBCIV,
                                  0);
 
-    return BinConverter.bytesToBinHex(newCBCIV, 0, BlowfishCBC.BLOCKSIZE) + 
+    return BinConverter.bytesToBinHex(newCBCIV, 0, BlowfishCBC.BLOCKSIZE) +
            BinConverter.bytesToBinHex(buf, 0, buf.length);
   }
-  
+
 
   /**
     * decrypts a hexbin string (handling is case sensitive)
     * @param sCipherText hexbin string to decrypt
     * @return decrypted string (null equals an error)
     */
-  public String decryptString(String sCipherText) 
+  public String decryptString(String sCipherText)
   {
     // get the number of estimated bytes in the string (cut off broken blocks)
     int nLen = (sCipherText.length() >> 1) & ~7;
@@ -164,9 +164,9 @@ public class BlowfishEasy {
     // (got it)
     bfish.setCBCIV(cbciv);
 
-    // something left to decrypt?       
+    // something left to decrypt?
     nLen -= BlowfishCBC.BLOCKSIZE;
-    if (nLen == 0) 
+    if (nLen == 0)
     {
       return "";
     }
@@ -184,7 +184,7 @@ public class BlowfishEasy {
     // and decryption
     if (nNumOfBytes < nLen)
     {
-      return null; 
+      return null;
     }
 
     // decrypt the buffer
@@ -196,12 +196,12 @@ public class BlowfishEasy {
     // ( try to get all information if the padding doesn't seem to be correct)
     if ((nPadByte > 8) || (nPadByte < 0))
     {
-      nPadByte = 0; 
+      nPadByte = 0;
     }
 
     // calculate the real size of this message
     nNumOfBytes -= nPadByte;
-    if (nNumOfBytes < 0) 
+    if (nNumOfBytes < 0)
     {
       return "";
     }
@@ -215,11 +215,9 @@ public class BlowfishEasy {
     * destroys (clears) the encryption engine,
     * after that the instance is not valid anymore
     */
-  public void destroy() 
+  public void destroy()
   {
     bfish.cleanUp();
   }
 
 }
-
-     

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -24,24 +24,24 @@ public class OccursItemSettings
 	{
 		arrVarDefOccursOwner = new ArrayDyn<VarDefBase>();
 	}
-	
+
 	void compress()
 	{
 		if(arrVarDefOccursOwner != null)
-		{	
-			// Swap the type inside arrRedefinition 
+		{
+			// Swap the type inside arrRedefinition
 			if(arrVarDefOccursOwner.isDyn())
 			{
 				int nSize = arrVarDefOccursOwner.size();
 				VarDefBase arr[] = new VarDefBase [nSize];
 				arrVarDefOccursOwner.transferInto(arr);
-				
+
 				ArrayFix<VarDefBase> varDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
 				arrVarDefOccursOwner = varDefOccursOwnerFix;	// replace by a fix one (uning less memory)
 			}
 		}
 	}
-	
+
 	protected OccursOwnerLocation aOccursOwnerLocation[] = null;
     // Array of VarDefBase; That is all occurs owner; may include ourself
 	protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;

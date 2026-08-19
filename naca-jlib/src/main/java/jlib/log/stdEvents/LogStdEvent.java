@@ -29,13 +29,13 @@ public class LogStdEvent extends LogEvent
 	public static LogStdEvent ProcessProgress = new LogStdEvent(LogLevel.Normal);
 	public static LogStdEvent Launch = new LogStdEvent(LogLevel.Normal);
 	public static LogStdEvent Rem = new LogStdEvent(LogLevel.Normal);
-	
+
 
 	public LogStdEvent(LogLevel logLevel)
 	{
 		super(LogEventType.Remark, LogFlowStd.Any, logLevel);
 	}
-	
+
 	public String getAsString()
 	{
 		return "";

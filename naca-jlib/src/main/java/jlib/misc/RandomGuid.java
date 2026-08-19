@@ -88,7 +88,7 @@ import java.security.*;
  *     01/19/02 -- Modified random seeding and added new constructor
  *             to allow secure random feature.
  *     01/14/02 -- Added random function seeding with JVM run time
- * 
+ *
  */
 public class RandomGuid {
 
@@ -118,7 +118,7 @@ public class RandomGuid {
         }
 
     }
-    
+
     public static UUID getNewUUID()
     {
     	return UUID.randomUUID();
@@ -202,7 +202,7 @@ public class RandomGuid {
      * (Useful for SQL Server UniqueIdentifiers, etc.)
      * Example: C2FEEEAC-CFCD-11D1-8B05-00600806D9B6
      */
-    public String toString() 
+    public String toString()
     {
         String raw = valueAfterMD5.toUpperCase();
         StringBuffer sb = new StringBuffer();
@@ -218,8 +218,8 @@ public class RandomGuid {
 
         return sb.toString();
     }
-    
-    public String formatAsFilename() 
+
+    public String formatAsFilename()
     {
         String raw = valueAfterMD5.toUpperCase();
         StringBuffer sb = new StringBuffer();

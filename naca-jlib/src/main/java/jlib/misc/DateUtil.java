@@ -25,7 +25,7 @@ import jlib.exception.ProgrammingException;
  * @version 1.0
  */
 
-public class DateUtil 
+public class DateUtil
 {
 	GregorianCalendar calendar = null;
 	private String format = "yyyy.MM.dd HH:mm:ss";
@@ -58,7 +58,7 @@ public class DateUtil
 	/**
 	 * Initialise la date
 	 */
-	public void setDate(String cs) 
+	public void setDate(String cs)
 	{
 		DateFormat df = DateFormat.getInstance() ;
 		Date date ;
@@ -66,7 +66,7 @@ public class DateUtil
 		{
 			date = df.parse(cs);
 			calendar.setTime(date);
-		} 
+		}
 		catch (ParseException e)
 		{
 			e.printStackTrace();
@@ -78,49 +78,49 @@ public class DateUtil
 	 */
 	public void setFormat(String format) {
 		this.format = format;
-	}	
-  
+	}
+
 	public String getCurrentDateYYYYMMDD()
 	{
 		Calendar calendar = new GregorianCalendar();
 		return getCurrentDateYYYYMMDD(calendar);
 	}
-	
+
 	public static String GetDisplayDateHour(Calendar cal)
 	{
-		String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR)); 
+		String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR));
 		String csM = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MONTH));
 		String csD = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.DAY_OF_MONTH));
-		
-		String csH = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY)); 
+
+		String csH = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY));
 		String csm = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MINUTE));
 		String csS = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.SECOND));
 
 		return csD + "/" + csM + "/" + csY + " " + csH + ":" + csm + ":" + csS;
 	}
-  	
+
   	public String getCurrentDateYYYYMMDD(Calendar cal)
   	{
-		String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR)); 
+		String csY = StringUtil.FormatWithFill4LeftZero(cal.get(Calendar.YEAR));
 		String csM = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MONTH) + 1);
 		String csD = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.DAY_OF_MONTH));
 		return csY + csM + csD;
   	}
-  	
+
   	public String getCurrentTimeHHMMSS()
 	{
 		Calendar calendar = new GregorianCalendar();
 		return getCurrentTimeHHMMSS(calendar);
 	}
-  	
+
   	public String getCurrentTimeHHMMSS(Calendar cal)
   	{
-		String csH = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY)); 
+		String csH = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.HOUR_OF_DAY));
 		String csM = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.MINUTE));
 		String csS = StringUtil.FormatWithFill2LeftZero(cal.get(Calendar.SECOND));
 		return csH + csM + csS;
   	}
-  	
+
   	public static int getNbSecondSinceMidnight()
   	{
   		Calendar calendar = new GregorianCalendar();
@@ -130,19 +130,19 @@ public class DateUtil
   		int n = nS + (nM * 60) + (nH * 3600);
   		return n;
   	}
-  	
+
   	public static int getNbSecondsFromHour(int hour)
   	{
   		int n = ((hour/10000) * 3600) + ((hour%10000)/100 * 60) + ((hour%100));
   		return n;
   	}
-  	
+
  	public String getCurrentDateTimeYYYYMMDD_HHMMSS()
 	{
 		Calendar calendar = new GregorianCalendar();
  		return getCurrentDateYYYYMMDD(calendar) + getCurrentTimeHHMMSS(calendar);
 	}
- 	
+
  	public String getCurrentDateDisplayDateTime()
  	{
  		// "Format: yyyy/MM/dd HH:mm:ss
@@ -159,12 +159,12 @@ public class DateUtil
  		Format formatter = new SimpleDateFormat(format);
  		return formatter.format(calendar.getTime());
  	}
- 	
+
  	public static String getCurrentDisplayableDateTime()
-	{ 		
+	{
  		GregorianCalendar calendar = new GregorianCalendar();
 		StringBuffer sb = new StringBuffer();
-		
+
 		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.DAY_OF_MONTH)));
 		sb.append('/');
 		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.MONTH)+1));
@@ -178,8 +178,8 @@ public class DateUtil
 		sb.append(StringUtil.FormatWithFill2LeftZero(calendar.get(Calendar.SECOND)));
 		return sb.toString();
 	}
- 	
- 	
+
+
 	/**
 	 * Allow to format a date apart from any ISO date pattern
 	 * @param Date date
@@ -201,7 +201,7 @@ public class DateUtil
 	 *        M       Month in year           Month               July; Jul; 07
 	 *     </li>
 	 *     <li>
-	 *        w       Week in year            Number              27 
+	 *        w       Week in year            Number              27
 	 *     </li>
 	 *     <li>
 	 *        W       Week in month           Number              2
@@ -254,7 +254,7 @@ public class DateUtil
 	 *     The following examples show how date and time patterns are interpreted in the U.S. locale.
 	 *     The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone.
 	 *     <p>
-	 *         Date and Time Pattern                        Result  
+	 *         Date and Time Pattern                        Result
 	 *     <p>
 	 *     <ul>
 	 *     <li>
@@ -290,23 +290,23 @@ public class DateUtil
 	 *     instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
 	 */
  	public static String formatDateToString(Date date, String sDateFormat) {
- 		
+
  		if (date == null || sDateFormat == null) return null;
- 		
+
  		SimpleDateFormat sdf = new SimpleDateFormat(sDateFormat);
 		String sDate = null;
-			
+
 		try {
 			sDate = sdf.format(date);
-				
+
 		} catch (Exception ex) {
 			String errMsg = "Wrong ISO date formating instructions : " + sDateFormat + ")";
 			throw new ProgrammingException(ProgrammingException.DATE_FORMATTING_ERROR, errMsg, ex);
 		}
-		
+
 		return sDate;
 	}
- 	
+
     /**
 	 * Allow to create a text line of a collection of date date apart from an ISO date pattern
 	 * @param Collection<Date> dateColl
@@ -317,17 +317,17 @@ public class DateUtil
 	public static String createStringListOfDates(Collection<Date> dateColl, String sDateFormat, String sSeparator) {
 
 		StringBuffer listofDates = new StringBuffer();
-		
+
 		for (Date date : dateColl) {
-			
+
 			String sDate = formatDateToString(date, sDateFormat);
 			listofDates.append(sDate);
 			listofDates.append(sSeparator);
 		}
-		
+
 		return listofDates.toString();
-	}		
- 	
+	}
+
  	/**
 	 * Allow to parse a String apart from any ISO date pattern
 	 * @param String sDate
@@ -349,7 +349,7 @@ public class DateUtil
 	 *        M       Month in year           Month               July; Jul; 07
 	 *     </li>
 	 *     <li>
-	 *        w       Week in year            Number              27 
+	 *        w       Week in year            Number              27
 	 *     </li>
 	 *     <li>
 	 *        W       Week in month           Number              2
@@ -402,7 +402,7 @@ public class DateUtil
 	 *     The following examples show how date and time patterns are interpreted in the U.S. locale.
 	 *     The given date and time are 2001-07-04 12:08:56 local time in the U.S. Pacific Time time zone.
 	 *     <p>
-	 *         Date and Time Pattern                        Result  
+	 *         Date and Time Pattern                        Result
 	 *     <p>
 	 *     <ul>
 	 *     <li>
@@ -438,63 +438,63 @@ public class DateUtil
 	 *     instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.
 	 */
  	public static Date parseStringToDate(String sDate, String sDateFormat) {
- 		
+
  		if (sDate == null || sDateFormat == null
  			|| sDate.length() < sDateFormat.length()) return null;
- 		
+
  		SimpleDateFormat sdf = new SimpleDateFormat(sDateFormat);
 		Date date = null;
-			
+
 		try {
 			date = sdf.parse(sDate);
-				
+
 		} catch (Exception ex) {
 			String errMsg = "Wrong ISO date formating instructions : " + sDateFormat + ")";
 			throw new ProgrammingException(ProgrammingException.DATE_PARSING_ERROR, errMsg, ex);
 		}
-		
+
 		return date;
 	}
- 	
+
 	public static Date formatDate(String csDate, String csFormat, boolean strict)
 	{
 		Date date = null;
 
-		if (csDate != null && csFormat != null && csFormat.length() > 0) 
+		if (csDate != null && csFormat != null && csFormat.length() > 0)
 		{
-			try 
+			try
 			{
 				SimpleDateFormat formatter = new SimpleDateFormat(csFormat);
 				formatter.setLenient(false);
 				date = formatter.parse(csDate);
-				if (strict) 
+				if (strict)
 				{
-					if (csFormat.length() != csDate.length()) 
+					if (csFormat.length() != csDate.length())
 					{
 						date = null;
 					}
 				}
-			} 
-			catch (ParseException e) 
+			}
+			catch (ParseException e)
 			{
 			}
 		}
 		return date;
 	}
-	
+
 	public static String getTimeStamp()
 	{
 		Date date = new Date();
 		return getTimeStamp(date);
 	}
-	
+
 	public static String getTimeStamp(Date date)
 	{
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static String getDateNowYYYYMMDD()
 	{
 		Date date = new Date();
@@ -502,7 +502,7 @@ public class DateUtil
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static String getDisplayDateNow()
 	{
 		Date date = new Date();
@@ -510,7 +510,7 @@ public class DateUtil
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static String getTimeNowHHMMSS()
 	{
 		Date date = new Date();
@@ -518,7 +518,7 @@ public class DateUtil
 		String cs = formatter.format(date) ;
 		return cs ;
 	}
-	
+
 	public static String getDisplayTimeNow()
 	{
 		Date date = new Date();
@@ -527,7 +527,7 @@ public class DateUtil
 		return cs ;
 	}
 
-	
+
 	public static String getDisplayTimeStamp()
 	{
 		Date date = new Date();
@@ -551,11 +551,11 @@ public class DateUtil
 		long l = d.getTime() - dt.getTime() ;
 		return (int) (l/1000) ;
 	}
-	
-	
+
+
 	// Code from DateHelper
-	
-	
+
+
 
 //	***************************************************************************************
 //	**                   Fonction qui ajoute une dur�e (un entier) � une date            **
@@ -573,7 +573,7 @@ public class DateUtil
 		calendar.add(Calendar.DAY_OF_YEAR, duration);
 		return calendar.getTime();
 	}
-	
+
 //	***************************************************************************************
 //	**                   Function that adds minutes to a given date                      **
 //	***************************************************************************************
@@ -583,20 +583,20 @@ public class DateUtil
 	 * @param minutes
 	 * @return
 	 */
-	public static Date addMinutes(Date date, int minutes) 
+	public static Date addMinutes(Date date, int minutes)
 	{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(Calendar.MINUTE, minutes);
 		return calendar.getTime();
 	}
-	
+
 //	*************************************************************************************************
 //	** Function converting a date in String formatted as RCA Date format (YYYY-MM-DDT00:00:00.0Z) **
 //	*************************************************************************************************
 	private static final Format ms_formatterDate = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat ms_dfYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	/**
 	 * @param date
 	 * @return a String as RCADate
@@ -606,7 +606,7 @@ public class DateUtil
 		String rcaDate = ms_formatterDate.format(date)+"T00:00:00.0Z";
      	return rcaDate;
 	}
-	
+
 	/**
 	 * Convert a DD.MM.YYYY Date to a RCA formatted date (YYYY-MM-DDT00:00:00.0Z)
 	 * @param date de la forme dd.mm.yyyy
@@ -616,28 +616,28 @@ public class DateUtil
 	{
 		String day = date.substring(0,2);
 		String month = date.substring(3,5);
-		String year = date.substring(6,10); 
+		String year = date.substring(6,10);
 		String rcaDate = year + "-" + month + "-" + day + "T00:00:00.0Z";
      	return rcaDate;
 	}
-	
+
 //	***************************************************************************************************
 //	**					Function that converts a YYYY-MM-DD date into a calendar                     **
 //	***************************************************************************************************
 	/**
 	 * @param date de la forme yyyy-mm-dd
 	 * @return a Calendar
-	 */	
-	
-	
-	public Calendar dateString2Calendar(String s) throws Exception 
+	 */
+
+
+	public Calendar dateString2Calendar(String s) throws Exception
 	{
 	    Calendar calendar =Calendar.getInstance();
 	    Date d1 = ms_dfYYYYMMDD.parse(s);
 	    calendar.setTime(d1);
 	    return calendar;
 	  }
-	
+
 //	***************************************************************************************************
 //	**					Function that converts a YYYY-MM-DD date into a date                         **
 //	***************************************************************************************************
@@ -647,8 +647,8 @@ public class DateUtil
 	 */
 
 	public Date dateString2Date(String s) throws Exception
-	{	    
+	{
 		Date d1 = ms_dfYYYYMMDD.parse(s);
 	    return d1;
-	} 
+	}
 }

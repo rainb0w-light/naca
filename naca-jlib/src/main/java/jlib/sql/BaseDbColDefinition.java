@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,23 +19,23 @@ import java.sql.ResultSet;
 public abstract class BaseDbColDefinition
 {
 	private String name = null;
-	
+
 	public class ColInsertValue
 	{
 		public int nOffset = 0;
 		public String csValue = null;
 	}
-	
+
 	public BaseDbColDefinition(ColDescriptionInfo colDescription)
 	{
 		name = colDescription.getColName();
 	}
-	
+
 	public String getColumnName()
 	{
 		return name;
 	}
-	
+
 	public abstract boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement);
 	public abstract byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput);
     // public abstract int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest);

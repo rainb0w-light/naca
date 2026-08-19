@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class DataFileLineReader extends BaseDataFileBuffered
 {
 	private BufferedInputStream in = null;
-	
+
 	private LineRead lineRead = new LineRead();
 
 	private byte[] tReadBytesAHead = null;
@@ -31,15 +31,15 @@ public class DataFileLineReader extends BaseDataFileBuffered
 	private int nFirstPositionInReadAHead = 0;
 	private int nNbByteReadAHead = 100; 	// this size nmust be >= size of the largest record readable
 	private int nReservedHeaderSpace = 0;
-		
+
 	public DataFileLineReader(String csName, int nBufferChunkReadAHead, int nReservedHeaderSpace)
 	{
 		setName(csName);
 		this.nNbByteReadAHead = nBufferChunkReadAHead;
 		this.nReservedHeaderSpace = nReservedHeaderSpace;
-		tReadBytesAHead = new byte[(nNbByteReadAHead+nReservedHeaderSpace) * 2];		
+		tReadBytesAHead = new byte[(nNbByteReadAHead+nReservedHeaderSpace) * 2];
 	}
-	
+
 	private boolean doOpen()
 	{
 		try
@@ -55,20 +55,20 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
-		} 
+		}
 		return false;
 	}
-	
+
 	public boolean open()
 	{
 		return open(null);
 	}
-	
+
 	public boolean open(LogicalFileDescriptor logicalFileDescriptor)
 	{
 		if(logicalFileDescriptor != null && logicalFileDescriptor.isDummyFile())
 			return false;
-		
+
 		boolean isopened = doOpen();
 		if(isopened && logicalFileDescriptor != null)
 		{
@@ -81,7 +81,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
 	{
 		return true;
 	}
-	
+
 	public boolean close()
 	{
 		try
@@ -101,14 +101,14 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		}
 		return false;
 	}
-	
+
 	public boolean isOpen()
 	{
 		if(in != null)
 			return true;
 		return false;
 	}
-	
+
 	private int getNextLFPosition()
 	{
 		int n = nFirstPositionInReadAHead;
@@ -120,14 +120,14 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		}
 		return -1;
 	}
-	
+
 	private boolean isPositionAtOffsetInReadAHead(int nOffset)
 	{
 		if(nFirstPositionInReadAHead + nOffset <= nLastPositionInReadAHead)
 			return true;
 		return false;
 	}
-	
+
     // Read a vairable length line (length is given in record header 4 bytes)
 	public LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut)
 	{
@@ -144,20 +144,20 @@ public class DataFileLineReader extends BaseDataFileBuffered
                 // The header is converted in the buffer as a VB header
 				nLength = recordHeader.readAndConvertHeaderVHToVBMode();
 			}
-			
+
 			if(lineOut == null)
 				lineOut = new LineRead();
 			lineOut.resetAndGaranteeBufferStorage(4 + nLength, nNbByteReadAHead + 4 + nLength);
 			lineOut.append(recordHeader);
-	
+
 			LineRead recordBody = readBuffer(nLength, bTryReadNextLF);
 			lineOut.append(recordBody);
-			
+
 			return lineOut;
 		}
 		return null;
 	}
-	
+
 	public LineRead readDirect(int nLength)
 	{
 		try
@@ -173,10 +173,10 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}	
+		}
 		return null;
 	}
-	
+
 	public LineRead readBuffer(int nLength, boolean bTryReadNextLF)
 	{
 		if(in == null)
@@ -195,7 +195,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
 				if(!lineRead.manageTrailingLF())	// No traling LF: Read 1 byte too far
 				{
 					nFirstPositionInReadAHead--;
-				}					
+				}
 			}
 			return lineRead;
 		}
@@ -204,20 +204,20 @@ public class DataFileLineReader extends BaseDataFileBuffered
 			return readAhead(nFullLength, bTryReadNextLF);
 		}
 	}
-	
+
 	private LineRead readAhead(int nFullLength, boolean bTryReadNextLF)
 	{
 		int nLengthSource = nLastPositionInReadAHead - nFirstPositionInReadAHead;
-	
+
 		// Keep the data already read
 		for(int n=0; n<nLengthSource; n++)
-			tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead]; 
+			tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead];
 		nFirstPositionInReadAHead = nReservedHeaderSpace;
-		nLastPositionInReadAHead = nReservedHeaderSpace+nLengthSource;	
-		
+		nLastPositionInReadAHead = nReservedHeaderSpace+nLengthSource;
+
 		// Read next data chunk
 		try
-		{	
+		{
 			int nNBytesRead = in.read(tReadBytesAHead, nLastPositionInReadAHead, nNbByteReadAHead);
 			if(nNBytesRead != -1)
 			{
@@ -243,7 +243,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}		
+		}
 		setEOF(true);
 		return null;
 	}
@@ -252,13 +252,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
 	{
 		if(in == null)
 			return null;
-		
+
 		int nPositionNextLF = getNextLFPosition();
 		if(nPositionNextLF != -1)	// Found position of the next LF
 		{
 			int nLength = nPositionNextLF - nFirstPositionInReadAHead;
 			lineRead.set(tReadBytesAHead, nFirstPositionInReadAHead, nLength, nReservedHeaderSpace);
-			nFirstPositionInReadAHead = nPositionNextLF+1; 
+			nFirstPositionInReadAHead = nPositionNextLF+1;
 			return lineRead;
 		}
 		else	// Not found the position of the next lf
@@ -267,13 +267,13 @@ public class DataFileLineReader extends BaseDataFileBuffered
 
 			// Keep the data already read
 			for(int n=0; n<nLengthSource; n++)
-				tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead]; 
+				tReadBytesAHead[nReservedHeaderSpace+n] = tReadBytesAHead[n+nFirstPositionInReadAHead];
 			nFirstPositionInReadAHead = nReservedHeaderSpace;
 			nLastPositionInReadAHead = nReservedHeaderSpace+nLengthSource;
 
 			// Read next data chunk
 			try
-			{	
+			{
 				int nNBytesRead = in.read(tReadBytesAHead, nLastPositionInReadAHead, nNbByteReadAHead);
 				if(nNBytesRead != -1)
 				{
@@ -286,30 +286,30 @@ public class DataFileLineReader extends BaseDataFileBuffered
 						lineRead.set(tReadBytesAHead, nFirstPositionInReadAHead, nBodyLength, nReservedHeaderSpace);
 						nFirstPositionInReadAHead = nPositionNextLF+1;
 						return lineRead;
-					}	
+					}
 				}
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
-			}			
+			}
 		}
 		setEOF(true);
 		return null;
 	}
-	
+
 	public void writeRecord(String cs)
 	{
 	}
-	
+
 	public void writeEndOfRecordMarker()
 	{
 	}
-	
+
 	public void writeWithEOL(byte[] tBytes, int nSize)
 	{
 	}
-	
+
 	public void writeWithEOL(LineRead lineRead)
 	{
 	}
@@ -317,20 +317,20 @@ public class DataFileLineReader extends BaseDataFileBuffered
 	public void write(byte[] tBytes)
 	{
 	}
-	
+
 	public void write(byte[] tBytes, int nOffset, int nLength)
 	{
 	}
-	
+
 	public boolean readEndOfLineMarker()
 	{
 		return false;
 	}
-	
+
 	public byte[] read(int nSize)
 	{
 		try
-		{	
+		{
 			int nNBytesRead = in.read(tReadBytesAHead, 0, nSize);
 			if(nNBytesRead != -1)
 			{
@@ -354,11 +354,11 @@ public class DataFileLineReader extends BaseDataFileBuffered
 		cs += ")";
 		return cs;
 	}
-	
+
 	public void rewrite(byte[] tBytes, int nOffset, int nLength)
 	{
 	}
-	
+
 	public void rewriteWithEOL(byte[] tbyDest, int nSize)
 	{
 	}
@@ -367,27 +367,27 @@ public class DataFileLineReader extends BaseDataFileBuffered
 	{
 		return true;
 	}
-	
+
 	public boolean isWritable()
 	{
 		return false;
 	}
-	
+
 	public boolean isUpdateable()
 	{
 		return false;
 	}
-	
+
 	public long getFileCurrentPosition()
 	{
 		return -1;
 	}
-	
+
 	public boolean setFileCurrentPosition(long lCurrentPosition)
 	{
 		return false;
 	}
-	
+
 	public boolean savePosition(int nMaxReadAheadSize)
 	{
 		if(in != null && in.markSupported())
@@ -414,7 +414,7 @@ public class DataFileLineReader extends BaseDataFileBuffered
 				int n = 0;
 			}
 		}
-		return false;		
+		return false;
 	}
-	
+
 }

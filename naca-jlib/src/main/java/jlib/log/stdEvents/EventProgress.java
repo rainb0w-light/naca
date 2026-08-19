@@ -29,45 +29,45 @@ import jlib.log.*;
  * this class is to allow logging less "Progress" events in a production environment
  * than in a test or develop environment. For example:
  * <pre>
- * 	class EventProgressMyApplication extends EventStart 
+ * 	class EventProgressMyApplication extends EventStart
  * 	{
  * 		public static log(String csChannel, String csProcess, String csProduct, int nProcessedItems, int nTotalItems)
  * 		{
  * 			EventProgress e=new EventProgress(csProcess, csProduct, nProcessedItems, nTotalItems);
  * 			Log.log(csChannel, e, null);
  * 		}
- * 
- *		static m_progressCounter=0; 
+ *
+ *		static m_progressCounter=0;
  * 		public EventStartMyApplication(String csProcess, String csProduct, int nProcessedItems, int nTotalItems)
  * 		{
  * 			super(csProcess, csProduct, nProcessedItems, nTotalItems)
  *			if ((m_progressCounter++ &lt; 100) && (nProcessedItems &lt; nTotalItems))
  *				setLevel(LogLevel.Verbose);
  *			else
- *				m_progressCounter=0; 
+ *				m_progressCounter=0;
  * 		}
  * 	}
  * </pre>
  * To complete the feature, configure the develop and test environments to accept
  * verbose events, and configure the production environment to accept only
  * normal or higher level events.
- * 
+ *
  * @author jmgonet
  */
 
 public class EventProgress extends LogEvent {
 /**
  * Logs a "Progress" event, and allows to specify custom <i>RunId</i> and
- * <i>RuntimeId</i>. 
+ * <i>RuntimeId</i>.
  * For more details about the <i>Product</i>, <i>Process</i>, <i>RunId</i>
  * and <i>RuntimeId</i> identifiers, read the {@link LogCenterDbFlat} overview.
- * @param csChannel The name of the channel where the event is to be sent. If 
+ * @param csChannel The name of the channel where the event is to be sent. If
  *     left <i>null</i> the event is broadcasted to all open channels.
- * @param csProcess The name of the process where the "Progress" has been done. If 
+ * @param csProcess The name of the process where the "Progress" has been done. If
  *     left <i>null</i> the {@link LogCenter} accepting the event will assume
  *     the Progress is coming from its channel default process. To set the
  *     default process of a channel use {@link Log#setProcess}.
- * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress 
+ * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress
  *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
  *     assume the event refers to its channel default product. To set the
  *     default product of a channel use {@link Log#setProduct}.
@@ -84,23 +84,23 @@ public class EventProgress extends LogEvent {
  *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, int nProcessedItems, int nTotalItems) 
+	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, int nProcessedItems, int nTotalItems)
 	{
 		EventProgress e=new EventProgress(csProcess, csProduct, csName, nProcessedItems, nTotalItems);
 		Log.log(csChannel, e, null, csRunId, csRuntimeId);
 	}
 
 /**
- * Logs a "Progress" event. 
- * For more details about the <i>Product</i> and <i>Process</i> identifiers, 
+ * Logs a "Progress" event.
+ * For more details about the <i>Product</i> and <i>Process</i> identifiers,
  * read the {@link LogCenterDbFlat} overview.
- * @param csChannel The name of the channel where the event is to be sent. If 
+ * @param csChannel The name of the channel where the event is to be sent. If
  *     left <i>null</i> the event is broadcasted to all open channels.
- * @param csProcess The name of the process where the "Progress" has been done. If 
+ * @param csProcess The name of the process where the "Progress" has been done. If
  *     left <i>null</i> the {@link LogCenter} accepting the event will assume
  *     the Progress is coming from its channel default process. To set the
  *     default process of a channel use {@link Log#setProcess}.
- * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress 
+ * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress
  *     refers. If left <i>null</i> the {@link LogCenter} accepting the event will
  *     assume the event refers to its channel default product. To set the
  *     default product of a channel use {@link Log#setProduct}.
@@ -111,14 +111,14 @@ public class EventProgress extends LogEvent {
  *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems) 
+	public static void log(String csChannel, String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems)
 	{
 		EventProgress e=new EventProgress(csProcess, csProduct, csName, nProcessedItems, nTotalItems);
-		Log.log(csChannel, e, null);		
+		Log.log(csChannel, e, null);
 	}
 
 /**
- * Creates a "Progress" event. 
+ * Creates a "Progress" event.
  * @param csProcess The name of the process where the "Progress" has been done.
  * @param csProduct The name of the product (brand, client, source, etc.) to which the Progress refers.
  * @param csName The desired name of the event. If left <i>null</i>, the default
@@ -128,7 +128,7 @@ public class EventProgress extends LogEvent {
  *     elements that could not be processed because of some error).
  * @param nTotalItems The total number of items to process.
  */
-	public EventProgress(String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems) 
+	public EventProgress(String csProcess, String csProduct, String csName, int nProcessedItems, int nTotalItems)
 	{
 		super(LogEventType.Progress, LogFlowStd.Monitoring, LogLevel.Normal, csProduct, csProcess, csName);
 		fillMember("processedItems",nProcessedItems);

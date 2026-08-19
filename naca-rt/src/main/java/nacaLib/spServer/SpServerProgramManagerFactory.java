@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -21,7 +21,7 @@ public class SpServerProgramManagerFactory //extends BaseProgramManagerFactory
 //	{
 //		BasicLogger.log("SpServerProgramManagerFactory::SpServerProgramManagerFactory()");
 //	}
-//	
+//
 // public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean
 // bInheritedSharedProgramInstanceData)
 //	{
