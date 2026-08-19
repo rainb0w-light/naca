@@ -128,5 +128,3 @@ public class BlowfishOutputStream extends OutputStream {
       return ;
    }
 }
-
-     
