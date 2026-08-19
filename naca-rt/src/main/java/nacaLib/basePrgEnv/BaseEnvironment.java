@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -57,6 +59,7 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private FileManager fileManager = null;
     private boolean isexternalConnection = false;
     private boolean issimulateRealEnvironment = false;
+    private final Map<String, String> runtimeConfigOptions = new ConcurrentHashMap<>();
 
     /** Creates a new base environment instance. */
     public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
@@ -397,11 +400,32 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
      */
     public String getConfigOption(String string)
     {
+        String runtimeValue = runtimeConfigOptions.get(string);
+        if (runtimeValue != null)
+        {
+            return runtimeValue;
+        }
         if (tagConfig != null)
         {
             return tagConfig.getVal(string);
         }
         return "";
+    }
+
+    /**
+     * Overrides one environment option for the lifetime of this execution environment.
+     * Runtime adapters use this hook instead of mutating the legacy XML configuration.
+     */
+    public void setRuntimeConfigOption(String name, String value)
+    {
+        if (value == null)
+        {
+            runtimeConfigOptions.remove(name);
+        }
+        else
+        {
+            runtimeConfigOptions.put(name, value);
+        }
     }
 
     public String getUserLanguageId()

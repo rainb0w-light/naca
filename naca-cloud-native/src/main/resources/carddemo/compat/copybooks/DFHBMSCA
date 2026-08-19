@@ -1,0 +1,14 @@
+      * Naca CardDemo compatibility subset of CICS BMS attribute constants.
+      * This is an independently maintained interface definition, not an IBM
+      * supplied copybook. It contains only identifiers used by CardDemo.
+       01  DFHBMSCA.
+           10  DFHBMPRO       PIC X VALUE '-'.
+           10  DFHBMBRY       PIC X VALUE 'H'.
+           10  DFHBMDAR       PIC X VALUE '<'.
+           10  DFHBMFSE       PIC X VALUE 'A'.
+           10  DFHBMPRF       PIC X VALUE '/'.
+           10  DFHBMASB       PIC X VALUE '8'.
+           10  DFHDFCOL       PIC X VALUE X'00'.
+           10  DFHRED         PIC X VALUE '2'.
+           10  DFHGREEN       PIC X VALUE '4'.
+           10  DFHNEUTR       PIC X VALUE '7'.

@@ -1,0 +1,3035 @@
+{
+  "schemaVersion": 1,
+  "reportKind": "CardDemoStaticCapabilityInventory",
+  "source": {
+    "url": "https://github.com/aws-samples/aws-mainframe-modernization-carddemo.git",
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e",
+    "license": {
+      "SPDX": "Apache-2.0",
+      "path": "LICENSE"
+    }
+  },
+  "scope": {
+    "definition": "Every vendored app/**/*.cbl at the pinned commit.",
+    "programs": 44,
+    "transactions": 25,
+    "mapSets": 21
+  },
+  "summary": {
+    "onlinePrograms": 25,
+    "cicsCommands": {
+      "ABEND": 5,
+      "ASKTIME": 5,
+      "ASSIGN": 2,
+      "DELETE": 1,
+      "ENDBR": 6,
+      "FORMATTIME": 5,
+      "HANDLE": 11,
+      "INQUIRE": 1,
+      "LINK": 1,
+      "READ": 27,
+      "READNEXT": 4,
+      "READPREV": 6,
+      "RECEIVE_MAP": 21,
+      "RETRIEVE": 3,
+      "RETURN": 38,
+      "REWRITE": 5,
+      "SEND": 5,
+      "SEND_MAP": 26,
+      "SEND_TEXT": 9,
+      "STARTBR": 6,
+      "SYNCPOINT": 16,
+      "WRITE": 3,
+      "WRITEQ_TD": 2,
+      "XCTL": 32
+    },
+    "sqlCommands": {
+      "CLOSE": 2,
+      "DECLARE": 2,
+      "DELETE": 3,
+      "FETCH": 3,
+      "INCLUDE": 11,
+      "INSERT": 3,
+      "OPEN": 2,
+      "SELECT": 2,
+      "UPDATE": 4
+    },
+    "externalCalls": {
+      "CBLTDLI": 3,
+      "CBSTM03B": 1,
+      "CEE3ABD": 11,
+      "CEEDAYS": 1,
+      "COBDATFT": 1,
+      "CSUTLDTC": 2,
+      "MQCLOSE": 3,
+      "MQGET": 3,
+      "MQOPEN": 3,
+      "MQPUT": 2,
+      "MQPUT1": 1,
+      "MVSWAIT": 1
+    }
+  },
+  "mapSets": [
+    "COACTUP",
+    "COACTVW",
+    "COADM01",
+    "COBIL00",
+    "COCRDLI",
+    "COCRDSL",
+    "COCRDUP",
+    "COMEN01",
+    "COPAU00",
+    "COPAU01",
+    "CORPT00",
+    "COSGN00",
+    "COTRN00",
+    "COTRN01",
+    "COTRN02",
+    "COTRTLI",
+    "COTRTUP",
+    "COUSR00",
+    "COUSR01",
+    "COUSR02",
+    "COUSR03"
+  ],
+  "transactions": [
+    {
+      "transactionId": "CA00",
+      "program": "COADM01C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CAUP",
+      "program": "COACTUPC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CAVW",
+      "program": "COACTVWC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CB00",
+      "program": "COBIL00C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CC00",
+      "program": "COSGN00C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CCDL",
+      "program": "COCRDSLC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CCLI",
+      "program": "COCRDLIC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CCUP",
+      "program": "COCRDUPC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CDRA",
+      "program": "COACCT01",
+      "source": "app/app-vsam-mq/csd/CRDDEMOM.csd"
+    },
+    {
+      "transactionId": "CDRD",
+      "program": "CODATE01",
+      "source": "app/app-vsam-mq/csd/CRDDEMOM.csd"
+    },
+    {
+      "transactionId": "CDV1",
+      "program": "COCRDSEC",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CM00",
+      "program": "COMEN01C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CP00",
+      "program": "COPAUA0C",
+      "source": "app/app-authorization-ims-db2-mq/csd/CRDDEMO2.csd"
+    },
+    {
+      "transactionId": "CPVD",
+      "program": "COPAUS1C",
+      "source": "app/app-authorization-ims-db2-mq/csd/CRDDEMO2.csd"
+    },
+    {
+      "transactionId": "CPVS",
+      "program": "COPAUS0C",
+      "source": "app/app-authorization-ims-db2-mq/csd/CRDDEMO2.csd"
+    },
+    {
+      "transactionId": "CR00",
+      "program": "CORPT00C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CT00",
+      "program": "COTRN00C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CT01",
+      "program": "COTRN01C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CT02",
+      "program": "COTRN02C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CTLI",
+      "program": "COTRTLIC",
+      "source": "app/app-transaction-type-db2/csd/CRDDEMOD.csd"
+    },
+    {
+      "transactionId": "CTTU",
+      "program": "COTRTUPC",
+      "source": "app/app-transaction-type-db2/csd/CRDDEMOD.csd"
+    },
+    {
+      "transactionId": "CU00",
+      "program": "COUSR00C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CU01",
+      "program": "COUSR01C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CU02",
+      "program": "COUSR02C",
+      "source": "app/csd/CARDDEMO.CSD"
+    },
+    {
+      "transactionId": "CU03",
+      "program": "COUSR03C",
+      "source": "app/csd/CARDDEMO.CSD"
+    }
+  ],
+  "programs": [
+    {
+      "name": "CBPAUP0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/CBPAUP0C.cbl",
+      "profile": "authorization-ims-db2-mq",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY"
+      ],
+      "externalCalls": [],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "COPAUA0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUA0C.cbl",
+      "profile": "authorization-ims-db2-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CCPAUERY",
+        "CCPAURLY",
+        "CCPAURQY",
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "CMQGMOV",
+        "CMQMDV",
+        "CMQODV",
+        "CMQPMOV",
+        "CMQTML",
+        "CMQV",
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVCUS01Y"
+      ],
+      "externalCalls": [
+        "MQCLOSE",
+        "MQGET",
+        "MQOPEN",
+        "MQPUT1"
+      ],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETRIEVE",
+          "statement": "RETRIEVE INTO(MQTM) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CCXREF-FILE) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RIDFLD (XREF-CARD-NUM) KEYLENGTH (LENGTH OF XREF-CARD-NUM) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-ACCTFILENAME) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CUSTFILENAME) RIDFLD (WS-CARD-RID-CUST-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-CUST-ID-X) INTO (CUSTOMER-RECORD) LENGTH (LENGTH OF CUSTOMER-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASKTIME",
+          "statement": "ASKTIME NOHANDLE ABSTIME(WS-ABS-TIME)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "FORMATTIME",
+          "statement": "FORMATTIME ABSTIME(WS-ABS-TIME) YYDDD(WS-CUR-DATE-X6) TIME(WS-CUR-TIME-X6) MILLISECONDS(WS-CUR-TIME-MS)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASKTIME",
+          "statement": "ASKTIME NOHANDLE ABSTIME(WS-ABS-TIME)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "FORMATTIME",
+          "statement": "FORMATTIME ABSTIME(WS-ABS-TIME) YYMMDD(WS-CUR-DATE-X6) TIME(WS-CUR-TIME-X6)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "WRITEQ_TD",
+          "statement": "WRITEQ TD QUEUE('CSSL') FROM (ERROR-LOG-RECORD) LENGTH (LENGTH OF ERROR-LOG-RECORD) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COPAUS0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS0C.cbl",
+      "profile": "authorization-ims-db2-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "COCOM01Y",
+        "COPAU00",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CVACT01Y",
+        "CVACT02Y",
+        "CVACT03Y",
+        "CVCUS01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-CICS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COPAU0A') MAPSET('COPAU00') FROM(COPAU0AO) ERASE CURSOR",
+          "mapSets": [
+            "COPAU00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COPAU0A') MAPSET('COPAU00') FROM(COPAU0AO) CURSOR",
+          "mapSets": [
+            "COPAU00"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COPAU0A') MAPSET('COPAU00') INTO(COPAU0AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COPAU00"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CARDXREFNAME-ACCT-PATH) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-ACCTFILENAME) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CUSTFILENAME) RIDFLD (WS-CARD-RID-CUST-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-CUST-ID-X) INTO (CUSTOMER-RECORD) LENGTH (LENGTH OF CUSTOMER-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COPAUS1C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS1C.cbl",
+      "profile": "authorization-ims-db2-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "COCOM01Y",
+        "COPAU01",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-CICS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "LINK",
+          "statement": "LINK PROGRAM(WS-PGM-AUTH-FRAUD) COMMAREA(WS-FRAUD-DATA) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COPAU1A') MAPSET('COPAU01') FROM(COPAU1AO) ERASE CURSOR",
+          "mapSets": [
+            "COPAU01"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COPAU1A') MAPSET('COPAU01') FROM(COPAU1AO) CURSOR",
+          "mapSets": [
+            "COPAU01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COPAU1A') MAPSET('COPAU01') INTO(COPAU1AI) NOHANDLE",
+          "mapSets": [
+            "COPAU01"
+          ],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT ROLLBACK",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COPAUS2C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS2C.cbl",
+      "profile": "authorization-ims-db2-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "ASKTIME",
+          "statement": "ASKTIME NOHANDLE ABSTIME(WS-ABS-TIME) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "FORMATTIME",
+          "statement": "FORMATTIME ABSTIME(WS-ABS-TIME) MMDDYY(WS-CUR-DATE) DATESEP NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": [
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE SQLCA"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE AUTHFRDS"
+        },
+        {
+          "command": "INSERT",
+          "statement": "INSERT INTO CARDDEMO.AUTHFRDS (CARD_NUM ,AUTH_TS ,AUTH_TYPE ,CARD_EXPIRY_DATE ,MESSAGE_TYPE ,MESSAGE_SOURCE ,AUTH_ID_CODE ,AUTH_RESP_CODE ,AUTH_RESP_REASON ,PROCESSING_CODE ,TRANSACTION_AMT ,APPROVED_AMT ,MERCHANT_CATAGORY_CODE ,ACQR_COUNTRY_CODE ,POS_ENTRY_MODE ,MERCHANT_ID ,MERCHANT_NAME ,MERCHANT_CITY ,MERCHANT_STATE ,MERCHANT_ZIP ,TRANSACTION_ID ,MATCH_STATUS ,AUTH_FRAUD ,FRAUD_RPT_DATE ,ACCT_ID ,CUST_ID) VALUES ( :CARD-NUM ,TIMESTAMP_FORMAT (:AUTH-TS, 'YY-MM-DD HH24.MI.SSNNNNNN') ,:AUTH-TYPE ,:CARD-EXPIRY-DATE ,:MESSAGE-TYPE ,:MESSAGE-SOURCE ,:AUTH-ID-CODE ,:AUTH-RESP-CODE ,:AUTH-RESP-REASON ,:PROCESSING-CODE ,:TRANSACTION-AMT ,:APPROVED-AMT ,:MERCHANT-CATAGORY-CODE ,:ACQR-COUNTRY-CODE ,:POS-ENTRY-MODE ,:MERCHANT-ID ,:MERCHANT-NAME ,:MERCHANT-CITY ,:MERCHANT-STATE ,:MERCHANT-ZIP ,:TRANSACTION-ID ,:MATCH-STATUS ,:AUTH-FRAUD ,CURRENT DATE ,:ACCT-ID ,:CUST-ID )"
+        },
+        {
+          "command": "UPDATE",
+          "statement": "UPDATE CARDDEMO.AUTHFRDS SET AUTH_FRAUD = :AUTH-FRAUD, FRAUD_RPT_DATE = CURRENT DATE WHERE CARD_NUM = :CARD-NUM AND AUTH_TS = TIMESTAMP_FORMAT (:AUTH-TS, 'YY-MM-DD HH24.MI.SSNNNNNN')"
+        }
+      ]
+    },
+    {
+      "name": "DBUNLDGS",
+      "path": "app/app-authorization-ims-db2-mq/cbl/DBUNLDGS.CBL",
+      "profile": "authorization-ims-db2-mq",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "IMSFUNCS",
+        "PADFLPCB",
+        "PASFLPCB",
+        "PAUTBPCB"
+      ],
+      "externalCalls": [
+        "CBLTDLI"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "PAUDBLOD",
+      "path": "app/app-authorization-ims-db2-mq/cbl/PAUDBLOD.CBL",
+      "profile": "authorization-ims-db2-mq",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "IMSFUNCS",
+        "PAUTBPCB"
+      ],
+      "externalCalls": [
+        "CBLTDLI"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "PAUDBUNL",
+      "path": "app/app-authorization-ims-db2-mq/cbl/PAUDBUNL.CBL",
+      "profile": "authorization-ims-db2-mq",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CIPAUDTY",
+        "CIPAUSMY",
+        "IMSFUNCS",
+        "PAUTBPCB"
+      ],
+      "externalCalls": [
+        "CBLTDLI"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "COBTUPDT",
+      "path": "app/app-transaction-type-db2/cbl/COBTUPDT.cbl",
+      "profile": "transaction-type-db2",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [],
+      "externalCalls": [],
+      "cics": [],
+      "sql": [
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE SQLCA"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE DCLTRTYP"
+        },
+        {
+          "command": "INSERT",
+          "statement": "INSERT INTO CARDDEMO.TRANSACTION_TYPE ( TR_TYPE, TR_DESCRIPTION ) VALUES ( :INPUT-REC-NUMBER, :INPUT-REC-DESC )"
+        },
+        {
+          "command": "UPDATE",
+          "statement": "UPDATE CARDDEMO.TRANSACTION_TYPE SET TR_DESCRIPTION = :INPUT-REC-DESC WHERE TR_TYPE = :INPUT-REC-NUMBER"
+        },
+        {
+          "command": "DELETE",
+          "statement": "DELETE FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE = :INPUT-REC-NUMBER"
+        }
+      ]
+    },
+    {
+      "name": "COTRTLIC",
+      "path": "app/app-transaction-type-db2/cbl/COTRTLIC.cbl",
+      "profile": "transaction-type-db2",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTRTLI",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "CVACT02Y",
+        "CVCRD01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (LIT-ADDTPGM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CTRTLIAI) RESP(WS-RESP-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) FROM(CTRTLIAO) CURSOR ERASE RESP(WS-RESP-CD) FREEKB",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-RETURN-MSG) LENGTH(LENGTH OF WS-RETURN-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-LONG-MSG) LENGTH(LENGTH OF WS-LONG-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": [
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE CSDB2RWY"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE SQLCA"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE DCLTRTYP"
+        },
+        {
+          "command": "DECLARE",
+          "statement": "DECLARE C-TR-TYPE-FORWARD CURSOR FOR SELECT TR_TYPE ,TR_DESCRIPTION FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE >= :WS-START-KEY AND ((:WS-EDIT-TYPE-FLAG = '1' AND TR_TYPE = :WS-TYPE-CD-FILTER) OR (:WS-EDIT-TYPE-FLAG <> '1')) AND ((:WS-EDIT-DESC-FLAG = '1' AND TR_DESCRIPTION LIKE TRIM(:WS-TYPE-DESC-FILTER)) OR (:WS-EDIT-DESC-FLAG <> '1')) ORDER BY TR_TYPE"
+        },
+        {
+          "command": "DECLARE",
+          "statement": "DECLARE C-TR-TYPE-BACKWARD CURSOR FOR SELECT TR_TYPE ,TR_DESCRIPTION FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE < :WS-START-KEY and ((:WS-EDIT-TYPE-FLAG = '1' and TR_TYPE = :WS-TYPE-CD-FILTER) OR (:WS-EDIT-TYPE-FLAG <> '1')) AND ((:WS-EDIT-DESC-FLAG = '1' AND TR_DESCRIPTION LIKE TRIM(:WS-TYPE-DESC-FILTER)) OR (:WS-EDIT-DESC-FLAG <> '1')) ORDER BY TR_TYPE DESC"
+        },
+        {
+          "command": "FETCH",
+          "statement": "FETCH C-TR-TYPE-FORWARD INTO :DCL-TR-TYPE ,:DCL-TR-DESCRIPTION"
+        },
+        {
+          "command": "FETCH",
+          "statement": "FETCH C-TR-TYPE-FORWARD INTO :DCL-TR-TYPE ,:DCL-TR-DESCRIPTION"
+        },
+        {
+          "command": "FETCH",
+          "statement": "FETCH C-TR-TYPE-BACKWARD INTO :DCL-TR-TYPE ,:DCL-TR-DESCRIPTION"
+        },
+        {
+          "command": "SELECT",
+          "statement": "SELECT COUNT(1) INTO :WS-RECORDS-COUNT FROM CARDDEMO.TRANSACTION_TYPE WHERE ((:WS-EDIT-TYPE-FLAG = '1' AND TR_TYPE = :WS-TYPE-CD-FILTER) OR :WS-EDIT-TYPE-FLAG <> '1') AND ((:WS-EDIT-DESC-FLAG = '1' AND TR_DESCRIPTION LIKE TRIM(:WS-TYPE-DESC-FILTER)) OR :WS-EDIT-DESC-FLAG <> '1')"
+        },
+        {
+          "command": "UPDATE",
+          "statement": "UPDATE CARDDEMO.TRANSACTION_TYPE SET TR_DESCRIPTION = :DCL-TR-DESCRIPTION WHERE TR_TYPE = :DCL-TR-TYPE"
+        },
+        {
+          "command": "DELETE",
+          "statement": "DELETE FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE = :DCL-TR-TYPE"
+        },
+        {
+          "command": "OPEN",
+          "statement": "OPEN C-TR-TYPE-FORWARD"
+        },
+        {
+          "command": "CLOSE",
+          "statement": "CLOSE C-TR-TYPE-FORWARD"
+        },
+        {
+          "command": "OPEN",
+          "statement": "OPEN C-TR-TYPE-BACKWARD"
+        },
+        {
+          "command": "CLOSE",
+          "statement": "CLOSE C-TR-TYPE-BACKWARD"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE CSDB2RPY"
+        }
+      ]
+    },
+    {
+      "name": "COTRTUPC",
+      "path": "app/app-transaction-type-db2/cbl/COTRTUPC.cbl",
+      "profile": "transaction-type-db2",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTRTUP",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CSSETATY",
+        "CSUSR01Y",
+        "CVCRD01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND LABEL(ABEND-ROUTINE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CTRTUPAI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(CCARD-NEXT-MAP) MAPSET(CCARD-NEXT-MAPSET) FROM(CTRTUPAO) CURSOR ERASE FREEKB RESP(WS-RESP-CD)",
+          "mapSets": [
+            "CCARD-NEXT-MAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND",
+          "statement": "SEND FROM (ABEND-DATA) LENGTH(LENGTH OF ABEND-DATA) NOHANDLE ERASE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND CANCEL",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ABEND",
+          "statement": "ABEND ABCODE(ABEND-CODE)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": [
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE SQLCA"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE DCLTRTYP"
+        },
+        {
+          "command": "INCLUDE",
+          "statement": "INCLUDE DCLTRCAT"
+        },
+        {
+          "command": "SELECT",
+          "statement": "SELECT TR_TYPE ,TR_DESCRIPTION INTO :DCL-TR-TYPE ,:DCL-TR-DESCRIPTION FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE = :DCL-TR-TYPE"
+        },
+        {
+          "command": "UPDATE",
+          "statement": "UPDATE CARDDEMO.TRANSACTION_TYPE SET TR_DESCRIPTION = :DCL-TR-DESCRIPTION WHERE TR_TYPE = :DCL-TR-TYPE"
+        },
+        {
+          "command": "INSERT",
+          "statement": "INSERT INTO CARDDEMO.TRANSACTION_TYPE (TR_TYPE, TR_DESCRIPTION) VALUES ( :DCL-TR-TYPE ,:DCL-TR-DESCRIPTION)"
+        },
+        {
+          "command": "DELETE",
+          "statement": "DELETE FROM CARDDEMO.TRANSACTION_TYPE WHERE TR_TYPE = :DCL-TR-TYPE"
+        }
+      ]
+    },
+    {
+      "name": "COACCT01",
+      "path": "app/app-vsam-mq/cbl/COACCT01.cbl",
+      "profile": "vsam-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CMQGMOV",
+        "CMQMDV",
+        "CMQODV",
+        "CMQPMOV",
+        "CMQTML",
+        "CMQV",
+        "CVACT01Y",
+        "PERFORM",
+        "REPLACING"
+      ],
+      "externalCalls": [
+        "MQCLOSE",
+        "MQGET",
+        "MQOPEN",
+        "MQPUT"
+      ],
+      "cics": [
+        {
+          "command": "RETRIEVE",
+          "statement": "RETRIEVE INTO(MQTM) RESP(WS-CICS-RESP1-CD) RESP2(WS-CICS-RESP2-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-ACCTFILENAME) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "CODATE01",
+      "path": "app/app-vsam-mq/cbl/CODATE01.cbl",
+      "profile": "vsam-mq",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CMQGMOV",
+        "CMQMDV",
+        "CMQODV",
+        "CMQPMOV",
+        "CMQTML",
+        "CMQV",
+        "PERFORM",
+        "REPLACING"
+      ],
+      "externalCalls": [
+        "MQCLOSE",
+        "MQGET",
+        "MQOPEN",
+        "MQPUT"
+      ],
+      "cics": [
+        {
+          "command": "RETRIEVE",
+          "statement": "RETRIEVE INTO(MQTM) RESP(WS-CICS-RESP1-CD) RESP2(WS-CICS-RESP2-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASKTIME",
+          "statement": "ASKTIME ABSTIME (WS-ABS-TIME)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "FORMATTIME",
+          "statement": "FORMATTIME ABSTIME(WS-ABS-TIME) MMDDYYYY(WS-MMDDYYYY) DATESEP('-') TIME(WS-TIME) TIMESEP",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "CBACT01C",
+      "path": "app/cbl/CBACT01C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "blocked",
+      "firstBlocker": {
+        "code": "NACART_OUTPUT_FILE_STATUS_NOT_SET",
+        "stage": "isolatedNacaRT",
+        "detail": "OPEN OUTPUT creates OUT-FILE but leaves its COBOL FILE STATUS unset instead of 00; CBACT01C deterministically takes its ERROR OPENING OUTFILE path before the first account record."
+      },
+      "copybooks": [
+        "CODATECN",
+        "CVACT01Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD",
+        "COBDATFT"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBACT02C",
+      "path": "app/cbl/CBACT02C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "strictComplete",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "copybooks": [
+        "CVACT02Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBACT03C",
+      "path": "app/cbl/CBACT03C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "strictComplete",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "copybooks": [
+        "CVACT03Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBACT04C",
+      "path": "app/cbl/CBACT04C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVTRA01Y",
+        "CVTRA02Y",
+        "CVTRA05Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBCUS01C",
+      "path": "app/cbl/CBCUS01C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "strictComplete",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "copybooks": [
+        "CVCUS01Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBEXPORT",
+      "path": "app/cbl/CBEXPORT.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT01Y",
+        "CVACT02Y",
+        "CVACT03Y",
+        "CVCUS01Y",
+        "CVEXPORT",
+        "CVTRA05Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBIMPORT",
+      "path": "app/cbl/CBIMPORT.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT01Y",
+        "CVACT02Y",
+        "CVACT03Y",
+        "CVCUS01Y",
+        "CVEXPORT",
+        "CVTRA05Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBSTM03A",
+      "path": "app/cbl/CBSTM03A.CBL",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COSTM01",
+        "CUSTREC",
+        "CVACT01Y",
+        "CVACT03Y"
+      ],
+      "externalCalls": [
+        "CBSTM03B",
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBSTM03B",
+      "path": "app/cbl/CBSTM03B.CBL",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [],
+      "externalCalls": [],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBTRN01C",
+      "path": "app/cbl/CBTRN01C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT01Y",
+        "CVACT02Y",
+        "CVACT03Y",
+        "CVCUS01Y",
+        "CVTRA05Y",
+        "CVTRA06Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBTRN02C",
+      "path": "app/cbl/CBTRN02C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVTRA01Y",
+        "CVTRA05Y",
+        "CVTRA06Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "CBTRN03C",
+      "path": "app/cbl/CBTRN03C.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "CVACT03Y",
+        "CVTRA03Y",
+        "CVTRA04Y",
+        "CVTRA05Y",
+        "CVTRA07Y"
+      ],
+      "externalCalls": [
+        "CEE3ABD"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "COACTUPC",
+      "path": "app/cbl/COACTUPC.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COACTUP",
+        "COCOM01Y",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSLKPCDY",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CSSETATY",
+        "CSUSR01Y",
+        "CSUTLDPY",
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVCRD01Y",
+        "CVCUS01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND LABEL(ABEND-ROUTINE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CACTUPAI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(CCARD-NEXT-MAP) MAPSET(CCARD-NEXT-MAPSET) FROM(CACTUPAO) CURSOR ERASE FREEKB RESP(WS-RESP-CD)",
+          "mapSets": [
+            "CCARD-NEXT-MAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-CARDXREFNAME-ACCT-PATH) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-ACCTFILENAME) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-CUSTFILENAME) RIDFLD (WS-CARD-RID-CUST-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-CUST-ID-X) INTO (CUSTOMER-RECORD) LENGTH (LENGTH OF CUSTOMER-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-ACCTFILENAME) UPDATE RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-ACCTFILENAME"
+          ]
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-CUSTFILENAME) UPDATE RIDFLD (WS-CARD-RID-CUST-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-CUST-ID-X) INTO (CUSTOMER-RECORD) LENGTH (LENGTH OF CUSTOMER-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CUSTFILENAME"
+          ]
+        },
+        {
+          "command": "REWRITE",
+          "statement": "REWRITE FILE(LIT-ACCTFILENAME) FROM(ACCT-UPDATE-RECORD) LENGTH(LENGTH OF ACCT-UPDATE-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-ACCTFILENAME"
+          ]
+        },
+        {
+          "command": "REWRITE",
+          "statement": "REWRITE FILE(LIT-CUSTFILENAME) FROM(CUST-UPDATE-RECORD) LENGTH(LENGTH OF CUST-UPDATE-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CUSTFILENAME"
+          ]
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT ROLLBACK",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND",
+          "statement": "SEND FROM (ABEND-DATA) LENGTH(LENGTH OF ABEND-DATA) NOHANDLE ERASE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND CANCEL",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ABEND",
+          "statement": "ABEND ABCODE('9999')",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COACTVWC",
+      "path": "app/cbl/COACTVWC.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COACTVW",
+        "COCOM01Y",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CSUSR01Y",
+        "CVACT01Y",
+        "CVACT02Y",
+        "CVACT03Y",
+        "CVCRD01Y",
+        "CVCUS01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND LABEL(ABEND-ROUTINE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(CCARD-NEXT-MAP) MAPSET(CCARD-NEXT-MAPSET) FROM(CACTVWAO) CURSOR ERASE FREEKB RESP(WS-RESP-CD)",
+          "mapSets": [
+            "CCARD-NEXT-MAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CACTVWAI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-CARDXREFNAME-ACCT-PATH) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-ACCTFILENAME) RIDFLD (WS-CARD-RID-ACCT-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID-X) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (LIT-CUSTFILENAME) RIDFLD (WS-CARD-RID-CUST-ID-X) KEYLENGTH (LENGTH OF WS-CARD-RID-CUST-ID-X) INTO (CUSTOMER-RECORD) LENGTH (LENGTH OF CUSTOMER-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-RETURN-MSG) LENGTH(LENGTH OF WS-RETURN-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-LONG-MSG) LENGTH(LENGTH OF WS-LONG-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND",
+          "statement": "SEND FROM (ABEND-DATA) LENGTH(LENGTH OF ABEND-DATA) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND CANCEL",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ABEND",
+          "statement": "ABEND ABCODE('9999')",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COADM01C",
+      "path": "app/cbl/COADM01C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COADM01",
+        "COADM02Y",
+        "COCOM01Y",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE CONDITION PGMIDERR(PGMIDERR-ERR-PARA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-ADMIN-OPT-PGMNAME(WS-OPTION)) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COADM1A') MAPSET('COADM01') FROM(COADM1AO) ERASE",
+          "mapSets": [
+            "COADM01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COADM1A') MAPSET('COADM01') INTO(COADM1AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COADM01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COBIL00C",
+      "path": "app/cbl/COBIL00C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COBIL00",
+        "COCOM01Y",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVTRA05Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASKTIME",
+          "statement": "ASKTIME ABSTIME(WS-ABS-TIME)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "FORMATTIME",
+          "statement": "FORMATTIME ABSTIME(WS-ABS-TIME) YYYYMMDD(WS-CUR-DATE-X10) DATESEP('-') TIME(WS-CUR-TIME-X08) TIMESEP(':')",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COBIL0A') MAPSET('COBIL00') FROM(COBIL0AO) ERASE CURSOR",
+          "mapSets": [
+            "COBIL00"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COBIL0A') MAPSET('COBIL00') INTO(COBIL0AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COBIL00"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-ACCTDAT-FILE) INTO (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RIDFLD (ACCT-ID) KEYLENGTH (LENGTH OF ACCT-ID) UPDATE RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "REWRITE",
+          "statement": "REWRITE DATASET (WS-ACCTDAT-FILE) FROM (ACCOUNT-RECORD) LENGTH (LENGTH OF ACCOUNT-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CXACAIX-FILE) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RIDFLD (XREF-ACCT-ID) KEYLENGTH (LENGTH OF XREF-ACCT-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET (WS-TRANSACT-FILE) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET (WS-TRANSACT-FILE) INTO (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR DATASET (WS-TRANSACT-FILE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "WRITE",
+          "statement": "WRITE DATASET (WS-TRANSACT-FILE) FROM (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COBSWAIT",
+      "path": "app/cbl/COBSWAIT.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [],
+      "externalCalls": [
+        "MVSWAIT"
+      ],
+      "cics": [],
+      "sql": []
+    },
+    {
+      "name": "COCRDLIC",
+      "path": "app/cbl/COCRDLIC.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COCRDLI",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "CVACT02Y",
+        "CVCRD01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (LIT-MENUPGM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CCARD-NEXT-PROG) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CCARD-NEXT-PROG) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) FROM(CCRDLIAO) CURSOR ERASE RESP(WS-RESP-CD) FREEKB",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CCRDLIAI) RESP(WS-RESP-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET(LIT-CARD-FILE) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) GTEQ RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READNEXT",
+          "statement": "READNEXT DATASET(LIT-CARD-FILE) INTO (CARD-RECORD) LENGTH(LENGTH OF CARD-RECORD) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READNEXT",
+          "statement": "READNEXT DATASET(LIT-CARD-FILE) INTO (CARD-RECORD) LENGTH(LENGTH OF CARD-RECORD) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR FILE(LIT-CARD-FILE)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARD-FILE"
+          ]
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET(LIT-CARD-FILE) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) GTEQ RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET(LIT-CARD-FILE) INTO (CARD-RECORD) LENGTH(LENGTH OF CARD-RECORD) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET(LIT-CARD-FILE) INTO (CARD-RECORD) LENGTH(LENGTH OF CARD-RECORD) RIDFLD(WS-CARD-RID-CARDNUM) KEYLENGTH(LENGTH OF WS-CARD-RID-CARDNUM) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR FILE(LIT-CARD-FILE)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARD-FILE"
+          ]
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-ERROR-MSG) LENGTH(LENGTH OF WS-ERROR-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-LONG-MSG) LENGTH(LENGTH OF WS-LONG-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COCRDSLC",
+      "path": "app/cbl/COCRDSLC.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COCRDSL",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CSUSR01Y",
+        "CVACT02Y",
+        "CVCRD01Y",
+        "CVCUS01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND LABEL(ABEND-ROUTINE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(CCARD-NEXT-MAP) MAPSET(CCARD-NEXT-MAPSET) FROM(CCRDSLAO) CURSOR ERASE FREEKB RESP(WS-RESP-CD)",
+          "mapSets": [
+            "CCARD-NEXT-MAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CCRDSLAI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-CARDFILENAME) RIDFLD (WS-CARD-RID-CARDNUM) KEYLENGTH (LENGTH OF WS-CARD-RID-CARDNUM) INTO (CARD-RECORD) LENGTH (LENGTH OF CARD-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARDFILENAME"
+          ]
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-CARDFILENAME-ACCT-PATH) RIDFLD (WS-CARD-RID-ACCT-ID) KEYLENGTH (LENGTH OF WS-CARD-RID-ACCT-ID) INTO (CARD-RECORD) LENGTH (LENGTH OF CARD-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARDFILENAME-ACCT-PATH"
+          ]
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-LONG-MSG) LENGTH(LENGTH OF WS-LONG-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-RETURN-MSG) LENGTH(LENGTH OF WS-RETURN-MSG) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND",
+          "statement": "SEND FROM (ABEND-DATA) LENGTH(LENGTH OF ABEND-DATA) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND CANCEL",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ABEND",
+          "statement": "ABEND ABCODE('9999')",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COCRDUPC",
+      "path": "app/cbl/COCRDUPC.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COCRDUP",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSMSG02Y",
+        "CSUSR01Y",
+        "CVACT02Y",
+        "CVCRD01Y",
+        "CVCUS01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND LABEL(ABEND-ROUTINE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SYNCPOINT",
+          "statement": "SYNCPOINT",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM (CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (LIT-THISTRANID) COMMAREA (WS-COMMAREA) LENGTH(LENGTH OF WS-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP(LIT-THISMAP) MAPSET(LIT-THISMAPSET) INTO(CCRDUPAI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "LIT-THISMAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP(CCARD-NEXT-MAP) MAPSET(CCARD-NEXT-MAPSET) FROM(CCRDUPAO) CURSOR ERASE FREEKB RESP(WS-RESP-CD)",
+          "mapSets": [
+            "CCARD-NEXT-MAPSET"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-CARDFILENAME) RIDFLD (WS-CARD-RID-CARDNUM) KEYLENGTH (LENGTH OF WS-CARD-RID-CARDNUM) INTO (CARD-RECORD) LENGTH (LENGTH OF CARD-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARDFILENAME"
+          ]
+        },
+        {
+          "command": "READ",
+          "statement": "READ FILE (LIT-CARDFILENAME) UPDATE RIDFLD (WS-CARD-RID-CARDNUM) KEYLENGTH (LENGTH OF WS-CARD-RID-CARDNUM) INTO (CARD-RECORD) LENGTH (LENGTH OF CARD-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARDFILENAME"
+          ]
+        },
+        {
+          "command": "REWRITE",
+          "statement": "REWRITE FILE(LIT-CARDFILENAME) FROM(CARD-UPDATE-RECORD) LENGTH(LENGTH OF CARD-UPDATE-RECORD) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": [
+            "LIT-CARDFILENAME"
+          ]
+        },
+        {
+          "command": "SEND",
+          "statement": "SEND FROM (ABEND-DATA) LENGTH(LENGTH OF ABEND-DATA) NOHANDLE ERASE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "HANDLE",
+          "statement": "HANDLE ABEND CANCEL",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ABEND",
+          "statement": "ABEND ABCODE('9999')",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COMEN01C",
+      "path": "app/cbl/COMEN01C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COMEN01",
+        "COMEN02Y",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "INQUIRE",
+          "statement": "INQUIRE PROGRAM(CDEMO-MENU-OPT-PGMNAME(WS-OPTION)) NOHANDLE",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-MENU-OPT-PGMNAME(WS-OPTION)) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-MENU-OPT-PGMNAME(WS-OPTION)) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COMEN1A') MAPSET('COMEN01') FROM(COMEN1AO) ERASE",
+          "mapSets": [
+            "COMEN01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COMEN1A') MAPSET('COMEN01') INTO(COMEN1AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COMEN01"
+          ],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "CORPT00C",
+      "path": "app/cbl/CORPT00C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "CORPT00",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CVTRA05Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [
+        "CSUTLDTC"
+      ],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "WRITEQ_TD",
+          "statement": "WRITEQ TD QUEUE ('JOBS') FROM (JCL-RECORD) LENGTH (LENGTH OF JCL-RECORD) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('CORPT0A') MAPSET('CORPT00') FROM(CORPT0AO) ERASE CURSOR",
+          "mapSets": [
+            "CORPT00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('CORPT0A') MAPSET('CORPT00') FROM(CORPT0AO) CURSOR",
+          "mapSets": [
+            "CORPT00"
+          ],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('CORPT0A') MAPSET('CORPT00') INTO(CORPT0AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "CORPT00"
+          ],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COSGN00C",
+      "path": "app/cbl/COSGN00C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COSGN00",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA) LENGTH(LENGTH OF CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COSGN0A') MAPSET('COSGN00') RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COSGN00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COSGN0A') MAPSET('COSGN00') FROM(COSGN0AO) ERASE CURSOR",
+          "mapSets": [
+            "COSGN00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_TEXT",
+          "statement": "SEND TEXT FROM(WS-MESSAGE) LENGTH(LENGTH OF WS-MESSAGE) ERASE FREEKB",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASSIGN",
+          "statement": "ASSIGN APPLID(APPLIDO OF COSGN0AO)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ASSIGN",
+          "statement": "ASSIGN SYSID(SYSIDO OF COSGN0AO)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-USRSEC-FILE) INTO (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (WS-USER-ID) KEYLENGTH (LENGTH OF WS-USER-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM ('COADM01C') COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM ('COMEN01C') COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COTRN00C",
+      "path": "app/cbl/COTRN00C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTRN00",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CVTRA05Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COTRN0A') MAPSET('COTRN00') FROM(COTRN0AO) ERASE CURSOR",
+          "mapSets": [
+            "COTRN00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COTRN0A') MAPSET('COTRN00') FROM(COTRN0AO) CURSOR",
+          "mapSets": [
+            "COTRN00"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COTRN0A') MAPSET('COTRN00') INTO(COTRN0AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COTRN00"
+          ],
+          "files": []
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET (WS-TRANSACT-FILE) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READNEXT",
+          "statement": "READNEXT DATASET (WS-TRANSACT-FILE) INTO (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET (WS-TRANSACT-FILE) INTO (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR DATASET (WS-TRANSACT-FILE)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COTRN01C",
+      "path": "app/cbl/COTRN01C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTRN01",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CVTRA05Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COTRN1A') MAPSET('COTRN01') FROM(COTRN1AO) ERASE CURSOR",
+          "mapSets": [
+            "COTRN01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COTRN1A') MAPSET('COTRN01') INTO(COTRN1AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COTRN01"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-TRANSACT-FILE) INTO (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) UPDATE RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COTRN02C",
+      "path": "app/cbl/COTRN02C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTRN02",
+        "COTTL01Y",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CVACT01Y",
+        "CVACT03Y",
+        "CVTRA05Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [
+        "CSUTLDTC"
+      ],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COTRN2A') MAPSET('COTRN02') FROM(COTRN2AO) ERASE CURSOR",
+          "mapSets": [
+            "COTRN02"
+          ],
+          "files": []
+        },
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COTRN2A') MAPSET('COTRN02') INTO(COTRN2AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COTRN02"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CXACAIX-FILE) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RIDFLD (XREF-ACCT-ID) KEYLENGTH (LENGTH OF XREF-ACCT-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-CCXREF-FILE) INTO (CARD-XREF-RECORD) LENGTH (LENGTH OF CARD-XREF-RECORD) RIDFLD (XREF-CARD-NUM) KEYLENGTH (LENGTH OF XREF-CARD-NUM) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET (WS-TRANSACT-FILE) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET (WS-TRANSACT-FILE) INTO (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR DATASET (WS-TRANSACT-FILE)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "WRITE",
+          "statement": "WRITE DATASET (WS-TRANSACT-FILE) FROM (TRAN-RECORD) LENGTH (LENGTH OF TRAN-RECORD) RIDFLD (TRAN-ID) KEYLENGTH (LENGTH OF TRAN-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COUSR00C",
+      "path": "app/cbl/COUSR00C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTTL01Y",
+        "COUSR00",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COUSR0A') MAPSET('COUSR00') FROM(COUSR0AO) ERASE CURSOR",
+          "mapSets": [
+            "COUSR00"
+          ],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COUSR0A') MAPSET('COUSR00') FROM(COUSR0AO) CURSOR",
+          "mapSets": [
+            "COUSR00"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COUSR0A') MAPSET('COUSR00') INTO(COUSR0AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COUSR00"
+          ],
+          "files": []
+        },
+        {
+          "command": "STARTBR",
+          "statement": "STARTBR DATASET (WS-USRSEC-FILE) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READNEXT",
+          "statement": "READNEXT DATASET (WS-USRSEC-FILE) INTO (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "READPREV",
+          "statement": "READPREV DATASET (WS-USRSEC-FILE) INTO (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "ENDBR",
+          "statement": "ENDBR DATASET (WS-USRSEC-FILE)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COUSR01C",
+      "path": "app/cbl/COUSR01C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTTL01Y",
+        "COUSR01",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COUSR1A') MAPSET('COUSR01') FROM(COUSR1AO) ERASE CURSOR",
+          "mapSets": [
+            "COUSR01"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COUSR1A') MAPSET('COUSR01') INTO(COUSR1AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COUSR01"
+          ],
+          "files": []
+        },
+        {
+          "command": "WRITE",
+          "statement": "WRITE DATASET (WS-USRSEC-FILE) FROM (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COUSR02C",
+      "path": "app/cbl/COUSR02C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTTL01Y",
+        "COUSR02",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COUSR2A') MAPSET('COUSR02') FROM(COUSR2AO) ERASE CURSOR",
+          "mapSets": [
+            "COUSR02"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COUSR2A') MAPSET('COUSR02') INTO(COUSR2AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COUSR02"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-USRSEC-FILE) INTO (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) UPDATE RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "REWRITE",
+          "statement": "REWRITE DATASET (WS-USRSEC-FILE) FROM (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "COUSR03C",
+      "path": "app/cbl/COUSR03C.cbl",
+      "profile": "base",
+      "online": true,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [
+        "COCOM01Y",
+        "COTTL01Y",
+        "COUSR03",
+        "CSDAT01Y",
+        "CSMSG01Y",
+        "CSUSR01Y",
+        "DFHAID",
+        "DFHBMSCA"
+      ],
+      "externalCalls": [],
+      "cics": [
+        {
+          "command": "RETURN",
+          "statement": "RETURN TRANSID (WS-TRANID) COMMAREA (CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "XCTL",
+          "statement": "XCTL PROGRAM(CDEMO-TO-PROGRAM) COMMAREA(CARDDEMO-COMMAREA)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "SEND_MAP",
+          "statement": "SEND MAP('COUSR3A') MAPSET('COUSR03') FROM(COUSR3AO) ERASE CURSOR",
+          "mapSets": [
+            "COUSR03"
+          ],
+          "files": []
+        },
+        {
+          "command": "RECEIVE_MAP",
+          "statement": "RECEIVE MAP('COUSR3A') MAPSET('COUSR03') INTO(COUSR3AI) RESP(WS-RESP-CD) RESP2(WS-REAS-CD)",
+          "mapSets": [
+            "COUSR03"
+          ],
+          "files": []
+        },
+        {
+          "command": "READ",
+          "statement": "READ DATASET (WS-USRSEC-FILE) INTO (SEC-USER-DATA) LENGTH (LENGTH OF SEC-USER-DATA) RIDFLD (SEC-USR-ID) KEYLENGTH (LENGTH OF SEC-USR-ID) UPDATE RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        },
+        {
+          "command": "DELETE",
+          "statement": "DELETE DATASET (WS-USRSEC-FILE) RESP (WS-RESP-CD) RESP2 (WS-REAS-CD)",
+          "mapSets": [],
+          "files": []
+        }
+      ],
+      "sql": []
+    },
+    {
+      "name": "CSUTLDTC",
+      "path": "app/cbl/CSUTLDTC.cbl",
+      "profile": "base",
+      "online": false,
+      "acceptanceStatus": "notStarted",
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      },
+      "copybooks": [],
+      "externalCalls": [
+        "CEEDAYS"
+      ],
+      "cics": [],
+      "sql": []
+    }
+  ]
+}
