@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,5 +16,5 @@ package nacaLib.varEx;
  */
 public abstract class InitializeCachedItem
 {
-	abstract void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition);	//, int nOffset);
+    abstract void apply(int nBaseAbsolutePosition, VarBufferPos varBufferPos, int nCurrentAbsolutePosition);    //, int nOffset);
 }

@@ -17,26 +17,26 @@ import utils.*;
 public abstract class CBaseResourceEntity extends CBaseExternalEntity
 {
 
-	/**
-	 * @param name
-	 * @param cat
-	 */
-	public CBaseResourceEntity(int l, String name, CObjectCatalog cat)
-	{
-		super(l, name, cat);
-	}
+    /**
+     * @param name
+     * @param cat
+     */
+    public CBaseResourceEntity(int l, String name, CObjectCatalog cat)
+    {
+        super(l, name, cat);
+    }
 
-//	public abstract Element DoXMLExport() ;
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#HasAccessors()
-	 */
-	public boolean HasAccessors()
-	{
-		return false;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+//  public abstract Element DoXMLExport() ;
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#HasAccessors()
+     */
+    public boolean HasAccessors()
+    {
+        return false;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 
 }

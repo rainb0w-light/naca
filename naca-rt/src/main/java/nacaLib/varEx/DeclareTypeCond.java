@@ -18,64 +18,64 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 
 public class DeclareTypeCond extends CJMapObject
 {
-	public DeclareTypeCond()
-	{
-	}
+    public DeclareTypeCond()
+    {
+    }
 
-	public void set(BaseProgram program)
-	{
-		programManager = program.getProgramManager();
-		values = new ArrayList<CondValue>();
-	}
+    public void set(BaseProgram program)
+    {
+        programManager = program.getProgramManager();
+        values = new ArrayList<CondValue>();
+    }
 
-	public DeclareTypeCond value(String s)
-	{
-		CondValue condValue = new CondValue(s);
-		values.add(condValue);
-		return this;
-	}
+    public DeclareTypeCond value(String s)
+    {
+        CondValue condValue = new CondValue(s);
+        values.add(condValue);
+        return this;
+    }
 
-	public DeclareTypeCond value(String sMin, String sMax)
-	{
-		CondValue condValue = new CondValue(sMin, sMax);
-		values.add(condValue);
-		return this;
-	}
+    public DeclareTypeCond value(String sMin, String sMax)
+    {
+        CondValue condValue = new CondValue(sMin, sMax);
+        values.add(condValue);
+        return this;
+    }
 
-	public DeclareTypeCond value(int nMin, int nMax)
-	{
-		String min = String.valueOf(nMin);
-		String max = String.valueOf(nMax);
+    public DeclareTypeCond value(int nMin, int nMax)
+    {
+        String min = String.valueOf(nMin);
+        String max = String.valueOf(nMax);
 
-		CondValue condValue = new CondValue(min, max);
-		values.add(condValue);
-		return this;
-	}
+        CondValue condValue = new CondValue(min, max);
+        values.add(condValue);
+        return this;
+    }
 
-	public DeclareTypeCond value(int n)
-	{
-		String s = String.valueOf(n);
+    public DeclareTypeCond value(int n)
+    {
+        String s = String.valueOf(n);
 
-		CondValue condValue = new CondValue(s);
-		values.add(condValue);
-		return this;
-	}
+        CondValue condValue = new CondValue(s);
+        values.add(condValue);
+        return this;
+    }
 
-	public DeclareTypeCond value(CobolConstantBase constant)
-	{
-		CondValue condValue = new CondValue(constant);
-		values.add(condValue);
-		return this;
-	}
+    public DeclareTypeCond value(CobolConstantBase constant)
+    {
+        CondValue condValue = new CondValue(constant);
+        values.add(condValue);
+        return this;
+    }
 
-	public Cond var()
-	{
-		Var varParent = (Var)programManager.getLastVarCreated();
+    public Cond var()
+    {
+        Var varParent = (Var)programManager.getLastVarCreated();
 
-		Cond cond = new Cond(varParent, this);
-		return cond;
-	}
+        Cond cond = new Cond(varParent, this);
+        return cond;
+    }
 
-	ArrayList<CondValue> values = null;
-	BaseProgramManager programManager = null;
+    ArrayList<CondValue> values = null;
+    BaseProgramManager programManager = null;
 }

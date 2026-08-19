@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sqlMapper;
 
@@ -22,170 +22,170 @@ import jlib.sql.SQLClause;
  */
 public class RecordId extends ColValueCollection
 {
-	private String csName = null;	// Unique name of a record within a table, within a SQLMapper instance
-	private ArrayList<OrderSegment> orderBy = null;	// Array of the column for generating the order by statement
-	private String csWhereExpression = null;				// Specific where expression 
+    private String csName = null;   // Unique name of a record within a table, within a SQLMapper instance
+    private ArrayList<OrderSegment> orderBy = null; // Array of the column for generating the order by statement
+    private String csWhereExpression = null;                // Specific where expression
 
-	public RecordId(int nName)
-	{
-		super();
-		csName = "" + nName;		
-	}
-	
-	public RecordId(String csName)
-	{
-		super();
-		this.csName = csName;
-	}
-	
-	public RecordId(StringBuffer sbName)
-	{
-		csName = sbName.toString();
-	}
-	
-	public String getName()
-	{
-		return csName; 
-	}
-	
-	public String toString()
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append("Record name: "+ csName + "\rKey segments:" + super.toString());		
-		
-		return sb.toString();		
-	}
-	
-	boolean hasName(RecordId recordId)	// Sematic comparison
-	{
-		if(recordId != null)
-			if(recordId.csName.equalsIgnoreCase(csName))
-				return true;
-		return false;
-	}
-		
-	public RecordId orderByAscending(String csName)
-	{
-		OrderSegment orderBy = new OrderSegmentAscending(csName);
-		if(this.orderBy == null)
-			this.orderBy = new ArrayList<OrderSegment>();
-		this.orderBy.add(orderBy);
-		return this;
-	}
-	
-	public RecordId orderByDescending(String csName)
-	{
-		OrderSegment orderBy = new OrderSegmentDescending(csName);  
-		if(this.orderBy == null)
-			this.orderBy = new ArrayList<OrderSegment>();
-		this.orderBy.add(orderBy);
-		return this;
-	}
-	
-	public RecordId setWhereExpression(String csWhereExpression)
-	{
-		this.csWhereExpression = csWhereExpression;
-		return this;
-	}
-	
-	private String findAndUpdateMarkers(String csQuery, ArrayList<String> arrItemNames)
-	{
-		// Replace #xx placeholdersd by ?
-		int nPosStart = csQuery.indexOf('#', 0);
-		while (nPosStart != -1)
-		{
-			String left = csQuery.substring(0, nPosStart);
-			int n = nPosStart;
-			n++; // Skip the #
-			String itemId = extractItemId(n, csQuery);
-			if (itemId != null)
-			{
-				n += itemId.length();
-				arrItemNames.add(itemId);
-				String right = csQuery.substring(n);
-				csQuery = left + "?" + right;
-			}
+    public RecordId(int nName)
+    {
+        super();
+        csName = "" + nName;
+    }
 
-			nPosStart = csQuery.indexOf('#', nPosStart);
-		}
-		String csQueryUpper = csQuery.toUpperCase();
-		return csQueryUpper;
-	}
-	
+    public RecordId(String csName)
+    {
+        super();
+        this.csName = csName;
+    }
 
-	/**
-	 * @return Internal usage only
-	 */
-	private String extractItemId(int nPos, String csQuery)
-	{
-		int nStart = nPos;
-		int nLength = csQuery.length();
-		char c = csQuery.charAt(nPos);
-		while (Character.isLetterOrDigit(c) || c == '_'  || c == '-')
-		{
-			nPos++;
-			if (nPos == nLength)
-			{
-				String s = csQuery.substring(nStart);
-				return s;
-			}
+    public RecordId(StringBuffer sbName)
+    {
+        csName = sbName.toString();
+    }
 
-			c = csQuery.charAt(nPos);
-		}
-		String s = csQuery.substring(nStart, nPos);
-		return s;
-	}
+    public String getName()
+    {
+        return csName;
+    }
 
-	void buildWhereClauseAndMapParams(StringBuilder sbClause, SQLClause clause)
-	{
-		if(csWhereExpression != null)	// We specified a custom where expression
-		{
-			ArrayList<String> itemNames = new ArrayList<String>();
-			String csQueryUpper = findAndUpdateMarkers(csWhereExpression, itemNames);
-			sbClause.append(" where " + csQueryUpper);
-			
-			clause.set(sbClause.toString());
-			for(int n = 0; n< itemNames.size(); n++)
-			{
-				String csColName = itemNames.get(n);
-				ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-				clause.param(colValue);	
-			}
-		}
-		else
-		{					
-			int nNbKeys = getNbColValues();
-			for(int nKey=0; nKey<nNbKeys; nKey++)
-			{
-				if(nKey != 0)
-					sbClause.append(" and ");
-				else
-					sbClause.append(" where ");
-				ColValue col = getColValueAtIndex(nKey);
-				sbClause.append(col.getName() + "=? ");
-			}
-			
-			if(orderBy != null)
-			{
-				sbClause.append(" order by ");
-				for(int n = 0; n< orderBy.size(); n++)
-				{
-					if(n != 0)
-						sbClause.append(" and ");
-					
-					OrderSegment orderBy = this.orderBy.get(n);
-					String csOrderBy = orderBy.getAsString();
-					sbClause.append(csOrderBy);
-				}
-			}
-			
-			clause.set(sbClause.toString());
-			
-			for(int nCol=0; nCol<getNbColValues(); nCol++)	// Enum all cols of the record
-			{
-				ColValue colValue = getColValueAtIndex(nCol);
-				clause.param(colValue);			
-			}
-		}
-	}
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Record name: "+ csName + "\rKey segments:" + super.toString());
+
+        return sb.toString();
+    }
+
+    boolean hasName(RecordId recordId)  // Sematic comparison
+    {
+        if(recordId != null)
+            if(recordId.csName.equalsIgnoreCase(csName))
+                return true;
+        return false;
+    }
+
+    public RecordId orderByAscending(String csName)
+    {
+        OrderSegment orderBy = new OrderSegmentAscending(csName);
+        if(this.orderBy == null)
+            this.orderBy = new ArrayList<OrderSegment>();
+        this.orderBy.add(orderBy);
+        return this;
+    }
+
+    public RecordId orderByDescending(String csName)
+    {
+        OrderSegment orderBy = new OrderSegmentDescending(csName);
+        if(this.orderBy == null)
+            this.orderBy = new ArrayList<OrderSegment>();
+        this.orderBy.add(orderBy);
+        return this;
+    }
+
+    public RecordId setWhereExpression(String csWhereExpression)
+    {
+        this.csWhereExpression = csWhereExpression;
+        return this;
+    }
+
+    private String findAndUpdateMarkers(String csQuery, ArrayList<String> arrItemNames)
+    {
+        // Replace #xx placeholdersd by ?
+        int nPosStart = csQuery.indexOf('#', 0);
+        while (nPosStart != -1)
+        {
+            String left = csQuery.substring(0, nPosStart);
+            int n = nPosStart;
+            n++; // Skip the #
+            String itemId = extractItemId(n, csQuery);
+            if (itemId != null)
+            {
+                n += itemId.length();
+                arrItemNames.add(itemId);
+                String right = csQuery.substring(n);
+                csQuery = left + "?" + right;
+            }
+
+            nPosStart = csQuery.indexOf('#', nPosStart);
+        }
+        String csQueryUpper = csQuery.toUpperCase();
+        return csQueryUpper;
+    }
+
+
+    /**
+     * @return Internal usage only
+     */
+    private String extractItemId(int nPos, String csQuery)
+    {
+        int nStart = nPos;
+        int nLength = csQuery.length();
+        char c = csQuery.charAt(nPos);
+        while (Character.isLetterOrDigit(c) || c == '_'  || c == '-')
+        {
+            nPos++;
+            if (nPos == nLength)
+            {
+                String s = csQuery.substring(nStart);
+                return s;
+            }
+
+            c = csQuery.charAt(nPos);
+        }
+        String s = csQuery.substring(nStart, nPos);
+        return s;
+    }
+
+    void buildWhereClauseAndMapParams(StringBuilder sbClause, SQLClause clause)
+    {
+        if(csWhereExpression != null)   // We specified a custom where expression
+        {
+            ArrayList<String> itemNames = new ArrayList<String>();
+            String csQueryUpper = findAndUpdateMarkers(csWhereExpression, itemNames);
+            sbClause.append(" where " + csQueryUpper);
+
+            clause.set(sbClause.toString());
+            for(int n = 0; n< itemNames.size(); n++)
+            {
+                String csColName = itemNames.get(n);
+                ColValue colValue = getColValueByNameCaseInsensitive(csColName);
+                clause.param(colValue);
+            }
+        }
+        else
+        {
+            int nNbKeys = getNbColValues();
+            for(int nKey=0; nKey<nNbKeys; nKey++)
+            {
+                if(nKey != 0)
+                    sbClause.append(" and ");
+                else
+                    sbClause.append(" where ");
+                ColValue col = getColValueAtIndex(nKey);
+                sbClause.append(col.getName() + "=? ");
+            }
+
+            if(orderBy != null)
+            {
+                sbClause.append(" order by ");
+                for(int n = 0; n< orderBy.size(); n++)
+                {
+                    if(n != 0)
+                        sbClause.append(" and ");
+
+                    OrderSegment orderBy = this.orderBy.get(n);
+                    String csOrderBy = orderBy.getAsString();
+                    sbClause.append(csOrderBy);
+                }
+            }
+
+            clause.set(sbClause.toString());
+
+            for(int nCol=0; nCol<getNbColValues(); nCol++)  // Enum all cols of the record
+            {
+                ColValue colValue = getColValueAtIndex(nCol);
+                clause.param(colValue);
+            }
+        }
+    }
 }

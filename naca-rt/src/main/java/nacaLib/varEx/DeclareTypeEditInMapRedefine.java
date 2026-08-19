@@ -12,23 +12,23 @@ package nacaLib.varEx;
  */
 public class DeclareTypeEditInMapRedefine extends DeclareTypeBase
 {
-	public DeclareTypeEditInMapRedefine()
-	{
-	}
+    public DeclareTypeEditInMapRedefine()
+    {
+    }
 
-	public void set(VarLevel varLevel)
-	{
-		super.set(varLevel);
-	}
+    public void set(VarLevel varLevel)
+    {
+        super.set(varLevel);
+    }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = new VarDefEditInMapRedefine(varDefParent, this);
-		return varDef;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = new VarDefEditInMapRedefine(varDefParent, this);
+        return varDef;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 }

@@ -16,7 +16,8 @@ public final class LegacyFileDescriptorLengthDependencyFixture
     }
     protected void DoExport()
     {
-        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptorDepending " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())
+        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptorDepending "
+            + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName())
             + " = declare.fileDescriptorDepending(");
         generate.LegacyLanguageRenderer.writeWord(this, fileDescriptor.getFormattedName() + ", ");
         generate.LegacyLanguageRenderer.writeWord(this, generate.LegacyDataRenderer.renderReference(lenghtDep, getLine()) + ") ;");

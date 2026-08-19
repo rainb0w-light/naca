@@ -8,11 +8,11 @@ package nacaLib.varEx;
 
 public class ComparisonMode
 {
-	public static ComparisonMode Ebcdic = new ComparisonMode();
-	public static ComparisonMode Unicode = new ComparisonMode();
-	public static ComparisonMode UnicodeOrEbcdic = new ComparisonMode();
-	
-	private ComparisonMode()
-	{
-	}
+    public static ComparisonMode Ebcdic = new ComparisonMode();
+    public static ComparisonMode Unicode = new ComparisonMode();
+    public static ComparisonMode UnicodeOrEbcdic = new ComparisonMode();
+
+    private ComparisonMode()
+    {
+    }
 }

@@ -20,55 +20,55 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 
 public class CheckServiceServlet extends BaseCheckServiceServlet
 {
-	private static final long serialVersionUID = 1L;
-	private OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance();
+    private static final long serialVersionUID = 1L;
+    private OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance();
 
-	protected String getServiceName()
-	{
-		return "NACA - " + resourceManager.getServerName();
-	}
-	
-	protected boolean getServiceStatus(HttpServletRequest req, StringBuffer errCode)
-	{
-		if(BaseResourceManager.isInUpdateMode())
-		{
-			errCode.append("Application is in update mode");
-			return true;
-		}
+    protected String getServiceName()
+    {
+        return "NACA - " + resourceManager.getServerName();
+    }
 
-		CalendarOpenState openState = BaseResourceManager.getAppOpenState();
-		if(openState != CalendarOpenState.AppOpened)
-		{
-			errCode.append("Application closed");
-			return true;
-		}
-	
-		OnlineSession session = new OnlineSession(false);
-		BaseProgramLoader loader = BaseProgramLoader.GetProgramLoaderInstance() ;
-		BaseEnvironment env = loader.GetEnvironment(session, null, null);
-		
-		try
-		{
-			//env.getSQLConnection();
-			//env.commitSQL();
-			//env.releaseSQLConnection();
-			
-			DbConnectionBase connection = env.getNewSQLConnection();
-			env.resetSession();			
-			if (connection == null)
-			{
-				errCode.append("Problem access database");
-				return false;
-			}
-		}
-		catch (Exception ex)
-		{
-			env.resetSession();
-			errCode.append("Problem access database");
-			return false;
-		}
+    protected boolean getServiceStatus(HttpServletRequest req, StringBuffer errCode)
+    {
+        if(BaseResourceManager.isInUpdateMode())
+        {
+            errCode.append("Application is in update mode");
+            return true;
+        }
 
-		errCode.append("Application ok");
-		return true;
-	}
+        CalendarOpenState openState = BaseResourceManager.getAppOpenState();
+        if(openState != CalendarOpenState.AppOpened)
+        {
+            errCode.append("Application closed");
+            return true;
+        }
+
+        OnlineSession session = new OnlineSession(false);
+        BaseProgramLoader loader = BaseProgramLoader.GetProgramLoaderInstance() ;
+        BaseEnvironment env = loader.GetEnvironment(session, null, null);
+
+        try
+        {
+            //env.getSQLConnection();
+            //env.commitSQL();
+            //env.releaseSQLConnection();
+
+            DbConnectionBase connection = env.getNewSQLConnection();
+            env.resetSession();
+            if (connection == null)
+            {
+                errCode.append("Problem access database");
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            env.resetSession();
+            errCode.append("Problem access database");
+            return false;
+        }
+
+        errCode.append("Application ok");
+        return true;
+    }
 }

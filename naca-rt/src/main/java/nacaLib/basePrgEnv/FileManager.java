@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -21,57 +21,57 @@ import java.util.Iterator;
  */
 public class FileManager
 {
-	FileManager()
-	{
-		hashFileManagerEntry = new Hashtable<String, FileManagerEntry>();
-	}
-	
-	FileManagerEntry createFileManagerEntry(String csLogicalName)
-	{
-		FileManagerEntry entry = new FileManagerEntry();
-		hashFileManagerEntry.put(csLogicalName, entry);
-		return entry;
-	}
-	
-	public FileManagerEntry getFileManagerEntry(String csLogicalName)
-	{
-		FileManagerEntry entry = hashFileManagerEntry.get(csLogicalName);
-		if(entry == null)
-			entry = createFileManagerEntry(csLogicalName);
-		return entry;
-	}
-	
-	public void autoCloseOpenFile()
-	{
-		if(hashFileManagerEntry != null)
-		{
-			Collection<FileManagerEntry> col = hashFileManagerEntry.values();
-			Iterator<FileManagerEntry> iter = col.iterator();
-			while(iter.hasNext())
-			{
-				FileManagerEntry fileManagerEntry = iter.next();
-				String cs = fileManagerEntry.dumpRWStat();
-				System.out.println(cs);
-				fileManagerEntry.autoClose();
-			}
-			hashFileManagerEntry.clear();
-		}
-	}
-	
-	
-	public void autoFlushOpenFile()
-	{
-		if(hashFileManagerEntry != null)
-		{
-			Collection<FileManagerEntry> col = hashFileManagerEntry.values();
-			Iterator<FileManagerEntry> iter = col.iterator();
-			while(iter.hasNext())
-			{
-				FileManagerEntry fileManagerEntry = iter.next();
-				fileManagerEntry.autoFlush();
-			}
-		}
-	}
+    FileManager()
+    {
+        hashFileManagerEntry = new Hashtable<String, FileManagerEntry>();
+    }
 
-	private Hashtable<String, FileManagerEntry> hashFileManagerEntry = null;  
+    FileManagerEntry createFileManagerEntry(String csLogicalName)
+    {
+        FileManagerEntry entry = new FileManagerEntry();
+        hashFileManagerEntry.put(csLogicalName, entry);
+        return entry;
+    }
+
+    public FileManagerEntry getFileManagerEntry(String csLogicalName)
+    {
+        FileManagerEntry entry = hashFileManagerEntry.get(csLogicalName);
+        if(entry == null)
+            entry = createFileManagerEntry(csLogicalName);
+        return entry;
+    }
+
+    public void autoCloseOpenFile()
+    {
+        if(hashFileManagerEntry != null)
+        {
+            Collection<FileManagerEntry> col = hashFileManagerEntry.values();
+            Iterator<FileManagerEntry> iter = col.iterator();
+            while(iter.hasNext())
+            {
+                FileManagerEntry fileManagerEntry = iter.next();
+                String cs = fileManagerEntry.dumpRWStat();
+                System.out.println(cs);
+                fileManagerEntry.autoClose();
+            }
+            hashFileManagerEntry.clear();
+        }
+    }
+
+
+    public void autoFlushOpenFile()
+    {
+        if(hashFileManagerEntry != null)
+        {
+            Collection<FileManagerEntry> col = hashFileManagerEntry.values();
+            Iterator<FileManagerEntry> iter = col.iterator();
+            while(iter.hasNext())
+            {
+                FileManagerEntry fileManagerEntry = iter.next();
+                fileManagerEntry.autoFlush();
+            }
+        }
+    }
+
+    private Hashtable<String, FileManagerEntry> hashFileManagerEntry = null;
 }

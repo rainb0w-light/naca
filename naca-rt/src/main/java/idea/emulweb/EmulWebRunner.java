@@ -37,324 +37,330 @@ import org.w3c.dom.Element;
 
 public class EmulWebRunner extends BaseCloseMBean
 {
-	EmulWebRunner()
-	{
-		super("EmulWebRunner", "EmulWebRunner executor");
-	}
+    EmulWebRunner()
+    {
+        super("EmulWebRunner", "EmulWebRunner executor");
+    }
 
-	void run(String[] args)
-	{
-		String csINIFilePath = "NacaRT.cfg" ;
-		if (args.length > 0)
-		{
-			csINIFilePath = args[0] ;
-		}
+    void run(String[] args)
+    {
+        String csINIFilePath = "NacaRT.cfg" ;
+        if (args.length > 0)
+        {
+            csINIFilePath = args[0] ;
+        }
 
-		ReadParams(args) ;
+        ReadParams(args) ;
 
-		OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
+        OnlineResourceManager resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
 
-//		if (args.length > 1)
-//		{
-//			String csAppliPath = args[1] ;
-//			if (!csAppliPath.endsWith("\\") && !csAppliPath.endsWith("/"))
-//			{
-//				csAppliPath += "/" ;
-//			}
-//			ResourceManager.setApplicationRootPath(csAppliPath) ;
-//		}
+//      if (args.length > 1)
+//      {
+//          String csAppliPath = args[1] ;
+//          if (!csAppliPath.endsWith("\\") && !csAppliPath.endsWith("/"))
+//          {
+//              csAppliPath += "/" ;
+//          }
+//          ResourceManager.setApplicationRootPath(csAppliPath) ;
+//      }
 
-		if (ms_bPlayAllScenario)
-		{
-			File dir = new File(resourceManager.getScenarioDir()) ;
-			File lst[] = dir.listFiles(new ActionScenarioList.XMLFilter()) ;
-			if (lst != null)
-			{
-				for (int i=0; i<lst.length; i++)
-				{
-					File file = lst[i] ;
-					if (file.isFile())
-					{
-						Document test = XMLUtil.LoadXML(file) ;
-						if (test != null)
-						{
-							Element e = test.getDocumentElement() ;
-							String name = e.getNodeName() ;
-							if (name.equalsIgnoreCase("ST3270Catch") || name.equalsIgnoreCase("datarecord"))
-							{
-								String filename = file.getName() ;
-								System.out.println("Starting scenarion "+filename+"...") ;
-								String scepath = resourceManager.getScenarioDir() + "/" + filename ;
-								OnlineSession appSession = new OnlineSession(false) ;
-								appSession.SetScenario(scepath) ;
-								appSession.setCheckScenario(ms_bCheckScenario);
-								PlayScenario(appSession, resourceManager, ms_bOutputExport) ;
-								System.out.println("Completed.") ;
-							}
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			ArrayList<ThreadEmulWeb> threads = new ArrayList<ThreadEmulWeb>();
-			// Creates threads
-			ThreadSafeCounter counter = new ThreadSafeCounter(ms_nNbThreads);
-			for(int n=0; n<ms_nNbThreads; n++)
-			{
-				EmulWebThreadedRun emulWebThreadedRun = new EmulWebThreadedRun(this, resourceManager, ms_nbLoops, ms_bCheckScenario, ms_bOutputExport);
-				ThreadEmulWeb threadEmulWeb = new ThreadEmulWeb(counter, emulWebThreadedRun);
-				threads.add(threadEmulWeb);
-			}
+        if (ms_bPlayAllScenario)
+        {
+            File dir = new File(resourceManager.getScenarioDir()) ;
+            File lst[] = dir.listFiles(new ActionScenarioList.XMLFilter()) ;
+            if (lst != null)
+            {
+                for (int i=0; i<lst.length; i++)
+                {
+                    File file = lst[i] ;
+                    if (file.isFile())
+                    {
+                        Document test = XMLUtil.LoadXML(file) ;
+                        if (test != null)
+                        {
+                            Element e = test.getDocumentElement() ;
+                            String name = e.getNodeName() ;
+                            if (name.equalsIgnoreCase("ST3270Catch") || name.equalsIgnoreCase("datarecord"))
+                            {
+                                String filename = file.getName() ;
+                                System.out.println("Starting scenarion "+filename+"...") ;
+                                String scepath = resourceManager.getScenarioDir() + "/" + filename ;
+                                OnlineSession appSession = new OnlineSession(false) ;
+                                appSession.SetScenario(scepath) ;
+                                appSession.setCheckScenario(ms_bCheckScenario);
+                                PlayScenario(appSession, resourceManager, ms_bOutputExport) ;
+                                System.out.println("Completed.") ;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            ArrayList<ThreadEmulWeb> threads = new ArrayList<ThreadEmulWeb>();
+            // Creates threads
+            ThreadSafeCounter counter = new ThreadSafeCounter(ms_nNbThreads);
+            for(int n=0; n<ms_nNbThreads; n++)
+            {
+                EmulWebThreadedRun emulWebThreadedRun = new EmulWebThreadedRun(
+                    this,
+                    resourceManager,
+                    ms_nbLoops,
+                    ms_bCheckScenario,
+                    ms_bOutputExport);
+                ThreadEmulWeb threadEmulWeb = new ThreadEmulWeb(counter, emulWebThreadedRun);
+                threads.add(threadEmulWeb);
+            }
 
-			StopWatch sw = new StopWatch();
-			// Starts threads
-			for(int n=0; n<ms_nNbThreads; n++)
-			{
-				ThreadEmulWeb thread = threads.get(n);
-				thread.start();
-			}
+            StopWatch sw = new StopWatch();
+            // Starts threads
+            for(int n=0; n<ms_nNbThreads; n++)
+            {
+                ThreadEmulWeb thread = threads.get(n);
+                thread.start();
+            }
 
-			// Wait until all threads are over
-			while(counter.get() > 0)
-			{
-				try
-				{
-					Thread.sleep(1000L);
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
+            // Wait until all threads are over
+            while(counter.get() > 0)
+            {
+                try
+                {
+                    Thread.sleep(1000L);
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
 
 //
-//			CSession session = new CSession() ;
-//			session.setCheckScenario(ms_bCheckScenario);
-//			for (int i=0; i<ms_nbLoops; i++)
-//			{
-//				StopWatch sw = new StopWatch();
-//				PlayScenario(session, resourceManager, ms_bOutputExport) ;
-//				Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
-//				waitUntilNextLoopEnabled(i);
-//				session.reset();
-//			}
+//          CSession session = new CSession() ;
+//          session.setCheckScenario(ms_bCheckScenario);
+//          for (int i=0; i<ms_nbLoops; i++)
+//          {
+//              StopWatch sw = new StopWatch();
+//              PlayScenario(session, resourceManager, ms_bOutputExport) ;
+//              Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
+//              waitUntilNextLoopEnabled(i);
+//              session.reset();
+//          }
 //
-			Log.logCritical("" + ms_nbLoops + "Scenarios loops executed in by " + ms_nNbThreads + " in " + sw.getElapsedTimeReset() + " ms");
-			Log.logCritical("EmulWeb finished");
+            Log.logCritical("" + ms_nbLoops + "Scenarios loops executed in by " + ms_nNbThreads + " in " + sw.getElapsedTimeReset()
+                + " ms");
+            Log.logCritical("EmulWeb finished");
 
 
-		}
-//		else
-//		{
-//			CEmulMapFieldLoader loader = new CEmulMapFieldLoader() ;
-//			session.setInputWrapper(loader);
-//			ActionCompat action = new ActionCompat() ;
+        }
+//      else
+//      {
+//          CEmulMapFieldLoader loader = new CEmulMapFieldLoader() ;
+//          session.setInputWrapper(loader);
+//          ActionCompat action = new ActionCompat() ;
 //
-//			action.RunClientRequest(session);
-//			Document xmlOutput = session.getXMLOutput();
-//			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.xml") ;
-//			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.html") ;
+//          action.RunClientRequest(session);
+//          Document xmlOutput = session.getXMLOutput();
+//          XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.xml") ;
+//          renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\1-login.html") ;
 //
-//			loader.reset() ;
-//			loader.setIDPage("rs01a10");
-//			loader.setFieldValue("cdstini", "P10", false);
-//			loader.setFieldValue("cdcenpi", "930", false);
-//			loader.setFieldValue("recoll", "BM", true);
-//			loader.setFieldValue("passcol", "toto", true);
-////			loader.setFieldValue("passcol", "DOM", true);
-//			loader.setFieldValue("newpass", "", false);
-//			loader.setKeyPressed(KeyPressed.ENTER);
-//			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;
-//			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.xml") ;
-//			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.html") ;
+//          loader.reset() ;
+//          loader.setIDPage("rs01a10");
+//          loader.setFieldValue("cdstini", "P10", false);
+//          loader.setFieldValue("cdcenpi", "930", false);
+//          loader.setFieldValue("recoll", "BM", true);
+//          loader.setFieldValue("passcol", "toto", true);
+////            loader.setFieldValue("passcol", "DOM", true);
+//          loader.setFieldValue("newpass", "", false);
+//          loader.setKeyPressed(KeyPressed.ENTER);
+//          action.RunClientRequest(session);
+//          xmlOutput = session.getXMLOutput() ;
+//          XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.xml") ;
+//          renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\2-menu.html") ;
 //
-//			loader.reset() ;
-//			loader.setIDPage("rs01a11");
-//			loader.setFieldValue("mapchoi", "78", true);
-//			loader.setKeyPressed(KeyPressed.ENTER);
-//			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;
-//			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.xml") ;
-//			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.html") ;
+//          loader.reset() ;
+//          loader.setIDPage("rs01a11");
+//          loader.setFieldValue("mapchoi", "78", true);
+//          loader.setKeyPressed(KeyPressed.ENTER);
+//          action.RunClientRequest(session);
+//          xmlOutput = session.getXMLOutput() ;
+//          XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.xml") ;
+//          renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\3-rs78m00.html") ;
 //
-//			loader.reset() ;
-//			loader.setIDPage("rs78a00");
-//			loader.setFieldValue("mapchoi", "04", true);
-//			loader.setKeyPressed(KeyPressed.ENTER);
-//			action.RunClientRequest(session);
-//			xmlOutput = session.getXMLOutput() ;
-//			XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.xml") ;
-//			renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.html") ;
-//		}
-	}
+//          loader.reset() ;
+//          loader.setIDPage("rs78a00");
+//          loader.setFieldValue("mapchoi", "04", true);
+//          loader.setKeyPressed(KeyPressed.ENTER);
+//          action.RunClientRequest(session);
+//          xmlOutput = session.getXMLOutput() ;
+//          XMLUtil.ExportXML(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.xml") ;
+//          renderOutput(xmlOutput, "D:\\Dev\\NacaRunTime\\idea\\web\\4-rs78m02.html") ;
+//      }
+    }
 
-	/**
-	 * @param args
-	 */
-	private static void ReadParams(String[] args)
-	{
-		for (int i=1; i<args.length; i++)
-		{
-			String cs = args[i] ;
-			if (cs.startsWith("-loop="))
-			{
-				int posEq = cs.indexOf('=') ;
-				String val = cs.substring(posEq+1);
-				ms_nbLoops = Integer.parseInt(val) ;
-			}
-			if (cs.startsWith("-nbThreads="))
-			{
-				int posEq = cs.indexOf('=') ;
-				String val = cs.substring(posEq+1);
-				ms_nNbThreads = Integer.parseInt(val) ;
-			}
-			if (cs.equalsIgnoreCase("-playall"))
-			{
-				ms_bPlayAllScenario = true ;
-			}
-			if(cs.equalsIgnoreCase("-noOutputExport"))
-			{
-				ms_bOutputExport = false;
-			}
-			if(cs.equalsIgnoreCase("-noCheckScenario"))
-				ms_bCheckScenario = false;
-		}
+    /**
+     * @param args
+     */
+    private static void ReadParams(String[] args)
+    {
+        for (int i=1; i<args.length; i++)
+        {
+            String cs = args[i] ;
+            if (cs.startsWith("-loop="))
+            {
+                int posEq = cs.indexOf('=') ;
+                String val = cs.substring(posEq+1);
+                ms_nbLoops = Integer.parseInt(val) ;
+            }
+            if (cs.startsWith("-nbThreads="))
+            {
+                int posEq = cs.indexOf('=') ;
+                String val = cs.substring(posEq+1);
+                ms_nNbThreads = Integer.parseInt(val) ;
+            }
+            if (cs.equalsIgnoreCase("-playall"))
+            {
+                ms_bPlayAllScenario = true ;
+            }
+            if(cs.equalsIgnoreCase("-noOutputExport"))
+            {
+                ms_bOutputExport = false;
+            }
+            if(cs.equalsIgnoreCase("-noCheckScenario"))
+                ms_bCheckScenario = false;
+        }
 
-	}
-	protected static int ms_nbLoops = 1 ;
-	protected static int ms_nNbThreads = 1;
-	protected static boolean ms_bPlayAllScenario = false ;
-	protected static boolean ms_bDeclareSemanticContext = true;
-	protected static boolean ms_bOutputExport = true;
-	protected static boolean ms_bCheckScenario = true;
+    }
+    protected static int ms_nbLoops = 1 ;
+    protected static int ms_nNbThreads = 1;
+    protected static boolean ms_bPlayAllScenario = false ;
+    protected static boolean ms_bDeclareSemanticContext = true;
+    protected static boolean ms_bOutputExport = true;
+    protected static boolean ms_bCheckScenario = true;
 
-	/**
-	 * @param docScenario
-	 */
-	public static void PlayScenario(OnlineSession session, OnlineResourceManager resourceManager, boolean bExportOutput)
-	{
-		try
-		{
-			CScenarioPlayer player = session.getScenarioPlayer() ;
-			if (player == null)
-			{
-				return  ;
-			}
+    /**
+     * @param docScenario
+     */
+    public static void PlayScenario(OnlineSession session, OnlineResourceManager resourceManager, boolean bExportOutput)
+    {
+        try
+        {
+            CScenarioPlayer player = session.getScenarioPlayer() ;
+            if (player == null)
+            {
+                return  ;
+            }
 
-			System.out.println("Start") ;
-			player.rewindScenario();
+            System.out.println("Start") ;
+            player.rewindScenario();
 
-			ActionCompat action = new ActionCompat() ;
-			CEmulMapFieldLoader loader = new CEmulMapFieldLoader() ;
-			session.setInputWrapper(loader);
+            ActionCompat action = new ActionCompat() ;
+            CEmulMapFieldLoader loader = new CEmulMapFieldLoader() ;
+            session.setInputWrapper(loader);
 
-			action.runClientRequestWithRender(resourceManager, player, session, bExportOutput);
+            action.runClientRequestWithRender(resourceManager, player, session, bExportOutput);
 
-//			ProgramSequencer prgseq = ProgramSequencer.GetInstance() ;
-//			prgseq.ResetSession(session);
-//			action.RunClientRequest(session) ;
-//			Document xmlOutput = session.getXMLOutput();
-//			String page = player.getPageNameFromXMLOutput(xmlOutput) ;
-//			String csDir = resourceManager.getScenarioDir() ;
-//			String csDirOut = resourceManager.getOutputDir() ;
-//			if (bExportOutput)
-//			{
-//				String filePattern = csDir + "/"+0+"-"+page ;
-//				String filePatternOut = csDirOut + "/"+0+"-"+page ;
-//				XMLUtil.ExportXML(xmlOutput, filePattern+".xml") ;
-//				renderOutput(xmlOutput, filePatternOut+".html") ;
-//				renderOutput(xmlOutput, csDirOut + "/output.html") ;
-//				System.out.println("Current page : " + page) ;
-//			}
-
-
-			int i=0 ;
-			String csDirOut = resourceManager.getOutputDir() ;
-			while (player.isPlayingScenario())
-			{
-				//Document xmlData = session.getXMLData() ;
-				//player.CheckOutput(xmlOutput) ;
-
-				Document data = player.getCurrentPage() ;
-
-				i=player.nextPage() ;
-				action.RunClientRequest(session, data) ;
-
-				Document xmlOutput = session.getXMLOutput();
-				if (bExportOutput)
-				{
-					String page = player.getPageNameFromXMLOutput(xmlOutput) ;
-					String filePatternOut = csDirOut + "/"+i+"-" +page ;
-					XMLUtil.ExportXML(xmlOutput, filePatternOut+".xml") ;
-					renderOutput(xmlOutput, filePatternOut+".html") ;
-					renderOutput(xmlOutput, csDirOut + "/output.html") ;
-					System.out.println("Current page : " + page) ;
-				}
-			}
-		}
-		catch (AbortSessionException e)
-		{
-			e.printStackTrace();
-			TempCacheLocator.getTLSTempCache().popCurrentProgram();
-			return ;
-		}
-
-	}
-
-	/**
-	 * @param eForm
-	 * @param eCycle
-	 */
-
-	/**
-	 * @param eCycle
-	 * @return
-	 */
-
-	/**
-	 * @param xmlOutput
-	 * @return
-	 */
+//          ProgramSequencer prgseq = ProgramSequencer.GetInstance() ;
+//          prgseq.ResetSession(session);
+//          action.RunClientRequest(session) ;
+//          Document xmlOutput = session.getXMLOutput();
+//          String page = player.getPageNameFromXMLOutput(xmlOutput) ;
+//          String csDir = resourceManager.getScenarioDir() ;
+//          String csDirOut = resourceManager.getOutputDir() ;
+//          if (bExportOutput)
+//          {
+//              String filePattern = csDir + "/"+0+"-"+page ;
+//              String filePatternOut = csDirOut + "/"+0+"-"+page ;
+//              XMLUtil.ExportXML(xmlOutput, filePattern+".xml") ;
+//              renderOutput(xmlOutput, filePatternOut+".html") ;
+//              renderOutput(xmlOutput, csDirOut + "/output.html") ;
+//              System.out.println("Current page : " + page) ;
+//          }
 
 
-	private static void renderOutput(Document xmlOutput, String filename)
-	{
-		try
-		{
-			FileOutputStream file = new FileOutputStream(filename);
-			if (xmlOutput == null)
-			{
-			}
-			else
-			{
-				OnlineResourceManager resource = OnlineResourceManagerFactory.GetInstance() ;
-				XSLTransformer xformer = resource.getXSLTransformer() ;
-				if (!xformer.doTransform(xmlOutput, file))
-				{
-				}
-				//XMLUtil.ExportXML(xmlOutput, "output.xml") ;
-//				resource.returnXSLTransformer(xformer);
-			}
-			file.close();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+            int i=0 ;
+            String csDirOut = resourceManager.getOutputDir() ;
+            while (player.isPlayingScenario())
+            {
+                //Document xmlData = session.getXMLData() ;
+                //player.CheckOutput(xmlOutput) ;
+
+                Document data = player.getCurrentPage() ;
+
+                i=player.nextPage() ;
+                action.RunClientRequest(session, data) ;
+
+                Document xmlOutput = session.getXMLOutput();
+                if (bExportOutput)
+                {
+                    String page = player.getPageNameFromXMLOutput(xmlOutput) ;
+                    String filePatternOut = csDirOut + "/"+i+"-" +page ;
+                    XMLUtil.ExportXML(xmlOutput, filePatternOut+".xml") ;
+                    renderOutput(xmlOutput, filePatternOut+".html") ;
+                    renderOutput(xmlOutput, csDirOut + "/output.html") ;
+                    System.out.println("Current page : " + page) ;
+                }
+            }
+        }
+        catch (AbortSessionException e)
+        {
+            e.printStackTrace();
+            TempCacheLocator.getTLSTempCache().popCurrentProgram();
+            return ;
+        }
+
+    }
+
+    /**
+     * @param eForm
+     * @param eCycle
+     */
+
+    /**
+     * @param eCycle
+     * @return
+     */
+
+    /**
+     * @param xmlOutput
+     * @return
+     */
+
+
+    private static void renderOutput(Document xmlOutput, String filename)
+    {
+        try
+        {
+            FileOutputStream file = new FileOutputStream(filename);
+            if (xmlOutput == null)
+            {
+            }
+            else
+            {
+                OnlineResourceManager resource = OnlineResourceManagerFactory.GetInstance() ;
+                XSLTransformer xformer = resource.getXSLTransformer() ;
+                if (!xformer.doTransform(xmlOutput, file))
+                {
+                }
+                //XMLUtil.ExportXML(xmlOutput, "output.xml") ;
+//              resource.returnXSLTransformer(xformer);
+            }
+            file.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     protected void buildDynamicMBeanInfo()
     {
-    	addAttribute("EnableNextLoop", getClass(), "EnableNextLoop", Boolean.class);
-    	addAttribute("EnableRemainingLoops", getClass(), "EnableRemainingLoops", Boolean.class);
-//    	addOperation("Set or reset Enable", getClass(), "setEnable", Boolean.class);	//Boolean.TYPE);
+        addAttribute("EnableNextLoop", getClass(), "EnableNextLoop", Boolean.class);
+        addAttribute("EnableRemainingLoops", getClass(), "EnableRemainingLoops", Boolean.class);
+//      addOperation("Set or reset Enable", getClass(), "setEnable", Boolean.class);    //Boolean.TYPE);
 //        addOperation("Set critical level", getClass(), "setCritical");
 //        addOperation("Set Important level", getClass(), "setImportant");
 //        addOperation("Set Normal level", getClass(), "setNormal");
@@ -364,46 +370,46 @@ public class EmulWebRunner extends BaseCloseMBean
 
     }
 
-	public Boolean getEnableNextLoop()
-	{
-		return bNextLoopEnabled;
-	}
+    public Boolean getEnableNextLoop()
+    {
+        return bNextLoopEnabled;
+    }
 
-	public void setEnableNextLoop(Boolean b)
-	{
-		this.bNextLoopEnabled = b;
-	}
+    public void setEnableNextLoop(Boolean b)
+    {
+        this.bNextLoopEnabled = b;
+    }
 
-	public void setEnableRemainingLoops(Boolean b)
-	{
-		this.bEnableRemainingLoops = b;
-	}
+    public void setEnableRemainingLoops(Boolean b)
+    {
+        this.bEnableRemainingLoops = b;
+    }
 
-	public Boolean getEnableRemainingLoops()
-	{
-		return bEnableRemainingLoops;
-	}
+    public Boolean getEnableRemainingLoops()
+    {
+        return bEnableRemainingLoops;
+    }
 //
-//	private void waitUntilNextLoopEnabled(int i)
-//	{
-//		if(!bEnableRemainingLoops)
-//		{
-//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
-//			while(!bNextLoopEnabled)
-//			{
-//				try
-//				{
-//					Thread.sleep(1000L);
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//			bNextLoopEnabled= false;
-//		}
-//	}
+//  private void waitUntilNextLoopEnabled(int i)
+//  {
+//      if(!bEnableRemainingLoops)
+//      {
+//          Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
+//          while(!bNextLoopEnabled)
+//          {
+//              try
+//              {
+//                  Thread.sleep(1000L);
+//              }
+//              catch (InterruptedException e)
+//              {
+//                  e.printStackTrace();
+//              }
+//          }
+//          bNextLoopEnabled= false;
+//      }
+//  }
 
-	private boolean bNextLoopEnabled = false;
-	private boolean bEnableRemainingLoops = false;
+    private boolean bNextLoopEnabled = false;
+    private boolean bEnableRemainingLoops = false;
 }

@@ -14,78 +14,78 @@ import jlib.misc.AsciiEbcdicConverter;
  */
 public class VarNumIntSignComp0 extends VarNum
 {
-	VarNumIntSignComp0(DeclareType9 declareType9)
-	{
-		super(declareType9);
-	}
+    VarNumIntSignComp0(DeclareType9 declareType9)
+    {
+        super(declareType9);
+    }
 
-	protected VarNumIntSignComp0()
-	{
-		super();
-	}
+    protected VarNumIntSignComp0()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarNumIntSignComp0 v = new VarNumIntSignComp0();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumIntSignComp0 v = new VarNumIntSignComp0();
+        return v;
+    }
 
-	public int compareTo(ComparisonMode mode, String csValue)
-	{
-		double dValue = 0;
-		try
-		{
-			dValue = Double.valueOf(csValue).doubleValue();
-		}
-		catch (Exception ex)
-		{
-		}
-		return compareTo(dValue);
-	}
+    public int compareTo(ComparisonMode mode, String csValue)
+    {
+        double dValue = 0;
+        try
+        {
+            dValue = Double.valueOf(csValue).doubleValue();
+        }
+        catch (Exception ex)
+        {
+        }
+        return compareTo(dValue);
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		byte tByte[]  = doConvertUnicodeToEbcdic(tChars);
-		// Do not convert sign byte, as it has no ebcdic encoding value
-		int nPosSign = tChars.length - 1;
-		tByte[nPosSign] = (byte)tChars[nPosSign];
-		return tByte;
-	}
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        byte tByte[]  = doConvertUnicodeToEbcdic(tChars);
+        // Do not convert sign byte, as it has no ebcdic encoding value
+        int nPosSign = tChars.length - 1;
+        tByte[nPosSign] = (byte)tChars[nPosSign];
+        return tByte;
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		char t [] = AsciiEbcdicConverter.convertEbcdicToUnicode(tBytes);
-		int nLength = t.length;
-		if(nLength > 0)
-		{
-			byte byt = tBytes[nLength-1];
-			int n = byt;
-			if(byt < 0)
-				n += 256;
-			t[nLength-1] = (char)n;
-		}
-		return t;
-	}
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        char t [] = AsciiEbcdicConverter.convertEbcdicToUnicode(tBytes);
+        int nLength = t.length;
+        if(nLength > 0)
+        {
+            byte byt = tBytes[nLength-1];
+            int n = byt;
+            if(byt < 0)
+                n += 256;
+            t[nLength-1] = (char)n;
+        }
+        return t;
+    }
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumIntSignComp0;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarNumIntSignComp0;
+    }
 }

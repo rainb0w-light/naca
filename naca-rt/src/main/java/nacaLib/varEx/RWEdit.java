@@ -13,7 +13,7 @@ package nacaLib.varEx;
  */
 public class RWEdit
 {
-	RWEdit()
-	{
-	}
+    RWEdit()
+    {
+    }
 }

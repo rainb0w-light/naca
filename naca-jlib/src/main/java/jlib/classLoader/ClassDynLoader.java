@@ -23,174 +23,175 @@ import jlib.log.Log;
 
 public class ClassDynLoader extends ClassLoader
 {
-	protected ClassLoader defaultClassLoader = null ;
-	protected static Hashtable<String, CoupleCodeLoader> ms_hashByName = new Hashtable<String, CoupleCodeLoader>();
-	private static int 	ms_nActive = 0;
-	protected ArrayList<String> arrPaths = null;
-	protected JarEntries jarEntries = null;
-	protected boolean iscanLoadJar = false;
-	protected boolean bCanLoadClass = false;
+    protected ClassLoader defaultClassLoader = null ;
+    protected static Hashtable<String, CoupleCodeLoader> ms_hashByName = new Hashtable<String, CoupleCodeLoader>();
+    private static int  ms_nActive = 0;
+    protected ArrayList<String> arrPaths = null;
+    protected JarEntries jarEntries = null;
+    protected boolean iscanLoadJar = false;
+    protected boolean bCanLoadClass = false;
     protected String csCurrentClassName = null;
 
-	public ClassDynLoader()
-	{
-		super();
-		defaultClassLoader = getClass().getClassLoader() ;
-		Log.logDebug("ClassDynLoader created: " +toString());
-		ms_nActive++;
-	}
+    public ClassDynLoader()
+    {
+        super();
+        defaultClassLoader = getClass().getClassLoader() ;
+        Log.logDebug("ClassDynLoader created: " +toString());
+        ms_nActive++;
+    }
 
-	public void finalize()
-	{
-		Log.logDebug("ClassDynLoader finalized: " +toString());
-		ms_nActive--;
-	}
+    public void finalize()
+    {
+        Log.logDebug("ClassDynLoader finalized: " +toString());
+        ms_nActive--;
+    }
 
-	public ClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
-	{
-		this.arrPaths = arrPaths;
-		defaultClassLoader = getClass().getClassLoader() ;
-		addJarEntry(jarEntries, bCanLoadClass, bCanLoadJar);
-		Log.logDebug("ClassDynLoader created: " +toString());
+    public ClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
+    {
+        this.arrPaths = arrPaths;
+        defaultClassLoader = getClass().getClassLoader() ;
+        addJarEntry(jarEntries, bCanLoadClass, bCanLoadJar);
+        Log.logDebug("ClassDynLoader created: " +toString());
 
-		ms_nActive++;
-	}
+        ms_nActive++;
+    }
 
-	public void addPathURL(String csSourcePath)
-	{
-		if(arrPaths == null)
-			arrPaths = new ArrayList<String>();
-		arrPaths.add(csSourcePath);
-	}
+    public void addPathURL(String csSourcePath)
+    {
+        if(arrPaths == null)
+            arrPaths = new ArrayList<String>();
+        arrPaths.add(csSourcePath);
+    }
 
-	public void addPathURL(ArrayList<String> arrSourcePath)
-	{
-		if(arrSourcePath != null)
-		{
-			if(arrPaths == null)
-				arrPaths = new ArrayList<String>();
-			for(int n=0; n<arrSourcePath.size(); n++)
-			{
-				String csPath = arrSourcePath.get(n);
-				arrPaths.add(csPath);
-			}
-		}
-	}
+    public void addPathURL(ArrayList<String> arrSourcePath)
+    {
+        if(arrSourcePath != null)
+        {
+            if(arrPaths == null)
+                arrPaths = new ArrayList<String>();
+            for(int n=0; n<arrSourcePath.size(); n++)
+            {
+                String csPath = arrSourcePath.get(n);
+                arrPaths.add(csPath);
+            }
+        }
+    }
 
-	public void addJarEntry(JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
-	{
-		this.jarEntries = jarEntries;
-		this.bCanLoadClass = bCanLoadClass;
-		this.iscanLoadJar = bCanLoadJar;
-	}
+    public void addJarEntry(JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
+    {
+        this.jarEntries = jarEntries;
+        this.bCanLoadClass = bCanLoadClass;
+        this.iscanLoadJar = bCanLoadJar;
+    }
 
-	protected byte[] getClassFileBytes(String className)
-	{
-		byte result[] = null;
+    protected byte[] getClassFileBytes(String className)
+    {
+        byte result[] = null;
 
-		if(bCanLoadClass)
-		{
-			String clpack = className.replace('.', '/') ;
-		    for(int n=0; n<arrPaths.size(); n++)
-		{
-			String csPath = arrPaths.get(n);
-			try
-			{
-				FileInputStream fi = new FileInputStream(csPath + clpack + ".class");
-			    result = new byte[fi.available()];
-			    fi.read(result);
-			    fi.close() ;
-			    return result;
-			}
-			catch (Exception e)
-			{
-			}
-		}
-		}
+        if(bCanLoadClass)
+        {
+            String clpack = className.replace('.', '/') ;
+            for(int n=0; n<arrPaths.size(); n++)
+        {
+            String csPath = arrPaths.get(n);
+            try
+            {
+                FileInputStream fi = new FileInputStream(csPath + clpack + ".class");
+                result = new byte[fi.available()];
+                fi.read(result);
+                fi.close() ;
+                return result;
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        }
 
-		if(iscanLoadJar && jarEntries != null)
-		{
-			result = jarEntries.loadJarEntry(className);
-		}
-		return result;
-	}
+        if(iscanLoadJar && jarEntries != null)
+        {
+            result = jarEntries.loadJarEntry(className);
+        }
+        return result;
+    }
 
-	public synchronized Class doLoadClass(String csClassName)
-	{
-		inMakeNewInstance(csClassName);
-		Class cls = loadClass(csClassName);
+    public synchronized Class doLoadClass(String csClassName)
+    {
+        inMakeNewInstance(csClassName);
+        Class cls = loadClass(csClassName);
 
-		return cls;
-	}
+        return cls;
+    }
 
-	protected Class tryLoadWithPrimordialClassLoader(String csClassName)
-	{
-		try	// Check with java runtime primordial class loader
-	    {
-//			if(csClassName.equals("RS01M10"))		// && !csClassName.equals("RS01A10S"))
-//			{
-//				int gg = 0;
-//			}
-//			if(!csClassName.equals("RS01A10"))		// && !csClassName.equals("RS01A10S"))
-//		    {
-				Class classCode = defaultClassLoader.loadClass(csClassName);
-			return classCode;
-//		    }
-//			else
-//			{
-//				int gg = 0;
-//			}
-	    }
-	    catch (ClassNotFoundException e)
-	    {
-		int gg = 0;
-	    }
-	    catch (IllegalAccessError e)
-	    {
-		int gg = 0;
-	    }
-	    catch (Exception e)
-	    {
-		int gg = 0;
-	    }
-	    return null;
-	}
+    protected Class tryLoadWithPrimordialClassLoader(String csClassName)
+    {
+        try // Check with java runtime primordial class loader
+        {
+//          if(csClassName.equals("RS01M10"))       // && !csClassName.equals("RS01A10S"))
+//          {
+//              int gg = 0;
+//          }
+//          if(!csClassName.equals("RS01A10"))      // && !csClassName.equals("RS01A10S"))
+//          {
+                Class classCode = defaultClassLoader.loadClass(csClassName);
+            return classCode;
+//          }
+//          else
+//          {
+//              int gg = 0;
+//          }
+        }
+        catch (ClassNotFoundException e)
+        {
+        int gg = 0;
+        }
+        catch (IllegalAccessError e)
+        {
+        int gg = 0;
+        }
+        catch (Exception e)
+        {
+        int gg = 0;
+        }
+        return null;
+    }
 
     // This is the required version of loadClass which is called both from loadClass above and from the internal function
     // FindClassFromClass.
-	@SuppressWarnings("unchecked")
-	public Class loadClass(String csClassName)
+    @SuppressWarnings("unchecked")
+    public Class loadClass(String csClassName)
     {
-		Class classCode = null;
+        Class classCode = null;
 
-		if(csClassName == null)
-			return null;
+        if(csClassName == null)
+            return null;
 
-		Log.logDebug("ClassDynLoader.loadClass: " + csClassName + " bCanLoadClass=" + bCanLoadClass + " arrPaths=" + (arrPaths != null ? arrPaths.size() : "null"));
+        Log.logDebug("ClassDynLoader.loadClass: " + csClassName + " bCanLoadClass=" + bCanLoadClass + " arrPaths="
+            + (arrPaths != null ? arrPaths.size() : "null"));
 
-		// Try to get code from cache
-	CoupleCodeLoader couple = ms_hashByName.get(csClassName);
-		if(couple != null)
-		{
-			classCode = couple.getClassCode();
-			Log.logDebug("ClassDynLoader.loadClass: found in cache");
-			return classCode;
-		}
+        // Try to get code from cache
+    CoupleCodeLoader couple = ms_hashByName.get(csClassName);
+        if(couple != null)
+        {
+            classCode = couple.getClassCode();
+            Log.logDebug("ClassDynLoader.loadClass: found in cache");
+            return classCode;
+        }
 
-		// Try to load with priomordial loader
-		classCode = tryLoadWithPrimordialClassLoader(csClassName);
-		if(classCode != null)
-		{
-			Log.logDebug("ClassDynLoader.loadClass: loaded by primordial loader");
-			return classCode;
-		}
+        // Try to load with priomordial loader
+        classCode = tryLoadWithPrimordialClassLoader(csClassName);
+        if(classCode != null)
+        {
+            Log.logDebug("ClassDynLoader.loadClass: loaded by primordial loader");
+            return classCode;
+        }
 
         // Try to load it from our paths
         byte  arrbyteClassData[] = getClassFileBytes(csClassName);
         if (arrbyteClassData == null)
         {
-	Log.logDebug("ClassDynLoader.loadClass: class file not found for " + csClassName);
-            return null;	// Class not found
+    Log.logDebug("ClassDynLoader.loadClass: class file not found for " + csClassName);
+            return null;    // Class not found
         }
 
         // Define it (parse the class file)
@@ -200,169 +201,169 @@ public class ClassDynLoader extends ClassLoader
             throw new ClassFormatError();
         }
 
-		resolveClass(classCode);
+        resolveClass(classCode);
 
-		if(classCode != null)
-		{
-			couple = new CoupleCodeLoader(classCode, this);
-			register(csClassName, couple);
-		}
+        if(classCode != null)
+        {
+            couple = new CoupleCodeLoader(classCode, this);
+            register(csClassName, couple);
+        }
 
-		Log.logDebug("ClassDynLoader.loadClass: successfully loaded " + csClassName);
-		return classCode;
+        Log.logDebug("ClassDynLoader.loadClass: successfully loaded " + csClassName);
+        return classCode;
     }
 
     protected void inMakeNewInstance(String csCurrentClassName)
     {
-	this.csCurrentClassName = csCurrentClassName;
+    this.csCurrentClassName = csCurrentClassName;
     }
 
     protected void outMakeNewInstance()
     {
-	csCurrentClassName = null;
+    csCurrentClassName = null;
     }
 
-	Object makeNewInstance(String csClassName, Class classCode)
-	{
-		Object obj = null;
-		try
-		{
-			inMakeNewInstance(csClassName);
-			obj = classCode.newInstance();
-			if(obj != null)
-			{
-				CoupleCodeLoader couple = ms_hashByName.get(csClassName);
-				couple.addInstance(obj);
-			}
-			outMakeNewInstance();
-			return obj;
-		}
-		catch (InstantiationException e)
-		{
-			Log.logNormal("Could not instanciates " + csClassName + "; error=" + e.toString());
-			return null;
-		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch (NoClassDefFoundError e)
-		{
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+    Object makeNewInstance(String csClassName, Class classCode)
+    {
+        Object obj = null;
+        try
+        {
+            inMakeNewInstance(csClassName);
+            obj = classCode.newInstance();
+            if(obj != null)
+            {
+                CoupleCodeLoader couple = ms_hashByName.get(csClassName);
+                couple.addInstance(obj);
+            }
+            outMakeNewInstance();
+            return obj;
+        }
+        catch (InstantiationException e)
+        {
+            Log.logNormal("Could not instanciates " + csClassName + "; error=" + e.toString());
+            return null;
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NoClassDefFoundError e)
+        {
+            e.printStackTrace();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	static void removeAllInstances(String csName)
-	{
-		CoupleCodeLoader couple = ms_hashByName.get(csName);
-		if(couple != null)
-		{
-			ms_hashByName.remove(csName);
-			couple.removeAllInstances();
-			couple = null;
-			Log.logDebug("removeAllInstances: ms_hashByName contains: "+ms_nActive + " items");
-		}
-	}
+    static void removeAllInstances(String csName)
+    {
+        CoupleCodeLoader couple = ms_hashByName.get(csName);
+        if(couple != null)
+        {
+            ms_hashByName.remove(csName);
+            couple.removeAllInstances();
+            couple = null;
+            Log.logDebug("removeAllInstances: ms_hashByName contains: "+ms_nActive + " items");
+        }
+    }
 
-	protected void register(String csClassName, CoupleCodeLoader couple)
-	{
-		ms_hashByName.put(csClassName, couple);
-		Log.logDebug("register: ms_hashByName contains: " + ms_nActive + " items");
-	}
+    protected void register(String csClassName, CoupleCodeLoader couple)
+    {
+        ms_hashByName.put(csClassName, couple);
+        Log.logDebug("register: ms_hashByName contains: " + ms_nActive + " items");
+    }
 
-	protected JarEntries preloadJarEntries(String csJarFile)
-	{
-		JarEntries jarEntries = new JarEntries();
-		jarEntries.open(csJarFile, arrPaths);
-		return jarEntries;
-	}
+    protected JarEntries preloadJarEntries(String csJarFile)
+    {
+        JarEntries jarEntries = new JarEntries();
+        jarEntries.open(csJarFile, arrPaths);
+        return jarEntries;
+    }
 
-	protected Hashtable<String, byte[]> preloadJarData(String csJarFile)
-	{
-		Hashtable<String, Integer> hashFileSize = new Hashtable<String, Integer>();
+    protected Hashtable<String, byte[]> preloadJarData(String csJarFile)
+    {
+        Hashtable<String, Integer> hashFileSize = new Hashtable<String, Integer>();
 
-	    for(int n=0; n<arrPaths.size(); n++)
-	{
-		String csPath = arrPaths.get(n);
-		try
-		{
-			String csFullPathJarFile = csPath +  csJarFile;
-			    ZipFile zipFile = new ZipFile(csFullPathJarFile);
-			    Enumeration e = zipFile.entries();
-			    while (e.hasMoreElements())
-				{
-				ZipEntry entry = (ZipEntry)e.nextElement();
-				hashFileSize.put(entry.getName(), Integer.valueOf((int)entry.getSize()));
-				}
-				zipFile.close();
-				Hashtable<String, byte[]> hashFileData = loadJarFileData(csFullPathJarFile, hashFileSize);
-				return hashFileData;
-		}
-			catch (FileNotFoundException e)
-			{
-			}
-			catch (IOException e1)
-			{
-			}
-	}
-	    return null;
-	}
+        for(int n=0; n<arrPaths.size(); n++)
+    {
+        String csPath = arrPaths.get(n);
+        try
+        {
+            String csFullPathJarFile = csPath +  csJarFile;
+                ZipFile zipFile = new ZipFile(csFullPathJarFile);
+                Enumeration e = zipFile.entries();
+                while (e.hasMoreElements())
+                {
+                ZipEntry entry = (ZipEntry)e.nextElement();
+                hashFileSize.put(entry.getName(), Integer.valueOf((int)entry.getSize()));
+                }
+                zipFile.close();
+                Hashtable<String, byte[]> hashFileData = loadJarFileData(csFullPathJarFile, hashFileSize);
+                return hashFileData;
+        }
+            catch (FileNotFoundException e)
+            {
+            }
+            catch (IOException e1)
+            {
+            }
+    }
+        return null;
+    }
 
-	private Hashtable<String, byte[]> loadJarFileData(String csJarFile, Hashtable<String, Integer> hashFileSize)
-	{
-		Hashtable<String, byte[]> hashFileData = new Hashtable<String, byte[]>();
-		try
-		{
-		    FileInputStream fis = new FileInputStream(csJarFile);
-		    BufferedInputStream bis = new BufferedInputStream(fis);
-		    ZipInputStream zis = new ZipInputStream(bis);
+    private Hashtable<String, byte[]> loadJarFileData(String csJarFile, Hashtable<String, Integer> hashFileSize)
+    {
+        Hashtable<String, byte[]> hashFileData = new Hashtable<String, byte[]>();
+        try
+        {
+            FileInputStream fis = new FileInputStream(csJarFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ZipInputStream zis = new ZipInputStream(bis);
 
-		    ZipEntry entry = null;
-		    while((entry = zis.getNextEntry()) != null)
-			{
-			if (entry.isDirectory())
-			    {
-				continue;
-			    }
+            ZipEntry entry = null;
+            while((entry = zis.getNextEntry()) != null)
+            {
+            if (entry.isDirectory())
+                {
+                continue;
+                }
 
-			String csEntryName = entry.getName();
-			if(csEntryName.toLowerCase().endsWith(".class"))
-			{
-				int nSize= (int) entry.getSize();	// -1 means unknown size.
-				if (nSize == -1)
-				    {
-					nSize = hashFileSize.get(entry.getName()).intValue();
-				    }
+            String csEntryName = entry.getName();
+            if(csEntryName.toLowerCase().endsWith(".class"))
+            {
+                int nSize= (int) entry.getSize();   // -1 means unknown size.
+                if (nSize == -1)
+                    {
+                    nSize = hashFileSize.get(entry.getName()).intValue();
+                    }
 
-				byte[] tb = new byte[nSize];
-				int radioButton = 0;
-				int nChunk = 0;
-				while ((nSize - radioButton) > 0)
-				{
-						nChunk = zis.read(tb, radioButton, nSize - radioButton);
-					if (nChunk == -1)
-					{
-						break;
-					}
-					radioButton += nChunk;
-				}
+                byte[] tb = new byte[nSize];
+                int radioButton = 0;
+                int nChunk = 0;
+                while ((nSize - radioButton) > 0)
+                {
+                        nChunk = zis.read(tb, radioButton, nSize - radioButton);
+                    if (nChunk == -1)
+                    {
+                        break;
+                    }
+                    radioButton += nChunk;
+                }
 
-				// add to internal resource hashtable
-				hashFileData.put(csEntryName, tb);
-			}
-		    }
-		}
-		catch (IOException e2)
-		{
-			e2.printStackTrace();
-		}
-		return hashFileData;
-	}
+                // add to internal resource hashtable
+                hashFileData.put(csEntryName, tb);
+            }
+            }
+        }
+        catch (IOException e2)
+        {
+            e2.printStackTrace();
+        }
+        return hashFileData;
+    }
 
 }

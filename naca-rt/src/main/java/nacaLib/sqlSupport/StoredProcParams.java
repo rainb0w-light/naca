@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -23,53 +23,53 @@ import jlib.sql.StoredProcParamDescBase;
  */
 public class StoredProcParams
 {
-	private ArrayList<StoredProcParamDesc> paramDesc = null;
-	
-	public StoredProcParams()
-	{
-		paramDesc = new ArrayList<StoredProcParamDesc>();
-	}
-	
-	public void addAParam(ResultSet rsParams)
-	{
-		StoredProcParamDesc param = new StoredProcParamDesc();
-		if(param.fill(rsParams))
-			paramDesc.add(param);
-	}
-	
-	public int getNbParamToProvide()
-	{
-		return paramDesc.size();
-	}
-	
-	public StoredProcParamDesc get(int nParamId)
-	{
-		return paramDesc.get(nParamId);
-	}
-	
-	public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
-	{
-		boolean b = true;
-		if(callableStatement != null)
-		{
-			for(int n=0; n<getNbParamToProvide() && b; n++)
-			{
-				StoredProcParamDescBase paramDesc = get(n);
-				b = paramDesc.registerIntoCallableStatement(n, callableStatement);
-			}
-		}
-		return b;
-	}
-	
-	void retrieveOutValues(PreparedCallableStatement preparedCallableStatement, CSQLStatus sqlStatus)
-	{
-		if(preparedCallableStatement != null)
-		{
-			for(int n = 0; n< paramDesc.size(); n++)
-			{
-				StoredProcParamDesc paramDesc = this.paramDesc.get(n);
-				paramDesc.retrieveOutValues(n, preparedCallableStatement, sqlStatus);
-			}
-		}
-	}
+    private ArrayList<StoredProcParamDesc> paramDesc = null;
+
+    public StoredProcParams()
+    {
+        paramDesc = new ArrayList<StoredProcParamDesc>();
+    }
+
+    public void addAParam(ResultSet rsParams)
+    {
+        StoredProcParamDesc param = new StoredProcParamDesc();
+        if(param.fill(rsParams))
+            paramDesc.add(param);
+    }
+
+    public int getNbParamToProvide()
+    {
+        return paramDesc.size();
+    }
+
+    public StoredProcParamDesc get(int nParamId)
+    {
+        return paramDesc.get(nParamId);
+    }
+
+    public boolean registerInOutParameters(DbPreparedCallableStatement callableStatement)
+    {
+        boolean b = true;
+        if(callableStatement != null)
+        {
+            for(int n=0; n<getNbParamToProvide() && b; n++)
+            {
+                StoredProcParamDescBase paramDesc = get(n);
+                b = paramDesc.registerIntoCallableStatement(n, callableStatement);
+            }
+        }
+        return b;
+    }
+
+    void retrieveOutValues(PreparedCallableStatement preparedCallableStatement, CSQLStatus sqlStatus)
+    {
+        if(preparedCallableStatement != null)
+        {
+            for(int n = 0; n< paramDesc.size(); n++)
+            {
+                StoredProcParamDesc paramDesc = this.paramDesc.get(n);
+                paramDesc.retrieveOutValues(n, preparedCallableStatement, sqlStatus);
+            }
+        }
+    }
 }

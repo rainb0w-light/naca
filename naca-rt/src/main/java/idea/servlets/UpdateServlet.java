@@ -15,11 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class UpdateServlet extends HttpServlet
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
-	{
-		UpdateThread thread = new UpdateThread();
-		thread.start();
-	}
+    protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException
+    {
+        UpdateThread thread = new UpdateThread();
+        thread.start();
+    }
 }

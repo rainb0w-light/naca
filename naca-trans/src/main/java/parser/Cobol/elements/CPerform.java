@@ -31,139 +31,143 @@ import utils.Transcoder;
  */
 public class CPerform extends CBlocElement
 {
-	public CPerform(CIdentifier ref, int line)
-	{
-		super(line);
-		reference = ref ;
-	}
-	public CPerform(CTerminal ref, int line)
-	{
-		super(line);
-		refRepetitions = ref ;
-	}
-	public CPerform(CIdentifier ref, CIdentifier refThru, int line)
-	{
-		super(line);
-		reference = ref ;
-		this.refThru = refThru ;
-	}
-	public CPerform(CIdentifier ref, CIdentifier refThru, CTerminal rep, int line)
-	{
-		super(line);
-		refRepetitions = rep ;
-		reference = ref ;
-		this.refThru = refThru ;
-	}
+    public CPerform(CIdentifier ref, int line)
+    {
+        super(line);
+        reference = ref ;
+    }
+    public CPerform(CTerminal ref, int line)
+    {
+        super(line);
+        refRepetitions = ref ;
+    }
+    public CPerform(CIdentifier ref, CIdentifier refThru, int line)
+    {
+        super(line);
+        reference = ref ;
+        this.refThru = refThru ;
+    }
+    public CPerform(CIdentifier ref, CIdentifier refThru, CTerminal rep, int line)
+    {
+        super(line);
+        refRepetitions = rep ;
+        reference = ref ;
+        this.refThru = refThru ;
+    }
 
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CGlobalEntityCounter.GetInstance().CountCobolVerb("PERFORM") ;
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			CIdentifier id = ReadIdentifier() ;
-			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.TIMES)
-			{
-				CTerminal term = new CIdentifierTerminal(id) ;
-				refRepetitions = term ;
-				GetNext() ;
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), " : Unexpecting situation");
-			}
-		}
-		if (reference == null)
-		{
-			// no reference provided, the code is inside
-			if (!super.DoParsing())
-			{
-				Transcoder.logError(getLine(), "Failure while parsing PERFORM bloc") ;
-				return false ;
-			}
-			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() != CCobolKeywordList.END_PERFORM)
-			{
-				Transcoder.logError(tok.getLine(), "Expecting 'END-PERFORM' keyword") ;
-				return false ;
-			}
-			else
-			{
-				GetNext() ;
-			}
-		}
-		IgnoreComma();
-		return true;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("Perform") ;
-		if (reference != null)
-		{
-			e.setAttribute("Reference", reference.GetName()) ;
-		}
-		if (refThru != null)
-		{
-			e.setAttribute("Thru", refThru.GetName()) ;
-		}
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CGlobalEntityCounter.GetInstance().CountCobolVerb("PERFORM") ;
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            CIdentifier id = ReadIdentifier() ;
+            tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.TIMES)
+            {
+                CTerminal term = new CIdentifierTerminal(id) ;
+                refRepetitions = term ;
+                GetNext() ;
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), " : Unexpecting situation");
+            }
+        }
+        if (reference == null)
+        {
+            // no reference provided, the code is inside
+            if (!super.DoParsing())
+            {
+                Transcoder.logError(getLine(), "Failure while parsing PERFORM bloc") ;
+                return false ;
+            }
+            tok = GetCurrentToken() ;
+            if (tok.GetKeyword() != CCobolKeywordList.END_PERFORM)
+            {
+                Transcoder.logError(tok.getLine(), "Expecting 'END-PERFORM' keyword") ;
+                return false ;
+            }
+            else
+            {
+                GetNext() ;
+            }
+        }
+        IgnoreComma();
+        return true;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("Perform") ;
+        if (reference != null)
+        {
+            e.setAttribute("Reference", reference.GetName()) ;
+        }
+        if (refThru != null)
+        {
+            e.setAttribute("Thru", refThru.GetName()) ;
+        }
+        return e;
+    }
 
-	protected CIdentifier reference = null ;
-	protected CIdentifier refThru = null ;
-	protected CTerminal refRepetitions = null ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (refThru != null)
-		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), refThru.GetName(), parent.getSectionContainer()) ;
-			factory.programCatalog.RegisterPerformThrough(e) ;
-			if (refRepetitions != null)
-			{
-				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
-			}
-			parent.AddChild(e) ;
-			return e;
-		}
-		else if (reference != null)
-		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), "", parent.getSectionContainer()) ;
-			parent.AddChild(e) ;
-			if (refRepetitions != null)
-			{
-				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
-			}
-			return e;
-		}
-		else
-		{
-			CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), "", "", parent.getSectionContainer()) ;
-			parent.AddChild(e) ;
-			if (refRepetitions != null)
-			{
-				e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
-			}
-			return e;
-		}
+    protected CIdentifier reference = null ;
+    protected CIdentifier refThru = null ;
+    protected CTerminal refRepetitions = null ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (refThru != null)
+        {
+            CEntityCallFunction e = factory.NewEntityCallFunction(
+                getLine(),
+                reference.GetName(),
+                refThru.GetName(),
+                parent.getSectionContainer()) ;
+            factory.programCatalog.RegisterPerformThrough(e) ;
+            if (refRepetitions != null)
+            {
+                e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
+            }
+            parent.AddChild(e) ;
+            return e;
+        }
+        else if (reference != null)
+        {
+            CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), reference.GetName(), "", parent.getSectionContainer()) ;
+            parent.AddChild(e) ;
+            if (refRepetitions != null)
+            {
+                e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
+            }
+            return e;
+        }
+        else
+        {
+            CEntityCallFunction e = factory.NewEntityCallFunction(getLine(), "", "", parent.getSectionContainer()) ;
+            parent.AddChild(e) ;
+            if (refRepetitions != null)
+            {
+                e.SetRepetitions(refRepetitions.GetDataEntity(getLine(), factory)) ;
+            }
+            return e;
+        }
 
-		//return null ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.elements.CBlocElement#isTopLevelBloc()
-	 */
-	protected boolean isTopLevelBloc()
-	{
-		return false;
-	}
+        //return null ;
+    }
+    /* (non-Javadoc)
+     * @see parser.elements.CBlocElement#isTopLevelBloc()
+     */
+    protected boolean isTopLevelBloc()
+    {
+        return false;
+    }
 }

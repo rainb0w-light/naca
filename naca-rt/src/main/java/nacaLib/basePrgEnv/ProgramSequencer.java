@@ -11,16 +11,16 @@ import nacaLib.programPool.SharedProgramInstanceData;
 
 public abstract class ProgramSequencer extends CJMapObject
 {
-	public ProgramSequencer()
-	{
-	}
+    public ProgramSequencer()
+    {
+    }
 
-	public abstract SharedProgramInstanceData forcePreloadSessionProgram(String defaultProgramName, int nNbInstanceToPreload);
+    public abstract SharedProgramInstanceData forcePreloadSessionProgram(String defaultProgramName, int nNbInstanceToPreload);
 
-	public abstract void removeSession(BaseSession session) ;
-	
-	public abstract void unloadProgram(String csProgramName);
-	public abstract SessionEnvironmentRequester getSessionEnvironmentRequester(BaseSession appSession) ;
-	
-	public abstract void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session);
+    public abstract void removeSession(BaseSession session) ;
+
+    public abstract void unloadProgram(String csProgramName);
+    public abstract SessionEnvironmentRequester getSessionEnvironmentRequester(BaseSession appSession) ;
+
+    public abstract void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session);
 }

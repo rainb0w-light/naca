@@ -8,8 +8,8 @@ package jlib.classLoader;
 
 public class BaseObject
 {
-	public void DebugTestExecute()
-	{
-		
-	}
+    public void DebugTestExecute()
+    {
+
+    }
 }

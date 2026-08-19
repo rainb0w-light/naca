@@ -92,7 +92,9 @@ public final class LegacyStructureFixture extends CEntityStructure
         if (value != null)
         {
             String valueMethod = isfillWithValue ? ".valueAll(" : ".value(";
-            generate.LegacyLanguageRenderer.writeWord(this, valueMethod + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
+            generate.LegacyLanguageRenderer.writeWord(
+                this,
+                valueMethod + generate.LegacyDataRenderer.renderReference(value, getLine()) + ")");
         }
         else if (isinitialValueIsSpaces)
         {

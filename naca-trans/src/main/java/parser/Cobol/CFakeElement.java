@@ -19,17 +19,17 @@ import semantic.CBaseLanguageEntity;
 
 public class CFakeElement extends CCobolElement
 {
-	public CFakeElement(CTokenList lstTokens)
-	{
-		super(0) ;
-		this.lstTokens = lstTokens;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		return null;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		return null;
-	}
+    public CFakeElement(CTokenList lstTokens)
+    {
+        super(0) ;
+        this.lstTokens = lstTokens;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        return null;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        return null;
+    }
 }

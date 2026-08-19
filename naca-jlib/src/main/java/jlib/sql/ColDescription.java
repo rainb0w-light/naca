@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -23,43 +23,43 @@ import jlib.log.Log;
  */
 public class ColDescription extends ColDescriptionInfo
 {
-	ColDescription()
-	{
-	}
+    ColDescription()
+    {
+    }
 
 
-	boolean fill(ResultSet col)	// Fill from a resiultSet of the catalog of a table; not a resultSet of the data themselves
-	{
-		try
-		{
-			csColName = col.getString("COLUMN_NAME");
-			nTypeId = col.getInt("DATA_TYPE");
-			nScale = col.getInt("DECIMAL_DIGITS");
-			nPrecision = col.getInt("COLUMN_SIZE");
-			
-			return true;
-		}
-		catch (SQLException e)
-		{
-			Log.logCritical("Exception catched While filling DB table's Column Description:" + e.toString());
-		}
-		return false;
-	}
-	
-	boolean fill(ResultSetMetaData mt, int nColId)	// Fill from the meta data of a result set
-	{
-		try
-		{
-			csColName = mt.getColumnName(nColId);
-			nTypeId = mt.getColumnType(nColId);
-			nPrecision = mt.getPrecision(nColId);
-			nScale = mt.getScale(nColId);
-			return true;
-		}
-		catch (SQLException e)
-		{
-			Log.logCritical("Exception catched While filling DB table's Column Description:" + e.toString());
-		}
-		return false;
-	}
+    boolean fill(ResultSet col) // Fill from a resiultSet of the catalog of a table; not a resultSet of the data themselves
+    {
+        try
+        {
+            csColName = col.getString("COLUMN_NAME");
+            nTypeId = col.getInt("DATA_TYPE");
+            nScale = col.getInt("DECIMAL_DIGITS");
+            nPrecision = col.getInt("COLUMN_SIZE");
+
+            return true;
+        }
+        catch (SQLException e)
+        {
+            Log.logCritical("Exception catched While filling DB table's Column Description:" + e.toString());
+        }
+        return false;
+    }
+
+    boolean fill(ResultSetMetaData mt, int nColId)  // Fill from the meta data of a result set
+    {
+        try
+        {
+            csColName = mt.getColumnName(nColId);
+            nTypeId = mt.getColumnType(nColId);
+            nPrecision = mt.getPrecision(nColId);
+            nScale = mt.getScale(nColId);
+            return true;
+        }
+        catch (SQLException e)
+        {
+            Log.logCritical("Exception catched While filling DB table's Column Description:" + e.toString());
+        }
+        return false;
+    }
 }

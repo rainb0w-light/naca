@@ -18,60 +18,60 @@ import semantic.expression.CUnitaryEntityCondition;
  */
 public class CEntityIsFieldModified extends CUnitaryEntityCondition
 {
-	public void SetIsModified(CDataEntity eData)
-	{
-		reference = eData ;
-	}
+    public void SetIsModified(CDataEntity eData)
+    {
+        reference = eData ;
+    }
 
-	/*
-	 * Pure read-only getters consumed by the recursive ST4 assembly contract
-	 * (semantic.forms.CEntityIsFieldModified -> recursiveIsFieldModifiedEntity),
-	 * preserved from the retired direct backend
-	 * generate.java.forms.CJavaIsFieldModified whose Export emitted exactly
-	 * isFieldModified(<reference>) — the protected OnlineProgram.isFieldModified(Edit)
-	 * condition call (contract operation bms.field.modified). This class SHADOWS the
-	 * inherited CUnitaryEntityCondition.reference field (SetIsModified writes this
-	 * subclass slot), so the template reads getReference() — NOT the inherited
-	 * GetConditionReference(), which would return the unset superclass slot. No output
-	 * protocol lives here: the getter only exposes the already-resolved data reference
-	 * and the assembler renders it recursively. GetPriorityLevel/GetOppositeCondition
-	 * move up from the retired backend; the opposite is a pure
-	 * semantic.expression.CEntityCondNot (rendered !(isFieldModified(<reference>)) by
-	 * recursiveCondNotEntity) so the semantic tree carries no generate.* coupling.
-	 */
-	public CDataEntity getReference()
-	{
-		return reference ;
-	}
+    /*
+     * Pure read-only getters consumed by the recursive ST4 assembly contract
+     * (semantic.forms.CEntityIsFieldModified -> recursiveIsFieldModifiedEntity),
+     * preserved from the retired direct backend
+     * generate.java.forms.CJavaIsFieldModified whose Export emitted exactly
+     * isFieldModified(<reference>) — the protected OnlineProgram.isFieldModified(Edit)
+     * condition call (contract operation bms.field.modified). This class SHADOWS the
+     * inherited CUnitaryEntityCondition.reference field (SetIsModified writes this
+     * subclass slot), so the template reads getReference() — NOT the inherited
+     * GetConditionReference(), which would return the unset superclass slot. No output
+     * protocol lives here: the getter only exposes the already-resolved data reference
+     * and the assembler renders it recursively. GetPriorityLevel/GetOppositeCondition
+     * move up from the retired backend; the opposite is a pure
+     * semantic.expression.CEntityCondNot (rendered !(isFieldModified(<reference>)) by
+     * recursiveCondNotEntity) so the semantic tree carries no generate.* coupling.
+     */
+    public CDataEntity getReference()
+    {
+        return reference ;
+    }
 
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityCondNot not = new CEntityCondNot();
-		not.SetCondition(this);
-		return not ;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityCondNot not = new CEntityCondNot();
+        not.SetCondition(this);
+        return not ;
+    }
 
-	protected CDataEntity reference = null ;
-	public void Clear()
-	{
-		super.Clear();
-		reference = null ;
-	}
-	public boolean ignore()
-	{
-		return reference.ignore();
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
-	}
-	public boolean isBinaryCondition()
-	{
-		return true;
-	}
+    protected CDataEntity reference = null ;
+    public void Clear()
+    {
+        super.Clear();
+        reference = null ;
+    }
+    public boolean ignore()
+    {
+        return reference.ignore();
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        return reference.GetSpecialCondition(getLine(), val, EConditionType.IS_EQUAL, fact);
+    }
+    public boolean isBinaryCondition()
+    {
+        return true;
+    }
 }

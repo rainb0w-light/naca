@@ -18,74 +18,79 @@ import java.util.Map.Entry;
  */
 public class AsyncThreadJmxManager
 {
-	AsyncThreadJmxManager()
-	{
-	}
-	
-	public static synchronized void view()
-	{
-		show(false);
-		show(true);
-	}
-	
-	public static synchronized void hide()
-	{
-		show(false);
-	}
+    AsyncThreadJmxManager()
+    {
+    }
 
-	private static void show(boolean bShow)
-	{
-		Set<Entry<String, AsyncThreadMBean> > entries =  hashSyncThread.entrySet();
-		Iterator<Entry<String, AsyncThreadMBean> > iter = entries.iterator();
-		while (iter.hasNext())
-		{
-			Entry<String, AsyncThreadMBean> entry = iter.next();
-			AsyncThreadMBean asyncThreadMBean = entry.getValue();
-			asyncThreadMBean.showBean(bShow);
-		}
-	}
-	
+    public static synchronized void view()
+    {
+        show(false);
+        show(true);
+    }
 
-	public static synchronized void startAsyncProgram(String csThreadId, String csThreadName, String csProgram, String csProgramParent, int nDelaySeconds)
-	{
-		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
-		if(asyncThreadMBean == null)
-		{
-			asyncThreadMBean = new AsyncThreadMBean(csThreadId, csThreadName);
-			asyncThreadMBean.setProgram(csProgram);
-			asyncThreadMBean.setProgramParent(csProgramParent);
-			asyncThreadMBean.setWait(true);
-			asyncThreadMBean.setDelaySeconds(nDelaySeconds);
-			hashSyncThread.put(csId, asyncThreadMBean);
-		}
-	}
-	
-	public static synchronized void setRunningAsyncProgram(String csThreadId, String csThreadName)
-	{
-		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
-		if(asyncThreadMBean != null)
-		{
-			asyncThreadMBean.setWait(false);			
-		}
-	}
-	
-	public static synchronized void endAsyncProgram(String csThreadId, String csThreadName)
-	{
-		String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
-		AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
-		if(asyncThreadMBean != null)
-		{
-			asyncThreadMBean.setAsyncThreadClosed();
-			hashSyncThread.remove(csId);
-		}
-	}
-	
-	private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)
-	{
-		return csThreadId + "_" + csThreadName; 
-	}
-	
-	private static Hashtable<String, AsyncThreadMBean> hashSyncThread = new Hashtable<String, AsyncThreadMBean>();
+    public static synchronized void hide()
+    {
+        show(false);
+    }
+
+    private static void show(boolean bShow)
+    {
+        Set<Entry<String, AsyncThreadMBean> > entries =  hashSyncThread.entrySet();
+        Iterator<Entry<String, AsyncThreadMBean> > iter = entries.iterator();
+        while (iter.hasNext())
+        {
+            Entry<String, AsyncThreadMBean> entry = iter.next();
+            AsyncThreadMBean asyncThreadMBean = entry.getValue();
+            asyncThreadMBean.showBean(bShow);
+        }
+    }
+
+
+    public static synchronized void startAsyncProgram(
+        String csThreadId,
+        String csThreadName,
+        String csProgram,
+        String csProgramParent,
+        int nDelaySeconds)
+    {
+        String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
+        AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
+        if(asyncThreadMBean == null)
+        {
+            asyncThreadMBean = new AsyncThreadMBean(csThreadId, csThreadName);
+            asyncThreadMBean.setProgram(csProgram);
+            asyncThreadMBean.setProgramParent(csProgramParent);
+            asyncThreadMBean.setWait(true);
+            asyncThreadMBean.setDelaySeconds(nDelaySeconds);
+            hashSyncThread.put(csId, asyncThreadMBean);
+        }
+    }
+
+    public static synchronized void setRunningAsyncProgram(String csThreadId, String csThreadName)
+    {
+        String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
+        AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
+        if(asyncThreadMBean != null)
+        {
+            asyncThreadMBean.setWait(false);
+        }
+    }
+
+    public static synchronized void endAsyncProgram(String csThreadId, String csThreadName)
+    {
+        String csId = getAsyncThreadMBeanId(csThreadId, csThreadName);
+        AsyncThreadMBean asyncThreadMBean = hashSyncThread.get(csId);
+        if(asyncThreadMBean != null)
+        {
+            asyncThreadMBean.setAsyncThreadClosed();
+            hashSyncThread.remove(csId);
+        }
+    }
+
+    private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)
+    {
+        return csThreadId + "_" + csThreadName;
+    }
+
+    private static Hashtable<String, AsyncThreadMBean> hashSyncThread = new Hashtable<String, AsyncThreadMBean>();
 }

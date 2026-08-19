@@ -11,7 +11,7 @@ import jlib.engine.BaseNotification;
 
 public class NotifRegisterInputFile extends BaseNotification
 {
-	public String id;
-	public CEntityFileBuffer fileBuffer ;
+    public String id;
+    public CEntityFileBuffer fileBuffer ;
 
 }

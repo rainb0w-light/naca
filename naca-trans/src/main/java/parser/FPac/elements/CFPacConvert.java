@@ -34,157 +34,157 @@ import utils.FPacTranscoder.OperandDescription;
  */
 public class CFPacConvert extends CFPacElement
 {
-	private Vector<CExpression> terms;
-	private CReservedKeyword command ;
+    private Vector<CExpression> terms;
+    private CReservedKeyword command ;
 
-	/**
-	 * @param line
-	 * @param command
-	 * @param arrTerms
-	 */
-	public CFPacConvert(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
-	{
-		super(line);
-		this.command = command ;
-		this.terms = arrTerms ;
-	}
+    /**
+     * @param line
+     * @param command
+     * @param arrTerms
+     */
+    public CFPacConvert(int line, Vector<CExpression> arrTerms, CReservedKeyword command)
+    {
+        super(line);
+        this.command = command ;
+        this.terms = arrTerms ;
+    }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		return null;
-	}
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        return null;
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		return true;
-	}
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        return true;
+    }
 
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		ListIterator<CExpression> iter = terms.listIterator() ;
-		OperandDescription desc1 = OperandDescription.FindFirstDataEntity(iter, factory) ;
-		if (desc1.expStart != null)
-		{
-			CEntityConvertReference conv = factory.NewEntityConvert(getLine());
-			conv.convertToAlphaNum(desc1.eObject) ;
-			desc1.eObject = conv ;
-		}
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        ListIterator<CExpression> iter = terms.listIterator() ;
+        OperandDescription desc1 = OperandDescription.FindFirstDataEntity(iter, factory) ;
+        if (desc1.expStart != null)
+        {
+            CEntityConvertReference conv = factory.NewEntityConvert(getLine());
+            conv.convertToAlphaNum(desc1.eObject) ;
+            desc1.eObject = conv ;
+        }
 
-		OperandDescription desc2 = FindSecondOperand(iter, factory) ;
+        OperandDescription desc2 = FindSecondOperand(iter, factory) ;
 
-		if (desc1.expLength == null && iter.hasNext())
-		{
-			CExpression exp = iter.next() ;
-			CBaseEntityExpression term = exp.AnalyseExpression(factory) ;
-			desc1.expLength = term ;
-		}
-		if (desc2.expLength == null)
-		{
-			if (iter.hasNext())
-			{
-				CExpression exp = iter.next() ;
-				CBaseEntityExpression term = exp.AnalyseExpression(factory) ;
-				desc2.expLength = term ;
-			}
-			else
-			{
-				desc2.expLength = desc1.expLength ;
-			}
-		}
+        if (desc1.expLength == null && iter.hasNext())
+        {
+            CExpression exp = iter.next() ;
+            CBaseEntityExpression term = exp.AnalyseExpression(factory) ;
+            desc1.expLength = term ;
+        }
+        if (desc2.expLength == null)
+        {
+            if (iter.hasNext())
+            {
+                CExpression exp = iter.next() ;
+                CBaseEntityExpression term = exp.AnalyseExpression(factory) ;
+                desc2.expLength = term ;
+            }
+            else
+            {
+                desc2.expLength = desc1.expLength ;
+            }
+        }
 
-		CDataEntity var1= null, var2 = null ;
-		if (desc1.expStart != null)
-		{
-			CSubStringAttributReference e1 = factory.NewEntitySubString(getLine()) ;
-			e1.SetReference(desc1.eObject, desc1.expStart, desc1.expLength) ;
-			var1 = e1;
-		}
-		else
-		{
-			var1 = desc1.eObject ;
-		}
-		if (desc2.expStart != null)
-		{
-			CSubStringAttributReference e2 = factory.NewEntitySubString(getLine()) ;
-			e2.SetReference(desc2.eObject, desc2.expStart, desc2.expLength) ;
-			var2 = e2 ;
-		}
-		else
-		{
-			var2 = desc2.eObject ;
-		}
+        CDataEntity var1= null, var2 = null ;
+        if (desc1.expStart != null)
+        {
+            CSubStringAttributReference e1 = factory.NewEntitySubString(getLine()) ;
+            e1.SetReference(desc1.eObject, desc1.expStart, desc1.expLength) ;
+            var1 = e1;
+        }
+        else
+        {
+            var1 = desc1.eObject ;
+        }
+        if (desc2.expStart != null)
+        {
+            CSubStringAttributReference e2 = factory.NewEntitySubString(getLine()) ;
+            e2.SetReference(desc2.eObject, desc2.expStart, desc2.expLength) ;
+            var2 = e2 ;
+        }
+        else
+        {
+            var2 = desc2.eObject ;
+        }
 
-		CEntityAssign conv = factory.NewEntityAssign(getLine()) ;
-		var2.RegisterWritingAction(conv) ;
-		var1.RegisterReadingAction(conv) ;
-		conv.AddRefTo(var2) ;
-		conv.SetValue(var1) ;
-		parent.AddChild(conv) ;
+        CEntityAssign conv = factory.NewEntityAssign(getLine()) ;
+        var2.RegisterWritingAction(conv) ;
+        var1.RegisterReadingAction(conv) ;
+        conv.AddRefTo(var2) ;
+        conv.SetValue(var1) ;
+        parent.AddChild(conv) ;
 
-		return conv ;
-	}
+        return conv ;
+    }
 
-	/**
-	 * @param iter
-	 * @param factory
-	 * @return
-	 */
-	private OperandDescription FindSecondOperand(ListIterator<CExpression> iter, CBaseEntityFactory factory)
-	{
-		CExpression exp2 = iter.next() ;
-		CBaseEntityExpression term2 = exp2.AnalyseExpression(factory) ;
-		if (term2.GetDataType() == CDataEntityType.ADDRESS)
-		{
-			String cs = term2.GetConstantValue() ;
-			int add = NumberParser.getAsInt(cs) ;
-			OperandDescription desc = new OperandDescription() ;
-			if (add < 5000)
-			{ //file buffer
-				CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
-				CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-				conv.convertToPacked(buffer) ;
-				desc.eObject = conv ;
-				desc.expStart = term2 ;
-				desc.expLength = null ;
-			}
-			else
-			{ // working
-				CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
-				CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-				conv.convertToPacked(working) ;
-				desc.eObject = conv ;
-				desc.expStart = term2 ;
-				desc.expLength = null ;
-			}
-			return desc ;
-		}
-		else if (term2.GetDataType() == CDataEntityType.VAR)
-		{
-			CDataEntity var = term2.GetSingleOperator() ;
-			CExpression expstart = iter.next()  ;
-			CBaseEntityExpression termstart = expstart.AnalyseExpression(factory) ;
-			if (termstart.GetDataType() == CDataEntityType.ADDRESS)
-			{
-				OperandDescription desc = new OperandDescription() ;
-				desc.eObject = var ;
-				desc.expStart = termstart ;
-				desc.expLength = null  ;
-				return desc ;
-			}
-		}
-		return null ;
-	}
+    /**
+     * @param iter
+     * @param factory
+     * @return
+     */
+    private OperandDescription FindSecondOperand(ListIterator<CExpression> iter, CBaseEntityFactory factory)
+    {
+        CExpression exp2 = iter.next() ;
+        CBaseEntityExpression term2 = exp2.AnalyseExpression(factory) ;
+        if (term2.GetDataType() == CDataEntityType.ADDRESS)
+        {
+            String cs = term2.GetConstantValue() ;
+            int add = NumberParser.getAsInt(cs) ;
+            OperandDescription desc = new OperandDescription() ;
+            if (add < 5000)
+            { //file buffer
+                CDataEntity buffer = OperandDescription.getDefaultOutputFileBuffer(factory.programCatalog) ;
+                CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
+                conv.convertToPacked(buffer) ;
+                desc.eObject = conv ;
+                desc.expStart = term2 ;
+                desc.expLength = null ;
+            }
+            else
+            { // working
+                CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
+                CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
+                conv.convertToPacked(working) ;
+                desc.eObject = conv ;
+                desc.expStart = term2 ;
+                desc.expLength = null ;
+            }
+            return desc ;
+        }
+        else if (term2.GetDataType() == CDataEntityType.VAR)
+        {
+            CDataEntity var = term2.GetSingleOperator() ;
+            CExpression expstart = iter.next()  ;
+            CBaseEntityExpression termstart = expstart.AnalyseExpression(factory) ;
+            if (termstart.GetDataType() == CDataEntityType.ADDRESS)
+            {
+                OperandDescription desc = new OperandDescription() ;
+                desc.eObject = var ;
+                desc.expStart = termstart ;
+                desc.expLength = null  ;
+                return desc ;
+            }
+        }
+        return null ;
+    }
 
 }

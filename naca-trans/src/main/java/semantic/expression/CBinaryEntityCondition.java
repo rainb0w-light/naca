@@ -15,33 +15,33 @@ import semantic.CDataEntity;
 public abstract class CBinaryEntityCondition extends CBaseEntityCondition
 {
 
-	/**
-	 * 
-	 */
-	public CBinaryEntityCondition()
-	{
-		super();
-	}
-	/**
-	 * @see semantic.expression.CBaseEntityCondition#isBinaryCondition()
-	 */
-	@Override
-	public boolean isBinaryCondition()
-	{
-		return true ;
-	}
+    /**
+     *
+     */
+    public CBinaryEntityCondition()
+    {
+        super();
+    }
+    /**
+     * @see semantic.expression.CBaseEntityCondition#isBinaryCondition()
+     */
+    @Override
+    public boolean isBinaryCondition()
+    {
+        return true ;
+    }
 
-	/**
-	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
-	 */
-	@Override
-	public CDataEntity GetConditionReference()
-	{
-		return null;
-	}
-	public void SetConditonReference(CDataEntity e)
-	{
-		ASSERT(null) ;
-	}
+    /**
+     * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
+     */
+    @Override
+    public CDataEntity GetConditionReference()
+    {
+        return null;
+    }
+    public void SetConditonReference(CDataEntity e)
+    {
+        ASSERT(null) ;
+    }
 
 }

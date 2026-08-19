@@ -13,106 +13,106 @@ import jlib.xml.Tag;
 
 public class JMXDumper
 {
-	private MBeanServer server = null;
+    private MBeanServer server = null;
 
-	JMXDumper(MBeanServer server)
-	{
-		this.server = server;
-	}
+    JMXDumper(MBeanServer server)
+    {
+        this.server = server;
+    }
 
-	void dumpAllMBeans(Tag tagOut)
-	{
-		ObjectName oName = null;
-		try
-		{
-			oName = new ObjectName("jmxMbean:*");
-			Set names = server.queryNames(oName, null);
+    void dumpAllMBeans(Tag tagOut)
+    {
+        ObjectName oName = null;
+        try
+        {
+            oName = new ObjectName("jmxMbean:*");
+            Set names = server.queryNames(oName, null);
 
-			Iterator itr = names.iterator();
-			while(itr.hasNext())
-			{
-				ObjectName name = (ObjectName)itr.next();
-				dumpMBean(tagOut, name);
-			}
-		}
-		catch (MalformedObjectNameException e)
-		{
-			e.printStackTrace();
-		}
-		catch (NullPointerException e)
-		{
-			e.printStackTrace();
-		}
-	}
+            Iterator itr = names.iterator();
+            while(itr.hasNext())
+            {
+                ObjectName name = (ObjectName)itr.next();
+                dumpMBean(tagOut, name);
+            }
+        }
+        catch (MalformedObjectNameException e)
+        {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-	private void dumpMBean(Tag tagOut, ObjectName name)
-	{
-		String csName = name.toString();
-		Tag tagChild = tagOut.addTag("MBean");
-		tagChild.addVal("Name", csName);
-		Tag tagAttributes = tagChild.addTag("Attributes");
+    private void dumpMBean(Tag tagOut, ObjectName name)
+    {
+        String csName = name.toString();
+        Tag tagChild = tagOut.addTag("MBean");
+        tagChild.addVal("Name", csName);
+        Tag tagAttributes = tagChild.addTag("Attributes");
 
-		MBeanInfo info = getMBeanInfo(name);
-		if(info != null)
-		{
-			MBeanAttributeInfo tAttr[] = info.getAttributes();
-			if(tAttr != null)
-			{
-				for(int n=0; n<tAttr.length; n++)
-				{
-					MBeanAttributeInfo attr = tAttr[n];
+        MBeanInfo info = getMBeanInfo(name);
+        if(info != null)
+        {
+            MBeanAttributeInfo tAttr[] = info.getAttributes();
+            if(tAttr != null)
+            {
+                for(int n=0; n<tAttr.length; n++)
+                {
+                    MBeanAttributeInfo attr = tAttr[n];
 
-					String csAttributeName = attr.getName();
-					String csValue = getAttributeValue(name, csAttributeName);
+                    String csAttributeName = attr.getName();
+                    String csValue = getAttributeValue(name, csAttributeName);
 
-					Tag tagAttribute = tagAttributes.addTag("Attribute");
-					tagAttribute.addVal("Name", csAttributeName);
-					tagAttribute.addVal("Value", csValue);
-				}
-			}
-		}
-	}
+                    Tag tagAttribute = tagAttributes.addTag("Attribute");
+                    tagAttribute.addVal("Name", csAttributeName);
+                    tagAttribute.addVal("Value", csValue);
+                }
+            }
+        }
+    }
 
-	private MBeanInfo getMBeanInfo(ObjectName name)
-	{
-		try
-		{
-			MBeanInfo info;
-			info = server.getMBeanInfo(name);
-			return info;
-		}
-		catch (InstanceNotFoundException e)
-		{
-		}
-		catch (IntrospectionException e)
-		{
-		}
-		catch (ReflectionException e)
-		{
-		}
-		return null;
-	}
+    private MBeanInfo getMBeanInfo(ObjectName name)
+    {
+        try
+        {
+            MBeanInfo info;
+            info = server.getMBeanInfo(name);
+            return info;
+        }
+        catch (InstanceNotFoundException e)
+        {
+        }
+        catch (IntrospectionException e)
+        {
+        }
+        catch (ReflectionException e)
+        {
+        }
+        return null;
+    }
 
-	private String getAttributeValue(ObjectName name, String csAttributeName)
-	{
-		try
-		{
-			Object oValue = server.getAttribute(name, csAttributeName);
-			if(oValue != null)
-				return oValue.toString();
-		}
-		catch (AttributeNotFoundException e)
-		{
-		}
-		catch (InstanceNotFoundException e)
-		{
-		}
-		catch (MBeanException e)
-		{
-		}
-		catch (ReflectionException e)
-		{
-		}
-		return "";
-	}
+    private String getAttributeValue(ObjectName name, String csAttributeName)
+    {
+        try
+        {
+            Object oValue = server.getAttribute(name, csAttributeName);
+            if(oValue != null)
+                return oValue.toString();
+        }
+        catch (AttributeNotFoundException e)
+        {
+        }
+        catch (InstanceNotFoundException e)
+        {
+        }
+        catch (MBeanException e)
+        {
+        }
+        catch (ReflectionException e)
+        {
+        }
+        return "";
+    }
 }

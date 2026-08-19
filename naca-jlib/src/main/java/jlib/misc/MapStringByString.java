@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -18,20 +18,20 @@ import java.util.Hashtable;
  */
 public class MapStringByString
 {
-	private Hashtable<String, String> tab = null;
-	
-	public MapStringByString()
-	{
-		tab = new Hashtable<String, String>();
-	}
-	
-	public String get(String csKey)
-	{
-		return tab.get(csKey);
-	}
-	
-	public void put(String csKey, String csValue)
-	{
-		tab.put(csKey, csValue);
-	}
+    private Hashtable<String, String> tab = null;
+
+    public MapStringByString()
+    {
+        tab = new Hashtable<String, String>();
+    }
+
+    public String get(String csKey)
+    {
+        return tab.get(csKey);
+    }
+
+    public void put(String csKey, String csValue)
+    {
+        tab.put(csKey, csValue);
+    }
 }

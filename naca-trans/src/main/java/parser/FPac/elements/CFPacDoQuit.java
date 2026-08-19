@@ -24,46 +24,46 @@ import semantic.Verbs.CEntityBreak;
 public class CFPacDoQuit extends CFPacElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CFPacDoQuit(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CFPacDoQuit(int line)
+    {
+        super(line);
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.DOQUIT)
-		{
-			tok = GetNext() ;
-		}
-		return true ;
-	}
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.DOQUIT)
+        {
+            tok = GetNext() ;
+        }
+        return true ;
+    }
 
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityBreak br = factory.NewEntityBreak(getLine()) ;
-		parent.AddChild(br) ;
-		return br ;
-	}
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityBreak br = factory.NewEntityBreak(getLine()) ;
+        parent.AddChild(br) ;
+        return br ;
+    }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		return null;
-	}
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        return null;
+    }
 
 }

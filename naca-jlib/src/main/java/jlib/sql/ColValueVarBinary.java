@@ -21,85 +21,85 @@ import java.sql.Types;
  */
 public class ColValueVarBinary extends ColValue
 {
-	public ColValueVarBinary(String csName, VarBinary vbValue)
-	{
-		super(csName);
-		this.vbValue = vbValue;
-	}
+    public ColValueVarBinary(String csName, VarBinary vbValue)
+    {
+        super(csName);
+        this.vbValue = vbValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueVarBinary(csName, vbValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueVarBinary(csName, vbValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(vbValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(vbValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		byte tb[] = resultSet.getBytes(nCol);
-		vbValue = new VarBinary(tb);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        byte tb[] = resultSet.getBytes(nCol);
+        vbValue = new VarBinary(tb);
+    }
 
-	public String getValueAsString()
-	{
-		return String.valueOf(vbValue);
-	}
+    public String getValueAsString()
+    {
+        return String.valueOf(vbValue);
+    }
 
-	public int getValueAsInt()
-	{
-		//return m_vbValue.intValue();
-		return 0;
-	}
+    public int getValueAsInt()
+    {
+        //return m_vbValue.intValue();
+        return 0;
+    }
 
-	double getValueAsDouble()
-	{
-		//return m_vbValue.doubleValue();
-		return 0.0;
-	}
+    double getValueAsDouble()
+    {
+        //return m_vbValue.doubleValue();
+        return 0.0;
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(VarBinary): Cannot display value";
-	}
+    String getDumpValueAsString()
+    {
+        return "(VarBinary): Cannot display value";
+    }
 
-	String getType()
-	{
-		return "VarBinary";
-	}
+    String getType()
+    {
+        return "VarBinary";
+    }
 
-	int getSQLType()
-	{
-		return Types.VARBINARY;
-	}
+    int getSQLType()
+    {
+        return Types.VARBINARY;
+    }
 
-	Object getValue()
-	{
-		return vbValue;
-	}
+    Object getValue()
+    {
+        return vbValue;
+    }
 
-	public boolean canSetColParam()
-	{
-		return true;
-	}
+    public boolean canSetColParam()
+    {
+        return true;
+    }
 
-	public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
-	{
-		byte tb[] = vbValue.getBytes();
-		try
-		{
-			stmt.setBytes(nCol+1, tb);
-		}
-		catch (SQLException e)
-		{
-			LogSQLException.log(e);
-			return false;
-		}
-		return true;
-	}
+    public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
+    {
+        byte tb[] = vbValue.getBytes();
+        try
+        {
+            stmt.setBytes(nCol+1, tb);
+        }
+        catch (SQLException e)
+        {
+            LogSQLException.log(e);
+            return false;
+        }
+        return true;
+    }
 
-	VarBinary vbValue = null;
+    VarBinary vbValue = null;
 }

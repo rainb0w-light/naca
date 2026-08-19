@@ -19,89 +19,89 @@ import jlib.xml.Tag;
  */
 public class TempFileManager
 {
-	private String csTempPath = null;
-	private String csLastTempFilePathName = null;
+    private String csTempPath = null;
+    private String csLastTempFilePathName = null;
 
-	public TempFileManager(String csTempPath)
-	{
-		csTempPath = FileSystem.normalizePath(csTempPath);
-		FileSystem.createPath(csTempPath);
-		cleanupTempPath(csTempPath);
-	}
+    public TempFileManager(String csTempPath)
+    {
+        csTempPath = FileSystem.normalizePath(csTempPath);
+        FileSystem.createPath(csTempPath);
+        cleanupTempPath(csTempPath);
+    }
 
-	public void cleanupTempPath(String csTempPath)
-	{
-		csTempPath = FileSystem.normalizePath(csTempPath);
-		FileSystem.DeleteContent(csTempPath);
-	}
+    public void cleanupTempPath(String csTempPath)
+    {
+        csTempPath = FileSystem.normalizePath(csTempPath);
+        FileSystem.DeleteContent(csTempPath);
+    }
 
-	public String makeTempFileName(String csFileName, String csTmpExt)
-	{
-		csFileName = FileSystem.getNameWithoutExtension(csFileName);
-		csLastTempFilePathName = FileSystem.buildFileName(csTempPath, csFileName, csTmpExt);
-		return csLastTempFilePathName;
-	}
+    public String makeTempFileName(String csFileName, String csTmpExt)
+    {
+        csFileName = FileSystem.getNameWithoutExtension(csFileName);
+        csLastTempFilePathName = FileSystem.buildFileName(csTempPath, csFileName, csTmpExt);
+        return csLastTempFilePathName;
+    }
 
-//	public void saveTmpFile(Tag tag, String csFile, String csExt, int nStep)
-//	{
-//		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
-//		String csFileTmpOut = makeTempFileName(csFile, csFullExt);
-//		//tag.exportIndentedFileUft8(csFileTmpOut);
-//		tag.exportToFileUTF8(csFileTmpOut);
-//	}
+//  public void saveTmpFile(Tag tag, String csFile, String csExt, int nStep)
+//  {
+//      String csFullExt = "" + nStep + "." + csExt + "." + nStep;
+//      String csFileTmpOut = makeTempFileName(csFile, csFullExt);
+//      //tag.exportIndentedFileUft8(csFileTmpOut);
+//      tag.exportToFileUTF8(csFileTmpOut);
+//  }
 
 //
-//	public void saveIndentedTmpFileHtml(Tag tag, String csFile, String csExt, int nStep)
-//	{
-//		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
-//		String csFileTmpOut = makeTempFileName(csFile, csFullExt);
-//		tag.exportIndentedUtf8Html(csFileTmpOut);
-//	}
+//  public void saveIndentedTmpFileHtml(Tag tag, String csFile, String csExt, int nStep)
+//  {
+//      String csFullExt = "" + nStep + "." + csExt + "." + nStep;
+//      String csFileTmpOut = makeTempFileName(csFile, csFullExt);
+//      tag.exportIndentedUtf8Html(csFileTmpOut);
+//  }
 
     // PJD: Sometimes calling saveIndentedTmpFile wites lots of huge xmlcomment with the grammar of the DTD; it's not the case when using
     // saveNotIndentedTmpFile; Why ?
-	public void saveNotIndentedTmpFile(Tag tag, String csFile, String csExt, int nStep)
-	{
-		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
-		String csFileTmpOut = makeTempFileName(csFile, csFullExt);
-		tag.exportToFileUTF8(csFileTmpOut);
-	}
+    public void saveNotIndentedTmpFile(Tag tag, String csFile, String csExt, int nStep)
+    {
+        String csFullExt = "" + nStep + "." + csExt + "." + nStep;
+        String csFileTmpOut = makeTempFileName(csFile, csFullExt);
+        tag.exportToFileUTF8(csFileTmpOut);
+    }
 
-//	public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
-//	{
-//		boolean b = true;
+//  public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
+//  {
+//      boolean b = true;
 //
-//		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
-//		String csTempFileName = makeTempFileName(csFile, csFullExt);
-//		DataOutputStream stream = FileSystem.openWrite(csTempFileName);
-//		String cs = sb.toString();
-//		try
-//		{
-//			byte tb[] = cs.getBytes();
-//			stream.write(tb);
-//		}
-//		catch (IOException e)
-//		{
-//			e.printStackTrace();
-//			b= false;
-//		}
-//		FileSystem.closeFile(stream);
+//      String csFullExt = "" + nStep + "." + csExt + "." + nStep;
+//      String csTempFileName = makeTempFileName(csFile, csFullExt);
+//      DataOutputStream stream = FileSystem.openWrite(csTempFileName);
+//      String cs = sb.toString();
+//      try
+//      {
+//          byte tb[] = cs.getBytes();
+//          stream.write(tb);
+//      }
+//      catch (IOException e)
+//      {
+//          e.printStackTrace();
+//          b= false;
+//      }
+//      FileSystem.closeFile(stream);
 //
-//		if(!b)
-//			Log.logCritical("Could not save temp file " + getLastTempFilePathName());
-//		return b;
-//	}
+//      if(!b)
+//          Log.logCritical("Could not save temp file " + getLastTempFilePathName());
+//      return b;
+//  }
 
-	public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
-	{
-		String csFullExt = "" + nStep + "." + csExt + "." + nStep;
-		String csTempFileName = makeTempFileName(csFile, csFullExt);
-		boolean b = FileSystem.writeFileUtf8(csTempFileName, sb);
-		return b;
-	}
+    public boolean saveTmpFile(StringBuilder sb, String csFile, String csExt, int nStep)
+    {
+        String csFullExt = "" + nStep + "." + csExt + "." + nStep;
+        String csTempFileName = makeTempFileName(csFile, csFullExt);
+        boolean b = FileSystem.writeFileUtf8(csTempFileName, sb);
+        return b;
+    }
 
-	public String getLastTempFilePathName()
-	{
-		return csLastTempFilePathName;
-	}
+    public String getLastTempFilePathName()
+    {
+        return csLastTempFilePathName;
+    }
 }

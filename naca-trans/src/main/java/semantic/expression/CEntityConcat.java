@@ -16,49 +16,49 @@ import utils.CObjectCatalog;
 public class CEntityConcat extends CBaseEntityFunction
 {
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataReference#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity, boolean)
-	 */
-	@Override
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
-	{
-		boolean b = super.ReplaceVariable(field, var, bRead);
-		if (dataRef2 == field)
-		{
-			dataRef2 = var ;
-			field.UnRegisterReadReference(this) ;
-			var.RegisterReadReference(this) ;
-			return true ;
-		}
-		return b ;
-	}
-	/**
-	 * @param cat
-	 * @param data
-	 */
-	public CEntityConcat(CObjectCatalog cat, CDataEntity data1, CDataEntity data2)
-	{
-		super(cat, data1);
-		dataRef2 = data2 ;
-		dataRef2.RegisterReadReference(this) ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataReference#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity, boolean)
+     */
+    @Override
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
+    {
+        boolean b = super.ReplaceVariable(field, var, bRead);
+        if (dataRef2 == field)
+        {
+            dataRef2 = var ;
+            field.UnRegisterReadReference(this) ;
+            var.RegisterReadReference(this) ;
+            return true ;
+        }
+        return b ;
+    }
+    /**
+     * @param cat
+     * @param data
+     */
+    public CEntityConcat(CObjectCatalog cat, CDataEntity data1, CDataEntity data2)
+    {
+        super(cat, data1);
+        dataRef2 = data2 ;
+        dataRef2.RegisterReadReference(this) ;
+    }
 
-	protected CDataEntity dataRef2 = null ;
+    protected CDataEntity dataRef2 = null ;
 
-	public CDataEntity getSecondReference()
-	{
-		return dataRef2;
-	}
+    public CDataEntity getSecondReference()
+    {
+        return dataRef2;
+    }
 
-	public void Clear()
-	{
-		super.Clear() ;
-		dataRef2 = null ;
-	}
+    public void Clear()
+    {
+        super.Clear() ;
+        dataRef2 = null ;
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
 }

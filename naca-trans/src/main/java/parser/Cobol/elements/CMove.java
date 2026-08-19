@@ -35,278 +35,280 @@ import utils.Transcoder;
  */
 public class CMove extends CCobolElement
 {
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
 
-	/**
-	 * @param line
-	 */
-	public CMove(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CMove(int line)
+    {
+        super(line);
+    }
 
-	protected boolean DoParsing()
-	{
-		CBaseToken tokMove = GetCurrentToken();
-		if (tokMove.GetType()!=CTokenType.KEYWORD|| tokMove.GetKeyword()!=CCobolKeywordList.MOVE)
-		{
-			Transcoder.logError(getLine(), "Expecting 'MOVE' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokMove.GetKeyword().name) ;
+    protected boolean DoParsing()
+    {
+        CBaseToken tokMove = GetCurrentToken();
+        if (tokMove.GetType()!=CTokenType.KEYWORD|| tokMove.GetKeyword()!=CCobolKeywordList.MOVE)
+        {
+            Transcoder.logError(getLine(), "Expecting 'MOVE' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tokMove.GetKeyword().name) ;
 
-		// read the FROM token
-		CBaseToken tokFrom = GetNext() ;
-		if (tokFrom.GetKeyword() == CCobolKeywordList.CORR || tokFrom.GetKeyword() == CCobolKeywordList.CORRESPONDING)
-		{
-			ismoveCorresponding = true ;
-			tokFrom = GetNext();
-		}
-		if (tokFrom.GetKeyword() == CCobolKeywordList.ALL)
-		{
-			isfillAll = true ;
-			GetNext();
-		}
-		valueFrom = ReadTerminal() ;
+        // read the FROM token
+        CBaseToken tokFrom = GetNext() ;
+        if (tokFrom.GetKeyword() == CCobolKeywordList.CORR || tokFrom.GetKeyword() == CCobolKeywordList.CORRESPONDING)
+        {
+            ismoveCorresponding = true ;
+            tokFrom = GetNext();
+        }
+        if (tokFrom.GetKeyword() == CCobolKeywordList.ALL)
+        {
+            isfillAll = true ;
+            GetNext();
+        }
+        valueFrom = ReadTerminal() ;
 
-		IgnoreComma();
-		// read the 'TO'
-		CBaseToken tokTo = GetCurrentToken();
-		if (tokTo.GetKeyword() != CCobolKeywordList.TO)
-		{
-			Transcoder.logError(getLine(), "Expecting 'TO' keyword") ;
-			return false ;
-		}
+        IgnoreComma();
+        // read the 'TO'
+        CBaseToken tokTo = GetCurrentToken();
+        if (tokTo.GetKeyword() != CCobolKeywordList.TO)
+        {
+            Transcoder.logError(getLine(), "Expecting 'TO' keyword") ;
+            return false ;
+        }
 
-		GetNext() ;
-		//read the DEST tokens
-		boolean isdone0 = false ;
-		while (!isdone0)
-		{
-			CBaseToken tokId = GetCurrentToken() ;
-			if (tokId.GetType() == CTokenType.IDENTIFIER)
-			{
-				CIdentifier id = ReadIdentifier() ;
-				toIdentifiers.add(id) ;
-			}
-			else if (tokId.GetType() == CTokenType.COMMA)
-			{
-				GetNext();
-			}
-			else if (tokId.GetType() == CTokenType.DOT)
-			{
-				isdone0 = true ;
-			}
-			else
-			{
-				isdone0 = true ;
-			}
-		}
-		return true;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eMove ;
-		if (ismoveCorresponding)
-		{
-			eMove = root.createElement("MoveCorresponding") ;
-		}
-		else
-		{
-			eMove = root.createElement("Move") ;
-		}
-		Element eFrom = root.createElement("From") ;
-		valueFrom.ExportTo(eFrom, root) ;
-		eMove.appendChild(eFrom) ;
-		ListIterator i = toIdentifiers.listIterator() ;
-		try
-		{
-			CIdentifier idDest = (CIdentifier)i.next() ;
-			while (idDest != null)
-			{
-				Element dest ;
-				if (isfillAll)
-				{
-					dest = root.createElement("Fill") ;
-				}
-				else
-				{
-					dest = root.createElement("To") ;
-				}
-				idDest.ExportTo(dest, root) ;
-				eMove.appendChild(dest) ;
-				idDest = (CIdentifier)i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			// nothing
-		}
-		return eMove;
-	}
+        GetNext() ;
+        //read the DEST tokens
+        boolean isdone0 = false ;
+        while (!isdone0)
+        {
+            CBaseToken tokId = GetCurrentToken() ;
+            if (tokId.GetType() == CTokenType.IDENTIFIER)
+            {
+                CIdentifier id = ReadIdentifier() ;
+                toIdentifiers.add(id) ;
+            }
+            else if (tokId.GetType() == CTokenType.COMMA)
+            {
+                GetNext();
+            }
+            else if (tokId.GetType() == CTokenType.DOT)
+            {
+                isdone0 = true ;
+            }
+            else
+            {
+                isdone0 = true ;
+            }
+        }
+        return true;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eMove ;
+        if (ismoveCorresponding)
+        {
+            eMove = root.createElement("MoveCorresponding") ;
+        }
+        else
+        {
+            eMove = root.createElement("Move") ;
+        }
+        Element eFrom = root.createElement("From") ;
+        valueFrom.ExportTo(eFrom, root) ;
+        eMove.appendChild(eFrom) ;
+        ListIterator i = toIdentifiers.listIterator() ;
+        try
+        {
+            CIdentifier idDest = (CIdentifier)i.next() ;
+            while (idDest != null)
+            {
+                Element dest ;
+                if (isfillAll)
+                {
+                    dest = root.createElement("Fill") ;
+                }
+                else
+                {
+                    dest = root.createElement("To") ;
+                }
+                idDest.ExportTo(dest, root) ;
+                eMove.appendChild(dest) ;
+                idDest = (CIdentifier)i.next() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            // nothing
+        }
+        return eMove;
+    }
 
-	//protected CMoveFromType fromType = null ;	// STRING / NUMBER / IDENTIFIER / SPACE / ZERO
-	protected CTerminal valueFrom = null ;
-	protected Vector<CIdentifier> toIdentifiers = new Vector<CIdentifier>() ;
-	protected boolean isfillAll = false ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Vector<CDataEntity> vDest = new Vector<CDataEntity>() ;
-		if (!valueFrom.IsReference())
-		{ // no value to used a MOVE, it needs a special assignement function
-			for (int i = 0; i< toIdentifiers.size(); i++)
-			{
-				CIdentifier id = toIdentifiers.get(i) ;
-				if (id != null)
-				{
-					CDataEntity e = id.GetDataReference(getLine(), factory) ;
-					if (e == null)
-					{
-						Transcoder.addOnceUnboundReference(getLine(), id.GetName());
-						//Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
-					}
-					else
-					{
-						if (!vDest.contains(e))
-						{
-							vDest.add(e) ;
-							CBaseActionEntity eAction = null ;
-							eAction = e.GetSpecialAssignment(valueFrom, factory, getLine()) ;
-							if (eAction != null)
-							{
-								parent.AddChild(eAction) ;
-								e.RegisterWritingAction(eAction) ;
-							}
-							else
-							{
-								CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
-								if (eFrom != null)
-								{
-									eAction = e.GetSpecialAssignment(eFrom, factory, getLine()) ;
-									if (eAction != null)
-									{
-										parent.AddChild(eAction) ;
-//										e.RegisterWritingAction(eAction);
-									}
-									else if (e.HasAccessors())
-									{
-										CEntityAssignWithAccessor eAcc = factory.NewEntityAssignWithAccessor(getLine()) ;
-										parent.AddChild(eAcc) ;
-										eAcc.SetAssign(e, eFrom) ;
-										eAcc.SetFillAll(isfillAll) ;
-										e.RegisterWritingAction(eAcc);
-									}
-									else
-									{
-										CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
-										eAsgn.SetFillAll(isfillAll) ;
-										eAsgn.SetValue(eFrom) ;
-										eAsgn.AddRefTo(e);
-										parent.AddChild(eAsgn) ;
-										e.RegisterWritingAction(eAsgn);
-										eFrom.RegisterReadingAction(eAsgn);
-									}
-								}
-								else
-								{
-									String csName = e.GetName();
-									if(StringUtil.isEmpty(csName))
-										csName = id.GetName();
-									Transcoder.logError(getLine(), "Special assignement needed for value : " + valueFrom.GetValue() + " to variable : "+csName) ;
-								}
-							}
-						}
-						else
-						{
-							int n=0;
-						}
-					}
-				}
-			}
-			return null ;
-		}
-		else
-		{
-			CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
-			CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
-			eAsgn.SetValue(eFrom) ;
-			boolean ismoveToUsed = false ;
-			for (int i = 0; i< toIdentifiers.size(); i++)
-			{
-				CIdentifier id = toIdentifiers.get(i) ;
-				if (id != null)
-				{
-					CDataEntity e = id.GetDataReference(getLine(), factory) ;
-					if (e == null)
-					{
-						Transcoder.addOnceUnboundReference(getLine(), id.GetName());
-						//Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
-					}
-					else
-					{
-						if (!vDest.contains(e))
-						{
-							vDest.add(e) ;
-							CBaseActionEntity eAction = null ;
-							if (valueFrom.IsReference())
-							{
-								eAction = e.GetSpecialAssignment(eFrom, factory, getLine()) ;
-							}
-							else
-							{
-								eAction = e.GetSpecialAssignment(valueFrom, factory, getLine()) ;
-							}
-							if (eAction != null)
-							{
-								parent.AddChild(eAction) ;
-								e.RegisterWritingAction(eAction);
-								eFrom.RegisterReadingAction(eAction) ;
-							}
-							else
-							{
-								if (e.HasAccessors())
-								{
-									CEntityAssignWithAccessor eAcc = factory.NewEntityAssignWithAccessor(getLine()) ;
-									parent.AddChild(eAcc) ;
-									eAcc.SetAssign(e, eFrom) ;
-									e.RegisterWritingAction(eAcc);
-									eFrom.RegisterReadingAction(eAcc) ;
-								}
-								else
-								{
-									eAsgn.AddRefTo(e);
-									eAsgn.SetFillAll(isfillAll) ;
-									eAsgn.SetAssignCorresponding(ismoveCorresponding);
-									e.RegisterWritingAction(eAsgn);
-									ismoveToUsed = true ;
-								}
-							}
-						}
-					}
-				}
-			}
-			if (ismoveToUsed)
-			{
-				parent.AddChild(eAsgn) ;
-				if (eFrom != null)
-				{
-					eFrom.RegisterReadingAction(eAsgn);
-				}
-				return eAsgn;
-			}
-			else
-			{
-				return null ;
-			}
-		}
-	}
-	protected boolean ismoveCorresponding = false ;
+    //protected CMoveFromType fromType = null ; // STRING / NUMBER / IDENTIFIER / SPACE / ZERO
+    protected CTerminal valueFrom = null ;
+    protected Vector<CIdentifier> toIdentifiers = new Vector<CIdentifier>() ;
+    protected boolean isfillAll = false ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Vector<CDataEntity> vDest = new Vector<CDataEntity>() ;
+        if (!valueFrom.IsReference())
+        { // no value to used a MOVE, it needs a special assignement function
+            for (int i = 0; i< toIdentifiers.size(); i++)
+            {
+                CIdentifier id = toIdentifiers.get(i) ;
+                if (id != null)
+                {
+                    CDataEntity e = id.GetDataReference(getLine(), factory) ;
+                    if (e == null)
+                    {
+                        Transcoder.addOnceUnboundReference(getLine(), id.GetName());
+                        //Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
+                    }
+                    else
+                    {
+                        if (!vDest.contains(e))
+                        {
+                            vDest.add(e) ;
+                            CBaseActionEntity eAction = null ;
+                            eAction = e.GetSpecialAssignment(valueFrom, factory, getLine()) ;
+                            if (eAction != null)
+                            {
+                                parent.AddChild(eAction) ;
+                                e.RegisterWritingAction(eAction) ;
+                            }
+                            else
+                            {
+                                CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
+                                if (eFrom != null)
+                                {
+                                    eAction = e.GetSpecialAssignment(eFrom, factory, getLine()) ;
+                                    if (eAction != null)
+                                    {
+                                        parent.AddChild(eAction) ;
+//                                      e.RegisterWritingAction(eAction);
+                                    }
+                                    else if (e.HasAccessors())
+                                    {
+                                        CEntityAssignWithAccessor eAcc = factory.NewEntityAssignWithAccessor(getLine()) ;
+                                        parent.AddChild(eAcc) ;
+                                        eAcc.SetAssign(e, eFrom) ;
+                                        eAcc.SetFillAll(isfillAll) ;
+                                        e.RegisterWritingAction(eAcc);
+                                    }
+                                    else
+                                    {
+                                        CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
+                                        eAsgn.SetFillAll(isfillAll) ;
+                                        eAsgn.SetValue(eFrom) ;
+                                        eAsgn.AddRefTo(e);
+                                        parent.AddChild(eAsgn) ;
+                                        e.RegisterWritingAction(eAsgn);
+                                        eFrom.RegisterReadingAction(eAsgn);
+                                    }
+                                }
+                                else
+                                {
+                                    String csName = e.GetName();
+                                    if(StringUtil.isEmpty(csName))
+                                        csName = id.GetName();
+                                    Transcoder.logError(
+                                        getLine(),
+                                        "Special assignement needed for value : " + valueFrom.GetValue() + " to variable : "+csName) ;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            int n=0;
+                        }
+                    }
+                }
+            }
+            return null ;
+        }
+        else
+        {
+            CEntityAssign eAsgn = factory.NewEntityAssign(getLine()) ;
+            CDataEntity eFrom = valueFrom.GetDataEntity(getLine(), factory) ;
+            eAsgn.SetValue(eFrom) ;
+            boolean ismoveToUsed = false ;
+            for (int i = 0; i< toIdentifiers.size(); i++)
+            {
+                CIdentifier id = toIdentifiers.get(i) ;
+                if (id != null)
+                {
+                    CDataEntity e = id.GetDataReference(getLine(), factory) ;
+                    if (e == null)
+                    {
+                        Transcoder.addOnceUnboundReference(getLine(), id.GetName());
+                        //Transcoder.logError(getLine(), "Identifier can't be bound : " + id.GetName()) ;
+                    }
+                    else
+                    {
+                        if (!vDest.contains(e))
+                        {
+                            vDest.add(e) ;
+                            CBaseActionEntity eAction = null ;
+                            if (valueFrom.IsReference())
+                            {
+                                eAction = e.GetSpecialAssignment(eFrom, factory, getLine()) ;
+                            }
+                            else
+                            {
+                                eAction = e.GetSpecialAssignment(valueFrom, factory, getLine()) ;
+                            }
+                            if (eAction != null)
+                            {
+                                parent.AddChild(eAction) ;
+                                e.RegisterWritingAction(eAction);
+                                eFrom.RegisterReadingAction(eAction) ;
+                            }
+                            else
+                            {
+                                if (e.HasAccessors())
+                                {
+                                    CEntityAssignWithAccessor eAcc = factory.NewEntityAssignWithAccessor(getLine()) ;
+                                    parent.AddChild(eAcc) ;
+                                    eAcc.SetAssign(e, eFrom) ;
+                                    e.RegisterWritingAction(eAcc);
+                                    eFrom.RegisterReadingAction(eAcc) ;
+                                }
+                                else
+                                {
+                                    eAsgn.AddRefTo(e);
+                                    eAsgn.SetFillAll(isfillAll) ;
+                                    eAsgn.SetAssignCorresponding(ismoveCorresponding);
+                                    e.RegisterWritingAction(eAsgn);
+                                    ismoveToUsed = true ;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (ismoveToUsed)
+            {
+                parent.AddChild(eAsgn) ;
+                if (eFrom != null)
+                {
+                    eFrom.RegisterReadingAction(eAsgn);
+                }
+                return eAsgn;
+            }
+            else
+            {
+                return null ;
+            }
+        }
+    }
+    protected boolean ismoveCorresponding = false ;
 }

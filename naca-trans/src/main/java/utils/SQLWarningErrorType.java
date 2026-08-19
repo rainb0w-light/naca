@@ -12,31 +12,31 @@ package utils;
  */
 public class SQLWarningErrorType
 {
-	public static SQLWarningErrorType WarningContinue = new SQLWarningErrorType();
-	public static SQLWarningErrorType WarningGoto = new SQLWarningErrorType();
+    public static SQLWarningErrorType WarningContinue = new SQLWarningErrorType();
+    public static SQLWarningErrorType WarningGoto = new SQLWarningErrorType();
 
-	public static SQLWarningErrorType ErrorContinue = new SQLWarningErrorType();
-	public static SQLWarningErrorType ErrorGoto = new SQLWarningErrorType();
+    public static SQLWarningErrorType ErrorContinue = new SQLWarningErrorType();
+    public static SQLWarningErrorType ErrorGoto = new SQLWarningErrorType();
 
-	SQLWarningErrorType()
-	{
-	}
+    SQLWarningErrorType()
+    {
+    }
 
-	public static String getSQLWarningErrorStatement(SQLWarningErrorType type, String csSQLWarningErrorArg)
-	{
-		String cs = "";
-		if(type == ErrorGoto)
-			cs = ".onErrorGoto(";
-		else if(type == WarningGoto)
-			cs = ".onWarningGoto(";
-		else
-			cs = ".onErrorContinue(";
-		if(!cs.equals(""))
-		{
-			if(csSQLWarningErrorArg != null)
-				cs += csSQLWarningErrorArg;
-			cs += ")";
-		}
-		return cs;
-	}
+    public static String getSQLWarningErrorStatement(SQLWarningErrorType type, String csSQLWarningErrorArg)
+    {
+        String cs = "";
+        if(type == ErrorGoto)
+            cs = ".onErrorGoto(";
+        else if(type == WarningGoto)
+            cs = ".onWarningGoto(";
+        else
+            cs = ".onErrorContinue(";
+        if(!cs.equals(""))
+        {
+            if(csSQLWarningErrorArg != null)
+                cs += csSQLWarningErrorArg;
+            cs += ")";
+        }
+        return cs;
+    }
 }

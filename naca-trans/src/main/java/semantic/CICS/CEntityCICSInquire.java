@@ -17,46 +17,46 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSInquire extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSInquire(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// exemplar), so guard it instead of dereferencing unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSInquire(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // exemplar), so guard it instead of dereferencing unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public CDataEntity program = null ;
-	public CDataEntity transaction = null ;
-	public boolean ignore()
-	{
-		return false;
-	}
+    public CDataEntity program = null ;
+    public CDataEntity transaction = null ;
+    public boolean ignore()
+    {
+        return false;
+    }
 
-	public void Clear()
-	{
-		super.Clear();
-		program = null ;
-		transaction = null ;
-	}
+    public void Clear()
+    {
+        super.Clear();
+        program = null ;
+        transaction = null ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
+    // ==================== ST4 Template Accessors ====================
 
-	public CDataEntity getProgram()
-	{
-		return program;
-	}
+    public CDataEntity getProgram()
+    {
+        return program;
+    }
 
-	public CDataEntity getTransaction()
-	{
-		return transaction;
-	}
+    public CDataEntity getTransaction()
+    {
+        return transaction;
+    }
 
 }

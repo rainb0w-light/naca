@@ -17,123 +17,123 @@ package jlib.misc;
  */
 public abstract class BaseDataFile
 {
-	protected String csName = null;
-	private boolean iseOF = false;
+    protected String csName = null;
+    private boolean iseOF = false;
 
-	public static boolean isNullFile(String csFilePhysicalName)
-	{
-		if(StringUtil.isEmpty(csFilePhysicalName))
-			return true;
-		if(csFilePhysicalName.equalsIgnoreCase("wrk/nullfile"))
-			return true;
-		if(csFilePhysicalName.toUpperCase().indexOf("NULLFILE") >= 0)
-			return true;
-		return false;
-	}
+    public static boolean isNullFile(String csFilePhysicalName)
+    {
+        if(StringUtil.isEmpty(csFilePhysicalName))
+            return true;
+        if(csFilePhysicalName.equalsIgnoreCase("wrk/nullfile"))
+            return true;
+        if(csFilePhysicalName.toUpperCase().indexOf("NULLFILE") >= 0)
+            return true;
+        return false;
+    }
 
 
-	public void setName(String csName)
-	{
-		this.csName = csName;
-	}
+    public void setName(String csName)
+    {
+        this.csName = csName;
+    }
 
-	public String getName()
-	{
-		return csName;
-	}
+    public String getName()
+    {
+        return csName;
+    }
 
-	public boolean isEOF()
-	{
-		return iseOF;
-	}
+    public boolean isEOF()
+    {
+        return iseOF;
+    }
 
-	public void setEOF(boolean b)
-	{
-		iseOF = b;
-	}
+    public void setEOF(boolean b)
+    {
+        iseOF = b;
+    }
 
-	//public abstract boolean open();
-	public abstract boolean open(LogicalFileDescriptor logicalFileDescriptor);
+    //public abstract boolean open();
+    public abstract boolean open(LogicalFileDescriptor logicalFileDescriptor);
 
-	public abstract boolean flush();
-	public abstract boolean close();
+    public abstract boolean flush();
+    public abstract boolean close();
 
-	public abstract boolean isOpen();
+    public abstract boolean isOpen();
 
-	public abstract void writeEndOfRecordMarker();
-	public abstract void writeWithEOL(byte[] tBytes, int nSize);
-	public abstract void writeWithEOL(LineRead lineRead);
+    public abstract void writeEndOfRecordMarker();
+    public abstract void writeWithEOL(byte[] tBytes, int nSize);
+    public abstract void writeWithEOL(LineRead lineRead);
 
-	public abstract void write(byte[] tBytes);
-	public abstract void write(byte[] tBytes, int nOffset, int nLength);
-	public abstract void writeRecord(String cs);
+    public abstract void write(byte[] tBytes);
+    public abstract void write(byte[] tBytes, int nOffset, int nLength);
+    public abstract void writeRecord(String cs);
 
     // Read a vairable length line (length is given in record header 4 bytes)
-	public abstract LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut);
-	public abstract LineRead readNextUnixLine();
-	public abstract LineRead readBuffer(int nLineLength, boolean bTryReadNextLF);
-	public abstract byte[] read(int nSize);
-	public abstract boolean readEndOfLineMarker();
-	public abstract boolean savePosition(int nMaxReadAheadSize);
-	public abstract boolean returnAtSavedPosition();
+    public abstract LineRead readVariableLengthLine(boolean bTryReadNextLF, boolean bHeaderIsInt, LineRead lineOut);
+    public abstract LineRead readNextUnixLine();
+    public abstract LineRead readBuffer(int nLineLength, boolean bTryReadNextLF);
+    public abstract byte[] read(int nSize);
+    public abstract boolean readEndOfLineMarker();
+    public abstract boolean savePosition(int nMaxReadAheadSize);
+    public abstract boolean returnAtSavedPosition();
 
-	public abstract byte[] getByteBuffer(int nSize);
-	//public abstract byte[] getAlternateByteBuffer(int nSize);
+    public abstract byte[] getByteBuffer(int nSize);
+    //public abstract byte[] getAlternateByteBuffer(int nSize);
 
-	public abstract void rewrite(byte[] tBytes, int nOffset, int nLength);
-	public abstract void rewriteWithEOL(byte[] tbyDest, int nSize);
-	//public abstract long getFileSize();
-
-
-	public abstract boolean isReadable();
-	public abstract boolean isWritable();
-	public abstract boolean isUpdateable();
-
-	public abstract long getFileCurrentPosition();
-	public abstract boolean setFileCurrentPosition(long lCurrentPosition);
+    public abstract void rewrite(byte[] tBytes, int nOffset, int nLength);
+    public abstract void rewriteWithEOL(byte[] tbyDest, int nSize);
+    //public abstract long getFileSize();
 
 
-	public long getLastPosition()
-	{
-		return lastPosition;
-	}
+    public abstract boolean isReadable();
+    public abstract boolean isWritable();
+    public abstract boolean isUpdateable();
 
-	public void setLastPosition(long l)
-	{
-		lastPosition = l;
-	}
-
-	private long lastPosition = 0;
+    public abstract long getFileCurrentPosition();
+    public abstract boolean setFileCurrentPosition(long lCurrentPosition);
 
 
-	public String unbufferedReadAheadLine(int nMaxReadAheadSize)
-	{
-		String cs = null;
-		if(savePosition(nMaxReadAheadSize))
-		{
-			byte[] tBytes = read(nMaxReadAheadSize);
-			if (tBytes != null)
-			{
-				for(int nPos=0; nPos<tBytes.length && nPos < nMaxReadAheadSize; nPos++)
-				{
-					if(tBytes[nPos] == FileEndOfLine.LF)
-					{
-						cs = new String(tBytes, 0, nPos);
-						break;
-					}
-				}
-				if(returnAtSavedPosition())
-					return cs;
-			}
-		}
-		return null;
-	}
+    public long getLastPosition()
+    {
+        return lastPosition;
+    }
 
-	public int skipFileHeader(String cs)
-	{
-		// Reread the header, to set current position just after header
-		int nHeaderLength = cs.length() + 1;	// Skip header trailing LF
-		read(nHeaderLength);
-		return nHeaderLength;
-	}
+    public void setLastPosition(long l)
+    {
+        lastPosition = l;
+    }
+
+    private long lastPosition = 0;
+
+
+    public String unbufferedReadAheadLine(int nMaxReadAheadSize)
+    {
+        String cs = null;
+        if(savePosition(nMaxReadAheadSize))
+        {
+            byte[] tBytes = read(nMaxReadAheadSize);
+            if (tBytes != null)
+            {
+                for(int nPos=0; nPos<tBytes.length && nPos < nMaxReadAheadSize; nPos++)
+                {
+                    if(tBytes[nPos] == FileEndOfLine.LF)
+                    {
+                        cs = new String(tBytes, 0, nPos);
+                        break;
+                    }
+                }
+                if(returnAtSavedPosition())
+                    return cs;
+            }
+        }
+        return null;
+    }
+
+    public int skipFileHeader(String cs)
+    {
+        // Reread the header, to set current position just after header
+        int nHeaderLength = cs.length() + 1;    // Skip header trailing LF
+        read(nHeaderLength);
+        return nHeaderLength;
+    }
 }

@@ -8,22 +8,22 @@ package nacaLib.varEx;
 
 public class Output
 {
-	public Output()
-	{
-	}
-	
-	public Output display()
-	{
-		return this;
-	}
-	
-	public Output display(String cs)
-	{
-		return this;
-	}
+    public Output()
+    {
+    }
 
-	public Output display(Var v)
-	{
-		return this;
-	}
+    public Output display()
+    {
+        return this;
+    }
+
+    public Output display(String cs)
+    {
+        return this;
+    }
+
+    public Output display(Var v)
+    {
+        return this;
+    }
 }

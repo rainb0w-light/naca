@@ -16,22 +16,22 @@ import utils.*;
 public class CEntityExec extends CBaseActionEntity
 {
 
-	/**
-	 * @param cat
-	 */
-	public CEntityExec(int l, CObjectCatalog cat, String statement)
-	{
-		super(l, cat);
-		csStatement = statement ;
-	}
+    /**
+     * @param cat
+     */
+    public CEntityExec(int l, CObjectCatalog cat, String statement)
+    {
+        super(l, cat);
+        csStatement = statement ;
+    }
 
-	protected String csStatement = "" ;
-	public boolean ignore()
-	{
-		return false ;
-	}
+    protected String csStatement = "" ;
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	public String getStatement() {
-		return csStatement;
-	}
+    public String getStatement() {
+        return csStatement;
+    }
 }

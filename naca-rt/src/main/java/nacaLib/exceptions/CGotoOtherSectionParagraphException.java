@@ -10,12 +10,12 @@ import nacaLib.program.Paragraph;
 
 public class CGotoOtherSectionParagraphException extends NacaRTException
 {
-	private static final long serialVersionUID = 1L;
-	public Paragraph paragraph = null;
+    private static final long serialVersionUID = 1L;
+    public Paragraph paragraph = null;
 
-	public CGotoOtherSectionParagraphException(Paragraph paragraph)
-	{
-		super();
-		this.paragraph = paragraph;
-	}
+    public CGotoOtherSectionParagraphException(Paragraph paragraph)
+    {
+        super();
+        this.paragraph = paragraph;
+    }
 }

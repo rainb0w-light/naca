@@ -18,83 +18,83 @@ import semantic.CDataEntity;
  */
 public class CEntityCondNot extends CBaseEntityCondition
 {
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		return cond;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        return cond;
+    }
 
-	public int GetPriorityLevel()
-	{
-		return 6;
-	}
+    public int GetPriorityLevel()
+    {
+        return 6;
+    }
 
-	protected CBaseEntityCondition cond ;
+    protected CBaseEntityCondition cond ;
 
-	public CBaseEntityCondition getOperand()
-	{
-		return cond;
-	}
+    public CBaseEntityCondition getOperand()
+    {
+        return cond;
+    }
 
-	public void Clear()
-	{
-		super.Clear() ;
-		cond.Clear() ;
-		cond = null ;
-	}
+    public void Clear()
+    {
+        super.Clear() ;
+        cond.Clear() ;
+        cond = null ;
+    }
 
-	public void SetCondition(CBaseEntityCondition cond)
-	{
-		ASSERT(cond);
-		this.cond = cond ;
-		cond.SetParent(this);
-	}
-	public boolean ignore()
-	{
-		return cond.ignore();
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		return cond.ReplaceVariable(field, var) ;
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		CBaseEntityCondition condNew = cond.GetSpecialConditionReplacing(val, fact, replace);
-		CBaseEntityCondition notcond = condNew.GetOppositeCondition() ;
-		if (notcond == null)
-		{
-			CEntityCondNot notCond = fact.NewEntityCondNot() ;
-			notCond.SetCondition(condNew);
-		}
-		return notcond ;
-	}
-//	public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
-//	{
-//		CEntityCondNot not = factory.NewEntityCondNot() ;
-//		CBaseEntityCondition cond = cond.getSimilarCondition(factory, term) ;
-//		not.SetCondition(cond);
-//		return not ;
-//	}
-	public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
-	{
-		if (cond == condition)
-		{
-			cond = newCond ;
-		}
-	}
-	public boolean isBinaryCondition()
-	{
-		return cond.isBinaryCondition() ;
-	}
-	/**
-	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
-	 */
-	@Override
-	public CDataEntity GetConditionReference()
-	{
-		return null;
-	}
-	public void SetConditonReference(CDataEntity e)
-	{
-		ASSERT(null) ;
-	}
+    public void SetCondition(CBaseEntityCondition cond)
+    {
+        ASSERT(cond);
+        this.cond = cond ;
+        cond.SetParent(this);
+    }
+    public boolean ignore()
+    {
+        return cond.ignore();
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        return cond.ReplaceVariable(field, var) ;
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        CBaseEntityCondition condNew = cond.GetSpecialConditionReplacing(val, fact, replace);
+        CBaseEntityCondition notcond = condNew.GetOppositeCondition() ;
+        if (notcond == null)
+        {
+            CEntityCondNot notCond = fact.NewEntityCondNot() ;
+            notCond.SetCondition(condNew);
+        }
+        return notcond ;
+    }
+//  public CBaseEntityCondition getSimilarCondition(CBaseEntityFactory factory, CTerminal term)
+//  {
+//      CEntityCondNot not = factory.NewEntityCondNot() ;
+//      CBaseEntityCondition cond = cond.getSimilarCondition(factory, term) ;
+//      not.SetCondition(cond);
+//      return not ;
+//  }
+    public void UpdateCondition(CBaseEntityCondition condition, CBaseEntityCondition newCond)
+    {
+        if (cond == condition)
+        {
+            cond = newCond ;
+        }
+    }
+    public boolean isBinaryCondition()
+    {
+        return cond.isBinaryCondition() ;
+    }
+    /**
+     * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
+     */
+    @Override
+    public CDataEntity GetConditionReference()
+    {
+        return null;
+    }
+    public void SetConditonReference(CDataEntity e)
+    {
+        ASSERT(null) ;
+    }
 }

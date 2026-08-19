@@ -19,82 +19,82 @@ import utils.CObjectCatalog;
  */
 public class CEntityProcedureDivision extends CBaseLanguageEntity
 {
-	/**
-	 * @param line
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityProcedureDivision(int line, CObjectCatalog cat)
-	{
-		super(line, "", cat);
-		cat.RegisterProcedureDivision(this) ;
-	}
+    /**
+     * @param line
+     * @param name
+     * @param cat
+     */
+    public CEntityProcedureDivision(int line, CObjectCatalog cat)
+    {
+        super(line, "", cat);
+        cat.RegisterProcedureDivision(this) ;
+    }
 
-	protected void RegisterMySelfToCatalog()
-	{
-		// nothing
-	}
+    protected void RegisterMySelfToCatalog()
+    {
+        // nothing
+    }
 
-	protected Vector<CDataEntity> callParameters = new Vector<CDataEntity>();
-	public void AddCallParameter(CDataEntity e)
-	{
-		callParameters.add(e) ;
-	}
-	public Vector<CDataEntity> getCallParameters()
-	{
-		return callParameters;
-	}
+    protected Vector<CDataEntity> callParameters = new Vector<CDataEntity>();
+    public void AddCallParameter(CDataEntity e)
+    {
+        callParameters.add(e) ;
+    }
+    public Vector<CDataEntity> getCallParameters()
+    {
+        return callParameters;
+    }
 
-	protected CEntityBloc procedureBloc =null ;
-	public void SetProcedureBloc(CEntityBloc b)
-	{
-		procedureBloc = b ;
-	}
-	public CEntityBloc getProcedureBloc()
-	{
-		return procedureBloc ;
-	}
-	@Override
-	public List<CBaseLanguageEntity> getSemanticChildren()
-	{
-		List<CBaseLanguageEntity> children = new ArrayList<>(super.getSemanticChildren());
-		if (procedureBloc != null && !children.contains(procedureBloc))
-		{
-			children.add(procedureBloc);
-		}
-		return Collections.unmodifiableList(children);
-	}
-	public CEntityProcedureSection getSectionContainer()
-	{
-		return null ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		callParameters.clear() ;
-		if (procedureBloc!=null)
-		{
-			procedureBloc.Clear() ;
-		}
-		procedureBloc = null ;
-	}
+    protected CEntityBloc procedureBloc =null ;
+    public void SetProcedureBloc(CEntityBloc b)
+    {
+        procedureBloc = b ;
+    }
+    public CEntityBloc getProcedureBloc()
+    {
+        return procedureBloc ;
+    }
+    @Override
+    public List<CBaseLanguageEntity> getSemanticChildren()
+    {
+        List<CBaseLanguageEntity> children = new ArrayList<>(super.getSemanticChildren());
+        if (procedureBloc != null && !children.contains(procedureBloc))
+        {
+            children.add(procedureBloc);
+        }
+        return Collections.unmodifiableList(children);
+    }
+    public CEntityProcedureSection getSectionContainer()
+    {
+        return null ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        callParameters.clear() ;
+        if (procedureBloc!=null)
+        {
+            procedureBloc.Clear() ;
+        }
+        procedureBloc = null ;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean hasExplicitGetout()
-	{
-		if (procedureBloc == null)
-		{
-			return false;
-		}
-		else
-		{
-			return procedureBloc.hasExplicitGetOut() ;
-		}
-	}
+    /**
+     * @return
+     */
+    public boolean hasExplicitGetout()
+    {
+        if (procedureBloc == null)
+        {
+            return false;
+        }
+        else
+        {
+            return procedureBloc.hasExplicitGetOut() ;
+        }
+    }
 }

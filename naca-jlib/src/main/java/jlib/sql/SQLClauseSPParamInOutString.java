@@ -19,29 +19,29 @@ import java.sql.Types;
  */
 public class SQLClauseSPParamInOutString extends SQLClauseSPParamInOut
 {
-	private String tcsVal[] = null;
+    private String tcsVal[] = null;
 
-	public SQLClauseSPParamInOutString(SQLClauseSPParamWay wayInOut, String tcsVal[])
-	{
-		super(wayInOut);
-		this.tcsVal = tcsVal;
-	}
+    public SQLClauseSPParamInOutString(SQLClauseSPParamWay wayInOut, String tcsVal[])
+    {
+        super(wayInOut);
+        this.tcsVal = tcsVal;
+    }
 
-	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.setInValueWithException(nParamId, tcsVal[0]);
-	}
+    protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.setInValueWithException(nParamId, tcsVal[0]);
+    }
 
-	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.registerOutParameterWithException(nParamId, Types.CHAR);
-	}
+    protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.registerOutParameterWithException(nParamId, Types.CHAR);
+    }
 
-	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		tcsVal[0] = stmt.getOutValueStringWithException(nParamId);
-	}
+    protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        tcsVal[0] = stmt.getOutValueStringWithException(nParamId);
+    }
 }

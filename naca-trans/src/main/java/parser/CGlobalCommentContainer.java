@@ -24,63 +24,63 @@ import lexer.CTokenType;
 public class CGlobalCommentContainer
 {
 
-	public void RegisterComment(int line, CComment comm)
-	{
-		Integer in = new Integer(line) ;
-		comments.add(comm) ;
-	}
-	public void DoSemanticAnalysis(CBaseEntityFactory factory)
-	{
-		for (int i = 0; i< comments.size(); i++)
-		{
-			CComment c = comments.get(i);
-			CEntityComment comm = (CEntityComment)c.DoSemanticAnalysis(null, factory) ;
-			commentEntities.add(comm);
-		}
-	}
-	protected Vector<CEntityComment> commentEntities = new Vector<CEntityComment>() ;
-	protected Vector<CComment> comments = new Vector<CComment>();
-	protected int nCurrentComment = 0;
-	public boolean ParseComment(CTokenList lstTokens)
-	{
-		CBaseToken tok = lstTokens.GetCurrentToken() ;
-		if (tok.GetType() == CTokenType.COMMENTS)
-		{
-			CComment eComment = new CComment(tok.getLine(), tok.GetValue()) ;
-//			AddChild(eComment) ;
-			RegisterComment(tok.getLine(), eComment) ;
-			lstTokens.GetNext();
-		}
-		return true ;
-	}
-	public CEntityComment GetCurrentComment()
-	{
-		CEntityComment comm = commentEntities.get(nCurrentComment);
-		nCurrentComment ++ ;
-		return comm ;
-	}
-	public int GetCurrentCommentLine()
-	{
-		if (nCurrentComment < commentEntities.size())
-		{
-			CEntityComment comm = commentEntities.get(nCurrentComment);
-			return comm.getLine() ;
-		}
-		else
-		{
-			return 0 ;
-		}
-	}
-	public void Clear()
-	{
-		for (int i = 0; i< commentEntities.size(); i++)
-		{
-			CEntityComment comm = commentEntities.get(i);
-			comm.Clear() ;
-		}
-		commentEntities.clear() ;
-		comments.clear() ;
-		nCurrentComment = 0 ;
-	}
+    public void RegisterComment(int line, CComment comm)
+    {
+        Integer in = new Integer(line) ;
+        comments.add(comm) ;
+    }
+    public void DoSemanticAnalysis(CBaseEntityFactory factory)
+    {
+        for (int i = 0; i< comments.size(); i++)
+        {
+            CComment c = comments.get(i);
+            CEntityComment comm = (CEntityComment)c.DoSemanticAnalysis(null, factory) ;
+            commentEntities.add(comm);
+        }
+    }
+    protected Vector<CEntityComment> commentEntities = new Vector<CEntityComment>() ;
+    protected Vector<CComment> comments = new Vector<CComment>();
+    protected int nCurrentComment = 0;
+    public boolean ParseComment(CTokenList lstTokens)
+    {
+        CBaseToken tok = lstTokens.GetCurrentToken() ;
+        if (tok.GetType() == CTokenType.COMMENTS)
+        {
+            CComment eComment = new CComment(tok.getLine(), tok.GetValue()) ;
+//          AddChild(eComment) ;
+            RegisterComment(tok.getLine(), eComment) ;
+            lstTokens.GetNext();
+        }
+        return true ;
+    }
+    public CEntityComment GetCurrentComment()
+    {
+        CEntityComment comm = commentEntities.get(nCurrentComment);
+        nCurrentComment ++ ;
+        return comm ;
+    }
+    public int GetCurrentCommentLine()
+    {
+        if (nCurrentComment < commentEntities.size())
+        {
+            CEntityComment comm = commentEntities.get(nCurrentComment);
+            return comm.getLine() ;
+        }
+        else
+        {
+            return 0 ;
+        }
+    }
+    public void Clear()
+    {
+        for (int i = 0; i< commentEntities.size(); i++)
+        {
+            CEntityComment comm = commentEntities.get(i);
+            comm.Clear() ;
+        }
+        commentEntities.clear() ;
+        comments.clear() ;
+        nCurrentComment = 0 ;
+    }
 
 }

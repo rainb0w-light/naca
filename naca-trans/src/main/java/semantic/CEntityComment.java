@@ -15,43 +15,43 @@ import utils.*;
 public class CEntityComment extends CBaseLanguageEntity
 {
 
-	/**
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityComment(int l, CObjectCatalog cat, String comment)
-	{
-		super(l, "", cat);
-		csComment = comment;
-	}
+    /**
+     * @param name
+     * @param cat
+     */
+    public CEntityComment(int l, CObjectCatalog cat, String comment)
+    {
+        super(l, "", cat);
+        csComment = comment;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseSemanticEntity#RegisterMySelfToCatalog()
-	 */
-	protected void RegisterMySelfToCatalog()
-	{
-		// NOTHING
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseSemanticEntity#RegisterMySelfToCatalog()
+     */
+    protected void RegisterMySelfToCatalog()
+    {
+        // NOTHING
+    }
 
-	protected String csComment = "" ;
-	public boolean ignore()
-	{
-		return false;
-	}
+    protected String csComment = "" ;
+    public boolean ignore()
+    {
+        return false;
+    }
 
-	public String getOriginalComment()
-	{
-		return csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
-	}
+    public String getOriginalComment()
+    {
+        return csComment.replaceAll("\n", "0x000A").replaceAll("\r", "0x000D") ;
+    }
 
-	/**
-	 * The raw comment text, target-neutral. The Java backend formats it (comment
-	 * marker, newline escaping, right trim) in its template/renderer; see
-	 * the Java comment renderer for the exact historical behavior.
-	 */
-	public String getComment()
-	{
-		return csComment;
-	}
+    /**
+     * The raw comment text, target-neutral. The Java backend formats it (comment
+     * marker, newline escaping, right trim) in its template/renderer; see
+     * the Java comment renderer for the exact historical behavior.
+     */
+    public String getComment()
+    {
+        return csComment;
+    }
 
 }

@@ -14,68 +14,68 @@ import jlib.misc.NumberParser;
 
 public class ColValueString extends ColValue
 {
-	public ColValueString(String csName, String csReplacement, String csValue)
-	{
-		super(csName,csReplacement);
-		this.csValue = csValue;
-	}
+    public ColValueString(String csName, String csReplacement, String csValue)
+    {
+        super(csName,csReplacement);
+        this.csValue = csValue;
+    }
 
-	public ColValueString(String csName,  String csValue)
-	{
-		super(csName);
-		this.csValue = csValue;
-	}
+    public ColValueString(String csName,  String csValue)
+    {
+        super(csName);
+        this.csValue = csValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueString(csName, csValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueString(csName, csValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(csValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(csValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		csValue = resultSet.getString(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        csValue = resultSet.getString(nCol);
+    }
 
-	public String getValueAsString()
-	{
-		return csValue;
-	}
+    public String getValueAsString()
+    {
+        return csValue;
+    }
 
-	public int getValueAsInt()
-	{
-		return NumberParser.getAsInt(csValue);
-	}
+    public int getValueAsInt()
+    {
+        return NumberParser.getAsInt(csValue);
+    }
 
-	double getValueAsDouble()
-	{
-		return NumberParser.getAsDouble(csValue);
-	}
+    double getValueAsDouble()
+    {
+        return NumberParser.getAsDouble(csValue);
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(String):'"+csValue+"'";
-	}
+    String getDumpValueAsString()
+    {
+        return "(String):'"+csValue+"'";
+    }
 
-	Object getValue()
-	{
-		return csValue;
-	}
+    Object getValue()
+    {
+        return csValue;
+    }
 
-	String getType()
-	{
-		return "String";
-	}
+    String getType()
+    {
+        return "String";
+    }
 
-	int getSQLType()
-	{
-		return Types.CHAR;
-	}
+    int getSQLType()
+    {
+        return Types.CHAR;
+    }
 
-	String csValue = null;
+    String csValue = null;
 }

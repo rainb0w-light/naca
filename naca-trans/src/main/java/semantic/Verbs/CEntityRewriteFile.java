@@ -14,23 +14,23 @@ import utils.CObjectCatalog;
 public class CEntityRewriteFile extends CBaseActionEntity
 {
 
-	public CEntityRewriteFile(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntityRewriteFile(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
-	{
-		eFileDescriptor = efd ;
-		eDataFrom = data ;
-	}
-	protected CEntityFileDescriptor eFileDescriptor = null  ;
-	protected CDataEntity eDataFrom = null ;
+    public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
+    {
+        eFileDescriptor = efd ;
+        eDataFrom = data ;
+    }
+    protected CEntityFileDescriptor eFileDescriptor = null  ;
+    protected CDataEntity eDataFrom = null ;
 
-	public CEntityFileDescriptor getFileDescriptor() {
-		return eFileDescriptor;
-	}
-	public CDataEntity getDataFrom() {
-		return eDataFrom;
-	}
+    public CEntityFileDescriptor getFileDescriptor() {
+        return eFileDescriptor;
+    }
+    public CDataEntity getDataFrom() {
+        return eDataFrom;
+    }
 }

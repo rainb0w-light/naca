@@ -16,74 +16,74 @@ package parser.Cobol.elements.SQL;
  */
 public class CSQLTableColDescriptor
 {
-	public CSQLTableColDescriptor()
-	{
-	}
+    public CSQLTableColDescriptor()
+    {
+    }
 
-	public void SetName(String csName)
-	{
-		this.csName = csName;
-	}
+    public void SetName(String csName)
+    {
+        this.csName = csName;
+    }
 
-	public String GetName()
-	{
-		return csName;
-	}
+    public String GetName()
+    {
+        return csName;
+    }
 
-	void SetLength(int n)
-	{
-		nLength = n;
-		islengthSet = true;
-	}
+    void SetLength(int n)
+    {
+        nLength = n;
+        islengthSet = true;
+    }
 
-	void SetDecimal(int n)
-	{
-		nDecimal = n;
-		isdecimalSet = true;
-	}
+    void SetDecimal(int n)
+    {
+        nDecimal = n;
+        isdecimalSet = true;
+    }
 
-	public boolean HasSize()
-	{
-		return islengthSet;
-	}
+    public boolean HasSize()
+    {
+        return islengthSet;
+    }
 
-	public String GetSizes()
-	{
-		if(islengthSet)
-		{
-			if(isdecimalSet)
-				return String.valueOf(nLength) + ", " + String.valueOf(nDecimal);
-			return String.valueOf(nLength);
-		}
-		return "";
-	}
+    public String GetSizes()
+    {
+        if(islengthSet)
+        {
+            if(isdecimalSet)
+                return String.valueOf(nLength) + ", " + String.valueOf(nDecimal);
+            return String.valueOf(nLength);
+        }
+        return "";
+    }
 
-	void SetType(String csType)
-	{
-		this.csType = csType;
-	}
+    void SetType(String csType)
+    {
+        this.csType = csType;
+    }
 
-	public String GetType()
-	{
-		return csType;
-	}
+    public String GetType()
+    {
+        return csType;
+    }
 
-	void SetNull(boolean b)
-	{
-		isnull = b;
-	}
+    void SetNull(boolean b)
+    {
+        isnull = b;
+    }
 
-	public boolean IsNull()
-	{
-		return isnull;
-	}
+    public boolean IsNull()
+    {
+        return isnull;
+    }
 
-	private int nLength = 0;
-	private int nDecimal = 0;
-	private boolean isdecimalSet = false;
-	private boolean islengthSet = false;
-	private String csType = "";
-	private String csName = "";
-	private boolean isnull = false;
+    private int nLength = 0;
+    private int nDecimal = 0;
+    private boolean isdecimalSet = false;
+    private boolean islengthSet = false;
+    private String csType = "";
+    private String csName = "";
+    private boolean isnull = false;
 
 }

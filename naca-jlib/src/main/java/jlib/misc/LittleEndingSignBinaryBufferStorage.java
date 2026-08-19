@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,23 +16,23 @@ package jlib.misc;
  */
 public class LittleEndingSignBinaryBufferStorage
 {
-	// Little endian binary storage: reverse byte ordre form intel
+    // Little endian binary storage: reverse byte ordre form intel
     public final static byte readByte(byte buf[], int nPos)
     {
-    	return buf[nPos];
-    }	
-    
+        return buf[nPos];
+    }
+
     public final static short readShort(byte buf[], int nPos)
     {
-    	int h = buf[nPos];
-    	if(h < 0)
-    		h += 256;
+        int h = buf[nPos];
+        if(h < 0)
+            h += 256;
         int l = buf[nPos+1];
-    	if(l < 0)
-    		l += 256;
-    	int n = (h << 8) + l;
-    	short s = (short)n;
-    	return s;
+        if(l < 0)
+            l += 256;
+        int n = (h << 8) + l;
+        short s = (short)n;
+        return s;
     }
 
     public final static void writeShort(byte buf[], short s, int nPos)
@@ -43,22 +43,22 @@ public class LittleEndingSignBinaryBufferStorage
 
     public final static int readInt(byte buf[], int nPos)
     {
-    	long h = buf[nPos];
-    	if(h < 0)
-    		h += 256;
-        
-    	long hm = buf[nPos+1];
-    	if(hm < 0)
-    		hm += 256;
-    	
-    	long lm = buf[nPos+2];
-    	if(lm < 0)
-    		lm += 256;
-        
-    	long l = buf[nPos+3];
-    	if(l < 0)
-    		l += 256;
-    	
+        long h = buf[nPos];
+        if(h < 0)
+            h += 256;
+
+        long hm = buf[nPos+1];
+        if(hm < 0)
+            hm += 256;
+
+        long lm = buf[nPos+2];
+        if(lm < 0)
+            lm += 256;
+
+        long l = buf[nPos+3];
+        if(l < 0)
+            l += 256;
+
         long lValue = (h << 24) + (hm << 16) + (lm << 8) + (l << 0);
         return (int)lValue;
     }

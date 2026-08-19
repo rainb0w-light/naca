@@ -12,60 +12,60 @@ package nacaLib.CESM;
  */
 public class CESMReturnCode
 {
-	private CESMReturnCode(int cond, String code)
-	{
-		nCondition = cond ;
-		this.code = code ;
-	}
-	private int nCondition = 0;
-	private String code = "" ;
-	public String getCode()
-	{
-		return code;
-	}
-	public int getCondition()
-	{
-		return nCondition ;
-	}
+    private CESMReturnCode(int cond, String code)
+    {
+        nCondition = cond ;
+        this.code = code ;
+    }
+    private int nCondition = 0;
+    private String code = "" ;
+    public String getCode()
+    {
+        return code;
+    }
+    public int getCondition()
+    {
+        return nCondition ;
+    }
 
-	public static CESMReturnCode NORMAL = new CESMReturnCode(0, "\u0000") ;
-	public static CESMReturnCode NOT_FOUND = new CESMReturnCode(13, "a") ;
-	public static CESMReturnCode DUPREC = new CESMReturnCode(14, "b") ;
-	public static CESMReturnCode ENDFILE = new CESMReturnCode(20, "\u000f") ;
-	public static CESMReturnCode ITEMERR = new CESMReturnCode(26, "\u0001") ;
-	public static CESMReturnCode QIDERR = new CESMReturnCode(44, "\u0002") ;
-	public static CESMReturnCode LENGERR = new CESMReturnCode(22, "\u00f7") ;
-	public static CESMReturnCode NET_NAME_ERROR = new CESMReturnCode(99, "\uFFFF") ;
-	/**
-	 * @param n
-	 * @return
-	 */
-	//http://publibfp.boulder.ibm.com/cgi-bin/bookmgr/BOOKS/dfhp4p06/A.1?SHELF=&DT=20040113165420&CASE
-	public static CESMReturnCode Select(int n)
-	{
-		if (n == 0)
-		{
-			return NORMAL ;
-		}
-		else if (n == NOT_FOUND.nCondition)
-		{
-			return NOT_FOUND ;
-		}
-		else if (n == NET_NAME_ERROR.nCondition)
-		{
-			return NET_NAME_ERROR ;
-		}
-		else if (n == QIDERR.nCondition)
-		{
-			return QIDERR ;
-		}
-		else if (n == ITEMERR.nCondition)
-		{
-			return ITEMERR ;
-		}
-		else
-		{
-			throw new RuntimeException() ; // must not be there : in this case, a condition code is not handled
-		}
-	}
+    public static CESMReturnCode NORMAL = new CESMReturnCode(0, "\u0000") ;
+    public static CESMReturnCode NOT_FOUND = new CESMReturnCode(13, "a") ;
+    public static CESMReturnCode DUPREC = new CESMReturnCode(14, "b") ;
+    public static CESMReturnCode ENDFILE = new CESMReturnCode(20, "\u000f") ;
+    public static CESMReturnCode ITEMERR = new CESMReturnCode(26, "\u0001") ;
+    public static CESMReturnCode QIDERR = new CESMReturnCode(44, "\u0002") ;
+    public static CESMReturnCode LENGERR = new CESMReturnCode(22, "\u00f7") ;
+    public static CESMReturnCode NET_NAME_ERROR = new CESMReturnCode(99, "\uFFFF") ;
+    /**
+     * @param n
+     * @return
+     */
+    //http://publibfp.boulder.ibm.com/cgi-bin/bookmgr/BOOKS/dfhp4p06/A.1?SHELF=&DT=20040113165420&CASE
+    public static CESMReturnCode Select(int n)
+    {
+        if (n == 0)
+        {
+            return NORMAL ;
+        }
+        else if (n == NOT_FOUND.nCondition)
+        {
+            return NOT_FOUND ;
+        }
+        else if (n == NET_NAME_ERROR.nCondition)
+        {
+            return NET_NAME_ERROR ;
+        }
+        else if (n == QIDERR.nCondition)
+        {
+            return QIDERR ;
+        }
+        else if (n == ITEMERR.nCondition)
+        {
+            return ITEMERR ;
+        }
+        else
+        {
+            throw new RuntimeException() ; // must not be there : in this case, a condition code is not handled
+        }
+    }
 }

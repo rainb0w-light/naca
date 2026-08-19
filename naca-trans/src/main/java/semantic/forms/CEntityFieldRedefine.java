@@ -67,165 +67,165 @@ import utils.CObjectCatalog;
  */
 public class CEntityFieldRedefine extends CEntityResourceField
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public String csLevel = "" ;
-	public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, String level)
-	{
-		super(l, name, cat);
-		csLevel = level;
-	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-		CEntityFieldArrayReference e = factory.NewEntityFieldArrayReference(getLine()) ;
-		e.SetReference(this) ;
-		for (int i=0; i<v.size(); i++)
-		{
-			CExpression expr = (CExpression)v.get(i);
-			CBaseEntityExpression exp = expr.AnalyseExpression(factory);
-			e.AddIndex(exp);
-		}
-		return e ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public String csLevel = "" ;
+    public CEntityFieldRedefine(int l, String name, CObjectCatalog cat, String level)
+    {
+        super(l, name, cat);
+        csLevel = level;
+    }
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+        CEntityFieldArrayReference e = factory.NewEntityFieldArrayReference(getLine()) ;
+        e.SetReference(this) ;
+        for (int i=0; i<v.size(); i++)
+        {
+            CExpression expr = (CExpression)v.get(i);
+            CBaseEntityExpression exp = expr.AnalyseExpression(factory);
+            e.AddIndex(exp);
+        }
+        return e ;
+    }
 
-	public boolean IsEntryField()
-	{
-		// Preserved from the retired backend: a redefining edit field is always an entry field.
-		return true ;
-	}
+    public boolean IsEntryField()
+    {
+        // Preserved from the retired backend: a redefining edit field is always an entry field.
+        return true ;
+    }
 
-	public Element DoXMLExport(Document doc, CResourceStrings res)
-	{
-		// Preserved from the retired backend: a redefining field contributes no XML/.res node
-		// of its own. Target-neutral semantic state.
-		return null ;
-	}
+    public Element DoXMLExport(Document doc, CResourceStrings res)
+    {
+        // Preserved from the retired backend: a redefining field contributes no XML/.res node
+        // of its own. Target-neutral semantic state.
+        return null ;
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		// Preserved from the retired backend.
-		return CDataEntityType.FIELD ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        // Preserved from the retired backend.
+        return CDataEntityType.FIELD ;
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: a redefining edit field is never declared as a val.
-		return false ;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: a redefining edit field is never declared as a val.
+        return false ;
+    }
 
-	public String GetTypeDecl()
-	{
-		// Preserved from the retired backend: unused.
-		return "" ;
-	}
+    public String GetTypeDecl()
+    {
+        // Preserved from the retired backend: unused.
+        return "" ;
+    }
 
-	protected void RegisterMySelfToCatalog()
-	{
-		// a Field Redefined must not register itself, because it depends on aliases found in
-		// original program : only those aliases are registered
-	}
+    protected void RegisterMySelfToCatalog()
+    {
+        // a Field Redefined must not register itself, because it depends on aliases found in
+        // original program : only those aliases are registered
+    }
 
-	/**
-	 * Target-neutral identifier formatter standing in for the retired backend's
-	 * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the
-	 * generate-layer factory ({@code BmsJavaEntities.fieldRedefine} injects the bound output's
-	 * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
-	 * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
-	 * coupling lives in this tree.
-	 */
-	private Function<String, String> identifierFormatter =
-		identifier -> identifier.replace('-', '_').replace('#', '$');
+    /**
+     * Target-neutral identifier formatter standing in for the retired backend's
+     * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the
+     * generate-layer factory ({@code BmsJavaEntities.fieldRedefine} injects the bound output's
+     * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
+     * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
+     * coupling lives in this tree.
+     */
+    private Function<String, String> identifierFormatter =
+        identifier -> identifier.replace('-', '_').replace('#', '$');
 
-	public void setIdentifierFormatter(Function<String, String> formatter)
-	{
-		if (formatter != null)
-		{
-			identifierFormatter = formatter ;
-		}
-	}
+    public void setIdentifierFormatter(Function<String, String> formatter)
+    {
+        if (formatter != null)
+        {
+            identifierFormatter = formatter ;
+        }
+    }
 
-	/**
-	 * Pure read-only getter consumed by both the {@code recursiveFieldRedefineEntity} reference
-	 * binding and the {@code recursiveFieldRedefineDeclarationEntity} declaration template.
-	 * Exposes the field name formatted through the injected target-specific formatter. A pure
-	 * formatting step over precomputed state — no FormatIdentifier resolution, no data-reference
-	 * resolution, no lowering.
-	 */
-	public String getFormattedName()
-	{
-		return identifierFormatter.apply(GetName()) ;
-	}
+    /**
+     * Pure read-only getter consumed by both the {@code recursiveFieldRedefineEntity} reference
+     * binding and the {@code recursiveFieldRedefineDeclarationEntity} declaration template.
+     * Exposes the field name formatted through the injected target-specific formatter. A pure
+     * formatting step over precomputed state — no FormatIdentifier resolution, no data-reference
+     * resolution, no lowering.
+     */
+    public String getFormattedName()
+    {
+        return identifierFormatter.apply(GetName()) ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
-	 * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL
-	 * formal level parsed to an int). A pure computation over precomputed state.
-	 */
-	public int getLevel()
-	{
-		return Integer.parseInt(csLevel) ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
+     * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL
+     * formal level parsed to an int). A pure computation over precomputed state.
+     */
+    public int getLevel()
+    {
+        return Integer.parseInt(csLevel) ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the optional
-	 * {@code .pic("<picture>")} clause, mirroring the retired backend's DoExport branch exactly.
-	 * An empty {@code type} emits no clause; {@code pic9} builds the numeric picture from the
-	 * precomputed {@code nLength}/{@code nDecimals}; any other non-empty type emits the
-	 * precomputed {@code format} when set. A pure computation over precomputed state.
-	 */
-	public String getPicClause()
-	{
-		if (type.equals(""))
-		{
-			return "" ;
-		}
-		StringBuilder clause = new StringBuilder(".pic(") ;
-		if (type.equals("pic9"))
-		{
-			clause.append('"') ;
-			for (int i=0; i < nLength; i++)
-			{
-				clause.append('9') ;
-			}
-			if (nDecimals>0)
-			{
-				clause.append('.') ;
-				for (int i=0; i < nDecimals; i++)
-				{
-					clause.append('9') ;
-				}
-			}
-			clause.append('"') ;
-		}
-		else if (!format.equals(""))
-		{
-			clause.append('"').append(format).append('"') ;
-		}
-		clause.append(')') ;
-		return clause.toString() ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the optional
+     * {@code .pic("<picture>")} clause, mirroring the retired backend's DoExport branch exactly.
+     * An empty {@code type} emits no clause; {@code pic9} builds the numeric picture from the
+     * precomputed {@code nLength}/{@code nDecimals}; any other non-empty type emits the
+     * precomputed {@code format} when set. A pure computation over precomputed state.
+     */
+    public String getPicClause()
+    {
+        if (type.equals(""))
+        {
+            return "" ;
+        }
+        StringBuilder clause = new StringBuilder(".pic(") ;
+        if (type.equals("pic9"))
+        {
+            clause.append('"') ;
+            for (int i=0; i < nLength; i++)
+            {
+                clause.append('9') ;
+            }
+            if (nDecimals>0)
+            {
+                clause.append('.') ;
+                for (int i=0; i < nDecimals; i++)
+                {
+                    clause.append('9') ;
+                }
+            }
+            clause.append('"') ;
+        }
+        else if (!format.equals(""))
+        {
+            clause.append('"').append(format).append('"') ;
+        }
+        clause.append(')') ;
+        return clause.toString() ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the optional
-	 * {@code .justifyRight()} clause (nacaLib.varEx.VarLevel/Edit fluent call), mirroring the
-	 * retired backend's {@code isrightJustified} branch. A pure computation over precomputed state.
-	 */
-	public String getJustifyRightClause()
-	{
-		return isrightJustified ? ".justifyRight()" : "" ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the optional
+     * {@code .justifyRight()} clause (nacaLib.varEx.VarLevel/Edit fluent call), mirroring the
+     * retired backend's {@code isrightJustified} branch. A pure computation over precomputed state.
+     */
+    public String getJustifyRightClause()
+    {
+        return isrightJustified ? ".justifyRight()" : "" ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the optional
-	 * {@code .blankWhenZero()} clause (nacaLib.varEx.VarLevel/Edit fluent call), mirroring the
-	 * retired backend's {@code isblankWhenZero} branch. A pure computation over precomputed state.
-	 */
-	public String getBlankWhenZeroClause()
-	{
-		return isblankWhenZero ? ".blankWhenZero()" : "" ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the optional
+     * {@code .blankWhenZero()} clause (nacaLib.varEx.VarLevel/Edit fluent call), mirroring the
+     * retired backend's {@code isblankWhenZero} branch. A pure computation over precomputed state.
+     */
+    public String getBlankWhenZeroClause()
+    {
+        return isblankWhenZero ? ".blankWhenZero()" : "" ;
+    }
 
 }

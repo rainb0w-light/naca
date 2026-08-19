@@ -9,9 +9,9 @@ package parser.FPac.elements;
 public class CFPacCoreCodeBloc extends CFPacCodeBloc
 {
 
-	public CFPacCoreCodeBloc(int line, String name)
-	{
-		super(line, name);
-	}
+    public CFPacCoreCodeBloc(int line, String name)
+    {
+        super(line, name);
+    }
 
 }

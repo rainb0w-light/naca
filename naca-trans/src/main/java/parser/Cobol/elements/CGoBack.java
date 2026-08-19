@@ -25,42 +25,42 @@ import utils.Transcoder;
  */
 public class CGoBack extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CGoBack(int line) {
-		super(line);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.GOBACK)
-		{
-			Transcoder.logError(getLine(), "Expecting 'GOBACK' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		GetNext();
-		return true ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("GoBack") ;
-		return e ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityReturn e = factory.NewEntityReturn(getLine()) ;
-		parent.AddChild(e) ;
-		return e ;
-	}
+    /**
+     * @param line
+     */
+    public CGoBack(int line) {
+        super(line);
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.GOBACK)
+        {
+            Transcoder.logError(getLine(), "Expecting 'GOBACK' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        GetNext();
+        return true ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("GoBack") ;
+        return e ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityReturn e = factory.NewEntityReturn(getLine()) ;
+        parent.AddChild(e) ;
+        return e ;
+    }
 }

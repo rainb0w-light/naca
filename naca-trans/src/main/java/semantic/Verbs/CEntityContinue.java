@@ -16,17 +16,17 @@ import utils.CObjectCatalog;
 public class CEntityContinue extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 * @param out
-	 */
-	public CEntityContinue(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
-	public boolean ignore()
-	{
-		return false ;// maybe true
-	}
+    /**
+     * @param line
+     * @param cat
+     * @param out
+     */
+    public CEntityContinue(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
+    public boolean ignore()
+    {
+        return false ;// maybe true
+    }
 }

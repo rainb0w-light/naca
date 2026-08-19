@@ -28,37 +28,37 @@ import utils.*;
 public class CEntitySqlOnErrorGoto extends CBaseActionEntity
 {
 
-	/**
-	 * @param cat
-	 */
-	public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, String Reference, boolean OnWarning)
-	{
-		super(l, cat);
-		csRef = Reference ;
-		isonWarning = OnWarning ;
-	}
+    /**
+     * @param cat
+     */
+    public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, String Reference, boolean OnWarning)
+    {
+        super(l, cat);
+        csRef = Reference ;
+        isonWarning = OnWarning ;
+    }
 
-	protected String csRef = "" ;
-	protected boolean isonWarning = false ;
-	public boolean ignore()
-	{
-		return false ;
-	}
+    protected String csRef = "" ;
+    protected boolean isonWarning = false ;
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler. The WHENEVER statement
-	// emits no code, so the bound template (recursiveSqlOnErrorGotoEntity) renders
-	// empty; these accessors expose the parsed policy for completeness and for the
-	// render test, and never perform formatting/output here (that is a Stage-1
-	// factory concern).
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler. The WHENEVER statement
+    // emits no code, so the bound template (recursiveSqlOnErrorGotoEntity) renders
+    // empty; these accessors expose the parsed policy for completeness and for the
+    // render test, and never perform formatting/output here (that is a Stage-1
+    // factory concern).
 
-	public String getReference()
-	{
-		return csRef;
-	}
+    public String getReference()
+    {
+        return csRef;
+    }
 
-	public boolean isOnWarning()
-	{
-		return isonWarning;
-	}
+    public boolean isOnWarning()
+    {
+        return isonWarning;
+    }
 }

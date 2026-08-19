@@ -41,103 +41,103 @@ import utils.CObjectCatalog;
 public class CEntityConvertReference extends CBaseDataReference
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityConvertReference(CObjectCatalog cat)
-	{
-		super(0, "", cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityConvertReference(CObjectCatalog cat)
+    {
+        super(0, "", cat);
+    }
 
-	/**
-	 * The conversion reference itself always carries accessors: this is what makes
-	 * the wrapping {@code CSubStringAttributReference} take its accessor branch and
-	 * complete the {@code bufferP/bufferX} call head this entity emits. Mirrors the
-	 * retired backend's {@code HasAccessors()} override.
-	 */
-	@Override
-	public boolean HasAccessors()
-	{
-		return true ;
-	}
+    /**
+     * The conversion reference itself always carries accessors: this is what makes
+     * the wrapping {@code CSubStringAttributReference} take its accessor branch and
+     * complete the {@code bufferP/bufferX} call head this entity emits. Mirrors the
+     * retired backend's {@code HasAccessors()} override.
+     */
+    @Override
+    public boolean HasAccessors()
+    {
+        return true ;
+    }
 
-	/**
-	 * True when no conversion mode was set — the entity renders as the wrapped
-	 * reference alone. Pure state read; populated by {@link #convertToPacked}/
-	 * {@link #convertToAlphaNum}.
-	 */
-	public boolean isPlainReference()
-	{
-		return !isconvertToPacked && !isconvertToAlphaNum ;
-	}
+    /**
+     * True when no conversion mode was set — the entity renders as the wrapped
+     * reference alone. Pure state read; populated by {@link #convertToPacked}/
+     * {@link #convertToAlphaNum}.
+     */
+    public boolean isPlainReference()
+    {
+        return !isconvertToPacked && !isconvertToAlphaNum ;
+    }
 
-	/**
-	 * True when a conversion mode is set and the wrapped reference has accessors, so
-	 * the template renders {@code <reference>P}/{@code <reference>X}. Pure state read
-	 * of the conversion mode plus the semantic {@link CDataEntity#HasAccessors()}
-	 * classification of the wrapped reference (computed during semantic analysis, not
-	 * a lowering step).
-	 */
-	public boolean isAccessorConversion()
-	{
-		return (isconvertToPacked || isconvertToAlphaNum)
-			&& reference != null
-			&& reference.HasAccessors() ;
-	}
+    /**
+     * True when a conversion mode is set and the wrapped reference has accessors, so
+     * the template renders {@code <reference>P}/{@code <reference>X}. Pure state read
+     * of the conversion mode plus the semantic {@link CDataEntity#HasAccessors()}
+     * classification of the wrapped reference (computed during semantic analysis, not
+     * a lowering step).
+     */
+    public boolean isAccessorConversion()
+    {
+        return (isconvertToPacked || isconvertToAlphaNum)
+            && reference != null
+            && reference.HasAccessors() ;
+    }
 
-	/**
-	 * The one-character conversion suffix: {@code "P"} for packed, {@code "X"} for
-	 * alphanumeric. Only meaningful when a conversion mode is set.
-	 */
-	public String getConversionSuffix()
-	{
-		return isconvertToPacked ? "P" : "X" ;
-	}
+    /**
+     * The one-character conversion suffix: {@code "P"} for packed, {@code "X"} for
+     * alphanumeric. Only meaningful when a conversion mode is set.
+     */
+    public String getConversionSuffix()
+    {
+        return isconvertToPacked ? "P" : "X" ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return reference.GetDataType() ;
-	}
-	
+    /**
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return reference.GetDataType() ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#isValNeeded()
-	 */
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
 
-	/**
-	 * @see semantic.CDataEntity#GetConstantValue()
-	 */
-	@Override
-	public String GetConstantValue()
-	{
-		return null;
-	}
+    /**
+     * @see semantic.CDataEntity#isValNeeded()
+     */
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	/**
-	 * @param buffer
-	 */
-	public void convertToPacked(CDataEntity buffer)
-	{
-		isconvertToPacked = true ;
-		isconvertToAlphaNum = false ;
-		reference = buffer ;
-	}	
-	protected boolean isconvertToPacked = false ;
-	protected boolean isconvertToAlphaNum = false ;
-	
-	public void convertToAlphaNum(CDataEntity working) {
-		isconvertToAlphaNum = true ;
-		isconvertToPacked = false ;
-		reference = working ;
-	}
+    /**
+     * @see semantic.CDataEntity#GetConstantValue()
+     */
+    @Override
+    public String GetConstantValue()
+    {
+        return null;
+    }
+
+    /**
+     * @param buffer
+     */
+    public void convertToPacked(CDataEntity buffer)
+    {
+        isconvertToPacked = true ;
+        isconvertToAlphaNum = false ;
+        reference = buffer ;
+    }
+    protected boolean isconvertToPacked = false ;
+    protected boolean isconvertToAlphaNum = false ;
+
+    public void convertToAlphaNum(CDataEntity working) {
+        isconvertToAlphaNum = true ;
+        isconvertToPacked = false ;
+        reference = working ;
+    }
 }

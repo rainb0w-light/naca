@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -25,46 +25,46 @@ import nacaLib.varEx.VarBase;
  */
 public class RecordColTypeManagerDecimal extends RecordColTypeManagerBase
 {
-	public RecordColTypeManagerDecimal(int nColSourceIndex)
-	{
-		super(nColSourceIndex);
-	}
-	
-	public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
-	{
-		try
-		{			
-			BigDecimal value = resultSetSource.getBigDecimal(nColSourceIndex);
-			if (!resultSetSource.wasNull())
-				insertStatementInsert.setBigDecimal(nColSourceIndex, value);
-			else
-				insertStatementInsert.setNull(nColSourceIndex, Types.DECIMAL);			
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return false;		
-	}
-	
-	boolean fillColValue(ResultSet rs, VarBase varInto)
-	{
-		try
-		{		
-			BigDecimal bdValue = rs.getBigDecimal(nColSourceIndex);
-			if(bdValue != null)
-			{
-				varInto.varDef.write(varInto.bufferPos, bdValue);
-				return false;
-			}
-		}
-		catch (SQLException e)
-		{
-			LogSQLException.log(e);
-			// Maybe should I set bNull = true; ?
-		}
-		varInto.varDef.write(varInto.bufferPos, 0);
-		return true;
-	}
+    public RecordColTypeManagerDecimal(int nColSourceIndex)
+    {
+        super(nColSourceIndex);
+    }
+
+    public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
+    {
+        try
+        {
+            BigDecimal value = resultSetSource.getBigDecimal(nColSourceIndex);
+            if (!resultSetSource.wasNull())
+                insertStatementInsert.setBigDecimal(nColSourceIndex, value);
+            else
+                insertStatementInsert.setNull(nColSourceIndex, Types.DECIMAL);
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    boolean fillColValue(ResultSet rs, VarBase varInto)
+    {
+        try
+        {
+            BigDecimal bdValue = rs.getBigDecimal(nColSourceIndex);
+            if(bdValue != null)
+            {
+                varInto.varDef.write(varInto.bufferPos, bdValue);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            LogSQLException.log(e);
+            // Maybe should I set bNull = true; ?
+        }
+        varInto.varDef.write(varInto.bufferPos, 0);
+        return true;
+    }
 }

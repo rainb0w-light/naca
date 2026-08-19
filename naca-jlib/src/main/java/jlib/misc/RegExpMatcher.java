@@ -15,48 +15,48 @@ import java.util.regex.Pattern;
  */
 public class RegExpMatcher {
 
-	private Pattern pattern = null ;
-	private Matcher matcher = null ;
-	
-	public boolean isMatching(String value, String regEx, boolean caseSensitive)
-	{
-		int flag = 0 ;
-		if (!caseSensitive)
-		{
-			flag = Pattern.CASE_INSENSITIVE ;
-		}
-		this.pattern = Pattern.compile(regEx, flag) ;
-		this.matcher = this.pattern.matcher(value) ;
-		return this.matcher.matches() ;
-	}
-	public boolean isMatchingMotif(String value, String regEx)
-	{
-		int flag = 0 ;
-		flag = Pattern.CASE_INSENSITIVE ;
-		this.pattern = Pattern.compile(regEx, flag) ;
-		this.matcher = this.pattern.matcher(value) ;
-		return this.matcher.find() ;
-	}
-	public boolean isMatching(String value, String regEx)
-	{
-		return isMatching(value, regEx, false) ;
-	}
-	public boolean isMatching(String value)
-	{
-		if (this.pattern != null)
-		{
-			this.matcher = this.pattern.matcher(value) ;
-			return this.matcher.matches() ;
-		}
-		return false  ;
-	}
-	public String group(int i)
-	{
-		if (this.matcher != null)
-		{
-			return this.matcher.group(i) ;
-		}
-		return "" ;		
-	}
+    private Pattern pattern = null ;
+    private Matcher matcher = null ;
+
+    public boolean isMatching(String value, String regEx, boolean caseSensitive)
+    {
+        int flag = 0 ;
+        if (!caseSensitive)
+        {
+            flag = Pattern.CASE_INSENSITIVE ;
+        }
+        this.pattern = Pattern.compile(regEx, flag) ;
+        this.matcher = this.pattern.matcher(value) ;
+        return this.matcher.matches() ;
+    }
+    public boolean isMatchingMotif(String value, String regEx)
+    {
+        int flag = 0 ;
+        flag = Pattern.CASE_INSENSITIVE ;
+        this.pattern = Pattern.compile(regEx, flag) ;
+        this.matcher = this.pattern.matcher(value) ;
+        return this.matcher.find() ;
+    }
+    public boolean isMatching(String value, String regEx)
+    {
+        return isMatching(value, regEx, false) ;
+    }
+    public boolean isMatching(String value)
+    {
+        if (this.pattern != null)
+        {
+            this.matcher = this.pattern.matcher(value) ;
+            return this.matcher.matches() ;
+        }
+        return false  ;
+    }
+    public String group(int i)
+    {
+        if (this.matcher != null)
+        {
+            return this.matcher.group(i) ;
+        }
+        return "" ;
+    }
 
 }

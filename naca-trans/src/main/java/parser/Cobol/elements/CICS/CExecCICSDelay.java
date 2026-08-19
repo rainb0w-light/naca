@@ -28,116 +28,116 @@ import utils.Transcoder;
 public class CExecCICSDelay extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSDelay(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSDelay(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (interval == null && seconds == null)
-		{
-			DiagnosticSink.recordUnsupported(
-				"cics.delay.missing-duration",
-				"embedded-cics",
-				getLine(),
-				"EXEC CICS DELAY requires INTERVAL(...) or FOR SECONDS(...)");
-			return null;
-		}
-		CEntityCICSDelay eCICS = factory.NewEntityCICSDelay(getLine()) ;
-		parent.AddChild(eCICS);
-		if (interval != null)
-		{
-			eCICS.SetInterval(interval.GetDataEntity(getLine(), factory)) ;
-		}
-		else if (seconds != null)
-		{
-			eCICS.SetSeconds(seconds.GetDataEntity(getLine(), factory));
-		}
-		return eCICS ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (interval == null && seconds == null)
+        {
+            DiagnosticSink.recordUnsupported(
+                "cics.delay.missing-duration",
+                "embedded-cics",
+                getLine(),
+                "EXEC CICS DELAY requires INTERVAL(...) or FOR SECONDS(...)");
+            return null;
+        }
+        CEntityCICSDelay eCICS = factory.NewEntityCICSDelay(getLine()) ;
+        parent.AddChild(eCICS);
+        if (interval != null)
+        {
+            eCICS.SetInterval(interval.GetDataEntity(getLine(), factory)) ;
+        }
+        else if (seconds != null)
+        {
+            eCICS.SetSeconds(seconds.GetDataEntity(getLine(), factory));
+        }
+        return eCICS ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.DELAY)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.DELAY)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetValue().equals("INTERVAL"))
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.LEFT_BRACKET)
-			{
-				tok = GetNext() ;
-				interval = ReadTerminal() ;
-				tok = GetCurrentToken() ;
-				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-				{
-					tok = GetNext() ;
-				}
-			}
-		}
+        if (tok.GetValue().equals("INTERVAL"))
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.LEFT_BRACKET)
+            {
+                tok = GetNext() ;
+                interval = ReadTerminal() ;
+                tok = GetCurrentToken() ;
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                {
+                    tok = GetNext() ;
+                }
+            }
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.FOR)
-		{
-			tok = GetNext() ;
-			if (tok.GetKeyword() == CCobolKeywordList.SECONDS)
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok =GetNext();
-					seconds = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-		}
+        if (tok.GetKeyword() == CCobolKeywordList.FOR)
+        {
+            tok = GetNext() ;
+            if (tok.GetKeyword() == CCobolKeywordList.SECONDS)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok =GetNext();
+                    seconds = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELAY");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELAY");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("ExecCICSDelay") ;
-		if (interval != null)
-		{
-			Element eI = root.createElement("Interval") ;
-			e.appendChild(eI);
-			interval.ExportTo(eI, root);
-		}
-		if (seconds != null)
-		{
-			Element eI = root.createElement("Seconds") ;
-			e.appendChild(eI);
-			seconds.ExportTo(eI, root);
-		}
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("ExecCICSDelay") ;
+        if (interval != null)
+        {
+            Element eI = root.createElement("Interval") ;
+            e.appendChild(eI);
+            interval.ExportTo(eI, root);
+        }
+        if (seconds != null)
+        {
+            Element eI = root.createElement("Seconds") ;
+            e.appendChild(eI);
+            seconds.ExportTo(eI, root);
+        }
+        return e;
+    }
 
-	protected CTerminal interval = null ;
-	protected CTerminal seconds = null ;
+    protected CTerminal interval = null ;
+    protected CTerminal seconds = null ;
 }

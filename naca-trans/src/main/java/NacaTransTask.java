@@ -15,33 +15,33 @@ import utils.NacaTransLauncher;
  */
 public class NacaTransTask extends Task
 {
-	protected String configfilePath = "" ;
-	private String groupToTranscode = "" ;
+    protected String configfilePath = "" ;
+    private String groupToTranscode = "" ;
 
-	public void setConfig(String filename)
-	{
-		configfilePath = filename ;
-	}
+    public void setConfig(String filename)
+    {
+        configfilePath = filename ;
+    }
 
-	public void execute() throws BuildException
-	{
-		super.getLocation() ;
-		NacaTransLauncher obj = new NacaTransLauncher() ;
-		try
-		{
-			obj.Start(configfilePath, groupToTranscode) ;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace() ;
-			throw new BuildException() ;
-		}
-	}
-	/**
-	 * @param csGroupToTranscode The csGroupToTranscode to set.
-	 */
-	public void setGroupToTranscode(String csGroupToTranscode)
-	{
-		groupToTranscode = csGroupToTranscode;
-	}
+    public void execute() throws BuildException
+    {
+        super.getLocation() ;
+        NacaTransLauncher obj = new NacaTransLauncher() ;
+        try
+        {
+            obj.Start(configfilePath, groupToTranscode) ;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace() ;
+            throw new BuildException() ;
+        }
+    }
+    /**
+     * @param csGroupToTranscode The csGroupToTranscode to set.
+     */
+    public void setGroupToTranscode(String csGroupToTranscode)
+    {
+        groupToTranscode = csGroupToTranscode;
+    }
 }

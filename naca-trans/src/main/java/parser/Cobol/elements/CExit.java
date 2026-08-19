@@ -25,72 +25,72 @@ import utils.CGlobalEntityCounter;
 public class CExit extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExit(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExit(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (isexitProgram)
-		{
-			CEntityReturn e = factory.NewEntityReturn(getLine()) ;
-			parent.AddChild(e) ;
-			return e ;
-		}
-		else
-		{
-			return parent;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (isexitProgram)
+        {
+            CEntityReturn e = factory.NewEntityReturn(getLine()) ;
+            parent.AddChild(e) ;
+            return e ;
+        }
+        else
+        {
+            return parent;
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.EXIT)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		tok = GetNext();
-		if (tok.GetKeyword() == CCobolKeywordList.PROGRAM)
-		{
-			GetNext();
-			isexitProgram = true ;
-			return true ;
-		}
-		else
-		{
-			return true ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.EXIT)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        tok = GetNext();
+        if (tok.GetKeyword() == CCobolKeywordList.PROGRAM)
+        {
+            GetNext();
+            isexitProgram = true ;
+            return true ;
+        }
+        else
+        {
+            return true ;
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		if (isexitProgram)
-		{
-			Element e = root.createElement("ExitProgram") ;
-			return e ;
-		}
-		else
-		{
-			Element e = root.createElement("Nothing") ;
-			return e ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        if (isexitProgram)
+        {
+            Element e = root.createElement("ExitProgram") ;
+            return e ;
+        }
+        else
+        {
+            Element e = root.createElement("Nothing") ;
+            return e ;
+        }
+    }
 
-	protected boolean isexitProgram = false ;
+    protected boolean isexitProgram = false ;
 
 }

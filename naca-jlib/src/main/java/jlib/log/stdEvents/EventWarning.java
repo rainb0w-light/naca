@@ -13,61 +13,61 @@ import jlib.log.*;
  * information element, but probably won't prevent to process the next element.
  * During execution, applications should log the following event types:
  * <ul>
- * 	<li>One (and only one) {@link EventStart} when the application Remarks.</li>
- * 	<li>Any number of {@link EventRemark} events, to log various informations the
- * 	developers found worthwhile to log.</li>
- * 	<li>During processing, regularly log {@link EventProgress} events, to log
- * 	the process progressing.</li>
- * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
- * 	previous <i>EventProgress</i>.</li>
- * 	<li>One (and only one) {@link EventFinish} when the application finishes.</li>
- * 	<li>If the application encounters an irrecoverable exception, it should log
- * 	one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
- * 	<li>If the application encounters an Warning that will not force it to abort,
- * 	it should log a {@link EventWarning} event.</li>
+ *  <li>One (and only one) {@link EventStart} when the application Remarks.</li>
+ *  <li>Any number of {@link EventRemark} events, to log various informations the
+ *  developers found worthwhile to log.</li>
+ *  <li>During processing, regularly log {@link EventProgress} events, to log
+ *  the process progressing.</li>
+ *  <li>When finished processing, log a {@link EventReport} event, to summarize all
+ *  previous <i>EventProgress</i>.</li>
+ *  <li>One (and only one) {@link EventFinish} when the application finishes.</li>
+ *  <li>If the application encounters an irrecoverable exception, it should log
+ *  one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
+ *  <li>If the application encounters an Warning that will not force it to abort,
+ *  it should log a {@link EventWarning} event.</li>
  * </ul>
  * This class allows to log a simple "Warning". You'll probably need to extend this
  * class to adapt it to your own exception handling. Here are a couple of
  * suggestions:
  * <ul>
- * 	<li>You can add up to nine custom parameters:
- * 		<pre>
- * 			class EventWarningMyApplication extends EventWarning
- * 			{
+ *  <li>You can add up to nine custom parameters:
+ *      <pre>
+ *          class EventWarningMyApplication extends EventWarning
+ *          {
  * public static log(String csChannel, String csProcess, String csProduct, String csParam1, int iParam2, String csMessage)
- * 				{
- * 					EventStart e=new EventStart(csProcess, csProduct, csParam1, iParam2);
- * 					Log.log(csChannel,e,csMessage);
- * 				}
+ *              {
+ *                  EventStart e=new EventStart(csProcess, csProduct, csParam1, iParam2);
+ *                  Log.log(csChannel,e,csMessage);
+ *              }
  *
- * 				public EventWarningMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
- * 				{
- * 					super(csProcess, csProduct);
- * 					fillMember("param1",csParam1);
- * 					fillMember("param2",iParam2);
- * 				}
- * 			}
- * 		</pre>
- * 	</li>
- * 	<li>You can create a link between the caught exception and the name
- * 	of the "Warning" event you log:
- * 		<pre>
- * 			class EventWarningMyApplication extends EventWarning
- * 			{
- * 				public static log(String csChannel, String csProcess, String csProduct, Exception exception)
- * 				{
- * 					EventStart e=new EventStart(csProcess, csProduct, exception);
- * 					Log.log(csChannel,e,exception.getMessage());
- * 				}
+ *              public EventWarningMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
+ *              {
+ *                  super(csProcess, csProduct);
+ *                  fillMember("param1",csParam1);
+ *                  fillMember("param2",iParam2);
+ *              }
+ *          }
+ *      </pre>
+ *  </li>
+ *  <li>You can create a link between the caught exception and the name
+ *  of the "Warning" event you log:
+ *      <pre>
+ *          class EventWarningMyApplication extends EventWarning
+ *          {
+ *              public static log(String csChannel, String csProcess, String csProduct, Exception exception)
+ *              {
+ *                  EventStart e=new EventStart(csProcess, csProduct, exception);
+ *                  Log.log(csChannel,e,exception.getMessage());
+ *              }
  *
- * 				public EventWarningMyApplication(String csProcess, String csProduct, Exception exception)
- * 				{
- * 					super(csProcess, csProduct);
- * 					setName(exception.getName());
- * 				}
- * 			}
- * 		</pre>
- * 	</li>
+ *              public EventWarningMyApplication(String csProcess, String csProduct, Exception exception)
+ *              {
+ *                  super(csProcess, csProduct);
+ *                  setName(exception.getName());
+ *              }
+ *          }
+ *      </pre>
+ *  </li>
  * </ul>
  * @author jmgonet
  */
@@ -98,11 +98,18 @@ public class EventWarning extends LogEvent {
  *     use {@link Log#setRuntimeId}.
  * @param csWarning An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, String csWarning)
-	{
-		EventWarning e=new EventWarning(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csWarning, csRunId, csRuntimeId);
-	}
+    public static void log(
+        String csChannel,
+        String csProcess,
+        String csProduct,
+        String csName,
+        String csRunId,
+        String csRuntimeId,
+        String csWarning)
+    {
+        EventWarning e=new EventWarning(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csWarning, csRunId, csRuntimeId);
+    }
 
 /**
  * Logs a "Warning" event.
@@ -122,11 +129,11 @@ public class EventWarning extends LogEvent {
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  * @param csWarning An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csWarning)
-	{
-		EventWarning e=new EventWarning(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csWarning);
-	}
+    public static void log(String csChannel, String csProcess, String csProduct, String csName, String csWarning)
+    {
+        EventWarning e=new EventWarning(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csWarning);
+    }
 
 /**
  * Creates an "Warning" event.
@@ -138,8 +145,8 @@ public class EventWarning extends LogEvent {
  * @param csName The desired name of the event. If left <i>null</i>, the default
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  */
-	public EventWarning(String csProcess, String csProduct, String csName)
-	{
-		super(LogEventType.Warning, LogFlowStd.System, LogLevel.Important,  csProduct, csProcess, csName);
-	}
+    public EventWarning(String csProcess, String csProduct, String csName)
+    {
+        super(LogEventType.Warning, LogFlowStd.System, LogLevel.Important,  csProduct, csProcess, csName);
+    }
 }

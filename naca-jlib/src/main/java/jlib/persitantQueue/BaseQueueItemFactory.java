@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.persitantQueue;
 
@@ -19,5 +19,5 @@ import java.io.ObjectInputStream;
  */
 public abstract class BaseQueueItemFactory
 {
-	public abstract Object read(ObjectInputStream fileIn) throws ClassNotFoundException, IOException;
+    public abstract Object read(ObjectInputStream fileIn) throws ClassNotFoundException, IOException;
 }

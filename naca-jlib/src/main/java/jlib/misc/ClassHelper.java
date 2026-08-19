@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,16 +16,16 @@ package jlib.misc;
  */
 public class ClassHelper
 {
-	public static String getLocalName(Class cls)
-	{		
-		if(cls != null)
-		{
-			String cs = cls.getName();
-			int n = cs.lastIndexOf(".");
-			if(n != -1)
-				cs = cs.substring(n);
-			return cs;
-		}
-		return "";
-	}
+    public static String getLocalName(Class cls)
+    {
+        if(cls != null)
+        {
+            String cs = cls.getName();
+            int n = cs.lastIndexOf(".");
+            if(n != -1)
+                cs = cs.substring(n);
+            return cs;
+        }
+        return "";
+    }
 }

@@ -17,20 +17,20 @@ import jlib.log.LogLevel;
  */
 public class LogEventAliveProcess extends LogEvent
 {
-	public LogEventAliveProcess(String csProduct)
-	{
-		super(LogEventType.Remark, LogFlowStd.Monitoring, LogLevel.Normal);
-	}
+    public LogEventAliveProcess(String csProduct)
+    {
+        super(LogEventType.Remark, LogFlowStd.Monitoring, LogLevel.Normal);
+    }
 
-	public static LogEvent log(String csChannel)
-	{
-		return LogEventAliveProcess.log(null);
-	}		
+    public static LogEvent log(String csChannel)
+    {
+        return LogEventAliveProcess.log(null);
+    }
 
-	public static LogEvent log(String csChannel, String csProduct)
-	{
-		LogEventAliveProcess event = new LogEventAliveProcess(csProduct);
-		Log.log(csChannel, event, "");
-		return event;
-	}
+    public static LogEvent log(String csChannel, String csProduct)
+    {
+        LogEventAliveProcess event = new LogEventAliveProcess(csProduct);
+        Log.log(csChannel, event, "");
+        return event;
+    }
 }

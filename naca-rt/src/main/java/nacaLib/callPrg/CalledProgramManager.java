@@ -14,39 +14,42 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class CalledProgramManager extends BaseProgramManager
 {
-	public CalledProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
-	{
-		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-		
-		BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
-		setEnv(env);
-	}
-	
-	public String getTerminalID()
-	{
-		return "";
-	}
-	
-	public void setEnv(BaseEnvironment env)
-	{
-		eSMEnv = env;
-	}
-	
-	public void detachFromEnv()
-	{
-		eSMEnv = null;
-	}
-	
-	public BaseEnvironment getEnv()
-	{
-		return eSMEnv;
-	}
-	
-	public void prepareRunMain(BaseProgram prg)
-	{
-		((CalledProgram)prg).prepareRunMain(eSMEnv);
-	}
-	
-	private BaseEnvironment eSMEnv = null;
+    public CalledProgramManager(
+        BaseProgram program,
+        SharedProgramInstanceData sharedProgramInstanceData,
+        boolean bInheritedSharedProgramInstanceData)
+    {
+        super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+
+        BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
+        setEnv(env);
+    }
+
+    public String getTerminalID()
+    {
+        return "";
+    }
+
+    public void setEnv(BaseEnvironment env)
+    {
+        eSMEnv = env;
+    }
+
+    public void detachFromEnv()
+    {
+        eSMEnv = null;
+    }
+
+    public BaseEnvironment getEnv()
+    {
+        return eSMEnv;
+    }
+
+    public void prepareRunMain(BaseProgram prg)
+    {
+        ((CalledProgram)prg).prepareRunMain(eSMEnv);
+    }
+
+    private BaseEnvironment eSMEnv = null;
 }
 

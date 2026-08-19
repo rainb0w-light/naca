@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
@@ -19,23 +19,23 @@ import java.util.Stack;
  */
 public class TempCacheStack
 {
-	synchronized static void push(TempCache cache)
-	{
-		ms_stCacheManager.push(cache);
-	}
-	
-	synchronized static TempCache pop()
-	{
-		try
-		{
-			TempCache cache = ms_stCacheManager.pop();
-			return cache;
-		}
-		catch(EmptyStackException e)
-		{
-			return null;
-		}
-	}
-	
-	private static Stack<TempCache> ms_stCacheManager = new Stack<TempCache>();
+    synchronized static void push(TempCache cache)
+    {
+        ms_stCacheManager.push(cache);
+    }
+
+    synchronized static TempCache pop()
+    {
+        try
+        {
+            TempCache cache = ms_stCacheManager.pop();
+            return cache;
+        }
+        catch(EmptyStackException e)
+        {
+            return null;
+        }
+    }
+
+    private static Stack<TempCache> ms_stCacheManager = new Stack<TempCache>();
 }

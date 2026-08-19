@@ -12,18 +12,18 @@ import jlib.log.*;
  * that the developer found worthwhile to "Remark".
  * During execution, applications should log the following event types:
  * <ul>
- * 	<li>One (and only one) {@link EventStart} when the application Remarks.</li>
- * 	<li>Any number of {@link EventRemark} events, to log various informations the
- * 	developers found worthwhile to log.</li>
- * 	<li>During processing, regularly log {@link EventProgress} events, to log
- * 	the process progressing.</li>
- * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
- * 	previous <i>EventProgress</i>.</li>
- * 	<li>One (and only one) {@link EventFinish} when the application finishes.</li>
- * 	<li>If the application encounters an irrecoverable exception, it should log
- * 	one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
- * 	<li>If the application encounters an error that will not force it to abort,
- * 	it should log a {@link EventWarning} event.</li>
+ *  <li>One (and only one) {@link EventStart} when the application Remarks.</li>
+ *  <li>Any number of {@link EventRemark} events, to log various informations the
+ *  developers found worthwhile to log.</li>
+ *  <li>During processing, regularly log {@link EventProgress} events, to log
+ *  the process progressing.</li>
+ *  <li>When finished processing, log a {@link EventReport} event, to summarize all
+ *  previous <i>EventProgress</i>.</li>
+ *  <li>One (and only one) {@link EventFinish} when the application finishes.</li>
+ *  <li>If the application encounters an irrecoverable exception, it should log
+ *  one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
+ *  <li>If the application encounters an error that will not force it to abort,
+ *  it should log a {@link EventWarning} event.</li>
  * </ul>
  * This class allows to log a simple "Remark". Normally you won't need to
  * extend this class, as "Remark" is the most generic of the events. Use it
@@ -58,11 +58,18 @@ public class EventRemark extends LogEvent {
  *     use {@link Log#setRuntimeId}.
  * @param csRemark An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, String csRemark)
-	{
-		EventRemark e=new EventRemark(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csRemark, csRunId, csRuntimeId);
-	}
+    public static void log(
+        String csChannel,
+        String csProcess,
+        String csProduct,
+        String csName,
+        String csRunId,
+        String csRuntimeId,
+        String csRemark)
+    {
+        EventRemark e=new EventRemark(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csRemark, csRunId, csRuntimeId);
+    }
 
 /**
  * Logs a "Remark" event.
@@ -83,11 +90,11 @@ public class EventRemark extends LogEvent {
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  * @param csRemark An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRemark)
-	{
-		EventRemark e=new EventRemark(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csRemark);
-	}
+    public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRemark)
+    {
+        EventRemark e=new EventRemark(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csRemark);
+    }
 
 /**
  * Creates a "Remark" event.
@@ -96,8 +103,8 @@ public class EventRemark extends LogEvent {
  * @param csName The desired name of the event. If left <i>null</i>, the default
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  */
-	public EventRemark(String csProcess, String csProduct, String csName)
-	{
-		super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Verbose, csProduct, csProcess, csName);
-	}
+    public EventRemark(String csProcess, String csProduct, String csName)
+    {
+        super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Verbose, csProduct, csProcess, csName);
+    }
 }

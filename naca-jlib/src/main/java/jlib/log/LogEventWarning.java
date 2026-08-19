@@ -12,14 +12,14 @@ package jlib.log;
  */
 public class LogEventWarning extends LogEvent
 {
-	LogEventWarning()
-	{
-		super(LogEventType.Warning, LogFlowStd.System, LogLevel.Normal);
-	}
+    LogEventWarning()
+    {
+        super(LogEventType.Warning, LogFlowStd.System, LogLevel.Normal);
+    }
 
-	public static LogEvent info()
-	{
-		LogEventWarning event = new LogEventWarning();
-		return event;
-	}
+    public static LogEvent info()
+    {
+        LogEventWarning event = new LogEventWarning();
+        return event;
+    }
 }

@@ -18,29 +18,29 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class MonoThreadedSortAddItem extends ThreadPoolRequest
 {
-	private BtreeFile btreeFile = null;
-	private byte tbyData[] = null;
-	private int nTotalLength;
-	private int nNbRecordRead;
-	private boolean isvariableLength;
+    private BtreeFile btreeFile = null;
+    private byte tbyData[] = null;
+    private int nTotalLength;
+    private int nNbRecordRead;
+    private boolean isvariableLength;
 
-	MonoThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nTotalLength, int nNbRecordRead, boolean isvariableLength)
-	{
-		super(false);
+    MonoThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nTotalLength, int nNbRecordRead, boolean isvariableLength)
+    {
+        super(false);
 
-		this.btreeFile = btreeFile;
-		tbyData = new byte[nTotalLength];
-		for(int n=0; n<nTotalLength; n++)
-		{
-			tbyData[n] = tbyData[n];
-		}
-		this.nTotalLength = nTotalLength;
-		this.nNbRecordRead = nNbRecordRead;
-		this.isvariableLength = isvariableLength;
-	}
+        this.btreeFile = btreeFile;
+        tbyData = new byte[nTotalLength];
+        for(int n=0; n<nTotalLength; n++)
+        {
+            tbyData[n] = tbyData[n];
+        }
+        this.nTotalLength = nTotalLength;
+        this.nNbRecordRead = nNbRecordRead;
+        this.isvariableLength = isvariableLength;
+    }
 
-	public void execute()
-	{
-		btreeFile.asyncAddItemToSort(tbyData, nTotalLength, nNbRecordRead, isvariableLength);
-	}
+    public void execute()
+    {
+        btreeFile.asyncAddItemToSort(tbyData, nTotalLength, nNbRecordRead, isvariableLength);
+    }
 }

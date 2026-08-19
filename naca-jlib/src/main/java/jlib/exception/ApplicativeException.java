@@ -16,45 +16,45 @@ package jlib.exception;
  */
 public class ApplicativeException extends Exception
 {
-	private static final long serialVersionUID = 9203631895766632784L;
-	private String csError = null;
-	private  String csMessage = null;
-	private  Throwable throwable = null;
+    private static final long serialVersionUID = 9203631895766632784L;
+    private String csError = null;
+    private  String csMessage = null;
+    private  Throwable throwable = null;
 
-	protected ApplicativeException(ApplicativeException e)
-	{
-		super(e);
-		csError = e.csError;
-		csMessage = e.csMessage;
-		throwable = e.throwable;
-	}
+    protected ApplicativeException(ApplicativeException e)
+    {
+        super(e);
+        csError = e.csError;
+        csMessage = e.csMessage;
+        throwable = e.throwable;
+    }
 
-	protected ApplicativeException(String csError, String csMessage)
-	{
-		this.csError = csError;
-		this.csMessage = csMessage;
-		throwable = new Throwable();
-	}
+    protected ApplicativeException(String csError, String csMessage)
+    {
+        this.csError = csError;
+        this.csMessage = csMessage;
+        throwable = new Throwable();
+    }
 
-	protected ApplicativeException(String csError, String csMessage, Throwable throwable)
-	{
-		this.csError = csError;
-		this.csMessage = csMessage;
-		this.throwable = throwable;
-	}
+    protected ApplicativeException(String csError, String csMessage, Throwable throwable)
+    {
+        this.csError = csError;
+        this.csMessage = csMessage;
+        this.throwable = throwable;
+    }
 
-	public String getCode()
-	{
-		return csError;
-	}
+    public String getCode()
+    {
+        return csError;
+    }
 
-	public String getMessage()
-	{
-		return csMessage;
-	}
+    public String getMessage()
+    {
+        return csMessage;
+    }
 
-	public Throwable getThrowable()
-	{
-		return throwable;
-	}
+    public Throwable getThrowable()
+    {
+        return throwable;
+    }
 }

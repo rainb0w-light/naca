@@ -10,10 +10,10 @@ import jlib.misc.LogicalFileDescriptor;
 
 public class CannotOpenFileException extends NacaBatchFileException
 {
-	private static final long serialVersionUID = 1L;
-	
-	public CannotOpenFileException(String csFileName, LogicalFileDescriptor logicalFileDescriptor)
-	{
-		super("CannotOpenFileException", csFileName, logicalFileDescriptor);
-	}
+    private static final long serialVersionUID = 1L;
+
+    public CannotOpenFileException(String csFileName, LogicalFileDescriptor logicalFileDescriptor)
+    {
+        super("CannotOpenFileException", csFileName, logicalFileDescriptor);
+    }
 }

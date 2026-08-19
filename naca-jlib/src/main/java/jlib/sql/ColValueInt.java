@@ -13,63 +13,63 @@ import java.sql.Types;
 
 public class ColValueInt extends ColValue
 {
-	public ColValueInt(String csName, int nValue)
-	{
-		super(csName);
-		this.nValue = nValue;
-	}
+    public ColValueInt(String csName, int nValue)
+    {
+        super(csName);
+        this.nValue = nValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueInt(csName, nValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueInt(csName, nValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(nValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(nValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		nValue = resultSet.getInt(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        nValue = resultSet.getInt(nCol);
+    }
 
-	public String getValueAsString()
-	{
-		return String.valueOf(nValue);
-	}
+    public String getValueAsString()
+    {
+        return String.valueOf(nValue);
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(Int):'"+String.valueOf(nValue)+"'";
-	}
+    String getDumpValueAsString()
+    {
+        return "(Int):'"+String.valueOf(nValue)+"'";
+    }
 
-	public int getValueAsInt()
-	{
-		return nValue;
-	}
+    public int getValueAsInt()
+    {
+        return nValue;
+    }
 
-	double getValueAsDouble()
-	{
-		return (double)nValue;
-	}
+    double getValueAsDouble()
+    {
+        return (double)nValue;
+    }
 
-	String getType()
-	{
-		return "Int";
-	}
+    String getType()
+    {
+        return "Int";
+    }
 
-	int getSQLType()
-	{
-		return Types.INTEGER;
-	}
+    int getSQLType()
+    {
+        return Types.INTEGER;
+    }
 
-	Object getValue()
-	{
-		return String.valueOf(Integer.valueOf(nValue));
-	}
+    Object getValue()
+    {
+        return String.valueOf(Integer.valueOf(nValue));
+    }
 
 
-	int nValue = 0;
+    int nValue = 0;
 }

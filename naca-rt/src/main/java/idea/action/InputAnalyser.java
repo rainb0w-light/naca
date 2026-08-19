@@ -22,106 +22,106 @@ import org.w3c.dom.NodeList;
  */
 public class InputAnalyser
 {
-	public boolean BuildXMLData(OnlineSession appSession)
-	{
-		CMapFieldLoader reqLoader = appSession.getInputWrapper() ;
-		if (reqLoader == null)
-		{
-			return false;
-		}
-		KeyPressed key = reqLoader.getKeyPressed() ;
-		if (key == null)
-		{
-			return false;
-		}
+    public boolean BuildXMLData(OnlineSession appSession)
+    {
+        CMapFieldLoader reqLoader = appSession.getInputWrapper() ;
+        if (reqLoader == null)
+        {
+            return false;
+        }
+        KeyPressed key = reqLoader.getKeyPressed() ;
+        if (key == null)
+        {
+            return false;
+        }
 
-		Document eRoot = appSession.CreateXMLDataRoot();
-		eRoot.getDocumentElement().setAttribute("keypressed", key.csValue);
+        Document eRoot = appSession.CreateXMLDataRoot();
+        eRoot.getDocumentElement().setAttribute("keypressed", key.csValue);
 
-		String idPage = reqLoader.getIDPage() ;
-		eRoot.getDocumentElement().setAttribute("page", idPage) ;
-		eRoot.getDocumentElement().setAttribute("name", idPage) ;
-		String idLang = reqLoader.getFieldValue("idLang") ;
-		eRoot.getDocumentElement().setAttribute("lang", idLang) ;
-		Document xmlStruct = appSession.getXMLStructure(idPage) ;
-		if (xmlStruct != null)
-		{
-			Element eStruct = xmlStruct.getDocumentElement() ;
-			NodeList lst = eStruct.getElementsByTagName("edit") ;
-			int nb = lst.getLength() ;
-			for (int i=0; i<nb; i++)
-			{
-				Element e = (Element)lst.item(i) ;
-				String ref = e.getAttribute("linkedvalue");
-				String field = e.getAttribute("name") ;
-				String val = reqLoader.getFieldValue(field) ;
-				boolean isupdated = reqLoader.isFieldModified(field) ;
-				AddField(eRoot, ref, val, isupdated) ;
-			}
+        String idPage = reqLoader.getIDPage() ;
+        eRoot.getDocumentElement().setAttribute("page", idPage) ;
+        eRoot.getDocumentElement().setAttribute("name", idPage) ;
+        String idLang = reqLoader.getFieldValue("idLang") ;
+        eRoot.getDocumentElement().setAttribute("lang", idLang) ;
+        Document xmlStruct = appSession.getXMLStructure(idPage) ;
+        if (xmlStruct != null)
+        {
+            Element eStruct = xmlStruct.getDocumentElement() ;
+            NodeList lst = eStruct.getElementsByTagName("edit") ;
+            int nb = lst.getLength() ;
+            for (int i=0; i<nb; i++)
+            {
+                Element e = (Element)lst.item(i) ;
+                String ref = e.getAttribute("linkedvalue");
+                String field = e.getAttribute("name") ;
+                String val = reqLoader.getFieldValue(field) ;
+                boolean isupdated = reqLoader.isFieldModified(field) ;
+                AddField(eRoot, ref, val, isupdated) ;
+            }
 
-			lst = eStruct.getElementsByTagName("switch") ;
-			nb = lst.getLength() ;
-			for (int i=0; i<nb; i++)
-			{
-				Element e = (Element)lst.item(i) ;
-				String ref = e.getAttribute("linkedvalue");
-				String field = e.getAttribute("name") ;
-				String val = reqLoader.getFieldValue(field) ;
-				boolean isupdated = reqLoader.isFieldModified(field) ;
-				AddField(eRoot, ref, val, isupdated) ;
-			}
-		}
-		appSession.setXMLData(eRoot) ;
+            lst = eStruct.getElementsByTagName("switch") ;
+            nb = lst.getLength() ;
+            for (int i=0; i<nb; i++)
+            {
+                Element e = (Element)lst.item(i) ;
+                String ref = e.getAttribute("linkedvalue");
+                String field = e.getAttribute("name") ;
+                String val = reqLoader.getFieldValue(field) ;
+                boolean isupdated = reqLoader.isFieldModified(field) ;
+                AddField(eRoot, ref, val, isupdated) ;
+            }
+        }
+        appSession.setXMLData(eRoot) ;
 
-		return true;
-	}
-	public void BuildXMLDataForPrintScreen(OnlineSession appSession)
-	{
-		Document eRoot = appSession.getXMLData();
-		CBaseMapFieldLoader reqLoader = appSession.getInputWrapper() ;
-		if (reqLoader == null)
-		{
-			return  ;
-		}
+        return true;
+    }
+    public void BuildXMLDataForPrintScreen(OnlineSession appSession)
+    {
+        Document eRoot = appSession.getXMLData();
+        CBaseMapFieldLoader reqLoader = appSession.getInputWrapper() ;
+        if (reqLoader == null)
+        {
+            return  ;
+        }
 
-		Element eStruct = eRoot.getDocumentElement() ;
-		NodeList lst = eStruct.getElementsByTagName("field") ;
-		int nb = lst.getLength() ;
-		for (int i=0; i<nb; i++)
-		{
-			Element e = (Element)lst.item(i) ;
-			String name = e.getAttribute("name") ;
-			boolean isupdated = reqLoader.isFieldModified(name) ;
-			if (isupdated)
-			{
-				String val = reqLoader.getFieldValue(name) ;
-				e.setAttribute("value", val);
-				e.setAttribute("updated", "true") ;
-			}
-		}
+        Element eStruct = eRoot.getDocumentElement() ;
+        NodeList lst = eStruct.getElementsByTagName("field") ;
+        int nb = lst.getLength() ;
+        for (int i=0; i<nb; i++)
+        {
+            Element e = (Element)lst.item(i) ;
+            String name = e.getAttribute("name") ;
+            boolean isupdated = reqLoader.isFieldModified(name) ;
+            if (isupdated)
+            {
+                String val = reqLoader.getFieldValue(name) ;
+                e.setAttribute("value", val);
+                e.setAttribute("updated", "true") ;
+            }
+        }
 
-		appSession.setXMLData(eRoot) ;
-	}
+        appSession.setXMLData(eRoot) ;
+    }
 
-	/**
-	 * @param eRoot
-	 * @param ref
-	 * @param val
-	 */
-	private void AddField(Document eRoot, String ref, String val, boolean bUpdated)
-	{
-		Element field = eRoot.createElement("field") ;
-		eRoot.getDocumentElement().appendChild(field) ;
-		field.setAttribute("name", ref) ;
-		field.setAttribute("value", val) ;
-		if (bUpdated)
-		{
-			field.setAttribute("updated", "true") ;
-		}
-		else
-		{
-			field.setAttribute("updated", "false") ;
-		}
-	}
+    /**
+     * @param eRoot
+     * @param ref
+     * @param val
+     */
+    private void AddField(Document eRoot, String ref, String val, boolean bUpdated)
+    {
+        Element field = eRoot.createElement("field") ;
+        eRoot.getDocumentElement().appendChild(field) ;
+        field.setAttribute("name", ref) ;
+        field.setAttribute("value", val) ;
+        if (bUpdated)
+        {
+            field.setAttribute("updated", "true") ;
+        }
+        else
+        {
+            field.setAttribute("updated", "false") ;
+        }
+    }
 
 }

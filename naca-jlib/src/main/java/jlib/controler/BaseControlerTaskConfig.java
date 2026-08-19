@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.controler;
 
@@ -16,103 +16,103 @@ import jlib.xml.Tag;
 
 public abstract class BaseControlerTaskConfig
 {
-	protected BaseControlerTaskConfig(String name)
-	{
-		csName = name ;
-	}
-	private String csName = "" ;
-	protected enum EGroupMode 
-	{
-		MODE_GROUP, MODE_SITE ;
-	}
-	private EGroupMode eMode = EGroupMode.MODE_SITE ;
+    protected BaseControlerTaskConfig(String name)
+    {
+        csName = name ;
+    }
+    private String csName = "" ;
+    protected enum EGroupMode
+    {
+        MODE_GROUP, MODE_SITE ;
+    }
+    private EGroupMode eMode = EGroupMode.MODE_SITE ;
 
-	public abstract int getNbSteps() ;
+    public abstract int getNbSteps() ;
 
-	public abstract BaseControlerStepConfig getStep(int j) ;
+    public abstract BaseControlerStepConfig getStep(int j) ;
 
-	public boolean isModeGroup()
-	{
-		return eMode == EGroupMode.MODE_GROUP ;
-	}
+    public boolean isModeGroup()
+    {
+        return eMode == EGroupMode.MODE_GROUP ;
+    }
 
-	void Setup(Tag tagTask)
-	{
-		nDelayBeforeStart = tagTask.getValAsInt("startdelay") ;
-		nDelayBeforeRestart = tagTask.getValAsInt("restartdelay") ;
-		String cs = tagTask.getVal("mode") ;
-		if (cs.equals("group"))
-		{
-			eMode = EGroupMode.MODE_GROUP ;
-			isactive = false ; // default value
-		}
-		else if (cs.equals("site"))
-		{
-			eMode = EGroupMode.MODE_SITE ;
-			isactive = true ; // default value
-		}
-		cs = tagTask.getVal("status") ;
-		if (cs.equalsIgnoreCase("active"))
-		{
-			isactive = true ;
-		}
-		else if (cs.equalsIgnoreCase("inactive"))
-		{
-			isactive = false ;
-		}
-		
-		
-		intSetup(tagTask) ;
-	}
-	protected abstract void intSetup(Tag tagTask);
+    void Setup(Tag tagTask)
+    {
+        nDelayBeforeStart = tagTask.getValAsInt("startdelay") ;
+        nDelayBeforeRestart = tagTask.getValAsInt("restartdelay") ;
+        String cs = tagTask.getVal("mode") ;
+        if (cs.equals("group"))
+        {
+            eMode = EGroupMode.MODE_GROUP ;
+            isactive = false ; // default value
+        }
+        else if (cs.equals("site"))
+        {
+            eMode = EGroupMode.MODE_SITE ;
+            isactive = true ; // default value
+        }
+        cs = tagTask.getVal("status") ;
+        if (cs.equalsIgnoreCase("active"))
+        {
+            isactive = true ;
+        }
+        else if (cs.equalsIgnoreCase("inactive"))
+        {
+            isactive = false ;
+        }
 
-	private int nDelayBeforeStart = 0 ;
-	private int nDelayBeforeRestart = 0 ;
-	private boolean isactive = false ;
 
-	public String getName()
-	{
-		return csName ;
-	}
+        intSetup(tagTask) ;
+    }
+    protected abstract void intSetup(Tag tagTask);
 
-	protected int getDelayBeforeStart()
-	{
-		return nDelayBeforeStart ;
-	}
+    private int nDelayBeforeStart = 0 ;
+    private int nDelayBeforeRestart = 0 ;
+    private boolean isactive = false ;
 
-	protected int getDelayBeforeRestart()
-	{
-		return nDelayBeforeRestart ;
-	}
+    public String getName()
+    {
+        return csName ;
+    }
 
-	public abstract String getLogChannel() ;
+    protected int getDelayBeforeStart()
+    {
+        return nDelayBeforeStart ;
+    }
 
-	protected abstract BaseControlerStepConfig NewStepConfig(String stepName, int stepIndex) ;
+    protected int getDelayBeforeRestart()
+    {
+        return nDelayBeforeRestart ;
+    }
 
-	protected abstract Hashtable<String, BaseControlerStepConfig> getTabConfig() ;
+    public abstract String getLogChannel() ;
 
-	protected abstract void RemoveStepConfig(BaseControlerStepConfig conf) ;
+    protected abstract BaseControlerStepConfig NewStepConfig(String stepName, int stepIndex) ;
 
-	public abstract BaseControler NewControler() ;
+    protected abstract Hashtable<String, BaseControlerStepConfig> getTabConfig() ;
 
-//	public abstract int FindStepConfig(BaseControlerStepConfig conf) ;
-	
-	
-//	void setCurrentControler(BaseControler ctrl)
-//	{
-//		currentControler = ctrl ;
-//	}
-//	private BaseControler currentControler = null  ;
-//	void OnDeleteConfig()
-//	{
-//		if (currentControler != null)
-//		{
-//			currentControler.Stop(true) ;
-//		}
-//		for (int i=0; i<getNbSteps(); i++)
-//		{
-//			BaseControlerStepConfig step = getStep(i) ;
-//			step.OnDeleteConfig() ;
-//		}
-//	}
+    protected abstract void RemoveStepConfig(BaseControlerStepConfig conf) ;
+
+    public abstract BaseControler NewControler() ;
+
+//  public abstract int FindStepConfig(BaseControlerStepConfig conf) ;
+
+
+//  void setCurrentControler(BaseControler ctrl)
+//  {
+//      currentControler = ctrl ;
+//  }
+//  private BaseControler currentControler = null  ;
+//  void OnDeleteConfig()
+//  {
+//      if (currentControler != null)
+//      {
+//          currentControler.Stop(true) ;
+//      }
+//      for (int i=0; i<getNbSteps(); i++)
+//      {
+//          BaseControlerStepConfig step = getStep(i) ;
+//          step.OnDeleteConfig() ;
+//      }
+//  }
 }

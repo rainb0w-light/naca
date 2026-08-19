@@ -27,67 +27,67 @@ import utils.Transcoder;
 public class CFPacDoSubr extends CFPacElement
 {
 
-	private CIdentifier idSubr;
+    private CIdentifier idSubr;
 
-	/**
-	 * @param line
-	 */
-	public CFPacDoSubr(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CFPacDoSubr(int line)
+    {
+        super(line);
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.DOSUBR)
-		{
-			tok = GetNext() ;
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting '-' after DOSUBR") ;
-			return false ;
-		}
-		
-		idSubr = ReadIdentifier() ;
-		if (idSubr == null)
-		{
-			Transcoder.logError(getLine(), "Expecting IDENTIFIER after DOSUBR-") ;
-			return false ;
-		}
-		return true ;
-	}
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.DOSUBR)
+        {
+            tok = GetNext() ;
+        }
 
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityCallFunction call = factory.NewEntityCallFunction(getLine(), idSubr.GetName(), null, null)  ;
-		parent.AddChild(call) ;
-		return call ;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting '-' after DOSUBR") ;
+            return false ;
+        }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("DoSubr") ;
-		idSubr.ExportTo(e, root);
-		return e ;
-	}
+        idSubr = ReadIdentifier() ;
+        if (idSubr == null)
+        {
+            Transcoder.logError(getLine(), "Expecting IDENTIFIER after DOSUBR-") ;
+            return false ;
+        }
+        return true ;
+    }
+
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityCallFunction call = factory.NewEntityCallFunction(getLine(), idSubr.GetName(), null, null)  ;
+        parent.AddChild(call) ;
+        return call ;
+    }
+
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("DoSubr") ;
+        idSubr.ExportTo(e, root);
+        return e ;
+    }
 
 }

@@ -15,49 +15,49 @@ import jlib.misc.StringUtil;
  */
 public class PatternLayoutRawLine extends LogPatternLayout
 {
-	public PatternLayoutRawLine(String csFormat)
-	{
-		super();
-		this.csFormat = csFormat;
-	}
+    public PatternLayoutRawLine(String csFormat)
+    {
+        super();
+        this.csFormat = csFormat;
+    }
 
-	String getMessage(LogParams logParams)
-	{
-		String csMessage = logParams.getMessage();
-		return csMessage+"\r\n";
-	}
+    String getMessage(LogParams logParams)
+    {
+        String csMessage = logParams.getMessage();
+        return csMessage+"\r\n";
+    }
 
 
-	public String format(LogParams logParams, int n)
-	{
-		if(n == 0)
-		{
-			if(StringUtil.isEmpty(csFormat))
-			{
-				return logParams.toString() + "\r\n";
-			}
-			else
-			{
-				String cs = csFormat;
-				cs = StringUtil.replace(cs, "%FullText", logParams.toString(), true);
-				cs = StringUtil.replace(cs, "%Message", logParams.getMessage(), true);
-				cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
-				cs = StringUtil.replace(cs, "%ThreadId", logParams.getThreadId(), true);
-				cs = StringUtil.replace(cs, "%StartTime", logParams.getStartTime(), true);
-				cs = StringUtil.replace(cs, "%Timestamp", logParams.getDisplayTimestamp(), true);
-				cs = StringUtil.replace(cs, "%CR", "\r", true);
-				cs = StringUtil.replace(cs, "%LF", "\n", true);
-				return cs;
-			}
-		}
+    public String format(LogParams logParams, int n)
+    {
+        if(n == 0)
+        {
+            if(StringUtil.isEmpty(csFormat))
+            {
+                return logParams.toString() + "\r\n";
+            }
+            else
+            {
+                String cs = csFormat;
+                cs = StringUtil.replace(cs, "%FullText", logParams.toString(), true);
+                cs = StringUtil.replace(cs, "%Message", logParams.getMessage(), true);
+                cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
+                cs = StringUtil.replace(cs, "%ThreadId", logParams.getThreadId(), true);
+                cs = StringUtil.replace(cs, "%StartTime", logParams.getStartTime(), true);
+                cs = StringUtil.replace(cs, "%Timestamp", logParams.getDisplayTimestamp(), true);
+                cs = StringUtil.replace(cs, "%CR", "\r", true);
+                cs = StringUtil.replace(cs, "%LF", "\n", true);
+                return cs;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	int getNbLoop(LogParams logParams)
-	{
-		return 1;
-	}
+    int getNbLoop(LogParams logParams)
+    {
+        return 1;
+    }
 
-	private String csFormat = null;
+    private String csFormat = null;
 }

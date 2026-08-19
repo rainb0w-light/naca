@@ -9,36 +9,36 @@ import semantic.CDataEntity;
  */
 public class CEntityConstantValue extends CDataEntity
 {
-	public CEntityConstantValue(String value)
-	{
-		super(0, "", null);
-		this.value = value;
-	}
+    public CEntityConstantValue(String value)
+    {
+        super(0, "", null);
+        this.value = value;
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.CONSTANT;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.CONSTANT;
+    }
 
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	public String GetConstantValue()
-	{
-		return value;
-	}
+    public String GetConstantValue()
+    {
+        return value;
+    }
 
-	public String getLiteralValue()
-	{
-		return value;
-	}
+    public String getLiteralValue()
+    {
+        return value;
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	private final String value;
+    private final String value;
 }

@@ -46,17 +46,17 @@ import utils.CObjectCatalog;
 public class CEntityResetKeyPressed extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityResetKeyPressed(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityResetKeyPressed(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 
 }

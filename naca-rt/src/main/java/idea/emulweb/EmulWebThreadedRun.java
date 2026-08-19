@@ -13,53 +13,58 @@ import idea.onlinePrgEnv.OnlineSession;
 
 public class EmulWebThreadedRun
 {
-	EmulWebThreadedRun(EmulWebRunner emulWebRunner, OnlineResourceManager resourceManager, int nbLoops, boolean ischeckScenario, boolean isoutputExport)
-	{
-		this.emulWebRunner = emulWebRunner;
-		this.resourceManager = resourceManager;
-		this.nbLoops = nbLoops;
-		this.ischeckScenario = ischeckScenario;
-		this.isoutputExport = isoutputExport;
-	}
+    EmulWebThreadedRun(
+        EmulWebRunner emulWebRunner,
+        OnlineResourceManager resourceManager,
+        int nbLoops,
+        boolean ischeckScenario,
+        boolean isoutputExport)
+    {
+        this.emulWebRunner = emulWebRunner;
+        this.resourceManager = resourceManager;
+        this.nbLoops = nbLoops;
+        this.ischeckScenario = ischeckScenario;
+        this.isoutputExport = isoutputExport;
+    }
 
-	void run()
-	{
-		OnlineSession session = new OnlineSession(false) ;
-		session.setCheckScenario(ischeckScenario);
-		for (int i=0; i<nbLoops; i++)
-		{
-			StopWatch sw = new StopWatch();
-			EmulWebRunner.PlayScenario(session, resourceManager, isoutputExport) ;
-			Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
-			waitUntilNextLoopEnabled(i);
-			session.reset();
-		}
-		Log.logCritical("EmulWebRun finished");
-	}
+    void run()
+    {
+        OnlineSession session = new OnlineSession(false) ;
+        session.setCheckScenario(ischeckScenario);
+        for (int i=0; i<nbLoops; i++)
+        {
+            StopWatch sw = new StopWatch();
+            EmulWebRunner.PlayScenario(session, resourceManager, isoutputExport) ;
+            Log.logCritical("Scneario loop executed in " + sw.getElapsedTimeReset() + " ms");
+            waitUntilNextLoopEnabled(i);
+            session.reset();
+        }
+        Log.logCritical("EmulWebRun finished");
+    }
 
-	private void waitUntilNextLoopEnabled(int i)
-	{
-//		if(!bEnableRemainingLoops)
-//		{
-//			Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
-//			while(!bNextLoopEnabled)
-//			{
-//				try
-//				{
-//					Thread.sleep(1000L);
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//			bNextLoopEnabled= false;
-//		}
-	}
+    private void waitUntilNextLoopEnabled(int i)
+    {
+//      if(!bEnableRemainingLoops)
+//      {
+//          Log.logCritical("EmulWeb Loop " + i + " Done; waiting to be enabled by jmx ...");
+//          while(!bNextLoopEnabled)
+//          {
+//              try
+//              {
+//                  Thread.sleep(1000L);
+//              }
+//              catch (InterruptedException e)
+//              {
+//                  e.printStackTrace();
+//              }
+//          }
+//          bNextLoopEnabled= false;
+//      }
+    }
 
-	int nbLoops = 0;
-	boolean ischeckScenario = false;
-	boolean isoutputExport = false;
-	OnlineResourceManager resourceManager = null;
-	EmulWebRunner emulWebRunner = null;
+    int nbLoops = 0;
+    boolean ischeckScenario = false;
+    boolean isoutputExport = false;
+    OnlineResourceManager resourceManager = null;
+    EmulWebRunner emulWebRunner = null;
 }

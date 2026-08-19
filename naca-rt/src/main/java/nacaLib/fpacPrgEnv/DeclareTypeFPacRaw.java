@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.fpacPrgEnv;
 
@@ -23,90 +23,90 @@ import nacaLib.varEx.VarLevel;
  */
 public class DeclareTypeFPacRaw extends DeclareTypeBase
 {
-	public DeclareTypeFPacRaw(VarLevel varLevel, int nLength)
-	{
-		super(varLevel);
-		this.nLength = nLength;
-	}
+    public DeclareTypeFPacRaw(VarLevel varLevel, int nLength)
+    {
+        super(varLevel);
+        this.nLength = nLength;
+    }
 
-	public int getLength()
-	{
-		return nLength;
-	}
-	
-	private int nLength = 0;
-	
-	
-	public VarFPacRaw var()
-	{
-		VarFPacRaw var = new VarFPacRaw(this);
-		return var;
-	}
-	
-	public VarFPacRaw filler()
-	{
-		VarFPacRaw var = new VarFPacRaw(this);
-		var.declareAsFiller();
-		//return null;
-		return var;
-	}
-	
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = new VarDefFPacRaw(varDefParent, this);
-		return varDef;		
-	}
-		
-	/**
-	 * 
-	 */
+    public int getLength()
+    {
+        return nLength;
+    }
 
-	public DeclareTypeFPacRaw value(String cs)
-	{
-		initialValue = new CInitialValue(cs, false);
-		return this;
-	}
-	
-	public DeclareTypeFPacRaw valueAll(char c)
-	{
-		initialValue = new CInitialValue(c, true);
-		return this;
-	}
+    private int nLength = 0;
 
-	public DeclareTypeFPacRaw valueAll(String cs)
-	{
-		initialValue = new CInitialValue(cs, true);
-		return this;
-	}
-	
-	public DeclareTypeFPacRaw valueSpaces()
-	{
-		initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
-		return this;
-	}
 
-	public DeclareTypeFPacRaw valueZero()
-	{
-		initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
-		return this;
-	}
+    public VarFPacRaw var()
+    {
+        VarFPacRaw var = new VarFPacRaw(this);
+        return var;
+    }
 
-	public DeclareTypeFPacRaw valueHighValue()
-	{
-		initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
-		return this;
-	}
+    public VarFPacRaw filler()
+    {
+        VarFPacRaw var = new VarFPacRaw(this);
+        var.declareAsFiller();
+        //return null;
+        return var;
+    }
 
-	public DeclareTypeFPacRaw valueLowValue()
-	{
-		initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
-		return this;
-	} 
-	
-	public CInitialValue getInitialValue()
-	{
-		return initialValue;
-	}
-	
-	private CInitialValue initialValue = null;
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = new VarDefFPacRaw(varDefParent, this);
+        return varDef;
+    }
+
+    /**
+     *
+     */
+
+    public DeclareTypeFPacRaw value(String cs)
+    {
+        initialValue = new CInitialValue(cs, false);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueAll(char c)
+    {
+        initialValue = new CInitialValue(c, true);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueAll(String cs)
+    {
+        initialValue = new CInitialValue(cs, true);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueSpaces()
+    {
+        initialValue = new CInitialValue(CobolConstant.Space.getValue(), true);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueZero()
+    {
+        initialValue = new CInitialValue(CobolConstant.Zero.getValue(), true);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueHighValue()
+    {
+        initialValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+        return this;
+    }
+
+    public DeclareTypeFPacRaw valueLowValue()
+    {
+        initialValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+        return this;
+    }
+
+    public CInitialValue getInitialValue()
+    {
+        return initialValue;
+    }
+
+    private CInitialValue initialValue = null;
 }

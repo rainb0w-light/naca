@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -24,46 +24,46 @@ import nacaLib.varEx.VarBase;
  */
 public class RecordColTypeManagerDecimalLong extends RecordColTypeManagerBase
 {
-	public RecordColTypeManagerDecimalLong(int nColSourceIndex)
-	{
-		super(nColSourceIndex);
-	}
-	
-	public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
-	{
-		try
-		{
-			long lValue = resultSetSource.getInt(nColSourceIndex);
-			if (!resultSetSource.wasNull())
-				insertStatementInsert.setLong(nColSourceIndex, lValue);
-			else
-				insertStatementInsert.setNull(nColSourceIndex, Types.INTEGER);
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return false;		
-	}
-	
-	boolean fillColValue(ResultSet rs, VarBase varInto)
-	{
-		try
-		{		
-			long lValue = rs.getLong(nColSourceIndex);
-			if (lValue != 0 || !rs.wasNull())
-			{
-				varInto.varDef.write(varInto.bufferPos, lValue);
-				return false;
-			}
-		}
-		catch (SQLException e)
-		{
-			LogSQLException.log(e);
-			// Maybe should I set bNull = true; ?
-		}
-		varInto.varDef.write(varInto.bufferPos, 0);
-		return true;
-	}
+    public RecordColTypeManagerDecimalLong(int nColSourceIndex)
+    {
+        super(nColSourceIndex);
+    }
+
+    public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
+    {
+        try
+        {
+            long lValue = resultSetSource.getInt(nColSourceIndex);
+            if (!resultSetSource.wasNull())
+                insertStatementInsert.setLong(nColSourceIndex, lValue);
+            else
+                insertStatementInsert.setNull(nColSourceIndex, Types.INTEGER);
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    boolean fillColValue(ResultSet rs, VarBase varInto)
+    {
+        try
+        {
+            long lValue = rs.getLong(nColSourceIndex);
+            if (lValue != 0 || !rs.wasNull())
+            {
+                varInto.varDef.write(varInto.bufferPos, lValue);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            LogSQLException.log(e);
+            // Maybe should I set bNull = true; ?
+        }
+        varInto.varDef.write(varInto.bufferPos, 0);
+        return true;
+    }
 }

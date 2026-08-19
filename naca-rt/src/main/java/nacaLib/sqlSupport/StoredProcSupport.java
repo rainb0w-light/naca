@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -23,53 +23,53 @@ import jlib.sql.DbConnectionBase;
  */
 public class StoredProcSupport
 {
-	public StoredProcSupport()
-	{
-	}
+    public StoredProcSupport()
+    {
+    }
 
-	public ArrayList<StoredProcInfo> getStoredProceduresList(DbConnectionBase dbConnection)
-	{
-		ArrayList<StoredProcInfo> arr = new ArrayList<StoredProcInfo>();
-		try
-		{
-			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-			ResultSet resultSetprocs = dmd.getProcedures(null, null, "%");
-			boolean b = true;
-			while(resultSetprocs.next() && b)
-			{
-				StoredProcInfo info = new StoredProcInfo();
-				if(info.fill(resultSetprocs))
-					arr.add(info);
-			}
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-		return arr;	
-	}
-		
-	public StoredProcParams getStoredProcedureParamsList(DbConnectionBase dbConnection, String csStoredProcName)
-	{
-		StoredProcParams storedProcParams = new StoredProcParams();
-				
-		try
-		{
-			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-			String user = dbConnection.getEnvironmentPrefix();
-			ResultSet resultSetparams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName, "%");
-			boolean b = true;
-			while(resultSetparams.next() && b)
-			{
-				storedProcParams.addAParam(resultSetparams);
-			}
-		}
-		catch (SQLException e)
-		{			
-			return null;
-		}
+    public ArrayList<StoredProcInfo> getStoredProceduresList(DbConnectionBase dbConnection)
+    {
+        ArrayList<StoredProcInfo> arr = new ArrayList<StoredProcInfo>();
+        try
+        {
+            DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
+            ResultSet resultSetprocs = dmd.getProcedures(null, null, "%");
+            boolean b = true;
+            while(resultSetprocs.next() && b)
+            {
+                StoredProcInfo info = new StoredProcInfo();
+                if(info.fill(resultSetprocs))
+                    arr.add(info);
+            }
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+        return arr;
+    }
 
-		return storedProcParams;
-	}
+    public StoredProcParams getStoredProcedureParamsList(DbConnectionBase dbConnection, String csStoredProcName)
+    {
+        StoredProcParams storedProcParams = new StoredProcParams();
+
+        try
+        {
+            DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
+            String user = dbConnection.getEnvironmentPrefix();
+            ResultSet resultSetparams = dmd.getProcedureColumns(null, dbConnection.getEnvironmentPrefix(), csStoredProcName, "%");
+            boolean b = true;
+            while(resultSetparams.next() && b)
+            {
+                storedProcParams.addAParam(resultSetparams);
+            }
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+
+        return storedProcParams;
+    }
 
 }

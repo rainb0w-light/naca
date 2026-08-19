@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,5 +16,5 @@ package jlib.misc;
  */
 public class FileEndOfLine
 {
-	public static final byte LF = 10;	// 0A
+    public static final byte LF = 10;   // 0A
 }

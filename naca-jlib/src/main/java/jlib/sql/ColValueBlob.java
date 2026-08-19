@@ -19,96 +19,96 @@ import javax.sql.rowset.serial.SerialException;
 
 public class ColValueBlob extends ColValue
 {
-	public ColValueBlob(String csName, SerialBlob blob)
-	{
-		super(csName);
-		blValue = blob;
-	}
+    public ColValueBlob(String csName, SerialBlob blob)
+    {
+        super(csName);
+        blValue = blob;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueBlob(csName, blValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueBlob(csName, blValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(blValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(blValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		Blob blob = resultSet.getBlob(nCol);
-		blValue = new SerialBlob(blob);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        Blob blob = resultSet.getBlob(nCol);
+        blValue = new SerialBlob(blob);
+    }
 
-	public String getValueAsString()
-	{
-		return blValue.toString();
-	}
+    public String getValueAsString()
+    {
+        return blValue.toString();
+    }
 
-	public int getValueAsInt()
-	{
-		return 0;
-	}
+    public int getValueAsInt()
+    {
+        return 0;
+    }
 
-	double getValueAsDouble()
-	{
-		return 0.0;
-	}
+    double getValueAsDouble()
+    {
+        return 0.0;
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(Blog):'"+blValue.toString();
-	}
+    String getDumpValueAsString()
+    {
+        return "(Blog):'"+blValue.toString();
+    }
 
-	String getType()
-	{
-		return "Blob";
-	}
+    String getType()
+    {
+        return "Blob";
+    }
 
-	int getSQLType()
-	{
-		return Types.BLOB;
-	}
+    int getSQLType()
+    {
+        return Types.BLOB;
+    }
 
-	Object getValue()
-	{
-		return blValue;
-	}
+    Object getValue()
+    {
+        return blValue;
+    }
 
-	public boolean canSetColParam()
-	{
-		return true;
-	}
+    public boolean canSetColParam()
+    {
+        return true;
+    }
 
-	public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
-	{
-		InputStream is;
-		try
-		{
-			is = blValue.getBinaryStream();
-			int nLength = is.available();
-			stmt.setBinaryStream(nCol+1, is, nLength);
-		}
-		catch (SerialException e1)
-		{
-			e1.printStackTrace();
-			return false;
-		}
-		catch (SQLException e)
-		{
-			LogSQLException.log(e);
-			return false;
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+    public boolean setParamIntoStmt(PreparedStatement stmt, int nCol)
+    {
+        InputStream is;
+        try
+        {
+            is = blValue.getBinaryStream();
+            int nLength = is.available();
+            stmt.setBinaryStream(nCol+1, is, nLength);
+        }
+        catch (SerialException e1)
+        {
+            e1.printStackTrace();
+            return false;
+        }
+        catch (SQLException e)
+        {
+            LogSQLException.log(e);
+            return false;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	private SerialBlob blValue = null;
+    private SerialBlob blValue = null;
 }

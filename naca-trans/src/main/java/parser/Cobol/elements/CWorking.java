@@ -31,265 +31,265 @@ import utils.Transcoder;
  */
 public class CWorking extends CCommentContainer
 {
-//	private Vector<CCobolElement> arrVariables = new Vector<CCobolElement>() ;
-	/**
-	 * @param line
-	 */
-	public CWorking(int line)
-	{
-		super(line);
-	}
+//  private Vector<CCobolElement> arrVariables = new Vector<CCobolElement>() ;
+    /**
+     * @param line
+     */
+    public CWorking(int line)
+    {
+        super(line);
+    }
 
-	private void beginParseWorking()
-	{
-		LevelKeywords levelKeywords = LevelKeywordStackManager.getAndPushNewLevelKeywords();
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.EJECT);
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.SKIP2);
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.SKIP3);
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.WORKING_STORAGE);
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.FILE);
-		levelKeywords.registerManagedKeyword(CCobolKeywordList.LINKAGE);
-	}
+    private void beginParseWorking()
+    {
+        LevelKeywords levelKeywords = LevelKeywordStackManager.getAndPushNewLevelKeywords();
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.EJECT);
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.SKIP2);
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.SKIP3);
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.WORKING_STORAGE);
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.FILE);
+        levelKeywords.registerManagedKeyword(CCobolKeywordList.LINKAGE);
+    }
 
-	private void endParseWorking()
-	{
-		LevelKeywordStackManager.popLevelKeywords();
-	}
+    private void endParseWorking()
+    {
+        LevelKeywordStackManager.popLevelKeywords();
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		boolean b = false;
-		beginParseWorking();
-		boolean isloop = true;
-		while(isloop)
-		{
-			isloop = false;
-			b = internalDoParsing();
-			CBaseToken tokEntry = GetCurrentToken();
-			if(!LevelKeywordStackManager.isTokenManagedByAnyParents(tokEntry))
-			{
-				Transcoder.logError(tokEntry.getLine(), "Consuming token " + tokEntry.toString());
-				GetNext();
-				isloop = true;
-			}
-			else
-				endParseWorking();
-		}
-		return b;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        boolean b = false;
+        beginParseWorking();
+        boolean isloop = true;
+        while(isloop)
+        {
+            isloop = false;
+            b = internalDoParsing();
+            CBaseToken tokEntry = GetCurrentToken();
+            if(!LevelKeywordStackManager.isTokenManagedByAnyParents(tokEntry))
+            {
+                Transcoder.logError(tokEntry.getLine(), "Consuming token " + tokEntry.toString());
+                GetNext();
+                isloop = true;
+            }
+            else
+                endParseWorking();
+        }
+        return b;
+    }
 
-	private boolean internalDoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tokEntry = GetCurrentToken();
-			if (tokEntry == null)
-			{
-				return true ;
-			}
-			if (tokEntry.GetType() == CTokenType.NUMBER)
-			{
-				int n = tokEntry.GetIntValue();
-				if (n == 77)
-				{
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-//					arrVariables.add(eEntry) ;
-					AddChild(eEntry) ;
-					if (!Parse(eEntry))
-					{
-						return false ;
-					}
-				}
-				else if (n == 88)
-				{
-					CCobolElement eEntry = new CWorkingValueEntry(tokEntry.getLine()) ;
-					AddChild(eEntry) ;
-					if (!Parse(eEntry))
-					{
-						return false ;
-					}
-				}
-				else if (n >= 1 && n <= 49)
-				{
-					// Do not advance here - let CWorkingEntry.DoParsing handle it
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-					AddChild(eEntry) ;
-					if (!Parse(eEntry))
-					{
-						return false ;
-					}
-				}
-				else
-				{
-					Transcoder.logError(tokEntry.getLine(), "Unexpecting token : " + tokEntry.GetValue()) ;
-					return false ;
-				}
-			}
-			else if (tokEntry.GetKeyword()==CCobolKeywordList.COPY)
-			{
-				CCobolElement eCopy = new CCopyInWorking(tokEntry.getLine()) ;
-				AddChild(eCopy) ;
-				if (!Parse(eCopy))
-				{
-					return false ;
-				}
-			}
-			else if (tokEntry.GetKeyword()==CCobolKeywordList.COPYREC)
-			{
-				CCobolElement eCopy = new CCopyRec(tokEntry.getLine()) ;
-				AddChild(eCopy) ;
-				if (!Parse(eCopy))
-				{
-					return false ;
-				}
-			}
-			else if (tokEntry.GetKeyword()==CCobolKeywordList.EJECT)
-			{
-				GetNext();
-			}
-			else if (tokEntry.GetType()==CTokenType.KEYWORD && tokEntry.GetKeyword()==CCobolKeywordList.EXEC)
-			{
-				CBaseToken tokType = GetNext() ;
-				CCobolElement eExec = null ;
-				if (tokType.GetKeyword() == CCobolKeywordList.SQL)
-				{
-					eExec = new CExecSQL(tokEntry.getLine()) ;
-				}
-//				else if (tokType.GetKeyword() == CCobolKeywordList.CICS)
-//				{
-//					eExec = new CExecCICS(tokVerb.line) ;
-//				}
-				else
-				{
-					eExec = new CExecStatement(tokEntry.getLine()) ;
-				}
-				AddChild(eExec) ;
-				if (!Parse(eExec))
-				{
-					return false ;
-				}
-			}
-			else if (tokEntry.GetType()==CTokenType.DOT)
-			{
-				StepNext() ;//ConsumeEndLineWithDot();
-			}
-			else if (tokEntry.GetType()==CTokenType.COMMENTS || tokEntry.GetType()==CTokenType.STRING)
-			{
-				StepNext() ; // skip comments and strings in working storage
-			}
-			else if (tokEntry.GetType()==CTokenType.KEYWORD && tokEntry.GetKeyword()==CCobolKeywordList.EXTERNAL)
-			{
-				StepNext() ;
-			}
-			else
-			{
-				isdone = true ; // this kind of token is not parsed by current function, go back to caller
-			}
-		}
-		return true ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eWorking = root.createElement(GetType()) ;
-		return eWorking ;
-	}
-	/*
-	 * unused (CV : 25/03/2006)
-	 */
-//	protected CBaseLanguageEntity DoSemanticAnalysisForVariables(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-//	{
-//		eVariableSection = factory.NewEntityDataSection(0, "VariableSection");
-//		if (parent != null)
-//		{
-//			parent.AddChild(eVariableSection);
-//		}
+    private boolean internalDoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tokEntry = GetCurrentToken();
+            if (tokEntry == null)
+            {
+                return true ;
+            }
+            if (tokEntry.GetType() == CTokenType.NUMBER)
+            {
+                int n = tokEntry.GetIntValue();
+                if (n == 77)
+                {
+                    CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
+//                  arrVariables.add(eEntry) ;
+                    AddChild(eEntry) ;
+                    if (!Parse(eEntry))
+                    {
+                        return false ;
+                    }
+                }
+                else if (n == 88)
+                {
+                    CCobolElement eEntry = new CWorkingValueEntry(tokEntry.getLine()) ;
+                    AddChild(eEntry) ;
+                    if (!Parse(eEntry))
+                    {
+                        return false ;
+                    }
+                }
+                else if (n >= 1 && n <= 49)
+                {
+                    // Do not advance here - let CWorkingEntry.DoParsing handle it
+                    CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
+                    AddChild(eEntry) ;
+                    if (!Parse(eEntry))
+                    {
+                        return false ;
+                    }
+                }
+                else
+                {
+                    Transcoder.logError(tokEntry.getLine(), "Unexpecting token : " + tokEntry.GetValue()) ;
+                    return false ;
+                }
+            }
+            else if (tokEntry.GetKeyword()==CCobolKeywordList.COPY)
+            {
+                CCobolElement eCopy = new CCopyInWorking(tokEntry.getLine()) ;
+                AddChild(eCopy) ;
+                if (!Parse(eCopy))
+                {
+                    return false ;
+                }
+            }
+            else if (tokEntry.GetKeyword()==CCobolKeywordList.COPYREC)
+            {
+                CCobolElement eCopy = new CCopyRec(tokEntry.getLine()) ;
+                AddChild(eCopy) ;
+                if (!Parse(eCopy))
+                {
+                    return false ;
+                }
+            }
+            else if (tokEntry.GetKeyword()==CCobolKeywordList.EJECT)
+            {
+                GetNext();
+            }
+            else if (tokEntry.GetType()==CTokenType.KEYWORD && tokEntry.GetKeyword()==CCobolKeywordList.EXEC)
+            {
+                CBaseToken tokType = GetNext() ;
+                CCobolElement eExec = null ;
+                if (tokType.GetKeyword() == CCobolKeywordList.SQL)
+                {
+                    eExec = new CExecSQL(tokEntry.getLine()) ;
+                }
+//              else if (tokType.GetKeyword() == CCobolKeywordList.CICS)
+//              {
+//                  eExec = new CExecCICS(tokVerb.line) ;
+//              }
+                else
+                {
+                    eExec = new CExecStatement(tokEntry.getLine()) ;
+                }
+                AddChild(eExec) ;
+                if (!Parse(eExec))
+                {
+                    return false ;
+                }
+            }
+            else if (tokEntry.GetType()==CTokenType.DOT)
+            {
+                StepNext() ;//ConsumeEndLineWithDot();
+            }
+            else if (tokEntry.GetType()==CTokenType.COMMENTS || tokEntry.GetType()==CTokenType.STRING)
+            {
+                StepNext() ; // skip comments and strings in working storage
+            }
+            else if (tokEntry.GetType()==CTokenType.KEYWORD && tokEntry.GetKeyword()==CCobolKeywordList.EXTERNAL)
+            {
+                StepNext() ;
+            }
+            else
+            {
+                isdone = true ; // this kind of token is not parsed by current function, go back to caller
+            }
+        }
+        return true ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eWorking = root.createElement(GetType()) ;
+        return eWorking ;
+    }
+    /*
+     * unused (CV : 25/03/2006)
+     */
+//  protected CBaseLanguageEntity DoSemanticAnalysisForVariables(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+//  {
+//      eVariableSection = factory.NewEntityDataSection(0, "VariableSection");
+//      if (parent != null)
+//      {
+//          parent.AddChild(eVariableSection);
+//      }
 //
-//		for (int i=0; i<arrVariables.size();i++)
-//		{
-//			CCobolElement le = arrVariables.get(i) ;
-//			CBaseLanguageEntity e = le.DoSemanticAnalysis(eVariableSection, factory) ;
-//		}
-//		return eVariableSection ;
-//	}
-//	private CEntityDataSection eVariableSection = null ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityDataSection eSection = factory.NewEntityDataSection(getLine(), GetType());
-		parent.AddChild(eSection);
+//      for (int i=0; i<arrVariables.size();i++)
+//      {
+//          CCobolElement le = arrVariables.get(i) ;
+//          CBaseLanguageEntity e = le.DoSemanticAnalysis(eVariableSection, factory) ;
+//      }
+//      return eVariableSection ;
+//  }
+//  private CEntityDataSection eVariableSection = null ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityDataSection eSection = factory.NewEntityDataSection(getLine(), GetType());
+        parent.AddChild(eSection);
 
-//		if (eVariableSection == null)
-//		{
-//			for (int i=0; i<arrVariables.size();i++)
-//			{
-//				CCobolElement le = arrVariables.get(i) ;
-//				CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
-//			}
-//		}
+//      if (eVariableSection == null)
+//      {
+//          for (int i=0; i<arrVariables.size();i++)
+//          {
+//              CCobolElement le = arrVariables.get(i) ;
+//              CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
+//          }
+//      }
 
-		ListIterator i = children.listIterator() ;
-		CBaseLanguageEntity eLast = null;
+        ListIterator i = children.listIterator() ;
+        CBaseLanguageEntity eLast = null;
 
-		CCobolElement le = null ;
-		try
-		{
-			le = (CCobolElement)i.next() ;
-		}
-		catch (NoSuchElementException e)
-		{
-		}
-		while (le != null)
-		{
-			CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
-			if (e != null)
-			{
-				eSection.AddChild(e); // Ensure entity is added to the data section
-				int level = e.GetInternalLevel() ;
-				if (level == 1)
-				{
-					eLast = e ;
-				}
-				else if (level == 0)
-				{
-					 // nothing
-				}
-				else
-				{
-					if (eLast != null)
-					{
-						CBaseLanguageEntity eNew = eLast.FindLastEntityAvailableForLevel(level);
-						if (eNew != null && eNew.canOwnTableSize())
-						{
-							eNew.AddChild(e);
-						}
-					}
-				}
-			}
-			try
-			{
-				le = (CCobolElement)i.next() ;
-			}
-			catch (NoSuchElementException ee)
-			{
-				le = null ;
-			}
-		}
-		bAnalysisDoneForChildren = true ;
+        CCobolElement le = null ;
+        try
+        {
+            le = (CCobolElement)i.next() ;
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        while (le != null)
+        {
+            CBaseLanguageEntity e = le.DoSemanticAnalysis(eSection, factory) ;
+            if (e != null)
+            {
+                eSection.AddChild(e); // Ensure entity is added to the data section
+                int level = e.GetInternalLevel() ;
+                if (level == 1)
+                {
+                    eLast = e ;
+                }
+                else if (level == 0)
+                {
+                     // nothing
+                }
+                else
+                {
+                    if (eLast != null)
+                    {
+                        CBaseLanguageEntity eNew = eLast.FindLastEntityAvailableForLevel(level);
+                        if (eNew != null && eNew.canOwnTableSize())
+                        {
+                            eNew.AddChild(e);
+                        }
+                    }
+                }
+            }
+            try
+            {
+                le = (CCobolElement)i.next() ;
+            }
+            catch (NoSuchElementException ee)
+            {
+                le = null ;
+            }
+        }
+        bAnalysisDoneForChildren = true ;
 
-		return eSection ;
-	}
+        return eSection ;
+    }
 
-	protected String GetType()
-	{
-		return "WorkingStorageSection" ;
-	}
+    protected String GetType()
+    {
+        return "WorkingStorageSection" ;
+    }
 }

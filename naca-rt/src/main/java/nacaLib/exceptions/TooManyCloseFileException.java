@@ -8,6 +8,6 @@ package nacaLib.exceptions;
 
 public class TooManyCloseFileException extends NacaRTException
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 }
 

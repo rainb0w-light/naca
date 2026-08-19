@@ -24,125 +24,125 @@ import jlib.xml.Tag;
  */
 public class LogCenterFile extends LogCenter
 {
-	public LogCenterFile(LogCenterLoader logCenterLoader)
-	{
-		super(logCenterLoader);
-	}
+    public LogCenterFile(LogCenterLoader logCenterLoader)
+    {
+        super(logCenterLoader);
+    }
 
-	public void loadSpecificsEntries(Tag tagLogCenter)	// Special values for file appenders
-	{
-		csFormat = tagLogCenter.getVal("Format");
-		String csFileStrategy = tagLogCenter.getVal("FileStrategy");
-		String csFilePath = tagLogCenter.getVal("FilePath");
-		csFilePath = FileSystem.normalizePath(csFilePath);
-		String csFileName = tagLogCenter.getVal("FileName");
+    public void loadSpecificsEntries(Tag tagLogCenter)  // Special values for file appenders
+    {
+        csFormat = tagLogCenter.getVal("Format");
+        String csFileStrategy = tagLogCenter.getVal("FileStrategy");
+        String csFilePath = tagLogCenter.getVal("FilePath");
+        csFilePath = FileSystem.normalizePath(csFilePath);
+        String csFileName = tagLogCenter.getVal("FileName");
 
-		csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
-		FileSystem.createPath(csFile);
+        csFile = FileSystem.buildFileName(csFilePath, csFileName, null);
+        FileSystem.createPath(csFile);
 
-		if(csFileStrategy.equalsIgnoreCase("Append"))
-			isappend = true;
-		else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))	// Backup On Start
-		{
-			isappend = false;
+        if(csFileStrategy.equalsIgnoreCase("Append"))
+            isappend = true;
+        else if(csFileStrategy.equalsIgnoreCase("BackupOnstart"))   // Backup On Start
+        {
+            isappend = false;
 
-			// Read the backup strategy tag
-			Tag tagBackup = tagLogCenter.getChild("Backup");
-			if(tagBackup != null)
-			{
-				String csBackupPath = tagBackup.getVal("BackupPath");
-				csBackupPath = FileSystem.normalizePath(csBackupPath);
-				if(csBackupPath.length() > 0 && csBackupPath.startsWith("."))	// Relative to csFilePath
-					csBackupPath = csFilePath + csBackupPath;
-				csBackupPath = FileSystem.normalizePath(csBackupPath);
-				FileSystem.createPath(csBackupPath);
+            // Read the backup strategy tag
+            Tag tagBackup = tagLogCenter.getChild("Backup");
+            if(tagBackup != null)
+            {
+                String csBackupPath = tagBackup.getVal("BackupPath");
+                csBackupPath = FileSystem.normalizePath(csBackupPath);
+                if(csBackupPath.length() > 0 && csBackupPath.startsWith("."))   // Relative to csFilePath
+                    csBackupPath = csFilePath + csBackupPath;
+                csBackupPath = FileSystem.normalizePath(csBackupPath);
+                FileSystem.createPath(csBackupPath);
 
-				String csBackupFileFormat = tagBackup.getVal("BackupFileFormat");
-				csBackupFileFormat = normalizeBackupFileFormat(csBackupFileFormat);
+                String csBackupFileFormat = tagBackup.getVal("BackupFileFormat");
+                csBackupFileFormat = normalizeBackupFileFormat(csBackupFileFormat);
 
-				String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
+                String csBackupFile = FileSystem.buildFileName(csBackupPath, csBackupFileFormat, null);
 
-				FileSystem.moveOrCopy(csFile, csBackupFile);
+                FileSystem.moveOrCopy(csFile, csBackupFile);
 
-				int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
-				if(nMaxBackupFileCount >= 0)
-					FileSystem.keepMoreRecentFile(csBackupPath, nMaxBackupFileCount);
-			}
-		}
-		else
-			isappend = false;
-	}
+                int nMaxBackupFileCount = tagBackup.getValAsInt("MaxBackupFileCount");
+                if(nMaxBackupFileCount >= 0)
+                    FileSystem.keepMoreRecentFile(csBackupPath, nMaxBackupFileCount);
+            }
+        }
+        else
+            isappend = false;
+    }
 
-	private String normalizeBackupFileFormat(String csBackupFileFormat)
-	{
-		if(csBackupFileFormat.indexOf("[BackupDateTime]") != -1)
-		{
-			String csDateTime = Time_ms.formatYYYYMMDDHHMMSS_ms(Time_ms.getCurrentTime_ms());
-//			DateUtil dateUtil = new DateUtil();
-//			String csDateTime = dateUtil.getCurrentDateTimeYYYYMMDD_HHMMSS();
-			csBackupFileFormat = StringUtil.replace(csBackupFileFormat, "[BackupDateTime]", csDateTime, false);
-		}
-		return csBackupFileFormat;
-	}
+    private String normalizeBackupFileFormat(String csBackupFileFormat)
+    {
+        if(csBackupFileFormat.indexOf("[BackupDateTime]") != -1)
+        {
+            String csDateTime = Time_ms.formatYYYYMMDDHHMMSS_ms(Time_ms.getCurrentTime_ms());
+//          DateUtil dateUtil = new DateUtil();
+//          String csDateTime = dateUtil.getCurrentDateTimeYYYYMMDD_HHMMSS();
+            csBackupFileFormat = StringUtil.replace(csBackupFileFormat, "[BackupDateTime]", csDateTime, false);
+        }
+        return csBackupFileFormat;
+    }
 
-	boolean open()
-	{
-		try
-		{
-			printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, isappend)));
-		}
-		catch (Exception e)
-		{
-			System.err.println ("Error writing to file");
-			return false;
-		}
-		return true;
-	}
+    boolean open()
+    {
+        try
+        {
+            printWriter = new PrintWriter(new BufferedWriter(new FileWriter(csFile, isappend)));
+        }
+        catch (Exception e)
+        {
+            System.err.println ("Error writing to file");
+            return false;
+        }
+        return true;
+    }
 
-	boolean closeLogCenter()
-	{
-		printWriter.close();
-		return true;
-	}
+    boolean closeLogCenter()
+    {
+        printWriter.close();
+        return true;
+    }
 
 
-	void preSendOutput()
-	{
-	}
+    void preSendOutput()
+    {
+    }
 
-	void sendOutput(LogParams logParam)
-	{
-		if(printWriter != null)
-		{
-			int nNbLoops = patternLayout.getNbLoop(logParam);
-			for(int n=0; n<nNbLoops; n++)
-			{
-				String csOut = patternLayout.format(logParam, n);
-				printWriter.print(csOut);
-			}
-		}
-	}
+    void sendOutput(LogParams logParam)
+    {
+        if(printWriter != null)
+        {
+            int nNbLoops = patternLayout.getNbLoop(logParam);
+            for(int n=0; n<nNbLoops; n++)
+            {
+                String csOut = patternLayout.format(logParam, n);
+                printWriter.print(csOut);
+            }
+        }
+    }
 
-	void postSendOutput()
-	{
-		if(printWriter != null)
-			printWriter.flush();
-	}
+    void postSendOutput()
+    {
+        if(printWriter != null)
+            printWriter.flush();
+    }
 
-	String getFormat()
-	{
-		return csFormat;
-	}
+    String getFormat()
+    {
+        return csFormat;
+    }
 
-	private String csFile = null;
-	private boolean isappend = false;
+    private String csFile = null;
+    private boolean isappend = false;
 
-	private PrintWriter printWriter = null;
+    private PrintWriter printWriter = null;
 
-	private String csFormat = null;
+    private String csFormat = null;
 
-	public String getType()
-	{
-		return "LogCenterFile";
-	}
+    public String getType()
+    {
+        return "LogCenterFile";
+    }
 }

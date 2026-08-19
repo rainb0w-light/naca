@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -18,21 +18,21 @@ import nacaLib.exceptions.AbortSessionException;
 
 public class CalledProgramLoader extends BaseProgramLoader
 {
-	public CalledProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
-	{
-		super(connectionManager, tagSequencerConfig, true);
-	}
+    public CalledProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
+    {
+        super(connectionManager, tagSequencerConfig, true);
+    }
 
-	public void RunProgram(BaseSession appSession) throws AbortSessionException
-	{
-	}
-	
-	public static CalledProgramLoader GetProgramLoaderInstance() 
-	{
-		return (CalledProgramLoader)ms_Instance ;
-	}
-	
-	public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
-	{
-	}
+    public void RunProgram(BaseSession appSession) throws AbortSessionException
+    {
+    }
+
+    public static CalledProgramLoader GetProgramLoaderInstance()
+    {
+        return (CalledProgramLoader)ms_Instance ;
+    }
+
+    public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
+    {
+    }
 }

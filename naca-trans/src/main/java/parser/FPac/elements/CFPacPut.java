@@ -25,101 +25,101 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 public class CFPacPut extends CFPacElement
 {
 
-	private CIdentifier putFile;
+    private CIdentifier putFile;
 
-	public CFPacPut(int line)
-	{
-		super(line);
-	}
+    public CFPacPut(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.PUT)
-		{
-			tok = GetNext();
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-		}
-		else
-		{
-			return true;
-		}
-		
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			putFile = ReadIdentifier() ;
-			if (putFile == null)
-			{
-				Transcoder.logError(getLine(), "Expecting identifier after 'PUT-'") ;
-				return false  ;
-			}
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
-				tok.GetKeyword() == CFPacKeywordList.OPF1 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF2 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF3 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF4 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF5 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF6 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF7 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF8 ||
-				tok.GetKeyword() == CFPacKeywordList.OPF9)
-		{
-			putFile = new CIdentifier(tok.GetValue()) ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting identifier after 'PUT-'") ;
-			return false  ;
-		}
-		return true;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.PUT)
+        {
+            tok = GetNext();
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityWriteFile writefile = factory.NewEntityWriteFile(getLine());
-		CEntityFileDescriptor desc = null ;
-		if (putFile == null)
-		{
-			NotifGetDefaultOutputFile notif = new NotifGetDefaultOutputFile() ;
-			factory.programCatalog.SendNotifRequest(notif) ;
-			if (notif.fileBuffer != null)
-			{
-				desc = notif.fileBuffer.GetFileDescriptor() ;
-			}
-		}
-		else
-		{
-			desc = factory.programCatalog.getFileDescriptor(putFile.GetName()) ;
-		}
-		if (desc == null)
-		{
-			Transcoder.logError(getLine(), "Expecting file identifier for 'PUT-'") ;
-			return null ;
-		}
-		writefile.setFileDescriptor(desc, null) ;
-		parent.AddChild(writefile);
-		return writefile ;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+        }
+        else
+        {
+            return true;
+        }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("Put") ;
-		if (putFile != null)
-		{
-			Element e = root.createElement("File") ;
-			putFile.ExportTo(e, root) ;
-			eAdd.appendChild(e) ;
-		}
-		return eAdd ;
-	}
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            putFile = ReadIdentifier() ;
+            if (putFile == null)
+            {
+                Transcoder.logError(getLine(), "Expecting identifier after 'PUT-'") ;
+                return false  ;
+            }
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
+                tok.GetKeyword() == CFPacKeywordList.OPF1 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF2 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF3 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF4 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF5 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF6 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF7 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF8 ||
+                tok.GetKeyword() == CFPacKeywordList.OPF9)
+        {
+            putFile = new CIdentifier(tok.GetValue()) ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting identifier after 'PUT-'") ;
+            return false  ;
+        }
+        return true;
+    }
+
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityWriteFile writefile = factory.NewEntityWriteFile(getLine());
+        CEntityFileDescriptor desc = null ;
+        if (putFile == null)
+        {
+            NotifGetDefaultOutputFile notif = new NotifGetDefaultOutputFile() ;
+            factory.programCatalog.SendNotifRequest(notif) ;
+            if (notif.fileBuffer != null)
+            {
+                desc = notif.fileBuffer.GetFileDescriptor() ;
+            }
+        }
+        else
+        {
+            desc = factory.programCatalog.getFileDescriptor(putFile.GetName()) ;
+        }
+        if (desc == null)
+        {
+            Transcoder.logError(getLine(), "Expecting file identifier for 'PUT-'") ;
+            return null ;
+        }
+        writefile.setFileDescriptor(desc, null) ;
+        parent.AddChild(writefile);
+        return writefile ;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("Put") ;
+        if (putFile != null)
+        {
+            Element e = root.createElement("File") ;
+            putFile.ExportTo(e, root) ;
+            eAdd.appendChild(e) ;
+        }
+        return eAdd ;
+    }
 
 }

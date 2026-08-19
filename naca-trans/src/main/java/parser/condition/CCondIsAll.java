@@ -23,124 +23,124 @@ import semantic.expression.CEntityCondIsAll;
  */
 public class CCondIsAll extends CExpression
 {
-	protected CExpression term1 = null ;
-	protected CExpression term2 = null ;
+    protected CExpression term1 = null ;
+    protected CExpression term2 = null ;
 
-	public CCondIsAll(int line, CExpression term1, CExpression term2)
-	{
-		super(line) ;
-		this.term1 = term1 ;
-		this.term2 = term2 ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
-	 */
+    public CCondIsAll(int line, CExpression term1, CExpression term2)
+    {
+        super(line) ;
+        this.term1 = term1 ;
+        this.term2 = term2 ;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
+     */
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetPriorityLevel()
-	 */
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetPriorityLevel()
+     */
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	protected boolean CheckMembersBeforeExport()
-	{
-		boolean b = CheckMemberNotNull(term1);
-		b &= CheckMemberNotNull(term2);
-		return b;
-	}
+    protected boolean CheckMembersBeforeExport()
+    {
+        boolean b = CheckMemberNotNull(term1);
+        b &= CheckMemberNotNull(term2);
+        return b;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
-	 */
-	public Element DoExport(Document root)
-	{
-		Element e = root.createElement("IsAll") ;
-		e.appendChild(term1.Export(root)) ;
-		e.appendChild(term2.Export(root)) ;
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#DoExport(org.w3c.dom.Document)
+     */
+    public Element DoExport(Document root)
+    {
+        Element e = root.createElement("IsAll") ;
+        e.appendChild(term1.Export(root)) ;
+        e.appendChild(term2.Export(root)) ;
+        return e;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetOppositeCondition()
-	 */
-	public CExpression GetOppositeCondition()
-	{
-		return new CCondNotStatement(getLine(), this) ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
-	{
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
-	{
-		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
-		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
-		CEntityCondIsAll eIsAll = factory.NewEntityCondIsAll();
-		eIsAll.SetCondition(op1, op2) ;
-		if (bIsOpposite)
-		{
-			eIsAll.setOpposite() ;
-		}
-		return eIsAll;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetFirstOperand()
-	 */
-	public CExpression GetFirstConditionOperand()
-	{
-		return term1 ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
-	 */
-	public CExpression GetSimilarExpression(CExpression operand)
-	{
-		ASSERT(null, null);
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#IsBinaryCondition()
-	 */
-	public boolean IsBinaryCondition()
-	{
-		return false;
-	}
-	public String toString()
-	{
-		if (bIsOpposite)
-		{
-			return "IS_NOT_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
-		}
-		else
-		{
-			return "IS_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
-		}
-	}
-	public CExpression getMasterBinaryCondition()
-	{
-		return this ;
-	}
-	/**
-	 *
-	 */
-	public void setOpposite()
-	{
-		bIsOpposite = !bIsOpposite ;
-	}
-	protected boolean bIsOpposite = false ;
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetOppositeCondition()
+     */
+    public CExpression GetOppositeCondition()
+    {
+        return new CCondNotStatement(getLine(), this) ;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
+    {
+        return null;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
+    {
+        CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
+        CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
+        CEntityCondIsAll eIsAll = factory.NewEntityCondIsAll();
+        eIsAll.SetCondition(op1, op2) ;
+        if (bIsOpposite)
+        {
+            eIsAll.setOpposite() ;
+        }
+        return eIsAll;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetFirstOperand()
+     */
+    public CExpression GetFirstConditionOperand()
+    {
+        return term1 ;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
+     */
+    public CExpression GetSimilarExpression(CExpression operand)
+    {
+        ASSERT(null, null);
+        return null;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#IsBinaryCondition()
+     */
+    public boolean IsBinaryCondition()
+    {
+        return false;
+    }
+    public String toString()
+    {
+        if (bIsOpposite)
+        {
+            return "IS_NOT_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
+        }
+        else
+        {
+            return "IS_ALL(" + term1.toString() + ", " + term2.toString() + ")" ;
+        }
+    }
+    public CExpression getMasterBinaryCondition()
+    {
+        return this ;
+    }
+    /**
+     *
+     */
+    public void setOpposite()
+    {
+        bIsOpposite = !bIsOpposite ;
+    }
+    protected boolean bIsOpposite = false ;
 
-	@Override
-	public CExpression GetFirstCalculOperand()
-	{
-		return term1.GetFirstCalculOperand() ;
-	}
+    @Override
+    public CExpression GetFirstCalculOperand()
+    {
+        return term1.GetFirstCalculOperand() ;
+    }
 
 }

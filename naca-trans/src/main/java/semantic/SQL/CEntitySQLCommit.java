@@ -23,32 +23,32 @@ import utils.CObjectCatalog;
 public class CEntitySQLCommit extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySQLCommit(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySQLCommit(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveSQLCommitEntity). No formatting/output happens here: formatting
-	// the sqlCommit() runtime call and chaining the optional WHENEVER clause is
-	// done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveSQLCommitEntity). No formatting/output happens here: formatting
+    // the sqlCommit() runtime call and chaining the optional WHENEVER clause is
+    // done by the template, never here.
 
-	/**
-	 * The SQLWARNING/SQLERROR clause to chain onto {@code sqlCommit()} (e.g.
-	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
-	 * effect. Read from the catalog where the WHENEVER statement registered it.
-	 */
-	public String getSqlWarningErrorStatement()
-	{
-		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
-	}
+    /**
+     * The SQLWARNING/SQLERROR clause to chain onto {@code sqlCommit()} (e.g.
+     * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
+     * effect. Read from the catalog where the WHENEVER statement registered it.
+     */
+    public String getSqlWarningErrorStatement()
+    {
+        return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+    }
 }

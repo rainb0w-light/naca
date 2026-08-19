@@ -25,72 +25,72 @@ import jlib.sql.StoredProcParamDescBase;
  */
 public class StoredProcParamDesc extends StoredProcParamDescBase
 {
-	private Var varInOut = null;
+    private Var varInOut = null;
 
-	void setVar(Var var)
-	{
-		varInOut = var;
-	}
+    void setVar(Var var)
+    {
+        varInOut = var;
+    }
 
-	public void retrieveOutValues(int nParamId, PreparedCallableStatement callableStatement, CSQLStatus sqlStatus)
-	{
-		nParamId++;	// 1 based
-		if(sColType == DatabaseMetaData.procedureColumnOut || sColType == DatabaseMetaData.procedureColumnInOut)
-		{
-			try
-			{
-				String csOutLang = callableStatement.getOutValueString(nParamId);
-				if(varInOut != null)
-					varInOut.set(csOutLang);
-			}
-			catch (SQLException e)
-			{
-				String csState = e.getSQLState();
-				String csReason = e.getMessage();
-				Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
-				sqlStatus.setSQLCode("StoredProc", e.getErrorCode(), csReason, csState);
+    public void retrieveOutValues(int nParamId, PreparedCallableStatement callableStatement, CSQLStatus sqlStatus)
+    {
+        nParamId++; // 1 based
+        if(sColType == DatabaseMetaData.procedureColumnOut || sColType == DatabaseMetaData.procedureColumnInOut)
+        {
+            try
+            {
+                String csOutLang = callableStatement.getOutValueString(nParamId);
+                if(varInOut != null)
+                    varInOut.set(csOutLang);
+            }
+            catch (SQLException e)
+            {
+                String csState = e.getSQLState();
+                String csReason = e.getMessage();
+                Log.logImportant("Catched SQLException from stored procedure retrieveOutValues: "+csReason + " State="+csState);
+                sqlStatus.setSQLCode("StoredProc", e.getErrorCode(), csReason, csState);
 
-				sqlStatus.setSQLCode(e);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+                sqlStatus.setSQLCode(e);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
-	{
-		if(varInOut != null)
-		{
-			BaseDbColDefinition def = colDescriptionInfo.makeDbColDefinition();
-			return def.fillCallableStatementParam(nParamId, this, callableStatement);
-		}
-		return false;
-	}
+    public boolean fillInValue(int nParamId, DbPreparedCallableStatement callableStatement)
+    {
+        if(varInOut != null)
+        {
+            BaseDbColDefinition def = colDescriptionInfo.makeDbColDefinition();
+            return def.fillCallableStatementParam(nParamId, this, callableStatement);
+        }
+        return false;
+    }
 
-	public String getInValueAsString()
-	{
-		String cs = varInOut.getString();
-		return cs;
-	}
+    public String getInValueAsString()
+    {
+        String cs = varInOut.getString();
+        return cs;
+    }
 
-	public double getInValueAsDouble()
-	{
-		double d = varInOut.getDouble();
-		return d;
-	}
+    public double getInValueAsDouble()
+    {
+        double d = varInOut.getDouble();
+        return d;
+    }
 
-	public int getInValueAsInt()
-	{
-		int n = varInOut.getInt();
-		return n;
-	}
+    public int getInValueAsInt()
+    {
+        int n = varInOut.getInt();
+        return n;
+    }
 
-	public short getInValueAsShort()
-	{
-		int n = varInOut.getInt();
-		return (short)n;
-	}
+    public short getInValueAsShort()
+    {
+        int n = varInOut.getInt();
+        return (short)n;
+    }
 
 }

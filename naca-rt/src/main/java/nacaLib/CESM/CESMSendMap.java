@@ -19,98 +19,98 @@ import org.w3c.dom.Element;
 
 public class CESMSendMap extends CJMapObject
 {
-	CESMSendMap()
-	{
-	}
+    CESMSendMap()
+    {
+    }
 
-	CESMSendMap setMapName(String csMapName)
-	{
-		// Find the map which has to name in parameter: To DO
-		mapName = csMapName.trim() ;
-		return this;
-	}
+    CESMSendMap setMapName(String csMapName)
+    {
+        // Find the map which has to name in parameter: To DO
+        mapName = csMapName.trim() ;
+        return this;
+    }
 
-	public CESMSendMap mapSet(String csMapName)
-	{
-		name = csMapName ;
-		return this;
-	}
-	public CESMSendMap mapSet(Var MapName)
-	{
-		name = MapName.getString() ;
-		return this;
-	}
+    public CESMSendMap mapSet(String csMapName)
+    {
+        name = csMapName ;
+        return this;
+    }
+    public CESMSendMap mapSet(Var MapName)
+    {
+        name = MapName.getString() ;
+        return this;
+    }
 
-	public CESMSendMap from(Form map)
-	{
-		varFrom = map;
-		return this;
-	}
-	public CESMSendMap dataOnlyFrom(Form map)
-	{
-		varFrom = map;
-		return this;
-	}
-	public CESMSendMap dataOnlyFrom(Var map)
-	{
-		assertIfFalse(map == null);
-		// this function may not be called : in this case, a COPY is missing defining a map
-		return this;
-	}
-	public CESMSendMap dataFrom(Form map)
-	{
-		varFrom = map;
-		return this;
-	}
-	public CESMSendMap dataFrom(Var map)
-	{
-		assertIfFalse(map == null);
-		// this function may not be called : in this case, a COPY is missing defining a map
-		return this;
-	}
-	public CESMSendMap dataFrom(Var map, Var length)
-	{
-		assertIfFalse(map == null);
-		// this function may not be called : in this case, a COPY is missing defining a map
-		return this;
-	}
-	public CESMSendMap cursor()
-	{
-		// unsupported
-		return this;
-	}
-	public CESMSendMap alarm()
-	{
-		// unsupported
-		return this;
-	}
-	public CESMSendMap erase()
-	{
-//		bErase = true;
-		// unsupported
-		return this;
-	}
-//	protected boolean bErase = false ;
-	public CESMSendMap freeKB()
-	{
-		// unsupported
-		return this;
-	}
-	public CESMSendMap cursor(Var v)
-	{
-		nCursorPosition = v.getInt() ;
-		return this;
-	}
-	protected int nCursorPosition = 0;
+    public CESMSendMap from(Form map)
+    {
+        varFrom = map;
+        return this;
+    }
+    public CESMSendMap dataOnlyFrom(Form map)
+    {
+        varFrom = map;
+        return this;
+    }
+    public CESMSendMap dataOnlyFrom(Var map)
+    {
+        assertIfFalse(map == null);
+        // this function may not be called : in this case, a COPY is missing defining a map
+        return this;
+    }
+    public CESMSendMap dataFrom(Form map)
+    {
+        varFrom = map;
+        return this;
+    }
+    public CESMSendMap dataFrom(Var map)
+    {
+        assertIfFalse(map == null);
+        // this function may not be called : in this case, a COPY is missing defining a map
+        return this;
+    }
+    public CESMSendMap dataFrom(Var map, Var length)
+    {
+        assertIfFalse(map == null);
+        // this function may not be called : in this case, a COPY is missing defining a map
+        return this;
+    }
+    public CESMSendMap cursor()
+    {
+        // unsupported
+        return this;
+    }
+    public CESMSendMap alarm()
+    {
+        // unsupported
+        return this;
+    }
+    public CESMSendMap erase()
+    {
+//      bErase = true;
+        // unsupported
+        return this;
+    }
+//  protected boolean bErase = false ;
+    public CESMSendMap freeKB()
+    {
+        // unsupported
+        return this;
+    }
+    public CESMSendMap cursor(Var v)
+    {
+        nCursorPosition = v.getInt() ;
+        return this;
+    }
+    protected int nCursorPosition = 0;
 
 
-	public Element buildXMLToSend(Document root)
-	{
-		return null;
-	}
+    public Element buildXMLToSend(Document root)
+    {
+        return null;
+    }
 
-	//protected CBaseMap m_BaseMap = null;
-	protected Form varFrom = null;
-	protected String mapName = "" ;
-	protected String name = "" ;
+    //protected CBaseMap m_BaseMap = null;
+    protected Form varFrom = null;
+    protected String mapName = "" ;
+    protected String name = "" ;
 }

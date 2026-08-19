@@ -14,13 +14,19 @@ import jlib.sql.DbDriverId;
 
 public class SQLConnectionManager extends DbConnectionManagerBase
 {
-	public SQLConnectionManager()
-	{
-	}
-	
-	public DbConnectionBase createConnection(Connection connection, String csPrefId, String csEnvironment, boolean bUseStatementCache, boolean bUseJmx, DbDriverId dbDriverId)
-	{
-		SQLConnection sqlConnection = new SQLConnection(connection, csPrefId, csEnvironment, bUseStatementCache, bUseJmx, dbDriverId);
-		return sqlConnection;
-	}
+    public SQLConnectionManager()
+    {
+    }
+
+    public DbConnectionBase createConnection(
+        Connection connection,
+        String csPrefId,
+        String csEnvironment,
+        boolean bUseStatementCache,
+        boolean bUseJmx,
+        DbDriverId dbDriverId)
+    {
+        SQLConnection sqlConnection = new SQLConnection(connection, csPrefId, csEnvironment, bUseStatementCache, bUseJmx, dbDriverId);
+        return sqlConnection;
+    }
 }

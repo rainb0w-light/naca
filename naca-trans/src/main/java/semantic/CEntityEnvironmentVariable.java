@@ -20,118 +20,122 @@ import utils.CObjectCatalog;
  */
 public class CEntityEnvironmentVariable extends CDataEntity
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityEnvironmentVariable(int l, String name, CObjectCatalog cat, String accessor, String writer, boolean bNumericVar)
-	{
-		super(l, name, cat);
-		csAccessor = accessor ;
-		csWriteAccessor = writer ;
-		isnumericVariable = bNumericVar ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityEnvironmentVariable(int l, String name, CObjectCatalog cat, String accessor, String writer, boolean bNumericVar)
+    {
+        super(l, name, cat);
+        csAccessor = accessor ;
+        csWriteAccessor = writer ;
+        isnumericVariable = bNumericVar ;
+    }
 
-	protected String csAccessor = "" ;
-	protected String csWriteAccessor = "" ;
-	protected boolean isnumericVariable = false ;
+    protected String csAccessor = "" ;
+    protected String csWriteAccessor = "" ;
+    protected boolean isnumericVariable = false ;
 
-	public String getReadAccessor()
-	{
-		return csAccessor;
-	}
+    public String getReadAccessor()
+    {
+        return csAccessor;
+    }
 
-	public String getWriteAccessor()
-	{
-		return csWriteAccessor;
-	}
+    public String getWriteAccessor()
+    {
+        return csWriteAccessor;
+    }
 
-	public boolean isNumericVariable()
-	{
-		return isnumericVariable;
-	}
+    public boolean isNumericVariable()
+    {
+        return isnumericVariable;
+    }
 
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
-		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
-		{
-			eCond.SetIsZero(this);
-		}
-		else if (value.equals("SPACE") || value.equals("SPACES"))
-		{
-			eCond.SetIsSpace(this);
-		}
-		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{
-			eCond.SetIsLowValue(this);
-		}
-		else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
-		{
-			eCond.SetIsHighValue(this);
-		}
-		else
-		{
-			return null ;
-		}
-		if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
-		{
-			eCond.SetOpposite() ;
-			return eCond ;
-		}
-		else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
-		{
-			return eCond ;
-		}
-		else
-		{
-			return null ;
-		}
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-//		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
-//		e.SetReference(this) ;
-//		for (int i=0; i<v.size(); i++)
-//		{
-//			CExpression expr = (CExpression)v.get(i);
-//			CBaseEntityExpression exp = expr.AnalyseExpression(factory);
-//			e.AddIndex(exp);
-//		}
-//		return e ;
-		return this ;
-	};
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
-	{
-		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
-		ref.SetReference(this, start, length) ;
-		return ref ;
-	};
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		if (isnumericVariable)
-			return CDataEntityType.NUMERIC_VAR ;
-		else
-			return CDataEntityType.VAR;
-	}
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
+        if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+        {
+            eCond.SetIsZero(this);
+        }
+        else if (value.equals("SPACE") || value.equals("SPACES"))
+        {
+            eCond.SetIsSpace(this);
+        }
+        else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
+        {
+            eCond.SetIsLowValue(this);
+        }
+        else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
+        {
+            eCond.SetIsHighValue(this);
+        }
+        else
+        {
+            return null ;
+        }
+        if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
+        {
+            eCond.SetOpposite() ;
+            return eCond ;
+        }
+        else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
+        {
+            return eCond ;
+        }
+        else
+        {
+            return null ;
+        }
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+//      CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
+//      e.SetReference(this) ;
+//      for (int i=0; i<v.size(); i++)
+//      {
+//          CExpression expr = (CExpression)v.get(i);
+//          CBaseEntityExpression exp = expr.AnalyseExpression(factory);
+//          e.AddIndex(exp);
+//      }
+//      return e ;
+        return this ;
+    };
+    public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
+    {
+        CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
+        ref.SetReference(this, start, length) ;
+        return ref ;
+    };
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        if (isnumericVariable)
+            return CDataEntityType.NUMERIC_VAR ;
+        else
+            return CDataEntityType.VAR;
+    }
 
-	public boolean HasAccessors()
-	{
-		return !csWriteAccessor.isEmpty();
-	}
+    public boolean HasAccessors()
+    {
+        return !csWriteAccessor.isEmpty();
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 }

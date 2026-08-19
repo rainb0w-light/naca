@@ -16,82 +16,82 @@ package jlib.misc;
  */
 public class JSonCoupleItem
 {
-	private String csName;
-	private String csValue;
-	private JSonCoupleItemType type;
+    private String csName;
+    private String csValue;
+    private JSonCoupleItemType type;
 
-	JSonCoupleItem()
-	{
-	}
+    JSonCoupleItem()
+    {
+    }
 
-	String getName()
-	{
-		return csName;
-	}
+    String getName()
+    {
+        return csName;
+    }
 
-	int getValueAsInt()
-	{
-		return NumberParser.getAsInt(csValue);
-	}
+    int getValueAsInt()
+    {
+        return NumberParser.getAsInt(csValue);
+    }
 
-	String getValueAsString()
-	{
-		return csValue;
-	}
+    String getValueAsString()
+    {
+        return csValue;
+    }
 
-	boolean getValueAsBoolean()
-	{
-		return NumberParser.getAsBoolean(csValue);
-	}
+    boolean getValueAsBoolean()
+    {
+        return NumberParser.getAsBoolean(csValue);
+    }
 
-	boolean parse(String csCouple)
-	{
-		int nIndex = csCouple.indexOf(":");
-		if(nIndex != -1)
-		{
-			csName = csCouple.substring(0, nIndex);
-			csName = StringUtil.removeSurroundingQuotes(csName);
+    boolean parse(String csCouple)
+    {
+        int nIndex = csCouple.indexOf(":");
+        if(nIndex != -1)
+        {
+            csName = csCouple.substring(0, nIndex);
+            csName = StringUtil.removeSurroundingQuotes(csName);
 
-			String csValue = csCouple.substring(nIndex+1);
-			if(csValue.startsWith("\"") && csValue.endsWith("\""))
-			{
-				// Remove quotes
-				csValue = StringUtil.removeSurroundingQuotes(csValue);
-				type = JSonCoupleItemType.TypeString;
-				return true;
-			}
-			else	// Number or null
-			{
-				if(csValue.equals("null"))
-				{
-					csValue = null;
-					type = JSonCoupleItemType.TypeString;
-					return true;
-				}
-				else if(csValue.equalsIgnoreCase("true"))
-				{
-					this.csValue = csValue;
-					type = JSonCoupleItemType.TypeBoolean;
-					return true;
-				}
-				else if(csValue.equalsIgnoreCase("false"))
-				{
-					this.csValue = csValue;
-					type = JSonCoupleItemType.TypeBoolean;
-					return true;
-				}
-				else	// Number
-				{
-					// Check numeric value
-					this.csValue = csValue;
-					if(csValue.indexOf(".") >= 0)	// ouble
-						type = JSonCoupleItemType.TypeDouble;
-					else
-						type = JSonCoupleItemType.TypeInteger;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+            String csValue = csCouple.substring(nIndex+1);
+            if(csValue.startsWith("\"") && csValue.endsWith("\""))
+            {
+                // Remove quotes
+                csValue = StringUtil.removeSurroundingQuotes(csValue);
+                type = JSonCoupleItemType.TypeString;
+                return true;
+            }
+            else    // Number or null
+            {
+                if(csValue.equals("null"))
+                {
+                    csValue = null;
+                    type = JSonCoupleItemType.TypeString;
+                    return true;
+                }
+                else if(csValue.equalsIgnoreCase("true"))
+                {
+                    this.csValue = csValue;
+                    type = JSonCoupleItemType.TypeBoolean;
+                    return true;
+                }
+                else if(csValue.equalsIgnoreCase("false"))
+                {
+                    this.csValue = csValue;
+                    type = JSonCoupleItemType.TypeBoolean;
+                    return true;
+                }
+                else    // Number
+                {
+                    // Check numeric value
+                    this.csValue = csValue;
+                    if(csValue.indexOf(".") >= 0)   // ouble
+                        type = JSonCoupleItemType.TypeDouble;
+                    else
+                        type = JSonCoupleItemType.TypeInteger;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

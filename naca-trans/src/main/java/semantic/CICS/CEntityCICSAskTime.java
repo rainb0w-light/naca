@@ -16,24 +16,24 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSAskTime extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSAskTime(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// and CICS ABEND/RETURN exemplars), so guard it instead of dereferencing
-		// unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSAskTime(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // and CICS ABEND/RETURN exemplars), so guard it instead of dereferencing
+        // unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
 }

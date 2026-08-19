@@ -14,47 +14,47 @@ import utils.CObjectCatalog;
  */
 public class CEntityUnknownReference extends CDataEntity
 {
-	/**
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.UNKNWON ;
-	}
-	public CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
-	{
-		super(nLine, csName, cat);
-	}
+    /**
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.UNKNWON ;
+    }
+    public CEntityUnknownReference(int nLine, String csName, CObjectCatalog cat)
+    {
+        super(nLine, csName, cat);
+    }
 
-	/**
-	 * An unresolved identifier has no usable semantic reference. Returning null
-	 * preserves the legacy fail-closed value for direct callers while the ST4
-	 * binding deliberately renders no source.
-	 */
-	@Override
-	protected String getSemanticReference()
-	{
-		return null;
-	}
+    /**
+     * An unresolved identifier has no usable semantic reference. Returning null
+     * preserves the legacy fail-closed value for direct callers while the ST4
+     * binding deliberately renders no source.
+     */
+    @Override
+    protected String getSemanticReference()
+    {
+        return null;
+    }
 
-	@Override
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    @Override
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
-	public boolean ignore()
-	{
-		return false ; // maybe true
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
+    public boolean ignore()
+    {
+        return false ; // maybe true
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 }

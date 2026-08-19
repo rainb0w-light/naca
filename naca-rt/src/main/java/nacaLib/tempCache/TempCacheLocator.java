@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
@@ -16,29 +16,29 @@ package nacaLib.tempCache;
  */
 public class TempCacheLocator
 {
-	private static ThreadLocal<TempCache> mtls_tempCache = new ThreadLocal<TempCache>();
+    private static ThreadLocal<TempCache> mtls_tempCache = new ThreadLocal<TempCache>();
 
-	public static TempCache setTempCache()
-	{
-		TempCache cache = TempCacheStack.pop();
-		if(cache == null)
-		{
-			cache = new TempCache();	
-		}		
-		cache.resetStackProgram();
-		mtls_tempCache.set(cache);
-		return cache;
-	}
+    public static TempCache setTempCache()
+    {
+        TempCache cache = TempCacheStack.pop();
+        if(cache == null)
+        {
+            cache = new TempCache();
+        }
+        cache.resetStackProgram();
+        mtls_tempCache.set(cache);
+        return cache;
+    }
 
-	public static void relaseTempCache()
-	{
-		TempCache cache = getTLSTempCache();
-		TempCacheStack.push(cache);
-		mtls_tempCache.set(null);
-	}
-	
-	public static TempCache getTLSTempCache()
-	{
-		return mtls_tempCache.get();
-	}
+    public static void relaseTempCache()
+    {
+        TempCache cache = getTLSTempCache();
+        TempCacheStack.push(cache);
+        mtls_tempCache.set(null);
+    }
+
+    public static TempCache getTLSTempCache()
+    {
+        return mtls_tempCache.get();
+    }
 }

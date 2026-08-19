@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -17,25 +17,25 @@ package nacaLib.callPrg;
  */
 public class CalledResourceManagerFactory
 {
-	private static CalledResourceManager ms_instance = null;
+    private static CalledResourceManager ms_instance = null;
 
-	public static CalledResourceManager GetInstance(String csIniFilePath)
-	{
-		if(ms_instance == null) 
-		{
-			ms_instance = new CalledResourceManager();
-			ms_instance.initialize(csIniFilePath);
-		}
-		return ms_instance;  
-	}
-	
-	public static CalledResourceManager GetInstance(String csIniFilePath, String csDBParameterPrefix)
-	{
-		if(ms_instance == null) 
-		{
-			ms_instance = new CalledResourceManager();
-			ms_instance.initialize(csIniFilePath, csDBParameterPrefix);
-		}
-		return ms_instance;  
-	}
+    public static CalledResourceManager GetInstance(String csIniFilePath)
+    {
+        if(ms_instance == null)
+        {
+            ms_instance = new CalledResourceManager();
+            ms_instance.initialize(csIniFilePath);
+        }
+        return ms_instance;
+    }
+
+    public static CalledResourceManager GetInstance(String csIniFilePath, String csDBParameterPrefix)
+    {
+        if(ms_instance == null)
+        {
+            ms_instance = new CalledResourceManager();
+            ms_instance.initialize(csIniFilePath, csDBParameterPrefix);
+        }
+        return ms_instance;
+    }
 }

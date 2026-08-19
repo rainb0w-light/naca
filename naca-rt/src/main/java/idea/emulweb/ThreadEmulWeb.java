@@ -10,23 +10,23 @@ import jlib.misc.ThreadSafeCounter;
 
 public class ThreadEmulWeb extends Thread
 {
-	public ThreadEmulWeb(ThreadSafeCounter counter, EmulWebThreadedRun emulWebRun)
-	{
-		this.counter = counter;
-		this.emulWebRun = emulWebRun;
-	}
-	
-	public void run()
-	{
-		emulWebRun.run();
-		counter.dec();
-	}
-	
-	public void requestStop()
-	{
-		interrupt();
-	}
-	
-	private EmulWebThreadedRun emulWebRun = null;
-	private ThreadSafeCounter counter = null;
+    public ThreadEmulWeb(ThreadSafeCounter counter, EmulWebThreadedRun emulWebRun)
+    {
+        this.counter = counter;
+        this.emulWebRun = emulWebRun;
+    }
+
+    public void run()
+    {
+        emulWebRun.run();
+        counter.dec();
+    }
+
+    public void requestStop()
+    {
+        interrupt();
+    }
+
+    private EmulWebThreadedRun emulWebRun = null;
+    private ThreadSafeCounter counter = null;
 }

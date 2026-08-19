@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.appOpening;
 
@@ -19,73 +19,73 @@ import nacaLib.basePrgEnv.BaseResourceManager;
  */
 public class JmxAppCloser extends BaseCloseMBean
 {
-	public JmxAppCloser()
-	{
-		super("# App_Close", "# App_Close");
-	}
-	
-	protected void buildDynamicMBeanInfo()
-	{
-		addOperation("Close", getClass(), "setManualClose");
-		addAttribute("CloseReason", getClass(), "__ManualCloseReason", String.class);
-		addOperation("ReloadCalendarFiles", getClass(), "setReloadCalendarFiles");
-		addAttribute("A_ApplicationManualStatus", getClass(), "A_ApplicationManualStatus", String.class);
-		addAttribute("B0_ApplicationCustomStatus", getClass(), "B0_ApplicationCustomStatus", String.class);
-		addAttribute("B1_ApplicationStandardStatus", getClass(), "B1_ApplicationStandardStatus", String.class);
-		addAttribute("C_ApplicationCurrentStatus", getClass(), "C_ApplicationCurrentStatus", String.class);
-	}
+    public JmxAppCloser()
+    {
+        super("# App_Close", "# App_Close");
+    }
 
-	public boolean getManualClose()
-	{
-		return BaseResourceManager.isAppManuallyClosed();
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addOperation("Close", getClass(), "setManualClose");
+        addAttribute("CloseReason", getClass(), "__ManualCloseReason", String.class);
+        addOperation("ReloadCalendarFiles", getClass(), "setReloadCalendarFiles");
+        addAttribute("A_ApplicationManualStatus", getClass(), "A_ApplicationManualStatus", String.class);
+        addAttribute("B0_ApplicationCustomStatus", getClass(), "B0_ApplicationCustomStatus", String.class);
+        addAttribute("B1_ApplicationStandardStatus", getClass(), "B1_ApplicationStandardStatus", String.class);
+        addAttribute("C_ApplicationCurrentStatus", getClass(), "C_ApplicationCurrentStatus", String.class);
+    }
 
-	public void setManualClose()
-	{
-		BaseResourceManager.setAppManuallyClosed(true);
-	}
-	
-	public String get__ManualCloseReason()
-	{
-		return BaseResourceManager.getManualCloseReason();
-	}
-	
-	public void set__ManualCloseReason(String csManualCloseReason)
-	{
-		BaseResourceManager.setManualCloseReason(csManualCloseReason);
-	}
-		
-	public void setReloadCalendarFiles()
-	{
-		BaseResourceManager.reloadCalendarFiles();
-	}
-	
-	public String getApplicationStatus()
-	{
-		return getC_ApplicationCurrentStatus();
-	}
-	
-	public String getA_ApplicationManualStatus()
-	{
-		return BaseResourceManager.getAppManualStatusState().getString();
-	}
+    public boolean getManualClose()
+    {
+        return BaseResourceManager.isAppManuallyClosed();
+    }
 
-	public String getB0_ApplicationCustomStatus()
-	{
-		CalendarOpenState state = BaseResourceManager.getAppCustomOpenState();
-		return state.getString();
-	}
-	
-	public String getB1_ApplicationStandardStatus()
-	{
-		CalendarOpenState state = BaseResourceManager.getAppStandardOpenState();
-		return state.getString();
-	}
-	
-	public String getC_ApplicationCurrentStatus()
-	{
-		if(BaseResourceManager.isAppManuallyClosed())
-			return getA_ApplicationManualStatus();
-		return BaseResourceManager.getAppPlanifiedOpenState().getString();
-	}
+    public void setManualClose()
+    {
+        BaseResourceManager.setAppManuallyClosed(true);
+    }
+
+    public String get__ManualCloseReason()
+    {
+        return BaseResourceManager.getManualCloseReason();
+    }
+
+    public void set__ManualCloseReason(String csManualCloseReason)
+    {
+        BaseResourceManager.setManualCloseReason(csManualCloseReason);
+    }
+
+    public void setReloadCalendarFiles()
+    {
+        BaseResourceManager.reloadCalendarFiles();
+    }
+
+    public String getApplicationStatus()
+    {
+        return getC_ApplicationCurrentStatus();
+    }
+
+    public String getA_ApplicationManualStatus()
+    {
+        return BaseResourceManager.getAppManualStatusState().getString();
+    }
+
+    public String getB0_ApplicationCustomStatus()
+    {
+        CalendarOpenState state = BaseResourceManager.getAppCustomOpenState();
+        return state.getString();
+    }
+
+    public String getB1_ApplicationStandardStatus()
+    {
+        CalendarOpenState state = BaseResourceManager.getAppStandardOpenState();
+        return state.getString();
+    }
+
+    public String getC_ApplicationCurrentStatus()
+    {
+        if(BaseResourceManager.isAppManuallyClosed())
+            return getA_ApplicationManualStatus();
+        return BaseResourceManager.getAppPlanifiedOpenState().getString();
+    }
 }

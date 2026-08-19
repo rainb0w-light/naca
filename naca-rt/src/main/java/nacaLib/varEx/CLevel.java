@@ -13,30 +13,30 @@ package nacaLib.varEx;
 
 public class CLevel
 {
-	CLevel(VarDefBuffer varDef, int nLevel)
-	{
-		this.nLevel = nLevel;
-		this.varDef = varDef;
-	};
+    CLevel(VarDefBuffer varDef, int nLevel)
+    {
+        this.nLevel = nLevel;
+        this.varDef = varDef;
+    };
 
-	void setWith(CLevel levelSource)
-	{
-		nLevel = levelSource.nLevel;
-		varDef = levelSource.varDef;
-	}
+    void setWith(CLevel levelSource)
+    {
+        nLevel = levelSource.nLevel;
+        varDef = levelSource.varDef;
+    }
 
-	VarDefBuffer getVarDef()
-	{
-		return varDef;
-	}
+    VarDefBuffer getVarDef()
+    {
+        return varDef;
+    }
 
-	boolean hasLowerLevel(int nLevel)
-	{
-		if(this.nLevel < nLevel)
-			return true;
-		return false;
-	}
+    boolean hasLowerLevel(int nLevel)
+    {
+        if(this.nLevel < nLevel)
+            return true;
+        return false;
+    }
 
-	int nLevel = 0;
-	private VarDefBuffer varDef = null ;
+    int nLevel = 0;
+    private VarDefBuffer varDef = null ;
 }

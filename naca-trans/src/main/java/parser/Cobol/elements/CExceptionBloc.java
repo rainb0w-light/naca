@@ -15,27 +15,27 @@ import org.w3c.dom.Element;
 
 public class CExceptionBloc extends CBlocElement
 {
-	public CExceptionBloc(int line) {
-		super(line);
-	}
+    public CExceptionBloc(int line) {
+        super(line);
+    }
 
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.EXCEPTION)
-		{
-			GetNext();
-		}
-		return super.DoParsing();
-	}
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.EXCEPTION)
+        {
+            GetNext();
+        }
+        return super.DoParsing();
+    }
 
-	protected Element ExportCustom(Document root)
-	{
-		return root.createElement("Exception") ;
-	}
+    protected Element ExportCustom(Document root)
+    {
+        return root.createElement("Exception") ;
+    }
 
-	protected boolean isTopLevelBloc()
-	{
-		return false;
-	}
+    protected boolean isTopLevelBloc()
+    {
+        return false;
+    }
 }

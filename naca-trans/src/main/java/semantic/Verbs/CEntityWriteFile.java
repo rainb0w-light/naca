@@ -14,37 +14,37 @@ import utils.CObjectCatalog;
 public class CEntityWriteFile extends CBaseActionEntity
 {
 
-	public CEntityWriteFile(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntityWriteFile(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
-	{
-		eFileDescriptor = efd ;
-		eDataFrom = data ;
-	}
-	public void SetAfter(CDataEntity after)
-	{
-		this.after = after;
-	}
-	protected CEntityFileDescriptor eFileDescriptor = null  ;
-	protected CDataEntity eDataFrom = null ;
-	protected CDataEntity after ;
+    public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
+    {
+        eFileDescriptor = efd ;
+        eDataFrom = data ;
+    }
+    public void SetAfter(CDataEntity after)
+    {
+        this.after = after;
+    }
+    protected CEntityFileDescriptor eFileDescriptor = null  ;
+    protected CDataEntity eDataFrom = null ;
+    protected CDataEntity after ;
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return eFileDescriptor;
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return eFileDescriptor;
+    }
 
-	public CDataEntity getDataFrom()
-	{
-		return eDataFrom;
-	}
+    public CDataEntity getDataFrom()
+    {
+        return eDataFrom;
+    }
 
-	public CDataEntity getAfter()
-	{
-		return after;
-	}
+    public CDataEntity getAfter()
+    {
+        return after;
+    }
 
 }

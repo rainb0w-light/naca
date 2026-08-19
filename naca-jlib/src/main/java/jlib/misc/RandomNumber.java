@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -18,32 +18,32 @@ import java.util.Random;
  */
 public class RandomNumber
 {
-	private Random rand = null;
-	private static RandomNumber ms_randomNumberSingleton = null;
-	
-	public RandomNumber()
-	{
-		rand = new Random();
-	}
-	
-	public RandomNumber(int nSeed)
-	{
-		rand = new Random(nSeed);
-	}
-	
-	public int getIntBetween(int nMin, int nMax)
-	{
-		int nRange = nMax - nMin;
-		int n = rand.nextInt(nRange);
-		n += nMin;
-		
-		return n;
-	}
-	
-	public static int generateIntBetween(int nMin, int nMax)
-	{
-		if(ms_randomNumberSingleton == null)
-			ms_randomNumberSingleton = new RandomNumber();
-		return ms_randomNumberSingleton.getIntBetween(nMin, nMax);
-	}
+    private Random rand = null;
+    private static RandomNumber ms_randomNumberSingleton = null;
+
+    public RandomNumber()
+    {
+        rand = new Random();
+    }
+
+    public RandomNumber(int nSeed)
+    {
+        rand = new Random(nSeed);
+    }
+
+    public int getIntBetween(int nMin, int nMax)
+    {
+        int nRange = nMax - nMin;
+        int n = rand.nextInt(nRange);
+        n += nMin;
+
+        return n;
+    }
+
+    public static int generateIntBetween(int nMin, int nMax)
+    {
+        if(ms_randomNumberSingleton == null)
+            ms_randomNumberSingleton = new RandomNumber();
+        return ms_randomNumberSingleton.getIntBetween(nMin, nMax);
+    }
 }

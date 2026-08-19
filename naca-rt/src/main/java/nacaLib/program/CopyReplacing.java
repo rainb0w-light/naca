@@ -18,42 +18,42 @@ import nacaLib.base.*;
 
 public class CopyReplacing extends CJMapObject
 {
-	private ArrayList<CopyReplacingItem> arr = null;
+    private ArrayList<CopyReplacingItem> arr = null;
 
-	public CopyReplacing(int nOldLevel, int nNewLevel)
-	{
-		arr = new ArrayList<CopyReplacingItem>();
-		replacing(nOldLevel, nNewLevel);
-	}
+    public CopyReplacing(int nOldLevel, int nNewLevel)
+    {
+        arr = new ArrayList<CopyReplacingItem>();
+        replacing(nOldLevel, nNewLevel);
+    }
 
-	public CopyReplacing replacing(int nOldLevel, int nNewLevel)
-	{
-		CopyReplacingItem item = new CopyReplacingItem(nOldLevel, nNewLevel);
-		arr.add(item);
-		return this;
-	}
+    public CopyReplacing replacing(int nOldLevel, int nNewLevel)
+    {
+        CopyReplacingItem item = new CopyReplacingItem(nOldLevel, nNewLevel);
+        arr.add(item);
+        return this;
+    }
 
-	public int getReplacedLevel(int nLevel)
-	{
-		int nNbItems = arr.size();
-		for(int n=0; n<nNbItems; n++)
-		{
-			CopyReplacingItem item = arr.get(n);
-			if(item.nOldLevel == nLevel)
-				return item.nNewLevel;
-		}
-		return nLevel;
-	}
+    public int getReplacedLevel(int nLevel)
+    {
+        int nNbItems = arr.size();
+        for(int n=0; n<nNbItems; n++)
+        {
+            CopyReplacingItem item = arr.get(n);
+            if(item.nOldLevel == nLevel)
+                return item.nNewLevel;
+        }
+        return nLevel;
+    }
 }
 
 class CopyReplacingItem
 {
-	CopyReplacingItem(int nOldLevel, int nNewLevel)
-	{
-		this.nOldLevel = nOldLevel;
-		this.nNewLevel = nNewLevel;
-	}
+    CopyReplacingItem(int nOldLevel, int nNewLevel)
+    {
+        this.nOldLevel = nOldLevel;
+        this.nNewLevel = nNewLevel;
+    }
 
-	int nOldLevel = 0;
-	int nNewLevel = 0;
+    int nOldLevel = 0;
+    int nNewLevel = 0;
 }

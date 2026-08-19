@@ -29,147 +29,147 @@ import utils.Transcoder;
 public class CExecCICSDeleteQ extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSDeleteQ(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSDeleteQ(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (queueName == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.deleteq.missing-queue",
-				"embedded-cics", getLine(), "EXEC CICS DELETEQ requires QUEUE");
-			return null;
-		}
-		if (sysID != null)
-		{
-			DiagnosticSink.recordUnsupported("cics.deleteq.remote-sysid-unsupported",
-				"embedded-cics", getLine(),
-				"EXEC CICS DELETEQ SYSID requires a remote queue backend");
-			return null;
-		}
-		CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), ispersistant);
-		parent.AddChild(eDelQ);
-		eDelQ.SetName(queueName.GetDataEntity(getLine(), factory));
-		if (sysID != null)
-		{
-			eDelQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
-		}
-		return eDelQ ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (queueName == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.deleteq.missing-queue",
+                "embedded-cics", getLine(), "EXEC CICS DELETEQ requires QUEUE");
+            return null;
+        }
+        if (sysID != null)
+        {
+            DiagnosticSink.recordUnsupported("cics.deleteq.remote-sysid-unsupported",
+                "embedded-cics", getLine(),
+                "EXEC CICS DELETEQ SYSID requires a remote queue backend");
+            return null;
+        }
+        CEntityCICSDeleteQ eDelQ = factory.NewEntityCICSDeleteQ(getLine(), ispersistant);
+        parent.AddChild(eDelQ);
+        eDelQ.SetName(queueName.GetDataEntity(getLine(), factory));
+        if (sysID != null)
+        {
+            eDelQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
+        }
+        return eDelQ ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.DELETEQ)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.DELETEQ)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetValue().equals("TD"))
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TD") ;
-			tok = GetNext();
-			ispersistant = true ;
-		}
-		else if (tok.GetValue().equals("TS"))
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TS") ;
-			tok = GetNext();
-			ispersistant = false ;
-		}
-		else
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "Unkonwn") ;
-			ispersistant = false ;
-		}
+        if (tok.GetValue().equals("TD"))
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TD") ;
+            tok = GetNext();
+            ispersistant = true ;
+        }
+        else if (tok.GetValue().equals("TS"))
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "TS") ;
+            tok = GetNext();
+            ispersistant = false ;
+        }
+        else
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("DELETEQ", "Unkonwn") ;
+            ispersistant = false ;
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			if (tok.GetValue().equals("QUEUE"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					queueName = ReadTerminal();
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetValue().equals("SYSID"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					sysID = ReadTerminal();
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            if (tok.GetValue().equals("QUEUE"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    queueName = ReadTerminal();
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("SYSID"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    sysID = ReadTerminal();
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELETEQ");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS DELETEQ");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eDel = root.createElement("ExecCICSDeleteQ") ;
-		if (ispersistant)
-		{
-			eDel.setAttribute("Persistant", "true") ;
-		}
-		else
-		{
-			eDel.setAttribute("Persistant", "false") ;
-		}
-		if (queueName != null)
-		{
-			Element e = root.createElement("QueueName");
-			eDel.appendChild(e);
-			queueName.ExportTo(e, root) ;
-		}
-		if (sysID != null)
-		{
-			Element e = root.createElement("SYSID");
-			eDel.appendChild(e);
-			sysID.ExportTo(e, root) ;
-		}
-		return eDel;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eDel = root.createElement("ExecCICSDeleteQ") ;
+        if (ispersistant)
+        {
+            eDel.setAttribute("Persistant", "true") ;
+        }
+        else
+        {
+            eDel.setAttribute("Persistant", "false") ;
+        }
+        if (queueName != null)
+        {
+            Element e = root.createElement("QueueName");
+            eDel.appendChild(e);
+            queueName.ExportTo(e, root) ;
+        }
+        if (sysID != null)
+        {
+            Element e = root.createElement("SYSID");
+            eDel.appendChild(e);
+            sysID.ExportTo(e, root) ;
+        }
+        return eDel;
+    }
 
-	protected boolean ispersistant = false ;
-	protected CTerminal queueName= null ;
-	protected CTerminal sysID = null ;
+    protected boolean ispersistant = false ;
+    protected CTerminal queueName= null ;
+    protected CTerminal sysID = null ;
 }

@@ -25,84 +25,84 @@ import utils.Transcoder;
 public class CIOSection extends CCommentContainer
 {
 
-	/**
-	 * @param line
-	 */
-	public CIOSection(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CIOSection(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		return parent;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        return parent;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken();
-//			if (tok.GetType() == CTokenType.COMMENT)
-//			{
-//				ParseComment() ;
-//			}
-			if (tok.GetKeyword() == CCobolKeywordList.FILE_CONTROL)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				tok = GetNext();
-				boolean isdone2 = false ;
-				while (!isdone2)
-				{
-//					while (tok.GetType() == CTokenType.COMMENT)
-//					{
-//						ParseComment();
-//						tok = GetCurrentToken();
-//					}
-					if (tok.GetKeyword() == CCobolKeywordList.SELECT)
-					{
-						CFileSelect fc = new CFileSelect(tok.getLine());
-						AddChild(fc);
-						if (!Parse(fc))
-						{
-							return false ;
-						}
-					}
-					else
-					{
-						isdone2 = true ;
-					}
-					tok = GetCurrentToken() ;
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken();
+//          if (tok.GetType() == CTokenType.COMMENT)
+//          {
+//              ParseComment() ;
+//          }
+            if (tok.GetKeyword() == CCobolKeywordList.FILE_CONTROL)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                tok = GetNext();
+                boolean isdone2 = false ;
+                while (!isdone2)
+                {
+//                  while (tok.GetType() == CTokenType.COMMENT)
+//                  {
+//                      ParseComment();
+//                      tok = GetCurrentToken();
+//                  }
+                    if (tok.GetKeyword() == CCobolKeywordList.SELECT)
+                    {
+                        CFileSelect fc = new CFileSelect(tok.getLine());
+                        AddChild(fc);
+                        if (!Parse(fc))
+                        {
+                            return false ;
+                        }
+                    }
+                    else
+                    {
+                        isdone2 = true ;
+                    }
+                    tok = GetCurrentToken() ;
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
 
-		}
-		return true;
-	}
+        }
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eIO = root.createElement("IO") ;
-		return eIO ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eIO = root.createElement("IO") ;
+        return eIO ;
+    }
 
 }

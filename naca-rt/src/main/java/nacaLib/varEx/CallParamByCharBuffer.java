@@ -12,34 +12,35 @@ package nacaLib.varEx;
  */
 public class CallParamByCharBuffer extends CCallParam
 {
-	public CallParamByCharBuffer(InternalCharBuffer charBuffer)
-	{
-		this.charBuffer = charBuffer;
-	}
+    public CallParamByCharBuffer(InternalCharBuffer charBuffer)
+    {
+        this.charBuffer = charBuffer;
+    }
 
-	public int getParamLength()
-	{
-		if(charBuffer != null)
-			return charBuffer.getBufferSize();
-		return 0;
-	}
+    public int getParamLength()
+    {
+        if(charBuffer != null)
+            return charBuffer.getBufferSize();
+        return 0;
+    }
 
-	public void MapOn(Var varLinkageSection)
-	{
-		int nNbCharsToCopy = charBuffer.getBufferSize();
-		int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
-		int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
-		//TODO Contr�le si contr�le sur longueur du buffer ou longueur de varLinkageSection
-		if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
-		{
-			assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy + " Destination length=" + nBuffetDestSize);
-		}
+    public void MapOn(Var varLinkageSection)
+    {
+        int nNbCharsToCopy = charBuffer.getBufferSize();
+        int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
+        int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
+        //TODO Contr�le si contr�le sur longueur du buffer ou longueur de varLinkageSection
+        if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
+        {
+            assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy
+                + " Destination length=" + nBuffetDestSize);
+        }
 
-		varLinkageSection.bufferPos.writeRepeatingCharAt(nPositionDest, ' ', varLinkageSection.getLength());
-		varLinkageSection.bufferPos.copyBytes(nPositionDest, nNbCharsToCopy, 0, charBuffer);
-	}
+        varLinkageSection.bufferPos.writeRepeatingCharAt(nPositionDest, ' ', varLinkageSection.getLength());
+        varLinkageSection.bufferPos.copyBytes(nPositionDest, nNbCharsToCopy, 0, charBuffer);
+    }
 
 
 
-	private InternalCharBuffer charBuffer = null;
+    private InternalCharBuffer charBuffer = null;
 }

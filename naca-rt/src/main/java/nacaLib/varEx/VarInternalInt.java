@@ -15,138 +15,138 @@ import jlib.misc.NumberParser;
 
 public class VarInternalInt extends Var
 {
-	public VarInternalInt()
-	{
-		super(null);
-		varDef = new VarDefInternalInt(this);
-		varTypeId = varDef.getTypeId();
-		n = 0;
-	}
+    public VarInternalInt()
+    {
+        super(null);
+        varDef = new VarDefInternalInt(this);
+        varTypeId = varDef.getTypeId();
+        n = 0;
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarInternalInt v = new VarInternalInt();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarInternalInt v = new VarInternalInt();
+        return v;
+    }
 
-	public void set(int n)
-	{
-		this.n = n;
-	}
+    public void set(int n)
+    {
+        this.n = n;
+    }
 
-	public void set(String cs)
-	{
-		n = NumberParser.getAsInt(cs);
-	}
+    public void set(String cs)
+    {
+        n = NumberParser.getAsInt(cs);
+    }
 
-	public void set(char c)
-	{
-		n = NumberParser.getAsInt(c);
-	}
+    public void set(char c)
+    {
+        n = NumberParser.getAsInt(c);
+    }
 
-//	public void set(GenericValue gv)
-//	{
-//		//n = gv.getInt();
-//	}
+//  public void set(GenericValue gv)
+//  {
+//      //n = gv.getInt();
+//  }
 
-	protected String getAsLoggableString()
-	{
-		return String.valueOf(n);
-	}
+    protected String getAsLoggableString()
+    {
+        return String.valueOf(n);
+    }
 
-	public boolean hasType(VarTypeEnum e)
-	{
-		if(e == VarTypeEnum.Type9)
-			return true;
-		return false;
-	}
-
-
-//	public String getString()
-//	{
-//		return String.valueOf(n);
-//	}
-
-//	public String getDottedSignedString()
-//	{
-//		return String.valueOf(n);
-//	}
-
-	public int getInt()
-	{
-		return n;
-	}
-
-	public double getDouble()
-	{
-		return n;
-	}
-
-//	VarNumberChunk getNumberChunks()
-//	{
-//		VarNumberChunk chunk = new VarNumberChunk() ;
-//		if(n < 0)
-//			chunk.setNegative(true);
-//		else
-//			chunk.setNegative(false);
-//		chunk.m_sAbsInt = String.valueOf(Math.abs(n));
-//		chunk.m_sDec = "" ;
-//		return chunk ;
-//	}
-
-	public String toString()
-	{
-		return "InternalVar: " + String.valueOf(n);
-	}
-
-	int getSingleItemRequiredStorageSize()
-	{
-		return 0;
-	}
-
-	int n;
-
-	public void transferTo(Var varDest)
-	{
-		varDest.set(n);
-	}
-	public String getSTCheckValue()
-	{
-		return "VarInternalInt("+n+")" ;
-	}
-
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public boolean hasType(VarTypeEnum e)
+    {
+        if(e == VarTypeEnum.Type9)
+            return true;
+        return false;
+    }
 
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+//  public String getString()
+//  {
+//      return String.valueOf(n);
+//  }
+
+//  public String getDottedSignedString()
+//  {
+//      return String.valueOf(n);
+//  }
+
+    public int getInt()
+    {
+        return n;
+    }
+
+    public double getDouble()
+    {
+        return n;
+    }
+
+//  VarNumberChunk getNumberChunks()
+//  {
+//      VarNumberChunk chunk = new VarNumberChunk() ;
+//      if(n < 0)
+//          chunk.setNegative(true);
+//      else
+//          chunk.setNegative(false);
+//      chunk.m_sAbsInt = String.valueOf(Math.abs(n));
+//      chunk.m_sDec = "" ;
+//      return chunk ;
+//  }
+
+    public String toString()
+    {
+        return "InternalVar: " + String.valueOf(n);
+    }
+
+    int getSingleItemRequiredStorageSize()
+    {
+        return 0;
+    }
+
+    int n;
+
+    public void transferTo(Var varDest)
+    {
+        varDest.set(n);
+    }
+    public String getSTCheckValue()
+    {
+        return "VarInternalInt("+n+")" ;
+    }
+
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return AsciiEbcdicConverter.noConvertEbcdicToUnicode(tBytes);
-	}
+
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
+    }
+
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return AsciiEbcdicConverter.noConvertEbcdicToUnicode(tBytes);
+    }
 
 
-	public VarType getVarType()
-	{
-		return VarType.VarInternalInt;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarInternalInt;
+    }
 }

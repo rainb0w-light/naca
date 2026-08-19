@@ -22,53 +22,53 @@ import java.io.InputStream;
  */
 public class TagRemoverInputStream extends InputStream {
 
-//	*************************************************************************
-//	**                      The class constructor.                         **
-//	*************************************************************************
+//  *************************************************************************
+//  **                      The class constructor.                         **
+//  *************************************************************************
 /**
  * The constructor admits any <code>InputStream</code> source.
  */
-	public TagRemoverInputStream(InputStream inputStream) {
-		_inputStream=inputStream;
-	}
+    public TagRemoverInputStream(InputStream inputStream) {
+        _inputStream=inputStream;
+    }
 
-//	*************************************************************************
-//	**                         Class properties.                           **
-//	*************************************************************************
+//  *************************************************************************
+//  **                         Class properties.                           **
+//  *************************************************************************
 
-//	***************************** The data input ****************************
+//  ***************************** The data input ****************************
 /**
  * Contains the data input source.
  */
-	private InputStream _inputStream;
+    private InputStream _inputStream;
 
-//	*************************************************************************
-//	**                The actual data transformation                       **
-//	*************************************************************************
+//  *************************************************************************
+//  **                The actual data transformation                       **
+//  *************************************************************************
 /**
  * Remove xml tag from the provided input source (see {@link #TagRemoverInputStream(InputStream)}
  */
-	@Override
-	public int read() throws IOException {
-		int data=0;
+    @Override
+    public int read() throws IOException {
+        int data=0;
 
-//	................ Reads the source .....................
-			data=_inputStream.read();
-			while(data>0) {
-			    // if source contains certains caracters then we don't write it.
-				//10= code ascii de saut de ligne
-				//13=code ascii de retour a la ligne
-				if (data=='<' || data==10 || data==13) {
-					while (data != '>' && data != '\r' && data != '\n' && data!='\t'){
-						data=_inputStream.read();
-					}
-				}
-				else
-					return data;
-				data=_inputStream.read();
-				}
+//  ................ Reads the source .....................
+            data=_inputStream.read();
+            while(data>0) {
+                // if source contains certains caracters then we don't write it.
+                //10= code ascii de saut de ligne
+                //13=code ascii de retour a la ligne
+                if (data=='<' || data==10 || data==13) {
+                    while (data != '>' && data != '\r' && data != '\n' && data!='\t'){
+                        data=_inputStream.read();
+                    }
+                }
+                else
+                    return data;
+                data=_inputStream.read();
+                }
 
-		return -1;
+        return -1;
 
-	}
+    }
 }

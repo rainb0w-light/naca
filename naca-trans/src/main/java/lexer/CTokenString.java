@@ -12,33 +12,33 @@ package lexer;
  */
 public class CTokenString extends CBaseToken
 {
-	public CTokenString(char[] v, int line, boolean newline)
-	{
-		super(line, newline);
-		charArrayValue =  v ;
-		value = new String(v);
-	}
+    public CTokenString(char[] v, int line, boolean newline)
+    {
+        super(line, newline);
+        charArrayValue =  v ;
+        value = new String(v);
+    }
 
-	public CTokenType GetType()
-	{
-		return CTokenType.STRING;
-	}
-	public String toString()
-	{
-		return "(\"" + value + "\")" ;
-	}
+    public CTokenType GetType()
+    {
+        return CTokenType.STRING;
+    }
+    public String toString()
+    {
+        return "(\"" + value + "\")" ;
+    }
 
-	/* (non-Javadoc)
-	 * @see lexer.CBaseToken#GetDisplay()
-	 */
-	public String GetDisplay()
-	{
-		return "'" + value + "'" ;
-	}
-	public char[] GetCharValue()
-	{
-		return charArrayValue ;
-	}
+    /* (non-Javadoc)
+     * @see lexer.CBaseToken#GetDisplay()
+     */
+    public String GetDisplay()
+    {
+        return "'" + value + "'" ;
+    }
+    public char[] GetCharValue()
+    {
+        return charArrayValue ;
+    }
 
-	protected char[] charArrayValue = {} ;
+    protected char[] charArrayValue = {} ;
 }

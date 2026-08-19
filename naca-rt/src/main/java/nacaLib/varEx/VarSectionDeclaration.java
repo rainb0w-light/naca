@@ -19,109 +19,109 @@ import nacaLib.sqlSupport.SQLCursor;
 
 public class VarSectionDeclaration extends VarDeclarationInMap
 {
-	public VarSectionDeclaration(BaseProgram program)
-	{
-		super(program, null);
-		if(program != null)
-			programManager = program.getProgramManager();
-	}
+    public VarSectionDeclaration(BaseProgram program)
+    {
+        super(program, null);
+        if(program != null)
+            programManager = program.getProgramManager();
+    }
 
-	private BaseProgramManager programManager = null;
+    private BaseProgramManager programManager = null;
 
-	public Division dataDivision()
-	{
-		Division d = programManager.dataDivision();
-		return d;
-	}
+    public Division dataDivision()
+    {
+        Division d = programManager.dataDivision();
+        return d;
+    }
 
-	public DataSection workingStorageSection()
-	{
-		return programManager.workingStorageSection();
-	}
+    public DataSection workingStorageSection()
+    {
+        return programManager.workingStorageSection();
+    }
 
-	public DataSection localStorageSection()
-	{
-		return programManager.workingStorageSection();
-	}
+    public DataSection localStorageSection()
+    {
+        return programManager.workingStorageSection();
+    }
 
-	public DataSection linkageSection()
-	{
-		return programManager.linkageSection();
-	}
+    public DataSection linkageSection()
+    {
+        return programManager.linkageSection();
+    }
 
-	public DataSectionFile fileSection()
-	{
-		return programManager.fileSection();
-	}
+    public DataSectionFile fileSection()
+    {
+        return programManager.fileSection();
+    }
 
-	public DataSection cursorSection()	// can be omitted
-	{
-		return null;
-	}
+    public DataSection cursorSection()  // can be omitted
+    {
+        return null;
+    }
 
-	public SQLCursor cursor()
-	{
-		if(IsSTCheck)
-			Log.logFineDebug("cursor");
+    public SQLCursor cursor()
+    {
+        if(IsSTCheck)
+            Log.logFineDebug("cursor");
 
-		SQLCursor sqlCursor = new SQLCursor(programManager);
-		return sqlCursor;
-	}
+        SQLCursor sqlCursor = new SQLCursor(programManager);
+        return sqlCursor;
+    }
 
-	public FileDescriptor file(Var varName)
-	{
-		DataSectionFile fileSection = fileSection();
-		FileDescriptor fileDef = new VarFileDescriptor(programManager.getEnv(), varName);
-		fileSection.setCurrentFileDef(fileDef);
-		return fileDef;
-	}
+    public FileDescriptor file(Var varName)
+    {
+        DataSectionFile fileSection = fileSection();
+        FileDescriptor fileDef = new VarFileDescriptor(programManager.getEnv(), varName);
+        fileSection.setCurrentFileDef(fileDef);
+        return fileDef;
+    }
 
-	public FileDescriptor file(String varName)
-	{
-		DataSectionFile fileSection = fileSection();
-		FileDescriptor fileDef = new FileDescriptor(programManager.getEnv(), varName);
-		fileSection.setCurrentFileDef(fileDef);
-		return fileDef;
-	}
+    public FileDescriptor file(String varName)
+    {
+        DataSectionFile fileSection = fileSection();
+        FileDescriptor fileDef = new FileDescriptor(programManager.getEnv(), varName);
+        fileSection.setCurrentFileDef(fileDef);
+        return fileDef;
+    }
 
-	public FileDescriptor filePath(String csPhysicalName)
-	{
-		DataSectionFile fileSection = fileSection();
-		FileDescriptor fileDef = new FileDescriptor(programManager.getEnv(), csPhysicalName);
-		fileSection.setCurrentFileDef(fileDef);
-		return fileDef;
-	}
+    public FileDescriptor filePath(String csPhysicalName)
+    {
+        DataSectionFile fileSection = fileSection();
+        FileDescriptor fileDef = new FileDescriptor(programManager.getEnv(), csPhysicalName);
+        fileSection.setCurrentFileDef(fileDef);
+        return fileDef;
+    }
 
-	public SortDescriptor sort()
-	{
-		DataSectionFile fileSection = fileSection();
-		SortDescriptor sortDef = new SortDescriptor();
-		fileSection.setCurrentSortDef(sortDef);
-		return sortDef;
-	}
+    public SortDescriptor sort()
+    {
+        DataSectionFile fileSection = fileSection();
+        SortDescriptor sortDef = new SortDescriptor();
+        fileSection.setCurrentSortDef(sortDef);
+        return sortDef;
+    }
 
-	public DataSection variableSection()
-	{
-		// TODO fake method
-		return null;
-	}
+    public DataSection variableSection()
+    {
+        // TODO fake method
+        return null;
+    }
 
-//	public FileDescriptorDepending fileDescriptorDepending(FileDescriptor rs7brstd, Var implong)
-//	{
-//		// TODO fake methode
-//		return null;
-//	}
+//  public FileDescriptorDepending fileDescriptorDepending(FileDescriptor rs7brstd, Var implong)
+//  {
+//      // TODO fake methode
+//      return null;
+//  }
 
-	public FileDescriptorDepending fileDescriptorDepending(FileDescriptor fileDesc, Var varLength)
-	{
-		fileDesc.lengthDependingOn(varLength);
-		return null;
-	}
+    public FileDescriptorDepending fileDescriptorDepending(FileDescriptor fileDesc, Var varLength)
+    {
+        fileDesc.lengthDependingOn(varLength);
+        return null;
+    }
 
-	public FileDescriptorDepending fileDescriptorDepending(SortDescriptor fileDesc, Var varLength)
-	{
-		fileDesc.lengthDependingOn(varLength);
-		return null;
-	}
+    public FileDescriptorDepending fileDescriptorDepending(SortDescriptor fileDesc, Var varLength)
+    {
+        fileDesc.lengthDependingOn(varLength);
+        return null;
+    }
 
 }

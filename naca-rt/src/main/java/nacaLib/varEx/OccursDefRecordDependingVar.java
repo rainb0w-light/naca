@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,16 +16,16 @@ package nacaLib.varEx;
  */
 public class OccursDefRecordDependingVar extends OccursDef
 {
-	public OccursDefRecordDependingVar(int n, Var varOccurs)
-	{
-		super(n);
-		varDepending = varOccurs;
-	}
+    public OccursDefRecordDependingVar(int n, Var varOccurs)
+    {
+        super(n);
+        varDepending = varOccurs;
+    }
 
-	public Var getRecordDependingVar()
-	{
-		return varDepending;
-	}
-	
-	private transient Var varDepending = null;
+    public Var getRecordDependingVar()
+    {
+        return varDepending;
+    }
+
+    private transient Var varDepending = null;
 }

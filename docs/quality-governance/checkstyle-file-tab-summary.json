@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "fileTabCharacter": {
+    "before": 1363,
+    "after": 0,
+    "reduced": 1363
+  },
+  "lineLength": {
+    "before": 770,
+    "after": 0,
+    "reduced": 770
+  },
+  "checkstyle": {
+    "before": 14629,
+    "after": 12496,
+    "reduced": 2133
+  },
+  "literalTabs": {
+    "stringTabsEscaped": 48,
+    "charTabsEscaped": 0,
+    "textBlockTabs": 0
+  },
+  "activeHungarianMIdentifiers": 0,
+  "pmdGrowth": 0,
+  "spotbugsGrowth": 0
+}

@@ -25,71 +25,71 @@ import utils.FPacTranscoder.notifs.NotifRegisterFileClose;
 public class CFPacClose extends CFPacElement
 {
 
-	private CIdentifier closeFile;
+    private CIdentifier closeFile;
 
-	public CFPacClose(int line)
-	{
-		super(line);
-	}
+    public CFPacClose(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.CLOSE)
-		{
-			tok = GetNext();
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting '-' after CLOSE") ;
-			return false  ;
-		}
-		
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			closeFile = ReadIdentifier() ;
-			if (closeFile == null)
-			{
-				Transcoder.logError(getLine(), "Expecting identifier after 'CLOSE-'") ;
-				return false  ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting identifier after 'CLOSE-'") ;
-			return false  ;
-		}
-		return true;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.CLOSE)
+        {
+            tok = GetNext();
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(closeFile.GetName()) ;
-		NotifRegisterFileClose notif = new NotifRegisterFileClose() ;
-		notif.fileDesc = desc ;
-		factory.programCatalog.SendNotifRequest(notif) ;
-		
-		CEntityCloseFile close = factory.NewEntityCloseFile(getLine()) ;
-		close.setFileDescriptor(desc) ;
-		parent.AddChild(close) ;
-		return close ;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting '-' after CLOSE") ;
+            return false  ;
+        }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("Close") ;
-		Element e = root.createElement("File") ;
-		closeFile.ExportTo(e, root) ;
-		eAdd.appendChild(e) ;
-		return eAdd ;
-	}
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            closeFile = ReadIdentifier() ;
+            if (closeFile == null)
+            {
+                Transcoder.logError(getLine(), "Expecting identifier after 'CLOSE-'") ;
+                return false  ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting identifier after 'CLOSE-'") ;
+            return false  ;
+        }
+        return true;
+    }
+
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(closeFile.GetName()) ;
+        NotifRegisterFileClose notif = new NotifRegisterFileClose() ;
+        notif.fileDesc = desc ;
+        factory.programCatalog.SendNotifRequest(notif) ;
+
+        CEntityCloseFile close = factory.NewEntityCloseFile(getLine()) ;
+        close.setFileDescriptor(desc) ;
+        parent.AddChild(close) ;
+        return close ;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("Close") ;
+        Element e = root.createElement("File") ;
+        closeFile.ExportTo(e, root) ;
+        eAdd.appendChild(e) ;
+        return eAdd ;
+    }
 
 }

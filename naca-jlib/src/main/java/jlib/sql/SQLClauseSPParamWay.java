@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -16,21 +16,21 @@ package jlib.sql;
  */
 public class SQLClauseSPParamWay
 {
-	public static SQLClauseSPParamWay In = new SQLClauseSPParamWay("In");
-	public static SQLClauseSPParamWay Out = new SQLClauseSPParamWay("Out");
-	public static SQLClauseSPParamWay InOut = new SQLClauseSPParamWay("InOut");
-	
-	private SQLClauseSPParamWay(String cs)
-	{
-		this.cs = cs;
-	}
-	
-	public String toString()
-	{
-		return cs;
-	}
-	
-	private String cs = null;
-	
-	
+    public static SQLClauseSPParamWay In = new SQLClauseSPParamWay("In");
+    public static SQLClauseSPParamWay Out = new SQLClauseSPParamWay("Out");
+    public static SQLClauseSPParamWay InOut = new SQLClauseSPParamWay("InOut");
+
+    private SQLClauseSPParamWay(String cs)
+    {
+        this.cs = cs;
+    }
+
+    public String toString()
+    {
+        return cs;
+    }
+
+    private String cs = null;
+
+
 }

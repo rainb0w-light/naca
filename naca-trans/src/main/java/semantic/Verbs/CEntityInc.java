@@ -17,37 +17,37 @@ import utils.CObjectCatalog;
 public class CEntityInc extends CBaseActionEntity
 {
 
-	protected CDataEntity addDest;
-	protected CDataEntity addValue;
+    protected CDataEntity addDest;
+    protected CDataEntity addValue;
 
-	/**
-	 * @param line
-	 * @param cat
-	 * @param out
-	 */
-	public CEntityInc(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     * @param out
+     */
+    public CEntityInc(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public CDataEntity getAddDest() { return addDest; }
-	public CDataEntity getAddValue() { return addValue; }
+    public CDataEntity getAddDest() { return addDest; }
+    public CDataEntity getAddValue() { return addValue; }
 
-	/**
-	 * @param dest
-	 */
-	public void SetAddDest(CDataEntity dest)
-	{
-		addDest = dest ;		
-	}
+    /**
+     * @param dest
+     */
+    public void SetAddDest(CDataEntity dest)
+    {
+        addDest = dest ;
+    }
 
-	/**
-	 * @param val
-	 */
-	public void SetAddValue(CDataEntity val)
-	{
-		addValue = val ;
-	}
+    /**
+     * @param val
+     */
+    public void SetAddValue(CDataEntity val)
+    {
+        addValue = val ;
+    }
 
 
 }

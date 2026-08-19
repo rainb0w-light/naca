@@ -11,40 +11,40 @@ import jlib.threads.Threadutil;
 
 public abstract class PersistentDequeueObjectThread extends BaseThread
 {
-	private PersistantQueue persistantQueue = null;
-	private int nLoopWait_ms = 0;
-	private BaseQueueItemFactory baseQueueItemFactory = null;
+    private PersistantQueue persistantQueue = null;
+    private int nLoopWait_ms = 0;
+    private BaseQueueItemFactory baseQueueItemFactory = null;
 
-	protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWait_ms)
-	{
-		this.baseQueueItemFactory = baseQueueItemFactory;
-		this.persistantQueue = persistantQueue;
-		this.nLoopWait_ms = nLoopWait_ms;
-	}
+    protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWait_ms)
+    {
+        this.baseQueueItemFactory = baseQueueItemFactory;
+        this.persistantQueue = persistantQueue;
+        this.nLoopWait_ms = nLoopWait_ms;
+    }
 
-	public void run()
-	{
-		boolean iscontinue = true;
-		while(iscontinue)
-		{   
-			Object object = persistantQueue.getFirst(baseQueueItemFactory);
-			if(object == null)
-			{
-				iscontinue = Threadutil.wait(nLoopWait_ms);
-			}
-			else
-			{
-				try
-				{
-					iscontinue = handleObject(object);
-				}
-				catch (Exception e)
-				{
-					Log.logCritical("Exception catched in handleObjet of PersistentDequeueObjectThread::run(): "+e.toString()); 
-				}
-			}
-		}
-	}
-	
-	protected abstract boolean handleObject(Object object);
+    public void run()
+    {
+        boolean iscontinue = true;
+        while(iscontinue)
+        {
+            Object object = persistantQueue.getFirst(baseQueueItemFactory);
+            if(object == null)
+            {
+                iscontinue = Threadutil.wait(nLoopWait_ms);
+            }
+            else
+            {
+                try
+                {
+                    iscontinue = handleObject(object);
+                }
+                catch (Exception e)
+                {
+                    Log.logCritical("Exception catched in handleObjet of PersistentDequeueObjectThread::run(): "+e.toString());
+                }
+            }
+        }
+    }
+
+    protected abstract boolean handleObject(Object object);
 }

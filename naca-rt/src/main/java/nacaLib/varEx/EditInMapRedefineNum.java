@@ -12,36 +12,36 @@ package nacaLib.varEx;
  */
 public class EditInMapRedefineNum extends EditInMapRedefine
 {
-	EditInMapRedefineNum(DeclareTypeEditInMapRedefineNum declareTypeEditInMapRedefine)
-	{
-		super(declareTypeEditInMapRedefine);
-	}
+    EditInMapRedefineNum(DeclareTypeEditInMapRedefineNum declareTypeEditInMapRedefine)
+    {
+        super(declareTypeEditInMapRedefine);
+    }
 
-	protected EditInMapRedefineNum()
-	{
-		super();
-	}
+    protected EditInMapRedefineNum()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		EditInMapRedefine v = new EditInMapRedefine();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        EditInMapRedefine v = new EditInMapRedefine();
+        return v;
+    }
 
-	public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
-	{
-		EditInMapRedefineNum vItem = new EditInMapRedefineNum();
-		vItem.bufferPos = bufferPos;
-		vItem.varDef = varDefItem;
+    public EditInMapRedefine allocOccursedItem(VarDefBuffer varDefItem)
+    {
+        EditInMapRedefineNum vItem = new EditInMapRedefineNum();
+        vItem.bufferPos = bufferPos;
+        vItem.varDef = varDefItem;
 
-		vItem.attrManager = vItem.getEditAttributManager();
-		//Inherit attributes
-		return vItem;
-	}
+        vItem.attrManager = vItem.getEditAttributManager();
+        //Inherit attributes
+        return vItem;
+    }
 //
-//	public void set(String cs)
-//	{
-//		String csFormatted = ((VarDefEditInMapRedefineNumEdited)varDef).applyFormatting(cs);
-//		var2EditInMap.set(csFormatted);
-//	}
+//  public void set(String cs)
+//  {
+//      String csFormatted = ((VarDefEditInMapRedefineNumEdited)varDef).applyFormatting(cs);
+//      var2EditInMap.set(csFormatted);
+//  }
 }

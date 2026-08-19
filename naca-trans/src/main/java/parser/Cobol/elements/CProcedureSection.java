@@ -30,71 +30,71 @@ import semantic.CEntityProcedureSection;
  */
 public class CProcedureSection extends CCommentContainer
 {
-	public CProcedureSection(String name, int line)
-	{
-		super(line);
-		this.name = name ;
-	}
+    public CProcedureSection(String name, int line)
+    {
+        super(line);
+        this.name = name ;
+    }
 
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok == null)
-		{
-			return true ; // empty section
-		}
-		if (tok.GetType() == CTokenType.KEYWORD)
-		{
-			sectionBloc = new CBaseProcedure(getLine());
-			if (!Parse(sectionBloc))
-			{
-				return false ;
-			}
-		}
-		return true;
-	}
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok == null)
+        {
+            return true ; // empty section
+        }
+        if (tok.GetType() == CTokenType.KEYWORD)
+        {
+            sectionBloc = new CBaseProcedure(getLine());
+            if (!Parse(sectionBloc))
+            {
+                return false ;
+            }
+        }
+        return true;
+    }
 
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("ProcedureSection") ;
-		if (!name.equals(""))
-		{
-			e.setAttribute("Name", name) ;
-		}
-		if (sectionBloc != null)
-		{
-			Element eBloc = sectionBloc.Export(root);
-			e.appendChild(eBloc);
-		}
-		return e;
-	}
-	public void AddProcedure(CProcedure p)
-	{
-		AddChild(p) ;
-	}
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("ProcedureSection") ;
+        if (!name.equals(""))
+        {
+            e.setAttribute("Name", name) ;
+        }
+        if (sectionBloc != null)
+        {
+            Element eBloc = sectionBloc.Export(root);
+            e.appendChild(eBloc);
+        }
+        return e;
+    }
+    public void AddProcedure(CProcedure p)
+    {
+        AddChild(p) ;
+    }
 
-	protected String name = "" ;
-	protected CBaseProcedure sectionBloc = null ;
+    protected String name = "" ;
+    protected CBaseProcedure sectionBloc = null ;
 
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityProcedureSection eSection ;
-		if (name.equals(""))
-		{
-			eSection = factory.NewEntityProcedureSection(0, "") ;
-		}
-		else
-		{
-			eSection = factory.NewEntityProcedureSection(getLine(), name) ;
-			factory.programCatalog.RegisterProcedureSection(eSection) ;
-		}
-		parent.AddChild(eSection);
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityProcedureSection eSection ;
+        if (name.equals(""))
+        {
+            eSection = factory.NewEntityProcedureSection(0, "") ;
+        }
+        else
+        {
+            eSection = factory.NewEntityProcedureSection(getLine(), name) ;
+            factory.programCatalog.RegisterProcedureSection(eSection) ;
+        }
+        parent.AddChild(eSection);
 
-		if (sectionBloc != null)
-		{
-			CEntityBloc el = (CEntityBloc)sectionBloc.DoSemanticAnalysis(eSection, factory);
-			eSection.SetSectionBloc(el) ;
-		}
-		return eSection;
-	}
+        if (sectionBloc != null)
+        {
+            CEntityBloc el = (CEntityBloc)sectionBloc.DoSemanticAnalysis(eSection, factory);
+            eSection.SetSectionBloc(el) ;
+        }
+        return eSection;
+    }
 }

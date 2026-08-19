@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.accounting;
 
@@ -21,60 +21,60 @@ import jlib.misc.StopWatchNano;
  */
 public class AccountingRecordProgram
 {
-	public AccountingRecordProgram()
-	{
-		dateStart = new Date();
-		stopWatchNano.reset();
-	}
-	
-	public void beginRunProgram(String csProgramName)
-	{
-		this.csProgramName = csProgramName;
-	}
-	
-	public void endRunProgram(CriteriaEndRunMain criteria)
-	{
-		nRunTime_ms = (int)StopWatchNano.getMilliSecond(stopWatchNano.getElapsedTime());
-		csCriteriaEnd = criteria.getName();
-	}
-	
-	int getRunTime_ms()
-	{
-		return nRunTime_ms;
-	}
-	
-	long getRunTimeIO_ns()
-	{
-		return nRunTimeIO_ns;
-	}
-	
-	long getTimeDateStart()
-	{
-		if(dateStart != null)
-			return dateStart.getTime();
-		return 0;
-	}
-	
-	void reportDBIOTime(long lDBIOTime_ns)
-	{
-		nRunTimeIO_ns += lDBIOTime_ns;
-	}
-	
-	String getProgramName()
-	{
-		return csProgramName;
-	}
-	
-	String getCriteriaEnd()
-	{
-		return csCriteriaEnd;
-	}
-	
-	private Date dateStart = null;
-	private String csProgramName = "";
-	private int nRunTime_ms = 0;
-	private long nRunTimeIO_ns = 0;
+    public AccountingRecordProgram()
+    {
+        dateStart = new Date();
+        stopWatchNano.reset();
+    }
 
-	private String csCriteriaEnd = "";
-	private StopWatchNano stopWatchNano = new StopWatchNano();	
+    public void beginRunProgram(String csProgramName)
+    {
+        this.csProgramName = csProgramName;
+    }
+
+    public void endRunProgram(CriteriaEndRunMain criteria)
+    {
+        nRunTime_ms = (int)StopWatchNano.getMilliSecond(stopWatchNano.getElapsedTime());
+        csCriteriaEnd = criteria.getName();
+    }
+
+    int getRunTime_ms()
+    {
+        return nRunTime_ms;
+    }
+
+    long getRunTimeIO_ns()
+    {
+        return nRunTimeIO_ns;
+    }
+
+    long getTimeDateStart()
+    {
+        if(dateStart != null)
+            return dateStart.getTime();
+        return 0;
+    }
+
+    void reportDBIOTime(long lDBIOTime_ns)
+    {
+        nRunTimeIO_ns += lDBIOTime_ns;
+    }
+
+    String getProgramName()
+    {
+        return csProgramName;
+    }
+
+    String getCriteriaEnd()
+    {
+        return csCriteriaEnd;
+    }
+
+    private Date dateStart = null;
+    private String csProgramName = "";
+    private int nRunTime_ms = 0;
+    private long nRunTimeIO_ns = 0;
+
+    private String csCriteriaEnd = "";
+    private StopWatchNano stopWatchNano = new StopWatchNano();
 }

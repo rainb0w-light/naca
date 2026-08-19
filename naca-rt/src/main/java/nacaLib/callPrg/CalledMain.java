@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -22,54 +22,60 @@ import nacaLib.exceptions.AbortSessionException;
  */
 public class CalledMain
 {
-	public static int executeTranscodedProgram(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
-	{
-		CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(csConfigFile, dbConnection.getEnvironmentPrefix());
-		if(calledResourceManager == null)
-			return 8;
-		
-		CalledSession session = new CalledSession(calledResourceManager) ;
-			
-		BaseEnvironment env = null;
-		try
-		{
-			BaseProgramLoader loader = CalledProgramLoader.GetProgramLoaderInstance() ;
-			env = loader.GetEnvironment(session, csPrgClassName, null) ;
-			env.setExternalDbConnection(dbConnection);
-			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), true);	// bUseStatementCache							
-	
-			boolean isstarted = env.startRunTransaction();
-			if(!isstarted)
-			{
-				env.endRunTransaction(CriteriaEndRunMain.Abort);
-				return 8;
-			}
+    public static int executeTranscodedProgram(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
+    {
+        CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(
+            csConfigFile,
+            dbConnection.getEnvironmentPrefix());
+        if(calledResourceManager == null)
+            return 8;
 
-//			if (csParameter != null)
-//			{
-//				InternalCharBuffer charBuffer = new InternalCharBuffer(2 + csParameter.length());
-//				int nPos = 0;
-//				nPos = charBuffer.writeShort(new Integer(csParameter.length()).shortValue(), nPos);
-//				nPos = charBuffer.writeString(csParameter, nPos);
-//				CCommarea comm = new CCommarea();
-//				comm.setVarPassedByValue(charBuffer);
-//				env.setCommarea(comm);
-//			}
-				
-			loader.runTopProgram(env, null);
-			
-			env.endRunTransaction(CriteriaEndRunMain.Normal);
-			return 0;
-		}
-		catch (AbortSessionException e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			return 8;
-		}
-		catch(Exception e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			return 8;
-		}
-	}
+        CalledSession session = new CalledSession(calledResourceManager) ;
+
+        BaseEnvironment env = null;
+        try
+        {
+            BaseProgramLoader loader = CalledProgramLoader.GetProgramLoaderInstance() ;
+            env = loader.GetEnvironment(session, csPrgClassName, null) ;
+            env.setExternalDbConnection(dbConnection);
+            env.fillEnvConnectionWithAllocatedConnection(
+                dbConnection.getDbConnection(),
+                "ExternalConnection",
+                dbConnection.getEnvironmentPrefix(),
+                true);  // bUseStatementCache
+
+            boolean isstarted = env.startRunTransaction();
+            if(!isstarted)
+            {
+                env.endRunTransaction(CriteriaEndRunMain.Abort);
+                return 8;
+            }
+
+//          if (csParameter != null)
+//          {
+//              InternalCharBuffer charBuffer = new InternalCharBuffer(2 + csParameter.length());
+//              int nPos = 0;
+//              nPos = charBuffer.writeShort(new Integer(csParameter.length()).shortValue(), nPos);
+//              nPos = charBuffer.writeString(csParameter, nPos);
+//              CCommarea comm = new CCommarea();
+//              comm.setVarPassedByValue(charBuffer);
+//              env.setCommarea(comm);
+//          }
+
+            loader.runTopProgram(env, null);
+
+            env.endRunTransaction(CriteriaEndRunMain.Normal);
+            return 0;
+        }
+        catch (AbortSessionException e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            return 8;
+        }
+        catch(Exception e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            return 8;
+        }
+    }
 }

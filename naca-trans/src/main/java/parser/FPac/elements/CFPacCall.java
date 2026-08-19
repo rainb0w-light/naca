@@ -37,163 +37,163 @@ import utils.FPacTranscoder.OperandDescription;
 public class CFPacCall extends CFPacElement
 {
 
-	public CFPacCall(int line)
-	{
-		super(line);
-	}
+    public CFPacCall(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.CALL)
-		{
-			tok = GetNext() ;
-		}
-		
-		if  (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				String cs = tok.GetValue() ;
-				idCalled = new CStringTerminal(cs) ;
-				tok = GetNext();
-				while (tok.GetType() == CTokenType.COMMA)
-				{
-					tok = GetNext() ;
-					if (tok.GetType() == CTokenType.NUMBER)
-					{
-						termParam.add(new CAddressTerminal(tok.GetValue())) ;
-						tok = GetNext() ;
-					}
-					else
-					{
-						Transcoder.logError(tok.getLine(), "Unparsed token : "+tok.toString()) ;
-						return false ;
-					}
-				}
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Expecting IDENTIFIER after CALL-") ;
-				return false ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(tok.getLine(), "Expecting '-' after CALL") ;
-			return false ;
-		}
-		return true ;
-	}
-	
-	protected CTerminal idCalled = null ;
-	protected Vector<CTerminal> termParam = new Vector<CTerminal>() ;
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.CALL)
+        {
+            tok = GetNext() ;
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		String prg = idCalled.GetValue() ;
-		
-		boolean ischeck = true ;
-		CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
-		if (emul != null)
-		{
-			CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
-			for (CTerminal term : termParam)
-			{
-				CDataEntity param = term.GetDataEntity(getLine(), factory) ;
-				if (param.GetDataType() == CDataEntityType.ADDRESS)
-				{
-					int add = NumberParser.getAsInt(param.GetConstantValue()) ;
-					CDataEntity buffer = null ;
-					if (add < 5000)
-					{ //file buffer 
-						buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
-					}
-					else
-					{ // working
-						buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
-					}
-					CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-					conv.convertToAlphaNum(buffer) ;
-					CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
-					ss.SetReference(conv, factory.NewEntityExprTerminal(param), null) ;
-					call.AddParameter(ss) ;
-					ss.RegisterReadingAction(call);
-				}
-				else
-				{
-					call.AddParameter(param) ;
-					param.RegisterReadingAction(call);
-				}
-			}
-			parent.AddChild(call);
-			return call ;
-		}
-		else
-		{
-			if (!factory.programCatalog.CheckProgramReference(prg, false, termParam.size(), true))
-			{
-				Transcoder.logError(getLine(), "Missing sub program : "+prg) ;
-				CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
-				ischeck = false ;
-			}
-			else
-			{
-				//Transcoder.info("Referenced program found : "+prg) ;
-				ischeck = true ;
-			}
-		}
+        if  (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                String cs = tok.GetValue() ;
+                idCalled = new CStringTerminal(cs) ;
+                tok = GetNext();
+                while (tok.GetType() == CTokenType.COMMA)
+                {
+                    tok = GetNext() ;
+                    if (tok.GetType() == CTokenType.NUMBER)
+                    {
+                        termParam.add(new CAddressTerminal(tok.GetValue())) ;
+                        tok = GetNext() ;
+                    }
+                    else
+                    {
+                        Transcoder.logError(tok.getLine(), "Unparsed token : "+tok.toString()) ;
+                        return false ;
+                    }
+                }
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Expecting IDENTIFIER after CALL-") ;
+                return false ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(tok.getLine(), "Expecting '-' after CALL") ;
+            return false ;
+        }
+        return true ;
+    }
 
-		CDataEntity ref = idCalled.GetDataEntity(getLine(), factory) ;
-		CEntityCallProgram call = factory.NewEntityCallProgram(getLine(), ref) ;
-		call.setChecked(ischeck) ;
-		for (CTerminal term : termParam)
-		{
-			CDataEntity param = term.GetDataEntity(getLine(), factory) ;
-			if (param.GetDataType() == CDataEntityType.ADDRESS)
-			{
-				int add = NumberParser.getAsInt(param.GetConstantValue()) ;
-				if (add < 5000)
-				{ //file buffer 
-					CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
-					CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
-					ss.SetReference(buffer, factory.NewEntityExprTerminal(param), null) ;
-					call.SetParameterByRef(ss) ;
-				}
-				else
-				{ // working
-					CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
-					CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
-					ss.SetReference(working, factory.NewEntityExprTerminal(param), null) ;
-					call.SetParameterByRef(ss) ;
-				}
-			}
-			else
-			{
-				call.SetParameterByValue(param) ;
-			}
-		}
-		parent.AddChild(call) ;
-		return call ;
-	}
+    protected CTerminal idCalled = null ;
+    protected Vector<CTerminal> termParam = new Vector<CTerminal>() ;
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("Call") ;
-		Element eId = root.createElement("Id") ;
-		e.appendChild(eId) ;
-		idCalled.ExportTo(eId, root) ;
-		for (CTerminal term : termParam)
-		{
-			Element eP = root.createElement("Param") ;
-			e.appendChild(eP) ;
-			term.ExportTo(eP, root) ;
-		}
-		return e ;
-	}
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        String prg = idCalled.GetValue() ;
+
+        boolean ischeck = true ;
+        CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
+        if (emul != null)
+        {
+            CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
+            for (CTerminal term : termParam)
+            {
+                CDataEntity param = term.GetDataEntity(getLine(), factory) ;
+                if (param.GetDataType() == CDataEntityType.ADDRESS)
+                {
+                    int add = NumberParser.getAsInt(param.GetConstantValue()) ;
+                    CDataEntity buffer = null ;
+                    if (add < 5000)
+                    { //file buffer
+                        buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
+                    }
+                    else
+                    { // working
+                        buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
+                    }
+                    CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
+                    conv.convertToAlphaNum(buffer) ;
+                    CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
+                    ss.SetReference(conv, factory.NewEntityExprTerminal(param), null) ;
+                    call.AddParameter(ss) ;
+                    ss.RegisterReadingAction(call);
+                }
+                else
+                {
+                    call.AddParameter(param) ;
+                    param.RegisterReadingAction(call);
+                }
+            }
+            parent.AddChild(call);
+            return call ;
+        }
+        else
+        {
+            if (!factory.programCatalog.CheckProgramReference(prg, false, termParam.size(), true))
+            {
+                Transcoder.logError(getLine(), "Missing sub program : "+prg) ;
+                CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
+                ischeck = false ;
+            }
+            else
+            {
+                //Transcoder.info("Referenced program found : "+prg) ;
+                ischeck = true ;
+            }
+        }
+
+        CDataEntity ref = idCalled.GetDataEntity(getLine(), factory) ;
+        CEntityCallProgram call = factory.NewEntityCallProgram(getLine(), ref) ;
+        call.setChecked(ischeck) ;
+        for (CTerminal term : termParam)
+        {
+            CDataEntity param = term.GetDataEntity(getLine(), factory) ;
+            if (param.GetDataType() == CDataEntityType.ADDRESS)
+            {
+                int add = NumberParser.getAsInt(param.GetConstantValue()) ;
+                if (add < 5000)
+                { //file buffer
+                    CDataEntity buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
+                    CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
+                    ss.SetReference(buffer, factory.NewEntityExprTerminal(param), null) ;
+                    call.SetParameterByRef(ss) ;
+                }
+                else
+                { // working
+                    CDataEntity working = factory.programCatalog.GetDataEntity("WORKING", "") ;
+                    CSubStringAttributReference ss = factory.NewEntitySubString(0) ;
+                    ss.SetReference(working, factory.NewEntityExprTerminal(param), null) ;
+                    call.SetParameterByRef(ss) ;
+                }
+            }
+            else
+            {
+                call.SetParameterByValue(param) ;
+            }
+        }
+        parent.AddChild(call) ;
+        return call ;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("Call") ;
+        Element eId = root.createElement("Id") ;
+        e.appendChild(eId) ;
+        idCalled.ExportTo(eId, root) ;
+        for (CTerminal term : termParam)
+        {
+            Element eP = root.createElement("Param") ;
+            e.appendChild(eP) ;
+            term.ExportTo(eP, root) ;
+        }
+        return e ;
+    }
 
 }

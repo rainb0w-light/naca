@@ -18,28 +18,28 @@ import java.util.ArrayList;
  */
 public class CEntityCICSIgnoreCondition extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSIgnoreCondition(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		if (cat != null)
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor());
-	}
-	public void IgnoreCondition(String cond)
-	{
-		conditions.add(cond);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSIgnoreCondition(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        if (cat != null)
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor());
+    }
+    public void IgnoreCondition(String cond)
+    {
+        conditions.add(cond);
+    }
 
-	protected ArrayList<String> conditions = new ArrayList<String>();
-	public java.util.List<String> getConditions()
-	{
-		return conditions;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
+    protected ArrayList<String> conditions = new ArrayList<String>();
+    public java.util.List<String> getConditions()
+    {
+        return conditions;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
 }

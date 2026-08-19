@@ -20,51 +20,55 @@ import utils.CObjectCatalog;
  */
 public class CEntityFieldArrayReference extends CEntityArrayReference
 {
-	/**
-	 * @param l
-	 * @param cat
-	 */
-	public CEntityFieldArrayReference(int l, CObjectCatalog cat)
-	{
-		super(l, cat);
-	}
-	/*
-	 * Semantic predicate preserved from the retired direct backend
-	 * (generate.java.forms.CJavaFieldArrayReference): a pure read-only getter
-	 * consumed by the BMS traversal and the recursive ST4 assembly contract; no
-	 * output protocol lives here. The reference read renders through the
-	 * semantic.forms.CEntityFieldArrayReference -> arrayReferenceEntity binding
-	 * ("<field reference>.getAt(<indexes>)"), exactly the legacy ExportReference
-	 * shape (the same frozen template the COBOL CEntityArrayReference uses). The
-	 * retired backend reported FIELD here whereas the CEntityArrayReference base
-	 * reports VAR, so the override stays on the pure entity to preserve behavior.
-	 */
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD ;
-	}
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
-		if (eCond == null)
-		{
-			return null ;
-		}
-		else
-		{
-			CDataEntity eData = eCond.GetConditionReference() ;
-			CEntityFieldArrayReference eArray = factory.NewEntityFieldArrayReference(getLine()) ;
-			eArray.arrIndexes = arrIndexes ;
-			eArray.reference = eData ;
-			eArray.RegisterVarTesting(eCond) ;
-			eCond.SetConditonReference(eArray);
-			return eCond;
-		}
-	}
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
-	{
-		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
-		ref.SetReference(this, start, length) ;
-		return ref ;
-	}
+    /**
+     * @param l
+     * @param cat
+     */
+    public CEntityFieldArrayReference(int l, CObjectCatalog cat)
+    {
+        super(l, cat);
+    }
+    /*
+     * Semantic predicate preserved from the retired direct backend
+     * (generate.java.forms.CJavaFieldArrayReference): a pure read-only getter
+     * consumed by the BMS traversal and the recursive ST4 assembly contract; no
+     * output protocol lives here. The reference read renders through the
+     * semantic.forms.CEntityFieldArrayReference -> arrayReferenceEntity binding
+     * ("<field reference>.getAt(<indexes>)"), exactly the legacy ExportReference
+     * shape (the same frozen template the COBOL CEntityArrayReference uses). The
+     * retired backend reported FIELD here whereas the CEntityArrayReference base
+     * reports VAR, so the override stays on the pure entity to preserve behavior.
+     */
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD ;
+    }
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
+        if (eCond == null)
+        {
+            return null ;
+        }
+        else
+        {
+            CDataEntity eData = eCond.GetConditionReference() ;
+            CEntityFieldArrayReference eArray = factory.NewEntityFieldArrayReference(getLine()) ;
+            eArray.arrIndexes = arrIndexes ;
+            eArray.reference = eData ;
+            eArray.RegisterVarTesting(eCond) ;
+            eCond.SetConditonReference(eArray);
+            return eCond;
+        }
+    }
+    public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
+    {
+        CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
+        ref.SetReference(this, start, length) ;
+        return ref ;
+    }
 }

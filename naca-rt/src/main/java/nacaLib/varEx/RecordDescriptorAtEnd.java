@@ -8,18 +8,18 @@ package nacaLib.varEx;
 
 public class RecordDescriptorAtEnd
 {
-	public static RecordDescriptorAtEnd End = new RecordDescriptorAtEnd(true);
-	public static RecordDescriptorAtEnd NotEnd = new RecordDescriptorAtEnd(false);
-	
-	private RecordDescriptorAtEnd(boolean isend)
-	{
-		this.isend = isend;
-	}
-	
-	public boolean atEnd()
-	{
-		return isend;
-	}
-	
-	private boolean isend = false;
+    public static RecordDescriptorAtEnd End = new RecordDescriptorAtEnd(true);
+    public static RecordDescriptorAtEnd NotEnd = new RecordDescriptorAtEnd(false);
+
+    private RecordDescriptorAtEnd(boolean isend)
+    {
+        this.isend = isend;
+    }
+
+    public boolean atEnd()
+    {
+        return isend;
+    }
+
+    private boolean isend = false;
 }

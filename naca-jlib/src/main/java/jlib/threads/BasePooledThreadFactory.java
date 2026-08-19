@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.threads;
 
@@ -16,5 +16,5 @@ package jlib.threads;
  */
 public abstract class BasePooledThreadFactory
 {
-	public abstract PooledThread make(PoolOfThreads owningPool); 
+    public abstract PooledThread make(PoolOfThreads owningPool);
 }

@@ -25,49 +25,49 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLSessionDeclare extends CBaseActionEntity
 {
-	protected String csSql = "" ;
+    protected String csSql = "" ;
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySQLSessionDeclare(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySQLSessionDeclare(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setSql(String string)
-	{
-		csSql = string ;
-	}
+    /**
+     * @param string
+     */
+    public void setSql(String string)
+    {
+        csSql = string ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveSQLSessionDeclareEntity). No formatting/output happens here:
-	// wrapping the statement in the sql("...") runtime call and chaining the
-	// optional WHENEVER clause is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveSQLSessionDeclareEntity). No formatting/output happens here:
+    // wrapping the statement in the sql("...") runtime call and chaining the
+    // optional WHENEVER clause is done by the template, never here.
 
-	/**
-	 * The full {@code DECLARE GLOBAL ...} statement text, assembled
-	 * token-by-token by the parser and read by {@code <entity.statement>}. The
-	 * template wraps it as a Java string literal inside {@code sql(...)}.
-	 */
-	public String getStatement()
-	{
-		return csSql ;
-	}
+    /**
+     * The full {@code DECLARE GLOBAL ...} statement text, assembled
+     * token-by-token by the parser and read by {@code <entity.statement>}. The
+     * template wraps it as a Java string literal inside {@code sql(...)}.
+     */
+    public String getStatement()
+    {
+        return csSql ;
+    }
 
-	/**
-	 * The SQLWARNING/SQLERROR clause to chain onto {@code sql(...)} (e.g.
-	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is
-	 * in effect. Read from the catalog where the WHENEVER statement registered
-	 * it.
-	 */
-	public String getSqlWarningErrorStatement()
-	{
-		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
-	}
+    /**
+     * The SQLWARNING/SQLERROR clause to chain onto {@code sql(...)} (e.g.
+     * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is
+     * in effect. Read from the catalog where the WHENEVER statement registered
+     * it.
+     */
+    public String getSqlWarningErrorStatement()
+    {
+        return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+    }
 }

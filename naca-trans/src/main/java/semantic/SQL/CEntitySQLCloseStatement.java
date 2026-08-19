@@ -26,34 +26,34 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLCloseStatement extends CBaseActionEntity
 {
-	public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CEntitySQLCursor cursor)
-	{
-		super(line, cat);
-		this.cursor = cursor ;
-	}
-	protected CEntitySQLCursor cursor = null ;
-	public boolean ignore()
-	{
-		return false ;
-	}
+    public CEntitySQLCloseStatement(int line, CObjectCatalog cat, CEntitySQLCursor cursor)
+    {
+        super(line, cat);
+        this.cursor = cursor ;
+    }
+    protected CEntitySQLCursor cursor = null ;
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler. No formatting/output
-	// happens here: the adaptor recursively renders the semantic cursor child.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler. No formatting/output
+    // happens here: the adaptor recursively renders the semantic cursor child.
 
-	/** The closed cursor semantic child, read by {@code <entity.cursor>}. */
-	public CEntitySQLCursor getCursor()
-	{
-		return cursor ;
-	}
+    /** The closed cursor semantic child, read by {@code <entity.cursor>}. */
+    public CEntitySQLCursor getCursor()
+    {
+        return cursor ;
+    }
 
-	/**
-	 * The SQLWARNING/SQLERROR clause to chain onto {@code cursorClose(...)} (e.g.
-	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
-	 * effect. Read from the catalog where the WHENEVER statement registered it.
-	 */
-	public String getSqlWarningErrorStatement()
-	{
-		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
-	}
+    /**
+     * The SQLWARNING/SQLERROR clause to chain onto {@code cursorClose(...)} (e.g.
+     * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
+     * effect. Read from the catalog where the WHENEVER statement registered it.
+     */
+    public String getSqlWarningErrorStatement()
+    {
+        return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+    }
 }

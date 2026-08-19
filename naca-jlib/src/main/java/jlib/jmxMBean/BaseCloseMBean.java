@@ -23,233 +23,233 @@ import javax.management.ReflectionException;
 
 public abstract class BaseCloseMBean extends BaseDynamicMBean
 {
-	private boolean iscreated = false;
+    private boolean iscreated = false;
 
-	public BaseCloseMBean()
-	{
-	}
+    public BaseCloseMBean()
+    {
+    }
 
-	public BaseCloseMBean(String csName, String csDescription)
-	{
-		createMBean(csName, csDescription);
-	}
+    public BaseCloseMBean(String csName, String csDescription)
+    {
+        createMBean(csName, csDescription);
+    }
 
-	public void createMBean(String csName, String csDescription)
-	{
-		csMBeanName = csName;
-		if(!iscreated)
-		{
-			buildDynamicMBeanInfo();
-			registerInfos(csName, csDescription);
-		}
-		JmxRegistration.registerMBean(csName, this);
-		iscreated = true;
-	}
+    public void createMBean(String csName, String csDescription)
+    {
+        csMBeanName = csName;
+        if(!iscreated)
+        {
+            buildDynamicMBeanInfo();
+            registerInfos(csName, csDescription);
+        }
+        JmxRegistration.registerMBean(csName, this);
+        iscreated = true;
+    }
 
-	public void unregisterMBean()
-	{
-		if(csMBeanName != null)
-			JmxRegistration.unregisterMBean(csMBeanName);
-		csMBeanName = null;
-	}
+    public void unregisterMBean()
+    {
+        if(csMBeanName != null)
+            JmxRegistration.unregisterMBean(csMBeanName);
+        csMBeanName = null;
+    }
 
-	protected boolean isBeanCreated()
-	{
-		if(csMBeanName == null)
-			return false;
-		return true;
-	}
+    protected boolean isBeanCreated()
+    {
+        if(csMBeanName == null)
+            return false;
+        return true;
+    }
 
-	public Object getAttribute(String csName)
-	{
-		if (csName == null || arrMBeanAttributeInfosWrapper == null)
-		{
-			return null;
+    public Object getAttribute(String csName)
+    {
+        if (csName == null || arrMBeanAttributeInfosWrapper == null)
+        {
+            return null;
         }
 
-		for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
-		{
-			MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
-			MBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
-			if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
-			{
-				// Call method
-				Method method = attributeInfoWrapper.getMethodGetter();
-				if(method != null)
-				{
-					try
-					{
-						Object oReturn = method.invoke(this, (Object[])null);
-						return oReturn;
-					}
-					catch (IllegalArgumentException e)
-					{
-						e.printStackTrace();
-					}
-					catch (IllegalAccessException e)
-					{
-						e.printStackTrace();
-					}
-					catch (InvocationTargetException e)
-					{
-						e.printStackTrace();
-					}
-				}
+        for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
+        {
+            MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
+            MBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
+            if(attributeInfo.getName().equalsIgnoreCase(csName))    // Found attribut
+            {
+                // Call method
+                Method method = attributeInfoWrapper.getMethodGetter();
+                if(method != null)
+                {
+                    try
+                    {
+                        Object oReturn = method.invoke(this, (Object[])null);
+                        return oReturn;
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (IllegalAccessException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (InvocationTargetException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
 
-			}
-		}
+            }
+        }
         return null;
-	}
+    }
 
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
-	{
+    {
         if (attribute != null)
         {
-	        String csName = attribute.getName();
-	        Object oValue = attribute.getValue();
+            String csName = attribute.getName();
+            Object oValue = attribute.getValue();
 
-      		for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
-			{
-				MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
-				MBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
-				if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
-				{
-					// Call method
-					Method method = attributeInfoWrapper.getMethodSetter();
-					if(method != null)
-					{
-						Class[] classArgs = method.getParameterTypes();
-						if(classArgs.length == 1)	// Check: only 1 arg
-						{
-							try
-							{
-								method.invoke(this, oValue);
-								return;
-							}
-							catch (IllegalArgumentException e)
-							{
-								e.printStackTrace();
-							}
-							catch (IllegalAccessException e)
-							{
-								e.printStackTrace();
-							}
-							catch (InvocationTargetException e)
-							{
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
+            for(int n=0; n<arrMBeanAttributeInfosWrapper.size(); n++)
+            {
+                MBeanAttributeInfoWrapper attributeInfoWrapper = arrMBeanAttributeInfosWrapper.get(n);
+                MBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
+                if(attributeInfo.getName().equalsIgnoreCase(csName))    // Found attribut
+                {
+                    // Call method
+                    Method method = attributeInfoWrapper.getMethodSetter();
+                    if(method != null)
+                    {
+                        Class[] classArgs = method.getParameterTypes();
+                        if(classArgs.length == 1)   // Check: only 1 arg
+                        {
+                            try
+                            {
+                                method.invoke(this, oValue);
+                                return;
+                            }
+                            catch (IllegalArgumentException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            catch (IllegalAccessException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            catch (InvocationTargetException e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-	public AttributeList getAttributes(String[] attributeNames)
-	{
+    public AttributeList getAttributes(String[] attributeNames)
+    {
         if(attributeNames != null)
         {
-        	AttributeList resultList = new AttributeList();
+            AttributeList resultList = new AttributeList();
 
-	        if (attributeNames.length == 0)
-    	        return resultList;
+            if (attributeNames.length == 0)
+                return resultList;
 
-	        // Build the result attribute list
-	        for(int i=0 ; i<attributeNames.length; i++)
-	        {
-	            try
-	            {
-	                Object oValue = getAttribute(attributeNames[i]);
-	                resultList.add(new Attribute(attributeNames[i], oValue));
-	            }
-	            catch (Exception e)
-	            {
-	            }
-	        }
-	        return resultList;
-    	}
+            // Build the result attribute list
+            for(int i=0 ; i<attributeNames.length; i++)
+            {
+                try
+                {
+                    Object oValue = getAttribute(attributeNames[i]);
+                    resultList.add(new Attribute(attributeNames[i], oValue));
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            return resultList;
+        }
         return null;
-	}
+    }
 
-	 public AttributeList setAttributes(AttributeList attributes)
-	 {
+     public AttributeList setAttributes(AttributeList attributes)
+     {
         // Check attributes is not null to avoid NullPointerException later on
         //
         if (attributes != null)
         {
-	        AttributeList resultList = new AttributeList();
+            AttributeList resultList = new AttributeList();
 
-	        // If attributeNames is empty, nothing more to do
-	        //
-	        if (attributes.isEmpty())
-	            return resultList;
+            // If attributeNames is empty, nothing more to do
+            //
+            if (attributes.isEmpty())
+                return resultList;
 
-	        // For each attribute, try to set it and add to the result list if
-	        // successfull
-	        //
-	        for (Iterator i = attributes.iterator(); i.hasNext();)
-	        {
-	            Attribute attr = (Attribute) i.next();
-	            try
-	            {
-	                setAttribute(attr);
-	                String name = attr.getName();
-	                Object value = getAttribute(name);
-	                resultList.add(new Attribute(name,value));
-	            }
-	            catch(Exception e)
-	            {
-	                e.printStackTrace();
-	            }
-	        }
-	        return resultList;
-    	}
-        return null;
-	}
-
-
-	public Object invoke(String csOperationName,
-                         Object params[],
-                         String signature[])
-	{
-        if (csOperationName != null)
-        {
-        	for(int n = 0; n< mBeanOperationInfosWrapper.size(); n++)
-			{
-				MBeanOperationInfoWrapper operationInfoWrapper = mBeanOperationInfosWrapper.get(n);
-				MBeanOperationInfo operationInfo = operationInfoWrapper.getOperation();
-				if(operationInfo.getName().equalsIgnoreCase(csOperationName))	// Found attribut
-				{
-					// Call method
-					Method method = operationInfoWrapper.getMethod();
-					if(method != null)
-					{
-						Object oReturn;
-						try
-						{
-							oReturn = method.invoke(this, params);
-							return oReturn;
-						}
-						catch (IllegalArgumentException e)
-						{
-							e.printStackTrace();
-						}
-						catch (IllegalAccessException e)
-						{
-							e.printStackTrace();
-						}
-						catch (InvocationTargetException e)
-						{
-							e.printStackTrace();
-						}
-						return null;
-					}
-				}
-			}
+            // For each attribute, try to set it and add to the result list if
+            // successfull
+            //
+            for (Iterator i = attributes.iterator(); i.hasNext();)
+            {
+                Attribute attr = (Attribute) i.next();
+                try
+                {
+                    setAttribute(attr);
+                    String name = attr.getName();
+                    Object value = getAttribute(name);
+                    resultList.add(new Attribute(name,value));
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            return resultList;
         }
         return null;
-	}
+    }
+
+
+    public Object invoke(String csOperationName,
+                         Object params[],
+                         String signature[])
+    {
+        if (csOperationName != null)
+        {
+            for(int n = 0; n< mBeanOperationInfosWrapper.size(); n++)
+            {
+                MBeanOperationInfoWrapper operationInfoWrapper = mBeanOperationInfosWrapper.get(n);
+                MBeanOperationInfo operationInfo = operationInfoWrapper.getOperation();
+                if(operationInfo.getName().equalsIgnoreCase(csOperationName))   // Found attribut
+                {
+                    // Call method
+                    Method method = operationInfoWrapper.getMethod();
+                    if(method != null)
+                    {
+                        Object oReturn;
+                        try
+                        {
+                            oReturn = method.invoke(this, params);
+                            return oReturn;
+                        }
+                        catch (IllegalArgumentException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (IllegalAccessException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (InvocationTargetException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
 
     /**
@@ -262,137 +262,144 @@ public abstract class BaseCloseMBean extends BaseDynamicMBean
     }
 
 // protected void addAttribute(String csName, String csType, String csDescription, boolean bIsReadable, boolean bIsWritable, boolean bIsIs)
-//	{
+//  {
 // MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csName, csType, csDescription, bIsReadable, bIsWritable, bIsIs);
-//		if(arrMBeanAttributeInfosWrapper == null)
-//			arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
-//		arrMBeanAttributeInfosWrapper.add(attr);
-//	}
+//      if(arrMBeanAttributeInfosWrapper == null)
+//          arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
+//      arrMBeanAttributeInfosWrapper.add(attr);
+//  }
 
-	protected void addAttribute(String csDescription, Class cls, String csMethodName, Class clsType)
-	{
-		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
-		Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, clsType);
-		MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csMethodName, csDescription, methodGet, methodSet);
-		if(arrMBeanAttributeInfosWrapper == null)
-			arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
-		arrMBeanAttributeInfosWrapper.add(attr);
-	}
+    protected void addAttribute(String csDescription, Class cls, String csMethodName, Class clsType)
+    {
+        Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
+        Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, clsType);
+        MBeanAttributeInfoWrapper attr = new MBeanAttributeInfoWrapper(csMethodName, csDescription, methodGet, methodSet);
+        if(arrMBeanAttributeInfosWrapper == null)
+            arrMBeanAttributeInfosWrapper = new ArrayList<MBeanAttributeInfoWrapper>();
+        arrMBeanAttributeInfosWrapper.add(attr);
+    }
 
-//	protected void addOperation(String csName, String csDescription, MBeanParameterInfo[] arrSignature, String csType, int nImpact)
-//	{
-//		MBeanOperationInfo operation = new MBeanOperationInfo(csName, csDescription, arrSignature, csType, nImpact);
-//		if(arrMBeanOperationInfos == null)
-//			arrMBeanOperationInfos = new ArrayList<MBeanOperationInfo>();
-//		arrMBeanOperationInfos.add(operation);
-//	}
+//  protected void addOperation(String csName, String csDescription, MBeanParameterInfo[] arrSignature, String csType, int nImpact)
+//  {
+//      MBeanOperationInfo operation = new MBeanOperationInfo(csName, csDescription, arrSignature, csType, nImpact);
+//      if(arrMBeanOperationInfos == null)
+//          arrMBeanOperationInfos = new ArrayList<MBeanOperationInfo>();
+//      arrMBeanOperationInfos.add(operation);
+//  }
 
-	private void addOperation(String csDescription, Method method)
-	{
-		MBeanOperationInfoWrapper operation = new MBeanOperationInfoWrapper(csDescription, method);
-		if(mBeanOperationInfosWrapper == null)
-			mBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
-		mBeanOperationInfosWrapper.add(operation);
-	}
+    private void addOperation(String csDescription, Method method)
+    {
+        MBeanOperationInfoWrapper operation = new MBeanOperationInfoWrapper(csDescription, method);
+        if(mBeanOperationInfosWrapper == null)
+            mBeanOperationInfosWrapper = new ArrayList<MBeanOperationInfoWrapper>();
+        mBeanOperationInfosWrapper.add(operation);
+    }
 
-	protected void addOperation(String csDescription, Class cls, String csMethodName)
-	{
-		Method method = MethodFinder.getMethod(cls, csMethodName);
-		if(method != null)
-		{
-			addOperation(csDescription, method);
-		}
-	}
+    protected void addOperation(String csDescription, Class cls, String csMethodName)
+    {
+        Method method = MethodFinder.getMethod(cls, csMethodName);
+        if(method != null)
+        {
+            addOperation(csDescription, method);
+        }
+    }
 
-	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0)
-	{
-		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0);
-		if(method != null)
-		{
-			addOperation(csDescription, method);
-		}
-	}
+    protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0)
+    {
+        Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0);
+        if(method != null)
+        {
+            addOperation(csDescription, method);
+        }
+    }
 
-	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1)
-	{
-		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1);
-		if(method != null)
-		{
-			addOperation(csDescription, method);
-		}
-	}
+    protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1)
+    {
+        Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1);
+        if(method != null)
+        {
+            addOperation(csDescription, method);
+        }
+    }
 
-	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2)
-	{
-		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2);
-		if(method != null)
-		{
-			addOperation(csDescription, method);
-		}
-	}
+    protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2)
+    {
+        Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2);
+        if(method != null)
+        {
+            addOperation(csDescription, method);
+        }
+    }
 
-	protected void addOperation(String csDescription, Class cls, String csMethodName, Class clsArg0, Class clsArg1, Class clsArg2, Class clsArg3)
-	{
-		Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2, clsArg3);
-		if(method != null)
-		{
-			addOperation(csDescription, method);
-		}
-	}
+    protected void addOperation(
+        String csDescription,
+        Class cls,
+        String csMethodName,
+        Class clsArg0,
+        Class clsArg1,
+        Class clsArg2,
+        Class clsArg3)
+    {
+        Method method = MethodFinder.getMethod(cls, csMethodName, clsArg0, clsArg1, clsArg2, clsArg3);
+        if(method != null)
+        {
+            addOperation(csDescription, method);
+        }
+    }
 
-	private void registerInfos(String csName, String csDescription)
-	{
-		MBeanAttributeInfo[] attributes = null;
-		if(arrMBeanAttributeInfosWrapper != null)
-		{
-			int nNbItems = arrMBeanAttributeInfosWrapper.size();
-			attributes = new MBeanAttributeInfo[nNbItems];
-			for(int n=0; n<nNbItems; n++)
-			{
-				MBeanAttributeInfoWrapper wrapper = arrMBeanAttributeInfosWrapper.get(n);
-				attributes[n] = wrapper.getAttribute();
-			}
-		}
+    private void registerInfos(String csName, String csDescription)
+    {
+        MBeanAttributeInfo[] attributes = null;
+        if(arrMBeanAttributeInfosWrapper != null)
+        {
+            int nNbItems = arrMBeanAttributeInfosWrapper.size();
+            attributes = new MBeanAttributeInfo[nNbItems];
+            for(int n=0; n<nNbItems; n++)
+            {
+                MBeanAttributeInfoWrapper wrapper = arrMBeanAttributeInfosWrapper.get(n);
+                attributes[n] = wrapper.getAttribute();
+            }
+        }
 
-		MBeanOperationInfo[] operations = null;
-		if(mBeanOperationInfosWrapper != null)
-		{
-			int nNbItems = mBeanOperationInfosWrapper.size();
-			operations = new MBeanOperationInfo[nNbItems];
-			for(int n=0; n<nNbItems; n++)
-			{
-				MBeanOperationInfoWrapper wrapper = mBeanOperationInfosWrapper.get(n);
-				operations[n] = wrapper.getOperation();
-			}
-		}
+        MBeanOperationInfo[] operations = null;
+        if(mBeanOperationInfosWrapper != null)
+        {
+            int nNbItems = mBeanOperationInfosWrapper.size();
+            operations = new MBeanOperationInfo[nNbItems];
+            for(int n=0; n<nNbItems; n++)
+            {
+                MBeanOperationInfoWrapper wrapper = mBeanOperationInfosWrapper.get(n);
+                operations[n] = wrapper.getOperation();
+            }
+        }
 
         mBeanInfo = new MBeanInfo(csName,
                                    csDescription,
                 attributes,
-                                   null,	//dConstructors,
+                                   null,    //dConstructors,
                 operations,
-                                   null);	//dNotifications);
-	}
+                                   null);   //dNotifications);
+    }
 
-	protected void removeAllOperations()
-	{
-		mBeanOperationInfosWrapper.clear();
-	}
+    protected void removeAllOperations()
+    {
+        mBeanOperationInfosWrapper.clear();
+    }
 
-	protected void removeAllAttributes()
-	{
-		arrMBeanAttributeInfosWrapper.clear();
-	}
+    protected void removeAllAttributes()
+    {
+        arrMBeanAttributeInfosWrapper.clear();
+    }
 
-	protected abstract void buildDynamicMBeanInfo() ;
+    protected abstract void buildDynamicMBeanInfo() ;
 
-	protected String getMBeanName()
-	{
-		return csMBeanName;
-	}
+    protected String getMBeanName()
+    {
+        return csMBeanName;
+    }
 
-	private ArrayList<MBeanAttributeInfoWrapper> arrMBeanAttributeInfosWrapper = null;
-	private ArrayList<MBeanOperationInfoWrapper> mBeanOperationInfosWrapper = null;
-	private MBeanInfo mBeanInfo = null;
-	private String csMBeanName = null;
+    private ArrayList<MBeanAttributeInfoWrapper> arrMBeanAttributeInfosWrapper = null;
+    private ArrayList<MBeanOperationInfoWrapper> mBeanOperationInfosWrapper = null;
+    private MBeanInfo mBeanInfo = null;
+    private String csMBeanName = null;
 }

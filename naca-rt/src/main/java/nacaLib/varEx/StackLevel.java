@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -20,49 +20,49 @@ import nacaLib.base.CJMapObject;
  */
 public class StackLevel extends CJMapObject
 {
-	CLevel getParentLevel(int nLevel)
-	{
-		CLevel level = null;
-		for(int n=nTopValidIndex; n>=0; n--)
-		{
-			level = arr.get(n);
-			if(level.hasLowerLevel(nLevel))
-				return level;
-		}
-		return null;
-	}
-	
-	void push(CLevel levelToPush)
-	{
-		int nLevelToPush = levelToPush.nLevel;
-		for(int n=nTopValidIndex; n>=0; n--)
-		{
-			CLevel levelStacked = arr.get(n);
-			if(levelStacked.hasLowerLevel(nLevelToPush))
-			{
-				setLevelInArray(n+1, levelToPush);
-				return ;
-			}
-		}
-		setLevelInArray(0, levelToPush);
-	}
-	
-	private void setLevelInArray(int nIndex, CLevel levelToPush)
-	{
-		if(nIndex < arr.size())
-		{
-			CLevel levelStacked = arr.get(nIndex);
-			levelStacked.setWith(levelToPush);
-			nTopValidIndex = nIndex; 
-		}
-		else
-		{
-			assertIfFalse(nIndex == arr.size());
-			arr.add(levelToPush);
-			nTopValidIndex = nIndex;
-		}
-	}
-	
-	private int nTopValidIndex = -1;
-	private ArrayList<CLevel> arr = new ArrayList<CLevel>(); 
+    CLevel getParentLevel(int nLevel)
+    {
+        CLevel level = null;
+        for(int n=nTopValidIndex; n>=0; n--)
+        {
+            level = arr.get(n);
+            if(level.hasLowerLevel(nLevel))
+                return level;
+        }
+        return null;
+    }
+
+    void push(CLevel levelToPush)
+    {
+        int nLevelToPush = levelToPush.nLevel;
+        for(int n=nTopValidIndex; n>=0; n--)
+        {
+            CLevel levelStacked = arr.get(n);
+            if(levelStacked.hasLowerLevel(nLevelToPush))
+            {
+                setLevelInArray(n+1, levelToPush);
+                return ;
+            }
+        }
+        setLevelInArray(0, levelToPush);
+    }
+
+    private void setLevelInArray(int nIndex, CLevel levelToPush)
+    {
+        if(nIndex < arr.size())
+        {
+            CLevel levelStacked = arr.get(nIndex);
+            levelStacked.setWith(levelToPush);
+            nTopValidIndex = nIndex;
+        }
+        else
+        {
+            assertIfFalse(nIndex == arr.size());
+            arr.add(levelToPush);
+            nTopValidIndex = nIndex;
+        }
+    }
+
+    private int nTopValidIndex = -1;
+    private ArrayList<CLevel> arr = new ArrayList<CLevel>();
 }

@@ -21,37 +21,37 @@ import jlib.threads.PoolOfThreads;
  */
 public class BtreePooledWriterThread extends PooledThread
 {
-	private BtreeKeyDescription keyDescription = null;
+    private BtreeKeyDescription keyDescription = null;
 
-	public BtreePooledWriterThread(PoolOfThreads owningPool)
-	{
-		super(owningPool);
-	}
+    public BtreePooledWriterThread(PoolOfThreads owningPool)
+    {
+        super(owningPool);
+    }
 
-	void setBtreeKeyDescription(BtreeKeyDescription keyDescription)
-	{
-		this.keyDescription = keyDescription;
-	}
+    void setBtreeKeyDescription(BtreeKeyDescription keyDescription)
+    {
+        this.keyDescription = keyDescription;
+    }
 
-	public boolean preRun()
-	{
-		// Fill the TLS with key description
-		if(keyDescription != null)
-		{
-			TempCacheLocator.setTempCache();	// Init TLS
-			TempCache t = TempCacheLocator.getTLSTempCache();
-			if(t != null)
-			{
-				t.setBtreeKeyDescription(keyDescription);
-				return true;
-			}
-		}
-		return false;	// No key desc !
-	}
+    public boolean preRun()
+    {
+        // Fill the TLS with key description
+        if(keyDescription != null)
+        {
+            TempCacheLocator.setTempCache();    // Init TLS
+            TempCache t = TempCacheLocator.getTLSTempCache();
+            if(t != null)
+            {
+                t.setBtreeKeyDescription(keyDescription);
+                return true;
+            }
+        }
+        return false;   // No key desc !
+    }
 
-	public void postRun()
-	{
-		TempCacheLocator.relaseTempCache();
-	}
+    public void postRun()
+    {
+        TempCacheLocator.relaseTempCache();
+    }
 
 }

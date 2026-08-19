@@ -16,27 +16,27 @@ import java.util.Properties;
  */
 public class DbConnectionParam
 {
-	Driver driver = null;
-	String csUrl = "" ;
-	String csEnvironment = "" ;
-	String csPackage = "" ;
-	Properties propertiesUserPassword = null;
-	String csConnectionUrlOptionalParams = null;
-	boolean isautoCommit = false;
-	boolean iscloseCursorOnCommit = false;
-	
-	public DbDriverId getDbDriverId()
-	{
-		return DbDriverId.getByClassName(driver.getClass().toString());
-	}
-	
-	String getEnvironment()
-	{
-		return csEnvironment;
-	}
-	
-	void setEnvironment(String cs)
-	{
-		csEnvironment = cs;
-	}
+    Driver driver = null;
+    String csUrl = "" ;
+    String csEnvironment = "" ;
+    String csPackage = "" ;
+    Properties propertiesUserPassword = null;
+    String csConnectionUrlOptionalParams = null;
+    boolean isautoCommit = false;
+    boolean iscloseCursorOnCommit = false;
+
+    public DbDriverId getDbDriverId()
+    {
+        return DbDriverId.getByClassName(driver.getClass().toString());
+    }
+
+    String getEnvironment()
+    {
+        return csEnvironment;
+    }
+
+    void setEnvironment(String cs)
+    {
+        csEnvironment = cs;
+    }
 }

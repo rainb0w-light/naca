@@ -12,24 +12,24 @@ package nacaLib.varEx;
  */
 public class VarLevelGroup
 {
-	VarLevelGroup(VarLevel varLevel)
-	{
-		this.varLevel = varLevel;
-	}
+    VarLevelGroup(VarLevel varLevel)
+    {
+        this.varLevel = varLevel;
+    }
 
-	public VarGroup var()	// Creates a group
-	{
-		if(varLevel != null)
-			return varLevel.var();
-		return null;
-	}
+    public VarGroup var()   // Creates a group
+    {
+        if(varLevel != null)
+            return varLevel.var();
+        return null;
+    }
 
-	public Var filler()
-	{
-		if(varLevel != null)
-			return varLevel.filler();
-		return null;
-	}
+    public Var filler()
+    {
+        if(varLevel != null)
+            return varLevel.filler();
+        return null;
+    }
 
-	private VarLevel varLevel = null;
+    private VarLevel varLevel = null;
 }

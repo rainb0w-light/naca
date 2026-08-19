@@ -23,85 +23,87 @@ import nacaLib.sqlSupport.SQLConnectionManager;
  */
 public class AccountingRessourceDesc
 {
-	public AccountingRessourceDesc()
-	{
-	}
-	
-	public void load(Tag tagAccounting)
-	{
-		if(tagAccounting != null)
-		{
-			csTableName = tagAccounting.getVal("TableName");
-			csMachineId = tagAccounting.getVal("MachineId");
-			csTomcatId = tagAccounting.getVal("TomcatId");
-			connectionManager = new SQLConnectionManager();
-			DbConnectionPool dbConnectionPool = connectionManager.init("", tagAccounting);
-			BaseResourceManager.addDbConnectionPool(dbConnectionPool);
-			nMaxLevelDepth = tagAccounting.getValAsInt("MaxLevelDepth");
-			String csDbEnvironment = tagAccounting.getVal("dbenvironment");
-			if(csDbEnvironment != null && !StringUtil.isEmpty(csDbEnvironment))
-				csTableName = csDbEnvironment + "." + csTableName;
-			csInsertClause = "Insert into " + csTableName +
-				"(SESSIONID, TRANSACTIONID, START_TIMESTAMP, LEVEL_DEPTH, TRANSACTIONNAME, PROGRAMNAME, SESSIONTYPE, MACHINEID, TOMCATID, RUNTIME_MS, TERMINALID, LUNAME, USERLDAPID, CRITERIAEND, NBSELECT, NBINSERT, NBUPDATE, NBDELETE, NBOPENCURSOR, NBFETCHCURSOR, PROFITCENTERP2000, USERIDP2000, DB_IO_TIME_MS, NETWORK_MS)" + 
-				" values " +
-				"(?, ?, ?, ?, ?, ?,	?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,	?, ?, ?, ?,	?, ?)";
-		}
-		else
-		{
-			Log.logCritical("No Accounting tag in .cfg file: Accouting is disabled");
-		}
-	}
-	
-	String getMachineId()
-	{
-		return csMachineId;
-	}
-	
-	String getTomcatId()
-	{
-		return csTomcatId;
-	}
-	
-	boolean canWrite(int nCurrentDepth)
-	{
-		if(nCurrentDepth <= nMaxLevelDepth)
-			return true;
-		return false;
-	}
-	
-	
-	DbConnectionBase getConnection()
-	{
-		if(connectionManager != null)
-		{
-			try
-			{
-				DbConnectionBase dbConnection = connectionManager.getConnection("Accounting", true);
-				return dbConnection;
-			}
-			catch (DbConnectionException e)
-			{
-				Log.logCritical("Could not get DB connection for accounting !");
-			}
-		}
-		return null;
-	}
-	
-	DbPreparedStatement getInsertStatement(DbConnectionBase dbConnection)
-	{
-		DbPreparedStatement st = dbConnection.prepareStatement(csInsertClause, 0, false);
-		return st;
-	}
-	
-	void returnConnection(DbConnectionBase dbConnection)
-	{
-		connectionManager.returnConnection(dbConnection);
-	}
+    public AccountingRessourceDesc()
+    {
+    }
 
-	private SQLConnectionManager connectionManager = null;
-	private String csTableName = null;
-	private String csMachineId = null;
-	private String csTomcatId = null;
-	private int nMaxLevelDepth = 0;
-	private String csInsertClause = null;
+    public void load(Tag tagAccounting)
+    {
+        if(tagAccounting != null)
+        {
+            csTableName = tagAccounting.getVal("TableName");
+            csMachineId = tagAccounting.getVal("MachineId");
+            csTomcatId = tagAccounting.getVal("TomcatId");
+            connectionManager = new SQLConnectionManager();
+            DbConnectionPool dbConnectionPool = connectionManager.init("", tagAccounting);
+            BaseResourceManager.addDbConnectionPool(dbConnectionPool);
+            nMaxLevelDepth = tagAccounting.getValAsInt("MaxLevelDepth");
+            String csDbEnvironment = tagAccounting.getVal("dbenvironment");
+            if(csDbEnvironment != null && !StringUtil.isEmpty(csDbEnvironment))
+                csTableName = csDbEnvironment + "." + csTableName;
+            csInsertClause = "Insert into " + csTableName +
+                "(SESSIONID, TRANSACTIONID, START_TIMESTAMP, LEVEL_DEPTH, TRANSACTIONNAME, PROGRAMNAME, SESSIONTYPE, MACHINEID, " +
+                    "TOMCATID, RUNTIME_MS, TERMINALID, LUNAME, USERLDAPID, CRITERIAEND, NBSELECT, NBINSERT, NBUPDATE, NBDELETE, " +
+                    "NBOPENCURSOR, NBFETCHCURSOR, PROFITCENTERP2000, USERIDP2000, DB_IO_TIME_MS, NETWORK_MS)" +
+                " values " +
+                "(?, ?, ?, ?, ?, ?,\t?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,\t?, ?, ?, ?,\t?, ?)";
+        }
+        else
+        {
+            Log.logCritical("No Accounting tag in .cfg file: Accouting is disabled");
+        }
+    }
+
+    String getMachineId()
+    {
+        return csMachineId;
+    }
+
+    String getTomcatId()
+    {
+        return csTomcatId;
+    }
+
+    boolean canWrite(int nCurrentDepth)
+    {
+        if(nCurrentDepth <= nMaxLevelDepth)
+            return true;
+        return false;
+    }
+
+
+    DbConnectionBase getConnection()
+    {
+        if(connectionManager != null)
+        {
+            try
+            {
+                DbConnectionBase dbConnection = connectionManager.getConnection("Accounting", true);
+                return dbConnection;
+            }
+            catch (DbConnectionException e)
+            {
+                Log.logCritical("Could not get DB connection for accounting !");
+            }
+        }
+        return null;
+    }
+
+    DbPreparedStatement getInsertStatement(DbConnectionBase dbConnection)
+    {
+        DbPreparedStatement st = dbConnection.prepareStatement(csInsertClause, 0, false);
+        return st;
+    }
+
+    void returnConnection(DbConnectionBase dbConnection)
+    {
+        connectionManager.returnConnection(dbConnection);
+    }
+
+    private SQLConnectionManager connectionManager = null;
+    private String csTableName = null;
+    private String csMachineId = null;
+    private String csTomcatId = null;
+    private int nMaxLevelDepth = 0;
+    private String csInsertClause = null;
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,34 +16,35 @@ package nacaLib.varEx;
  */
 public class CallParamFpac extends CCallParam
 {
-	public CallParamFpac(InternalCharBuffer charBufferSource)
-	{
-		int nLength = charBufferSource.getBufferSize() - 2;	// Exclude commeara length header 
-		charBuffer = new InternalCharBuffer(nLength);
-		charBuffer.copyBytes(0, nLength, 2, charBufferSource);
-	}
-	
-	public int getParamLength()
-	{
-		if(charBuffer != null)
-			return charBuffer.getBufferSize();
-		return 0;
-	}
-	
-	public void MapOn(Var varLinkageSection)
-	{
-		int nNbCharsToCopy = charBuffer.getBufferSize();
-		int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
-		int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
-		//TODO Contrôle si contrôle sur longueur du buffer ou longueur de varLinkageSection
-		if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
-		{
-			assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy + " Destination length=" + nBuffetDestSize);
-		}
-		
-		varLinkageSection.bufferPos.writeRepeatingCharAt(nPositionDest, ' ', varLinkageSection.getLength());
-		varLinkageSection.bufferPos.copyBytes(nPositionDest, nNbCharsToCopy, 0, charBuffer);
-	}
-	
-	private InternalCharBuffer charBuffer = null;
+    public CallParamFpac(InternalCharBuffer charBufferSource)
+    {
+        int nLength = charBufferSource.getBufferSize() - 2; // Exclude commeara length header
+        charBuffer = new InternalCharBuffer(nLength);
+        charBuffer.copyBytes(0, nLength, 2, charBufferSource);
+    }
+
+    public int getParamLength()
+    {
+        if(charBuffer != null)
+            return charBuffer.getBufferSize();
+        return 0;
+    }
+
+    public void MapOn(Var varLinkageSection)
+    {
+        int nNbCharsToCopy = charBuffer.getBufferSize();
+        int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
+        int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
+        //TODO Contrôle si contrôle sur longueur du buffer ou longueur de varLinkageSection
+        if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
+        {
+            assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy
+                + " Destination length=" + nBuffetDestSize);
+        }
+
+        varLinkageSection.bufferPos.writeRepeatingCharAt(nPositionDest, ' ', varLinkageSection.getLength());
+        varLinkageSection.bufferPos.copyBytes(nPositionDest, nNbCharsToCopy, 0, charBuffer);
+    }
+
+    private InternalCharBuffer charBuffer = null;
 }

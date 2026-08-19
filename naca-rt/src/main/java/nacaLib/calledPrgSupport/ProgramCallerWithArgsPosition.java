@@ -25,65 +25,71 @@ import nacaLib.exceptions.ProgramCallerException;
  */
 public class ProgramCallerWithArgsPosition extends CalledProgramParamSupportByPosition
 {
-	private String csConfigFile = null;
-	private DbConnectionBase dbConnection = null;
-	private String csPrgClassName = null;
-	
-	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
-	{
-		this.csConfigFile = csConfigFile;
-		this.dbConnection = dbConnection;
-		this.csPrgClassName = csPrgClassName;
-	}
-	public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, Class classPrgToCall)
-	{
-		this.csConfigFile = csConfigFile;
-		this.dbConnection = dbConnection;
-		this.csPrgClassName = classPrgToCall.getName();
-	}
+    private String csConfigFile = null;
+    private DbConnectionBase dbConnection = null;
+    private String csPrgClassName = null;
 
-	public boolean execute() throws ProgramCallerException
-	{
-		CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(csConfigFile, dbConnection.getEnvironmentPrefix());
-		if(calledResourceManager == null)
-			return false;
-		
-		CalledSession session = new CalledSession(calledResourceManager) ;
-			
-		BaseEnvironment env = null;
-		try
-		{
-			BaseProgramLoader loader = CalledProgramLoader.GetProgramLoaderInstance() ;
-			env = loader.GetEnvironment(session, csPrgClassName, null) ;
-			env.setExternalDbConnection(dbConnection);
-			boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
-			env.fillEnvConnectionWithAllocatedConnection(dbConnection.getDbConnection(), "ExternalConnection", dbConnection.getEnvironmentPrefix(), bUseStatementCache);							
-	
-			boolean isstarted = env.startRunTransaction();
-			if(!isstarted)
-			{
-				env.endRunTransaction(CriteriaEndRunMain.Abort);
-				return false;
-			}
-				
-			loader.runTopProgram(env, arrPublicArgs);
-			
-			env.endRunTransaction(CriteriaEndRunMain.Normal);
-			return true;
-		}
-		catch (AbortSessionException e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			String csMessage = e.getReason();
-			ProgramCallerException callerException = new ProgramCallerException(csMessage);
-			throw callerException;
-		}
-		catch(Exception e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			String csMessage = e.getMessage();
-			ProgramCallerException callerException = new ProgramCallerException(csMessage);
-			throw callerException;
-		}
-	}
+    public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, String csPrgClassName)
+    {
+        this.csConfigFile = csConfigFile;
+        this.dbConnection = dbConnection;
+        this.csPrgClassName = csPrgClassName;
+    }
+    public ProgramCallerWithArgsPosition(String csConfigFile, DbConnectionBase dbConnection, Class classPrgToCall)
+    {
+        this.csConfigFile = csConfigFile;
+        this.dbConnection = dbConnection;
+        this.csPrgClassName = classPrgToCall.getName();
+    }
+
+    public boolean execute() throws ProgramCallerException
+    {
+        CalledResourceManager calledResourceManager = CalledResourceManagerFactory.GetInstance(
+            csConfigFile,
+            dbConnection.getEnvironmentPrefix());
+        if(calledResourceManager == null)
+            return false;
+
+        CalledSession session = new CalledSession(calledResourceManager) ;
+
+        BaseEnvironment env = null;
+        try
+        {
+            BaseProgramLoader loader = CalledProgramLoader.GetProgramLoaderInstance() ;
+            env = loader.GetEnvironment(session, csPrgClassName, null) ;
+            env.setExternalDbConnection(dbConnection);
+            boolean bUseStatementCache = BaseResourceManager.getUseStatementCache();
+            env.fillEnvConnectionWithAllocatedConnection(
+                dbConnection.getDbConnection(),
+                "ExternalConnection",
+                dbConnection.getEnvironmentPrefix(),
+                bUseStatementCache);
+
+            boolean isstarted = env.startRunTransaction();
+            if(!isstarted)
+            {
+                env.endRunTransaction(CriteriaEndRunMain.Abort);
+                return false;
+            }
+
+            loader.runTopProgram(env, arrPublicArgs);
+
+            env.endRunTransaction(CriteriaEndRunMain.Normal);
+            return true;
+        }
+        catch (AbortSessionException e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            String csMessage = e.getReason();
+            ProgramCallerException callerException = new ProgramCallerException(csMessage);
+            throw callerException;
+        }
+        catch(Exception e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            String csMessage = e.getMessage();
+            ProgramCallerException callerException = new ProgramCallerException(csMessage);
+            throw callerException;
+        }
+    }
 }

@@ -25,6 +25,8 @@ public final class LegacyIndexFixture extends CEntityIndex
     }
     protected void DoExport()
     {
-        generate.LegacyLanguageRenderer.writeLine(this, "Var " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.index() ;");
+        generate.LegacyLanguageRenderer.writeLine(
+            this,
+            "Var " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.index() ;");
     }
 }

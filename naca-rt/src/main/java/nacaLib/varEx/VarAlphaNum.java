@@ -14,72 +14,72 @@ import nacaLib.tempCache.CStr;
  */
 public class VarAlphaNum extends Var
 {
-	VarAlphaNum(DeclareTypeX declareTypeX)
-	{
-		super(declareTypeX);
-	}
+    VarAlphaNum(DeclareTypeX declareTypeX)
+    {
+        super(declareTypeX);
+    }
 
-	protected VarAlphaNum()
-	{
-		super();
-	}
+    protected VarAlphaNum()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarAlphaNum v = new VarAlphaNum();
-		return v;
-	}
-
-
-	protected String getAsLoggableString()
-	{
-		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
-		String cs = cstr.getAsString();
-		//cstr.resetManagerCache();
-		return cs;
-	}
-
-	public boolean hasType(VarTypeEnum e)
-	{
-		if(e == VarTypeEnum.TypeX)
-			return true;
-		return false;
-	}
-
-	public int compareTo(int nValue)
-	{
-		int nVarValue;
-		if (getString().trim().equals(""))
-			nVarValue = -1;
-		else
-			nVarValue = getInt();
-		return nVarValue - nValue;
-	}
-
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
-
-	protected byte[] convertUnicodeToEbcdic(char[] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
-
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
+    protected VarBase allocCopy()
+    {
+        VarAlphaNum v = new VarAlphaNum();
+        return v;
+    }
 
 
-	public VarType getVarType()
-	{
-		return VarType.VarAlphaNum;
-	}
+    protected String getAsLoggableString()
+    {
+        CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
+        String cs = cstr.getAsString();
+        //cstr.resetManagerCache();
+        return cs;
+    }
+
+    public boolean hasType(VarTypeEnum e)
+    {
+        if(e == VarTypeEnum.TypeX)
+            return true;
+        return false;
+    }
+
+    public int compareTo(int nValue)
+    {
+        int nVarValue;
+        if (getString().trim().equals(""))
+            nVarValue = -1;
+        else
+            nVarValue = getInt();
+        return nVarValue - nValue;
+    }
+
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
+
+    protected byte[] convertUnicodeToEbcdic(char[] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
+
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
+
+
+    public VarType getVarType()
+    {
+        return VarType.VarAlphaNum;
+    }
 }

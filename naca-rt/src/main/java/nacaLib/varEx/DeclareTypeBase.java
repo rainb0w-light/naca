@@ -17,95 +17,95 @@ import nacaLib.programPool.SharedProgramInstanceData;
  */
 public abstract class DeclareTypeBase extends CJMapObject
 {
-	protected VarLevel varLevel = null;
-	private boolean isvariableLengthDeclaration = false;
+    protected VarLevel varLevel = null;
+    private boolean isvariableLengthDeclaration = false;
 
-	public DeclareTypeBase()
-	{
-	}
+    public DeclareTypeBase()
+    {
+    }
 
-	// to be removed
-	public DeclareTypeBase(VarLevel varLevel)
-	{
-		set(varLevel);
-	}
+    // to be removed
+    public DeclareTypeBase(VarLevel varLevel)
+    {
+        set(varLevel);
+    }
 
-	void set(VarLevel varLevel)
-	{
-		this.varLevel = varLevel;
-		isvariableLengthDeclaration = false;
-	}
+    void set(VarLevel varLevel)
+    {
+        this.varLevel = varLevel;
+        isvariableLengthDeclaration = false;
+    }
 
-	public VarLevel getLevel()
-	{
-		return varLevel;
-	}
+    public VarLevel getLevel()
+    {
+        return varLevel;
+    }
 
-	int getLevelValue()
-	{
-		return varLevel.getLevel();
-	}
+    int getLevelValue()
+    {
+        return varLevel.getLevel();
+    }
 
-	public VarDefBuffer getOrCreateVarDef(SharedProgramInstanceData sharedProgramInstanceData /*VarInstancesHolder varInstancesHolder*/)
-	{
-		if(sharedProgramInstanceData != null)
-		{
-			VarLevel varLevel = getLevel();
-			BaseProgramManager p = varLevel.getProgramManager();
-			int nId = p.getAndIncLastVarId();
+    public VarDefBuffer getOrCreateVarDef(SharedProgramInstanceData sharedProgramInstanceData /*VarInstancesHolder varInstancesHolder*/)
+    {
+        if(sharedProgramInstanceData != null)
+        {
+            VarLevel varLevel = getLevel();
+            BaseProgramManager p = varLevel.getProgramManager();
+            int nId = p.getAndIncLastVarId();
 
-			VarDefBuffer varDef = sharedProgramInstanceData.getVarDef(nId);
-			if(varDef == null)	// No Cached VarDef
-			{
-				VarDefBuffer varDefParent = p.popLevel(varLevel.getLevel());
-				varDef = createVarDef(varDefParent);
-				varDef.setId(nId);
+            VarDefBuffer varDef = sharedProgramInstanceData.getVarDef(nId);
+            if(varDef == null)  // No Cached VarDef
+            {
+                VarDefBuffer varDefParent = p.popLevel(varLevel.getLevel());
+                varDef = createVarDef(varDefParent);
+                varDef.setId(nId);
 
-				sharedProgramInstanceData.addVarDef(varDef);
+                sharedProgramInstanceData.addVarDef(varDef);
 
-				CInitialValue initialValue = getInitialValue();
-				sharedProgramInstanceData.setInitialValue(nId, initialValue);
+                CInitialValue initialValue = getInitialValue();
+                sharedProgramInstanceData.setInitialValue(nId, initialValue);
 
-				if(varDef != null)
-					p.pushLevel(varDef);
-			}
-			return varDef;
-		}
-		return null;
-	}
+                if(varDef != null)
+                    p.pushLevel(varDef);
+            }
+            return varDef;
+        }
+        return null;
+    }
 
-	VarBase getRoot()
-	{
-		VarLevel varLevel = getLevel();
-		if(varLevel != null)
-		{
-			BaseProgramManager p = varLevel.getProgramManager();
-			if(p != null)
-				return p.getRoot();
-		}
-		return null;
-	}
+    VarBase getRoot()
+    {
+        VarLevel varLevel = getLevel();
+        if(varLevel != null)
+        {
+            BaseProgramManager p = varLevel.getProgramManager();
+            if(p != null)
+                return p.getRoot();
+        }
+        return null;
+    }
 
-	BaseProgramManager getProgramManager()
-	{
-		return varLevel.getProgramManager();
-	}
+    BaseProgramManager getProgramManager()
+    {
+        return varLevel.getProgramManager();
+    }
 
-	BaseProgram getProgram()
-	{
-		return varLevel.getProgram();
-	}
+    BaseProgram getProgram()
+    {
+        return varLevel.getProgram();
+    }
 
-	void setVariableLengthDeclaration()
-	{
-		isvariableLengthDeclaration = true;
-	}
+    void setVariableLengthDeclaration()
+    {
+        isvariableLengthDeclaration = true;
+    }
 
-	boolean isVariableLengthDeclaration()
-	{
-		return isvariableLengthDeclaration;
-	}
+    boolean isVariableLengthDeclaration()
+    {
+        return isvariableLengthDeclaration;
+    }
 
-	public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);
-	public abstract CInitialValue getInitialValue();
+    public abstract VarDefBuffer createVarDef(VarDefBuffer varDefParent);
+    public abstract CInitialValue getInitialValue();
 }

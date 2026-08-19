@@ -13,19 +13,19 @@ import utils.CObjectCatalog;
 public class CEntitySortedFileDescriptor extends CEntityFileDescriptor
 {
 
-	public CEntitySortedFileDescriptor(int line, String name,
-					CObjectCatalog cat)
-	{
-		super(line, name, cat);
-	}
+    public CEntitySortedFileDescriptor(int line, String name,
+                    CObjectCatalog cat)
+    {
+        super(line, name, cat);
+    }
 
-	public List<CBaseLanguageEntity> getDeclarationChildren()
-	{
-		if (lstChildren.isEmpty())
-		{
-			return Collections.emptyList();
-		}
-		return Collections.singletonList(lstChildren.getFirst());
-	}
+    public List<CBaseLanguageEntity> getDeclarationChildren()
+    {
+        if (lstChildren.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+        return Collections.singletonList(lstChildren.getFirst());
+    }
 
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -20,17 +20,17 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class SortedRecordsPoolOfThreadReader extends PoolOfThreads
 {
-	public SortedRecordsPoolOfThreadReader(BasePooledThreadFactory pooledThreadFactory, int nNbMaxRequestAsyncSortPending)
-	{
-		super(pooledThreadFactory, 1, nNbMaxRequestAsyncSortPending);
-	}
-	
-	byte [] getNextSortedRecord()
-	{
-		ThreadPoolRequest req = dequeue();
-		if(req.getTerminaisonRequest())
-			return null;
-		SortedRecordReq sortedRecordReq = (SortedRecordReq) req;
-		return sortedRecordReq.getData();
-	}
+    public SortedRecordsPoolOfThreadReader(BasePooledThreadFactory pooledThreadFactory, int nNbMaxRequestAsyncSortPending)
+    {
+        super(pooledThreadFactory, 1, nNbMaxRequestAsyncSortPending);
+    }
+
+    byte [] getNextSortedRecord()
+    {
+        ThreadPoolRequest req = dequeue();
+        if(req.getTerminaisonRequest())
+            return null;
+        SortedRecordReq sortedRecordReq = (SortedRecordReq) req;
+        return sortedRecordReq.getData();
+    }
 }

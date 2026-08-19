@@ -19,165 +19,168 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public abstract class VarAndEdit extends VarBase
 {
-	public VarAndEdit(DeclareTypeBase declareTypeBase)
-	{
-		super(declareTypeBase);
-	}
+    public VarAndEdit(DeclareTypeBase declareTypeBase)
+    {
+        super(declareTypeBase);
+    }
 
-	protected VarAndEdit()
-	{
-		super();
-	}
+    protected VarAndEdit()
+    {
+        super();
+    }
 
-	public String getSTCheckValue()
-	{
-		SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
+    public String getSTCheckValue()
+    {
+        SharedProgramInstanceData sharedProgramInstanceData = getSharedProgramInstanceData();
 
-		if(bufferPos != null)
-		{
-			CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
-			String csValue = cstr.getAsString();
-			String cs = varDef.toDump(sharedProgramInstanceData) + "={\"" + csValue + "\"} ";
-			//cstr.resetManagerCache();
-			return cs;
-		}
-		else
-		{
-			String cs = varDef.toDump(sharedProgramInstanceData) + " NO BUFFER !";
-			return cs;
-		}
-	}
+        if(bufferPos != null)
+        {
+            CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
+            String csValue = cstr.getAsString();
+            String cs = varDef.toDump(sharedProgramInstanceData) + "={\"" + csValue + "\"} ";
+            //cstr.resetManagerCache();
+            return cs;
+        }
+        else
+        {
+            String cs = varDef.toDump(sharedProgramInstanceData) + " NO BUFFER !";
+            return cs;
+        }
+    }
 
-	public abstract int compareTo(ComparisonMode mode, VarAndEdit var2);
-	public abstract int compareTo(int nValue);
-	public abstract int compareTo(double dValue);
-	public abstract int compareTo(ComparisonMode mode, String cs);
+    public abstract int compareTo(ComparisonMode mode, VarAndEdit var2);
+    public abstract int compareTo(int nValue);
+    public abstract int compareTo(double dValue);
+    public abstract int compareTo(ComparisonMode mode, String cs);
 
-	public abstract void set(CobolConstantZero cst);
-	public abstract void set(CobolConstantSpace cst);
-	public abstract void set(CobolConstantHighValue cst);
-	public abstract void set(CobolConstantLowValue cst);
-	public abstract void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar);
-	public abstract void setAndFill(String csValue);
+    public abstract void set(CobolConstantZero cst);
+    public abstract void set(CobolConstantSpace cst);
+    public abstract void set(CobolConstantHighValue cst);
+    public abstract void set(CobolConstantLowValue cst);
+    public abstract void setStringAtPosition(String csValue, int nOffsetPosition, int nNbChar);
+    public abstract void setAndFill(String csValue);
 
-	public String digits()
-	{
-		return varDef.digits(bufferPos);
-	}
+    public String digits()
+    {
+        return varDef.digits(bufferPos);
+    }
 
-	public void setRepeatingCharAtOffsetFromStart(CobolConstantZero cst, int nOffsetPosition, int nNbChar)	// Fill with a 0 base index)
-	{
-		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
-	}
+    public void setRepeatingCharAtOffsetFromStart(CobolConstantZero cst, int nOffsetPosition, int nNbChar)  // Fill with a 0 base index)
+    {
+        varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
+    }
 
-	public void setRepeatingCharAtOffsetFromStart(CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
-	{
-		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
-	}
+    public void setRepeatingCharAtOffsetFromStart(CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
+    {
+        varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
+    }
 
-	public void setRepeatingCharAtOffsetFromStart(CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
-	{
-		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
-	}
+    public void setRepeatingCharAtOffsetFromStart(CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
+    {
+        varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
+    }
 
-	public void setRepeatingCharAtOffsetFromStart(CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
-	{
-		varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
-	}
+    public void setRepeatingCharAtOffsetFromStart(CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
+    {
+        varDef.write(bufferPos, cst, nOffsetPosition, nNbChar);
+    }
 
-	public boolean isNumeric()
-	{
-		return varDef.isNumeric(bufferPos);
-	}
+    public boolean isNumeric()
+    {
+        return varDef.isNumeric(bufferPos);
+    }
 
-	public boolean isAlphabetic()
-	{
-		return varDef.isAlphabetic(bufferPos);
-	}
+    public boolean isAlphabetic()
+    {
+        return varDef.isAlphabetic(bufferPos);
+    }
 
-	public int getBodySize()
-	{
-		return varDef.getBodyLength() ;
-	}
+    public int getBodySize()
+    {
+        return varDef.getBodyLength() ;
+    }
 
-	public VarBase getUnprefixNamedVarChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
-	{
-		VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
-		if(varDefChild != null)
-		{
+    public VarBase getUnprefixNamedVarChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
+    {
+        VarDefBase varDefChild = varDef.getUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
+        if(varDefChild != null)
+        {
             // VarBase varChild =
             // bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
-			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
-			return varChild;
-		}
-		return null;
-	}
+            VarBase varChild = programManager.getVarFullName(varDefChild.getId());
+            return varChild;
+        }
+        return null;
+    }
 
-	public VarBase getUnDollarUnprefixNamedChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
-	{
-		VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(programManager.getSharedProgramInstanceData(), csColName, rnChildIndex);
-		if(varDefChild != null)
-		{
+    public VarBase getUnDollarUnprefixNamedChild(BaseProgramManager programManager, String csColName, IntegerRef rnChildIndex)
+    {
+        VarDefBase varDefChild = varDef.getUnDollarUnprefixNamedChild(
+            programManager.getSharedProgramInstanceData(),
+            csColName,
+            rnChildIndex);
+        if(varDefChild != null)
+        {
             // VarBase varChild =
             // bufferPos.getVarFullName(varDefChild.getFullName(bufferPos.getProgramManager().getSharedProgramInstanceData()));
-			VarBase varChild = programManager.getVarFullName(varDefChild.getId());
-			return varChild;
-		}
-		return null;
-	}
+            VarBase varChild = programManager.getVarFullName(varDefChild.getId());
+            return varChild;
+        }
+        return null;
+    }
 
 
-	public Var getVarChildAt(int n)
-	{
-		n--;	// given as 1-based
-		int nNChildren = varDef.getNbChildren();
-		if(n <= nNChildren)
-		{
-			VarDefBuffer varDefChild = varDef.getChild(n);
-			if(varDefChild != null)
-			{
-				BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
-				VarBase varChild = programManager.getVarFullName(varDefChild);
-				if(!varChild.isEdit())
-					return (Var)varChild;
-			}
-		}
-		return null;
-	}
+    public Var getVarChildAt(int n)
+    {
+        n--;    // given as 1-based
+        int nNChildren = varDef.getNbChildren();
+        if(n <= nNChildren)
+        {
+            VarDefBuffer varDefChild = varDef.getChild(n);
+            if(varDefChild != null)
+            {
+                BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
+                VarBase varChild = programManager.getVarFullName(varDefChild);
+                if(!varChild.isEdit())
+                    return (Var)varChild;
+            }
+        }
+        return null;
+    }
 
-	public Edit getEditChildAt(int n)
-	{
-		n--;	// given as 1-based
-		int nNChildren = varDef.getNbChildren();
-		if(n <= nNChildren)
-		{
-			VarDefBuffer varDefChild = varDef.getChild(n);
-			if(varDefChild != null)
-			{
-				BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
-				VarBase varChild = programManager.getVarFullName(varDefChild);
-				if(varChild.isEdit())
-				{
-					Edit editChild = (Edit)varChild;
-					return editChild;
-				}
-			}
-		}
-		return null;
-	}
+    public Edit getEditChildAt(int n)
+    {
+        n--;    // given as 1-based
+        int nNChildren = varDef.getNbChildren();
+        if(n <= nNChildren)
+        {
+            VarDefBuffer varDefChild = varDef.getChild(n);
+            if(varDefChild != null)
+            {
+                BaseProgramManager programManager = TempCacheLocator.getTLSTempCache().getProgramManager();
+                VarBase varChild = programManager.getVarFullName(varDefChild);
+                if(varChild.isEdit())
+                {
+                    Edit editChild = (Edit)varChild;
+                    return editChild;
+                }
+            }
+        }
+        return null;
+    }
 
-	void inheritSemanticContext(VarBase varSource)
-	{
-		String csSemanticValue = varSource.getSemanticContextValue();
-		setSemanticContextValue(csSemanticValue);
-	}
+    void inheritSemanticContext(VarBase varSource)
+    {
+        String csSemanticValue = varSource.getSemanticContextValue();
+        setSemanticContextValue(csSemanticValue);
+    }
 
-	/**
-	 * @return
-	 */
-	public int getNbOccurs()
-	{
-		return varDef.getNbOccurs() ;
-	}
+    /**
+     * @return
+     */
+    public int getNbOccurs()
+    {
+        return varDef.getNbOccurs() ;
+    }
 
 }

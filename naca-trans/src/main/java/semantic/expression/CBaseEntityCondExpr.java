@@ -10,47 +10,47 @@ import semantic.CDataEntity;
 
 public abstract class CBaseEntityCondExpr extends CDataEntity
 {
-//	public CBaseEntityCondExpr(int nLine)
-//	{
-//		super(nLine);
-//	}
+//  public CBaseEntityCondExpr(int nLine)
+//  {
+//      super(nLine);
+//  }
 
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.EXPRESSION ;
-	}
-	@Override
-	public boolean HasAccessors()
-	{
-		return false;
-	}
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
-	public CBaseEntityCondExpr()
-	{
-		super(0, "", null);
-	}
-	protected void RegisterMySelfToCatalog()
-	{
-		// unused
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		// 
-		return false ;
-	}
-	public CBaseEntityCondition getAsCondition()
-	{
-		return null;
-	}
-	
-	@Override
-	public String GetConstantValue()
-	{
-		return null;
-	}
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.EXPRESSION ;
+    }
+    @Override
+    public boolean HasAccessors()
+    {
+        return false;
+    }
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
+    public CBaseEntityCondExpr()
+    {
+        super(0, "", null);
+    }
+    protected void RegisterMySelfToCatalog()
+    {
+        // unused
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        //
+        return false ;
+    }
+    public CBaseEntityCondition getAsCondition()
+    {
+        return null;
+    }
+
+    @Override
+    public String GetConstantValue()
+    {
+        return null;
+    }
 }

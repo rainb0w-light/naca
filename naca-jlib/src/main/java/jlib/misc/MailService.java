@@ -14,42 +14,42 @@ package jlib.misc;
  * @version 1.0
  */
 
-public class MailService 
+public class MailService
 {
-	private String csSMTPServer = null;
-	private String csAddressFrom = null;
-	private StringArray addressTo = new StringArray() ;
-	
-	public MailService(String smtp, String from) 
-	{
-		this.csSMTPServer = smtp;
-		this.csAddressFrom = from;
-	}
+    private String csSMTPServer = null;
+    private String csAddressFrom = null;
+    private StringArray addressTo = new StringArray() ;
 
-	public Mail createMail() 
-	{
-		Mail m = new Mail(this);
-		m.setFrom(csAddressFrom);
-		for (int i = 0; i< addressTo.size(); i++)
-		{
-			String add = addressTo.get(i) ;
-			m.addTo(add);
-		}
-		return m ;
-	}
+    public MailService(String smtp, String from)
+    {
+        this.csSMTPServer = smtp;
+        this.csAddressFrom = from;
+    }
 
-	public String getSMTPServer() 
-	{
-		return csSMTPServer;
-	}
+    public Mail createMail()
+    {
+        Mail m = new Mail(this);
+        m.setFrom(csAddressFrom);
+        for (int i = 0; i< addressTo.size(); i++)
+        {
+            String add = addressTo.get(i) ;
+            m.addTo(add);
+        }
+        return m ;
+    }
+
+    public String getSMTPServer()
+    {
+        return csSMTPServer;
+    }
 //
-//	public String getFrom() 
-//	{
-//		return csAddressFrom;
-//	}
+//  public String getFrom()
+//  {
+//      return csAddressFrom;
+//  }
 
-	public void addAddressTo(String add) 
-	{
-		addressTo.add(add);
-	}
+    public void addAddressTo(String add)
+    {
+        addressTo.add(add);
+    }
 }

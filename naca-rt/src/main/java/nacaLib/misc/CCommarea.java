@@ -15,101 +15,101 @@ import nacaLib.base.CJMapObject;
 
 public class CCommarea extends CJMapObject
 {
-	public CCommarea()
-	{
-	}
+    public CCommarea()
+    {
+    }
 
-	public void setVarPassedByValue(Var var, int length)
-	{
-		if (var.getLength() < length)
-		{
-			length = var.getLength();
-		}
-		charBufferCopy = var.exportToCharBuffer(length);
-		var = null;
-		isbyValue = true;
-	}
-	public void setVarPassedByValue(InternalCharBuffer buff)
-	{
-		charBufferCopy = buff ;
-		var = null;
-		isbyValue = true;
-	}
+    public void setVarPassedByValue(Var var, int length)
+    {
+        if (var.getLength() < length)
+        {
+            length = var.getLength();
+        }
+        charBufferCopy = var.exportToCharBuffer(length);
+        var = null;
+        isbyValue = true;
+    }
+    public void setVarPassedByValue(InternalCharBuffer buff)
+    {
+        charBufferCopy = buff ;
+        var = null;
+        isbyValue = true;
+    }
 
-	public void setVarPassedByValue(Form form)
-	{
-		charBufferCopy = form.encodeToCharBuffer();
-		var = null;
-		isbyValue = true;
-	}
+    public void setVarPassedByValue(Form form)
+    {
+        charBufferCopy = form.encodeToCharBuffer();
+        var = null;
+        isbyValue = true;
+    }
 
-	public void setVarPassedByRef(Var var)
-	{
-		charBufferCopy = null;
-		this.var = var;
-		isbyValue = false;
-	}
+    public void setVarPassedByRef(Var var)
+    {
+        charBufferCopy = null;
+        this.var = var;
+        isbyValue = false;
+    }
 
-	void setLength(int nLength)
-	{
-		this.nLength = nLength;
-		islengthSpecified = true;
-	}
+    void setLength(int nLength)
+    {
+        this.nLength = nLength;
+        islengthSpecified = true;
+    }
 
-	public int getLength()
-	{
-		if(var != null)
-		{
-			if(islengthSpecified)
-				return nLength;
-			return var.getLength();
-		}
-		if(charBufferCopy != null)
-		{
-			if(islengthSpecified)
-				return nLength;
-			return charBufferCopy.getBufferSize();
-		}
-		return 0;
-	}
+    public int getLength()
+    {
+        if(var != null)
+        {
+            if(islengthSpecified)
+                return nLength;
+            return var.getLength();
+        }
+        if(charBufferCopy != null)
+        {
+            if(islengthSpecified)
+                return nLength;
+            return charBufferCopy.getBufferSize();
+        }
+        return 0;
+    }
 
-	public CCallParam buildCallParam()
-	{
-		if(var != null)	// By ref
-		{
-			CallParamByRef callParam = new CallParamByRef(var);
-			return callParam;
-		}
-		if(charBufferCopy != null)	// By value
-		{
-			CallParamByCharBuffer callParam = new CallParamByCharBuffer(charBufferCopy);
-			return callParam;
-		}
-		return null;
-	}
+    public CCallParam buildCallParam()
+    {
+        if(var != null) // By ref
+        {
+            CallParamByRef callParam = new CallParamByRef(var);
+            return callParam;
+        }
+        if(charBufferCopy != null)  // By value
+        {
+            CallParamByCharBuffer callParam = new CallParamByCharBuffer(charBufferCopy);
+            return callParam;
+        }
+        return null;
+    }
 
-	public CallParamFpac buildCallParamFPac()
-	{
-		if(charBufferCopy != null)	// By value
-		{
-			CallParamFpac callParam = new CallParamFpac(charBufferCopy);
-			return callParam;
-		}
-		return null;
-	}
+    public CallParamFpac buildCallParamFPac()
+    {
+        if(charBufferCopy != null)  // By value
+        {
+            CallParamFpac callParam = new CallParamFpac(charBufferCopy);
+            return callParam;
+        }
+        return null;
+    }
 
-	private boolean isbyValue = false;
-	private Var var = null;
-	private InternalCharBuffer charBufferCopy = null;
-	private int nLength = 0;
-	private boolean islengthSpecified = false;
-	/**
-	 * @param varDest
-	 */
-//	public CCallParam GetParam()
-//	{
-//		CallParamByCharBuffer param = new CallParamByCharBuffer(charBufferCopy) ;
-//		return param ;
-//		//param.MapOn(varDest) ;
-//	}
+    private boolean isbyValue = false;
+    private Var var = null;
+    private InternalCharBuffer charBufferCopy = null;
+    private int nLength = 0;
+    private boolean islengthSpecified = false;
+    /**
+     * @param varDest
+     */
+//  public CCallParam GetParam()
+//  {
+//      CallParamByCharBuffer param = new CallParamByCharBuffer(charBufferCopy) ;
+//      return param ;
+//      //param.MapOn(varDest) ;
+//  }
 }

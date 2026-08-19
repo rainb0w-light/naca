@@ -27,69 +27,69 @@ import utils.CGlobalEntityCounter;
 public class CRelease extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CRelease(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySortRelease eRel = factory.NewEntitySortRelease(getLine()) ;
-		parent.AddChild(eRel) ;
+    /**
+     * @param line
+     */
+    public CRelease(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySortRelease eRel = factory.NewEntitySortRelease(getLine()) ;
+        parent.AddChild(eRel) ;
 
-		CDataEntity e = sortFile.GetDataReference(getLine(), factory) ;
-		if (dataRef != null)
-		{
-			CDataEntity eFrom = dataRef.GetDataReference(getLine(), factory) ;
-			eRel.setDataReference(e, eFrom) ;
-		}
-		else
-		{
-			eRel.setDataReference(e) ;
+        CDataEntity e = sortFile.GetDataReference(getLine(), factory) ;
+        if (dataRef != null)
+        {
+            CDataEntity eFrom = dataRef.GetDataReference(getLine(), factory) ;
+            eRel.setDataReference(e, eFrom) ;
+        }
+        else
+        {
+            eRel.setDataReference(e) ;
 
-		}
+        }
 
-		return eRel;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.RELEASE)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        return eRel;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.RELEASE)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext() ;
-		sortFile = ReadIdentifier();
+        tok = GetNext() ;
+        sortFile = ReadIdentifier();
 
-		tok = GetCurrentToken();
-		if (tok.GetKeyword() == CCobolKeywordList.FROM)
-		{
-			tok = GetNext();
-			dataRef = ReadIdentifier();
-		}
-		return true;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eRelease = root.createElement("Release");
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() == CCobolKeywordList.FROM)
+        {
+            tok = GetNext();
+            dataRef = ReadIdentifier();
+        }
+        return true;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eRelease = root.createElement("Release");
 
-		Element eRecord = root.createElement("Record");
-		eRelease.appendChild(eRecord);
-		sortFile.ExportTo(eRecord, root);
+        Element eRecord = root.createElement("Record");
+        eRelease.appendChild(eRecord);
+        sortFile.ExportTo(eRecord, root);
 
-		if (dataRef != null)
-		{
-			Element e = root.createElement("From");
-			dataRef.ExportTo(e, root);
-			eRelease.appendChild(e);
-		}
-		return eRelease;
-	}
+        if (dataRef != null)
+        {
+            Element e = root.createElement("From");
+            dataRef.ExportTo(e, root);
+            eRelease.appendChild(e);
+        }
+        return eRelease;
+    }
 
-	protected CIdentifier sortFile = null ;
-	protected CIdentifier dataRef = null ;
+    protected CIdentifier sortFile = null ;
+    protected CIdentifier dataRef = null ;
 }

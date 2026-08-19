@@ -16,54 +16,54 @@ package jlib.misc;
  */
 public class ArrayFix<T> extends ArrayFixDyn<T>
 {
-	T arr[] = null;
+    T arr[] = null;
 
-	public ArrayFix(T arr[])
-	{
-		this.arr = arr;
-	}
+    public ArrayFix(T arr[])
+    {
+        this.arr = arr;
+    }
 
-	public int size()
-	{
-		if(arr != null)
-			return arr.length;
-		return 0;
-	}
+    public int size()
+    {
+        if(arr != null)
+            return arr.length;
+        return 0;
+    }
 
-	public T get(int n)
-	{
-		//if(arr != null)
-			return arr[n];
-		//return null;
-	}
+    public T get(int n)
+    {
+        //if(arr != null)
+            return arr[n];
+        //return null;
+    }
 
-	public void add(T t)
-	{
-		//assertIfFalse(false);
-	}
+    public void add(T t)
+    {
+        //assertIfFalse(false);
+    }
 
-//	public T[] getAsArray()
-//	{
-//		return arr;
-//	}
+//  public T[] getAsArray()
+//  {
+//      return arr;
+//  }
 
 
-	public void transferInto(T[] arr)
-	{
-		this.arr = arr;
-	}
+    public void transferInto(T[] arr)
+    {
+        this.arr = arr;
+    }
 
-	public boolean isDyn()
-	{
-		return false;
-	}
+    public boolean isDyn()
+    {
+        return false;
+    }
 
-	public void setSize(int n)
-	{
-	}
+    public void setSize(int n)
+    {
+    }
 
-	public void set(int n, T t)
-	{
-		arr[n] = t;
-	}
+    public void set(int n, T t)
+    {
+        arr[n] = t;
+    }
 }

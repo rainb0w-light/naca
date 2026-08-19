@@ -15,16 +15,16 @@ import utils.CObjectCatalog;
 public abstract class CGenericDataEntityReference extends CDataEntity
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CGenericDataEntityReference(int l, String name, CObjectCatalog cat)
-	{
-		super(l, name, cat) ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CGenericDataEntityReference(int l, String name, CObjectCatalog cat)
+    {
+        super(l, name, cat) ;
+    }
 
-	public abstract boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead) ;
-		
+    public abstract boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead) ;
+
 }

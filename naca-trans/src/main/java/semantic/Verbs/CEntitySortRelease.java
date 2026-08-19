@@ -13,29 +13,29 @@ import utils.CObjectCatalog;
 public class CEntitySortRelease extends CBaseActionEntity
 {
 
-	public CEntitySortRelease(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntitySortRelease(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	protected CDataEntity eSortField = null ;
-	
-	public void setDataReference(CDataEntity e)
-	{
-		eSortField = e ;		
-	}
+    protected CDataEntity eSortField = null ;
 
-	protected CDataEntity eDatReference = null ;
-	public void setDataReference(CDataEntity e, CDataEntity from)
-	{
-		eDatReference = from ;
-		eSortField = e ;
-	}
+    public void setDataReference(CDataEntity e)
+    {
+        eSortField = e ;
+    }
 
-	public CDataEntity getSortField() {
-		return eSortField;
-	}
-	public CDataEntity getDatReference() {
-		return eDatReference;
-	}
+    protected CDataEntity eDatReference = null ;
+    public void setDataReference(CDataEntity e, CDataEntity from)
+    {
+        eDatReference = from ;
+        eSortField = e ;
+    }
+
+    public CDataEntity getSortField() {
+        return eSortField;
+    }
+    public CDataEntity getDatReference() {
+        return eDatReference;
+    }
 }

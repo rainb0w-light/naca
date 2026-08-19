@@ -16,56 +16,56 @@ import nacaLib.basePrgEnv.CurrentUserInfo;
 import org.w3c.dom.Document;
 
 public class BatchSession extends BaseSession
-{	
-	public BatchSession(BaseResourceManager baseResourceManager)
-	{
-		super(baseResourceManager);
-	}
-		
-	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
-	{
-		BatchEnvironment env = new BatchEnvironment(this, connectionManager, baseResourceManager);
-		return env;
-	}
-	
-	public String getType()
-	{
-		return "Batch";
-	}
-	
-	public void RunProgram(BaseProgramLoader seq)
-	{
-	}
-	
-	public void setHelpPage(Document doc)
-	{
-	}
+{
+    public BatchSession(BaseResourceManager baseResourceManager)
+    {
+        super(baseResourceManager);
+    }
 
-	public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
-	{
-		currentUserInfo.reset();
-	}
-	
-	public Document getLastScreenXMLData()
-	{
-		return null;
-	}
-	
-//	public void addBatchFile(String csLogicalName, String csPath)
-//	{
-//		addBatchFile(csLogicalName, csPath, false, false, 0);
-//	}
+    public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
+    {
+        BatchEnvironment env = new BatchEnvironment(this, connectionManager, baseResourceManager);
+        return env;
+    }
+
+    public String getType()
+    {
+        return "Batch";
+    }
+
+    public void RunProgram(BaseProgramLoader seq)
+    {
+    }
+
+    public void setHelpPage(Document doc)
+    {
+    }
+
+    public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
+    {
+        currentUserInfo.reset();
+    }
+
+    public Document getLastScreenXMLData()
+    {
+        return null;
+    }
+
+//  public void addBatchFile(String csLogicalName, String csPath)
+//  {
+//      addBatchFile(csLogicalName, csPath, false, false, 0);
+//  }
 //
-//	
-//	public void addBatchFile(String csLogicalName, String csPath, boolean bEbcdic)
-//	{
-//		addBatchFile(csLogicalName, csPath, bEbcdic, false, 0);
-//	}
 //
-//	
-//	public void addBatchFile(String csLogicalName, String csPath, boolean bEbcdic, boolean bExt)
-//	{
-//		addBatchFile(csLogicalName, csPath, bEbcdic, bExt, 0);
-//	}
+//  public void addBatchFile(String csLogicalName, String csPath, boolean bEbcdic)
+//  {
+//      addBatchFile(csLogicalName, csPath, bEbcdic, false, 0);
+//  }
+//
+//
+//  public void addBatchFile(String csLogicalName, String csPath, boolean bEbcdic, boolean bExt)
+//  {
+//      addBatchFile(csLogicalName, csPath, bEbcdic, bExt, 0);
+//  }
 
 }

@@ -19,16 +19,16 @@ package jlib.threads;
 /*
 public class MyTimer extends Timer
 {
-	private Caller c = null;
-	MyTimer(Caller c)
-	{
-		this.c = c;
-	}
+    private Caller c = null;
+    MyTimer(Caller c)
+    {
+        this.c = c;
+    }
 
-	protected boolean pulse()
-	{
-		return c.onTimerPulse();
-	}
+    protected boolean pulse()
+    {
+        return c.onTimerPulse();
+    }
 }
 
 // Caller code in class Caller
@@ -36,56 +36,56 @@ public class MyTimer extends Timer
 class Caller
 {
 ...
-	void launchTimer()
-	{
-		...
-		MyTimer timer = new MyTimer(this);
-		timer.startTimer(60000);	// Pulse every minute
-		...
-	}
+    void launchTimer()
+    {
+        ...
+        MyTimer timer = new MyTimer(this);
+        timer.startTimer(60000);    // Pulse every minute
+        ...
+    }
 
-	public boolean onTimerPulse()	// Executed in the context of the timer thread
-	{
-		// Do actions ...
-		return true;
-	}
+    public boolean onTimerPulse()   // Executed in the context of the timer thread
+    {
+        // Do actions ...
+        return true;
+    }
 
 */
 
 public abstract class Timer extends Thread
 {
-	private int nPeriodWait_ms = 1000;
+    private int nPeriodWait_ms = 1000;
 
-	public Timer()
-	{
-	}
+    public Timer()
+    {
+    }
 
-	public void startTimer(int nPeriodWait_ms)
-	{
-		this.nPeriodWait_ms = nPeriodWait_ms;
-		start();
-	}
+    public void startTimer(int nPeriodWait_ms)
+    {
+        this.nPeriodWait_ms = nPeriodWait_ms;
+        start();
+    }
 
-	public void run()
-	{
-		boolean iscontinue = true;
-		while(iscontinue)
-		{
-			try
-			{
-				Thread.sleep(nPeriodWait_ms);
-				iscontinue = pulse();
-			}
-			catch (InterruptedException e)
-			{
-			}
-		}
-	}
+    public void run()
+    {
+        boolean iscontinue = true;
+        while(iscontinue)
+        {
+            try
+            {
+                Thread.sleep(nPeriodWait_ms);
+                iscontinue = pulse();
+            }
+            catch (InterruptedException e)
+            {
+            }
+        }
+    }
 
-	protected abstract boolean pulse();
+    protected abstract boolean pulse();
 
-	public void requestStop()
-	{
-		interrupt();
-	}
+    public void requestStop()
+    {
+        interrupt();
+    }
 }

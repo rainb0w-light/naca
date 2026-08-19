@@ -1,0 +1,9 @@
+{
+  "applied": true,
+  "filesChanged": 30,
+  "maximum": 140,
+  "mode": "concatenation",
+  "observed": 145,
+  "skipped": 80,
+  "wrapped": 65
+}

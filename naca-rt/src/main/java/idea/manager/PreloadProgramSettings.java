@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package idea.manager;
 
@@ -16,27 +16,27 @@ package idea.manager;
  */
 public class PreloadProgramSettings
 {
-	private String csProgramName = null;
-	private int nQty = 0;
-	
-	PreloadProgramSettings(String csName)
-	{
-		this.csProgramName = csName;
-		nQty = 1;
-	}
-	
-	void setQty(int nQty)
-	{
-		this.nQty = nQty;
-	}
-	
-	String getName()
-	{
-		return csProgramName;
-	}
-	
-	int getQty()
-	{
-		return nQty;
-	}	
+    private String csProgramName = null;
+    private int nQty = 0;
+
+    PreloadProgramSettings(String csName)
+    {
+        this.csProgramName = csName;
+        nQty = 1;
+    }
+
+    void setQty(int nQty)
+    {
+        this.nQty = nQty;
+    }
+
+    String getName()
+    {
+        return csProgramName;
+    }
+
+    int getQty()
+    {
+        return nQty;
+    }
 }

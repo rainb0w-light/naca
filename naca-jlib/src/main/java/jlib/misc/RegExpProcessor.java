@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -21,64 +21,64 @@ import java.util.regex.Pattern;
 public class RegExpProcessor {
 
 
-	private class RegExpRule
-	{
-		public Pattern pattern ;
-		public String export ;
-	}
-	
-	private List<RegExpRule> listrules = new LinkedList<RegExpRule>() ;
-	private boolean caseInsensitive = false  ;
-	
-	/**
-	 * @param regexp
-	 * @param output
-	 */
-	public void AddRule(String regexp, String output) {
-		int nflags = 0 ;
-		if (this.caseInsensitive)
-		{
-			nflags = Pattern.CASE_INSENSITIVE ;
-		}
-		RegExpRule rule = new RegExpRule() ;
-		rule.pattern = Pattern.compile(regexp, nflags) ;
-		rule.export = output ;
-		listrules.add(rule) ;
-	}
+    private class RegExpRule
+    {
+        public Pattern pattern ;
+        public String export ;
+    }
 
-	/**
-	 * @param originalPoneNumber
-	 * @return
-	 */
-	public String ApplyRules(String text) {
-		for (RegExpRule rule : listrules)
-		{
-			Matcher matcher = rule.pattern.matcher(text) ;
-			if (matcher.matches())
-			{
-				if (rule.export != null && !rule.export.equals(""))
-				{
-					String out = matcher.replaceFirst(rule.export) ;
-					return out ;
-				}
-				else
-				{
-					return "" ;
-				}
-			}
-			else
-			{
-			}
-		}
-		return null ;
-	}
+    private List<RegExpRule> listrules = new LinkedList<RegExpRule>() ;
+    private boolean caseInsensitive = false  ;
 
-	/**
-	 * @param caseSensitive2
-	 */
-	public void setCaseInsensitive(boolean caseInsensitive) {
-		this.caseInsensitive = caseInsensitive ;
-	}
-	
-	
+    /**
+     * @param regexp
+     * @param output
+     */
+    public void AddRule(String regexp, String output) {
+        int nflags = 0 ;
+        if (this.caseInsensitive)
+        {
+            nflags = Pattern.CASE_INSENSITIVE ;
+        }
+        RegExpRule rule = new RegExpRule() ;
+        rule.pattern = Pattern.compile(regexp, nflags) ;
+        rule.export = output ;
+        listrules.add(rule) ;
+    }
+
+    /**
+     * @param originalPoneNumber
+     * @return
+     */
+    public String ApplyRules(String text) {
+        for (RegExpRule rule : listrules)
+        {
+            Matcher matcher = rule.pattern.matcher(text) ;
+            if (matcher.matches())
+            {
+                if (rule.export != null && !rule.export.equals(""))
+                {
+                    String out = matcher.replaceFirst(rule.export) ;
+                    return out ;
+                }
+                else
+                {
+                    return "" ;
+                }
+            }
+            else
+            {
+            }
+        }
+        return null ;
+    }
+
+    /**
+     * @param caseSensitive2
+     */
+    public void setCaseInsensitive(boolean caseInsensitive) {
+        this.caseInsensitive = caseInsensitive ;
+    }
+
+
 }

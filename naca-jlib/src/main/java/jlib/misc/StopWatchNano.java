@@ -8,40 +8,40 @@ package jlib.misc;
 
 public class StopWatchNano
 {
-	public StopWatchNano()
-	{
-		start = System.nanoTime();
-	}
-	
-	public long getElapsedTime()
-	{
-		long stop = System.nanoTime();
-		return stop - start;
-	}
+    public StopWatchNano()
+    {
+        start = System.nanoTime();
+    }
 
-	public long getElapsedTimeReset()
-	{
-		long stop = System.nanoTime();
-		long l = stop - start;
-		start = stop;
-		return l;		
-	}
-	
-	public void reset()
-	{
-		start = System.nanoTime();
-	}
-	
-	public static long getMicroSecond(long l)
-	{
-		return l / 1000;
-	}
-	
-	public static long getMilliSecond(long l)
-	{
-		return l / 1000000;
-	}
-	
-	
-	private long start = 0;
+    public long getElapsedTime()
+    {
+        long stop = System.nanoTime();
+        return stop - start;
+    }
+
+    public long getElapsedTimeReset()
+    {
+        long stop = System.nanoTime();
+        long l = stop - start;
+        start = stop;
+        return l;
+    }
+
+    public void reset()
+    {
+        start = System.nanoTime();
+    }
+
+    public static long getMicroSecond(long l)
+    {
+        return l / 1000;
+    }
+
+    public static long getMilliSecond(long l)
+    {
+        return l / 1000000;
+    }
+
+
+    private long start = 0;
 }

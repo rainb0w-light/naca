@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -16,15 +16,15 @@ package nacaLib.spServer;
  */
 public class SpServerResourceManagerFactory
 {
-	private static SpServerResourceManager ms_instance = null;
+    private static SpServerResourceManager ms_instance = null;
 
-	public static SpServerResourceManager GetInstance(String csIniFilePath)
-	{
-		if(ms_instance == null) 
-		{
-			ms_instance = new SpServerResourceManager();
-			ms_instance.initialize(csIniFilePath);
-		}
-		return ms_instance;  
-	}
+    public static SpServerResourceManager GetInstance(String csIniFilePath)
+    {
+        if(ms_instance == null)
+        {
+            ms_instance = new SpServerResourceManager();
+            ms_instance.initialize(csIniFilePath);
+        }
+        return ms_instance;
+    }
 }

@@ -15,23 +15,23 @@ import nacaLib.basePrgEnv.BaseSession;
 
 public class BatchEnvironment extends BaseEnvironment
 {
-	public BatchEnvironment(BatchSession batchSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
-	{	
-		super(batchSession, connectionManager, baseResourceManager);
-	}
-	
-	public BaseCESMManager createCESMManager()
-	{
-		return new CESMManager(this);
-	}
-	
-	public BaseSession getSession()
-	{
-		return null;
-	}
-	
-	public void breakCurrentSessionIfTimeout()
-	{
-	}
-	
+    public BatchEnvironment(BatchSession batchSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
+    {
+        super(batchSession, connectionManager, baseResourceManager);
+    }
+
+    public BaseCESMManager createCESMManager()
+    {
+        return new CESMManager(this);
+    }
+
+    public BaseSession getSession()
+    {
+        return null;
+    }
+
+    public void breakCurrentSessionIfTimeout()
+    {
+    }
+
 }

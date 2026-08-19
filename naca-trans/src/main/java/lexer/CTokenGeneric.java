@@ -12,22 +12,22 @@ package lexer;
  */
 public class CTokenGeneric extends CBaseToken
 {
-	public CTokenGeneric(CTokenType type, int line, boolean newline)
-	{
-		super(line, newline);
-		this.type = type ;
-		value = type.value ;
-	}
-	public CTokenType GetType()
-	{
-		return type;
-	}
-	CTokenType type = null ;
-	/* (non-Javadoc)
-	 * @see lexer.CBaseToken#GetDisplay()
-	 */
-	public String GetDisplay()
-	{
-		return type.csSourceValue ;
-	}
+    public CTokenGeneric(CTokenType type, int line, boolean newline)
+    {
+        super(line, newline);
+        this.type = type ;
+        value = type.value ;
+    }
+    public CTokenType GetType()
+    {
+        return type;
+    }
+    CTokenType type = null ;
+    /* (non-Javadoc)
+     * @see lexer.CBaseToken#GetDisplay()
+     */
+    public String GetDisplay()
+    {
+        return type.csSourceValue ;
+    }
 }

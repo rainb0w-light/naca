@@ -17,82 +17,82 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 
 public class UpdateThread extends Thread
 {
-	public void run()
-	{
-		String csTomcatStartCommand = BaseResourceManager.getTomcatStartCommand();
-		if (csTomcatStartCommand == null || csTomcatStartCommand.equals("")) return;
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MINUTE, 4);
-		BaseResourceManager.setUpdateTime(calendar.getTime());
-		Time_ms.wait_ms(4 * 60 * 1000); // 4 minutes
-		BaseResourceManager.setUpdateMode(true);
-		calendar.add(Calendar.MINUTE, 1);
-		BaseResourceManager.setUpdateTime(calendar.getTime());
-		Time_ms.wait_ms(1 * 30 * 1000); // 30 secondes
-		
-		// restart tomcat
-		runSystemCommand(csTomcatStartCommand);
-		
-		BaseResourceManager.setUpdateMode(false);
-		BaseResourceManager.setUpdateTime(null);
-	}
-	
-	private boolean runSystemCommand(String command) {
-		try
-		{
-			Process proc = RunSystemCommand.Launch(command);
-			boolean haserror = false ;
-			BufferedReader output = new BufferedReader(new InputStreamReader(proc.getInputStream())) ;
-			BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream())) ;
-			boolean isprocessEnded = false ;
-			do
-			{
-				while (output.ready())
-				{
-					System.out.println(output.readLine().trim());
-				}
-				while (err.ready())
-				{
-					System.out.println(err.readLine().trim());
-					haserror = true ;
-				}
+    public void run()
+    {
+        String csTomcatStartCommand = BaseResourceManager.getTomcatStartCommand();
+        if (csTomcatStartCommand == null || csTomcatStartCommand.equals("")) return;
 
-				isprocessEnded = isTerminated(proc) ;
-				if (!isprocessEnded)
-				{
-					try	{
-						Thread.sleep(1000) ;// 1s
-					} catch (InterruptedException e){
-						break ;
-					}
-				}
-			}
-			while (!isprocessEnded || err.ready() || output.ready()) ;
-			output.close();
-			err.close();
-			if (haserror)
-			{
-				return false;
-			}
-		}
-		catch (IOException e)
-		{	
-			return false;
-		}
-		return true;
-	}
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 4);
+        BaseResourceManager.setUpdateTime(calendar.getTime());
+        Time_ms.wait_ms(4 * 60 * 1000); // 4 minutes
+        BaseResourceManager.setUpdateMode(true);
+        calendar.add(Calendar.MINUTE, 1);
+        BaseResourceManager.setUpdateTime(calendar.getTime());
+        Time_ms.wait_ms(1 * 30 * 1000); // 30 secondes
 
-	private boolean isTerminated(Process proc)
-	{
-		try
-		{
-			proc.exitValue();
-			return true ;
-		}
-		catch (IllegalThreadStateException e)
-		{
-			return false ;
-		}
-	}
+        // restart tomcat
+        runSystemCommand(csTomcatStartCommand);
+
+        BaseResourceManager.setUpdateMode(false);
+        BaseResourceManager.setUpdateTime(null);
+    }
+
+    private boolean runSystemCommand(String command) {
+        try
+        {
+            Process proc = RunSystemCommand.Launch(command);
+            boolean haserror = false ;
+            BufferedReader output = new BufferedReader(new InputStreamReader(proc.getInputStream())) ;
+            BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream())) ;
+            boolean isprocessEnded = false ;
+            do
+            {
+                while (output.ready())
+                {
+                    System.out.println(output.readLine().trim());
+                }
+                while (err.ready())
+                {
+                    System.out.println(err.readLine().trim());
+                    haserror = true ;
+                }
+
+                isprocessEnded = isTerminated(proc) ;
+                if (!isprocessEnded)
+                {
+                    try {
+                        Thread.sleep(1000) ;// 1s
+                    } catch (InterruptedException e){
+                        break ;
+                    }
+                }
+            }
+            while (!isprocessEnded || err.ready() || output.ready()) ;
+            output.close();
+            err.close();
+            if (haserror)
+            {
+                return false;
+            }
+        }
+        catch (IOException e)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isTerminated(Process proc)
+    {
+        try
+        {
+            proc.exitValue();
+            return true ;
+        }
+        catch (IllegalThreadStateException e)
+        {
+            return false ;
+        }
+    }
 }

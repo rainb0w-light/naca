@@ -15,27 +15,27 @@ import nacaLib.varEx.Var;
  */
 public class CalledPrgPublicArgStringOutPositioned extends BaseCalledPrgPublicArgPositioned
 {
-	CalledPrgPublicArgStringOutPositioned(String csValue[], boolean bInOut)
-	{
-		super(bInOut);
-		this.csValue = csValue;
-	}
-	
-	public void MapOn(Var varLinkageSection)
-	{
-		varLinkageSection.set(csValue[0]);
-	}
-	
-	public void doFillWithVar(Var varSource)
-	{
-		csValue[0] = varSource.getString();
-		//BasicLogger.log("SpPublicArgIntStringOut::doFillOutputVar; csValue[0]="+csValue[0]);		
-	}
-	
-	public int getParamLength()
-	{
-		return csValue[0].length();
-	}
-	
-	private String csValue[] = null;
+    CalledPrgPublicArgStringOutPositioned(String csValue[], boolean bInOut)
+    {
+        super(bInOut);
+        this.csValue = csValue;
+    }
+
+    public void MapOn(Var varLinkageSection)
+    {
+        varLinkageSection.set(csValue[0]);
+    }
+
+    public void doFillWithVar(Var varSource)
+    {
+        csValue[0] = varSource.getString();
+        //BasicLogger.log("SpPublicArgIntStringOut::doFillOutputVar; csValue[0]="+csValue[0]);
+    }
+
+    public int getParamLength()
+    {
+        return csValue[0].length();
+    }
+
+    private String csValue[] = null;
 }

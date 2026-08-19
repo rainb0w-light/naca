@@ -15,26 +15,26 @@ import semantic.CDataEntity;
 public abstract class CBaseEntityExpression extends CBaseEntityCondExpr
 {
 
-	public enum CEntityExpressionType
-	{
-		NUMERIC, STRING, VARIABLE, MATH, ATTRIBUTE, ADDRESS
-	}
+    public enum CEntityExpressionType
+    {
+        NUMERIC, STRING, VARIABLE, MATH, ATTRIBUTE, ADDRESS
+    }
 
-	/**
-	 * @param line
-	 * @param name
-	 * @param cat
-	 * @param out
-	 */
+    /**
+     * @param line
+     * @param name
+     * @param cat
+     * @param out
+     */
 
-	public CDataEntity GetSingleOperator()
-	{
-		return null;
-	}
-	/**
-	 * @param field
-	 * @param var
-	 * @return TODO
-	 */
-	public abstract CEntityExpressionType getExpressionType() ;
+    public CDataEntity GetSingleOperator()
+    {
+        return null;
+    }
+    /**
+     * @param field
+     * @param var
+     * @return TODO
+     */
+    public abstract CEntityExpressionType getExpressionType() ;
 }

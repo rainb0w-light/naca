@@ -16,16 +16,16 @@ import utils.CObjectCatalog;
 public class CEntityDigits extends CBaseEntityFunction
 {
 
-	/**
-	 * @param cat
-	 * @param data
-	 */
-	public CEntityDigits(CObjectCatalog cat, CDataEntity data1)
-	{
-		super(cat, data1);
-	}
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    /**
+     * @param cat
+     * @param data
+     */
+    public CEntityDigits(CObjectCatalog cat, CDataEntity data1)
+    {
+        super(cat, data1);
+    }
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 }

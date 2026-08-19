@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package idea.servlets;
 
@@ -61,7 +61,11 @@ public abstract class BaseCheckServiceServlet extends HttpServlet
         boolean serviceStatus = getServiceStatus(req, errCode);
         long tt = System.currentTimeMillis() - mtdeb;
         String xmlRes = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>";
-        xmlRes = xmlRes + "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xdt=\"http://www.w3.org/2004/07/xpath-datatypes\" xmlns:fn=\"http://www.w3.org/2004/07/xpath-functions\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><soapenv:Body><checkserviceResponse xmlns=\"http://publigroupe.com/checkservice\"><checkserviceReturn xmlns=\"\">";
+        xmlRes = xmlRes + "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+            "xmlns:xdt=\"http://www.w3.org/2004/07/xpath-datatypes\" xmlns:fn=\"http://www.w3.org/2004/07/xpath-functions\" " +
+            "xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+            "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><soapenv:Body><checkserviceResponse " +
+            "xmlns=\"http://publigroupe.com/checkservice\"><checkserviceReturn xmlns=\"\">";
         xmlRes = xmlRes + "<name xsi:type=\"xsd:string\">";
         xmlRes = xmlRes + getServiceName();
         xmlRes = xmlRes + "</name>";
@@ -82,13 +86,13 @@ public abstract class BaseCheckServiceServlet extends HttpServlet
     private void info(String name, boolean status, String code, long tms)
     {
         if(status)
-        	Log.logDebug(name + " OK, in " + String.valueOf(tms) + " ms");
+            Log.logDebug(name + " OK, in " + String.valueOf(tms) + " ms");
         else
-        	Log.logImportant(name + " NOK, Return Code : " + code + ", in " + String.valueOf(tms) + " ms");
+            Log.logImportant(name + " NOK, Return Code : " + code + ", in " + String.valueOf(tms) + " ms");
     }
 
     private static final String mStatusOk = "ok";
     private static final String mStatusNok = "nok";
     private static final String mCharacterEncoding = "iso-8859-1";
-//   
+//
 }

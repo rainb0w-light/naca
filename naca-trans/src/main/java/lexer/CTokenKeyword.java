@@ -12,30 +12,30 @@ package lexer;
  */
 public class CTokenKeyword extends CBaseToken
 {
-	public CTokenKeyword(CReservedKeyword kw, int line, boolean newline)
-	{
-		super(line, newline);
-		this.kw = kw ;
-		value = kw.name ;
-	}
+    public CTokenKeyword(CReservedKeyword kw, int line, boolean newline)
+    {
+        super(line, newline);
+        this.kw = kw ;
+        value = kw.name ;
+    }
 
-	public CReservedKeyword GetKeyword()
-	{
-		return kw ;
-	}
+    public CReservedKeyword GetKeyword()
+    {
+        return kw ;
+    }
 
-	public CTokenType GetType()
-	{
-		return CTokenType.KEYWORD ;
-	}
+    public CTokenType GetType()
+    {
+        return CTokenType.KEYWORD ;
+    }
 
-	CReservedKeyword kw ;
+    CReservedKeyword kw ;
 
-	/* (non-Javadoc)
-	 * @see lexer.CBaseToken#GetDisplay()
-	 */
-	public String GetDisplay()
-	{
-		return kw.name + " ";
-	}
+    /* (non-Javadoc)
+     * @see lexer.CBaseToken#GetDisplay()
+     */
+    public String GetDisplay()
+    {
+        return kw.name + " ";
+    }
 }

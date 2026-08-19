@@ -16,49 +16,49 @@ import utils.CObjectCatalog;
  */
 public abstract class CBaseEntityFunction extends CBaseDataReference
 {
-	//protected CDataEntity dataRef = null ;
-	public void Clear()
-	{
-		super.Clear() ;
-		reference = null ;
-	}
+    //protected CDataEntity dataRef = null ;
+    public void Clear()
+    {
+        super.Clear() ;
+        reference = null ;
+    }
 
-	public CBaseEntityFunction(CObjectCatalog cat, CDataEntity data)
-	{
-		super(0, "", cat);
-		reference = data ;
-	}
-	public CDataEntityType GetDataType()
-	{
-		if (reference != null)
-		{
-			return reference.GetDataType();
-		}
-		else
-		{
-			return null ;
-		}
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#HasAccessors()
-	 */
-	public boolean HasAccessors()
-	{
-		return false;
-	}
-	public boolean ignore()
-	{
-		if (reference != null)
-		{
-			return reference.ignore() ;
-		}
-		else
-		{
-			return false ;
-		}
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    public CBaseEntityFunction(CObjectCatalog cat, CDataEntity data)
+    {
+        super(0, "", cat);
+        reference = data ;
+    }
+    public CDataEntityType GetDataType()
+    {
+        if (reference != null)
+        {
+            return reference.GetDataType();
+        }
+        else
+        {
+            return null ;
+        }
+    }
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#HasAccessors()
+     */
+    public boolean HasAccessors()
+    {
+        return false;
+    }
+    public boolean ignore()
+    {
+        if (reference != null)
+        {
+            return reference.ignore() ;
+        }
+        else
+        {
+            return false ;
+        }
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 }

@@ -18,129 +18,129 @@ import nacaLib.varEx.VarType;
 
 public class FPacVarManager
 {
-	private VarLevel level77 = null; 
-	private FPacVarCacheManager fpacVarCacheManager = null;
-	private int nBufferId = 0;
-	
-	FPacVarManager(FPacProgram program)
-	{	
-		TempCache tempCache = TempCacheLocator.getTLSTempCache();
-		level77 = tempCache.getVarLevel();
-		level77.set(program, 77);
-		//level77 = new VarLevel(program, 77);
-		fpacVarCacheManager = program.getFPacVarCacheManager();
-		nBufferId = FPacBufferCounter.getBufferId();
-	}
-	
-	Var createFPacVarNumIntSignComp3(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
-	{		
-		Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarNumIntSignComp3, nPosition1Based, nBufferSize);
-		if(var != null)
-			return var;
-		
-		int nPosition0Based = nPosition1Based - 1;
-		int nNbDigitsInteger = VarDefNumIntSignComp3.getNbDigitIntegerComp3InBufferLength(nBufferSize);
-		
-		TempCache tempCache = TempCacheLocator.getTLSTempCache();
-		DeclareTypeFPacSignIntComp3 declareTypeFPacSignIntComp3 = tempCache.getDeclareTypeFPacSignIntComp3();
-		declareTypeFPacSignIntComp3.set(level77, nNbDigitsInteger);
-		VarFPacNumIntSignComp3 v = new VarFPacNumIntSignComp3(declareTypeFPacSignIntComp3, varBuffer, nPosition0Based);		
-		
-		fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+    private VarLevel level77 = null;
+    private FPacVarCacheManager fpacVarCacheManager = null;
+    private int nBufferId = 0;
 
-		return v;			
-	}
-	
-	Var createFPacVarNumSignComp4(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
-	{
-		DeclareTypeFPacSignComp4 declareTypeFPacSignComp4 = TempCacheLocator.getTLSTempCache().getDeclareTypeFPacSignComp4();
-		int nPosition0Based = nPosition1Based - 1;
-		if(nBufferSize == 2)
-		{
-			Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumShortSignComp4, nPosition1Based, nBufferSize);
-			if(var != null)
-				return var;
+    FPacVarManager(FPacProgram program)
+    {
+        TempCache tempCache = TempCacheLocator.getTLSTempCache();
+        level77 = tempCache.getVarLevel();
+        level77.set(program, 77);
+        //level77 = new VarLevel(program, 77);
+        fpacVarCacheManager = program.getFPacVarCacheManager();
+        nBufferId = FPacBufferCounter.getBufferId();
+    }
 
-			declareTypeFPacSignComp4.set(level77, 4);
-			VarFPacNumShortSignComp4 v = new VarFPacNumShortSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
-			
-			fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
-			
-			return v;
-		}
-		else if(nBufferSize == 4)
-		{
-			Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumIntSignComp4, nPosition1Based, nBufferSize);
-			if(var != null)
-				return var;
-			
-			declareTypeFPacSignComp4.set(level77, 9);
-			VarFPacNumIntSignComp4 v = new VarFPacNumIntSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
-			
-			fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
-			
-			return v;
-		}
-		else if(nBufferSize == 8)
-		{
-			Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumLongSignComp4, nPosition1Based, nBufferSize);
-			if(var != null)
-				return var;
+    Var createFPacVarNumIntSignComp3(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
+    {
+        Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarNumIntSignComp3, nPosition1Based, nBufferSize);
+        if(var != null)
+            return var;
 
-			declareTypeFPacSignComp4.set(level77, 20);
-			VarFPacNumLongSignComp4 v = new VarFPacNumLongSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
-			
-			fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
-			
-			return v;
-		}
-		return null;
-	}
-	
-	Var createFPacVarAlphaNum(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
-	{
-		Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFpacAlphaNum, nPosition1Based, nBufferSize);
-		if(var != null)
-			return var;
-		
-		int nPosition0Based = nPosition1Based - 1;
-		DeclareTypeFPacAlphaNum type = new DeclareTypeFPacAlphaNum(level77, nBufferSize);
-		VarFPacAlphaNum v = new VarFPacAlphaNum(type, varBuffer, nPosition0Based);
-		
-		fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
-		
-		return v;			
-	}
-	
-	Var createFPacVarNumEdited(VarBuffer varBuffer, int nPosition1Based, String csEditMask)
-	{
-		Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumEdited, nPosition1Based, csEditMask);
-		if(var != null)
-			return var;
-		
-		int nPosition0Based = nPosition1Based - 1;
-		DeclareTypeFPacNumEdited type = new DeclareTypeFPacNumEdited(level77, csEditMask);
-		
-		VarFPacNumEdited v = new VarFPacNumEdited(type, varBuffer, nPosition0Based);
-		
-		fpacVarCacheManager.set(v, nBufferId, nPosition1Based, csEditMask);
-		
-		return v;			
-	}
-	
-	Var createFPacVarRaw(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
-	{
-		Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarRaw, nPosition1Based, nBufferSize);
-		if(var != null)
-			return var;
-		
-		int nPosition0Based = nPosition1Based - 1;
-		DeclareTypeFPacRaw type = new DeclareTypeFPacRaw(level77, nBufferSize);
-		VarFPacRaw v = new VarFPacRaw(type, varBuffer, nPosition0Based);
-		
-		fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
-		
-		return v;			
-	}
+        int nPosition0Based = nPosition1Based - 1;
+        int nNbDigitsInteger = VarDefNumIntSignComp3.getNbDigitIntegerComp3InBufferLength(nBufferSize);
+
+        TempCache tempCache = TempCacheLocator.getTLSTempCache();
+        DeclareTypeFPacSignIntComp3 declareTypeFPacSignIntComp3 = tempCache.getDeclareTypeFPacSignIntComp3();
+        declareTypeFPacSignIntComp3.set(level77, nNbDigitsInteger);
+        VarFPacNumIntSignComp3 v = new VarFPacNumIntSignComp3(declareTypeFPacSignIntComp3, varBuffer, nPosition0Based);
+
+        fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+        return v;
+    }
+
+    Var createFPacVarNumSignComp4(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
+    {
+        DeclareTypeFPacSignComp4 declareTypeFPacSignComp4 = TempCacheLocator.getTLSTempCache().getDeclareTypeFPacSignComp4();
+        int nPosition0Based = nPosition1Based - 1;
+        if(nBufferSize == 2)
+        {
+            Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumShortSignComp4, nPosition1Based, nBufferSize);
+            if(var != null)
+                return var;
+
+            declareTypeFPacSignComp4.set(level77, 4);
+            VarFPacNumShortSignComp4 v = new VarFPacNumShortSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
+
+            fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+            return v;
+        }
+        else if(nBufferSize == 4)
+        {
+            Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumIntSignComp4, nPosition1Based, nBufferSize);
+            if(var != null)
+                return var;
+
+            declareTypeFPacSignComp4.set(level77, 9);
+            VarFPacNumIntSignComp4 v = new VarFPacNumIntSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
+
+            fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+            return v;
+        }
+        else if(nBufferSize == 8)
+        {
+            Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumLongSignComp4, nPosition1Based, nBufferSize);
+            if(var != null)
+                return var;
+
+            declareTypeFPacSignComp4.set(level77, 20);
+            VarFPacNumLongSignComp4 v = new VarFPacNumLongSignComp4(declareTypeFPacSignComp4, varBuffer, nPosition0Based);
+
+            fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+            return v;
+        }
+        return null;
+    }
+
+    Var createFPacVarAlphaNum(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
+    {
+        Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFpacAlphaNum, nPosition1Based, nBufferSize);
+        if(var != null)
+            return var;
+
+        int nPosition0Based = nPosition1Based - 1;
+        DeclareTypeFPacAlphaNum type = new DeclareTypeFPacAlphaNum(level77, nBufferSize);
+        VarFPacAlphaNum v = new VarFPacAlphaNum(type, varBuffer, nPosition0Based);
+
+        fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+        return v;
+    }
+
+    Var createFPacVarNumEdited(VarBuffer varBuffer, int nPosition1Based, String csEditMask)
+    {
+        Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacNumEdited, nPosition1Based, csEditMask);
+        if(var != null)
+            return var;
+
+        int nPosition0Based = nPosition1Based - 1;
+        DeclareTypeFPacNumEdited type = new DeclareTypeFPacNumEdited(level77, csEditMask);
+
+        VarFPacNumEdited v = new VarFPacNumEdited(type, varBuffer, nPosition0Based);
+
+        fpacVarCacheManager.set(v, nBufferId, nPosition1Based, csEditMask);
+
+        return v;
+    }
+
+    Var createFPacVarRaw(VarBuffer varBuffer, int nPosition1Based, int nBufferSize)
+    {
+        Var var = fpacVarCacheManager.get(nBufferId, VarType.VarFPacVarRaw, nPosition1Based, nBufferSize);
+        if(var != null)
+            return var;
+
+        int nPosition0Based = nPosition1Based - 1;
+        DeclareTypeFPacRaw type = new DeclareTypeFPacRaw(level77, nBufferSize);
+        VarFPacRaw v = new VarFPacRaw(type, varBuffer, nPosition0Based);
+
+        fpacVarCacheManager.set(v, nBufferId, nPosition1Based, nBufferSize);
+
+        return v;
+    }
 
 }

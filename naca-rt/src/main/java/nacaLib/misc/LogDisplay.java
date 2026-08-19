@@ -11,15 +11,15 @@ import jlib.log.*;
 
 public class LogDisplay extends LogEvent
 {
-	public LogDisplay()
-	{
-		super(LogEventType.Start, LogFlowCustomNacaRT.Display, LogLevel.Normal, null);
-	}
+    public LogDisplay()
+    {
+        super(LogEventType.Start, LogFlowCustomNacaRT.Display, LogLevel.Normal, null);
+    }
 
-	public static LogEvent log(String csMessage)
-	{
-		LogDisplay event = new LogDisplay();
-		Log.log("NacaRT", event, csMessage);
-		return event;
-	}
+    public static LogEvent log(String csMessage)
+    {
+        LogDisplay event = new LogDisplay();
+        Log.log("NacaRT", event, csMessage);
+        return event;
+    }
 }

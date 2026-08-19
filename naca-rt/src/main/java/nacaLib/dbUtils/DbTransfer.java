@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -23,30 +23,30 @@ import jlib.xml.Tag;
  */
 public class DbTransfer
 {
-	private DbTransferDesc dbTransferDesc = null;
-	
-	public DbTransfer()
-	{
-	}
-	
-	public int execute(BaseEnvironment env, String csConfigFile)
-	{
-		Tag tagRoot = Tag.createFromFile(csConfigFile);
-		if(tagRoot != null)
-		{
-			Tag tagDbTransfer = tagRoot.getChild("DBTR");
-			if(tagDbTransfer != null)
-			{
-				dbTransferDesc = new DbTransferDesc();
-				boolean b = dbTransferDesc.load(tagDbTransfer);
-				if(b)
-					b = dbTransferDesc.getTablesList(env);
-				if(b)
-					b = dbTransferDesc.doTransfers(env);
-				if(b)
-					return 0;
-			}
-		}
-		return -1;
-	}
+    private DbTransferDesc dbTransferDesc = null;
+
+    public DbTransfer()
+    {
+    }
+
+    public int execute(BaseEnvironment env, String csConfigFile)
+    {
+        Tag tagRoot = Tag.createFromFile(csConfigFile);
+        if(tagRoot != null)
+        {
+            Tag tagDbTransfer = tagRoot.getChild("DBTR");
+            if(tagDbTransfer != null)
+            {
+                dbTransferDesc = new DbTransferDesc();
+                boolean b = dbTransferDesc.load(tagDbTransfer);
+                if(b)
+                    b = dbTransferDesc.getTablesList(env);
+                if(b)
+                    b = dbTransferDesc.doTransfers(env);
+                if(b)
+                    return 0;
+            }
+        }
+        return -1;
+    }
 }

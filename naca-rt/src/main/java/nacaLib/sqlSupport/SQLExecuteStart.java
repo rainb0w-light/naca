@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -19,43 +19,43 @@ import nacaLib.varEx.VarAndEdit;
  */
 public class SQLExecuteStart extends SQL
 {
-	// No statement cache managed, as the clause is dynamic
-	// PJD: To be removed
-	public SQLExecuteStart(BaseProgramManager programManager, String csQuery)
-	{
-		super(programManager);
-	}
-	
-	public SQLExecuteStart(BaseProgramManager programManager)	//, String csQuery)
-	{
-		super(programManager);
-	}
-	
-	public SQL param(String csName, String csStatement)
-	{
-		csStatement = csStatement.trim();
-		SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
-		return sql;
-	}
+    // No statement cache managed, as the clause is dynamic
+    // PJD: To be removed
+    public SQLExecuteStart(BaseProgramManager programManager, String csQuery)
+    {
+        super(programManager);
+    }
 
-	public SQL param(int nName, String csStatement)
-	{
-		csStatement = csStatement.trim();
-		SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
-		return sql;
-	}
-	
-	public SQL param(String csName, VarAndEdit var)
-	{
-		String cs = var.getString();
-		cs = cs.substring(2);	// Skip leading 2 bytes
-		return param(csName, cs);
-	}	
-	
-	public SQL param(int nName, VarAndEdit var)
-	{
-		String cs = var.getString();
-		cs = cs.substring(2);	// Skip leading 2 bytes
-		return param(nName, cs);
-	}
+    public SQLExecuteStart(BaseProgramManager programManager)   //, String csQuery)
+    {
+        super(programManager);
+    }
+
+    public SQL param(String csName, String csStatement)
+    {
+        csStatement = csStatement.trim();
+        SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
+        return sql;
+    }
+
+    public SQL param(int nName, String csStatement)
+    {
+        csStatement = csStatement.trim();
+        SQL sql = new SQL(programManager, csStatement, null/*, ""*/, 0);
+        return sql;
+    }
+
+    public SQL param(String csName, VarAndEdit var)
+    {
+        String cs = var.getString();
+        cs = cs.substring(2);   // Skip leading 2 bytes
+        return param(csName, cs);
+    }
+
+    public SQL param(int nName, VarAndEdit var)
+    {
+        String cs = var.getString();
+        cs = cs.substring(2);   // Skip leading 2 bytes
+        return param(nName, cs);
+    }
 }

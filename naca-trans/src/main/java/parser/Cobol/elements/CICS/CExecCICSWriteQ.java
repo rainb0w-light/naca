@@ -31,306 +31,306 @@ import utils.Transcoder;
 public class CExecCICSWriteQ extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSWriteQ(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSWriteQ(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (queueName == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.writeq.missing-queue",
-				"embedded-cics", getLine(),
-				"EXEC CICS WRITEQ requires QUEUE");
-			return null;
-		}
-		if (dataRef == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.writeq.missing-from",
-				"embedded-cics", getLine(),
-				"EXEC CICS WRITEQ requires FROM");
-			return null;
-		}
-		if (bRewrite && item == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.writeq.rewrite.missing-item",
-				"embedded-cics", getLine(),
-				"EXEC CICS WRITEQ REWRITE requires ITEM");
-			return null;
-		}
-		CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), ispersistant);
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (queueName == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.writeq.missing-queue",
+                "embedded-cics", getLine(),
+                "EXEC CICS WRITEQ requires QUEUE");
+            return null;
+        }
+        if (dataRef == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.writeq.missing-from",
+                "embedded-cics", getLine(),
+                "EXEC CICS WRITEQ requires FROM");
+            return null;
+        }
+        if (bRewrite && item == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.writeq.rewrite.missing-item",
+                "embedded-cics", getLine(),
+                "EXEC CICS WRITEQ REWRITE requires ITEM");
+            return null;
+        }
+        CEntityCICSWriteQ eWQ = factory.NewEntityCICSWriteQ(getLine(), ispersistant);
 
-		eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
-		CDataEntity len = null ;
-		if (length != null)
-		{
-			len = length.GetDataEntity(getLine(), factory);
-			len.RegisterReadingAction(eWQ);
-		}
-		CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
-		data.RegisterReadingAction(eWQ);
-		eWQ.SetDataRef(data, len);
-		if (item != null)
-		{
-			CDataEntity e = item.GetDataEntity(getLine(), factory) ;
-			eWQ.WriteItem(e);
-			if (bRewrite)
-				e.RegisterReadingAction(eWQ) ;
-			else
-				e.RegisterWritingAction(eWQ) ;
-		}
-		if (numItem != null)
-		{
-			CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
-			eWQ.WriteNumItem(e);
-			e.RegisterWritingAction(eWQ) ;
-		}
-		if (bAuxiliary)
-		{
-			eWQ.SetAuxiliary() ;
-		}
-		else if (bMain)
-		{
-			eWQ.SetMain() ;
-		}
-		if (bRewrite)
-		{
-			eWQ.SetRewrite() ;
-		}
-		if (sysID != null)
-		{
-			eWQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
-		}
-		parent.AddChild(eWQ);
-		return eWQ ;
-	}
+        eWQ.SetName(queueName.GetDataEntity(getLine(), factory)) ;
+        CDataEntity len = null ;
+        if (length != null)
+        {
+            len = length.GetDataEntity(getLine(), factory);
+            len.RegisterReadingAction(eWQ);
+        }
+        CDataEntity data = dataRef.GetDataReference(getLine(), factory) ;
+        data.RegisterReadingAction(eWQ);
+        eWQ.SetDataRef(data, len);
+        if (item != null)
+        {
+            CDataEntity e = item.GetDataEntity(getLine(), factory) ;
+            eWQ.WriteItem(e);
+            if (bRewrite)
+                e.RegisterReadingAction(eWQ) ;
+            else
+                e.RegisterWritingAction(eWQ) ;
+        }
+        if (numItem != null)
+        {
+            CDataEntity e = numItem.GetDataEntity(getLine(), factory) ;
+            eWQ.WriteNumItem(e);
+            e.RegisterWritingAction(eWQ) ;
+        }
+        if (bAuxiliary)
+        {
+            eWQ.SetAuxiliary() ;
+        }
+        else if (bMain)
+        {
+            eWQ.SetMain() ;
+        }
+        if (bRewrite)
+        {
+            eWQ.SetRewrite() ;
+        }
+        if (sysID != null)
+        {
+            eWQ.SetSysID(sysID.GetDataEntity(getLine(), factory));
+        }
+        parent.AddChild(eWQ);
+        return eWQ ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.WRITEQ)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.WRITEQ)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetValue().equals("TD"))
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TD") ;
-			tok = GetNext();
-			ispersistant = true ;
-		}
-		else if (tok.GetValue().equals("TS"))
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TS") ;
-			tok = GetNext();
-			ispersistant = false ;
-		}
-		else
-		{
-			CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "Unknown") ;
-			ispersistant = false ;
-		}
+        if (tok.GetValue().equals("TD"))
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TD") ;
+            tok = GetNext();
+            ispersistant = true ;
+        }
+        else if (tok.GetValue().equals("TS"))
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "TS") ;
+            tok = GetNext();
+            ispersistant = false ;
+        }
+        else
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("WRITEQ", "Unknown") ;
+            ispersistant = false ;
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			if (tok.GetValue().equals("QUEUE"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					queueName = ReadTerminal();
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.FROM)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					dataRef = ReadIdentifier();
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					length = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetValue().equals("ITEM"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					item = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetValue().equals("SYSID"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					sysID = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetValue().equals("MAIN"))
-			{
-				tok = GetNext() ;
-				bMain = true ;
-			}
-			else if (tok.GetValue().equals("AUXILIARY"))
-			{
-				tok = GetNext() ;
-				bAuxiliary = true ;
-			}
-			else if (tok.GetValue().equals("REWRITE"))
-			{
-				tok = GetNext() ;
-				bRewrite = true ;
-			}
-			else if (tok.GetValue().equals("NUMITEM"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					numItem = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            if (tok.GetValue().equals("QUEUE"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    queueName = ReadTerminal();
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.FROM)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    dataRef = ReadIdentifier();
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    length = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("ITEM"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    item = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("SYSID"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    sysID = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("MAIN"))
+            {
+                tok = GetNext() ;
+                bMain = true ;
+            }
+            else if (tok.GetValue().equals("AUXILIARY"))
+            {
+                tok = GetNext() ;
+                bAuxiliary = true ;
+            }
+            else if (tok.GetValue().equals("REWRITE"))
+            {
+                tok = GetNext() ;
+                bRewrite = true ;
+            }
+            else if (tok.GetValue().equals("NUMITEM"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    numItem = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error whle parsing EXEC CICS WRITEQ");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error whle parsing EXEC CICS WRITEQ");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eWrite = root.createElement("ExecCICSWriteQ") ;
-		if (ispersistant)
-		{
-			eWrite.setAttribute("Persistant", "true") ;
-		}
-		else
-		{
-			eWrite.setAttribute("Persistant", "false") ;
-		}
-		if (bMain)
-		{
-			eWrite.setAttribute("Main", "true") ;
-		}
-		if (bAuxiliary)
-		{
-			eWrite.setAttribute("Auxiliary", "true") ;
-		}
-		if (bRewrite)
-		{
-			eWrite.setAttribute("Rewrite", "true") ;
-		}
-		if (queueName != null)
-		{
-			Element e = root.createElement("QueueName");
-			eWrite.appendChild(e);
-			queueName.ExportTo(e, root) ;
-		}
-		if (sysID != null)
-		{
-			Element e = root.createElement("SysID");
-			eWrite.appendChild(e);
-			sysID.ExportTo(e, root) ;
-		}
-		if (dataRef != null)
-		{
-			Element e = root.createElement("From");
-			eWrite.appendChild(e);
-			dataRef.ExportTo(e, root) ;
-		}
-		if (numItem != null)
-		{
-			Element e = root.createElement("NumItem");
-			eWrite.appendChild(e);
-			numItem.ExportTo(e, root) ;
-		}
-		if (item != null)
-		{
-			Element e = root.createElement("Item");
-			eWrite.appendChild(e);
-			item.ExportTo(e, root) ;
-		}
-		if (length != null)
-		{
-			Element e = root.createElement("Length");
-			eWrite.appendChild(e);
-			length.ExportTo(e, root) ;
-		}
-		return eWrite;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eWrite = root.createElement("ExecCICSWriteQ") ;
+        if (ispersistant)
+        {
+            eWrite.setAttribute("Persistant", "true") ;
+        }
+        else
+        {
+            eWrite.setAttribute("Persistant", "false") ;
+        }
+        if (bMain)
+        {
+            eWrite.setAttribute("Main", "true") ;
+        }
+        if (bAuxiliary)
+        {
+            eWrite.setAttribute("Auxiliary", "true") ;
+        }
+        if (bRewrite)
+        {
+            eWrite.setAttribute("Rewrite", "true") ;
+        }
+        if (queueName != null)
+        {
+            Element e = root.createElement("QueueName");
+            eWrite.appendChild(e);
+            queueName.ExportTo(e, root) ;
+        }
+        if (sysID != null)
+        {
+            Element e = root.createElement("SysID");
+            eWrite.appendChild(e);
+            sysID.ExportTo(e, root) ;
+        }
+        if (dataRef != null)
+        {
+            Element e = root.createElement("From");
+            eWrite.appendChild(e);
+            dataRef.ExportTo(e, root) ;
+        }
+        if (numItem != null)
+        {
+            Element e = root.createElement("NumItem");
+            eWrite.appendChild(e);
+            numItem.ExportTo(e, root) ;
+        }
+        if (item != null)
+        {
+            Element e = root.createElement("Item");
+            eWrite.appendChild(e);
+            item.ExportTo(e, root) ;
+        }
+        if (length != null)
+        {
+            Element e = root.createElement("Length");
+            eWrite.appendChild(e);
+            length.ExportTo(e, root) ;
+        }
+        return eWrite;
+    }
 
-	protected boolean ispersistant = false ;
-	protected CTerminal queueName = null ;
-	protected CIdentifier dataRef = null ;
-	protected CTerminal length = null ;
-	protected CTerminal item = null ;
-	protected CTerminal numItem = null ;
-	protected boolean bMain = false ;
-	protected boolean bRewrite = false ;
-	protected boolean bAuxiliary = false ;
-	protected CTerminal sysID = null ;
+    protected boolean ispersistant = false ;
+    protected CTerminal queueName = null ;
+    protected CIdentifier dataRef = null ;
+    protected CTerminal length = null ;
+    protected CTerminal item = null ;
+    protected CTerminal numItem = null ;
+    protected boolean bMain = false ;
+    protected boolean bRewrite = false ;
+    protected boolean bAuxiliary = false ;
+    protected CTerminal sysID = null ;
 }

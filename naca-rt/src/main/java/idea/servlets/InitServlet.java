@@ -22,47 +22,47 @@ import jlib.jmxMBean.JmxRegistration;
  */
 public class InitServlet extends HttpServlet
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public void init(ServletConfig config) throws ServletException
-	{
-		JmxRegistration.register();
+    public void init(ServletConfig config) throws ServletException
+    {
+        JmxRegistration.register();
 
-		super.init(config);
-		String path = this.getServletContext().getRealPath("/") ;
-		OnlineResourceManager.setOnceRootPath(path) ;
+        super.init(config);
+        String path = this.getServletContext().getRealPath("/") ;
+        OnlineResourceManager.setOnceRootPath(path) ;
 
-		String csINIFilePath = config.getInitParameter("INIFilePath");
-		csINIFilePath = OnlineResourceManager.getRootPath() + csINIFilePath ;
+        String csINIFilePath = config.getInitParameter("INIFilePath");
+        csINIFilePath = OnlineResourceManager.getRootPath() + csINIFilePath ;
 
-		String csAppliRootPath = config.getInitParameter("ApplicationRootPath");
-		OnlineResourceManager.setApplicationRootPath(csAppliRootPath) ;
+        String csAppliRootPath = config.getInitParameter("ApplicationRootPath");
+        OnlineResourceManager.setApplicationRootPath(csAppliRootPath) ;
 
-		resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
+        resourceManager = OnlineResourceManagerFactory.GetInstance(csINIFilePath) ;
 
 /*
-		resourceManager.setXMLConfigFilePath(csINIFilePath) ;
-		resourceManager.Init() ;
+        resourceManager.setXMLConfigFilePath(csINIFilePath) ;
+        resourceManager.Init() ;
 
-		resourceManager.loadDBSemanticContextDef();
+        resourceManager.loadDBSemanticContextDef();
 
-		// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
+        // Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
 
 
-		// Load semantic context configuration file: Defines menus, options, ...
-		String csSemanticContext = resourceManager.getSemanticContextPathFile();
-		if(csSemanticContext != null && csSemanticContext.length() != 0)
-		{
-			SemanticManager semanticManager = SemanticManager.GetInstance();
-			semanticManager.Init(csSemanticContext);
-			resourceManager.registerSemanticManager(semanticManager);
-		}
-	*/
-	}
+        // Load semantic context configuration file: Defines menus, options, ...
+        String csSemanticContext = resourceManager.getSemanticContextPathFile();
+        if(csSemanticContext != null && csSemanticContext.length() != 0)
+        {
+            SemanticManager semanticManager = SemanticManager.GetInstance();
+            semanticManager.Init(csSemanticContext);
+            resourceManager.registerSemanticManager(semanticManager);
+        }
+    */
+    }
 
-	OnlineResourceManager resourceManager = null ;
-	SemanticManager semanticManager = SemanticManager.GetInstance();
+    OnlineResourceManager resourceManager = null ;
+    SemanticManager semanticManager = SemanticManager.GetInstance();
 }

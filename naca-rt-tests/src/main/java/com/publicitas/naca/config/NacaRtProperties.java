@@ -70,7 +70,10 @@ public class NacaRtProperties {
     public void setPreLoadAllProgramFromDir(boolean preLoadAllProgramFromDir) { this.preLoadAllProgramFromDir = preLoadAllProgramFromDir; }
 
     public boolean isPreLoadAllProgramFromList() { return preLoadAllProgramFromList; }
-    public void setPreLoadAllProgramFromList(boolean preLoadAllProgramFromList) { this.preLoadAllProgramFromList = preLoadAllProgramFromList; }
+    public void setPreLoadAllProgramFromList(boolean preLoadAllProgramFromList)
+    {
+        this.preLoadAllProgramFromList = preLoadAllProgramFromList;
+    }
 
     public boolean isKeepPreloadedProgramList() { return keepPreloadedProgramList; }
     public void setKeepPreloadedProgramList(boolean keepPreloadedProgramList) { this.keepPreloadedProgramList = keepPreloadedProgramList; }
@@ -79,13 +82,19 @@ public class NacaRtProperties {
     public void setPreLoadProgramList(String preLoadProgramList) { this.preLoadProgramList = preLoadProgramList; }
 
     public boolean isAsynchronousPreloadPrograms() { return asynchronousPreloadPrograms; }
-    public void setAsynchronousPreloadPrograms(boolean asynchronousPreloadPrograms) { this.asynchronousPreloadPrograms = asynchronousPreloadPrograms; }
+    public void setAsynchronousPreloadPrograms(boolean asynchronousPreloadPrograms)
+    {
+        this.asynchronousPreloadPrograms = asynchronousPreloadPrograms;
+    }
 
     public boolean isGcAfterPreloadPrograms() { return gcAfterPreloadPrograms; }
     public void setGcAfterPreloadPrograms(boolean gcAfterPreloadPrograms) { this.gcAfterPreloadPrograms = gcAfterPreloadPrograms; }
 
     public boolean isLoadCopyByPrimordialLoader() { return loadCopyByPrimordialLoader; }
-    public void setLoadCopyByPrimordialLoader(boolean loadCopyByPrimordialLoader) { this.loadCopyByPrimordialLoader = loadCopyByPrimordialLoader; }
+    public void setLoadCopyByPrimordialLoader(boolean loadCopyByPrimordialLoader)
+    {
+        this.loadCopyByPrimordialLoader = loadCopyByPrimordialLoader;
+    }
 
     public boolean isUseProgramPool() { return useProgramPool; }
     public void setUseProgramPool(boolean useProgramPool) { this.useProgramPool = useProgramPool; }
@@ -109,7 +118,10 @@ public class NacaRtProperties {
     public void setMaxSessionExecTimeMs(long maxSessionExecTimeMs) { this.maxSessionExecTimeMs = maxSessionExecTimeMs; }
 
     public int getHttpSessionMaxInactiveIntervalS() { return httpSessionMaxInactiveIntervalS; }
-    public void setHttpSessionMaxInactiveIntervalS(int httpSessionMaxInactiveIntervalS) { this.httpSessionMaxInactiveIntervalS = httpSessionMaxInactiveIntervalS; }
+    public void setHttpSessionMaxInactiveIntervalS(int httpSessionMaxInactiveIntervalS)
+    {
+        this.httpSessionMaxInactiveIntervalS = httpSessionMaxInactiveIntervalS;
+    }
 
     public String getApplicationClassPath() { return applicationClassPath; }
     public void setApplicationClassPath(String applicationClassPath) { this.applicationClassPath = applicationClassPath; }
@@ -165,9 +177,15 @@ public class NacaRtProperties {
         private int nbStatementsToRemoveBeforeGc = 100;
 
         public boolean isActivateThreadGarbageCollectorStatement() { return activateThreadGarbageCollectorStatement; }
-        public void setActivateThreadGarbageCollectorStatement(boolean activateThreadGarbageCollectorStatement) { this.activateThreadGarbageCollectorStatement = activateThreadGarbageCollectorStatement; }
+        public void setActivateThreadGarbageCollectorStatement(boolean activateThreadGarbageCollectorStatement)
+        {
+            this.activateThreadGarbageCollectorStatement = activateThreadGarbageCollectorStatement;
+        }
         public long getGarbageCollectorStatementMs() { return garbageCollectorStatementMs; }
-        public void setGarbageCollectorStatementMs(long garbageCollectorStatementMs) { this.garbageCollectorStatementMs = garbageCollectorStatementMs; }
+        public void setGarbageCollectorStatementMs(long garbageCollectorStatementMs)
+        {
+            this.garbageCollectorStatementMs = garbageCollectorStatementMs;
+        }
         public int getMaxPermanentHeapMo() { return maxPermanentHeapMo; }
         public void setMaxPermanentHeapMo(int maxPermanentHeapMo) { this.maxPermanentHeapMo = maxPermanentHeapMo; }
         public int getNbStatementForcedRemoved() { return nbStatementForcedRemoved; }
@@ -175,7 +193,10 @@ public class NacaRtProperties {
         public int getNbSystemGcCall() { return nbSystemGcCall; }
         public void setNbSystemGcCall(int nbSystemGcCall) { this.nbSystemGcCall = nbSystemGcCall; }
         public int getNbStatementsToRemoveBeforeGc() { return nbStatementsToRemoveBeforeGc; }
-        public void setNbStatementsToRemoveBeforeGc(int nbStatementsToRemoveBeforeGc) { this.nbStatementsToRemoveBeforeGc = nbStatementsToRemoveBeforeGc; }
+        public void setNbStatementsToRemoveBeforeGc(int nbStatementsToRemoveBeforeGc)
+        {
+            this.nbStatementsToRemoveBeforeGc = nbStatementsToRemoveBeforeGc;
+        }
     }
 
     public static class DebugConfig {

@@ -17,94 +17,94 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSReturn extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSReturn(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// exemplar), so guard it instead of dereferencing unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
-	public void SetTransID(CDataEntity TID, CDataEntity comma, CDataEntity comlen, boolean bChecked)
-	{
-		transID = TID;
-		commArea = comma ;
-		commLenght = comlen ;
-		ischecked = bChecked ;
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSReturn(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // exemplar), so guard it instead of dereferencing unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
+    public void SetTransID(CDataEntity TID, CDataEntity comma, CDataEntity comlen, boolean bChecked)
+    {
+        transID = TID;
+        commArea = comma ;
+        commLenght = comlen ;
+        ischecked = bChecked ;
+    }
 
-	protected boolean ischecked = false ;
-	protected CDataEntity transID = null ;
-	protected CDataEntity commArea = null ;
-	protected CDataEntity commLenght = null ;
-	public void Clear()
-	{
-		super.Clear();
-		transID = null ;
-		commArea = null ;
-		commLenght = null ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		if (transID == field)
-		{
-			transID = var ;
-			field.UnRegisterReadingAction(this) ;
-			var.RegisterReadingAction(this) ;
-			return true ;
-		}
-		else if (commArea == field)
-		{
-			commArea = var ;
-			field.UnRegisterReadingAction(this) ;
-			var.RegisterReadingAction(this) ;
-			return true ;
-		}
-		return false ;
-	}
-	public boolean hasExplicitGetOut()
-	{
-		return true ;
-	}
+    protected boolean ischecked = false ;
+    protected CDataEntity transID = null ;
+    protected CDataEntity commArea = null ;
+    protected CDataEntity commLenght = null ;
+    public void Clear()
+    {
+        super.Clear();
+        transID = null ;
+        commArea = null ;
+        commLenght = null ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        if (transID == field)
+        {
+            transID = var ;
+            field.UnRegisterReadingAction(this) ;
+            var.RegisterReadingAction(this) ;
+            return true ;
+        }
+        else if (commArea == field)
+        {
+            commArea = var ;
+            field.UnRegisterReadingAction(this) ;
+            var.RegisterReadingAction(this) ;
+            return true ;
+        }
+        return false ;
+    }
+    public boolean hasExplicitGetOut()
+    {
+        return true ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSReturnEntity). They expose the already-resolved semantic
-	// sub-entities; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveCICSReturnEntity). They expose the already-resolved semantic
+    // sub-entities; rendering is done by the template, never here.
 
-	public CDataEntity getTransID()
-	{
-		return transID;
-	}
+    public CDataEntity getTransID()
+    {
+        return transID;
+    }
 
-	public CDataEntity getCommArea()
-	{
-		return commArea;
-	}
+    public CDataEntity getCommArea()
+    {
+        return commArea;
+    }
 
-	public CDataEntity getCommLength()
-	{
-		return commLenght;
-	}
+    public CDataEntity getCommLength()
+    {
+        return commLenght;
+    }
 
-	public boolean isChecked()
-	{
-		return ischecked;
-	}
+    public boolean isChecked()
+    {
+        return ischecked;
+    }
 
-	public String getTransIDConstantValue()
-	{
-		return transID == null ? null : transID.GetConstantValue();
-	}
+    public String getTransIDConstantValue()
+    {
+        return transID == null ? null : transID.GetConstantValue();
+    }
 }

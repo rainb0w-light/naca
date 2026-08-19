@@ -29,14 +29,14 @@ import jlib.exception.TechnicalException;
  * A FTP client operating in passive mode.
  * This class allows to:
  * <ul>
- * 	<li>Connect to a FTP server</li>
- * 	<li>Navigate through the folder structure.</li>
- * 	<li>Retrieve the list of files and folders in a folder</li>
- * 	<li>Check for the existence of a particular file or folder</li>
- * 	<li>Check for the size of a particular file.</li>
- * 	<li>Upload or download files from and to the server.</li>
- * 	<li>Open InputStream and OutputStream to files on the server (This
- * 		allows "on the fly" operations).</li>
+ *  <li>Connect to a FTP server</li>
+ *  <li>Navigate through the folder structure.</li>
+ *  <li>Retrieve the list of files and folders in a folder</li>
+ *  <li>Check for the existence of a particular file or folder</li>
+ *  <li>Check for the size of a particular file.</li>
+ *  <li>Upload or download files from and to the server.</li>
+ *  <li>Open InputStream and OutputStream to files on the server (This
+ *      allows "on the fly" operations).</li>
  * </ul>
  *
  * @author Jean-Michel Gonet
@@ -55,20 +55,20 @@ public class FtpPassiveClient {
  * The command socket is initialized by {@link connectToFTPServer}, and is
  * cleared by {@link disconnect}.
  */
-	private Socket _commandSocket;
+    private Socket _commandSocket;
 
 //************** Streams to read and write to the command socket **********
 /**
  * Stream for reading from the command socket.
  * This property is initialized by {@link connectToFTPServer}.
  */
-	private BufferedReader _commandInput;
+    private BufferedReader _commandInput;
 
 /**
  * Stream for writing to the command socket.
  * This property is initialized by {@link connectToFTPServer}.
  */
-	private OutputStream _commandOutput;
+    private OutputStream _commandOutput;
 
 //******************************* Data socket ****************************
 /**
@@ -78,14 +78,14 @@ public class FtpPassiveClient {
  * This property can be accessed for reading and write files by calling
  * methods {@link getInputStream} and {@link getOutputStream}.
  */
-	private Socket _dataSocket;
+    private Socket _dataSocket;
 
 //*************************** Last executed command ***********************
 /**
  * Last command executed by {@link #executeFTPCommand}.
  * Used to build up the FTP exceptions.
  */
-	private String _lastCommand;
+    private String _lastCommand;
 
 //*************************************************************************
 //**                     Connect to a FTP server.                        **
@@ -98,9 +98,9 @@ public class FtpPassiveClient {
  * @param password Password for the specified user name (warning, the user
  *     name and password are transmitted unecrypted in the FTP protocol).
  */
-	public void connectToFTPServer(String host,String user,String password) throws FtpException,UnknownHostException {
-		connectToFTPServer(host,user,password,21);
-	}
+    public void connectToFTPServer(String host,String user,String password) throws FtpException,UnknownHostException {
+        connectToFTPServer(host,user,password,21);
+    }
 
 /**
  * Connects to a FTP server using the specified port number (the default
@@ -130,52 +130,59 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void connectToFTPServer(String host,String user,String password,int port) throws FtpException, UnknownHostException {
-		String response;            // Contains the response from the FTP server.
-		try {
+    public void connectToFTPServer(String host,String user,String password,int port) throws FtpException, UnknownHostException {
+        String response;            // Contains the response from the FTP server.
+        try {
 //*********************** Connects to the FTP server ***********************
-			_commandSocket=new Socket(host,port);
-			_commandInput=new BufferedReader(new InputStreamReader(_commandSocket.getInputStream()));
-			_commandOutput=_commandSocket.getOutputStream();
+            _commandSocket=new Socket(host,port);
+            _commandInput=new BufferedReader(new InputStreamReader(_commandSocket.getInputStream()));
+            _commandOutput=_commandSocket.getOutputStream();
 
-			response=_commandInput.readLine();
-			if (response.charAt(0)!='2')
-				throw new FtpException("Server returned error message at connecting to '"+host+"':'"+port+"'",response);
+            response=_commandInput.readLine();
+            if (response.charAt(0)!='2')
+                throw new FtpException("Server returned error message at connecting to '"+host+"':'"+port+"'",response);
 
 //*************************** Logs the user in *****************************
-			response=executeFTPCommand("USER "+user);
-			do {
-				if (response.charAt(0)=='5' || response.charAt(0)=='4' || response.charAt(0)=='1')
-					throw new FtpException("Server returned error message at login user '"+user+"' to host '"+host+"':'"+port+"'",response,_lastCommand);
-				if (response.startsWith("230") || response.startsWith("202"))
-					return;    // Codes 230 and 202: no password is needed.
-				if (response.startsWith("33"))
-					break;     // A response starting by 33X means that authentication is needed.
-				response=_commandInput.readLine();
-			} while (response!=null);
+            response=executeFTPCommand("USER "+user);
+            do {
+                if (response.charAt(0)=='5' || response.charAt(0)=='4' || response.charAt(0)=='1')
+                    throw new FtpException(
+                        "Server returned error message at login user '"+user+"' to host '"+host+"':'"+port+"'",
+                        response,
+                        _lastCommand);
+                if (response.startsWith("230") || response.startsWith("202"))
+                    return;    // Codes 230 and 202: no password is needed.
+                if (response.startsWith("33"))
+                    break;     // A response starting by 33X means that authentication is needed.
+                response=_commandInput.readLine();
+            } while (response!=null);
 
 //************************** Sends the user password ************************
-			response=executeFTPCommand("PASS "+password);
-			do {
-				char c=response.charAt(0);
-				if (c=='5')
-					throw new FtpException("Server returned error message at sending password '"+password+"' for authenticating user '"+user+"' to host '"+host+"':'"+port+"'",response,_lastCommand);
-				if (c=='2')
-					return;    // A response starting by 2XX means that the password is accepted or no needed.
-				response=_commandInput.readLine();
-			} while (response!=null);
-		}
+            response=executeFTPCommand("PASS "+password);
+            do {
+                char c=response.charAt(0);
+                if (c=='5')
+                    throw new FtpException("Server returned error message at sending password '" + password + "' for authenticating user '"
+                        + user + "' to host '" + host + "':'" + port + "'",response,_lastCommand);
+                if (c=='2')
+                    return;    // A response starting by 2XX means that the password is accepted or no needed.
+                response=_commandInput.readLine();
+            } while (response!=null);
+        }
 //************************** Exception management ***************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch (UnknownHostException e) {
-			throw e;
-		}
-		catch (IOException e) {
-			throw new TechnicalException(TechnicalException.IO_ERROR,"while connecting to ('"+host+"','"+user+"','*******',"+port+")-->"+e.getMessage(),e);
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch (UnknownHostException e) {
+            throw e;
+        }
+        catch (IOException e) {
+            throw new TechnicalException(
+                TechnicalException.IO_ERROR,
+                "while connecting to ('"+host+"','"+user+"','*******',"+port+")-->"+e.getMessage(),
+                e);
+        }
+    }
 
 //*************************************************************************
 //**            Checks if the command socket is still connected.         **
@@ -184,20 +191,20 @@ public class FtpPassiveClient {
  * Checks if the command socket is still connected.
  * @return <i>true</i> if the command socket is still connected.
  */
-	public boolean isConnected() throws Exception {
-		try {
-			if (_commandSocket.isBound())
-				if (_commandSocket.isConnected())
-					if (!_commandSocket.isClosed())
-						if (!_commandSocket.isInputShutdown())
-							if (!_commandSocket.isOutputShutdown())
-								return true;
-			return false;
-		}
-		catch (Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.isConnected",e));
-		}
-	}
+    public boolean isConnected() throws Exception {
+        try {
+            if (_commandSocket.isBound())
+                if (_commandSocket.isConnected())
+                    if (!_commandSocket.isClosed())
+                        if (!_commandSocket.isInputShutdown())
+                            if (!_commandSocket.isOutputShutdown())
+                                return true;
+            return false;
+        }
+        catch (Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.isConnected",e));
+        }
+    }
 
 //*************************************************************************
 //**               Disconnects from the current FTP server.              **
@@ -208,12 +215,12 @@ public class FtpPassiveClient {
  * If the instance is not currently connected to any FTP server, the method
  * does nothing.<p/>
  */
-	public void disconnect() throws IOException {
-		executeFTPCommand("QUIT");
-		_commandSocket.close();
-		_commandOutput.close();
-		_commandInput.close();
-	}
+    public void disconnect() throws IOException {
+        executeFTPCommand("QUIT");
+        _commandSocket.close();
+        _commandOutput.close();
+        _commandInput.close();
+    }
 
 //*************************************************************************
 //**         Changes the Working Directory.                              **
@@ -236,31 +243,37 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void changeCurrentDirectory(String remoteFolder) throws FtpException {
-		String response;
-		try {
+    public void changeCurrentDirectory(String remoteFolder) throws FtpException {
+        String response;
+        try {
 //******************* Sends the command to the server ***********************
-			response=executeFTPCommand("CWD "+remoteFolder);
+            response=executeFTPCommand("CWD "+remoteFolder);
 
 //******************** Waits for the "230" answer ***************************
-			do {
-				char c=response.charAt(0);
-				if (c=='5' || c=='4')
-					throw new FtpException("Server returned error message when changing working directory to '"+remoteFolder+"'",response,_lastCommand);
-				if (c=='2')
-					return;    // A response starting by 2XX means that the password is accepted.
-				response=_commandInput.readLine();
-			} while (response!=null);
-		}
+            do {
+                char c=response.charAt(0);
+                if (c=='5' || c=='4')
+                    throw new FtpException(
+                        "Server returned error message when changing working directory to '"+remoteFolder+"'",
+                        response,
+                        _lastCommand);
+                if (c=='2')
+                    return;    // A response starting by 2XX means that the password is accepted.
+                response=_commandInput.readLine();
+            } while (response!=null);
+        }
 
 //************************ Exception management *****************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw new ProgrammingException(ProgrammingException.FTP_CHANGEDIRECTORY,"Error while changing to directory '"+remoteFolder+"'",e);
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ProgrammingException(
+                ProgrammingException.FTP_CHANGEDIRECTORY,
+                "Error while changing to directory '"+remoteFolder+"'",
+                e);
+        }
+    }
 
 //***************************************************************************
 //**     Retrieves the list of files and folders of the current folder.    **
@@ -292,68 +305,68 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public String[] getFilesList(String remoteFolder) throws FtpException {
-		StringBuilder fileList;
-		Socket dataSocket;
-		BufferedReader dataStream;
-		String command;
-		String response;
-		String fileName;
-		int n1,n2;
-		try {
+    public String[] getFilesList(String remoteFolder) throws FtpException {
+        StringBuilder fileList;
+        Socket dataSocket;
+        BufferedReader dataStream;
+        String command;
+        String response;
+        String fileName;
+        int n1,n2;
+        try {
 //**************************** Initialization ********************************
-			dataSocket=openDataSocket();
+            dataSocket=openDataSocket();
 
 //................ Builds the apropriate FTP command .........................
-			if (remoteFolder==null) remoteFolder="";
-			if (remoteFolder.length()>0)
-				command="NLST "+remoteFolder;
-			else
-				command="NLST";
+            if (remoteFolder==null) remoteFolder="";
+            if (remoteFolder.length()>0)
+                command="NLST "+remoteFolder;
+            else
+                command="NLST";
 
 //*********************** Retrieves the list of files ************************
-			executeFTPCommand(command);
+            executeFTPCommand(command);
 
 //............... Reads the file list until data socket is closed ............
-			fileList=new StringBuilder();
-			dataStream=new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
-			while((response=dataStream.readLine())!=null) {
-				if (fileList.length()>0)
-					fileList.append("?");
-				n1=response.lastIndexOf("/");
-				n2=response.lastIndexOf("\\");
-				if (n2>n1) n1=n2;
-				fileName=response.substring(n1+1);
-				fileList.append(fileName);
-			}
-			dataSocket.close();
+            fileList=new StringBuilder();
+            dataStream=new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
+            while((response=dataStream.readLine())!=null) {
+                if (fileList.length()>0)
+                    fileList.append("?");
+                n1=response.lastIndexOf("/");
+                n2=response.lastIndexOf("\\");
+                if (n2>n1) n1=n2;
+                fileName=response.substring(n1+1);
+                fileList.append(fileName);
+            }
+            dataSocket.close();
 
 //.......... Reads responses until reaching a success or an error ............
 // Success reponse for a NLST command is:
 // 226 Transfer complete.
-			for(;;) {
-				response=_commandInput.readLine();
-				char c=response.charAt(0);
-				if (c=='2')
-					break;
-				if (c=='4' || c=='5')
-					throw new FtpException("Error reading content of folder '"+remoteFolder+"'",response,_lastCommand);
-			}
+            for(;;) {
+                response=_commandInput.readLine();
+                char c=response.charAt(0);
+                if (c=='2')
+                    break;
+                if (c=='4' || c=='5')
+                    throw new FtpException("Error reading content of folder '"+remoteFolder+"'",response,_lastCommand);
+            }
 
 //****************** Builds the array of files ******************************
-			if (fileList.length()>0)
-				return fileList.toString().split("\\?");
-			else
-				return new String[0];
-		}
+            if (fileList.length()>0)
+                return fileList.toString().split("\\?");
+            else
+                return new String[0];
+        }
 //**************************** Exception management *************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch (IOException e) {
-			throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch (IOException e) {
+            throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
+        }
+    }
 
 //***************************************************************************
 //**                Checks the existence of a file.                        **
@@ -375,37 +388,37 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public boolean fileExists(String remoteFileName) throws Exception, FtpException {
-		String response;
-		try {
+    public boolean fileExists(String remoteFileName) throws Exception, FtpException {
+        String response;
+        try {
 //********************* Tries to check the file size ************************
-			response=executeFTPCommand("SIZE "+remoteFileName);
+            response=executeFTPCommand("SIZE "+remoteFileName);
 
 //*********************** Checks the server response ************************
-			while(!response.startsWith("213")) {
+            while(!response.startsWith("213")) {
 //................ When the file doesn't exist ..............................
-				if (response.startsWith("550"))
-					return false;
+                if (response.startsWith("550"))
+                    return false;
 
 //................. Other errors are not normal .............................
-				if (response.startsWith("5"))
-					throw new FtpException("Server returned an error while checking the file size",response,_lastCommand);
+                if (response.startsWith("5"))
+                    throw new FtpException("Server returned an error while checking the file size",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
-				response=_commandInput.readLine();
-			}
+                response=_commandInput.readLine();
+            }
 
 //................ When the file exists .....................................
-			return true;
-		}
+            return true;
+        }
 //*************************** Exception management **************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch(Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.fileExists('"+remoteFileName+"')",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.fileExists('"+remoteFileName+"')",e));
+        }
+    }
 
 //*************************************************************************
 //**                     Returns the size of a file.                     **
@@ -427,35 +440,35 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public int fileSize(String remoteFileName) throws FtpException, Exception {
-		String response;
-		int n;
-		try {
+    public int fileSize(String remoteFileName) throws FtpException, Exception {
+        String response;
+        int n;
+        try {
 //********************* Asks for the file size *****************************
-			response=executeFTPCommand("SIZE "+remoteFileName);
+            response=executeFTPCommand("SIZE "+remoteFileName);
 
 //*********************** Checks the server response ************************
-			while(!response.startsWith("213")) {
-				if (response.startsWith("5"))
-					throw new FtpException("Server returned an error while retrieving  the file size",response,_lastCommand);
+            while(!response.startsWith("213")) {
+                if (response.startsWith("5"))
+                    throw new FtpException("Server returned an error while retrieving  the file size",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
-				response=_commandInput.readLine();
-			}
+                response=_commandInput.readLine();
+            }
 
 //**************** Process the server response *****************************
-			n=response.lastIndexOf(" ");
-			return Integer.parseInt(response.substring(n+1));
-		}
+            n=response.lastIndexOf(" ");
+            return Integer.parseInt(response.substring(n+1));
+        }
 
 //*************************** Exception management **************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch(Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.fileSize('"+remoteFileName+"')",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.fileSize('"+remoteFileName+"')",e));
+        }
+    }
 
 //*************************************************************************
 //**                 Returns the file date.                              **
@@ -477,49 +490,49 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public Date fileDate(String remoteFileName) throws FtpException,Exception {
-		String response;
-		int year,month,day,hour,minute;
-		GregorianCalendar gc;
-		try {
+    public Date fileDate(String remoteFileName) throws FtpException,Exception {
+        String response;
+        int year,month,day,hour,minute;
+        GregorianCalendar gc;
+        try {
 //********************* Asks for the file date ******************************
-			response=executeFTPCommand("MDTM "+remoteFileName);
+            response=executeFTPCommand("MDTM "+remoteFileName);
 
 //*********************** Checks the server response ************************
-			while(!response.startsWith("213")) {
-				if (response.startsWith("5"))
-					throw new FtpException("Server returned an error while retrieving the file date: "+response);
+            while(!response.startsWith("213")) {
+                if (response.startsWith("5"))
+                    throw new FtpException("Server returned an error while retrieving the file date: "+response);
 
 //................... Retrieves a new response ..............................
-				response=_commandInput.readLine();
-			}
+                response=_commandInput.readLine();
+            }
 
 //**************** Process the server response ******************************
-			response=response.substring(4);
+            response=response.substring(4);
 
 // Puts together the bits of information:
-			year=Integer.parseInt(response.substring(0,4));
-			month=Integer.parseInt(response.substring(4,6));
-			day=Integer.parseInt(response.substring(6,8));
-			hour=Integer.parseInt(response.substring(8,10));
-			minute=Integer.parseInt(response.substring(10,12));
+            year=Integer.parseInt(response.substring(0,4));
+            month=Integer.parseInt(response.substring(4,6));
+            day=Integer.parseInt(response.substring(6,8));
+            hour=Integer.parseInt(response.substring(8,10));
+            minute=Integer.parseInt(response.substring(10,12));
 
 // Builds a calendar with the retrieved data:
-			gc=new GregorianCalendar();
-			gc.set(year,month-1+Calendar.JANUARY,day,hour,minute,0);
+            gc=new GregorianCalendar();
+            gc.set(year,month-1+Calendar.JANUARY,day,hour,minute,0);
 
 //************************ Returns the file date ****************************
-			return gc.getTime();
-		}
+            return gc.getTime();
+        }
 
 //*************************** Exception management **************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch(Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.fileDate('"+remoteFileName+"'",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.fileDate('"+remoteFileName+"'",e));
+        }
+    }
 
 //*************************************************************************
 //**           Deletes a file on the FTP server.                         **
@@ -545,35 +558,35 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void deleteFile(String remoteFileName) throws FtpException, Exception {
-		String response;
-		try {
+    public void deleteFile(String remoteFileName) throws FtpException, Exception {
+        String response;
+        try {
 //********************* Sends the command to the FTP server ***************
-			response=executeFTPCommand("DELE "+remoteFileName);
+            response=executeFTPCommand("DELE "+remoteFileName);
 
 //****************** Checks the server response ***************************
-			while(!response.startsWith("250")) {
+            while(!response.startsWith("250")) {
 //............ We admit "file doesn't exist" as a correct response ........
-				if (response.startsWith("550"))
-					return;
+                if (response.startsWith("550"))
+                    return;
 
 //.............. We raise exceptions on other errors ......................
-				if (response.startsWith("5") || response.startsWith("4"))
-					throw new FtpException("Server returned an error while deleting a file",response,_lastCommand);
+                if (response.startsWith("5") || response.startsWith("4"))
+                    throw new FtpException("Server returned an error while deleting a file",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
-				response=_commandInput.readLine();
-			}
-		}
+                response=_commandInput.readLine();
+            }
+        }
 
 //*************************** Exception management **************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch(Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.deleteFile('"+remoteFileName+"')",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.deleteFile('"+remoteFileName+"')",e));
+        }
+    }
 
 //*************************************************************************
 //**                   Creates a new folder.                             **
@@ -595,32 +608,32 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void createFolder(String newRemoteFolderName) throws FtpException, Exception {
-		String response;
-		try {
+    public void createFolder(String newRemoteFolderName) throws FtpException, Exception {
+        String response;
+        try {
 //********************* Sends the command to the FTP server ***************
-			response=executeFTPCommand("MKD "+newRemoteFolderName);
+            response=executeFTPCommand("MKD "+newRemoteFolderName);
 
 //****************** Checks the server response ***************************
-			while(!response.startsWith("257")) {
+            while(!response.startsWith("257")) {
 
 //.............. We raise exceptions on other errors ......................
-				if (response.startsWith("5") || response.startsWith("4"))
-					throw new FtpException("Server returned an error while creating a file",response,_lastCommand);
+                if (response.startsWith("5") || response.startsWith("4"))
+                    throw new FtpException("Server returned an error while creating a file",response,_lastCommand);
 
 //................... Retrieves a new response ..............................
-				response=_commandInput.readLine();
-			}
-		}
+                response=_commandInput.readLine();
+            }
+        }
 
 //*************************** Exception management **************************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch(Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.deleteFile('"+newRemoteFolderName+"')",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch(Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.deleteFile('"+newRemoteFolderName+"')",e));
+        }
+    }
 
 
 //*************************************************************************
@@ -650,19 +663,19 @@ public class FtpPassiveClient {
  * @exception Exception If unexpected errors or communication failure.
  * @deprecated Use {@link #putFile} instead.
  */
-	public OutputStream openOutputStream(String remoteFileName) throws FtpException {
-		try {
-			openDataSocket();
-			try {
-				return _dataSocket.getOutputStream();
-			} catch (IOException e) {
-				throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
-			}
-		}
-		catch (FtpException e) {
-			throw e;
-		}
-	}
+    public OutputStream openOutputStream(String remoteFileName) throws FtpException {
+        try {
+            openDataSocket();
+            try {
+                return _dataSocket.getOutputStream();
+            } catch (IOException e) {
+                throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
+            }
+        }
+        catch (FtpException e) {
+            throw e;
+        }
+    }
 
 //**************************************************************************
 //**   Opens an Input Stream to read data from a file on the FTP server.  **
@@ -677,18 +690,18 @@ public class FtpPassiveClient {
  * @return An input stream, ready to read data from.
  * @deprecated use {@link #getFile} instead.
  */
-	public InputStream openInputStream(String remoteFileName) throws FtpException, Exception {
-		try {
-			openDataSocket();
-			return _dataSocket.getInputStream();
-		}
-		catch (FtpException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			throw new Exception(ParseError.parseError("FtpPassiveClient.openInputStream('"+remoteFileName+"')",e));
-		}
-	}
+    public InputStream openInputStream(String remoteFileName) throws FtpException, Exception {
+        try {
+            openDataSocket();
+            return _dataSocket.getInputStream();
+        }
+        catch (FtpException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            throw new Exception(ParseError.parseError("FtpPassiveClient.openInputStream('"+remoteFileName+"')",e));
+        }
+    }
 
 //*************************************************************************
 //**                   Downloads a file from the FTP server.             **
@@ -726,71 +739,77 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public int getFile(String remoteFileName,File localFileName) throws FtpException, Exception {
-		String response;               // To check responses from server.
-		int size;                      // The file size;
-		Socket data;                   // A data socket to retrieve the file content.
-		InputStream is;                // The input stream from the data socket.
-		FileOutputStream fos;          // To save the file content on the local filesystem.
-		byte buffer[]=new byte[1024];  // A buffer for data transmission.
-		int packageSize;
-		int totalBytes;
-		try {
-			if (localFileName==null)
-				throw new Exception("'localFileName' cannot be null.");
-			if (remoteFileName==null) remoteFileName="";
-			if (remoteFileName.length()==0)
-				throw new Exception("Specified 'remoteFileName' cannot be emtpy or null.");
+    public int getFile(String remoteFileName,File localFileName) throws FtpException, Exception {
+        String response;               // To check responses from server.
+        int size;                      // The file size;
+        Socket data;                   // A data socket to retrieve the file content.
+        InputStream is;                // The input stream from the data socket.
+        FileOutputStream fos;          // To save the file content on the local filesystem.
+        byte buffer[]=new byte[1024];  // A buffer for data transmission.
+        int packageSize;
+        int totalBytes;
+        try {
+            if (localFileName==null)
+                throw new Exception("'localFileName' cannot be null.");
+            if (remoteFileName==null) remoteFileName="";
+            if (remoteFileName.length()==0)
+                throw new Exception("Specified 'remoteFileName' cannot be emtpy or null.");
 
 //************************* Initialization *******************************
-			size=fileSize(remoteFileName);
-			data=openDataSocket();
+            size=fileSize(remoteFileName);
+            data=openDataSocket();
 
 //............... Sends the command to the server .........................
-			response=executeFTPCommand("RETR "+remoteFileName);
+            response=executeFTPCommand("RETR "+remoteFileName);
 
-			while(!response.startsWith("1")) {
-				if (response.startsWith("4") || response.startsWith("5"))
-					throw new FtpException("Error retrieving file '"+remoteFileName+"'",response,_lastCommand);
-				if (response.startsWith("2"))
-					throw new FtpException("Server returned 'OK' for file '"+remoteFileName+"', but file wasn't retrieved yet.",response,_lastCommand);
-				response=_commandInput.readLine();
-			}
+            while(!response.startsWith("1")) {
+                if (response.startsWith("4") || response.startsWith("5"))
+                    throw new FtpException("Error retrieving file '"+remoteFileName+"'",response,_lastCommand);
+                if (response.startsWith("2"))
+                    throw new FtpException(
+                        "Server returned 'OK' for file '"+remoteFileName+"', but file wasn't retrieved yet.",
+                        response,
+                        _lastCommand);
+                response=_commandInput.readLine();
+            }
 
 //******************** Retrieves the file contents ***********************
-			totalBytes=0;
-			is=data.getInputStream();
-			fos=new FileOutputStream(localFileName);
-			while(totalBytes<size) {
-				packageSize=is.read(buffer);
-				fos.write(buffer,0,packageSize);
-				totalBytes+=packageSize;
-			}
-			fos.close();
+            totalBytes=0;
+            is=data.getInputStream();
+            fos=new FileOutputStream(localFileName);
+            while(totalBytes<size) {
+                packageSize=is.read(buffer);
+                fos.write(buffer,0,packageSize);
+                totalBytes+=packageSize;
+            }
+            fos.close();
 
 // Closes the data socket:
-			data.close();
+            data.close();
 
 //******************** Retrieves some server blattering ******************
-			do {
-				response=_commandInput.readLine();
-				if (response.startsWith("4") || response.startsWith("5"))
-					throw new FtpException("Error after retrieving "+totalBytes+" bytes of the file '"+remoteFileName+"'.",response,_lastCommand);
-			} while (!response.startsWith("226") && !response.startsWith("250"));
+            do {
+                response=_commandInput.readLine();
+                if (response.startsWith("4") || response.startsWith("5"))
+                    throw new FtpException(
+                        "Error after retrieving "+totalBytes+" bytes of the file '"+remoteFileName+"'.",
+                        response,
+                        _lastCommand);
+            } while (!response.startsWith("226") && !response.startsWith("250"));
 
 //********************** Returns the file size ***************************
-			return size;
-		}
+            return size;
+        }
 //****************************** Exception management ********************
-		catch (FtpException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			String sLocalFileName="null";
-			if (localFileName!=null) sLocalFileName=localFileName.getAbsolutePath();
-			throw new Exception(ParseError.parseError("FtpPassiveClient.getFile('"+remoteFileName+"','"+sLocalFileName+"')",e));
-		}
-	}
+        catch (FtpException e) {
+            throw e;
+        }
+        catch (Exception e) {
+            String sLocalFileName="null";
+            if (localFileName!=null) sLocalFileName=localFileName.getAbsolutePath();
+            throw new Exception(ParseError.parseError("FtpPassiveClient.getFile('"+remoteFileName+"','"+sLocalFileName+"')",e));
+        }
+    }
 
 //*************************************************************************
 //**                   Uploads a file to the FTP server.                 **
@@ -830,9 +849,9 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void putFile(String localFileName,String remoteFileName) throws FileNotFoundException,FtpException {
-		putFile(localFileName,remoteFileName,true);
-	}
+    public void putFile(String localFileName,String remoteFileName) throws FileNotFoundException,FtpException {
+        putFile(localFileName,remoteFileName,true);
+    }
 
 /**
  * Uploads a file to the FTP server.
@@ -871,10 +890,10 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void putFile(String localFileName,String remoteFileName,boolean binary) throws FileNotFoundException, FtpException {
-		FileInputStream fis=new FileInputStream(localFileName);
-		putFile(fis,remoteFileName,binary);
-	}
+    public void putFile(String localFileName,String remoteFileName,boolean binary) throws FileNotFoundException, FtpException {
+        FileInputStream fis=new FileInputStream(localFileName);
+        putFile(fis,remoteFileName,binary);
+    }
 
 /**
  * Uploads a file to the FTP server.
@@ -911,9 +930,9 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void putFile(InputStream is,String remoteFileName) throws FtpException {
-		putFile(is,remoteFileName,true);
-	}
+    public void putFile(InputStream is,String remoteFileName) throws FtpException {
+        putFile(is,remoteFileName,true);
+    }
 
 /**
  * Uploads a file to the FTP server.
@@ -952,66 +971,72 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void putFile(InputStream is,String remoteFileName,boolean binary) throws FtpException {
-		String response;               // To check responses from server.
-		Socket data;                   // A data socket to retrieve the file content.
-		OutputStream os;               // The input stream from the data socket.
-		byte buffer[]=new byte[1024];  // A buffer for data transmission.
-		int packageSize;               // Size of one package (file is sent in packages of variable size).
-		int totalSize;                 // Total number of bytes sent.
-		try {
+    public void putFile(InputStream is,String remoteFileName,boolean binary) throws FtpException {
+        String response;               // To check responses from server.
+        Socket data;                   // A data socket to retrieve the file content.
+        OutputStream os;               // The input stream from the data socket.
+        byte buffer[]=new byte[1024];  // A buffer for data transmission.
+        int packageSize;               // Size of one package (file is sent in packages of variable size).
+        int totalSize;                 // Total number of bytes sent.
+        try {
 //************************* Initialization *******************************
-			data=openDataSocket();
+            data=openDataSocket();
 
 //.................... Sets the transfer type to binary ...................
-			if (binary)
-				setTransferType(typeIMAGE);
+            if (binary)
+                setTransferType(typeIMAGE);
 
 //............... Sends the command to the server .........................
-			response=executeFTPCommand("STOR "+remoteFileName);
+            response=executeFTPCommand("STOR "+remoteFileName);
 
-			while(!response.startsWith("1")) {
-				if (response.startsWith("4") || response.startsWith("5"))
-					throw new FtpException("Error sending file '"+remoteFileName+"'",response,_lastCommand);
-				if (response.startsWith("2"))
-					throw new FtpException("Server returned 'OK' for file '"+remoteFileName+"', but file wasn't sent yet.",response,_lastCommand);
-				response=_commandInput.readLine();
-			}
+            while(!response.startsWith("1")) {
+                if (response.startsWith("4") || response.startsWith("5"))
+                    throw new FtpException("Error sending file '"+remoteFileName+"'",response,_lastCommand);
+                if (response.startsWith("2"))
+                    throw new FtpException(
+                        "Server returned 'OK' for file '"+remoteFileName+"', but file wasn't sent yet.",
+                        response,
+                        _lastCommand);
+                response=_commandInput.readLine();
+            }
 
 //******************** Retrieves the file contents ***********************
-			totalSize=0;
-			os=data.getOutputStream();
+            totalSize=0;
+            os=data.getOutputStream();
 
-			while((packageSize=is.read(buffer))>=0) {
-				os.write(buffer,0,packageSize);
-				totalSize+=packageSize;
-			}
-			os.close();
-			data.close();
-			is.close();
+            while((packageSize=is.read(buffer))>=0) {
+                os.write(buffer,0,packageSize);
+                totalSize+=packageSize;
+            }
+            os.close();
+            data.close();
+            is.close();
 
 //******************** Retrieves some server blattering ******************
-			do {
-				response=_commandInput.readLine();
-				if (response.startsWith("4") || response.startsWith("5"))
-					throw new FtpException("Error after sending "+totalSize+" bytes of the file '"+remoteFileName+"'.",response,_lastCommand);
-			} while (!response.startsWith("226") && !response.startsWith("250"));
-		}
+            do {
+                response=_commandInput.readLine();
+                if (response.startsWith("4") || response.startsWith("5"))
+                    throw new FtpException(
+                        "Error after sending "+totalSize+" bytes of the file '"+remoteFileName+"'.",
+                        response,
+                        _lastCommand);
+            } while (!response.startsWith("226") && !response.startsWith("250"));
+        }
 
 //******************** Exception management ******************************
-		catch (FtpException e) {
-			if (is!=null)
-				try {
-					is.close();
-				} catch (IOException ee) {
+        catch (FtpException e) {
+            if (is!=null)
+                try {
+                    is.close();
+                } catch (IOException ee) {
 
-				}
-			throw e;
-		}
-		catch (IOException e) {
-			throw new TechnicalException(TechnicalException.IO_ERROR,"While sending a file to '"+remoteFileName+"': "+e.getMessage(),e);
-		}
-	}
+                }
+            throw e;
+        }
+        catch (IOException e) {
+            throw new TechnicalException(TechnicalException.IO_ERROR,"While sending a file to '"+remoteFileName+"': "+e.getMessage(),e);
+        }
+    }
 
 
 
@@ -1024,54 +1049,54 @@ public class FtpPassiveClient {
  * The command is sent through the command socket. A '\r\n' is placed at
  * the end of the command.
  * Here is a list of FTP commands:
- *	<li>ABOR: abort a file transfer</li>
- *	<li>CWD: change working directory</li>
- *	<li>CDUP: CWD to the parent of the current directory</li>
- *	<li>DELE: delete a remote file</li>
- *	<li>LIST: list remote files (*)</li>
- *	<li>MDTM: return the modification time of a file</li>
- *	<li>MKD: make a remote directory</li>
- *	<li>NLST: name list of remote directory</li>
- *	<li>PASS: send password </li>
- *	<li>PASV: enter passive mode</li>
- *	<li>PORT: open a data port</li>
- *	<li>PWD: print working directory </li>
- *	<li>QUIT: terminate the connection</li>
- *	<li>RETR: retrieve a remote file (*)</li>
- *	<li>RMD: remove a remote directory</li>
- *	<li>RNFR: rename from</li>
- *	<li>RNTO: rename to</li>
- *	<li>SITE: site-specific commands</li>
- *	<li>SIZE: return the size of a file</li>
- *	<li>STOR: store a file on the remote host (*)</li>
- *	<li>TYPE: set transfer type</li>
- *	<li>USER: send username</li>
+ *  <li>ABOR: abort a file transfer</li>
+ *  <li>CWD: change working directory</li>
+ *  <li>CDUP: CWD to the parent of the current directory</li>
+ *  <li>DELE: delete a remote file</li>
+ *  <li>LIST: list remote files (*)</li>
+ *  <li>MDTM: return the modification time of a file</li>
+ *  <li>MKD: make a remote directory</li>
+ *  <li>NLST: name list of remote directory</li>
+ *  <li>PASS: send password </li>
+ *  <li>PASV: enter passive mode</li>
+ *  <li>PORT: open a data port</li>
+ *  <li>PWD: print working directory </li>
+ *  <li>QUIT: terminate the connection</li>
+ *  <li>RETR: retrieve a remote file (*)</li>
+ *  <li>RMD: remove a remote directory</li>
+ *  <li>RNFR: rename from</li>
+ *  <li>RNTO: rename to</li>
+ *  <li>SITE: site-specific commands</li>
+ *  <li>SIZE: return the size of a file</li>
+ *  <li>STOR: store a file on the remote host (*)</li>
+ *  <li>TYPE: set transfer type</li>
+ *  <li>USER: send username</li>
  * (*) Means that the response to the command is sent to the data socket. A data
  * socket can be opened with the openFTPPassiveConnection method.
  * @param command The command to send to the FTP server.
  */
-	private String executeFTPCommand(String command) throws IOException {
-		final StringBuffer newLine = new StringBuffer("\r\n");
-		StringBuffer commandLine = new StringBuffer(command);
-		_lastCommand=command;
+    private String executeFTPCommand(String command) throws IOException {
+        final StringBuffer newLine = new StringBuffer("\r\n");
+        StringBuffer commandLine = new StringBuffer(command);
+        _lastCommand=command;
 
-		PrintStream ps = new PrintStream(_commandOutput);
-		commandLine.append(newLine);
-		ps.print(commandLine);
-		if(ps.checkError())
-			throw new IOException();
-		/*
-		int n,nn;
-		_lastCommand=command;
-		nn=command.length();
-		for(n=0;n<nn;n++) {
-			byte b=(byte)command.charAt(n);
-			_commandOutput.write(b);
-		}
-		_commandOutput.write('\n');
-		*/
-		return _commandInput.readLine();
-	}
+        PrintStream ps = new PrintStream(_commandOutput);
+        commandLine.append(newLine);
+        ps.print(commandLine);
+        if(ps.checkError())
+            throw new IOException();
+        /*
+        int n,nn;
+        _lastCommand=command;
+        nn=command.length();
+        for(n=0;n<nn;n++) {
+            byte b=(byte)command.charAt(n);
+            _commandOutput.write(b);
+        }
+        _commandOutput.write('\n');
+        */
+        return _commandInput.readLine();
+    }
 
 //*************************************************************************
 //**                    Sets the transfer type                           **
@@ -1093,7 +1118,7 @@ public class FtpPassiveClient {
  * all FTP implementations.
  * See {@link #setTransferType}.
  */
-	public final String typeIMAGE="I";
+    public final String typeIMAGE="I";
 
 /**
  * To specify a text transfer type.
@@ -1114,7 +1139,7 @@ public class FtpPassiveClient {
  * must be interpreted as 8-bit bytes. <p/>
  * See {@link #setTransferType}.
  */
-	public final String typeASCII="A";
+    public final String typeASCII="A";
 
 /**
  * To specify an EBCDIC transfer type.
@@ -1131,7 +1156,7 @@ public class FtpPassiveClient {
  * necessary the [NL] character should be used.<p/>
  * See {@link #setTransferType}
  */
-	public final String typeEBCDIC="E";
+    public final String typeEBCDIC="E";
 
 /**
  * To specify a LOCAL transfer type.
@@ -1145,7 +1170,7 @@ public class FtpPassiveClient {
  * and with any necessary padding at the end.<p/>
  * See {@link #setTransferType}
  */
-	public final String typeLOCAL="L";
+    public final String typeLOCAL="L";
 
 /**
  * Sets the transfer type.
@@ -1164,20 +1189,20 @@ public class FtpPassiveClient {
  *     </ul>
  * @exception Exception If unexpected errors or communication failure.
  */
-	public void setTransferType(String type) throws FtpException {
-		String response;
-		try {
-			response=executeFTPCommand("TYPE "+type);
+    public void setTransferType(String type) throws FtpException {
+        String response;
+        try {
+            response=executeFTPCommand("TYPE "+type);
 
-			while(!response.startsWith("2")) {
-				if (response.startsWith("4") || response.startsWith("5"))
-					throw new FtpException("Error setting transfer type to '"+type+"'",response,_lastCommand);
-				response=_commandInput.readLine();
-			}
-		} catch (IOException e) {
-			throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
-		}
-	}
+            while(!response.startsWith("2")) {
+                if (response.startsWith("4") || response.startsWith("5"))
+                    throw new FtpException("Error setting transfer type to '"+type+"'",response,_lastCommand);
+                response=_commandInput.readLine();
+            }
+        } catch (IOException e) {
+            throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
+        }
+    }
 
 //*************************************************************************
 //**                    Opens a data connection.                         **
@@ -1189,60 +1214,60 @@ public class FtpPassiveClient {
 // 502:  Command not implemented.</li>
 // 421:  Service not available, closing control connection. This may be a reply to any command if the service knows it must shut down.</li>
 // 530:  Not logged in.</li>
-	private Socket openDataSocket() throws FtpException {
-		String response;           // Contains server response to commands.
-		String numbers[];            // Contains the 6 numbers returned by the FTP server.
-		String ip;                 // The ip adress to open the passive connection.
-		int port;               // The port number to open the passive connection.
-		int n1,n2;                 // Auxiliary to compute the port number.
+    private Socket openDataSocket() throws FtpException {
+        String response;           // Contains server response to commands.
+        String numbers[];            // Contains the 6 numbers returned by the FTP server.
+        String ip;                 // The ip adress to open the passive connection.
+        int port;               // The port number to open the passive connection.
+        int n1,n2;                 // Auxiliary to compute the port number.
 
 //********************** Asks for a passive connection ********************
-		for(;;) {
-			try {
-				response=executeFTPCommand("PASV");
-			} catch (IOException e) {
-				throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
-			}
-			while (!response.startsWith("227")) {
-				if (response.startsWith("5") || response.startsWith("4"))
-					throw new FtpException("Error trying to open a data socket (PASV command)",response,_lastCommand);
-				try {
-					response=_commandInput.readLine();
-				} catch (IOException e) {
-					throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
-				}
-			}
+        for(;;) {
+            try {
+                response=executeFTPCommand("PASV");
+            } catch (IOException e) {
+                throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
+            }
+            while (!response.startsWith("227")) {
+                if (response.startsWith("5") || response.startsWith("4"))
+                    throw new FtpException("Error trying to open a data socket (PASV command)",response,_lastCommand);
+                try {
+                    response=_commandInput.readLine();
+                } catch (IOException e) {
+                    throw new TechnicalException(TechnicalException.IO_ERROR,e.getMessage(),e);
+                }
+            }
 
 //****************** Reads the server response ***************************
 // The response is something like:
 //    "227 Entering Passive Mode (195,13,58,68,183,29)"
 // The first 4 numbers compose the IP address.
 // The last 2 numbers contain the port number.
-			n1=response.indexOf("(");
-			n2=response.indexOf(")",n1);
-			response=response.substring(n1+1,n2);
-			numbers=response.split(",");
+            n1=response.indexOf("(");
+            n2=response.indexOf(")",n1);
+            response=response.substring(n1+1,n2);
+            numbers=response.split(",");
 
 //................... Builds the IP address ..............................
-			ip=numbers[0]+"."+numbers[1]+"."+numbers[2]+"."+numbers[3];
+            ip=numbers[0]+"."+numbers[1]+"."+numbers[2]+"."+numbers[3];
 
 //................... Computes the port number ...........................
-			n1=Integer.parseInt(numbers[4]);
-			n2=Integer.parseInt(numbers[5]);
-			port=n1*256+n2;
+            n1=Integer.parseInt(numbers[4]);
+            n2=Integer.parseInt(numbers[5]);
+            port=n1*256+n2;
 
 //**************** Establish the passive connection **********************
 // Tries to establish the passive connection: the IP may be already
 // in use in the local system (by any other network application).
-			try {
-				_dataSocket=new Socket(ip,port);
-				break;
-			} catch (BindException e) {
-				System.err.println("Could not open port "+port+" on host "+ip+": "+e.getMessage()+". Trying another one.");
-			} catch (IOException e) {
-				throw new ProgrammingException(ProgrammingException.IO_ERROR,e.getMessage(),e);
-			}
-		}
-		return _dataSocket;
-	}
+            try {
+                _dataSocket=new Socket(ip,port);
+                break;
+            } catch (BindException e) {
+                System.err.println("Could not open port "+port+" on host "+ip+": "+e.getMessage()+". Trying another one.");
+            } catch (IOException e) {
+                throw new ProgrammingException(ProgrammingException.IO_ERROR,e.getMessage(),e);
+            }
+        }
+        return _dataSocket;
+    }
 }

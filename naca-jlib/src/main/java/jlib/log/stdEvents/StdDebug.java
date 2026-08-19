@@ -16,26 +16,26 @@ import jlib.log.LogFlowStd;
 import jlib.log.LogLevel;
 
 /**
- * @deprecated Use {@link EventRemark} instead. 
+ * @deprecated Use {@link EventRemark} instead.
  * @author PJD
  */
 public class StdDebug extends LogEvent
 {
-	public StdDebug(String csProduct)
-	{
-		super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Debug, csProduct);
-	}
-	
-	public static LogEvent log(String csChannel, String csContext, String csMessage)
-	{
-		return StdDebug.log(csChannel, null, csContext, csMessage);
-	}
+    public StdDebug(String csProduct)
+    {
+        super(LogEventType.Remark, LogFlowStd.Trace, LogLevel.Debug, csProduct);
+    }
 
-	public static LogEvent log(String csChannel, String csProduct, String csContext, String csMessage)
-	{
-		StdDebug event = new StdDebug(csProduct);
-		event.fillMember("Context", csContext) ;
-		Log.log(csChannel, event, csMessage);
-		return event;
-	}
+    public static LogEvent log(String csChannel, String csContext, String csMessage)
+    {
+        return StdDebug.log(csChannel, null, csContext, csMessage);
+    }
+
+    public static LogEvent log(String csChannel, String csProduct, String csContext, String csMessage)
+    {
+        StdDebug event = new StdDebug(csProduct);
+        event.fillMember("Context", csContext) ;
+        Log.log(csChannel, event, csMessage);
+        return event;
+    }
 }

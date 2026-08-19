@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -24,23 +24,23 @@ import nacaLib.exceptions.AbortSessionException;
 
 public class SpServerProgramLoader extends BaseProgramLoader
 {
-	public SpServerProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
-	{
-		super(connectionManager, tagSequencerConfig, false);
-	}
+    public SpServerProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
+    {
+        super(connectionManager, tagSequencerConfig, false);
+    }
 
-	public void RunProgram(BaseSession appSession) throws AbortSessionException
-	{
-	}
-	
-	public static SpServerProgramLoader GetProgramLoaderInstance() 
-	{
-		return (SpServerProgramLoader)ms_Instance ;
-	}
-	
-	public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
-	{
-	}
+    public void RunProgram(BaseSession appSession) throws AbortSessionException
+    {
+    }
+
+    public static SpServerProgramLoader GetProgramLoaderInstance()
+    {
+        return (SpServerProgramLoader)ms_Instance ;
+    }
+
+    public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
+    {
+    }
 
 }
 

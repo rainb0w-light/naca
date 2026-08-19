@@ -32,180 +32,183 @@ import utils.Transcoder;
  */
 public class CWorkingValueEntry extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CWorkingValueEntry(int line)
-	{
-		super(line);
-		//reference = ref ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok88 = GetCurrentToken() ;
-		if (tok88.GetType() != CTokenType.NUMBER || !tok88.GetValue().equals("88"))
-		{
-			Transcoder.logError(getLine(), "Expecting '88' keyword");
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb("NAMED_CONDITION") ;
+    /**
+     * @param line
+     */
+    public CWorkingValueEntry(int line)
+    {
+        super(line);
+        //reference = ref ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok88 = GetCurrentToken() ;
+        if (tok88.GetType() != CTokenType.NUMBER || !tok88.GetValue().equals("88"))
+        {
+            Transcoder.logError(getLine(), "Expecting '88' keyword");
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb("NAMED_CONDITION") ;
 
-		CBaseToken tok = GetNext() ;
-		if (tok.GetType() != CTokenType.IDENTIFIER)
-		{
-			Transcoder.logError(getLine(), "Expecting an identifier after '88' keyword");
-			return false ;
-		}
-		csIdentifier = tok.GetValue() ;
+        CBaseToken tok = GetNext() ;
+        if (tok.GetType() != CTokenType.IDENTIFIER)
+        {
+            Transcoder.logError(getLine(), "Expecting an identifier after '88' keyword");
+            return false ;
+        }
+        csIdentifier = tok.GetValue() ;
 
-		tok = GetNext() ;
-		if (tok.GetKeyword() != CCobolKeywordList.VALUE && tok.GetKeyword() != CCobolKeywordList.VALUES)
-		{
-			Transcoder.logError(getLine(), "Expecting 'VALUE' keyword");
-			return false ;
-		}
+        tok = GetNext() ;
+        if (tok.GetKeyword() != CCobolKeywordList.VALUE && tok.GetKeyword() != CCobolKeywordList.VALUES)
+        {
+            Transcoder.logError(getLine(), "Expecting 'VALUE' keyword");
+            return false ;
+        }
 
-		tok = GetNext();
-		if (tok.GetKeyword() == CCobolKeywordList.IS || tok.GetKeyword() == CCobolKeywordList.ARE)
-		{
-			tok = GetNext();
-		}
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tokVal = GetCurrentToken();
-			CTerminal val ;
-			if (tokVal.GetType() == CTokenType.COMMA)
-			{
-				tokVal = GetNext();
-			}
-			if (tokVal.GetType() == CTokenType.STRING || tokVal.GetType() == CTokenType.NUMBER || tokVal.GetType() == CTokenType.CONSTANT || tokVal.GetType() == CTokenType.MINUS)
-			{
-				val = ReadTerminal();
-				values.addElement(val) ;
+        tok = GetNext();
+        if (tok.GetKeyword() == CCobolKeywordList.IS || tok.GetKeyword() == CCobolKeywordList.ARE)
+        {
+            tok = GetNext();
+        }
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tokVal = GetCurrentToken();
+            CTerminal val ;
+            if (tokVal.GetType() == CTokenType.COMMA)
+            {
+                tokVal = GetNext();
+            }
+            if (tokVal.GetType() == CTokenType.STRING || tokVal.GetType() == CTokenType.NUMBER || tokVal.GetType() == CTokenType.CONSTANT
+                || tokVal.GetType() == CTokenType.MINUS)
+            {
+                val = ReadTerminal();
+                values.addElement(val) ;
 
-				CBaseToken tokNext = GetCurrentToken();
-				if (tokNext.GetType() == CTokenType.COMMA)
-				{
+                CBaseToken tokNext = GetCurrentToken();
+                if (tokNext.GetType() == CTokenType.COMMA)
+                {
                     // values are intervals, so for a single value, it is added twice, as an interval of one single value
-					values.addElement(val) ;
-					GetNext(); // consume ","
-				}
-				else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
-				{
+                    values.addElement(val) ;
+                    GetNext(); // consume ","
+                }
+                else if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER
+                    || tokNext.GetType() == CTokenType.CONSTANT)
+                {
                     // values are intervals, so for a single value, it is added twice, as an interval of one single value
-					values.addElement(val) ;
-				}
-				else if (tokNext.GetKeyword() == CCobolKeywordList.THROUGH || tokNext.GetKeyword() == CCobolKeywordList.THRU)
-				{
-					tokNext = GetNext();
-					if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER || tokNext.GetType() == CTokenType.CONSTANT)
-					{
-						val = ReadTerminal();
-						values.addElement(val) ;
-					}
-					else
-					{
-						Transcoder.logError(tokNext.getLine(), "Unexpecting token : "+tokNext.GetValue()) ;
-						return false ;
-					}
-				}
-				else
-				{
+                    values.addElement(val) ;
+                }
+                else if (tokNext.GetKeyword() == CCobolKeywordList.THROUGH || tokNext.GetKeyword() == CCobolKeywordList.THRU)
+                {
+                    tokNext = GetNext();
+                    if (tokNext.GetType() == CTokenType.STRING || tokNext.GetType() == CTokenType.NUMBER
+                        || tokNext.GetType() == CTokenType.CONSTANT)
+                    {
+                        val = ReadTerminal();
+                        values.addElement(val) ;
+                    }
+                    else
+                    {
+                        Transcoder.logError(tokNext.getLine(), "Unexpecting token : "+tokNext.GetValue()) ;
+                        return false ;
+                    }
+                }
+                else
+                {
                     // values are intervals, so for a single value, it is added twice, as an interval of one single value
-					values.addElement(val) ;
-					isdone = true ;
-				}
-			}
-			else
-			{
-				isdone = true  ;
-			}
-		}
-		tok = GetCurrentToken() ;
-		if (tok.GetType() == CTokenType.DOT)
-		{
-			GetNext(); // consume DOT at the end of the statement
-		}
-		if (values.size()>0)
-		{
-			return true ;
-		}
-		else
-		{
-			return false ;
-		}
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("ConditionName") ;
-		for (int i = 0; i< values.size(); i+=2)
-		{
-			CTerminal term1 = values.get(i) ;
-			CTerminal term2 = values.get(i+1) ;
-			if (term1.GetValue().equals(term2.GetValue()))
-			{
-				Element eval = root.createElement("Value") ;
-				term2.ExportTo(eval, root) ;
-				e.appendChild(eval) ;
-			}
-			else
-			{
-				Element eval = root.createElement("Interval") ;
-				term1.ExportTo(eval, root) ;
-				e.appendChild(eval) ;
-				Element eThrough = root.createElement("Through") ;
-				term2.ExportTo(eThrough, root) ;
-				eval.appendChild(eThrough) ;
-			}
-		}
-		return e;
-	}
+                    values.addElement(val) ;
+                    isdone = true ;
+                }
+            }
+            else
+            {
+                isdone = true  ;
+            }
+        }
+        tok = GetCurrentToken() ;
+        if (tok.GetType() == CTokenType.DOT)
+        {
+            GetNext(); // consume DOT at the end of the statement
+        }
+        if (values.size()>0)
+        {
+            return true ;
+        }
+        else
+        {
+            return false ;
+        }
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("ConditionName") ;
+        for (int i = 0; i< values.size(); i+=2)
+        {
+            CTerminal term1 = values.get(i) ;
+            CTerminal term2 = values.get(i+1) ;
+            if (term1.GetValue().equals(term2.GetValue()))
+            {
+                Element eval = root.createElement("Value") ;
+                term2.ExportTo(eval, root) ;
+                e.appendChild(eval) ;
+            }
+            else
+            {
+                Element eval = root.createElement("Interval") ;
+                term1.ExportTo(eval, root) ;
+                e.appendChild(eval) ;
+                Element eThrough = root.createElement("Through") ;
+                term2.ExportTo(eThrough, root) ;
+                eval.appendChild(eThrough) ;
+            }
+        }
+        return e;
+    }
 
-	protected String csIdentifier = "" ;
-	protected Vector<CTerminal> values = new Vector<CTerminal>() ; // maybe several values
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityNamedCondition eCond = factory.NewEntityNamedCondition(getLine(), csIdentifier) ;
-		parent.AddChild(eCond);
+    protected String csIdentifier = "" ;
+    protected Vector<CTerminal> values = new Vector<CTerminal>() ; // maybe several values
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityNamedCondition eCond = factory.NewEntityNamedCondition(getLine(), csIdentifier) ;
+        parent.AddChild(eCond);
 
-		for (int i = 0; i< values.size(); i+=2)
-		{
-			CTerminal term1 = values.get(i) ;
-			CTerminal term2 = values.get(i+1) ;
-			if (term1.GetValue().equals(term2.GetValue()))
-			{
-				CDataEntity eVal = term1.GetDataEntity(getLine(), factory);
-				if (eVal == null && !term1.IsReference())
-				{
-					String cs = term1.GetValue() ;
-					if (cs.equals(CCobolConstantList.HIGH_VALUE.name) || cs.equals(CCobolConstantList.HIGH_VALUES.name))
-					{
-						eVal = factory.NewEntityConstant(CEntityConstant.Value.HIGH_VALUE) ;
-					}
-					else
-					{
-						eVal = factory.NewEntityUnknownReference(getLine(), term1.toString()) ;
-					}
-				}
-				eCond.AddValue(eVal) ;
-			}
-			else
-			{
-				CDataEntity eVal1 = term1.GetDataEntity(getLine(), factory);
-				CDataEntity eVal2 = term2.GetDataEntity(getLine(), factory);
-				eCond.AddInterval(eVal1, eVal2) ;
-			}
-		}
-		return eCond ;
-	}
+        for (int i = 0; i< values.size(); i+=2)
+        {
+            CTerminal term1 = values.get(i) ;
+            CTerminal term2 = values.get(i+1) ;
+            if (term1.GetValue().equals(term2.GetValue()))
+            {
+                CDataEntity eVal = term1.GetDataEntity(getLine(), factory);
+                if (eVal == null && !term1.IsReference())
+                {
+                    String cs = term1.GetValue() ;
+                    if (cs.equals(CCobolConstantList.HIGH_VALUE.name) || cs.equals(CCobolConstantList.HIGH_VALUES.name))
+                    {
+                        eVal = factory.NewEntityConstant(CEntityConstant.Value.HIGH_VALUE) ;
+                    }
+                    else
+                    {
+                        eVal = factory.NewEntityUnknownReference(getLine(), term1.toString()) ;
+                    }
+                }
+                eCond.AddValue(eVal) ;
+            }
+            else
+            {
+                CDataEntity eVal1 = term1.GetDataEntity(getLine(), factory);
+                CDataEntity eVal2 = term2.GetDataEntity(getLine(), factory);
+                eCond.AddInterval(eVal1, eVal2) ;
+            }
+        }
+        return eCond ;
+    }
 }

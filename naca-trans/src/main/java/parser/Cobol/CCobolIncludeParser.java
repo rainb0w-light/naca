@@ -13,13 +13,13 @@ import parser.Cobol.elements.CStandAloneWorking;
 public class CCobolIncludeParser extends CParser<CStandAloneWorking>
 {
 
-	@Override
-	protected boolean DoParsing(CTokenList lstTokens)
-	{
-		CStandAloneWorking working = new CStandAloneWorking(0) ;
-		eRoot = working ;
-		boolean isparsed = eRoot.Parse(lstTokens, commentContainer) ;
-		return isparsed;
-	}
+    @Override
+    protected boolean DoParsing(CTokenList lstTokens)
+    {
+        CStandAloneWorking working = new CStandAloneWorking(0) ;
+        eRoot = working ;
+        boolean isparsed = eRoot.Parse(lstTokens, commentContainer) ;
+        return isparsed;
+    }
 
 }

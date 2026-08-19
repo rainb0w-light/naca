@@ -12,12 +12,12 @@ package nacaLib.varEx;
  */
 public class CoupleIdValue
 {
-	CoupleIdValue(int nId, String csValue)
-	{
-		this.nId = nId;
-		this.csValue = csValue;
-	}
+    CoupleIdValue(int nId, String csValue)
+    {
+        this.nId = nId;
+        this.csValue = csValue;
+    }
 
-	public int nId;
-	public String csValue;
+    public int nId;
+    public String csValue;
 }

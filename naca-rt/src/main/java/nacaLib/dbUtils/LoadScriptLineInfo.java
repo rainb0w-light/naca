@@ -18,57 +18,57 @@ import jlib.misc.StringUtil;
  */
 public class LoadScriptLineInfo
 {
-	private boolean isreplace = false;
-	private String csTablePrefix = null;
-	private String csUnprefixedTableName = null;
-	private String csInddnValue = null;
+    private boolean isreplace = false;
+    private String csTablePrefix = null;
+    private String csUnprefixedTableName = null;
+    private String csInddnValue = null;
 
-	void setFullTable(String csFullTable)
-	{
-		csTablePrefix = StringUtil.getTablePrefix(csFullTable);
-		csUnprefixedTableName = StringUtil.getUnprefixedTableName(csFullTable);
-	}
+    void setFullTable(String csFullTable)
+    {
+        csTablePrefix = StringUtil.getTablePrefix(csFullTable);
+        csUnprefixedTableName = StringUtil.getUnprefixedTableName(csFullTable);
+    }
 
-//	String getFullTableName()
-//	{
-//		return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
-//	}
+//  String getFullTableName()
+//  {
+//      return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
+//  }
 
-	String getFullTableName(String csPrefix)
-	{
-		if(!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD"))
-			return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
-		csTablePrefix = csPrefix;
-		return StringUtil.makeFullTableName(csPrefix, csUnprefixedTableName);
-	}
+    String getFullTableName(String csPrefix)
+    {
+        if(!StringUtil.isEmpty(csTablePrefix) && !csTablePrefix.equalsIgnoreCase("PROD"))
+            return StringUtil.makeFullTableName(csTablePrefix, csUnprefixedTableName);
+        csTablePrefix = csPrefix;
+        return StringUtil.makeFullTableName(csPrefix, csUnprefixedTableName);
+    }
 
-	String getTablePrefix()
-	{
-		return csTablePrefix;
-	}
+    String getTablePrefix()
+    {
+        return csTablePrefix;
+    }
 
-	String getUnprefixedTableName()
-	{
-		return csUnprefixedTableName;
-	}
+    String getUnprefixedTableName()
+    {
+        return csUnprefixedTableName;
+    }
 
-	void setReplace(boolean b)
-	{
-		isreplace = b;
-	}
+    void setReplace(boolean b)
+    {
+        isreplace = b;
+    }
 
-	boolean isReplace()
-	{
-		return isreplace;
-	}
+    boolean isReplace()
+    {
+        return isreplace;
+    }
 
-	void setInddnValue(String csInddnValue)
-	{
-		this.csInddnValue = csInddnValue;
-	}
+    void setInddnValue(String csInddnValue)
+    {
+        this.csInddnValue = csInddnValue;
+    }
 
-	String getInddnValue()
-	{
-		return csInddnValue;
-	}
+    String getInddnValue()
+    {
+        return csInddnValue;
+    }
 }

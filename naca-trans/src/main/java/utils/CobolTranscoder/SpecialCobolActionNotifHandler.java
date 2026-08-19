@@ -11,18 +11,18 @@ import jlib.engine.BaseNotificationHandler;
 
 public class SpecialCobolActionNotifHandler extends BaseNotificationHandler
 {
-	private boolean isuseCICSPreprocessor = false ;
-	
-	
-	public boolean OnUseCICSPreprocessor(NotifDeclareUseCICSPreprocessor notif)
-	{
-		isuseCICSPreprocessor = true ;
-		return true ;
-	}
-	
-	public boolean OnIsUsedCICSPRe(NotifIsUsedCICSPreprocessor notif)
-	{
-		notif.isused = isuseCICSPreprocessor;
-		return true ;
-	}
+    private boolean isuseCICSPreprocessor = false ;
+
+
+    public boolean OnUseCICSPreprocessor(NotifDeclareUseCICSPreprocessor notif)
+    {
+        isuseCICSPreprocessor = true ;
+        return true ;
+    }
+
+    public boolean OnIsUsedCICSPRe(NotifIsUsedCICSPreprocessor notif)
+    {
+        notif.isused = isuseCICSPreprocessor;
+        return true ;
+    }
 }

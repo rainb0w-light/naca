@@ -25,7 +25,8 @@ public final class LegacyFileDescriptorFixture extends CEntityFileDescriptor
         {
             file = "\"" + GetDisplayName() + "\"";
         }
-        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptor " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())
+        generate.LegacyLanguageRenderer.writeWord(this, "FileDescriptor "
+            + generate.LegacyLanguageRenderer.formatIdentifier(this, GetDisplayName())
             + " = declare.file(" + file + ")");
         if (fileSelect != null && fileSelect.getFileStatus() != null)
         {

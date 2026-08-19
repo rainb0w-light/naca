@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,25 +16,25 @@ package jlib.misc;
  */
 public class LittleEndingUnsignBinaryBufferStorage
 {
-	// Little endian binary storage: reverse byte ordre form intel
+    // Little endian binary storage: reverse byte ordre form intel
     public final static int readByte(byte buf[], int nPos)
     {
-    	int n = buf[nPos];
-    	if(n < 0)
-    		n += 256;
-    	return n;
+        int n = buf[nPos];
+        if(n < 0)
+            n += 256;
+        return n;
     }
-	
+
     public final static int readShort(byte buf[], int nPos)
     {
-    	int h = buf[nPos];
-    	if(h < 0)
-    		h += 256;
+        int h = buf[nPos];
+        if(h < 0)
+            h += 256;
         int l = buf[nPos+1];
-    	if(l < 0)
-    		l += 256;
-    	int n = (h << 8) + l;
-    	return n;
+        if(l < 0)
+            l += 256;
+        int n = (h << 8) + l;
+        return n;
     }
 
     public final static void writeShort(byte buf[], short s, int nPos)
@@ -42,7 +42,7 @@ public class LittleEndingUnsignBinaryBufferStorage
         buf[nPos+1] = (byte)(s >>> 0 & 0xff);
         buf[nPos] = (byte)(s >>> 8 & 0xff);
     }
-    
+
     public final static void writeUnsignedShort(byte buf[], int n, int nPos)
     {
         buf[nPos+1] = (byte)(n >>> 0 & 0xff);
@@ -52,22 +52,22 @@ public class LittleEndingUnsignBinaryBufferStorage
 
     public final static long readInt(byte buf[], int nPos)
     {
-    	long h = buf[nPos];
-    	if(h < 0)
-    		h += 256;
-        
-    	long hm = buf[nPos+1];
-    	if(hm < 0)
-    		hm += 256;
-    	
-    	long lm = buf[nPos+2];
-    	if(lm < 0)
-    		lm += 256;
-        
-    	long l = buf[nPos+3];
-    	if(l < 0)
-    		l += 256;
-    	
+        long h = buf[nPos];
+        if(h < 0)
+            h += 256;
+
+        long hm = buf[nPos+1];
+        if(hm < 0)
+            hm += 256;
+
+        long lm = buf[nPos+2];
+        if(lm < 0)
+            lm += 256;
+
+        long l = buf[nPos+3];
+        if(l < 0)
+            l += 256;
+
         long lValue = (h << 24) + (hm << 16) + (lm << 8) + (l << 0);
         return lValue;
     }

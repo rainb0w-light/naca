@@ -12,23 +12,23 @@ package nacaLib.varEx;
  */
 public class InitializeManagerDouble extends InitializeManager
 {
-	public InitializeManagerDouble(String csd)
-	{
-		this.csd = csd;
-	}
+    public InitializeManagerDouble(String csd)
+    {
+        this.csd = csd;
+    }
 
-	public void set(String csd)
-	{
-		this.csd = csd;
-	}
+    public void set(String csd)
+    {
+        this.csd = csd;
+    }
 
-	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
-	{
-		//varDef.write(buffer, csd);
-		varDef.write(buffer, csd, nOffset, csd.length());
-		if(initializeCache != null)
-			initializeCache.setNotManaged();
-	}
+    public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
+    {
+        //varDef.write(buffer, csd);
+        varDef.write(buffer, csd, nOffset, csd.length());
+        if(initializeCache != null)
+            initializeCache.setNotManaged();
+    }
 
-	private String csd;
+    private String csd;
 }

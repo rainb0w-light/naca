@@ -11,20 +11,20 @@ import java.util.concurrent.Executors;
 
 public class SimpleThreadPool
 {
-	public SimpleThreadPool(int nNbThread)
-	{
-		pool = Executors.newFixedThreadPool(nNbThread);
-	}
-	
-	public void enqueue(Runnable runnable)
-	{
-		pool.execute(runnable);
-	}
-	
-	public void requestStop()
-	{
-		pool.shutdown();
-	}
-	
-	private ExecutorService pool = null;
+    public SimpleThreadPool(int nNbThread)
+    {
+        pool = Executors.newFixedThreadPool(nNbThread);
+    }
+
+    public void enqueue(Runnable runnable)
+    {
+        pool.execute(runnable);
+    }
+
+    public void requestStop()
+    {
+        pool.shutdown();
+    }
+
+    private ExecutorService pool = null;
 }

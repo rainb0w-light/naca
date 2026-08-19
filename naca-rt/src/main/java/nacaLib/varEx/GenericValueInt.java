@@ -14,51 +14,51 @@ package nacaLib.varEx;
  */
 public class GenericValueInt extends GenericValue
 {
-	GenericValueInt(int n)
-	{
-		this.n = n;
-	}
+    GenericValueInt(int n)
+    {
+        this.n = n;
+    }
 
-	String getAsRawString()
-	{
-		return String.valueOf(n);
-	}
+    String getAsRawString()
+    {
+        return String.valueOf(n);
+    }
 
-	String getAsString()
-	{
-		return String.valueOf(n);
-	}
+    String getAsString()
+    {
+        return String.valueOf(n);
+    }
 
 
-	int getAsInt()
-	{
-		return n;
-	}
+    int getAsInt()
+    {
+        return n;
+    }
 
-	int getAsUnsignedInt()
-	{
-		if(n < 0)
-			return -n;
-		return n;
-	}
+    int getAsUnsignedInt()
+    {
+        if(n < 0)
+            return -n;
+        return n;
+    }
 
-	Dec getAsDec()
-	{
-		Dec dec = new Dec(n, "");
-		return dec;
-	}
+    Dec getAsDec()
+    {
+        Dec dec = new Dec(n, "");
+        return dec;
+    }
 
-	Dec getAsUnsignedDec()
-	{
-		Dec dec = getAsDec();
-		dec.setPositive(true);
-		return dec;
-	}
+    Dec getAsUnsignedDec()
+    {
+        Dec dec = getAsDec();
+        dec.setPositive(true);
+        return dec;
+    }
 
-	double getAsDouble()
-	{
-		return n;
-	}
+    double getAsDouble()
+    {
+        return n;
+    }
 
-	private int n;
+    private int n;
 }

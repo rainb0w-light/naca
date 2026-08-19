@@ -22,132 +22,132 @@ import utils.CObjectCatalog;
  */
 public class CEntitySubtractTo extends CBaseActionEntity
 {
-	/* (non-Javadoc)
-	 * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
-	 */
-	@Override
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		boolean isres = false ;
-		if (variable == field)
-		{
-			variable = var ;
-			field.UnRegisterReadingAction(this) ;
-			var.RegisterReadingAction(this) ;
-			isres = true ;
-		}
-		for (CDataEntity value : values)
-		{
-			if (value == field)
-			{
-				field.UnRegisterReadingAction(this) ;
-				var.RegisterReadingAction(this) ;
-				isres = true ;
-			}
-		}
-		for (CDataEntity value : destination)
-		{
-			if (value == field)
-			{
-				field.UnRegisterWritingAction(this) ;
-				var.RegisterWritingAction(this) ;
-				isres = true ;
-			}
-		}
-		if (destination.isEmpty())
-		{
-			field.UnRegisterWritingAction(this) ;
-			var.RegisterWritingAction(this) ;
-			isres = true ;
-		}
-		return isres;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
+     */
+    @Override
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        boolean isres = false ;
+        if (variable == field)
+        {
+            variable = var ;
+            field.UnRegisterReadingAction(this) ;
+            var.RegisterReadingAction(this) ;
+            isres = true ;
+        }
+        for (CDataEntity value : values)
+        {
+            if (value == field)
+            {
+                field.UnRegisterReadingAction(this) ;
+                var.RegisterReadingAction(this) ;
+                isres = true ;
+            }
+        }
+        for (CDataEntity value : destination)
+        {
+            if (value == field)
+            {
+                field.UnRegisterWritingAction(this) ;
+                var.RegisterWritingAction(this) ;
+                isres = true ;
+            }
+        }
+        if (destination.isEmpty())
+        {
+            field.UnRegisterWritingAction(this) ;
+            var.RegisterWritingAction(this) ;
+            isres = true ;
+        }
+        return isres;
+    }
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySubtractTo(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySubtractTo(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void SetSubstract(CDataEntity var, CDataEntity val, CDataEntity dest)
-	{
-		SetSubstract(var, Arrays.asList(val), Arrays.asList(dest));
-	}
+    public void SetSubstract(CDataEntity var, CDataEntity val, CDataEntity dest)
+    {
+        SetSubstract(var, Arrays.asList(val), Arrays.asList(dest));
+    }
 
-	public void SetSubstract(CDataEntity var, List<CDataEntity> val, List<CDataEntity> dest)
-	{
-		variable = var ;
-		values.addAll(val);
-		destination.addAll(dest) ;
-	}
-	public void SetOnErrorBloc(CBaseLanguageEntity error) {
-		onErrorBloc = error;
-	}
+    public void SetSubstract(CDataEntity var, List<CDataEntity> val, List<CDataEntity> dest)
+    {
+        variable = var ;
+        values.addAll(val);
+        destination.addAll(dest) ;
+    }
+    public void SetOnErrorBloc(CBaseLanguageEntity error) {
+        onErrorBloc = error;
+    }
 
-	protected CDataEntity variable ;
-	protected CBaseLanguageEntity onErrorBloc ;
-	protected final List<CDataEntity> values = new ArrayList<CDataEntity>();
-	protected final List<CDataEntity> destination = new ArrayList<CDataEntity>();
-	public void Clear()
-	{
-		super.Clear() ;
-		variable = null ;
-		values.clear();
-		destination.clear() ;
-	}
-	public boolean ignore()
-	{
-		boolean ignore = variable.ignore() ;
-		for (CDataEntity value : values)
-		{
-			ignore |= value.ignore();
-		}
-		for (CDataEntity value : destination)
-		{
-			ignore |= value.ignore();
-		}
-		return ignore;
-	}
+    protected CDataEntity variable ;
+    protected CBaseLanguageEntity onErrorBloc ;
+    protected final List<CDataEntity> values = new ArrayList<CDataEntity>();
+    protected final List<CDataEntity> destination = new ArrayList<CDataEntity>();
+    public void Clear()
+    {
+        super.Clear() ;
+        variable = null ;
+        values.clear();
+        destination.clear() ;
+    }
+    public boolean ignore()
+    {
+        boolean ignore = variable.ignore() ;
+        for (CDataEntity value : values)
+        {
+            ignore |= value.ignore();
+        }
+        for (CDataEntity value : destination)
+        {
+            ignore |= value.ignore();
+        }
+        return ignore;
+    }
 
-	// ==================== ST4 recursive accessors ====================
+    // ==================== ST4 recursive accessors ====================
 
-	public CDataEntity getVariable()
-	{
-		return variable ;
-	}
+    public CDataEntity getVariable()
+    {
+        return variable ;
+    }
 
-	public java.util.List<CDataEntity> getValues()
-	{
-		return values ;
-	}
+    public java.util.List<CDataEntity> getValues()
+    {
+        return values ;
+    }
 
-	public java.util.List<CDataEntity> getDestinations()
-	{
-		return destination ;
-	}
+    public java.util.List<CDataEntity> getDestinations()
+    {
+        return destination ;
+    }
 
-	public boolean hasDestinations()
-	{
-		return !destination.isEmpty() ;
-	}
+    public boolean hasDestinations()
+    {
+        return !destination.isEmpty() ;
+    }
 
-	public boolean isDecrementByOne()
-	{
-		return destination.isEmpty() && values.size() == 1
-			&& "1".equals(values.get(0).GetConstantValue()) ;
-	}
+    public boolean isDecrementByOne()
+    {
+        return destination.isEmpty() && values.size() == 1
+            && "1".equals(values.get(0).GetConstantValue()) ;
+    }
 
-	public boolean isIncrementByOne()
-	{
-		return destination.isEmpty() && values.size() == 1
-			&& "-1".equals(values.get(0).GetConstantValue()) ;
-	}
+    public boolean isIncrementByOne()
+    {
+        return destination.isEmpty() && values.size() == 1
+            && "-1".equals(values.get(0).GetConstantValue()) ;
+    }
 
-	public semantic.CBaseLanguageEntity getOnErrorBloc()
-	{
-		return onErrorBloc ;
-	}
+    public semantic.CBaseLanguageEntity getOnErrorBloc()
+    {
+        return onErrorBloc ;
+    }
 }

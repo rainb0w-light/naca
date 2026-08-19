@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,10 +16,10 @@ package jlib.misc;
  */
 public class EndOfLine
 {
-	public static final String CR = "\r";
-	public static final String LF = "\n";
-	public static final String CRLF = "\r\n";
-	public static final String UNIX_EOL = "\r";
-	public static final String WIN_EOL = "\r\n";
-	public static final String TAB = "\t";
+    public static final String CR = "\r";
+    public static final String LF = "\n";
+    public static final String CRLF = "\r\n";
+    public static final String UNIX_EOL = "\r";
+    public static final String WIN_EOL = "\r\n";
+    public static final String TAB = "\t";
 }

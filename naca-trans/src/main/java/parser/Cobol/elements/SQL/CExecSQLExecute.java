@@ -26,39 +26,39 @@ import semantic.SQL.CEntitySQLExecute;
  */
 public class CExecSQLExecute extends CBaseExecSQLAction
 {
-	public CExecSQLExecute(int l)
-	{
-		super(l);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element eExe = root.createElement("SQLExecute");
-		eExe.setAttribute("Var", idVar.GetName());
-		return eExe;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLExecute exec = factory.NewEntitySQLExecute(getLine()) ;
-		CDataEntity var = idVar.GetDataReference(getLine(), factory) ;
-		exec.setVar(var) ;
-		parent.AddChild(exec) ;
-		return exec ;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetNext() ;
+    public CExecSQLExecute(int l)
+    {
+        super(l);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element eExe = root.createElement("SQLExecute");
+        eExe.setAttribute("Var", idVar.GetName());
+        return eExe;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLExecute exec = factory.NewEntitySQLExecute(getLine()) ;
+        CDataEntity var = idVar.GetDataReference(getLine(), factory) ;
+        exec.setVar(var) ;
+        parent.AddChild(exec) ;
+        return exec ;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetNext() ;
 
-		if (tok.GetKeyword() == CCobolKeywordList.IMMEDIATE)
-		{
-			tok = GetNext();
-		}
-		if (tok.GetType() == CTokenType.COLON)
-		{
-			tok = GetNext();
-			idVar = ReadIdentifier();
-		}
-		return true ;
-	}
+        if (tok.GetKeyword() == CCobolKeywordList.IMMEDIATE)
+        {
+            tok = GetNext();
+        }
+        if (tok.GetType() == CTokenType.COLON)
+        {
+            tok = GetNext();
+            idVar = ReadIdentifier();
+        }
+        return true ;
+    }
 
-	protected CIdentifier idVar = null ;
+    protected CIdentifier idVar = null ;
 }

@@ -16,75 +16,75 @@ import semantic.CDataEntity;
  */
 public class CEntityCondIsAll extends CBaseEntityCondition
 {
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityCondIsAll opposite = new CEntityCondIsAll();
-		opposite.SetCondition(exprData, exprToken);
-		opposite.bIsOpposite = !bIsOpposite;
-		return opposite;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityCondIsAll opposite = new CEntityCondIsAll();
+        opposite.SetCondition(exprData, exprToken);
+        opposite.bIsOpposite = !bIsOpposite;
+        return opposite;
+    }
 
-	public void SetCondition(CBaseEntityExpression data, CBaseEntityExpression tok)
-	{
-		exprData = data ;
-		exprToken = tok ;
-	}
+    public void SetCondition(CBaseEntityExpression data, CBaseEntityExpression tok)
+    {
+        exprData = data ;
+        exprToken = tok ;
+    }
 
-	protected CBaseEntityExpression exprData = null ;
-	protected CBaseEntityExpression exprToken = null ;
-	protected boolean bIsOpposite = false ;
-	public void setOpposite()
-	{
-		bIsOpposite = ! bIsOpposite ;
-	}
-	public CBaseEntityExpression getData()
-	{
-		return exprData;
-	}
-	public CBaseEntityExpression getToken()
-	{
-		return exprToken;
-	}
-	public boolean isOpposite()
-	{
-		return bIsOpposite;
-	}
-	public void Clear()
-	{
-		super.Clear() ;
-		exprData.Clear() ;
-		exprToken.Clear() ;
-		exprData = null ;
-		exprToken = null ;
-	}
-	public boolean ignore()
-	{
-		return exprData.ignore() ;
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		return null;
-	}
-	public boolean isBinaryCondition()
-	{
-		return false;
-	}
-	/**
-	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
-	 */
-	@Override
-	public CDataEntity GetConditionReference()
-	{
-		return null;
-	}
-	public void SetConditonReference(CDataEntity e)
-	{
-		ASSERT(null) ;
-	}
+    protected CBaseEntityExpression exprData = null ;
+    protected CBaseEntityExpression exprToken = null ;
+    protected boolean bIsOpposite = false ;
+    public void setOpposite()
+    {
+        bIsOpposite = ! bIsOpposite ;
+    }
+    public CBaseEntityExpression getData()
+    {
+        return exprData;
+    }
+    public CBaseEntityExpression getToken()
+    {
+        return exprToken;
+    }
+    public boolean isOpposite()
+    {
+        return bIsOpposite;
+    }
+    public void Clear()
+    {
+        super.Clear() ;
+        exprData.Clear() ;
+        exprToken.Clear() ;
+        exprData = null ;
+        exprToken = null ;
+    }
+    public boolean ignore()
+    {
+        return exprData.ignore() ;
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        return null;
+    }
+    public boolean isBinaryCondition()
+    {
+        return false;
+    }
+    /**
+     * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
+     */
+    @Override
+    public CDataEntity GetConditionReference()
+    {
+        return null;
+    }
+    public void SetConditonReference(CDataEntity e)
+    {
+        ASSERT(null) ;
+    }
 
 }

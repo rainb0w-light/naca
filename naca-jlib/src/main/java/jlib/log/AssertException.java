@@ -8,14 +8,14 @@ package jlib.log;
 
 public class AssertException extends Error
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public AssertException()
-	{
-	}
-	
-	public AssertException(String arg0)
-	{
-		super(arg0);
-	}
+    public AssertException()
+    {
+    }
+
+    public AssertException(String arg0)
+    {
+        super(arg0);
+    }
 }

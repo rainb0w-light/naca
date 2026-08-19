@@ -50,81 +50,81 @@ import semantic.expression.CBaseEntityCondition;
 public class CEntityIsKeyPressed extends CBaseEntityCondition
 {
 
-	public void isKeyPressed(CDataEntity key)
-	{
-		keyPressed = key ;
-		bIsNot = false ;
-	}
-	public void isNotKeyPressed(CDataEntity key)
-	{
-		keyPressed = key ;
-		bIsNot = true ;
-	}
-	protected CDataEntity keyPressed = null ;
-	protected boolean bIsNot = false ;
+    public void isKeyPressed(CDataEntity key)
+    {
+        keyPressed = key ;
+        bIsNot = false ;
+    }
+    public void isNotKeyPressed(CDataEntity key)
+    {
+        keyPressed = key ;
+        bIsNot = true ;
+    }
+    protected CDataEntity keyPressed = null ;
+    protected boolean bIsNot = false ;
 
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityIsKeyPressed is = new CEntityIsKeyPressed();
-		is.bIsNot = !bIsNot ;
-		is.keyPressed = keyPressed ;
-		keyPressed.RegisterValueAccess(is) ;
-		return is ;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityIsKeyPressed is = new CEntityIsKeyPressed();
+        is.bIsNot = !bIsNot ;
+        is.keyPressed = keyPressed ;
+        keyPressed.RegisterValueAccess(is) ;
+        return is ;
+    }
 
-	/**
-	 * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the negation
-	 * flag selecting the {@code isKeyPressed}/{@code isNotKeyPressed} runtime call. Precomputed
-	 * by {@link #isKeyPressed}/{@link #isNotKeyPressed}; ST4 only reads it.
-	 */
-	public boolean isOpposite()
-	{
-		return bIsNot ;
-	}
+    /**
+     * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the negation
+     * flag selecting the {@code isKeyPressed}/{@code isNotKeyPressed} runtime call. Precomputed
+     * by {@link #isKeyPressed}/{@link #isNotKeyPressed}; ST4 only reads it.
+     */
+    public boolean isOpposite()
+    {
+        return bIsNot ;
+    }
 
-	/**
-	 * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the console-key
-	 * sub-entity (a {@link CEntityKeyPressed}) rendered recursively through the assembler to
-	 * {@code KeyPressed.<constant>}. Resolved during semantic analysis; ST4 only reads it.
-	 */
-	public CDataEntity getKeyPressed()
-	{
-		return keyPressed ;
-	}
+    /**
+     * Pure read-only getter for the {@code recursiveIsKeyPressedEntity} template: the console-key
+     * sub-entity (a {@link CEntityKeyPressed}) rendered recursively through the assembler to
+     * {@code KeyPressed.<constant>}. Resolved during semantic analysis; ST4 only reads it.
+     */
+    public CDataEntity getKeyPressed()
+    {
+        return keyPressed ;
+    }
 
-	public void Clear()
-	{
-		super.Clear();
-		keyPressed = null ;
-	}
+    public void Clear()
+    {
+        super.Clear();
+        keyPressed = null ;
+    }
 
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		return null;
-	}
-	public boolean isBinaryCondition()
-	{
-		return true;
-	}
-	/**
-	 * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
-	 */
-	@Override
-	public CDataEntity GetConditionReference()
-	{
-		return null;
-	}
-	public void SetConditonReference(CDataEntity e)
-	{
-		ASSERT(null) ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        return null;
+    }
+    public boolean isBinaryCondition()
+    {
+        return true;
+    }
+    /**
+     * @see semantic.expression.CBaseEntityCondition#GetConditionReference()
+     */
+    @Override
+    public CDataEntity GetConditionReference()
+    {
+        return null;
+    }
+    public void SetConditonReference(CDataEntity e)
+    {
+        ASSERT(null) ;
+    }
 }

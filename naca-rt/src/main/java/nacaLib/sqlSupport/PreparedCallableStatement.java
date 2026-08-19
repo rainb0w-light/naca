@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -26,8 +26,8 @@ import nacaLib.varEx.Var;
  */
 public class PreparedCallableStatement extends DbPreparedCallableStatement
 {
-	PreparedCallableStatement(CallableStatement callableStatement)
-	{
-		super(callableStatement);
-	}
+    PreparedCallableStatement(CallableStatement callableStatement)
+    {
+        super(callableStatement);
+    }
 }

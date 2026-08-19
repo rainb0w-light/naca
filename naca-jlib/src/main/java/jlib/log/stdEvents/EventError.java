@@ -12,61 +12,61 @@ import jlib.log.*;
  * exception; an exception that will force the application to abort.
  * During execution, applications should log the following event types:
  * <ul>
- * 	<li>One (and only one) {@link EventStart} when the application Remarks.</li>
- * 	<li>Any number of {@link EventRemark} events, to log various informations the
- * 	developers found worthwhile to log.</li>
- * 	<li>During processing, regularly log {@link EventProgress} events, to log
- * 	the process progressing.</li>
- * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
- * 	previous <i>EventProgress</i>.</li>
- * 	<li>One (and only one) {@link EventFinish} when the application finishes.</li>
- * 	<li>If the application encounters an irrecoverable exception, it should log
- * 	one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
- * 	<li>If the application encounters an error that will not force it to abort,
- * 	it should log a {@link EventWarning} event.</li>
+ *  <li>One (and only one) {@link EventStart} when the application Remarks.</li>
+ *  <li>Any number of {@link EventRemark} events, to log various informations the
+ *  developers found worthwhile to log.</li>
+ *  <li>During processing, regularly log {@link EventProgress} events, to log
+ *  the process progressing.</li>
+ *  <li>When finished processing, log a {@link EventReport} event, to summarize all
+ *  previous <i>EventProgress</i>.</li>
+ *  <li>One (and only one) {@link EventFinish} when the application finishes.</li>
+ *  <li>If the application encounters an irrecoverable exception, it should log
+ *  one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
+ *  <li>If the application encounters an error that will not force it to abort,
+ *  it should log a {@link EventWarning} event.</li>
  * </ul>
  * This class allows to log a simple "Error". You'll probably need to extend this
  * class to adapt it to your own exception handling. Here are a couple of
  * suggestions:
  * <ul>
- * 	<li>You can add up to nine custom parameters:
- * 		<pre>
- * 			class EventErrorMyApplication extends EventError
- * 			{
+ *  <li>You can add up to nine custom parameters:
+ *      <pre>
+ *          class EventErrorMyApplication extends EventError
+ *          {
  * public static log(String csChannel, String csProcess, String csProduct, String csParam1, int iParam2, String csMessage)
- * 				{
- * 					EventStart e=new EventStart(csProcess, csProduct, csParam1, iParam2);
- * 					Log.log(csChannel,e,csMessage);
- * 				}
+ *              {
+ *                  EventStart e=new EventStart(csProcess, csProduct, csParam1, iParam2);
+ *                  Log.log(csChannel,e,csMessage);
+ *              }
  *
- * 				public EventErrorMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
- * 				{
- * 					super(csProcess, csProduct);
- * 					fillMember("param1",csParam1);
- * 					fillMember("param2",iParam2);
- * 				}
- * 			}
- * 		</pre>
- * 	</li>
- * 	<li>You can create a link between the caught exception and the name
- * 	of the "Error" event you log:
- * 		<pre>
- * 			class EventErrorMyApplication extends EventError
- * 			{
- * 				public static log(String csChannel, String csProcess, String csProduct, Exception exception)
- * 				{
- * 					EventStart e=new EventStart(csProcess, csProduct, exception);
- * 					Log.log(csChannel,e,exception.getMessage());
- * 				}
+ *              public EventErrorMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
+ *              {
+ *                  super(csProcess, csProduct);
+ *                  fillMember("param1",csParam1);
+ *                  fillMember("param2",iParam2);
+ *              }
+ *          }
+ *      </pre>
+ *  </li>
+ *  <li>You can create a link between the caught exception and the name
+ *  of the "Error" event you log:
+ *      <pre>
+ *          class EventErrorMyApplication extends EventError
+ *          {
+ *              public static log(String csChannel, String csProcess, String csProduct, Exception exception)
+ *              {
+ *                  EventStart e=new EventStart(csProcess, csProduct, exception);
+ *                  Log.log(csChannel,e,exception.getMessage());
+ *              }
  *
- * 				public EventErrorMyApplication(String csProcess, String csProduct, Exception exception)
- * 				{
- * 					super(csProcess, csProduct);
- * 					setName(exception.getName());
- * 				}
- * 			}
- * 		</pre>
- * 	</li>
+ *              public EventErrorMyApplication(String csProcess, String csProduct, Exception exception)
+ *              {
+ *                  super(csProcess, csProduct);
+ *                  setName(exception.getName());
+ *              }
+ *          }
+ *      </pre>
+ *  </li>
  * </ul>
  * @author jmgonet
  */
@@ -97,11 +97,18 @@ public class EventError extends LogEvent {
  *     use {@link Log#setRuntimeId}.
  * @param csError An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csRunId, String csRuntimeId, String csError)
-	{
-		EventError e=new EventError(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csError, csRunId, csRuntimeId);
-	}
+    public static void log(
+        String csChannel,
+        String csProcess,
+        String csProduct,
+        String csName,
+        String csRunId,
+        String csRuntimeId,
+        String csError)
+    {
+        EventError e=new EventError(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csError, csRunId, csRuntimeId);
+    }
 
 /**
  * Logs a "Error" event.
@@ -121,11 +128,11 @@ public class EventError extends LogEvent {
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  * @param csError An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csName, String csError)
-	{
-		EventError e=new EventError(csProcess, csProduct, csName);
-		Log.log(csChannel, e, csError);
-	}
+    public static void log(String csChannel, String csProcess, String csProduct, String csName, String csError)
+    {
+        EventError e=new EventError(csProcess, csProduct, csName);
+        Log.log(csChannel, e, csError);
+    }
 
 /**
  * Creates an "Error" event.
@@ -137,8 +144,8 @@ public class EventError extends LogEvent {
  * @param csName The desired name of the event. If left <i>null</i>, the default
  *     value is the event class name: <i>jlib.log.stdEvents.EventXXX</i>.
  */
-	public EventError(String csProcess, String csProduct, String csName)
-	{
-		super(LogEventType.Error, LogFlowStd.System, LogLevel.Critical,  csProduct, csProcess, csName);
-	}
+    public EventError(String csProcess, String csProduct, String csName)
+    {
+        super(LogEventType.Error, LogFlowStd.System, LogLevel.Critical,  csProduct, csProcess, csName);
+    }
 }

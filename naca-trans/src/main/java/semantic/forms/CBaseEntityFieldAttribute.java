@@ -23,69 +23,69 @@ import utils.*;
  */
 public abstract class CBaseEntityFieldAttribute extends CBaseDataReference
 {
-	public static class CEntityFieldAttributeType
-	{
-		public static CEntityFieldAttributeType LENGTH = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType HIGHLIGHT = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType COLOR = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType FLAG = new CEntityFieldAttributeType() ;
-//		public static CEntityFieldAttributeType PROTECTED = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType VALIDATION = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType ATTRIBUTE = new CEntityFieldAttributeType() ;
-		public static CEntityFieldAttributeType DATA = new CEntityFieldAttributeType() ;
-		//public static CEntityFieldAttributeType DATAO = new CEntityFieldAttributeType() ;
-	}
-	/**
-	 * @param name
-	 * @param cat
-	 */
-	protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CEntityFieldAttributeType type, CDataEntity owner)
-	{
-		super(l, name, cat);
-		this.type = type ;
-		reference = owner ;
-		parent = owner ;
-	}
-	protected CEntityFieldAttributeType type = null ;
+    public static class CEntityFieldAttributeType
+    {
+        public static CEntityFieldAttributeType LENGTH = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType HIGHLIGHT = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType COLOR = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType FLAG = new CEntityFieldAttributeType() ;
+//      public static CEntityFieldAttributeType PROTECTED = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType VALIDATION = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType ATTRIBUTE = new CEntityFieldAttributeType() ;
+        public static CEntityFieldAttributeType DATA = new CEntityFieldAttributeType() ;
+        //public static CEntityFieldAttributeType DATAO = new CEntityFieldAttributeType() ;
+    }
+    /**
+     * @param name
+     * @param cat
+     */
+    protected CBaseEntityFieldAttribute(int l, String name, CObjectCatalog cat, CEntityFieldAttributeType type, CDataEntity owner)
+    {
+        super(l, name, cat);
+        this.type = type ;
+        reference = owner ;
+        parent = owner ;
+    }
+    protected CEntityFieldAttributeType type = null ;
 
-	public void Clear()
-	{
-		super.Clear() ;
-		reference = null ;
-	}
+    public void Clear()
+    {
+        super.Clear() ;
+        reference = null ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		return null;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        return null;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
-	 */
-	protected void RegisterMySelfToCatalog()
-	{
-		programCatalog.RegisterDataEntity(GetName(), this) ;
-//		programCatalog.RegisterDataEntity("S" + GetName(), this) ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
+     */
+    protected void RegisterMySelfToCatalog()
+    {
+        programCatalog.RegisterDataEntity(GetName(), this) ;
+//      programCatalog.RegisterDataEntity("S" + GetName(), this) ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
 }

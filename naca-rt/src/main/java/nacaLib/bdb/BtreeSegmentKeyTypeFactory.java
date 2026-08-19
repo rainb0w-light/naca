@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -16,5 +16,5 @@ package nacaLib.bdb;
  */
 public abstract class BtreeSegmentKeyTypeFactory
 {
-	abstract BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending);
+    abstract BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending);
 }

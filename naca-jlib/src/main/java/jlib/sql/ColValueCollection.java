@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -22,145 +22,145 @@ import java.util.Hashtable;
  */
 public class ColValueCollection
 {
-	private ArrayList<ColValue> cols = null;
-	private Hashtable<String, ColValue> hashColsByName = null;
-	
-	public ColValueCollection()
-	{
-		if(cols == null)
-			cols = new ArrayList<ColValue>();
-		if(hashColsByName == null)
-			hashColsByName = new Hashtable<String, ColValue>(); 
-	}
-	
-	synchronized public boolean isStored(String csColName)
-	{
-		ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-		if(colValue == null)
-			return false;
-		return true;
-	}
-	
-	public String getAsString(String csColName)
-	{
-		ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-		if(colValue != null)
-			return colValue.getValueAsString();
-		return null;
-	}
-	
-	public int getAsInt(String csColName)
-	{
-		ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-		if(colValue != null)
-			return colValue.getValueAsInt();
-		return 0;
-	}
-	
-	public double getAsDouble(String csColName)
-	{
-		ColValue colValue = getColValueByNameCaseInsensitive(csColName);
-		if(colValue != null)
-			return colValue.getValueAsDouble();
-		return 0.0;
-	}
-	
-	public synchronized ColValue getColValueByNameCaseInsensitive(String csColName)
-	{	
-		csColName = csColName.toUpperCase();	// Case insensitive access
-		ColValue colValue = hashColsByName.get(csColName);
-		return colValue;
-	}
-		
-	synchronized public ColValue getColValueAtIndex(int n)
-	{
-		return cols.get(n);
-	}	
-	
-	synchronized protected void replaceInternalContainer(ColValueCollection colValueCollectionSource)
-	{
-		cols = colValueCollectionSource.cols;
-		hashColsByName = colValueCollectionSource.hashColsByName;
-	}
-	
-	synchronized public void clearValues()
-	{
-		cols.clear();
-		hashColsByName.clear();
-	}
-	
-	
-	synchronized public void add(ColValue colValue)
-	{
-		cols.add(colValue);
-		hashColsByName.put(colValue.getNameUppercase(), colValue);
-	}
-	
-	public void add(String csName, String csValue)
-	{
-		ColValue colValue = new ColValueString(csName, csValue);
-		add(colValue);
-	}	
+    private ArrayList<ColValue> cols = null;
+    private Hashtable<String, ColValue> hashColsByName = null;
 
-	public void add(String csName, int nValue)
-	{
-		ColValue colValue = new ColValueInt(csName, nValue);
-		add(colValue);
-	}
-	
-	public void add(String csName, long lValue)
-	{
-		ColValue colValue = new ColValueLong(csName, lValue);
-		add(colValue);
-	}	
-	
-	public void add(String csName, double dValue)
-	{
-		ColValue colValue = new ColValueDouble(csName, dValue);
-		add(colValue);
-	}
-	
-	public void add(String csName, boolean bValue)
-	{
-		ColValue colValue = new ColValueBoolean(csName, bValue);
-		add(colValue);
-	}
-	
-	public void add(String csName, BigDecimal bdValue)
-	{
-		ColValue colValue = new ColValueBigDecimal(csName, bdValue);
-		add(colValue);
-	}
-	
-	public void add(String csName, Timestamp tsValue)
-	{
-		ColValue colValue = new ColValueTimestamp(csName, tsValue);
-		add(colValue);
-	}
-	
-	public void add(String csName, Date dtValue)
-	{
-		ColValue colValue = new ColValueDate(csName, dtValue);
-		add(colValue);
-	}
-	
-	public int getNbColValues()
-	{
-		return cols.size();
-	}
+    public ColValueCollection()
+    {
+        if(cols == null)
+            cols = new ArrayList<ColValue>();
+        if(hashColsByName == null)
+            hashColsByName = new Hashtable<String, ColValue>();
+    }
 
-	synchronized public String toString()
-	{
-		StringBuilder sb = new StringBuilder();
-		int nNbCols = getNbColValues();
-		{
-			for(int nCol=0; nCol<nNbCols; nCol++)
-			{
-				ColValue colValue = getColValueAtIndex(nCol);
-				String cs = colValue.toString();
-				sb.append(cs+"; ");
-			}
-		}
-		return sb.toString();
-	}
+    synchronized public boolean isStored(String csColName)
+    {
+        ColValue colValue = getColValueByNameCaseInsensitive(csColName);
+        if(colValue == null)
+            return false;
+        return true;
+    }
+
+    public String getAsString(String csColName)
+    {
+        ColValue colValue = getColValueByNameCaseInsensitive(csColName);
+        if(colValue != null)
+            return colValue.getValueAsString();
+        return null;
+    }
+
+    public int getAsInt(String csColName)
+    {
+        ColValue colValue = getColValueByNameCaseInsensitive(csColName);
+        if(colValue != null)
+            return colValue.getValueAsInt();
+        return 0;
+    }
+
+    public double getAsDouble(String csColName)
+    {
+        ColValue colValue = getColValueByNameCaseInsensitive(csColName);
+        if(colValue != null)
+            return colValue.getValueAsDouble();
+        return 0.0;
+    }
+
+    public synchronized ColValue getColValueByNameCaseInsensitive(String csColName)
+    {
+        csColName = csColName.toUpperCase();    // Case insensitive access
+        ColValue colValue = hashColsByName.get(csColName);
+        return colValue;
+    }
+
+    synchronized public ColValue getColValueAtIndex(int n)
+    {
+        return cols.get(n);
+    }
+
+    synchronized protected void replaceInternalContainer(ColValueCollection colValueCollectionSource)
+    {
+        cols = colValueCollectionSource.cols;
+        hashColsByName = colValueCollectionSource.hashColsByName;
+    }
+
+    synchronized public void clearValues()
+    {
+        cols.clear();
+        hashColsByName.clear();
+    }
+
+
+    synchronized public void add(ColValue colValue)
+    {
+        cols.add(colValue);
+        hashColsByName.put(colValue.getNameUppercase(), colValue);
+    }
+
+    public void add(String csName, String csValue)
+    {
+        ColValue colValue = new ColValueString(csName, csValue);
+        add(colValue);
+    }
+
+    public void add(String csName, int nValue)
+    {
+        ColValue colValue = new ColValueInt(csName, nValue);
+        add(colValue);
+    }
+
+    public void add(String csName, long lValue)
+    {
+        ColValue colValue = new ColValueLong(csName, lValue);
+        add(colValue);
+    }
+
+    public void add(String csName, double dValue)
+    {
+        ColValue colValue = new ColValueDouble(csName, dValue);
+        add(colValue);
+    }
+
+    public void add(String csName, boolean bValue)
+    {
+        ColValue colValue = new ColValueBoolean(csName, bValue);
+        add(colValue);
+    }
+
+    public void add(String csName, BigDecimal bdValue)
+    {
+        ColValue colValue = new ColValueBigDecimal(csName, bdValue);
+        add(colValue);
+    }
+
+    public void add(String csName, Timestamp tsValue)
+    {
+        ColValue colValue = new ColValueTimestamp(csName, tsValue);
+        add(colValue);
+    }
+
+    public void add(String csName, Date dtValue)
+    {
+        ColValue colValue = new ColValueDate(csName, dtValue);
+        add(colValue);
+    }
+
+    public int getNbColValues()
+    {
+        return cols.size();
+    }
+
+    synchronized public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        int nNbCols = getNbColValues();
+        {
+            for(int nCol=0; nCol<nNbCols; nCol++)
+            {
+                ColValue colValue = getColValueAtIndex(nCol);
+                String cs = colValue.toString();
+                sb.append(cs+"; ");
+            }
+        }
+        return sb.toString();
+    }
 }

@@ -30,155 +30,155 @@ import utils.Transcoder;
  */
 public class CProcedureDivision extends CCommentContainer
 {
-	/**
-	 * @param line
-	 */
-	public CProcedureDivision(int line) {
-		super(line);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CProcedureSection curSection = null ;
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok == null)
-			{
-				return true ;
-			}
-			if (tok.GetType()==CTokenType.IDENTIFIER || tok.GetType() == CTokenType.NUMBER)
-			{	// maybe a label ?
-				String csLabel = tok.GetValue();
-				GetNext() ;
+    /**
+     * @param line
+     */
+    public CProcedureDivision(int line) {
+        super(line);
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CProcedureSection curSection = null ;
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok == null)
+            {
+                return true ;
+            }
+            if (tok.GetType()==CTokenType.IDENTIFIER || tok.GetType() == CTokenType.NUMBER)
+            {   // maybe a label ?
+                String csLabel = tok.GetValue();
+                GetNext() ;
 
-				CBaseToken tokSection = GetCurrentToken() ;
-				if (tokSection.IsKeyword() && tokSection.GetKeyword() == CCobolKeywordList.SECTION)
-				{	// maybe the starting of a section
-					CBaseToken tokDot = GetNext() ;
-					if (tokDot.GetType() != CTokenType.DOT)
-					{
-						Transcoder.logError(getLine(), "Expecting 'DOT'") ;
-						return false ;
-					}
-					else
-					{
-						GetNext() ;
-					}
-					curSection = new CProcedureSection(csLabel, tok.getLine()) ;
-					AddChild(curSection) ;
-					if (!Parse(curSection))
-					{
-						return false ;
-					}
-				}
-				else if (tokSection.GetType() == CTokenType.DOT)
-				{
-					CProcedure eProc = new CProcedure(csLabel, tokSection.getLine()) ;
-					if (curSection == null)
-					{
-						AddChild(eProc) ;
-					}
-					else
-					{
-						curSection.AddProcedure(eProc) ;
-					}
-					if (!Parse(eProc))
-					{
-						return false ;
-					}
-				}
-				else
-				{
-					Transcoder.logError(tokSection.getLine(), "Unexpecting token : " + tokSection.GetValue()) ;
-					return false ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.KEYWORD)
-			{
-				procedureDivisionBloc = new CBaseProcedure(getLine());
-				CBaseToken tok1 = GetCurrentToken() ;
-				if (!Parse(procedureDivisionBloc))
-				{
-					return false ;
-				}
-				CBaseToken tok2 = GetCurrentToken() ;
-				if (tok2 == tok1)
-				{
-					Transcoder.logError(tok1.getLine(), "Token not parsed : " + tok1.GetValue());
-					GetNext() ;
-				}
-//				else if (tok2.GetType() == CTokenType.DOT)
-//				{
-//					GetNext() ;
-//				}
-			}
-			else if (tok.GetType() == CTokenType.END_OF_BLOCK)
-			{
-				GetNext();
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Unexpecting token : " + tok.GetValue());
-				GetNext();
-			}
-		}
-		return true;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eProc = root.createElement("ProcedureDivision") ;
-		for (int i = 0; i< usingRef.size(); i++)
-		{
-			CIdentifier id = usingRef.get(i);
-			Element euse = root.createElement("Using");
-			eProc.appendChild(euse);
-			id.ExportTo(euse, root);
-		}
-		if (procedureDivisionBloc != null)
-		{
-			Element e = procedureDivisionBloc.Export(root) ;
-			eProc.appendChild(e);
-		}
-		return eProc;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (factory.programCatalog.isMissingIncludeStructure())
-		{
-			return null ;
-		}
-		CEntityProcedureDivision pro = factory.NewEntityProcedureDivision(getLine()) ;
-		parent.AddChild(pro) ;
-		for (int i = 0; i< usingRef.size(); i++)
-		{
-			CIdentifier id = usingRef.get(i);
-			CDataEntity e = id.GetDataReference(getLine(), factory);
-			pro.AddCallParameter(e) ;
-		}
-		if (procedureDivisionBloc != null)
-		{
-			CEntityBloc e = (CEntityBloc)procedureDivisionBloc.DoSemanticAnalysis(pro, factory);
-			pro.SetProcedureBloc(e) ;
-		}
+                CBaseToken tokSection = GetCurrentToken() ;
+                if (tokSection.IsKeyword() && tokSection.GetKeyword() == CCobolKeywordList.SECTION)
+                {   // maybe the starting of a section
+                    CBaseToken tokDot = GetNext() ;
+                    if (tokDot.GetType() != CTokenType.DOT)
+                    {
+                        Transcoder.logError(getLine(), "Expecting 'DOT'") ;
+                        return false ;
+                    }
+                    else
+                    {
+                        GetNext() ;
+                    }
+                    curSection = new CProcedureSection(csLabel, tok.getLine()) ;
+                    AddChild(curSection) ;
+                    if (!Parse(curSection))
+                    {
+                        return false ;
+                    }
+                }
+                else if (tokSection.GetType() == CTokenType.DOT)
+                {
+                    CProcedure eProc = new CProcedure(csLabel, tokSection.getLine()) ;
+                    if (curSection == null)
+                    {
+                        AddChild(eProc) ;
+                    }
+                    else
+                    {
+                        curSection.AddProcedure(eProc) ;
+                    }
+                    if (!Parse(eProc))
+                    {
+                        return false ;
+                    }
+                }
+                else
+                {
+                    Transcoder.logError(tokSection.getLine(), "Unexpecting token : " + tokSection.GetValue()) ;
+                    return false ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.KEYWORD)
+            {
+                procedureDivisionBloc = new CBaseProcedure(getLine());
+                CBaseToken tok1 = GetCurrentToken() ;
+                if (!Parse(procedureDivisionBloc))
+                {
+                    return false ;
+                }
+                CBaseToken tok2 = GetCurrentToken() ;
+                if (tok2 == tok1)
+                {
+                    Transcoder.logError(tok1.getLine(), "Token not parsed : " + tok1.GetValue());
+                    GetNext() ;
+                }
+//              else if (tok2.GetType() == CTokenType.DOT)
+//              {
+//                  GetNext() ;
+//              }
+            }
+            else if (tok.GetType() == CTokenType.END_OF_BLOCK)
+            {
+                GetNext();
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Unexpecting token : " + tok.GetValue());
+                GetNext();
+            }
+        }
+        return true;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eProc = root.createElement("ProcedureDivision") ;
+        for (int i = 0; i< usingRef.size(); i++)
+        {
+            CIdentifier id = usingRef.get(i);
+            Element euse = root.createElement("Using");
+            eProc.appendChild(euse);
+            id.ExportTo(euse, root);
+        }
+        if (procedureDivisionBloc != null)
+        {
+            Element e = procedureDivisionBloc.Export(root) ;
+            eProc.appendChild(e);
+        }
+        return eProc;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (factory.programCatalog.isMissingIncludeStructure())
+        {
+            return null ;
+        }
+        CEntityProcedureDivision pro = factory.NewEntityProcedureDivision(getLine()) ;
+        parent.AddChild(pro) ;
+        for (int i = 0; i< usingRef.size(); i++)
+        {
+            CIdentifier id = usingRef.get(i);
+            CDataEntity e = id.GetDataReference(getLine(), factory);
+            pro.AddCallParameter(e) ;
+        }
+        if (procedureDivisionBloc != null)
+        {
+            CEntityBloc e = (CEntityBloc)procedureDivisionBloc.DoSemanticAnalysis(pro, factory);
+            pro.SetProcedureBloc(e) ;
+        }
 
-		return parent ;
-	}
+        return parent ;
+    }
 
-	protected Vector<CIdentifier> usingRef = new Vector<CIdentifier>() ;
-	public void AddUsingRef(CIdentifier id)
-	{
-		usingRef.add(id);
-	}
+    protected Vector<CIdentifier> usingRef = new Vector<CIdentifier>() ;
+    public void AddUsingRef(CIdentifier id)
+    {
+        usingRef.add(id);
+    }
 
-	protected CBaseProcedure procedureDivisionBloc = null ;
+    protected CBaseProcedure procedureDivisionBloc = null ;
 }

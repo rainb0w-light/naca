@@ -27,48 +27,48 @@ import utils.CObjectCatalog;
 public class CEntitySQLLock extends CBaseActionEntity
 {
 
-	protected String csTableName = "" ;
+    protected String csTableName = "" ;
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySQLLock(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySQLLock(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setTable(String string)
-	{
-		csTableName = string ;
-	}
+    /**
+     * @param string
+     */
+    public void setTable(String string)
+    {
+        csTableName = string ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveSQLLockEntity). No formatting/output happens here: wrapping the
-	// statement in the sql("...") runtime call and chaining the optional WHENEVER
-	// clause is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveSQLLockEntity). No formatting/output happens here: wrapping the
+    // statement in the sql("...") runtime call and chaining the optional WHENEVER
+    // clause is done by the template, never here.
 
-	/**
-	 * The full {@code LOCK TABLE <table> IN EXCLUSIVE MODE} statement text,
-	 * assembled in Stage 1 and read by {@code <entity.statement>}. The template
-	 * wraps it as a Java string literal inside {@code sql(...)}.
-	 */
-	public String getStatement()
-	{
-		return "LOCK TABLE " + csTableName + " IN EXCLUSIVE MODE" ;
-	}
+    /**
+     * The full {@code LOCK TABLE <table> IN EXCLUSIVE MODE} statement text,
+     * assembled in Stage 1 and read by {@code <entity.statement>}. The template
+     * wraps it as a Java string literal inside {@code sql(...)}.
+     */
+    public String getStatement()
+    {
+        return "LOCK TABLE " + csTableName + " IN EXCLUSIVE MODE" ;
+    }
 
-	/**
-	 * The SQLWARNING/SQLERROR clause to chain onto {@code sql(...)} (e.g.
-	 * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
-	 * effect. Read from the catalog where the WHENEVER statement registered it.
-	 */
-	public String getSqlWarningErrorStatement()
-	{
-		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
-	}
+    /**
+     * The SQLWARNING/SQLERROR clause to chain onto {@code sql(...)} (e.g.
+     * {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER policy is in
+     * effect. Read from the catalog where the WHENEVER statement registered it.
+     */
+    public String getSqlWarningErrorStatement()
+    {
+        return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -16,6 +16,6 @@ package nacaLib.bdb;
  */
 public class BtreeEncoding
 {
-	public final static BtreeEncoding EBCDIC = new BtreeEncoding();
-	public final static BtreeEncoding ASCII = new BtreeEncoding();
+    public final static BtreeEncoding EBCDIC = new BtreeEncoding();
+    public final static BtreeEncoding ASCII = new BtreeEncoding();
 }

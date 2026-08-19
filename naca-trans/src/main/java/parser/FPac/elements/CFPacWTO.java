@@ -31,91 +31,91 @@ import utils.FPacTranscoder.OperandDescription;
 public class CFPacWTO extends CFPacElement
 {
 
-	private CTerminal termToDisplay;
-	private CTerminal termLength ;
+    private CTerminal termToDisplay;
+    private CTerminal termLength ;
 
-	public CFPacWTO(int line)
-	{
-		super(line);
-	}
+    public CFPacWTO(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if  (tok.GetKeyword() == CFPacKeywordList.WTO)
-			tok = GetNext() ;
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-			CTerminal term = ReadTerminal() ;
-			termToDisplay = term ;
-			tok = GetCurrentToken() ;
-			if (tok.GetType() == CTokenType.COMMA)
-			{
-				tok = GetNext() ;
-				termLength = ReadTerminal() ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(tok.getLine(), "Expecting '-' instead of "+tok.toString()) ;
-			return false ;
-		}
-		return true ;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if  (tok.GetKeyword() == CFPacKeywordList.WTO)
+            tok = GetNext() ;
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityDisplay disp = factory.NewEntityDisplay(getLine(), Upon.CONSOLE) ;
-		CDataEntity e = termToDisplay.GetDataEntity(getLine(), factory) ;
-		CDataEntity toDisp = null ;
-		if (e.GetDataType() == CDataEntityType.ADDRESS)
-		{
-			if (termLength != null)
-			{
-				CDataEntity len = termLength.GetDataEntity(getLine(), factory) ;
-				CBaseEntityExpression explen = factory.NewEntityExprTerminal(len) ;
-				CBaseEntityExpression expadd = factory.NewEntityExprTerminal(e) ;
-				
-				String add = e.GetConstantValue() ;
-				int nadd = NumberParser.getAsInt(add) ;
-				CDataEntity buffer = null ;
-				if (nadd < 5000)
-				{ //file buffer 
-					buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
-				}
-				else
-				{ // working
-					buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
-				}
-				CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
-				conv.convertToAlphaNum(buffer) ;
-				CSubStringAttributReference substr = factory.NewEntitySubString(getLine()) ;
-				substr.SetReference(conv, expadd, explen) ;
-				toDisp = substr ;
-			}
-		}
-		else
-		{
-			toDisp = e ;
-		}
-		disp.AddItemToDisplay(toDisp) ;
-		toDisp.RegisterReadingAction(disp) ;
-		parent.AddChild(disp) ;
-		return disp ;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+            CTerminal term = ReadTerminal() ;
+            termToDisplay = term ;
+            tok = GetCurrentToken() ;
+            if (tok.GetType() == CTokenType.COMMA)
+            {
+                tok = GetNext() ;
+                termLength = ReadTerminal() ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(tok.getLine(), "Expecting '-' instead of "+tok.toString()) ;
+            return false ;
+        }
+        return true ;
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("WriteToOuput") ;
-		Element e = root.createElement("Data") ;
-		termToDisplay.ExportTo(e, root) ;
-		eAdd.appendChild(e) ;
-		return eAdd ;
-	}
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityDisplay disp = factory.NewEntityDisplay(getLine(), Upon.CONSOLE) ;
+        CDataEntity e = termToDisplay.GetDataEntity(getLine(), factory) ;
+        CDataEntity toDisp = null ;
+        if (e.GetDataType() == CDataEntityType.ADDRESS)
+        {
+            if (termLength != null)
+            {
+                CDataEntity len = termLength.GetDataEntity(getLine(), factory) ;
+                CBaseEntityExpression explen = factory.NewEntityExprTerminal(len) ;
+                CBaseEntityExpression expadd = factory.NewEntityExprTerminal(e) ;
+
+                String add = e.GetConstantValue() ;
+                int nadd = NumberParser.getAsInt(add) ;
+                CDataEntity buffer = null ;
+                if (nadd < 5000)
+                { //file buffer
+                    buffer = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
+                }
+                else
+                { // working
+                    buffer = factory.programCatalog.GetDataEntity("WORKING", "") ;
+                }
+                CEntityConvertReference conv = factory.NewEntityConvert(getLine()) ;
+                conv.convertToAlphaNum(buffer) ;
+                CSubStringAttributReference substr = factory.NewEntitySubString(getLine()) ;
+                substr.SetReference(conv, expadd, explen) ;
+                toDisp = substr ;
+            }
+        }
+        else
+        {
+            toDisp = e ;
+        }
+        disp.AddItemToDisplay(toDisp) ;
+        toDisp.RegisterReadingAction(disp) ;
+        parent.AddChild(disp) ;
+        return disp ;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("WriteToOuput") ;
+        Element e = root.createElement("Data") ;
+        termToDisplay.ExportTo(e, root) ;
+        eAdd.appendChild(e) ;
+        return eAdd ;
+    }
 
 }

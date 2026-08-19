@@ -27,67 +27,67 @@ import utils.Transcoder;
 public class CTransform extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CTransform(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Transcoder.logError(getLine(), "NO semantic analysis for TRANSFORM") ;
-		return null;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.TRANSFORM)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+    /**
+     * @param line
+     */
+    public CTransform(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Transcoder.logError(getLine(), "NO semantic analysis for TRANSFORM") ;
+        return null;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.TRANSFORM)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext();
-		variable = ReadIdentifier();
+        tok = GetNext();
+        variable = ReadIdentifier();
 
-		tok = GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.FROM)
-		{
-			return false ;
-		}
-		tok = GetNext();
-		valueFrom = ReadTerminal();
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.FROM)
+        {
+            return false ;
+        }
+        tok = GetNext();
+        valueFrom = ReadTerminal();
 
-		tok = GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.TO)
-		{
-			return false ;
-		}
-		tok = GetNext();
-		valueTo = ReadTerminal();
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.TO)
+        {
+            return false ;
+        }
+        tok = GetNext();
+        valueTo = ReadTerminal();
 
-		return true ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eTr = root.createElement("Transform") ;
-		Element eVar = root.createElement("Variable");
-		eTr.appendChild(eVar);
-		variable.ExportTo(eVar, root);
+        return true ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eTr = root.createElement("Transform") ;
+        Element eVar = root.createElement("Variable");
+        eTr.appendChild(eVar);
+        variable.ExportTo(eVar, root);
 
-		Element eFrom = root.createElement("From");
-		eTr.appendChild(eFrom);
-		valueFrom.ExportTo(eFrom, root);
+        Element eFrom = root.createElement("From");
+        eTr.appendChild(eFrom);
+        valueFrom.ExportTo(eFrom, root);
 
-		Element eTo = root.createElement("To");
-		eTr.appendChild(eTo);
-		valueTo.ExportTo(eTo, root);
+        Element eTo = root.createElement("To");
+        eTr.appendChild(eTo);
+        valueTo.ExportTo(eTo, root);
 
-		return eTr;
-	}
+        return eTr;
+    }
 
-	protected CIdentifier variable = null ;
-	protected CTerminal valueFrom = null ;
-	protected CTerminal valueTo = null ;
+    protected CIdentifier variable = null ;
+    protected CTerminal valueFrom = null ;
+    protected CTerminal valueTo = null ;
 }

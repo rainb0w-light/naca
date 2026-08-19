@@ -5,13 +5,13 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.misc;
 
 public class IntelSignBinaryBufferStorage
 {
-	// Big endian binary storage
+    // Big endian binary storage
     public final static short readShort(byte buf[], int i)
     {
         int j = 0;

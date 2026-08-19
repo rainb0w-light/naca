@@ -74,156 +74,156 @@ import utils.CObjectCatalog;
 public class CEntityResourceFieldArray extends CEntityResourceField
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityResourceFieldArray(int l, String name, CObjectCatalog cat)
-	{
-		super(l, name, cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityResourceFieldArray(int l, String name, CObjectCatalog cat)
+    {
+        super(l, name, cat);
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD ;
-	}
-	public boolean IsEntryField()
-	{
-		return false;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD ;
+    }
+    public boolean IsEntryField()
+    {
+        return false;
+    }
 
-	public void SetArray(int nbItems, int NbCol, boolean bVerticalFilling)
-	{
-		// Fixed latent self-assignment: the legacy body assigned the parameters to themselves
-		// (nbItems = nbItems; bVerticalFilling = bVerticalFilling;), leaving the nbItems field 0
-		// and the isverticalFilling field false regardless of the parser-resolved values. Bind
-		// the real counts so the XML artifact reports the true motif layout.
-		this.nbItems = nbItems ;
-		nbColumns = NbCol ;
-		this.isverticalFilling = bVerticalFilling ;
-	}
+    public void SetArray(int nbItems, int NbCol, boolean bVerticalFilling)
+    {
+        // Fixed latent self-assignment: the legacy body assigned the parameters to themselves
+        // (nbItems = nbItems; bVerticalFilling = bVerticalFilling;), leaving the nbItems field 0
+        // and the isverticalFilling field false regardless of the parser-resolved values. Bind
+        // the real counts so the XML artifact reports the true motif layout.
+        this.nbItems = nbItems ;
+        nbColumns = NbCol ;
+        this.isverticalFilling = bVerticalFilling ;
+    }
 
-	protected int nbItems = 0 ;
-	protected int nbColumns = 0 ;
-	protected boolean isverticalFilling = false ;
+    protected int nbItems = 0 ;
+    protected int nbColumns = 0 ;
+    protected boolean isverticalFilling = false ;
 
-	public void SetPosition(int Line, int Col)
-	{
-		nPosCol = Col ;
-		nPosLine = Line ;
-	}
-	public void InitDependences(CBaseEntityFactory factory)
-	{
-		ListIterator iter = lstChildren.listIterator() ;
-		try
-		{
-			CEntityResourceField field = (CEntityResourceField)iter.next() ;
-			while (field != null)
-			{
-				field.InitDependences(factory) ;
-				field = (CEntityResourceField)iter.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-		}
-	}
+    public void SetPosition(int Line, int Col)
+    {
+        nPosCol = Col ;
+        nPosLine = Line ;
+    }
+    public void InitDependences(CBaseEntityFactory factory)
+    {
+        ListIterator iter = lstChildren.listIterator() ;
+        try
+        {
+            CEntityResourceField field = (CEntityResourceField)iter.next() ;
+            while (field != null)
+            {
+                field.InitDependences(factory) ;
+                field = (CEntityResourceField)iter.next() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+    }
 
-	public String GetTypeDecl()
-	{
-		// Preserved from the retired backend: a field array bears no type decl.
-		return "";
-	}
+    public String GetTypeDecl()
+    {
+        // Preserved from the retired backend: a field array bears no type decl.
+        return "";
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: a field array is never declared as a val.
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: a field array is never declared as a val.
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.forms.CEntityResourceField#DoXMLExport(org.w3c.dom.Document, semantic.forms.CResourceStrings)
-	 */
-	public Element DoXMLExport(Document doc, CResourceStrings res)
-	{
-		// Preserved byte-for-byte from the retired backend, target-neutral: an <array> element
-		// wrapping a single <item> that aggregates each child motif field's XML. Reads only
-		// precomputed semantic state and the children's own DoXMLExport.
-		Element eArray = doc.createElement("array");
-		eArray.setAttribute("nbCol", String.valueOf(nbColumns)) ;
-		eArray.setAttribute("nbItems", String.valueOf(nbItems)) ;
-		eArray.setAttribute("vert", String.valueOf(isverticalFilling)) ;
-		eArray.setAttribute("line", String.valueOf(nPosLine)) ;
-		eArray.setAttribute("col", String.valueOf(nPosCol)) ;
+    /* (non-Javadoc)
+     * @see semantic.forms.CEntityResourceField#DoXMLExport(org.w3c.dom.Document, semantic.forms.CResourceStrings)
+     */
+    public Element DoXMLExport(Document doc, CResourceStrings res)
+    {
+        // Preserved byte-for-byte from the retired backend, target-neutral: an <array> element
+        // wrapping a single <item> that aggregates each child motif field's XML. Reads only
+        // precomputed semantic state and the children's own DoXMLExport.
+        Element eArray = doc.createElement("array");
+        eArray.setAttribute("nbCol", String.valueOf(nbColumns)) ;
+        eArray.setAttribute("nbItems", String.valueOf(nbItems)) ;
+        eArray.setAttribute("vert", String.valueOf(isverticalFilling)) ;
+        eArray.setAttribute("line", String.valueOf(nPosLine)) ;
+        eArray.setAttribute("col", String.valueOf(nPosCol)) ;
 
-		Element eItem = doc.createElement("item") ;
-		eArray.appendChild(eItem);
-		ListIterator iter = lstChildren.listIterator() ;
-		try
-		{
-			CEntityResourceField field = (CEntityResourceField)iter.next() ;
-			while (field != null)
-			{
-				Element e = field.DoXMLExport(doc, res) ;
-				if (e != null)
-				{
-					eItem.appendChild(e) ;
-				}
-				field = (CEntityResourceField)iter.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-		}
-		return eArray ;
-	}
+        Element eItem = doc.createElement("item") ;
+        eArray.appendChild(eItem);
+        ListIterator iter = lstChildren.listIterator() ;
+        try
+        {
+            CEntityResourceField field = (CEntityResourceField)iter.next() ;
+            while (field != null)
+            {
+                Element e = field.DoXMLExport(doc, res) ;
+                if (e != null)
+                {
+                    eItem.appendChild(e) ;
+                }
+                field = (CEntityResourceField)iter.next() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return eArray ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the XML artifact and tests: the number of motif
-	 * occurrences the parser resolved ({@code CFieldArray.nbItems}). A plain field read; the
-	 * latent self-assignment that zeroed this value is fixed in {@link #SetArray}.
-	 */
-	public int getNbItems()
-	{
-		return nbItems ;
-	}
+    /**
+     * Pure read-only getter consumed by the XML artifact and tests: the number of motif
+     * occurrences the parser resolved ({@code CFieldArray.nbItems}). A plain field read; the
+     * latent self-assignment that zeroed this value is fixed in {@link #SetArray}.
+     */
+    public int getNbItems()
+    {
+        return nbItems ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the XML artifact and tests: the number of array columns
-	 * the parser resolved ({@code CFieldArray.nbCol}). A plain field read.
-	 */
-	public int getNbColumns()
-	{
-		return nbColumns ;
-	}
+    /**
+     * Pure read-only getter consumed by the XML artifact and tests: the number of array columns
+     * the parser resolved ({@code CFieldArray.nbCol}). A plain field read.
+     */
+    public int getNbColumns()
+    {
+        return nbColumns ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the XML artifact and tests: whether the array fills
-	 * vertically ({@code CFieldArray.isverticalFilling}). A plain field read; the latent
-	 * self-assignment that pinned this false is fixed in {@link #SetArray}.
-	 */
-	public boolean isVerticalFilling()
-	{
-		return isverticalFilling ;
-	}
+    /**
+     * Pure read-only getter consumed by the XML artifact and tests: whether the array fills
+     * vertically ({@code CFieldArray.isverticalFilling}). A plain field read; the latent
+     * self-assignment that pinned this false is fixed in {@link #SetArray}.
+     */
+    public boolean isVerticalFilling()
+    {
+        return isverticalFilling ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the XML artifact and tests: the array's screen line
-	 * ({@code nPosLine}, set via {@link #SetPosition}). A plain field read.
-	 */
-	public int getPosLine()
-	{
-		return nPosLine ;
-	}
+    /**
+     * Pure read-only getter consumed by the XML artifact and tests: the array's screen line
+     * ({@code nPosLine}, set via {@link #SetPosition}). A plain field read.
+     */
+    public int getPosLine()
+    {
+        return nPosLine ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the XML artifact and tests: the array's screen column
-	 * ({@code nPosCol}, set via {@link #SetPosition}). A plain field read.
-	 */
-	public int getPosCol()
-	{
-		return nPosCol ;
-	}
+    /**
+     * Pure read-only getter consumed by the XML artifact and tests: the array's screen column
+     * ({@code nPosCol}, set via {@link #SetPosition}). A plain field read.
+     */
+    public int getPosCol()
+    {
+        return nPosCol ;
+    }
 
 }

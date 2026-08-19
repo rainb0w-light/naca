@@ -16,23 +16,23 @@ package jlib.sql;
  */
 public class StatementPosInPool
 {
-	StatementPosInPool(DbConnectionBase connection, String csStatementId)
-	{
-		this.connection = connection;
-		this.statementId = csStatementId;
-	}
+    StatementPosInPool(DbConnectionBase connection, String csStatementId)
+    {
+        this.connection = connection;
+        this.statementId = csStatementId;
+    }
 
-	boolean forceRemoveStatement()
-	{
-		if(connection != null)
-		{
-			boolean b = connection.forceRemoveStatement(statementId);
-			connection = null;
-			return b;
-		}
-		return false;
-	}
+    boolean forceRemoveStatement()
+    {
+        if(connection != null)
+        {
+            boolean b = connection.forceRemoveStatement(statementId);
+            connection = null;
+            return b;
+        }
+        return false;
+    }
 
-	private DbConnectionBase connection = null;
-	private String statementId = null;
+    private DbConnectionBase connection = null;
+    private String statementId = null;
 }

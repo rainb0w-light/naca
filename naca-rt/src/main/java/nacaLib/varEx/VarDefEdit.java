@@ -14,27 +14,27 @@ package nacaLib.varEx;
 
 public abstract class VarDefEdit extends VarDefBuffer
 {
-	public VarDefEdit(VarDefBase varDefParent, VarLevel varLevel)
-	{
-		super(varDefParent, varLevel);
-	}
+    public VarDefEdit(VarDefBase varDefParent, VarLevel varLevel)
+    {
+        super(varDefParent, varLevel);
+    }
 
-	protected VarDefEdit()
-	{
-		super();
-	}
+    protected VarDefEdit()
+    {
+        super();
+    }
 
-	void transfer(VarBufferPos bufferSource, Var Dest)
-	{
-	}
+    void transfer(VarBufferPos bufferSource, Var Dest)
+    {
+    }
 
-	protected boolean isAVarDefMapRedefine()
-	{
-		return false;
-	}
+    protected boolean isAVarDefMapRedefine()
+    {
+        return false;
+    }
 
-	public int getSingleItemRequiredStorageSize()
-	{
-		return getHeaderLength() + getBodyLength();
-	}
+    public int getSingleItemRequiredStorageSize()
+    {
+        return getHeaderLength() + getBodyLength();
+    }
 }

@@ -12,15 +12,15 @@ package lexer;
  */
 public class CReservedKeyword
 {
-	public CReservedKeyword(CKeywordList list, String name)
-	{
-		this.name = name;
-		list.Register(this) ;
-	}
-	public String name ;
+    public CReservedKeyword(CKeywordList list, String name)
+    {
+        this.name = name;
+        list.Register(this) ;
+    }
+    public String name ;
 
-	public String toString()
-	{
-		return name;
-	}
+    public String toString()
+    {
+        return name;
+    }
 }

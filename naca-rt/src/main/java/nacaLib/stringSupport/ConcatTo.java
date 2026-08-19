@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.stringSupport;
 
@@ -16,15 +16,15 @@ package nacaLib.stringSupport;
  */
 public class ConcatTo
 {
-	private Concat concat = null;
-	
-	ConcatTo(Concat concat)
-	{
-		this.concat = concat;
-	}
-	
-	public boolean failed()
-	{
-		return concat.failed();
-	}
+    private Concat concat = null;
+
+    ConcatTo(Concat concat)
+    {
+        this.concat = concat;
+    }
+
+    public boolean failed()
+    {
+        return concat.failed();
+    }
 }

@@ -16,31 +16,31 @@ import javax.management.openmbean.OpenDataException;
 
 public class CompositeDataDesc
 {
-	public CompositeDataDesc(CompositeType compositeType)
-	{
-		this.compositeType = compositeType;
-		map = new HashMap<String, Object>();
-	}
-	
-	public void setItemValue(String csKey, Object oValue)
-	{
-		map.put(csKey, oValue);
-	}
-	
-	public CompositeData generateCompositeData()
-	{
-		try
-		{			
-			CompositeDataSupport compositeData = new CompositeDataSupport(compositeType, map);
-			return compositeData;
-		} 
-		catch (OpenDataException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	private CompositeType compositeType = null;
-	Map<String, Object> map = null;
+    public CompositeDataDesc(CompositeType compositeType)
+    {
+        this.compositeType = compositeType;
+        map = new HashMap<String, Object>();
+    }
+
+    public void setItemValue(String csKey, Object oValue)
+    {
+        map.put(csKey, oValue);
+    }
+
+    public CompositeData generateCompositeData()
+    {
+        try
+        {
+            CompositeDataSupport compositeData = new CompositeDataSupport(compositeType, map);
+            return compositeData;
+        }
+        catch (OpenDataException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private CompositeType compositeType = null;
+    Map<String, Object> map = null;
 }

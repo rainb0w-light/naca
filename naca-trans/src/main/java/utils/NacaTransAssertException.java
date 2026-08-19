@@ -12,13 +12,13 @@ package utils;
  */
 public class NacaTransAssertException extends RuntimeException
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	public NacaTransAssertException(String cs)
-	{
-		csMessage = cs ;
-	}
-	public String csMessage = "" ;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    public NacaTransAssertException(String cs)
+    {
+        csMessage = cs ;
+    }
+    public String csMessage = "" ;
 }

@@ -14,68 +14,68 @@ import jlib.misc.*;
  */
 public class GenericValueDouble extends GenericValue
 {
-	GenericValueDouble(double d)
-	{
-		this.d = d;
-	}
+    GenericValueDouble(double d)
+    {
+        this.d = d;
+    }
 
-	String getAsRawString()
-	{
-		return String.valueOf(d);
-	}
+    String getAsRawString()
+    {
+        return String.valueOf(d);
+    }
 
-	String getAsString()
-	{
-		return String.valueOf(d);
-	}
-
-
-	int getAsInt()
-	{
-		return (int)d;
-	}
+    String getAsString()
+    {
+        return String.valueOf(d);
+    }
 
 
-	int getAsUnsignedInt()
-	{
-		int n = getAsInt();
-		if(n < 0)
-			return -n;
-		return n;
-	}
+    int getAsInt()
+    {
+        return (int)d;
+    }
 
-	double getAsDouble()
-	{
-		return d;
-	}
 
-	Dec getAsDec()
-	{
-		String cs = String.valueOf(d);
-		int nDot = cs.indexOf('.');
-		if(nDot == -1)
-		{
-			long lInt = NumberParser.getAsLong(cs);
-			Dec dec = new Dec(lInt, "");
-			return dec;
-		}
-		else
-		{
-			String csInt = cs.substring(0, nDot);
-			long lInt = NumberParser.getAsLong(csInt);
+    int getAsUnsignedInt()
+    {
+        int n = getAsInt();
+        if(n < 0)
+            return -n;
+        return n;
+    }
 
-			String csDec = cs.substring(nDot+1);
-			Dec dec = new Dec(lInt, csDec);
-			return dec;
-		}
-	}
+    double getAsDouble()
+    {
+        return d;
+    }
 
-	Dec getAsUnsignedDec()
-	{
-		Dec dec = getAsDec();
-		dec.setPositive(true);
-		return dec;
-	}
+    Dec getAsDec()
+    {
+        String cs = String.valueOf(d);
+        int nDot = cs.indexOf('.');
+        if(nDot == -1)
+        {
+            long lInt = NumberParser.getAsLong(cs);
+            Dec dec = new Dec(lInt, "");
+            return dec;
+        }
+        else
+        {
+            String csInt = cs.substring(0, nDot);
+            long lInt = NumberParser.getAsLong(csInt);
 
-	private double d;
+            String csDec = cs.substring(nDot+1);
+            Dec dec = new Dec(lInt, csDec);
+            return dec;
+        }
+    }
+
+    Dec getAsUnsignedDec()
+    {
+        Dec dec = getAsDec();
+        dec.setPositive(true);
+        return dec;
+    }
+
+    private double d;
 }

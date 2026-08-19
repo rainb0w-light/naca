@@ -15,21 +15,21 @@ import nacaLib.basePrgEnv.BaseProgram;
 
 public class ParamDeclaration extends CJMapObject
 {
-	public ParamDeclaration(BaseProgram Program)
-	{
-		program = Program;
-	}
+    public ParamDeclaration(BaseProgram Program)
+    {
+        program = Program;
+    }
 
-	public ParamDeclaration using(Var var)
-	{
-		program.getProgramManager().using(var);
-		return this;
-	}
+    public ParamDeclaration using(Var var)
+    {
+        program.getProgramManager().using(var);
+        return this;
+    }
 
-	public BaseProgram getProgram()
-	{
-		return program;
-	}
+    public BaseProgram getProgram()
+    {
+        return program;
+    }
 
-	protected BaseProgram program = null;
+    protected BaseProgram program = null;
 }

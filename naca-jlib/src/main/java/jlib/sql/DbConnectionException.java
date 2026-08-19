@@ -8,17 +8,17 @@ package jlib.sql;
 
 public class DbConnectionException extends Exception
 {
-	private static final long serialVersionUID = "DbConnectionException".hashCode();
+    private static final long serialVersionUID = "DbConnectionException".hashCode();
 
-	private String message;
+    private String message;
 
-	public DbConnectionException(String csMessage)
-	{
-		this.message = csMessage;
-	}
+    public DbConnectionException(String csMessage)
+    {
+        this.message = csMessage;
+    }
 
-	public String toString()
-	{
-		return "DbConnectionException: "+message;
-	}
+    public String toString()
+    {
+        return "DbConnectionException: "+message;
+    }
 }

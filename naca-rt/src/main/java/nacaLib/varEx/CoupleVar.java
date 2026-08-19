@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,34 +16,34 @@ package nacaLib.varEx;
  */
 public class CoupleVar
 {
-	public CoupleVar(VarDefBuffer varDefBuffer, VarBase var_edit)
-	{
-		this.varDefBuffer = varDefBuffer;
-		this.variable = var_edit;
-	}
-	
-	public VarDefBuffer getVarDefItem()
-	{
-		return varDefBuffer;
-	}
-	
-	VarDefBuffer varDefBuffer = null;
-	VarBase variable = null;
+    public CoupleVar(VarDefBuffer varDefBuffer, VarBase var_edit)
+    {
+        this.varDefBuffer = varDefBuffer;
+        this.variable = var_edit;
+    }
+
+    public VarDefBuffer getVarDefItem()
+    {
+        return varDefBuffer;
+    }
+
+    VarDefBuffer varDefBuffer = null;
+    VarBase variable = null;
 }
 
 //public class CoupleVar<T>
 //{
-//	public CoupleVar(VarDefBuffer varDefBuffer, T var_edit)
-//	{
-//		varDefBuffer = varDefBuffer;
-//		variable = var_edit;
-//	}
-//	
-//	public VarDefBuffer getVarDefItem()
-//	{
-//		return varDefBuffer;
-//	}
-//	
-//	VarDefBuffer varDefBuffer = null;
-//	T variable = null;
+//  public CoupleVar(VarDefBuffer varDefBuffer, T var_edit)
+//  {
+//      varDefBuffer = varDefBuffer;
+//      variable = var_edit;
+//  }
+//
+//  public VarDefBuffer getVarDefItem()
+//  {
+//      return varDefBuffer;
+//  }
+//
+//  VarDefBuffer varDefBuffer = null;
+//  T variable = null;
 //}

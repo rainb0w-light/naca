@@ -8,5 +8,5 @@ package jlib.misc;
 
 public abstract class SortableItem
 {
-	public abstract int compare(SortableItem item);
+    public abstract int compare(SortableItem item);
 }

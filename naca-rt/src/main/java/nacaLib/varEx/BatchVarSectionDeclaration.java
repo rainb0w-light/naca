@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -17,21 +17,21 @@ package nacaLib.varEx;
  */
 //public class BatchVarSectionDeclaration extends VarSectionDeclaration
 //{
-//	
-//	public BatchVarSectionDeclaration(BaseProgram program)
-//	{
-//		super(program);
-//	}
-//	
-//	public FileDescriptorDepending fileDescriptorDepending(FileDescriptor fileDesc, Var varLength)
-//	{
-//		fileDesc.lengthDependingOn(varLength);
-//		return null;
-//	}	
-//	
-//	public FileDescriptorDepending fileDescriptorDepending(SortDescriptor fileDesc, Var varLength)
-//	{
-//		fileDesc.lengthDependingOn(varLength);
-//		return null;
-//	}
+//
+//  public BatchVarSectionDeclaration(BaseProgram program)
+//  {
+//      super(program);
+//  }
+//
+//  public FileDescriptorDepending fileDescriptorDepending(FileDescriptor fileDesc, Var varLength)
+//  {
+//      fileDesc.lengthDependingOn(varLength);
+//      return null;
+//  }
+//
+//  public FileDescriptorDepending fileDescriptorDepending(SortDescriptor fileDesc, Var varLength)
+//  {
+//      fileDesc.lengthDependingOn(varLength);
+//      return null;
+//  }
 //}

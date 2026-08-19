@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "maximumLineLength": 140,
+  "lineLength": {
+    "before": 770,
+    "after": 0,
+    "reduced": 770
+  },
+  "batchRules": {
+    "argumentLists": 292,
+    "semicolonStatements": 25,
+    "concatenations": 65,
+    "booleanExpressions": 34,
+    "longStrings": 20,
+    "inlineMethods": 9,
+    "blockComments": 8,
+    "continuedCommaLists": 1,
+    "assignments": 7,
+    "commentedAssignments": 1
+  },
+  "verification": {
+    "fileTabCharacter": 0,
+    "lineLength": 0,
+    "activeHungarianMIdentifiers": 0,
+    "checkstyleTotal": 12496
+  }
+}

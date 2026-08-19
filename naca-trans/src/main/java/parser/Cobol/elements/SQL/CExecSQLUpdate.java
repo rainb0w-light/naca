@@ -31,313 +31,316 @@ import utils.Transcoder;
  */
 public class CExecSQLUpdate extends CBaseExecSQLAction
 {
-	public CExecSQLUpdate(int nLine)
-	{
-		super(nLine);
-	}
+    public CExecSQLUpdate(int nLine)
+    {
+        super(nLine);
+    }
 
-	protected boolean DoParsing()
-	{
-		boolean iswhere = false ;
-		boolean isvalue = false ;
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-			}
-			else if (tok.GetType() == CTokenType.STRING)
-			{
-				String cs = new String("'" + tok.GetValue() + "'");
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.LESS_THAN)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace() ;
-				clause += cs;
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.GREATER_THAN)
-				{
-					cs = new String(tok.GetType().GetSourceValue());
-					clause += cs ;
-					GetNext() ;
-				}
-				else
-				{
-					continue ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.EXCLAMATION)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.EXCLAMATION)
-				{
-					clause += "!!" ;
-					GetNext() ;
-				}
-				else
-				{
-					clause += "! " ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.LEFT_BRACKET)
-			{
-				clause += '(' ;
-				GetNext() ;
-			}
-			else if (tok.GetType() == CTokenType.COLON)
-			{
-				tok = GetNext() ;
-				String cs = tok.GetValue();
-				tok = GetNext() ;
-				CIdentifier id ;
-				if (tok.GetType() == CTokenType.DOT)
-				{
-					tok = GetNext();
-					String cs2 = tok.GetValue() ;
-					tok = GetNext();
-					id = new CIdentifier(cs2, cs) ;
-				}
-				else
-				{
-					id = new CIdentifier(cs) ;
-				}
-				if (isvalue)
-				{
-					sets.add(id);
-					AppendRequiredSpace();
-					clause += "#"+ sets.size() ;
-				}
-				else if (iswhere)
-				{
-					parameters.add(id);
-					AppendRequiredSpace();
-					clause += "#"+ (parameters.size() + sets.size()) ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace() ;
-				clause += cs;
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.EQUALS)
-				{
-					cs = new String(tok.GetType().GetSourceValue());
-					clause += cs ;
-					GetNext() ;
-				}
-			}
-			else if (tok.GetType().HasSourceValue())
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.STRING)
-			{
-				String cs = new String("'" + tok.GetValue() + "'");
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else
-			{
-				if (tok.GetKeyword() == CCobolKeywordList.WHERE)
-				{
-					iswhere = true ;
-					isvalue = false ;
-				}
-				else if (tok.GetKeyword() == CCobolKeywordList.SET)
-				{
-					iswhere = false ;
-					isvalue = true ;
-				}
-				String cs = new String(tok.GetValue());
-				if (!iswhere && !isvalue && tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
-				{
-					csViewName = cs ;
-				}
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-		}
-		return true ;
-	}
+    protected boolean DoParsing()
+    {
+        boolean iswhere = false ;
+        boolean isvalue = false ;
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+            }
+            else if (tok.GetType() == CTokenType.STRING)
+            {
+                String cs = new String("'" + tok.GetValue() + "'");
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.LESS_THAN)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace() ;
+                clause += cs;
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.GREATER_THAN)
+                {
+                    cs = new String(tok.GetType().GetSourceValue());
+                    clause += cs ;
+                    GetNext() ;
+                }
+                else
+                {
+                    continue ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.EXCLAMATION)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.EXCLAMATION)
+                {
+                    clause += "!!" ;
+                    GetNext() ;
+                }
+                else
+                {
+                    clause += "! " ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.LEFT_BRACKET)
+            {
+                clause += '(' ;
+                GetNext() ;
+            }
+            else if (tok.GetType() == CTokenType.COLON)
+            {
+                tok = GetNext() ;
+                String cs = tok.GetValue();
+                tok = GetNext() ;
+                CIdentifier id ;
+                if (tok.GetType() == CTokenType.DOT)
+                {
+                    tok = GetNext();
+                    String cs2 = tok.GetValue() ;
+                    tok = GetNext();
+                    id = new CIdentifier(cs2, cs) ;
+                }
+                else
+                {
+                    id = new CIdentifier(cs) ;
+                }
+                if (isvalue)
+                {
+                    sets.add(id);
+                    AppendRequiredSpace();
+                    clause += "#"+ sets.size() ;
+                }
+                else if (iswhere)
+                {
+                    parameters.add(id);
+                    AppendRequiredSpace();
+                    clause += "#"+ (parameters.size() + sets.size()) ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.CIRCUMFLEX)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace() ;
+                clause += cs;
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.EQUALS)
+                {
+                    cs = new String(tok.GetType().GetSourceValue());
+                    clause += cs ;
+                    GetNext() ;
+                }
+            }
+            else if (tok.GetType().HasSourceValue())
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.STRING)
+            {
+                String cs = new String("'" + tok.GetValue() + "'");
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else
+            {
+                if (tok.GetKeyword() == CCobolKeywordList.WHERE)
+                {
+                    iswhere = true ;
+                    isvalue = false ;
+                }
+                else if (tok.GetKeyword() == CCobolKeywordList.SET)
+                {
+                    iswhere = false ;
+                    isvalue = true ;
+                }
+                String cs = new String(tok.GetValue());
+                if (!iswhere && !isvalue && tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
+                {
+                    csViewName = cs ;
+                }
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+        }
+        return true ;
+    }
 
-	public void AppendRequiredSpace()
-	{
-		if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
-			clause += " ";
-	}
+    public void AppendRequiredSpace()
+    {
+        if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
+            clause += " ";
+    }
 
 
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLUpdate") ;
-		e.setAttribute("Clause", clause) ;
-		//ExportSet(root, e);
-		//ExportParameters(root, e);
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLUpdate") ;
+        e.setAttribute("Clause", clause) ;
+        //ExportSet(root, e);
+        //ExportParameters(root, e);
 
-		return e;
-	}
+        return e;
+    }
 
-	private void ExportParameters(Document root, Element parent)
-	{
-		try
-		{
-			Element e = root.createElement("Parameters") ;
-			parent.appendChild(e);
+    private void ExportParameters(Document root, Element parent)
+    {
+        try
+        {
+            Element e = root.createElement("Parameters") ;
+            parent.appendChild(e);
 
-			int nNbItems = parameters.size();
-			for(int n=0; n<nNbItems; n++)
-			{
-				Element eParam = root.createElement("Parameter") ;
-				e.appendChild(eParam);
+            int nNbItems = parameters.size();
+            for(int n=0; n<nNbItems; n++)
+            {
+                Element eParam = root.createElement("Parameter") ;
+                e.appendChild(eParam);
 
-				CIdentifier s = parameters.get(n);
-				s.ExportTo(eParam, root) ;
-			}
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
+                CIdentifier s = parameters.get(n);
+                s.ExportTo(eParam, root) ;
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            //System.out.println(e.toString());
+        }
+    }
 
-	private void ExportSet(Document root, Element parent)
-	{
-		try
-		{
-			Element e = root.createElement("Set") ;
-			parent.appendChild(e);
+    private void ExportSet(Document root, Element parent)
+    {
+        try
+        {
+            Element e = root.createElement("Set") ;
+            parent.appendChild(e);
 
-			int nNbItems = sets.size();
-			for(int n=0; n<nNbItems; n++)
-			{
-				Element eParam = root.createElement("Parameter") ;
-				e.appendChild(eParam);
+            int nNbItems = sets.size();
+            for(int n=0; n<nNbItems; n++)
+            {
+                Element eParam = root.createElement("Parameter") ;
+                e.appendChild(eParam);
 
-				CIdentifier s = sets.get(n);
-				s.ExportTo(eParam, root) ;
-			}
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
+                CIdentifier s = sets.get(n);
+                s.ExportTo(eParam, root) ;
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            //System.out.println(e.toString());
+        }
+    }
 
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Vector<CDataEntity> vVal = new Vector<CDataEntity>();
-		for (int i = 0; i< sets.size(); i++)
-		{
-			CIdentifier id = sets.get(i);
-			CDataEntity e = id.GetDataReference(getLine(), factory);
-			vVal.add(e);
-		}
-		Vector<CDataEntity> vPar = new Vector<CDataEntity>();
-		for (int i = 0; i< parameters.size(); i++)
-		{
-			CIdentifier id = parameters.get(i);
-			CDataEntity e = id.GetDataReference(getLine(), factory);
-			vPar.add(e);
-		}
-		clause = CExecSQL.CheckConcat(clause, vPar, factory);
-		String tablename = "" ;
-		CEntitySQLDeclareTable table = factory.programCatalog.GetSQLTable(csViewName);
-		if (table == null)
-		{
-			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "Missing table declaration : "+csViewName);
-			if (csViewName.startsWith("V") && csViewName.length() > 6)
-			{
-				tablename = csViewName.substring(1, csViewName.length()-1) ;
-			}
-			else
-			{
-				tablename = csViewName ;
-			}
-		}
-		else
-		{
-			tablename = table.GetTableName();
-		}
-		CGlobalEntityCounter.GetInstance().CountSQLTableAccess("UPDATE", tablename, parent.GetProgramName());
-		clause = clause.replaceAll(csViewName, tablename);
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Vector<CDataEntity> vVal = new Vector<CDataEntity>();
+        for (int i = 0; i< sets.size(); i++)
+        {
+            CIdentifier id = sets.get(i);
+            CDataEntity e = id.GetDataReference(getLine(), factory);
+            vVal.add(e);
+        }
+        Vector<CDataEntity> vPar = new Vector<CDataEntity>();
+        for (int i = 0; i< parameters.size(); i++)
+        {
+            CIdentifier id = parameters.get(i);
+            CDataEntity e = id.GetDataReference(getLine(), factory);
+            vPar.add(e);
+        }
+        clause = CExecSQL.CheckConcat(clause, vPar, factory);
+        String tablename = "" ;
+        CEntitySQLDeclareTable table = factory.programCatalog.GetSQLTable(csViewName);
+        if (table == null)
+        {
+            CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(
+                parent.GetProgramName(),
+                getLine(),
+                "Missing table declaration : "+csViewName);
+            if (csViewName.startsWith("V") && csViewName.length() > 6)
+            {
+                tablename = csViewName.substring(1, csViewName.length()-1) ;
+            }
+            else
+            {
+                tablename = csViewName ;
+            }
+        }
+        else
+        {
+            tablename = table.GetTableName();
+        }
+        CGlobalEntityCounter.GetInstance().CountSQLTableAccess("UPDATE", tablename, parent.GetProgramName());
+        clause = clause.replaceAll(csViewName, tablename);
 
-		CEntitySQLCursor cursor = null ;
-		int n = clause.indexOf("WHERE CURRENT OF") ;
-		if (n>0)
-		{
-			String cur = clause.substring(n + 17) ;
-			cursor = factory.programCatalog.GetSQLCursor(cur) ;
-			if (cursor == null)
-			{
-				throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
-			}
-			clause = clause.substring(0, n);
-		}
-		else
-		{
-			n = clause.indexOf("SELECT") ;
-			if (n>0)
-			{
-				int nFrom = clause.indexOf("FROM", n) ;
-				while (nFrom > 0)
-				{
-					int nWhere = clause.indexOf("WHERE", nFrom) ;
-					String from = "" ;
-					String where = "" ;
-					if (nWhere > 0)
-					{
-						where = clause.substring(nWhere) ;
-						from = clause.substring(nFrom+5, nWhere) ;
-					}
-					else
-					{
-						from = clause.substring(nFrom+5);
-					}
-					from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
-					clause = clause.substring(0, nFrom+5) + from + where ;
+        CEntitySQLCursor cursor = null ;
+        int n = clause.indexOf("WHERE CURRENT OF") ;
+        if (n>0)
+        {
+            String cur = clause.substring(n + 17) ;
+            cursor = factory.programCatalog.GetSQLCursor(cur) ;
+            if (cursor == null)
+            {
+                throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
+            }
+            clause = clause.substring(0, n);
+        }
+        else
+        {
+            n = clause.indexOf("SELECT") ;
+            if (n>0)
+            {
+                int nFrom = clause.indexOf("FROM", n) ;
+                while (nFrom > 0)
+                {
+                    int nWhere = clause.indexOf("WHERE", nFrom) ;
+                    String from = "" ;
+                    String where = "" ;
+                    if (nWhere > 0)
+                    {
+                        where = clause.substring(nWhere) ;
+                        from = clause.substring(nFrom+5, nWhere) ;
+                    }
+                    else
+                    {
+                        from = clause.substring(nFrom+5);
+                    }
+                    from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
+                    clause = clause.substring(0, nFrom+5) + from + where ;
 
-					nFrom = clause.indexOf("FROM", nFrom + 1);
-				}
-			}
-		}
+                    nFrom = clause.indexOf("FROM", nFrom + 1);
+                }
+            }
+        }
 
-		CEntitySQLUpdateStatement eSQL = factory.NewEntitySQLUpdateStatement(getLine(), clause, vVal, vPar);
-		Transcoder.checkSQL(getLine(), clause);
-		parent.AddChild(eSQL) ;
-		eSQL.setCursor(cursor) ;
-		for (int i=0; i<vVal.size(); i++)
-		{
-			CDataEntity e = vVal.get(i);
-			e.RegisterReadingAction(eSQL) ;
-		}
-		for (int i=0; i<vPar.size(); i++)
-		{
-			CDataEntity e = vPar.get(i);
-			e.RegisterReadingAction(eSQL) ;
-		}
-		return eSQL;
-	}
+        CEntitySQLUpdateStatement eSQL = factory.NewEntitySQLUpdateStatement(getLine(), clause, vVal, vPar);
+        Transcoder.checkSQL(getLine(), clause);
+        parent.AddChild(eSQL) ;
+        eSQL.setCursor(cursor) ;
+        for (int i=0; i<vVal.size(); i++)
+        {
+            CDataEntity e = vVal.get(i);
+            e.RegisterReadingAction(eSQL) ;
+        }
+        for (int i=0; i<vPar.size(); i++)
+        {
+            CDataEntity e = vPar.get(i);
+            e.RegisterReadingAction(eSQL) ;
+        }
+        return eSQL;
+    }
 
-	public String clause = "" ;
-	public String csViewName = "" ;
-	public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
-	public Vector<CIdentifier> sets = new Vector<CIdentifier>() ;
+    public String clause = "" ;
+    public String csViewName = "" ;
+    public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
+    public Vector<CIdentifier> sets = new Vector<CIdentifier>() ;
 }

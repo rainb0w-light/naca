@@ -32,214 +32,214 @@ import utils.Transcoder;
 public class CExecCICSHandle extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSHandle(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSHandle(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (conditions != null && conditions.size()>0)
-		{
-			CEntityCICSHandleCondition handle = factory.NewEntityCICSHandleCondition(getLine());
-			parent.AddChild(handle);
-			for (int i = 0; i< conditions.size(); i++)
-			{
-				String cond = conditions.get(i);
-				CIdentifier id = labels.get(i);
-				if (id != null)
-				{
-					handle.HandleCondition(cond, id.GetName());
-				}
-				else
-				{
-					handle.UnhandleCondition(cond);
-				}
-			}
-			return handle;
-		}
-		else if (aID.size()>0)
-		{
-			CEntityCICSHandleAID handle = factory.NewEntityCICSHandleAID(getLine());
-			parent.AddChild(handle);
-			PopulateAIDEntity(handle);
-			return handle;
-		}
-		else
-		{
-			return null ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (conditions != null && conditions.size()>0)
+        {
+            CEntityCICSHandleCondition handle = factory.NewEntityCICSHandleCondition(getLine());
+            parent.AddChild(handle);
+            for (int i = 0; i< conditions.size(); i++)
+            {
+                String cond = conditions.get(i);
+                CIdentifier id = labels.get(i);
+                if (id != null)
+                {
+                    handle.HandleCondition(cond, id.GetName());
+                }
+                else
+                {
+                    handle.UnhandleCondition(cond);
+                }
+            }
+            return handle;
+        }
+        else if (aID.size()>0)
+        {
+            CEntityCICSHandleAID handle = factory.NewEntityCICSHandleAID(getLine());
+            parent.AddChild(handle);
+            PopulateAIDEntity(handle);
+            return handle;
+        }
+        else
+        {
+            return null ;
+        }
+    }
 
-	/**
-	 * Lowers parsed HANDLE AID operands into the semantic entity. AID operands
-	 * live in {@code aID}; iterating {@code conditions} silently built an empty
-	 * production node.
-	 */
-	protected void PopulateAIDEntity(CEntityCICSHandleAID handle)
-	{
-		for (int i = 0; i < aID.size(); i++)
-		{
-			String cond = aID.get(i);
-			CIdentifier id = labels.get(i);
-			if (id != null)
-			{
-				handle.HandleAID(cond, id.GetName());
-			}
-			else
-			{
-				handle.UnhandleAID(cond);
-			}
-		}
-	}
+    /**
+     * Lowers parsed HANDLE AID operands into the semantic entity. AID operands
+     * live in {@code aID}; iterating {@code conditions} silently built an empty
+     * production node.
+     */
+    protected void PopulateAIDEntity(CEntityCICSHandleAID handle)
+    {
+        for (int i = 0; i < aID.size(); i++)
+        {
+            String cond = aID.get(i);
+            CIdentifier id = labels.get(i);
+            if (id != null)
+            {
+                handle.HandleAID(cond, id.GetName());
+            }
+            else
+            {
+                handle.UnhandleAID(cond);
+            }
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.HANDLE)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.HANDLE)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.CONDITION)
-		{
-			tok = GetNext() ;
-			boolean isdone = false ;
-			while (!isdone)
-			{
-				tok = GetCurrentToken() ;
-				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-				{
-					isdone = true ;
-				}
-				else
-				{
-					String cond = tok.GetValue() ;
-					CIdentifier label = null ;
-					tok = GetNext() ;
-					if (tok.GetType() == CTokenType.LEFT_BRACKET)
-					{
-						tok = GetNext();
-						label = ReadIdentifier() ;
-						tok = GetCurrentToken() ;
-						if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-						{
-							tok = GetNext();
-						}
-					}
-					conditions.add(cond);
-					labels.add(label) ;
-				}
-			}
-		}
-		else if (tok.GetKeyword() == CCobolKeywordList.AID)
-		{
-			tok = GetNext() ;
-			boolean isdone = false ;
-			while (!isdone)
-			{
-				tok = GetCurrentToken() ;
-				if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-				{
-					isdone = true ;
-				}
-				else
-				{
-					String cond = tok.GetValue() ;
-					CIdentifier label = null ;
-					tok = GetNext() ;
-					if (tok.GetType() == CTokenType.LEFT_BRACKET)
-					{
-						tok = GetNext();
-						label = ReadIdentifier() ;
-						tok = GetCurrentToken() ;
-						if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-						{
-							tok = GetNext();
-						}
-					}
-					aID.add(cond);
-					labels.add(label) ;
-				}
-			}
-		}
-		else
-		{
-			Transcoder.logError(tok.getLine(), "Unhandled situation in HANDLE");
-			String cs = "" ;
-			tok = GetCurrentToken() ;
-			while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-			{
-				cs += tok.GetDisplay() + " " ;
-				tok = GetNext() ;
-			}
-			GetNext() ;
-			return true ;
-		}
+        if (tok.GetKeyword() == CCobolKeywordList.CONDITION)
+        {
+            tok = GetNext() ;
+            boolean isdone = false ;
+            while (!isdone)
+            {
+                tok = GetCurrentToken() ;
+                if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+                {
+                    isdone = true ;
+                }
+                else
+                {
+                    String cond = tok.GetValue() ;
+                    CIdentifier label = null ;
+                    tok = GetNext() ;
+                    if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                    {
+                        tok = GetNext();
+                        label = ReadIdentifier() ;
+                        tok = GetCurrentToken() ;
+                        if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                        {
+                            tok = GetNext();
+                        }
+                    }
+                    conditions.add(cond);
+                    labels.add(label) ;
+                }
+            }
+        }
+        else if (tok.GetKeyword() == CCobolKeywordList.AID)
+        {
+            tok = GetNext() ;
+            boolean isdone = false ;
+            while (!isdone)
+            {
+                tok = GetCurrentToken() ;
+                if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+                {
+                    isdone = true ;
+                }
+                else
+                {
+                    String cond = tok.GetValue() ;
+                    CIdentifier label = null ;
+                    tok = GetNext() ;
+                    if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                    {
+                        tok = GetNext();
+                        label = ReadIdentifier() ;
+                        tok = GetCurrentToken() ;
+                        if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                        {
+                            tok = GetNext();
+                        }
+                    }
+                    aID.add(cond);
+                    labels.add(label) ;
+                }
+            }
+        }
+        else
+        {
+            Transcoder.logError(tok.getLine(), "Unhandled situation in HANDLE");
+            String cs = "" ;
+            tok = GetCurrentToken() ;
+            while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+            {
+                cs += tok.GetDisplay() + " " ;
+                tok = GetNext() ;
+            }
+            GetNext() ;
+            return true ;
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS HANDLE");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS HANDLE");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eHandle = root.createElement("ExecCICSHandle") ;
-		for (int i = 0; i< conditions.size(); i++)
-		{
-			String cond = conditions.get(i);
-			CIdentifier id = labels.get(i);
-			Element e ;
-			if (id != null)
-			{
-				e = root.createElement("Handle");
-				id.ExportTo(e, root);
-			}
-			else
-			{
-				e = root.createElement("Unhandle");
-			}
-			eHandle.appendChild(e);
-			e.setAttribute("Condition", cond);
-		}
-		for (int i = 0; i < aID.size(); i++)
-		{
-			String cond = aID.get(i);
-			CIdentifier id = labels.get(i);
-			Element e;
-			if (id != null)
-			{
-				e = root.createElement("HandleAID");
-				id.ExportTo(e, root);
-			}
-			else
-			{
-				e = root.createElement("UnhandleAID");
-			}
-			eHandle.appendChild(e);
-			e.setAttribute("Condition", cond);
-		}
-		return eHandle;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eHandle = root.createElement("ExecCICSHandle") ;
+        for (int i = 0; i< conditions.size(); i++)
+        {
+            String cond = conditions.get(i);
+            CIdentifier id = labels.get(i);
+            Element e ;
+            if (id != null)
+            {
+                e = root.createElement("Handle");
+                id.ExportTo(e, root);
+            }
+            else
+            {
+                e = root.createElement("Unhandle");
+            }
+            eHandle.appendChild(e);
+            e.setAttribute("Condition", cond);
+        }
+        for (int i = 0; i < aID.size(); i++)
+        {
+            String cond = aID.get(i);
+            CIdentifier id = labels.get(i);
+            Element e;
+            if (id != null)
+            {
+                e = root.createElement("HandleAID");
+                id.ExportTo(e, root);
+            }
+            else
+            {
+                e = root.createElement("UnhandleAID");
+            }
+            eHandle.appendChild(e);
+            e.setAttribute("Condition", cond);
+        }
+        return eHandle;
+    }
 
-	protected Vector<CIdentifier> labels = new Vector<CIdentifier>() ;
-	protected ArrayList<String> conditions = new ArrayList<String>() ;
-	protected ArrayList<String> aID = new ArrayList<String>() ;
+    protected Vector<CIdentifier> labels = new Vector<CIdentifier>() ;
+    protected ArrayList<String> conditions = new ArrayList<String>() ;
+    protected ArrayList<String> aID = new ArrayList<String>() ;
 
 }

@@ -15,16 +15,16 @@ import jlib.xml.Tag;
 public abstract class BaseDialogFactory
 {
 
-	/**
-	 * @param context
-	 * @return
-	 */
-	public abstract BaseDialog getInitialDialog(DisplayContext context) ;
+    /**
+     * @param context
+     * @return
+     */
+    public abstract BaseDialog getInitialDialog(DisplayContext context) ;
 
-	/**
-	 * @param config
-	 * @param tagFactory
-	 */
-	public abstract void Init(DisplayConfig config, Tag tagFactory) ;
+    /**
+     * @param config
+     * @param tagFactory
+     */
+    public abstract void Init(DisplayConfig config, Tag tagFactory) ;
 
 }

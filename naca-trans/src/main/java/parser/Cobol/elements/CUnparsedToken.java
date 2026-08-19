@@ -21,38 +21,38 @@ import org.w3c.dom.*;
  */
 public class CUnparsedToken extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CUnparsedToken(int line) {
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CUnparsedToken(int line) {
+        super(line);
+    }
 
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		token = tok.GetValue() ;
-		GetNext() ;
-		token += ReadStringUntilEOL() ;
-		Transcoder.logWarn(tok.getLine(), "Unparsed Token : " + token);
-		return true ;
-	}
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        token = tok.GetValue() ;
+        GetNext() ;
+        token += ReadStringUntilEOL() ;
+        Transcoder.logWarn(tok.getLine(), "Unparsed Token : " + token);
+        return true ;
+    }
 
-	public Element ExportCustom(Document rootdoc)
-	{
-		Element e = rootdoc.createElement("UnparsedToken") ;
-		e.setAttribute("Token", token) ;
-		return e ;
-	}
+    public Element ExportCustom(Document rootdoc)
+    {
+        Element e = rootdoc.createElement("UnparsedToken") ;
+        e.setAttribute("Token", token) ;
+        return e ;
+    }
 
-	String token = "" ;
+    String token = "" ;
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Transcoder.logWarn(getLine(), "No semantic analysis yet for 'UNPARSED TOKEN'") ;
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Transcoder.logWarn(getLine(), "No semantic analysis yet for 'UNPARSED TOKEN'") ;
+        return null;
+    }
 }

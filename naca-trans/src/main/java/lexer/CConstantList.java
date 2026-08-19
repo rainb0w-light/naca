@@ -14,26 +14,26 @@ import java.util.Hashtable;
  */
 public class CConstantList
 {
-	protected CConstantList()
-	{
-	}
+    protected CConstantList()
+    {
+    }
 
-	public void Register(CReservedConstant cste)
-	{
-		tabConstants.put(cste.name, cste) ;
-	}
+    public void Register(CReservedConstant cste)
+    {
+        tabConstants.put(cste.name, cste) ;
+    }
 
-	public CReservedConstant GetConstant(String name)
-	{
-		CReservedConstant kw = tabConstants.get(name);
-		return kw ;
-	}
-	private Hashtable<String, CReservedConstant> tabConstants = new Hashtable<String, CReservedConstant>() ;
+    public CReservedConstant GetConstant(String name)
+    {
+        CReservedConstant kw = tabConstants.get(name);
+        return kw ;
+    }
+    private Hashtable<String, CReservedConstant> tabConstants = new Hashtable<String, CReservedConstant>() ;
 
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
-	//public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
+    //public static CReservedConstant  = new CReservedConstant(List, "") ;
 }

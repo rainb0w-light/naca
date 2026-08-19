@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -16,71 +16,71 @@ package utils;
  */
 public class NacaTransLauncher extends Transcoder
 {
-	public static void launchMain(String[] args)
-	{
-		String csCfg = null;
-		boolean iscfgSet = false;
-		String csGroupToTranscode = "" ;
-		String csApplication = null;
-		TranscoderAction transcoderAction = TranscoderAction.All;
-		for (int nArg=0; nArg<args.length; nArg++)
-		{
-			String s = args[nArg];
-			if ((s.startsWith("-") || s.startsWith("/")) && s.contains("="))
-			{
-				int eqPos = s.indexOf('=');
-				String arg = s.substring(1, eqPos);
-				String argUpper = arg.toUpperCase();
-				String argValue = s.substring(eqPos + 1);
+    public static void launchMain(String[] args)
+    {
+        String csCfg = null;
+        boolean iscfgSet = false;
+        String csGroupToTranscode = "" ;
+        String csApplication = null;
+        TranscoderAction transcoderAction = TranscoderAction.All;
+        for (int nArg=0; nArg<args.length; nArg++)
+        {
+            String s = args[nArg];
+            if ((s.startsWith("-") || s.startsWith("/")) && s.contains("="))
+            {
+                int eqPos = s.indexOf('=');
+                String arg = s.substring(1, eqPos);
+                String argUpper = arg.toUpperCase();
+                String argValue = s.substring(eqPos + 1);
 
-				if (argUpper.equals("APPLICATION"))
-				{
-					csApplication = argValue;
-				}
-				else if (argUpper.equals("GROUP"))
-				{
-					csGroupToTranscode = argValue;
-				}
-				else if (argUpper.equals("ACTION"))
-				{
-					String csAction = argValue;
-					transcoderAction = getTranscoderAction(csAction);
-				}
-				else if (argUpper.equals("CONFIGFILE"))
-				{
-					csCfg = argValue;
-					iscfgSet = true;
-				}
-			}
-			else
-			{
-				if(!iscfgSet)
-				{
-					csCfg = s;
-					iscfgSet = true;
-				}
-				else
-					csGroupToTranscode = s;
-			}
-		}
-		if (csCfg == null || csCfg.isBlank())
-			throw new IllegalArgumentException("A transpiler config file must be supplied with -ConfigFile=<path>");
-		doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);
-	}
+                if (argUpper.equals("APPLICATION"))
+                {
+                    csApplication = argValue;
+                }
+                else if (argUpper.equals("GROUP"))
+                {
+                    csGroupToTranscode = argValue;
+                }
+                else if (argUpper.equals("ACTION"))
+                {
+                    String csAction = argValue;
+                    transcoderAction = getTranscoderAction(csAction);
+                }
+                else if (argUpper.equals("CONFIGFILE"))
+                {
+                    csCfg = argValue;
+                    iscfgSet = true;
+                }
+            }
+            else
+            {
+                if(!iscfgSet)
+                {
+                    csCfg = s;
+                    iscfgSet = true;
+                }
+                else
+                    csGroupToTranscode = s;
+            }
+        }
+        if (csCfg == null || csCfg.isBlank())
+            throw new IllegalArgumentException("A transpiler config file must be supplied with -ConfigFile=<path>");
+        doStart(csApplication, transcoderAction, csCfg, csGroupToTranscode);
+    }
 
-	public static NacaTransLauncher doInitForPlugin(String configFilePath)
-	{
-		NacaTransLauncher transLauncher = new NacaTransLauncher() ;
-		transLauncher.initForPlugin(configFilePath);
-		return transLauncher;		
-	}
+    public static NacaTransLauncher doInitForPlugin(String configFilePath)
+    {
+        NacaTransLauncher transLauncher = new NacaTransLauncher() ;
+        transLauncher.initForPlugin(configFilePath);
+        return transLauncher;
+    }
 
-	public static void doStart(String csApplication, TranscoderAction transcoderAction, String csCfg, String csGroupToTranscode)
-	{
-		NacaTransLauncher obj = new NacaTransLauncher() ;
-		obj.setTranscoderAction(transcoderAction);
+    public static void doStart(String csApplication, TranscoderAction transcoderAction, String csCfg, String csGroupToTranscode)
+    {
+        NacaTransLauncher obj = new NacaTransLauncher() ;
+        obj.setTranscoderAction(transcoderAction);
 
-		obj.Start(csCfg, csGroupToTranscode) ;
-	}
+        obj.Start(csCfg, csGroupToTranscode) ;
+    }
 
 }

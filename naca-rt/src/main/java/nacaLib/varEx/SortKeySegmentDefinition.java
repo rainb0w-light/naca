@@ -10,28 +10,28 @@ import nacaLib.bdb.BtreeSegmentKeyTypeFactory;
 
 public class SortKeySegmentDefinition
 {
-	SortKeySegmentDefinition(Var var, boolean bAscending)
-	{
-		this.var = var;
-		this.bAscending = bAscending;
-	}
-	
-	public int getBufferStartPosKey()
-	{
-		int n = var.getOffsetFromLevel01();
-		return n;
-	}
-	
-	public int getBufferLengthKey()
-	{
-		return var.getLength();
-	}
-	
-	public BtreeSegmentKeyTypeFactory getSegmentKeyType()
-	{
-		return var.getVarDef().getSegmentKeyTypeFactory();
-	}
-	
-	public Var var = null;
-	public boolean bAscending = true;
+    SortKeySegmentDefinition(Var var, boolean bAscending)
+    {
+        this.var = var;
+        this.bAscending = bAscending;
+    }
+
+    public int getBufferStartPosKey()
+    {
+        int n = var.getOffsetFromLevel01();
+        return n;
+    }
+
+    public int getBufferLengthKey()
+    {
+        return var.getLength();
+    }
+
+    public BtreeSegmentKeyTypeFactory getSegmentKeyType()
+    {
+        return var.getVarDef().getSegmentKeyTypeFactory();
+    }
+
+    public Var var = null;
+    public boolean bAscending = true;
 }

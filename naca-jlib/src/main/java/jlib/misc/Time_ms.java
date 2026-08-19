@@ -13,56 +13,56 @@ import java.util.GregorianCalendar;
 
 public class Time_ms
 {
-	public static long getCurrentTime_ms()
-	{
-		//long l = new GregorianCalendar().getTimeInMillis();
-		long l = System.currentTimeMillis();
-		return l;
-	}
+    public static long getCurrentTime_ms()
+    {
+        //long l = new GregorianCalendar().getTimeInMillis();
+        long l = System.currentTimeMillis();
+        return l;
+    }
 
-	public static String formatHHMMSS_ms(long l)
-	{
-		int nNb_ms = (int)(l % 1000);
-		l = l / 1000;
-		int nNb_s = (int)(l % 60);
-		l = l / 60;
-		int nNb_min = (int)(l % 60);
-		int nNb_h = (int)(l / 60);
-		String cs = nNb_h + ":" + nNb_min + ":" + nNb_s + "." + nNb_ms;
-		return cs;
-	}
+    public static String formatHHMMSS_ms(long l)
+    {
+        int nNb_ms = (int)(l % 1000);
+        l = l / 1000;
+        int nNb_s = (int)(l % 60);
+        l = l / 60;
+        int nNb_min = (int)(l % 60);
+        int nNb_h = (int)(l / 60);
+        String cs = nNb_h + ":" + nNb_min + ":" + nNb_s + "." + nNb_ms;
+        return cs;
+    }
 
-	public static String formatYYYYMMDDHHMMSS_ms(long l)
-	{
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTimeInMillis(l);
+    public static String formatYYYYMMDDHHMMSS_ms(long l)
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(l);
 
-		Date date = calendar.getTime();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		String cs = formatter.format(date) ;
-		return cs ;
-	}
+        Date date = calendar.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String cs = formatter.format(date) ;
+        return cs ;
+    }
 
-	public static String formatDMY_HHMMSS_ms(long l)
-	{
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTimeInMillis(l);
+    public static String formatDMY_HHMMSS_ms(long l)
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(l);
 
-		Date date = calendar.getTime();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
-		String cs = formatter.format(date) ;
-		return cs ;
-	}
+        Date date = calendar.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy HH:mm:ss.SSS");
+        String cs = formatter.format(date) ;
+        return cs ;
+    }
 
-	public static void wait_ms(long lNbMs)
-	{
-		try
-		{
-			Thread.sleep(lNbMs);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-	}
+    public static void wait_ms(long lNbMs)
+    {
+        try
+        {
+            Thread.sleep(lNbMs);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

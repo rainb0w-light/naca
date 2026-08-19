@@ -8,9 +8,9 @@ package nacaLib.basePrgEnv;
 
 public interface SessionEnvironmentRequester
 {
-	String getUserLanguageId();
-	String getProfitCenter();
-	String getCmpSession();
-	String getUserId();
-	String getUserLdapId();
+    String getUserLanguageId();
+    String getProfitCenter();
+    String getCmpSession();
+    String getUserId();
+    String getUserLdapId();
 }

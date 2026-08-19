@@ -11,12 +11,12 @@ import nacaLib.varEx.VarBuffer;
 import nacaLib.varEx.VarBufferPos;
 import nacaLib.varEx.VarNumIntSignComp4;
 
-public class VarFPacNumShortSignComp4 extends VarNumIntSignComp4 
+public class VarFPacNumShortSignComp4 extends VarNumIntSignComp4
 {
-	public VarFPacNumShortSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
-	{
-		super(type);		
-		bufferPos = new VarBufferPos(varBuffer, nPosition);
-		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
-	}
+    public VarFPacNumShortSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
+    {
+        super(type);
+        bufferPos = new VarBufferPos(varBuffer, nPosition);
+        varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
+    }
 }

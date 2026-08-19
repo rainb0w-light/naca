@@ -15,26 +15,26 @@ import nacaLib.varEx.Var;
  */
 public class CalledPrgPublicArgStringInPositioned extends BaseCalledPrgPublicArgPositioned
 {
-	CalledPrgPublicArgStringInPositioned(String csValue)
-	{
-		super();
-		this.csValue = csValue;
-	}
-	
-	public void MapOn(Var varLinkageSection)
-	{
-		varLinkageSection.set(csValue);
-	}
-	
-	public void doFillWithVar(Var varSource)
-	{
-		csValue = varSource.getString();		
-	}
-	
-	public int getParamLength()
-	{
-		return csValue.length();
-	}
-	
-	private String csValue = null;
+    CalledPrgPublicArgStringInPositioned(String csValue)
+    {
+        super();
+        this.csValue = csValue;
+    }
+
+    public void MapOn(Var varLinkageSection)
+    {
+        varLinkageSection.set(csValue);
+    }
+
+    public void doFillWithVar(Var varSource)
+    {
+        csValue = varSource.getString();
+    }
+
+    public int getParamLength()
+    {
+        return csValue.length();
+    }
+
+    private String csValue = null;
 }

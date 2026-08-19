@@ -14,35 +14,35 @@ import java.util.ArrayList;
  */
 public class CMenuDef
 {
-	CMenuDef()
-	{
-	}
+    CMenuDef()
+    {
+    }
 
-	void setTitle(String csTitle)
-	{
-		this.csTitle = csTitle;
-	}
+    void setTitle(String csTitle)
+    {
+        this.csTitle = csTitle;
+    }
 
-	CMenuOptionDef createAndRegisterNewOption()
-	{
-		CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
-		options.add(MenuOptionDef);
-		return MenuOptionDef;
-	}
+    CMenuOptionDef createAndRegisterNewOption()
+    {
+        CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
+        options.add(MenuOptionDef);
+        return MenuOptionDef;
+    }
 
-	public String buildHTMLMenu()
-	{
-		String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
-		for(int n = 0; n< options.size(); n++)
-		{
-			CMenuOptionDef MenuOptionDef = options.get(n);
-			cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.csLabel + "</BUTTON></td></tr>";
-			// use MenuOptionDef.csAction to identify option
-		}
-		cs += "</table>";
-		return cs;
-	}
+    public String buildHTMLMenu()
+    {
+        String cs = "<H1><CENTER>"+csTitle+"</CENTER></H1><BR><table>";
+        for(int n = 0; n< options.size(); n++)
+        {
+            CMenuOptionDef MenuOptionDef = options.get(n);
+            cs += "<tr><td><BUTTON TYPE=SUBMIT>" + MenuOptionDef.csLabel + "</BUTTON></td></tr>";
+            // use MenuOptionDef.csAction to identify option
+        }
+        cs += "</table>";
+        return cs;
+    }
 
-	ArrayList<CMenuOptionDef> options = new ArrayList<CMenuOptionDef>();	// Array of  MenuOptionDef
-	public String csTitle = null;
+    ArrayList<CMenuOptionDef> options = new ArrayList<CMenuOptionDef>();    // Array of  MenuOptionDef
+    public String csTitle = null;
 }

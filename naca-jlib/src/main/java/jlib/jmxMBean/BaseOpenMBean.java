@@ -23,204 +23,216 @@ import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 import javax.management.openmbean.OpenMBeanInfoSupport;
 import javax.management.openmbean.TabularType;
 
-public abstract class BaseOpenMBean extends BaseDynamicMBean	//implements DynamicMBean
+public abstract class BaseOpenMBean extends BaseDynamicMBean    //implements DynamicMBean
 {
-	public BaseOpenMBean(String csName, String csDescription)
-	{
-		buildDynamicMBeanInfo();
-		registerOpenInfos(csName, csDescription);
-		JmxRegistration.registerMBean(csName, this);
-	}
+    public BaseOpenMBean(String csName, String csDescription)
+    {
+        buildDynamicMBeanInfo();
+        registerOpenInfos(csName, csDescription);
+        JmxRegistration.registerMBean(csName, this);
+    }
 
-	private void registerOpenInfos(String csName, String csDescription)
-	{
-		OpenMBeanAttributeInfo[] attributes = null;
-		if(arrOpenMBeanAttributeInfosWrapper != null)
-		{
-			int nNbItems = arrOpenMBeanAttributeInfosWrapper.size();
-			attributes = new OpenMBeanAttributeInfo[nNbItems];
-			for(int n=0; n<nNbItems; n++)
-			{
-				OpenMBeanAttributeInfoWrapper wrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
-				attributes[n] = wrapper.getAttribute();
-			}
-		}
-
-		openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, attributes, null, null, null);
-	}
-
-	public Object getAttribute(String csName)
-	{
-		if (csName == null || arrOpenMBeanAttributeInfosWrapper == null)
-		{
-			return null;
+    private void registerOpenInfos(String csName, String csDescription)
+    {
+        OpenMBeanAttributeInfo[] attributes = null;
+        if(arrOpenMBeanAttributeInfosWrapper != null)
+        {
+            int nNbItems = arrOpenMBeanAttributeInfosWrapper.size();
+            attributes = new OpenMBeanAttributeInfo[nNbItems];
+            for(int n=0; n<nNbItems; n++)
+            {
+                OpenMBeanAttributeInfoWrapper wrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
+                attributes[n] = wrapper.getAttribute();
+            }
         }
 
-		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
-		{
-			OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
-			OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
-			if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
-			{
-				// Call method
-				Method method = attributeInfoWrapper.getMethodGetter();
-				if(method != null)
-				{
-					try
-					{
-						Object oReturn = method.invoke(this, (Object[])null);
-						return oReturn;
-					}
-					catch (IllegalArgumentException e)
-					{
-						e.printStackTrace();
-					}
-					catch (IllegalAccessException e)
-					{
-						e.printStackTrace();
-					}
-					catch (InvocationTargetException e)
-					{
-						e.printStackTrace();
-					}
-				}
+        openMBeanInfo = new OpenMBeanInfoSupport(csName, csDescription, attributes, null, null, null);
+    }
 
-			}
-		}
+    public Object getAttribute(String csName)
+    {
+        if (csName == null || arrOpenMBeanAttributeInfosWrapper == null)
+        {
+            return null;
+        }
+
+        for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
+        {
+            OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
+            OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
+            if(attributeInfo.getName().equalsIgnoreCase(csName))    // Found attribut
+            {
+                // Call method
+                Method method = attributeInfoWrapper.getMethodGetter();
+                if(method != null)
+                {
+                    try
+                    {
+                        Object oReturn = method.invoke(this, (Object[])null);
+                        return oReturn;
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (IllegalAccessException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (InvocationTargetException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }
         return null;
-	}
+    }
 
     public void setAttribute(Attribute attribute)
         throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException
-	{
+    {
         if (attribute != null)
         {
-	        String csName = attribute.getName();
-	        Object oValue = attribute.getValue();
+            String csName = attribute.getName();
+            Object oValue = attribute.getValue();
 
-      		for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
-			{
-				OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
-				OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
-				if(attributeInfo.getName().equalsIgnoreCase(csName))	// Found attribut
-				{
-					// Call method
-					Method method = attributeInfoWrapper.getMethodSetter();
-					if(method != null)
-					{
-						Class[] classArgs = method.getParameterTypes();
-						if(classArgs.length == 1)	// Check: only 1 arg
-						{
-							try
-							{
-								method.invoke(this, oValue);
-								return;
-							}
-							catch (IllegalArgumentException e)
-							{
-								e.printStackTrace();
-							}
-							catch (IllegalAccessException e)
-							{
-								e.printStackTrace();
-							}
-							catch (InvocationTargetException e)
-							{
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
+            for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
+            {
+                OpenMBeanAttributeInfoWrapper attributeInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
+                OpenMBeanAttributeInfo attributeInfo = attributeInfoWrapper.getAttribute();
+                if(attributeInfo.getName().equalsIgnoreCase(csName))    // Found attribut
+                {
+                    // Call method
+                    Method method = attributeInfoWrapper.getMethodSetter();
+                    if(method != null)
+                    {
+                        Class[] classArgs = method.getParameterTypes();
+                        if(classArgs.length == 1)   // Check: only 1 arg
+                        {
+                            try
+                            {
+                                method.invoke(this, oValue);
+                                return;
+                            }
+                            catch (IllegalArgumentException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            catch (IllegalAccessException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            catch (InvocationTargetException e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-	public Object invoke(String csOperationName,
+    public Object invoke(String csOperationName,
                          Object params[],
                          String signature[])
-	{
+    {
 //        if (csOperationName != null)
 //        {
-//        	for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
-//			{
-//				OpenMBeanAttributeInfoWrapper operationInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
-//				OpenMBeanAttributeInfo operationInfo = operationInfoWrapper.getOperation();
-//				if(operationInfo.getName().equalsIgnoreCase(csOperationName))	// Found attribut
-//				{
-//					// Call method
-//					Method method = operationInfoWrapper.getMethod();
-//					if(method != null)
-//					{
-//						Object oReturn;
-//						try
-//						{
-//							oReturn = method.invoke(this, params);
-//							return oReturn;
-//						}
-//						catch (IllegalArgumentException e)
-//						{
-//							e.printStackTrace();
-//						}
-//						catch (IllegalAccessException e)
-//						{
-//							e.printStackTrace();
-//						}
-//						catch (InvocationTargetException e)
-//						{
-//							e.printStackTrace();
-//						}
-//						return null;
-//					}
-//				}
-//			}
+//          for(int n=0; n<arrOpenMBeanAttributeInfosWrapper.size(); n++)
+//          {
+//              OpenMBeanAttributeInfoWrapper operationInfoWrapper = arrOpenMBeanAttributeInfosWrapper.get(n);
+//              OpenMBeanAttributeInfo operationInfo = operationInfoWrapper.getOperation();
+//              if(operationInfo.getName().equalsIgnoreCase(csOperationName))   // Found attribut
+//              {
+//                  // Call method
+//                  Method method = operationInfoWrapper.getMethod();
+//                  if(method != null)
+//                  {
+//                      Object oReturn;
+//                      try
+//                      {
+//                          oReturn = method.invoke(this, params);
+//                          return oReturn;
+//                      }
+//                      catch (IllegalArgumentException e)
+//                      {
+//                          e.printStackTrace();
+//                      }
+//                      catch (IllegalAccessException e)
+//                      {
+//                          e.printStackTrace();
+//                      }
+//                      catch (InvocationTargetException e)
+//                      {
+//                          e.printStackTrace();
+//                      }
+//                      return null;
+//                  }
+//              }
+//          }
 //        }
         return null;
-	}
+    }
 
-	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, CompositeType compositeType)
-	{
-		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
-		boolean iscanGet = true;
-		if(methodGet == null)
-			iscanGet = false;
-		Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
-		boolean iscanSet = true;
-		if(methodSet == null)
-			iscanSet = false;
+    protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, CompositeType compositeType)
+    {
+        Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
+        boolean iscanGet = true;
+        if(methodGet == null)
+            iscanGet = false;
+        Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
+        boolean iscanSet = true;
+        if(methodSet == null)
+            iscanSet = false;
 
-		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, compositeType, iscanGet, iscanSet, false);
-		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
+        OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(
+            csMethodName,
+            csDescription,
+            compositeType,
+            iscanGet,
+            iscanSet,
+            false);
+        OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 
-		if(arrOpenMBeanAttributeInfosWrapper == null)
-			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
-		arrOpenMBeanAttributeInfosWrapper.add(attr);
-	}
+        if(arrOpenMBeanAttributeInfosWrapper == null)
+            arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+        arrOpenMBeanAttributeInfosWrapper.add(attr);
+    }
 
-	protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, TabularType tabularType)
-	{
-		Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
-		boolean iscanGet = true;
-		if(methodGet == null)
-			iscanGet = false;
-		Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
-		boolean iscanSet = true;
-		if(methodSet == null)
-			iscanSet = false;
+    protected void addOpenAttribute(String csDescription, Class cls, String csMethodName, TabularType tabularType)
+    {
+        Method methodGet = MethodFinder.getMethod(cls, "get"+csMethodName);
+        boolean iscanGet = true;
+        if(methodGet == null)
+            iscanGet = false;
+        Method methodSet = MethodFinder.getMethod(cls, "set"+csMethodName, CompositeData.class);
+        boolean iscanSet = true;
+        if(methodSet == null)
+            iscanSet = false;
 
-		OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(csMethodName, csDescription, tabularType, iscanGet, iscanSet, false);
-		OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
+        OpenMBeanAttributeInfoSupport attrOpen = new OpenMBeanAttributeInfoSupport(
+            csMethodName,
+            csDescription,
+            tabularType,
+            iscanGet,
+            iscanSet,
+            false);
+        OpenMBeanAttributeInfoWrapper attr = new OpenMBeanAttributeInfoWrapper(csMethodName, csDescription, attrOpen, methodGet, methodSet);
 
-		if(arrOpenMBeanAttributeInfosWrapper == null)
-			arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
-		arrOpenMBeanAttributeInfosWrapper.add(attr);
-	}
+        if(arrOpenMBeanAttributeInfosWrapper == null)
+            arrOpenMBeanAttributeInfosWrapper = new ArrayList<OpenMBeanAttributeInfoWrapper>();
+        arrOpenMBeanAttributeInfosWrapper.add(attr);
+    }
 
-	public MBeanInfo getMBeanInfo()
+    public MBeanInfo getMBeanInfo()
     {
         return openMBeanInfo;
     }
 
-	protected abstract void buildDynamicMBeanInfo();
+    protected abstract void buildDynamicMBeanInfo();
 
     private OpenMBeanInfoSupport openMBeanInfo = null;
     private ArrayList<OpenMBeanAttributeInfoWrapper> arrOpenMBeanAttributeInfosWrapper = null;

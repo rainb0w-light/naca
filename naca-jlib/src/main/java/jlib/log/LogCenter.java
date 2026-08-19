@@ -21,10 +21,10 @@ import jlib.jmxMBean.CompositeTypeDesc;
  * The media depends on the actual implementation of the class. Known implementations
  * are:
  * <ul>
- * 	<li>{@link jlib.log.LogCenterConsole}, sends the events to the console.</li>
- * 	<li>{@link jlib.log.LogCenterDb}, sends the events to a database.</li>
- * 	<li>{@link jlib.log.LogCenterDbFlat}, sends the events to a COP/LOG compatible database.</li>
- * 	<li>{@link jlib.log.LogCenterFile}, sends the events to a file.</li>
+ *  <li>{@link jlib.log.LogCenterConsole}, sends the events to the console.</li>
+ *  <li>{@link jlib.log.LogCenterDb}, sends the events to a database.</li>
+ *  <li>{@link jlib.log.LogCenterDbFlat}, sends the events to a COP/LOG compatible database.</li>
+ *  <li>{@link jlib.log.LogCenterFile}, sends the events to a file.</li>
  * </ul>
  * @author PJD
  */
@@ -40,41 +40,41 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * @param logCenterLoader A xml reader which has loaded a [LogCenter] section
  *     of the JLib.log xml configuration file.
  */
-	public LogCenter(LogCenterLoader logCenterLoader)
-	{
-		super(logCenterLoader.csName + " (" + logCenterLoader.csMode + ")", "Log center Open MBean");
+    public LogCenter(LogCenterLoader logCenterLoader)
+    {
+        super(logCenterLoader.csName + " (" + logCenterLoader.csMode + ")", "Log center Open MBean");
 
-		isenable = logCenterLoader.isenable;
-		csChannel = logCenterLoader.csChannel;
-		logLevel = new LogLevel(logCenterLoader.logLevel);
-		csMode = logCenterLoader.csMode;
-		logFlow = logCenterLoader.logFlow;
-		nNbRequestBufferSize = logCenterLoader.nNbRequestBufferSize;
-		logParamItem = new ArrayList<LogParams>();
-	}
+        isenable = logCenterLoader.isenable;
+        csChannel = logCenterLoader.csChannel;
+        logLevel = new LogLevel(logCenterLoader.logLevel);
+        csMode = logCenterLoader.csMode;
+        logFlow = logCenterLoader.logFlow;
+        nNbRequestBufferSize = logCenterLoader.nNbRequestBufferSize;
+        logParamItem = new ArrayList<LogParams>();
+    }
 
-	public void setPatternLayout(LogPatternLayout patternLayout)
-	{
-		this.patternLayout = patternLayout;
-	}
+    public void setPatternLayout(LogPatternLayout patternLayout)
+    {
+        this.patternLayout = patternLayout;
+    }
 
-	protected LogPatternLayout patternLayout = null;
+    protected LogPatternLayout patternLayout = null;
 
-	protected boolean isenable = false;                    // If not enabled, the log center doesn't accept any event.
-	protected String csChannel = null;
-	protected LogFlow logFlow = null;
-	protected LogLevel logLevel = new LogLevel(LogLevel.Normal);
+    protected boolean isenable = false;                    // If not enabled, the log center doesn't accept any event.
+    protected String csChannel = null;
+    protected LogFlow logFlow = null;
+    protected LogLevel logLevel = new LogLevel(LogLevel.Normal);
 
-	protected String csMode = "";
-	protected String csProcess = null;
-	protected String csProduct = null;
-	protected String csRunId = null;
-	protected String csRuntimeId = null;
+    protected String csMode = "";
+    protected String csProcess = null;
+    protected String csProduct = null;
+    protected String csRunId = null;
+    protected String csRuntimeId = null;
 
-	private ArrayList<LogParams> logParamItem = null;
+    private ArrayList<LogParams> logParamItem = null;
 
-	protected int nNbRequestBufferSize = 0;
-	protected boolean isasync = false;
+    protected int nNbRequestBufferSize = 0;
+    protected boolean isasync = false;
 /**
  * Receives the description of a {@link LogEvent} (wrapped up in a
  * {@link LogParams} decorator}, checks if the event
@@ -82,42 +82,42 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * case it stores it.
  * The three conditions are:
  * <ul>
- * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
- * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link logFlow}).</li>
- * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li>
+ *  <li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
+ *  <li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
+ *  property {@link logFlow}).</li>
+ *  <li>The event has a {@link LogLevel} equal or higher than the
+ *  minimal required by the <i>LogCenter</i> (see property {@link getLevel}.</li>
  * </ul>
  * If the events buffer is enabled, the event description is added to it,
  * instead of immediately stored.
  * @param logParam The description of the event to be logged.
  */
-	void output(LogParams logParam)
-	{
-		if(isopen && isenable)
-		{
-			boolean b = false;
-			if(logParam.csChannel == null)
-				b = true;
-			else if(logParam.csChannel.equalsIgnoreCase(csChannel))
-				b = true;
-			if(b)
-			{
-				b = logParam.isAcceptable(logLevel, logFlow);
-				if(b)
-				{
-					if(nNbRequestBufferSize == 0)	// No buffering
-					{
-						preSendOutput();
-						sendOutput(logParam);
-						postSendOutput();
-					}
-					else
-						addLogParamItem(logParam);
-				}
-			}
-		}
-	}
+    void output(LogParams logParam)
+    {
+        if(isopen && isenable)
+        {
+            boolean b = false;
+            if(logParam.csChannel == null)
+                b = true;
+            else if(logParam.csChannel.equalsIgnoreCase(csChannel))
+                b = true;
+            if(b)
+            {
+                b = logParam.isAcceptable(logLevel, logFlow);
+                if(b)
+                {
+                    if(nNbRequestBufferSize == 0)   // No buffering
+                    {
+                        preSendOutput();
+                        sendOutput(logParam);
+                        postSendOutput();
+                    }
+                    else
+                        addLogParamItem(logParam);
+                }
+            }
+        }
+    }
 /**
  * Add the description of one {@link LogEvent} to the events buffer.
  * If the events buffer size outpasses its limit, the buffer is flushed
@@ -125,56 +125,56 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * @param logParam The description of the event to be stored
  *     in the events buffer.
  */
-	synchronized void addLogParamItem(LogParams logParam)
-	{
-		logParamItem.add(logParam);
-		if(logParamItem.size() >= nNbRequestBufferSize)
-		{
-			outputAllLogParamsItems();
-		}
-	}
+    synchronized void addLogParamItem(LogParams logParam)
+    {
+        logParamItem.add(logParam);
+        if(logParamItem.size() >= nNbRequestBufferSize)
+        {
+            outputAllLogParamsItems();
+        }
+    }
 /**
  * Empties the events buffer.
  * The emptying sequence is the following:
  * <ul>
- * 	<li></li>
- * 	<li></li>
- * 	<li></li>
- * 	<li></li>
+ *  <li></li>
+ *  <li></li>
+ *  <li></li>
+ *  <li></li>
  * </ul>
  */
-	synchronized void flushCachedLogParamsItems()
-	{
-		if(logParamItem != null)
-			outputAllLogParamsItems();
-	}
+    synchronized void flushCachedLogParamsItems()
+    {
+        if(logParamItem != null)
+            outputAllLogParamsItems();
+    }
 
-	synchronized private void outputAllLogParamsItems()
-	{
-		int nNbEntries = logParamItem.size();
-		preSendOutput();
-		for(int n=0; n<nNbEntries; n++)
-		{
-			LogParams logParam = logParamItem.get(n);
-			sendOutput(logParam);
-		}
-		postSendOutput();
-		logParamItem.clear();
-	}
+    synchronized private void outputAllLogParamsItems()
+    {
+        int nNbEntries = logParamItem.size();
+        preSendOutput();
+        for(int n=0; n<nNbEntries; n++)
+        {
+            LogParams logParam = logParamItem.get(n);
+            sendOutput(logParam);
+        }
+        postSendOutput();
+        logParamItem.clear();
+    }
 
-	abstract boolean open();
+    abstract boolean open();
 /**
  * Method called before storing one or more events via {@link sendOutput}.
  * This method can be implemented at extending the class to perform any
  * customized action before storing the event(s). If no action is
  * required, use the following code to disable the method:
  * <pre>
- * 	void preSendOutput(){}
+ *  void preSendOutput(){}
  * </pre>
  * When the events buffer is being flushed, this method is called only once,
  * before the first event is sent to be stored.
  */
-	abstract void preSendOutput();
+    abstract void preSendOutput();
 /**
  * Method called by {@link output} for immediately store an event.
  * If the buffer is being flushed, this method is called once for each
@@ -182,7 +182,7 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * This method has to be implemented by extending the <i>LogCenter</i> class.
  * @param logParam The parameters of the {@link LogEvent} to be processed.
  */
-	abstract void sendOutput(LogParams logParam);
+    abstract void sendOutput(LogParams logParam);
 
 /**
  * Method called after storing one or more events via {@link sendOutput}.
@@ -190,226 +190,226 @@ public abstract class LogCenter extends LogCenterCloseMBeam // LogCenterOpenMBea
  * customized action after storing the event(s). If no action is
  * required, use the following code to disable the method:
  * <pre>
- * 	void postSendOutput(){}
+ *  void postSendOutput(){}
  * </pre>
  * When the events buffer is being flushed, this method is called only once,
  * after the first event has beem sent to be stored.
  */
-	abstract void postSendOutput();
+    abstract void postSendOutput();
 
-	abstract boolean closeLogCenter();
+    abstract boolean closeLogCenter();
 
-	boolean isOpen()
-	{
-		return isopen;
-	}
+    boolean isOpen()
+    {
+        return isopen;
+    }
 
-	boolean doOpen()
-	{
-		if(!isopen)
-			isopen = open();
-		return isopen;
-	}
+    boolean doOpen()
+    {
+        if(!isopen)
+            isopen = open();
+        return isopen;
+    }
 
 
-	boolean close()
-	{
-		if(isopen)
-		{
-			flushCachedLogParamsItems();
-			isopen = !closeLogCenter();
-		}
-		return !isopen;
-	}
+    boolean close()
+    {
+        if(isopen)
+        {
+            flushCachedLogParamsItems();
+            isopen = !closeLogCenter();
+        }
+        return !isopen;
+    }
 
-	private boolean isopen = false;
+    private boolean isopen = false;
 /**
  * Returns <i>true</i> if the <i>LogCenter</i> is enabled.
  * A disabled <i>LogCenter</i> doesn't accept any {@link LogEvent}. An
  * enabled <i>LogCenter</i> accepts events provided three conditions are
  * met:
  * <ul>
- * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
- * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link #logFlow}).</li>
- * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
+ *  <li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
+ *  <li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
+ *  property {@link #logFlow}).</li>
+ *  <li>The event has a {@link LogLevel} equal or higher than the
+ *  minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
  * </ul>
  * @return <i>true</i> if the <i>LogCenter</i> is enabled.
  */
-	public Boolean getEnable()
-	{
-		return isenable;
-	}
+    public Boolean getEnable()
+    {
+        return isenable;
+    }
 /**
  * Enables the <i>LogCenter</i>.
  * A disabled <i>LogCenter</i> doesn't accept any {@link LogEvent}. An
  * enabled <i>LogCenter</i> accepts events provided three conditions are
  * met:
  * <ul>
- * 	<li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
- * 	<li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
- * 	property {@link #logFlow}).</li>
- * 	<li>The event has a {@link LogLevel} equal or higher than the
- * 	minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
+ *  <li>The event is sent on the channel the <i>LogCenter</i> is listening to.</li>
+ *  <li>The event has a {@link LogFlow} accepted by the <i>LogCenter</i> flow (see protected
+ *  property {@link #logFlow}).</li>
+ *  <li>The event has a {@link LogLevel} equal or higher than the
+ *  minimal required by the <i>LogCenter</i> (see property {@link #getLevel}.</li>
  * </ul>
  * @param b If <i>true</i>, it enables the <i>LogCenter</i>. Otherwise
  *     it disables it.
  */
-	public void setEnable(Boolean b)
-	{
-		isenable = b;
-	}
+    public void setEnable(Boolean b)
+    {
+        isenable = b;
+    }
 /**
  * Returns the current {@link LogLevel} of the <i>LogCenter</i> as a string.
  * @return The current {@link LogLevel} of the <i>LogCenter</i> as a string.
  */
-	public String getLevel()
-	{
-		return logLevel.getAsString();
-	}
+    public String getLevel()
+    {
+        return logLevel.getAsString();
+    }
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i>.
  * @param csLevel The minimal required level. Provided level should be
  *     one of the accepted by {@link LogLevel}.
  */
-	public void setLevel(String csLevel)
-	{
-		logLevel.set(csLevel);
-	}
+    public void setLevel(String csLevel)
+    {
+        logLevel.set(csLevel);
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#Critical}.
  */
-	public void setCritical()
-	{
-		setLevel("Critical");
-	}
+    public void setCritical()
+    {
+        setLevel("Critical");
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#Important}.
  */
-	public void setImportant()
-	{
-		setLevel("Important");
-	}
+    public void setImportant()
+    {
+        setLevel("Important");
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#Normal}.
  */
-	public void setNormal()
-	{
-		setLevel("Normal");
-	}
+    public void setNormal()
+    {
+        setLevel("Normal");
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#Verbose}.
  */
-	public void setVerbose()
-	{
-		setLevel("Verbose");
-	}
+    public void setVerbose()
+    {
+        setLevel("Verbose");
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#Debug}.
  */
-	public void setDebug()
-	{
-		setLevel("Debug");
-	}
+    public void setDebug()
+    {
+        setLevel("Debug");
+    }
 
 /**
  * Sets the minimal level required for the {@link LogEvent}s to be
  * accepted by the <i>LogCenter</i> to {@link LogLevel#FineDebug}.
  */
-	public void setFineDebug()
-	{
-		setLevel("FineDebug");
-	}
+    public void setFineDebug()
+    {
+        setLevel("FineDebug");
+    }
 
-	public CompositeType getStateType()
-	{
-		CompositeTypeDesc compositeTypeDesc = new CompositeTypeDesc("LogCenterCompositeType", "LogCenterCompositeType Desc");
-		compositeTypeDesc.addItem("Enable", "EnableDesc", SimpleType.BOOLEAN);
-		compositeTypeDesc.addItem("Level", "LevelDesc", SimpleType.STRING);
-		return compositeTypeDesc.generateCompositeType();
-	}
+    public CompositeType getStateType()
+    {
+        CompositeTypeDesc compositeTypeDesc = new CompositeTypeDesc("LogCenterCompositeType", "LogCenterCompositeType Desc");
+        compositeTypeDesc.addItem("Enable", "EnableDesc", SimpleType.BOOLEAN);
+        compositeTypeDesc.addItem("Level", "LevelDesc", SimpleType.STRING);
+        return compositeTypeDesc.generateCompositeType();
+    }
 
-	public CompositeData getState()
-	{
-		CompositeType compositeType = getStateType();
-		CompositeDataDesc compositeDataDesc = new CompositeDataDesc(compositeType);
-		compositeDataDesc.setItemValue("Enable", getEnable());
-		compositeDataDesc.setItemValue("Level", getLevel());
-		return compositeDataDesc.generateCompositeData();
-	}
+    public CompositeData getState()
+    {
+        CompositeType compositeType = getStateType();
+        CompositeDataDesc compositeDataDesc = new CompositeDataDesc(compositeType);
+        compositeDataDesc.setItemValue("Enable", getEnable());
+        compositeDataDesc.setItemValue("Level", getLevel());
+        return compositeDataDesc.generateCompositeData();
+    }
 
-	public void setState(CompositeData data)
-	{
-		int n = 0;
-	}
+    public void setState(CompositeData data)
+    {
+        int n = 0;
+    }
 
-	public String getChannel()
-	{
-		return csChannel;
-	}
+    public String getChannel()
+    {
+        return csChannel;
+    }
 
-	public void setRunId(String csRunId)
-	{
-		this.csRunId=csRunId;
-	}
+    public void setRunId(String csRunId)
+    {
+        this.csRunId=csRunId;
+    }
 
-	public String getRunId()
-	{
-		if (csRunId==null)
-		{
-			csRunId=UUID.randomUUID().toString();
-		}
-		return csRunId;
-	}
+    public String getRunId()
+    {
+        if (csRunId==null)
+        {
+            csRunId=UUID.randomUUID().toString();
+        }
+        return csRunId;
+    }
 
-	public void setRuntimeId(String csRuntimeId)
-	{
-		this.csRuntimeId=csRuntimeId;
-	}
+    public void setRuntimeId(String csRuntimeId)
+    {
+        this.csRuntimeId=csRuntimeId;
+    }
 
-	public String getRuntimeId()
-	{
-		if (csRuntimeId==null)
-		{
-			csRuntimeId=UUID.randomUUID().toString();
-		}
-		return csRuntimeId;
-	}
+    public String getRuntimeId()
+    {
+        if (csRuntimeId==null)
+        {
+            csRuntimeId=UUID.randomUUID().toString();
+        }
+        return csRuntimeId;
+    }
 /**
  * Sets the default product for the <i>LogCenter</i>
  * @param csProduct
  */
-	public void setProduct(String csProduct)
-	{
-		this.csProduct=csProduct;
-	}
+    public void setProduct(String csProduct)
+    {
+        this.csProduct=csProduct;
+    }
 
-	public String getProduct()
-	{
-		return csProduct;
-	}
+    public String getProduct()
+    {
+        return csProduct;
+    }
 
-	public void setProcess(String csProcess)
-	{
-		this.csProcess=csProcess;
-	}
+    public void setProcess(String csProcess)
+    {
+        this.csProcess=csProcess;
+    }
 
-	public String getProcess()
-	{
-		return csProcess;
-	}
+    public String getProcess()
+    {
+        return csProcess;
+    }
 
-	public abstract String getType();
+    public abstract String getType();
 }

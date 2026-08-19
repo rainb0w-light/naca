@@ -8,27 +8,27 @@ package jlib.threads;
 
 public abstract class ThreadPoolRequest
 {
-	public ThreadPoolRequest(boolean bTerminaison)
-	{
-		isterminaisonRequest = bTerminaison;
-	}
+    public ThreadPoolRequest(boolean bTerminaison)
+    {
+        isterminaisonRequest = bTerminaison;
+    }
 
-	public boolean getTerminaisonRequest()
-	{
-		return isterminaisonRequest;
-	};
-	
-	protected void setNotTerminaisonRequest()
-	{
-		isterminaisonRequest = false;
-	};
-	
-	/*!	
-	Execute (virtual)
-	\retval: ULONG: return code of the execution
-	\note This function mus be override in derivated
-	*/
-	public abstract void execute();
-	
-	private	boolean isterminaisonRequest;
+    public boolean getTerminaisonRequest()
+    {
+        return isterminaisonRequest;
+    };
+
+    protected void setNotTerminaisonRequest()
+    {
+        isterminaisonRequest = false;
+    };
+
+    /*!
+    Execute (virtual)
+    \retval: ULONG: return code of the execution
+    \note This function mus be override in derivated
+    */
+    public abstract void execute();
+
+    private boolean isterminaisonRequest;
 }

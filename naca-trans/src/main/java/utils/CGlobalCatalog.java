@@ -29,406 +29,407 @@ import semantic.forms.CEntityResourceFormContainer;
  */
 public class CGlobalCatalog
 {
-	protected class CProgramFilenameFilter implements FilenameFilter
-	{
-		protected String prgName = "" ;
-		public CProgramFilenameFilter(String name)
-		{
-			prgName = name ;
-		}
-		public boolean accept(File dir, String name)
-		{
-			if (name.equalsIgnoreCase(prgName))
-			{
-				return true ;
-			}
-			if (name.equalsIgnoreCase(prgName+".cbl"))
-			{
-				return true ;
-			}
-			return false ;
-		}
-	}
+    protected class CProgramFilenameFilter implements FilenameFilter
+    {
+        protected String prgName = "" ;
+        public CProgramFilenameFilter(String name)
+        {
+            prgName = name ;
+        }
+        public boolean accept(File dir, String name)
+        {
+            if (name.equalsIgnoreCase(prgName))
+            {
+                return true ;
+            }
+            if (name.equalsIgnoreCase(prgName+".cbl"))
+            {
+                return true ;
+            }
+            return false ;
+        }
+    }
 
-	protected Hashtable<String, CEntityExternalDataStructure> tabIncludedStructures = new Hashtable<String, CEntityExternalDataStructure>() ;
+    protected Hashtable<String, CEntityExternalDataStructure> tabIncludedStructures
+            = new Hashtable<String, CEntityExternalDataStructure>() ;
     // protected Hashtable<String, CEntityResourceFormContainer> m_tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>()
     // ;
-	protected Hashtable<String, CIgnoreExternalEntity> tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
-	//private Logger m_logger = Transcoder.ms_logger ;
-	protected Transcoder transcoder ;
-	private String csReferenceGroupName = "" ;
-	private String csResourceGroupName = "" ;
-	private String csIncludeGroupName = "" ;
+    protected Hashtable<String, CIgnoreExternalEntity> tabIgnoredExternals = new Hashtable<String, CIgnoreExternalEntity>() ;
+    //private Logger m_logger = Transcoder.ms_logger ;
+    protected Transcoder transcoder ;
+    private String csReferenceGroupName = "" ;
+    private String csResourceGroupName = "" ;
+    private String csIncludeGroupName = "" ;
 
 
-	public void AddIgnoredExternal(CIgnoreExternalEntity e)
-	{
-		String name = e.GetName() ;
-		tabIgnoredExternals.put(name, e) ;
-	}
-	public boolean IsIgnoredExternal(String name)
-	{
-		try
-		{
-			return tabIgnoredExternals.get(name) != null ;
-		}
-		catch (Exception e)
-		{
-			return false ;
-		}
-	}
-	public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes)
-	{
-		transcoder = trans ;
-		csIncludeGroupName = grpIncludes ;
-		csReferenceGroupName = grpReferences ;
-		csResourceGroupName = grpResources ;
-	}
+    public void AddIgnoredExternal(CIgnoreExternalEntity e)
+    {
+        String name = e.GetName() ;
+        tabIgnoredExternals.put(name, e) ;
+    }
+    public boolean IsIgnoredExternal(String name)
+    {
+        try
+        {
+            return tabIgnoredExternals.get(name) != null ;
+        }
+        catch (Exception e)
+        {
+            return false ;
+        }
+    }
+    public CGlobalCatalog(Transcoder trans, String grpReferences, String grpResources, String grpIncludes)
+    {
+        transcoder = trans ;
+        csIncludeGroupName = grpIncludes ;
+        csReferenceGroupName = grpReferences ;
+        csResourceGroupName = grpResources ;
+    }
 
-	/** Group lookup that tolerates a missing transcoder (e.g. the simplified pipeline). */
-	private CTransApplicationGroup getGroupSafe(String name)
-	{
-		return transcoder == null ? null : transcoder.getGroup(name) ;
-	}
-
-
-	@SuppressWarnings("unchecked")
-	public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
-	{
-		if (transcoder == null)
-		{
-			return null ;
-		}
-		CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
-		if (grpResources != null)
-		{
-			BaseEngine<CEntityResourceFormContainer> engine = grpResources.getEngine() ;
-			CTransApplicationGroup grp = new CTransApplicationGroup(engine);
-			grp.csInputPath = grpResources.csInputPath ;
-			grp.csInterPath = grpResources.csInterPath ;
-			grp.csOutputPath = factory.getOutputDirectory() ;
-			CEntityResourceFormContainer ext = GetFormContainer(contName, grp, factory.programCatalog.exporter.isResources()) ;
-
-			return ext ;
-		}
-		return null ;
-	}
-	@SuppressWarnings("unchecked")
-	public CEntityResourceFormContainer GetFormContainer(String contName, CTransApplicationGroup grp, boolean bResources)
-	{
-		if (tabFormContainers.containsKey(contName))
-		{
-			CEntityResourceFormContainer cont = tabFormContainers.get(contName) ;
-			return cont ;
-		}
-		else
-		{
-			BaseEngine<CEntityResourceFormContainer> engine = grp.getEngine() ;
-			CEntityResourceFormContainer ext = engine.doAllAnalysis(contName, "", grp, bResources) ;
-
-			if (ext != null)
-			{
-				CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
-				if(grpResources != null)
-				{
-					String csFilePathXML = grpResources.csOutputPath + contName + ".res" ;
-					ext.setExportFilePath(csFilePathXML);
-				}
-			}
-			return ext ;
-		}
-	}
-
-	public CTransApplicationGroup getGroupResources()
-	{
-		return  getGroupSafe(csResourceGroupName) ;
-	}
-
-	protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
-	public void RegisterFormContainer(String name, CEntityResourceFormContainer cont)
-	{
-		if (cont == null)
-		{
-			tabFormContainers.remove(name) ;
-		}
-		else
-		{
-			tabFormContainers.put(name, cont);
-		}
-	}
+    /** Group lookup that tolerates a missing transcoder (e.g. the simplified pipeline). */
+    private CTransApplicationGroup getGroupSafe(String name)
+    {
+        return transcoder == null ? null : transcoder.getGroup(name) ;
+    }
 
 
+    @SuppressWarnings("unchecked")
+    public CEntityResourceFormContainer GetFormContainer(String contName, CBaseEntityFactory factory)
+    {
+        if (transcoder == null)
+        {
+            return null ;
+        }
+        CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
+        if (grpResources != null)
+        {
+            BaseEngine<CEntityResourceFormContainer> engine = grpResources.getEngine() ;
+            CTransApplicationGroup grp = new CTransApplicationGroup(engine);
+            grp.csInputPath = grpResources.csInputPath ;
+            grp.csInterPath = grpResources.csInterPath ;
+            grp.csOutputPath = factory.getOutputDirectory() ;
+            CEntityResourceFormContainer ext = GetFormContainer(contName, grp, factory.programCatalog.exporter.isResources()) ;
 
+            return ext ;
+        }
+        return null ;
+    }
+    @SuppressWarnings("unchecked")
+    public CEntityResourceFormContainer GetFormContainer(String contName, CTransApplicationGroup grp, boolean bResources)
+    {
+        if (tabFormContainers.containsKey(contName))
+        {
+            CEntityResourceFormContainer cont = tabFormContainers.get(contName) ;
+            return cont ;
+        }
+        else
+        {
+            BaseEngine<CEntityResourceFormContainer> engine = grp.getEngine() ;
+            CEntityResourceFormContainer ext = engine.doAllAnalysis(contName, "", grp, bResources) ;
 
+            if (ext != null)
+            {
+                CTransApplicationGroup grpResources = getGroupSafe(csResourceGroupName) ;
+                if(grpResources != null)
+                {
+                    String csFilePathXML = grpResources.csOutputPath + contName + ".res" ;
+                    ext.setExportFilePath(csFilePathXML);
+                }
+            }
+            return ext ;
+        }
+    }
 
-	public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
-	{
-		if (isCustomSubProgram(prg))
-		{
-			return true ;
-		}
-		if (isIgnoreSubProgram(prg))
-		{
-			return false ;
-		}
+    public CTransApplicationGroup getGroupResources()
+    {
+        return  getGroupSafe(csResourceGroupName) ;
+    }
 
-		if (isProgramReference(prg))
-		{
-			if (bRegisterSubProgram)
-			{
-				if (registerSubProgram(prg, bWithDFHCommarea, nbParameters))
-				{
-					return true ;
-				}
-				else
-				{
-					return false ;
-				}
-			}
-			else
-			{
-				return true ;
-			}
-		}
-		else
-		{
-			if (bRegisterSubProgram)
-			{
-				//m_logger.error("Missing sub-program : "+prg);
-			}
-			else
-			{
-//				m_logger.error("Missing program reference : "+prg);
-			}
-			return false ;
-		}
-	}
-	public boolean isProgramReference(String cs)
-	{
-		CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
-		if (grpReferences != null)
-		{
-			File dir = new File(grpReferences.csInputPath) ;
-			FilenameFilter filter = new CProgramFilenameFilter(cs);
-			File[] list = dir.listFiles(filter) ;
-			if (list.length > 0)
-			{
-				return true ;
-			}
-		}
-		return false ;
-	}
-	public void RegisterExternalDataStructure(CEntityExternalDataStructure structure)
-	{
-		tabIncludedStructures.put(structure.GetName(), structure) ;
-	}
-	@SuppressWarnings("unchecked")
-	public CEntityExternalDataStructure GetExternalDataStructure(String name)
-	{
-		CIgnoreExternalEntity ign = tabIgnoredExternals.get(name);
-		if (ign != null)
-		{
-			return ign ;
-		}
-
-		CEntityExternalDataStructure ext = tabIncludedStructures.get(name);
-		if (ext != null)
-		{
-			return ext ;
-		}
-
-		// else do transcoding ;
-		for (String includeGroupName : csIncludeGroupName.split(":"))
-		{
-			CTransApplicationGroup grpIncludes = getGroupSafe(includeGroupName) ;
-			if (grpIncludes == null)
-				continue;
-			BaseEngine<CEntityExternalDataStructure> engine = grpIncludes.getEngine() ;
-			Transcoder.pushTranscodedUnit(name, grpIncludes.csInputPath);
-			ext = engine.doAllAnalysis(name, "", grpIncludes, false) ;
-			Transcoder.popTranscodedUnit();
-	//		ext = transcoderEngine.getExternalDataStructure(name, null) ;
-			if (ext != null)
-			{
-				return ext ;
-			}
-		}
-		Transcoder.logError("Missing include file : "+name) ;
-		return null ;
-	}
-	protected Hashtable<String, String> tabTransID = new Hashtable<String, String>() ;
-	public void registerTransID(String TID, String prog)
-	{
-		tabTransID.put(TID, prog);
-	}
-	public String GetProgramForTransaction(String transID)
-	{
-		String p = tabTransID.get(transID);
-		if (p == null)
-		{
-			p = "" ;
-		}
-		return p ;
-	}
-	public void ExportTransID(Element eRoot, Document doc)
-	{
-		Enumeration enumere = tabTransID.keys() ;
-		try
-		{
-			String cs = (String)enumere.nextElement() ;
-			while (cs != null)
-			{
-				String p = tabTransID.get(cs);
-				if (p != null)
-				{
-					Element e = doc.createElement("transid") ;
-					e.setAttribute("id", cs) ;
-					e.setAttribute("program", p) ;
-					eRoot.appendChild(e) ;
-				}
-				cs = (String)enumere.nextElement() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-		}
-	}
-	public void ImportTransID(Element eRoot)
-	{
-		NodeList lst = eRoot.getElementsByTagName("transid") ;
-		for (int i=0; i<lst.getLength(); i++)
-		{
-			Element e = (Element)lst.item(i);
-			String tid = e.getAttribute("id");
-			String p = e.getAttribute("program");
-			tabTransID.put(tid, p);
-		}
-	}
-	/**
-	 * @param structure
-	 */
-	public void AddCustomSubProgram(String name, boolean bIgnore)
-	{
-		if (bIgnore)
-		{
-			ignoreSubProgram.addElement(name) ;
-		}
-		else
-		{
-			customSubProgram.addElement(name) ;
-		}
-	}
-	public boolean isCustomSubProgram(String name)
-	{
-		return customSubProgram.contains(name) ;
-	}
-	public boolean isIgnoreSubProgram(String name)
-	{
-		return ignoreSubProgram.contains(name) ;
-	}
-	protected Vector<String> customSubProgram = new Vector<String>() ;
-	protected Vector<String> ignoreSubProgram = new Vector<String>() ;
-	public boolean CanExportResources(String name)
-	{
-		String cs = tabProgramNotExportingResource.get(name);
-		return cs == null ;
-	}
-	public void RegisterNotExportingResource(String name)
-	{
-		tabProgramNotExportingResource.put(name, name) ;
-	}
-	protected Hashtable<String, String> tabProgramNotExportingResource = new Hashtable<String, String>() ;
+    protected Hashtable<String, CEntityResourceFormContainer> tabFormContainers = new Hashtable<String, CEntityResourceFormContainer>() ;
+    public void RegisterFormContainer(String name, CEntityResourceFormContainer cont)
+    {
+        if (cont == null)
+        {
+            tabFormContainers.remove(name) ;
+        }
+        else
+        {
+            tabFormContainers.put(name, cont);
+        }
+    }
 
 
 
-	protected class CSubProgramCallDescription
-	{
-		public String subProgramName = "" ;
-		public boolean iscalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
-		public int nNbParameters = 0 ;	// except DFHCOMMAREA
-	}
-	public boolean registerSubProgram(String cs, boolean bWithDFHCommarea, int nbParameters)
-	{
-		CSubProgramCallDescription desc = tabSubProgramCall.get(cs) ;
-		if (desc == null)
-		{
-			desc = new CSubProgramCallDescription() ;
-			desc.subProgramName = cs ;
-			desc.iscalledLikeCICS = bWithDFHCommarea ;
-			desc.nNbParameters = nbParameters ;
-			tabSubProgramCall.put(cs, desc) ;
-			subProgramCalls.add(desc) ;
-			return true ;
-		}
-		else
-		{
-			if (desc.iscalledLikeCICS != bWithDFHCommarea)
-			{
-				// Transcoder.logError("Bad call to "+cs+" : expecting DFHCOMMAREA parameter");
-				return true ;
-			}
-			else if (nbParameters != desc.nNbParameters)
-			{
-				//m_logger.error("Bad call to "+cs+" : expecting "+desc.nNbParameters+" parameters");
-				return true ; //return false ;
-			}
-			else
-			{
-				return true ;
-			}
-		}
-	}
-	protected Hashtable<String, CSubProgramCallDescription> tabSubProgramCall = new Hashtable<String, CSubProgramCallDescription>() ;
-	protected Vector<CSubProgramCallDescription> subProgramCalls = new Vector<CSubProgramCallDescription>() ;
 
 
-	public void doRegisteredDependencies()
-	{
-		CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
-		if (grpReferences != null)
-		{
-			for (int i = 0; i< subProgramCalls.size(); i++)
-			{
-				CSubProgramCallDescription desc = subProgramCalls.get(i) ;
-				String ssprg = desc.subProgramName ;
-				BaseEngine engine = grpReferences.getEngine() ;
-				if (!programDone.contains(ssprg))
-				{
-					engine.doFileTranscoding(ssprg, "", grpReferences, false) ;
-				}
-			}
-		}
-	}
+    public boolean CheckProgramReference(String prg, boolean bWithDFHCommarea, int nbParameters, boolean bRegisterSubProgram)
+    {
+        if (isCustomSubProgram(prg))
+        {
+            return true ;
+        }
+        if (isIgnoreSubProgram(prg))
+        {
+            return false ;
+        }
 
-	public void registerProgram(String cs)
-	{
-		if (!programDone.contains(cs))
-		{
-			programDone.addElement(cs) ;
-		}
-	}
-	protected Vector<String> programDone = new Vector<String>() ;
+        if (isProgramReference(prg))
+        {
+            if (bRegisterSubProgram)
+            {
+                if (registerSubProgram(prg, bWithDFHCommarea, nbParameters))
+                {
+                    return true ;
+                }
+                else
+                {
+                    return false ;
+                }
+            }
+            else
+            {
+                return true ;
+            }
+        }
+        else
+        {
+            if (bRegisterSubProgram)
+            {
+                //m_logger.error("Missing sub-program : "+prg);
+            }
+            else
+            {
+//              m_logger.error("Missing program reference : "+prg);
+            }
+            return false ;
+        }
+    }
+    public boolean isProgramReference(String cs)
+    {
+        CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
+        if (grpReferences != null)
+        {
+            File dir = new File(grpReferences.csInputPath) ;
+            FilenameFilter filter = new CProgramFilenameFilter(cs);
+            File[] list = dir.listFiles(filter) ;
+            if (list.length > 0)
+            {
+                return true ;
+            }
+        }
+        return false ;
+    }
+    public void RegisterExternalDataStructure(CEntityExternalDataStructure structure)
+    {
+        tabIncludedStructures.put(structure.GetName(), structure) ;
+    }
+    @SuppressWarnings("unchecked")
+    public CEntityExternalDataStructure GetExternalDataStructure(String name)
+    {
+        CIgnoreExternalEntity ign = tabIgnoredExternals.get(name);
+        if (ign != null)
+        {
+            return ign ;
+        }
 
-	private Hashtable<String, String> tabAlreadyCountedItems = new Hashtable<String, String>() ;
+        CEntityExternalDataStructure ext = tabIncludedStructures.get(name);
+        if (ext != null)
+        {
+            return ext ;
+        }
+
+        // else do transcoding ;
+        for (String includeGroupName : csIncludeGroupName.split(":"))
+        {
+            CTransApplicationGroup grpIncludes = getGroupSafe(includeGroupName) ;
+            if (grpIncludes == null)
+                continue;
+            BaseEngine<CEntityExternalDataStructure> engine = grpIncludes.getEngine() ;
+            Transcoder.pushTranscodedUnit(name, grpIncludes.csInputPath);
+            ext = engine.doAllAnalysis(name, "", grpIncludes, false) ;
+            Transcoder.popTranscodedUnit();
+    //      ext = transcoderEngine.getExternalDataStructure(name, null) ;
+            if (ext != null)
+            {
+                return ext ;
+            }
+        }
+        Transcoder.logError("Missing include file : "+name) ;
+        return null ;
+    }
+    protected Hashtable<String, String> tabTransID = new Hashtable<String, String>() ;
+    public void registerTransID(String TID, String prog)
+    {
+        tabTransID.put(TID, prog);
+    }
+    public String GetProgramForTransaction(String transID)
+    {
+        String p = tabTransID.get(transID);
+        if (p == null)
+        {
+            p = "" ;
+        }
+        return p ;
+    }
+    public void ExportTransID(Element eRoot, Document doc)
+    {
+        Enumeration enumere = tabTransID.keys() ;
+        try
+        {
+            String cs = (String)enumere.nextElement() ;
+            while (cs != null)
+            {
+                String p = tabTransID.get(cs);
+                if (p != null)
+                {
+                    Element e = doc.createElement("transid") ;
+                    e.setAttribute("id", cs) ;
+                    e.setAttribute("program", p) ;
+                    eRoot.appendChild(e) ;
+                }
+                cs = (String)enumere.nextElement() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+    }
+    public void ImportTransID(Element eRoot)
+    {
+        NodeList lst = eRoot.getElementsByTagName("transid") ;
+        for (int i=0; i<lst.getLength(); i++)
+        {
+            Element e = (Element)lst.item(i);
+            String tid = e.getAttribute("id");
+            String p = e.getAttribute("program");
+            tabTransID.put(tid, p);
+        }
+    }
+    /**
+     * @param structure
+     */
+    public void AddCustomSubProgram(String name, boolean bIgnore)
+    {
+        if (bIgnore)
+        {
+            ignoreSubProgram.addElement(name) ;
+        }
+        else
+        {
+            customSubProgram.addElement(name) ;
+        }
+    }
+    public boolean isCustomSubProgram(String name)
+    {
+        return customSubProgram.contains(name) ;
+    }
+    public boolean isIgnoreSubProgram(String name)
+    {
+        return ignoreSubProgram.contains(name) ;
+    }
+    protected Vector<String> customSubProgram = new Vector<String>() ;
+    protected Vector<String> ignoreSubProgram = new Vector<String>() ;
+    public boolean CanExportResources(String name)
+    {
+        String cs = tabProgramNotExportingResource.get(name);
+        return cs == null ;
+    }
+    public void RegisterNotExportingResource(String name)
+    {
+        tabProgramNotExportingResource.put(name, name) ;
+    }
+    protected Hashtable<String, String> tabProgramNotExportingResource = new Hashtable<String, String>() ;
 
 
-	/**
-	 * @param filename
-	 * @return
-	 */
-	public boolean canCount(String filename)
-	{
-		if (!tabAlreadyCountedItems.contains(filename))
-		{
-			tabAlreadyCountedItems.put(filename, filename) ;
-			return true ;
-		}
-		return false ;
-	}
 
-	public void ClearFormContainers()
-	{
-		tabFormContainers.clear() ;
-	}
+    protected class CSubProgramCallDescription
+    {
+        public String subProgramName = "" ;
+        public boolean iscalledLikeCICS = false ; // <=> with implicit DFHCOMMAREA
+        public int nNbParameters = 0 ;  // except DFHCOMMAREA
+    }
+    public boolean registerSubProgram(String cs, boolean bWithDFHCommarea, int nbParameters)
+    {
+        CSubProgramCallDescription desc = tabSubProgramCall.get(cs) ;
+        if (desc == null)
+        {
+            desc = new CSubProgramCallDescription() ;
+            desc.subProgramName = cs ;
+            desc.iscalledLikeCICS = bWithDFHCommarea ;
+            desc.nNbParameters = nbParameters ;
+            tabSubProgramCall.put(cs, desc) ;
+            subProgramCalls.add(desc) ;
+            return true ;
+        }
+        else
+        {
+            if (desc.iscalledLikeCICS != bWithDFHCommarea)
+            {
+                // Transcoder.logError("Bad call to "+cs+" : expecting DFHCOMMAREA parameter");
+                return true ;
+            }
+            else if (nbParameters != desc.nNbParameters)
+            {
+                //m_logger.error("Bad call to "+cs+" : expecting "+desc.nNbParameters+" parameters");
+                return true ; //return false ;
+            }
+            else
+            {
+                return true ;
+            }
+        }
+    }
+    protected Hashtable<String, CSubProgramCallDescription> tabSubProgramCall = new Hashtable<String, CSubProgramCallDescription>() ;
+    protected Vector<CSubProgramCallDescription> subProgramCalls = new Vector<CSubProgramCallDescription>() ;
+
+
+    public void doRegisteredDependencies()
+    {
+        CTransApplicationGroup grpReferences = getGroupSafe(csReferenceGroupName) ;
+        if (grpReferences != null)
+        {
+            for (int i = 0; i< subProgramCalls.size(); i++)
+            {
+                CSubProgramCallDescription desc = subProgramCalls.get(i) ;
+                String ssprg = desc.subProgramName ;
+                BaseEngine engine = grpReferences.getEngine() ;
+                if (!programDone.contains(ssprg))
+                {
+                    engine.doFileTranscoding(ssprg, "", grpReferences, false) ;
+                }
+            }
+        }
+    }
+
+    public void registerProgram(String cs)
+    {
+        if (!programDone.contains(cs))
+        {
+            programDone.addElement(cs) ;
+        }
+    }
+    protected Vector<String> programDone = new Vector<String>() ;
+
+    private Hashtable<String, String> tabAlreadyCountedItems = new Hashtable<String, String>() ;
+
+
+    /**
+     * @param filename
+     * @return
+     */
+    public boolean canCount(String filename)
+    {
+        if (!tabAlreadyCountedItems.contains(filename))
+        {
+            tabAlreadyCountedItems.put(filename, filename) ;
+            return true ;
+        }
+        return false ;
+    }
+
+    public void ClearFormContainers()
+    {
+        tabFormContainers.clear() ;
+    }
 
 }

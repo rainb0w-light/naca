@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -16,8 +16,8 @@ package jlib.sql;
  */
 public abstract class SQLClauseSPParamInOut extends SQLClauseSPParam
 {
-	protected SQLClauseSPParamInOut(SQLClauseSPParamWay wayInOut)
-	{
-		super(wayInOut);
-	}
+    protected SQLClauseSPParamInOut(SQLClauseSPParamWay wayInOut)
+    {
+        super(wayInOut);
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -21,82 +21,82 @@ import java.util.Map.Entry;
  */
 public class TransThreadManager
 {
-	TransThreadManager()
-	{
-	}
-	
-	public static synchronized void view(int nMinRunTime_s)
-	{
-		show(false, 0);
-		show(true, nMinRunTime_s);
-	}
-	
-//	static void registerTransBean(TransThreadMBean transThreadMBean)
-//	{
-//		ms_arrShownTransThreadMBean.add(transThreadMBean);
-//	}
-	
-	public static synchronized void hide()
-	{
-		show(false, 0);
-//		for(int n=0; n<ms_arrShownTransThreadMBean.size(); n++)
-//		{
-//			TransThreadMBean transThreadMBean = ms_arrShownTransThreadMBean.get(n);
-//			transThreadMBean.showBean(false);
-//		}
-//		ms_arrShownTransThreadMBean.clear();
-	}
+    TransThreadManager()
+    {
+    }
 
-	private static void show(boolean bShow, int nMinRunTime_s)
-	{
-		Set<Entry<Integer, TransThreadMBean> > entries =  hashTrans.entrySet();
-		Iterator<Entry<Integer, TransThreadMBean> > iter = entries.iterator();
-		while (iter.hasNext())
-		{
-			Entry<Integer, TransThreadMBean> entry = iter.next();
-			TransThreadMBean transThreadMBean = entry.getValue();
-			if(!bShow)
-				transThreadMBean.showBean(bShow);
-			else 
-			{
-				if(transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTime_s)
-					transThreadMBean.showBean(bShow);
-			}				
-		}
-	}
-	
+    public static synchronized void view(int nMinRunTime_s)
+    {
+        show(false, 0);
+        show(true, nMinRunTime_s);
+    }
 
-	static synchronized void startTransaction(BaseEnvironment env)
-	{
-		if(env != null && env.canManageThreadMBean())
-		{
-			Integer envId = env.getEnvId();
-			TransThreadMBean transThreadMBean = hashTrans.get(envId);
-			if(transThreadMBean == null)
-			{
-				transThreadMBean = new TransThreadMBean(env);
-				hashTrans.put(envId, transThreadMBean);
-			}
-		}
-	}
-	
-	static synchronized void endTransaction(BaseEnvironment env)
-	{
-		if(env != null && env.canManageThreadMBean())
-		{
-			Integer envId = env.getEnvId();
-			TransThreadMBean transThreadMBean = hashTrans.get(envId);
-			if(transThreadMBean != null)
-			{
-				if(BaseResourceManager.getUsingJmx())
-				{
-					transThreadMBean.setEnvClosed();
-				}
-				hashTrans.remove(envId);
-			}
-		}
-	}
-	
-	private static Hashtable<Integer, TransThreadMBean> hashTrans = new Hashtable<Integer, TransThreadMBean>();
-	//private static ArrayList<TransThreadMBean> ms_arrShownTransThreadMBean = new ArrayList<TransThreadMBean>();;
+//  static void registerTransBean(TransThreadMBean transThreadMBean)
+//  {
+//      ms_arrShownTransThreadMBean.add(transThreadMBean);
+//  }
+
+    public static synchronized void hide()
+    {
+        show(false, 0);
+//      for(int n=0; n<ms_arrShownTransThreadMBean.size(); n++)
+//      {
+//          TransThreadMBean transThreadMBean = ms_arrShownTransThreadMBean.get(n);
+//          transThreadMBean.showBean(false);
+//      }
+//      ms_arrShownTransThreadMBean.clear();
+    }
+
+    private static void show(boolean bShow, int nMinRunTime_s)
+    {
+        Set<Entry<Integer, TransThreadMBean> > entries =  hashTrans.entrySet();
+        Iterator<Entry<Integer, TransThreadMBean> > iter = entries.iterator();
+        while (iter.hasNext())
+        {
+            Entry<Integer, TransThreadMBean> entry = iter.next();
+            TransThreadMBean transThreadMBean = entry.getValue();
+            if(!bShow)
+                transThreadMBean.showBean(bShow);
+            else
+            {
+                if(transThreadMBean.getLastTransactionExecTime_s() * 1000 >= nMinRunTime_s)
+                    transThreadMBean.showBean(bShow);
+            }
+        }
+    }
+
+
+    static synchronized void startTransaction(BaseEnvironment env)
+    {
+        if(env != null && env.canManageThreadMBean())
+        {
+            Integer envId = env.getEnvId();
+            TransThreadMBean transThreadMBean = hashTrans.get(envId);
+            if(transThreadMBean == null)
+            {
+                transThreadMBean = new TransThreadMBean(env);
+                hashTrans.put(envId, transThreadMBean);
+            }
+        }
+    }
+
+    static synchronized void endTransaction(BaseEnvironment env)
+    {
+        if(env != null && env.canManageThreadMBean())
+        {
+            Integer envId = env.getEnvId();
+            TransThreadMBean transThreadMBean = hashTrans.get(envId);
+            if(transThreadMBean != null)
+            {
+                if(BaseResourceManager.getUsingJmx())
+                {
+                    transThreadMBean.setEnvClosed();
+                }
+                hashTrans.remove(envId);
+            }
+        }
+    }
+
+    private static Hashtable<Integer, TransThreadMBean> hashTrans = new Hashtable<Integer, TransThreadMBean>();
+    //private static ArrayList<TransThreadMBean> ms_arrShownTransThreadMBean = new ArrayList<TransThreadMBean>();;
 }

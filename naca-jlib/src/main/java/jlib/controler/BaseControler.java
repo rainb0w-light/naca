@@ -11,108 +11,108 @@ import java.util.Vector;
 
 public abstract class BaseControler
 {
-	public BaseControler(int nbSteps)
-	{
-		status = new Vector<String>(nbSteps) ;
-		datestarts = new Vector<Date>(nbSteps)  ;
-		dateends = new Vector<Date>(nbSteps)  ;
-		for (int i=0; i<nbSteps; i++)
-		{
-			status.add("NONE") ;
-			dateends.add(null) ;
-			datestarts.add(null) ;
-		}
-	}
-	private Vector<String> status;
-	private Vector<Date> datestarts;
-	private Vector<Date> dateends;
-	
-	private boolean isisRunning = false ;
-	private int nCurrentStep = 0 ;
-	
-	public String getStatus(int stepId)
-	{
-		if (stepId >= status.size())
-		{
-			return "NONE" ;
-		}
-		String status = this.status.get(stepId) ;
-		if (getTaskConfig().isModeGroup() || stepId == nCurrentStep)
-		{
-			if (status.startsWith("NONE") || status.startsWith("ERROR") || status.startsWith("STARTING"))
-			{
-				return status ;
-			}
-			else
-			{
-				return status + " ; " + getCurrentInternalStatus() ;
-			}
-		}
-		else
-		{
-			return status ;
-		}
-	};
+    public BaseControler(int nbSteps)
+    {
+        status = new Vector<String>(nbSteps) ;
+        datestarts = new Vector<Date>(nbSteps)  ;
+        dateends = new Vector<Date>(nbSteps)  ;
+        for (int i=0; i<nbSteps; i++)
+        {
+            status.add("NONE") ;
+            dateends.add(null) ;
+            datestarts.add(null) ;
+        }
+    }
+    private Vector<String> status;
+    private Vector<Date> datestarts;
+    private Vector<Date> dateends;
 
-	protected abstract String getCurrentInternalStatus() ;
-	
-	public abstract BaseControlerTaskConfig getTaskConfig() ;
+    private boolean isisRunning = false ;
+    private int nCurrentStep = 0 ;
 
-	public void setStatus(int currentSite, String string)
-	{
-		status.set(currentSite, string) ;
-	}
-	public void setStartDate(int currentSite, Date dt)
-	{
-		datestarts.set(currentSite, dt) ;
-	}
+    public String getStatus(int stepId)
+    {
+        if (stepId >= status.size())
+        {
+            return "NONE" ;
+        }
+        String status = this.status.get(stepId) ;
+        if (getTaskConfig().isModeGroup() || stepId == nCurrentStep)
+        {
+            if (status.startsWith("NONE") || status.startsWith("ERROR") || status.startsWith("STARTING"))
+            {
+                return status ;
+            }
+            else
+            {
+                return status + " ; " + getCurrentInternalStatus() ;
+            }
+        }
+        else
+        {
+            return status ;
+        }
+    };
 
-	public boolean RunStep(int currentSite)
-	{
-		isisRunning = true ;
-		nCurrentStep = currentSite ;
-		BaseControlerTaskConfig conf = getTaskConfig() ;
-		BaseControlerStepConfig step = conf.getStep(nCurrentStep) ;
-//		step.setCurrentControler(this) ;
-		
-		boolean b = DoOneStep(currentSite) ;
-		
-		isisRunning = false ;
-//		step.setCurrentControler(null) ;
-		return b ;
-	}
-	
-	protected abstract boolean DoOneStep(int currentSite) ;
+    protected abstract String getCurrentInternalStatus() ;
 
-	public abstract void Stop(boolean force) ;
+    public abstract BaseControlerTaskConfig getTaskConfig() ;
 
-	public Date getDateGroupEnds()
-	{
-		return dategroupEnds;
-	}
-	public void setDateGroupEnds()
-	{
-		dategroupEnds = new Date() ;
-	}
-	private Date dategroupEnds = null ;
+    public void setStatus(int currentSite, String string)
+    {
+        status.set(currentSite, string) ;
+    }
+    public void setStartDate(int currentSite, Date dt)
+    {
+        datestarts.set(currentSite, dt) ;
+    }
 
-	public Date getDateStepEnds(int currentSite)
-	{
-		return dateends.get(currentSite) ;
-	}
+    public boolean RunStep(int currentSite)
+    {
+        isisRunning = true ;
+        nCurrentStep = currentSite ;
+        BaseControlerTaskConfig conf = getTaskConfig() ;
+        BaseControlerStepConfig step = conf.getStep(nCurrentStep) ;
+//      step.setCurrentControler(this) ;
 
-	public String getStepName(int stepId)
-	{
-		return getTaskConfig().getStep(stepId).getName() ;
-	}
-	
-	protected boolean isRunning()
-	{
-		return isisRunning;
-	}
-	protected int getCurrentStep()
-	{
-		return nCurrentStep ;
-	}
+        boolean b = DoOneStep(currentSite) ;
+
+        isisRunning = false ;
+//      step.setCurrentControler(null) ;
+        return b ;
+    }
+
+    protected abstract boolean DoOneStep(int currentSite) ;
+
+    public abstract void Stop(boolean force) ;
+
+    public Date getDateGroupEnds()
+    {
+        return dategroupEnds;
+    }
+    public void setDateGroupEnds()
+    {
+        dategroupEnds = new Date() ;
+    }
+    private Date dategroupEnds = null ;
+
+    public Date getDateStepEnds(int currentSite)
+    {
+        return dateends.get(currentSite) ;
+    }
+
+    public String getStepName(int stepId)
+    {
+        return getTaskConfig().getStep(stepId).getName() ;
+    }
+
+    protected boolean isRunning()
+    {
+        return isisRunning;
+    }
+    protected int getCurrentStep()
+    {
+        return nCurrentStep ;
+    }
 
 }

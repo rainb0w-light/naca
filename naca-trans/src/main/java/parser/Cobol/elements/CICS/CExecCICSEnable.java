@@ -24,47 +24,47 @@ import utils.Transcoder;
 public class CExecCICSEnable extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSEnable(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ENABLE") ;
-		return null;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		//if (tok.GetKeyword() == CCobolKeywordList.)
-		{
-			tok = GetNext();
-		}
+    /**
+     * @param line
+     */
+    public CExecCICSEnable(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ENABLE") ;
+        return null;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        //if (tok.GetKeyword() == CCobolKeywordList.)
+        {
+            tok = GetNext();
+        }
 
-		String cs = "" ;
-		tok = GetCurrentToken() ;
-		while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			cs += tok.GetDisplay() + " " ;
-			tok = GetNext() ;
-		}
+        String cs = "" ;
+        tok = GetCurrentToken() ;
+        while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            cs += tok.GetDisplay() + " " ;
+            tok = GetNext() ;
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ENABLE");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		//Transcoder.logError("No Export for EXEC CICS ENABLE") ;
-		Element e = root.createElement("ExecCICSEnable") ;
-		return e;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS ENABLE");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        //Transcoder.logError("No Export for EXEC CICS ENABLE") ;
+        Element e = root.createElement("ExecCICSEnable") ;
+        return e;
+    }
 
 }

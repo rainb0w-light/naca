@@ -12,6 +12,6 @@ package nacaLib.varEx;
 
 public abstract class CobolConstantBase
 {
-	public abstract char getValue();
-	public abstract String getSTCheckValue();
+    public abstract char getValue();
+    public abstract String getSTCheckValue();
 }

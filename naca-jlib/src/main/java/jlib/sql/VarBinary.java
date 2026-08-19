@@ -18,68 +18,68 @@ import java.io.UnsupportedEncodingException;
  */
 public class VarBinary
 {
-	public VarBinary()
-	{
-		tb = null;
-	}
+    public VarBinary()
+    {
+        tb = null;
+    }
 
-	public VarBinary(byte tb[])
-	{
-		this.tb = tb;
-	}
+    public VarBinary(byte tb[])
+    {
+        this.tb = tb;
+    }
 
-	public String getAsString()
-	{
-		if(tb	!= null)
-		{
-			String cs = new String(tb);
-			return cs;
-		}
+    public String getAsString()
+    {
+        if(tb   != null)
+        {
+            String cs = new String(tb);
+            return cs;
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	public String getAsUTF8String()
-	{
-		if(tb	!= null)
-		{
-			String cs;
-			try
-			{
-				cs = new String(tb, "UTF-8");
-				return cs;
-			}
-			catch (UnsupportedEncodingException e)
-			{
+    public String getAsUTF8String()
+    {
+        if(tb   != null)
+        {
+            String cs;
+            try
+            {
+                cs = new String(tb, "UTF-8");
+                return cs;
+            }
+            catch (UnsupportedEncodingException e)
+            {
 
-			}
-		}
+            }
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	public boolean setUTF8FromString(String cs)
-	{
-		try
-		{
-			tb = cs.getBytes("UTF-8");
-			return true;
-		}
-		catch (UnsupportedEncodingException e)
-		{
-		}
-		return false;
-	}
+    public boolean setUTF8FromString(String cs)
+    {
+        try
+        {
+            tb = cs.getBytes("UTF-8");
+            return true;
+        }
+        catch (UnsupportedEncodingException e)
+        {
+        }
+        return false;
+    }
 
-	public byte [] getBytes()
-	{
-		return tb;
-	}
+    public byte [] getBytes()
+    {
+        return tb;
+    }
 
-	public void setBytes(byte [] tb)
-	{
-		this.tb = tb;
-	}
+    public void setBytes(byte [] tb)
+    {
+        this.tb = tb;
+    }
 
-	private byte tb[] = null;
+    private byte tb[] = null;
 }

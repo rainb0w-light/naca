@@ -15,51 +15,51 @@ import utils.CObjectCatalog;
 public class CEntityReadFile extends CBaseActionEntity
 {
 
-	public CEntityReadFile(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntityReadFile(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
-	{
-		eFileDescriptor = efd ;
-		eDataInto = data ;
-	}
-	protected CEntityFileDescriptor eFileDescriptor = null  ;
-	protected CDataEntity eDataInto = null ;
-	
-	public void SetAtEndBloc(CBaseLanguageEntity bloc)
-	{
-		eAtEndBloc = bloc ;
-	}
-	protected CBaseLanguageEntity eAtEndBloc = null ;
-	protected CBaseLanguageEntity eNotAtEndBloc = null ;
+    public void setFileDescriptor(CEntityFileDescriptor efd, CDataEntity data)
+    {
+        eFileDescriptor = efd ;
+        eDataInto = data ;
+    }
+    protected CEntityFileDescriptor eFileDescriptor = null  ;
+    protected CDataEntity eDataInto = null ;
 
-	public void SetNotAtEndBloc(CBaseLanguageEntity bloc)
-	{
-		eNotAtEndBloc = bloc ;
-	}
+    public void SetAtEndBloc(CBaseLanguageEntity bloc)
+    {
+        eAtEndBloc = bloc ;
+    }
+    protected CBaseLanguageEntity eAtEndBloc = null ;
+    protected CBaseLanguageEntity eNotAtEndBloc = null ;
 
-	// ==================== ST4 Template Accessors ====================
+    public void SetNotAtEndBloc(CBaseLanguageEntity bloc)
+    {
+        eNotAtEndBloc = bloc ;
+    }
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return eFileDescriptor;
-	}
+    // ==================== ST4 Template Accessors ====================
 
-	public CDataEntity getDataInto()
-	{
-		return eDataInto;
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return eFileDescriptor;
+    }
 
-	public CBaseLanguageEntity getAtEndBloc()
-	{
-		return eAtEndBloc;
-	}
+    public CDataEntity getDataInto()
+    {
+        return eDataInto;
+    }
 
-	public CBaseLanguageEntity getNotAtEndBloc()
-	{
-		return eNotAtEndBloc;
-	}
+    public CBaseLanguageEntity getAtEndBloc()
+    {
+        return eAtEndBloc;
+    }
+
+    public CBaseLanguageEntity getNotAtEndBloc()
+    {
+        return eNotAtEndBloc;
+    }
 
 }

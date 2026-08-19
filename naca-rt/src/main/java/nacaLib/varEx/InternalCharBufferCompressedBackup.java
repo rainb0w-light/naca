@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,32 +16,32 @@ package nacaLib.varEx;
  */
 public class InternalCharBufferCompressedBackup
 {
-	public InternalCharBufferCompressedBackup(InternalCharBuffer internalCharBufferSource)
-	{
-		copyFrom(internalCharBufferSource);
-	}
-	
-	private void copyFrom(InternalCharBuffer internalCharBufferSource)
-	{
-		abBuffer = new byte[internalCharBufferSource.acBuffer.length];
-		for(int n=0; n<abBuffer.length; n++)
-		{
-			abBuffer[n] = (byte)internalCharBufferSource.acBuffer[n];
-		}
-	}
-	
-	public int getBufferSize()
-	{
-		if(abBuffer != null)
-			return abBuffer.length;
-		return 0;
-	}
-	
-	public void prepareAutoRemoval()
-	{
-		abBuffer = null;
-	}
-	
-	
-	public byte abBuffer[] = null;
+    public InternalCharBufferCompressedBackup(InternalCharBuffer internalCharBufferSource)
+    {
+        copyFrom(internalCharBufferSource);
+    }
+
+    private void copyFrom(InternalCharBuffer internalCharBufferSource)
+    {
+        abBuffer = new byte[internalCharBufferSource.acBuffer.length];
+        for(int n=0; n<abBuffer.length; n++)
+        {
+            abBuffer[n] = (byte)internalCharBufferSource.acBuffer[n];
+        }
+    }
+
+    public int getBufferSize()
+    {
+        if(abBuffer != null)
+            return abBuffer.length;
+        return 0;
+    }
+
+    public void prepareAutoRemoval()
+    {
+        abBuffer = null;
+    }
+
+
+    public byte abBuffer[] = null;
 }

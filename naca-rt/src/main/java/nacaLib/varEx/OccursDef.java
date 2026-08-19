@@ -12,24 +12,24 @@ package nacaLib.varEx;
 
 public class OccursDef extends OccursDefBase
 {
-	public OccursDef(int n)
-	{
-		this.nNbOccurs = n;
-	}
+    public OccursDef(int n)
+    {
+        this.nNbOccurs = n;
+    }
 
-	public int getNbOccurs()
-	{
-		return nNbOccurs;
-	}
+    public int getNbOccurs()
+    {
+        return nNbOccurs;
+    }
 
-	public Var getRecordDependingVar()
-	{
-		return null;
-	}
+    public Var getRecordDependingVar()
+    {
+        return null;
+    }
 
-	public void prepareAutoRemoval()
-	{
-	}
+    public void prepareAutoRemoval()
+    {
+    }
 
-	int nNbOccurs = -1;	// Undefined
+    int nNbOccurs = -1; // Undefined
 }

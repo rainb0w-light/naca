@@ -19,18 +19,18 @@ import nacaLib.misc.CLocalizedTextManager;
  */
 public abstract class BaseHelpCenter extends CJMapObject
 {
-	public void setLangCode(String langId)
-	{
-		csLangId = langId ;
-	}
-	protected String csLangId = "" ;
+    public void setLangCode(String langId)
+    {
+        csLangId = langId ;
+    }
+    protected String csLangId = "" ;
 
-	public abstract void doHelp(BaseEnvironment env, CBaseMapFieldLoader fieldLoader) ;
-	public abstract Document getHelpPage() ;
-	protected CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
+    public abstract void doHelp(BaseEnvironment env, CBaseMapFieldLoader fieldLoader) ;
+    public abstract Document getHelpPage() ;
+    protected CLocalizedTextManager localizedTextManager = CLocalizedTextManager.getInstance() ;
 
-	protected String getLocalizedText(String id)
-	{
-		return localizedTextManager.getLocalizedString(id, csLangId) ;
-	}
+    protected String getLocalizedText(String id)
+    {
+        return localizedTextManager.getLocalizedString(id, csLangId) ;
+    }
 }

@@ -14,10 +14,10 @@ import nacaLib.base.CJMapObject;
 
 public abstract class CCallParam extends CJMapObject
 {
-	public CCallParam()
-	{
-	}
+    public CCallParam()
+    {
+    }
 
-	public abstract int getParamLength();
-	public abstract void MapOn(Var varLinkageSection);
+    public abstract int getParamLength();
+    public abstract void MapOn(Var varLinkageSection);
 }

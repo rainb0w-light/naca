@@ -181,7 +181,7 @@ public class BinConverter {
                                   int nNumOfBytes)
   {
     // check for correct ranges
-	sBinHex = sBinHex.toLowerCase();
+    sBinHex = sBinHex.toLowerCase();
     int nStrLen = sBinHex.length();
 
     int nAvailBytes = (nStrLen - nSrcPos) >> 1;

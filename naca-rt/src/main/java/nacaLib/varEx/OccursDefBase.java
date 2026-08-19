@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,7 +16,7 @@ package nacaLib.varEx;
  */
 public abstract class OccursDefBase
 {
-	public abstract int getNbOccurs();
-	public abstract void prepareAutoRemoval();
-	public abstract Var getRecordDependingVar();
+    public abstract int getNbOccurs();
+    public abstract void prepareAutoRemoval();
+    public abstract Var getRecordDependingVar();
 }

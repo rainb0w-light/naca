@@ -12,66 +12,66 @@ import utils.CObjectCatalog;
 
 public class CEntityOpenFile extends CBaseActionEntity
 {
-	public enum OpenMode
-	{
-		INPUT,
-		OUTPUT,
-		INPUT_OUTPUT,
-		APPEND
-	}
-	public CEntityOpenFile(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public enum OpenMode
+    {
+        INPUT,
+        OUTPUT,
+        INPUT_OUTPUT,
+        APPEND
+    }
+    public CEntityOpenFile(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDescriptor(CEntityFileDescriptor fd, OpenMode mode)
-	{
-		eFileDescriptor = fd ;
-		eMode = mode;
-	}
-	protected CEntityFileDescriptor eFileDescriptor = null ;
-	protected OpenMode eMode = null ; 
+    public void setFileDescriptor(CEntityFileDescriptor fd, OpenMode mode)
+    {
+        eFileDescriptor = fd ;
+        eMode = mode;
+    }
+    protected CEntityFileDescriptor eFileDescriptor = null ;
+    protected OpenMode eMode = null ;
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return eFileDescriptor;
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return eFileDescriptor;
+    }
 
-	public OpenMode getMode()
-	{
-		return eMode;
-	}
+    public OpenMode getMode()
+    {
+        return eMode;
+    }
 
-	private OpenMode getEffectiveMode()
-	{
-		return eMode != null || eFileDescriptor == null
-			? eMode
-			: eFileDescriptor.getAccessMode();
-	}
+    private OpenMode getEffectiveMode()
+    {
+        return eMode != null || eFileDescriptor == null
+            ? eMode
+            : eFileDescriptor.getAccessMode();
+    }
 
-	public boolean isInputMode()
-	{
-		return getEffectiveMode() == OpenMode.INPUT;
-	}
+    public boolean isInputMode()
+    {
+        return getEffectiveMode() == OpenMode.INPUT;
+    }
 
-	public boolean isOutputMode()
-	{
-		return getEffectiveMode() == OpenMode.OUTPUT;
-	}
+    public boolean isOutputMode()
+    {
+        return getEffectiveMode() == OpenMode.OUTPUT;
+    }
 
-	public boolean isInputOutputMode()
-	{
-		return getEffectiveMode() == OpenMode.INPUT_OUTPUT;
-	}
+    public boolean isInputOutputMode()
+    {
+        return getEffectiveMode() == OpenMode.INPUT_OUTPUT;
+    }
 
-	public boolean isAppendMode()
-	{
-		return getEffectiveMode() == OpenMode.APPEND;
-	}
+    public boolean isAppendMode()
+    {
+        return getEffectiveMode() == OpenMode.APPEND;
+    }
 
-	public boolean isVariableLengthFile()
-	{
-		return eFileDescriptor != null && eFileDescriptor.isRecordSizeVariable();
-	}
+    public boolean isVariableLengthFile()
+    {
+        return eFileDescriptor != null && eFileDescriptor.isRecordSizeVariable();
+    }
 
 }

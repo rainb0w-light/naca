@@ -14,47 +14,47 @@ import parser.expression.CSumExpression;
  */
 public class CEntityExprSum extends CBaseEntityExpression
 {
-	public void SetSumExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CSumExpression.CSumType Type)
-	{
-		op1 = Op1 ;
-		op2 = Op2 ;
-		type = Type ;
-	}
-	protected CSumExpression.CSumType type = null ;
-	protected CBaseEntityExpression op1 = null ;
-	protected CBaseEntityExpression op2 = null ;
-	public void Clear()
-	{
-		super.Clear() ;
-		op1.Clear() ;
-		op1 = null ;
-		op2.Clear() ;
-		op2 = null ;
-	}
-	public boolean ignore()
-	{
-		return op1.ignore() || op2.ignore();
-	}
+    public void SetSumExpression(CBaseEntityExpression Op1, CBaseEntityExpression Op2, CSumExpression.CSumType Type)
+    {
+        op1 = Op1 ;
+        op2 = Op2 ;
+        type = Type ;
+    }
+    protected CSumExpression.CSumType type = null ;
+    protected CBaseEntityExpression op1 = null ;
+    protected CBaseEntityExpression op2 = null ;
+    public void Clear()
+    {
+        super.Clear() ;
+        op1.Clear() ;
+        op1 = null ;
+        op2.Clear() ;
+        op2 = null ;
+    }
+    public boolean ignore()
+    {
+        return op1.ignore() || op2.ignore();
+    }
 
-	@Override
-	public CEntityExpressionType getExpressionType()
-	{
-		return CEntityExpressionType.MATH;
-	}
+    @Override
+    public CEntityExpressionType getExpressionType()
+    {
+        return CEntityExpressionType.MATH;
+    }
 
-	public CBaseEntityExpression getLeft()
-	{
-		return op1;
-	}
+    public CBaseEntityExpression getLeft()
+    {
+        return op1;
+    }
 
-	public CBaseEntityExpression getRight()
-	{
-		return op2;
-	}
+    public CBaseEntityExpression getRight()
+    {
+        return op2;
+    }
 
-	public boolean isAdd()
-	{
-		return type != null && "ADD".equals(type.Text);
-	}
+    public boolean isAdd()
+    {
+        return type != null && "ADD".equals(type.Text);
+    }
 
 }

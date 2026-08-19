@@ -20,53 +20,53 @@ import org.w3c.dom.Element;
  */
 public class CElseBloc extends CBlocElement
 {
-	/**
-	 * @param line
-	 */
-	public CElseBloc(int line) {
-		super(line);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected boolean DoParsing(CFlag fCheckForNextSentence)
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.ELSE)
-		{
-			GetNext();
-		}
-		if (!super.DoParsing())
-		{
-			return false ;
-		}
-		if (fCheckForNextSentence != null)
-		{
-			fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
-		}
-		tok = GetCurrentToken() ;
-		if (tok.GetType() == CTokenType.DOT)
-		{ // end of IF statement
-			nEndLine = tok.getLine() ;
-			return true ;
-		}
-		else if (tok.GetKeyword() == CCobolKeywordList.END_IF)
-		{
-			nEndLine = tok.getLine() ;
-			StepNext() ;
-		}
-		return true ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eElse = root.createElement("Else") ;
-		return eElse ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.elements.CBlocElement#isTopLevelBloc()
-	 */
-	protected boolean isTopLevelBloc()
-	{
-		return false;
-	}
+    /**
+     * @param line
+     */
+    public CElseBloc(int line) {
+        super(line);
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected boolean DoParsing(CFlag fCheckForNextSentence)
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.ELSE)
+        {
+            GetNext();
+        }
+        if (!super.DoParsing())
+        {
+            return false ;
+        }
+        if (fCheckForNextSentence != null)
+        {
+            fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
+        }
+        tok = GetCurrentToken() ;
+        if (tok.GetType() == CTokenType.DOT)
+        { // end of IF statement
+            nEndLine = tok.getLine() ;
+            return true ;
+        }
+        else if (tok.GetKeyword() == CCobolKeywordList.END_IF)
+        {
+            nEndLine = tok.getLine() ;
+            StepNext() ;
+        }
+        return true ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eElse = root.createElement("Else") ;
+        return eElse ;
+    }
+    /* (non-Javadoc)
+     * @see parser.elements.CBlocElement#isTopLevelBloc()
+     */
+    protected boolean isTopLevelBloc()
+    {
+        return false;
+    }
 }

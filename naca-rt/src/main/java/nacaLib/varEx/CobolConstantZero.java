@@ -12,13 +12,13 @@ package nacaLib.varEx;
  */
 public class CobolConstantZero extends CobolConstantBase
 {
-	public char getValue()
-	{
-		return '0';
-	}
+    public char getValue()
+    {
+        return '0';
+    }
 
-	public String getSTCheckValue()
-	{
-		return "CobolConstantZero";
-	}
+    public String getSTCheckValue()
+    {
+        return "CobolConstantZero";
+    }
 }

@@ -29,688 +29,689 @@ import jlib.xml.*;
  */
 public class CScenarioPlayer extends CJMapObject
 {
-	protected static class ScenarioPlayerState
-	{
-		public static int SHOW_PAGE = 1 ;
-		public static int CALL_PROGRAM = 2 ;
-	}
-	protected static class ScenarioRecordDataMode
-	{
-		public static ScenarioRecordDataMode MODE_3270 = new ScenarioRecordDataMode() ;
-		public static ScenarioRecordDataMode MODE_WEB = new ScenarioRecordDataMode() ;
-	}
-	public class CScenarioWarningDetail extends CJMapObject
-	{
-		public Element pageField;
-		public Element scenarioField;
-		public EditedField pageFieldDetails;
-		public EditedField scenarioFieldDetails;
+    protected static class ScenarioPlayerState
+    {
+        public static int SHOW_PAGE = 1 ;
+        public static int CALL_PROGRAM = 2 ;
+    }
+    protected static class ScenarioRecordDataMode
+    {
+        public static ScenarioRecordDataMode MODE_3270 = new ScenarioRecordDataMode() ;
+        public static ScenarioRecordDataMode MODE_WEB = new ScenarioRecordDataMode() ;
+    }
+    public class CScenarioWarningDetail extends CJMapObject
+    {
+        public Element pageField;
+        public Element scenarioField;
+        public EditedField pageFieldDetails;
+        public EditedField scenarioFieldDetails;
 
-	}
-	public CScenarioPlayer(String filepath, OnlineSession session)
-	{
-		this.session = session ;
-		filePath = filepath ;
-		docScenario = XMLUtil.LoadXML(filepath) ;
-		if (docScenario == null)
-		{
-			listpages = null ;
-		}
-		else
-		{
-			String title = docScenario.getDocumentElement().getNodeName() ;
-			String csXMLItemName = "" ;
-			if (title.equalsIgnoreCase("datarecord"))
-			{
-				modeRecord = ScenarioRecordDataMode.MODE_WEB ;
-				csXMLItemName = "form" ;
-			}
-			else if (title.equalsIgnoreCase("ST3270Catch"))
-			{
-				modeRecord = ScenarioRecordDataMode.MODE_3270 ;
-				csXMLItemName = "Cycle" ;
-			}
-			else
-			{
-				throw new RuntimeException() ;
-			}
-			listpages = docScenario.getElementsByTagName(csXMLItemName) ;
-			nCurrentPage = 0 ;
-		}
-	}
-	protected OnlineSession session = null ;
-	protected String filePath = "" ;
-		/**
-	 * @param docScenario
-	 */
+    }
+    public CScenarioPlayer(String filepath, OnlineSession session)
+    {
+        this.session = session ;
+        filePath = filepath ;
+        docScenario = XMLUtil.LoadXML(filepath) ;
+        if (docScenario == null)
+        {
+            listpages = null ;
+        }
+        else
+        {
+            String title = docScenario.getDocumentElement().getNodeName() ;
+            String csXMLItemName = "" ;
+            if (title.equalsIgnoreCase("datarecord"))
+            {
+                modeRecord = ScenarioRecordDataMode.MODE_WEB ;
+                csXMLItemName = "form" ;
+            }
+            else if (title.equalsIgnoreCase("ST3270Catch"))
+            {
+                modeRecord = ScenarioRecordDataMode.MODE_3270 ;
+                csXMLItemName = "Cycle" ;
+            }
+            else
+            {
+                throw new RuntimeException() ;
+            }
+            listpages = docScenario.getElementsByTagName(csXMLItemName) ;
+            nCurrentPage = 0 ;
+        }
+    }
+    protected OnlineSession session = null ;
+    protected String filePath = "" ;
+        /**
+     * @param docScenario
+     */
 
-	protected Document docScenario = null ;
-	protected NodeList listpages = null ;
-	protected int nPlayerState = 0 ;
-	protected int nCurrentPage = 0 ;
-	protected ScenarioRecordDataMode modeRecord = null ;
-//	protected String csScenarioFilePath = "" ;
+    protected Document docScenario = null ;
+    protected NodeList listpages = null ;
+    protected int nPlayerState = 0 ;
+    protected int nCurrentPage = 0 ;
+    protected ScenarioRecordDataMode modeRecord = null ;
+//  protected String csScenarioFilePath = "" ;
 
-	public void rewindScenario()
-	{
-		nPlayerState = 0 ;
-		nCurrentPage = 0 ;
-	}
+    public void rewindScenario()
+    {
+        nPlayerState = 0 ;
+        nCurrentPage = 0 ;
+    }
 
-	protected Document getCurrentPage()
-	{
-		Document docData = XMLUtil.CreateDocument() ;
-		if (nCurrentPage>=0 && nCurrentPage< listpages.getLength())
-		{
-			if (modeRecord == ScenarioRecordDataMode.MODE_WEB)
-			{
-				Element eForm = (Element) listpages.item(nCurrentPage) ;
-				Element e = (Element)docData.importNode(eForm, true) ;
-				docData.appendChild(e);
-			}
-			else if (modeRecord == ScenarioRecordDataMode.MODE_3270)
-			{
-				Element eCycle = (Element) listpages.item(nCurrentPage) ;
-				Element eForm = docData.createElement("form") ;
-				docData.appendChild(eForm) ;
+    protected Document getCurrentPage()
+    {
+        Document docData = XMLUtil.CreateDocument() ;
+        if (nCurrentPage>=0 && nCurrentPage< listpages.getLength())
+        {
+            if (modeRecord == ScenarioRecordDataMode.MODE_WEB)
+            {
+                Element eForm = (Element) listpages.item(nCurrentPage) ;
+                Element e = (Element)docData.importNode(eForm, true) ;
+                docData.appendChild(e);
+            }
+            else if (modeRecord == ScenarioRecordDataMode.MODE_3270)
+            {
+                Element eCycle = (Element) listpages.item(nCurrentPage) ;
+                Element eForm = docData.createElement("form") ;
+                docData.appendChild(eForm) ;
 
-				String csKeyPressed = SelectKeyPressedFrom3270(eCycle) ;
-				eForm.setAttribute("keypressed", csKeyPressed) ;
+                String csKeyPressed = SelectKeyPressedFrom3270(eCycle) ;
+                eForm.setAttribute("keypressed", csKeyPressed) ;
 
-				Document xmlOutput = session.getXMLOutput();
-				String page = getPageNameFromXMLOutput(xmlOutput) ;
-				eForm.setAttribute("page", page) ;
+                Document xmlOutput = session.getXMLOutput();
+                String page = getPageNameFromXMLOutput(xmlOutput) ;
+                eForm.setAttribute("page", page) ;
 
-				FillFormFieldsFrom3270(xmlOutput.getDocumentElement(), eCycle, docData);
-			}
-			return docData ;
-		}
-		return null ;
-	}
+                FillFormFieldsFrom3270(xmlOutput.getDocumentElement(), eCycle, docData);
+            }
+            return docData ;
+        }
+        return null ;
+    }
 
-	private static void FillFormFieldsFrom3270(Element eForm, Element eCycle, Document data)
-	{
-		NodeList lst = eCycle.getElementsByTagName("FieldsUpdated") ;
-		if (lst.getLength()>0)
-		{
-			Element eFields = (Element)lst.item(0);
-			FillFormFieldsFrom3270Fields(eForm, eFields, data) ;
-		}
-	}
+    private static void FillFormFieldsFrom3270(Element eForm, Element eCycle, Document data)
+    {
+        NodeList lst = eCycle.getElementsByTagName("FieldsUpdated") ;
+        if (lst.getLength()>0)
+        {
+            Element eFields = (Element)lst.item(0);
+            FillFormFieldsFrom3270Fields(eForm, eFields, data) ;
+        }
+    }
 
-	/**
-	 * @param eForm
-	 * @param eFields
-	 */
-	public static class EditedField
-	{
-		public String value = "" ;
-		public String poscol = "" ;
-		public String posline = "" ;
-		public String length = "" ;
-		public String name = "" ;
-		public String modified = "" ;
-		Element field = null ;
-		public boolean mutable = false ;
-		String getKey()
-		{
-			return "c"+poscol+"_l"+posline ;
-		}
-	}
-	private static void FillFormFieldsFrom3270Fields(Element eForm, Element eFields, Document data)
-	{
-		NodeList lst = eFields.getElementsByTagName("FieldUpdated") ;
-		Hashtable<String, EditedField> tabFields = new Hashtable<String, EditedField>() ;
-		for (int i=0; i<lst.getLength(); i++)
-		{
-			Element eField = (Element)lst.item(i) ;
-			EditedField f = new EditedField() ;
-			f.poscol = eField.getAttribute("X") ;
-			f.posline = eField.getAttribute("Y") ;
-			f.length = eField.getAttribute("Len");
-			String modified = eField.getAttribute("KeyHit");
-			if (modified.equals("true"))
-			{
-				f.value = eField.getAttribute("NewVal");
-			}
-			else
-			{
-				f.value = eField.getAttribute("OldVal");
-			}
-//			f.modified = eField.getAttribute("Update");
-			String csKey = f.getKey() ;
-			tabFields.put(csKey, f) ;
-		}
+    /**
+     * @param eForm
+     * @param eFields
+     */
+    public static class EditedField
+    {
+        public String value = "" ;
+        public String poscol = "" ;
+        public String posline = "" ;
+        public String length = "" ;
+        public String name = "" ;
+        public String modified = "" ;
+        Element field = null ;
+        public boolean mutable = false ;
+        String getKey()
+        {
+            return "c"+poscol+"_l"+posline ;
+        }
+    }
+    private static void FillFormFieldsFrom3270Fields(Element eForm, Element eFields, Document data)
+    {
+        NodeList lst = eFields.getElementsByTagName("FieldUpdated") ;
+        Hashtable<String, EditedField> tabFields = new Hashtable<String, EditedField>() ;
+        for (int i=0; i<lst.getLength(); i++)
+        {
+            Element eField = (Element)lst.item(i) ;
+            EditedField f = new EditedField() ;
+            f.poscol = eField.getAttribute("X") ;
+            f.posline = eField.getAttribute("Y") ;
+            f.length = eField.getAttribute("Len");
+            String modified = eField.getAttribute("KeyHit");
+            if (modified.equals("true"))
+            {
+                f.value = eField.getAttribute("NewVal");
+            }
+            else
+            {
+                f.value = eField.getAttribute("OldVal");
+            }
+//          f.modified = eField.getAttribute("Update");
+            String csKey = f.getKey() ;
+            tabFields.put(csKey, f) ;
+        }
 
-		Vector<EditedField> fields = new Vector<EditedField>() ;
-		lst = eForm.getElementsByTagName("edit") ;
-		for (int i=0; i<lst.getLength(); i++)
-		{
-			Element eEdit = (Element)lst.item(i) ;
-			EditedField f = new EditedField() ;
-			f.poscol = eEdit.getAttribute("col") ;
-			f.posline = eEdit.getAttribute("line") ;
-			f.length = eEdit.getAttribute("length");
-			f.value = eEdit.getAttribute("value");
-			f.name = eEdit.getAttribute("linkedvalue");
-			f.modified = eEdit.getAttribute("modified");
-			String csKey = f.getKey() ;
-			EditedField ff = tabFields.get(csKey) ;
-			if (ff != null)
-			{
-				f.value = ff.value ;
-				f.modified = "true" ;
-			}
-			fields.add(f) ;
-		}
+        Vector<EditedField> fields = new Vector<EditedField>() ;
+        lst = eForm.getElementsByTagName("edit") ;
+        for (int i=0; i<lst.getLength(); i++)
+        {
+            Element eEdit = (Element)lst.item(i) ;
+            EditedField f = new EditedField() ;
+            f.poscol = eEdit.getAttribute("col") ;
+            f.posline = eEdit.getAttribute("line") ;
+            f.length = eEdit.getAttribute("length");
+            f.value = eEdit.getAttribute("value");
+            f.name = eEdit.getAttribute("linkedvalue");
+            f.modified = eEdit.getAttribute("modified");
+            String csKey = f.getKey() ;
+            EditedField ff = tabFields.get(csKey) ;
+            if (ff != null)
+            {
+                f.value = ff.value ;
+                f.modified = "true" ;
+            }
+            fields.add(f) ;
+        }
 
-		Element eData = data.getDocumentElement() ;
-		for (int i = 0; i< fields.size(); i++)
-		{
-			EditedField f = fields.get(i) ;
-			Element e = data.createElement("field") ;
-			eData.appendChild(e) ;
-			e.setAttribute("name", f.name) ;
-			e.setAttribute("updated", f.modified) ;
-			e.setAttribute("value", f.value) ;
-		}
+        Element eData = data.getDocumentElement() ;
+        for (int i = 0; i< fields.size(); i++)
+        {
+            EditedField f = fields.get(i) ;
+            Element e = data.createElement("field") ;
+            eData.appendChild(e) ;
+            e.setAttribute("name", f.name) ;
+            e.setAttribute("updated", f.modified) ;
+            e.setAttribute("value", f.value) ;
+        }
 
-	}
+    }
 
-	public String getPageNameFromXMLOutput(Document xmlOutput)
-	{
-		NodeList lst = xmlOutput.getElementsByTagName("form") ;
-		if (lst.getLength() > 0)
-		{
-			Element e = (Element)lst.item(0);
-			String name = e.getAttribute("name") ;
-			return name ;
-		}
-		return "";
-	}
+    public String getPageNameFromXMLOutput(Document xmlOutput)
+    {
+        NodeList lst = xmlOutput.getElementsByTagName("form") ;
+        if (lst.getLength() > 0)
+        {
+            Element e = (Element)lst.item(0);
+            String name = e.getAttribute("name") ;
+            return name ;
+        }
+        return "";
+    }
 
-	private String SelectKeyPressedFrom3270(Element eCycle)
-	{
-		NodeList lst = eCycle.getElementsByTagName("CommandKey");
-		if (lst.getLength()>0)
-		{
-			Element eCmd = (Element)lst.item(0);
-			String val = eCmd.getAttribute("Value") ;
-			KeyPressed k = KeyPressed.getKey(val) ;
-			if (k != null)
-			{
-				return k.csValue ;
-			}
-			else
-			{
-				return "" ;
-			}
-		}
-		return "" ;
-	}
+    private String SelectKeyPressedFrom3270(Element eCycle)
+    {
+        NodeList lst = eCycle.getElementsByTagName("CommandKey");
+        if (lst.getLength()>0)
+        {
+            Element eCmd = (Element)lst.item(0);
+            String val = eCmd.getAttribute("Value") ;
+            KeyPressed k = KeyPressed.getKey(val) ;
+            if (k != null)
+            {
+                return k.csValue ;
+            }
+            else
+            {
+                return "" ;
+            }
+        }
+        return "" ;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isPlayingScenario()
-	{
-		return docScenario != null && nCurrentPage < listpages.getLength() ;
-	}
-	/**
-	 * @return
-	 */
-	public boolean isCallProgram()
-	{
-		return nPlayerState == ScenarioPlayerState.CALL_PROGRAM;
-	}
-	/**
-	 *
-	 */
-	public void StepScenario()
-	{
-		if (nPlayerState == 0)
-		{ // initial state : call program for first page
-			nPlayerState = ScenarioPlayerState.CALL_PROGRAM;
-		}
-		else if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
-		{	// program has been called, show the page with new fields
-			nPlayerState = ScenarioPlayerState.SHOW_PAGE ;
-			Document data = getCurrentPage() ;
-			session.setXMLData(data) ;
-		}
-		else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
-		{ // the new page has been shown, call program with real values
-			nPlayerState = ScenarioPlayerState.CALL_PROGRAM ;
-			Document data = getCurrentPage() ;
-			CMapFieldLoader fieldLoader = session.getInputWrapper() ;
-			KeyPressed kp = fieldLoader.getKeyPressed() ;
-			if (kp == KeyPressed.ENTER)
-			{ // replace key pressed by scenario key pressed
-				String k = data.getDocumentElement().getAttribute("keypressed");
-				KeyPressed kp2 = KeyPressed.getKey(k) ;
-				if (kp2 != null)
-				{
-					fieldLoader.setKeyPressed(kp2) ;
-				}
-			}
-			else
-			{	// user hit some key : stop scenario
-				docScenario = null ;
-				listpages = null ;
-				nCurrentPage = 0 ;
-				nPlayerState = 0 ;
-				return ;
-			}
+    /**
+     * @return
+     */
+    public boolean isPlayingScenario()
+    {
+        return docScenario != null && nCurrentPage < listpages.getLength() ;
+    }
+    /**
+     * @return
+     */
+    public boolean isCallProgram()
+    {
+        return nPlayerState == ScenarioPlayerState.CALL_PROGRAM;
+    }
+    /**
+     *
+     */
+    public void StepScenario()
+    {
+        if (nPlayerState == 0)
+        { // initial state : call program for first page
+            nPlayerState = ScenarioPlayerState.CALL_PROGRAM;
+        }
+        else if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
+        {   // program has been called, show the page with new fields
+            nPlayerState = ScenarioPlayerState.SHOW_PAGE ;
+            Document data = getCurrentPage() ;
+            session.setXMLData(data) ;
+        }
+        else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
+        { // the new page has been shown, call program with real values
+            nPlayerState = ScenarioPlayerState.CALL_PROGRAM ;
+            Document data = getCurrentPage() ;
+            CMapFieldLoader fieldLoader = session.getInputWrapper() ;
+            KeyPressed kp = fieldLoader.getKeyPressed() ;
+            if (kp == KeyPressed.ENTER)
+            { // replace key pressed by scenario key pressed
+                String k = data.getDocumentElement().getAttribute("keypressed");
+                KeyPressed kp2 = KeyPressed.getKey(k) ;
+                if (kp2 != null)
+                {
+                    fieldLoader.setKeyPressed(kp2) ;
+                }
+            }
+            else
+            {   // user hit some key : stop scenario
+                docScenario = null ;
+                listpages = null ;
+                nCurrentPage = 0 ;
+                nPlayerState = 0 ;
+                return ;
+            }
 
-			nCurrentPage ++ ;
+            nCurrentPage ++ ;
 
-		}
-	}
-	public String getDisplay()
-	{
-		if (docScenario != null && listpages != null)
-		{
-			if (nCurrentPage < listpages.getLength())
-			{
-				if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
-				{	// program has been called, show the page with new fields
-					return "Replay program call" ;
-				}
-				else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
-				{ // the new page has been shown, call program with real values
-					return "Fill Fields" ;
-				}
-			}
-		}
-		return "" ;
-	}
-	/**
-	 * @return
-	 */
-	public boolean isShowPage()
-	{
-		return nPlayerState == ScenarioPlayerState.SHOW_PAGE ;
-	}
+        }
+    }
+    public String getDisplay()
+    {
+        if (docScenario != null && listpages != null)
+        {
+            if (nCurrentPage < listpages.getLength())
+            {
+                if (nPlayerState == ScenarioPlayerState.CALL_PROGRAM)
+                {   // program has been called, show the page with new fields
+                    return "Replay program call" ;
+                }
+                else if (nPlayerState == ScenarioPlayerState.SHOW_PAGE)
+                { // the new page has been shown, call program with real values
+                    return "Fill Fields" ;
+                }
+            }
+        }
+        return "" ;
+    }
+    /**
+     * @return
+     */
+    public boolean isShowPage()
+    {
+        return nPlayerState == ScenarioPlayerState.SHOW_PAGE ;
+    }
 
-	/**
-	 * @return
-	 */
-	public int nextPage()
-	{
-		nCurrentPage ++ ;
-		return nCurrentPage ;
-	}
+    /**
+     * @return
+     */
+    public int nextPage()
+    {
+        nCurrentPage ++ ;
+        return nCurrentPage ;
+    }
 
-	protected Hashtable<String, CScenarioWarningDetail> tabScenarioWarningDetails = new Hashtable<String, CScenarioWarningDetail>() ;
-	/**
-	 * @param xmlOutput
-	 */
-	public void CheckOutput(Document xmlOutput)
-	{
-		if (docScenarioPlayingLog == null)
-		{
-			doCheckOutput(xmlOutput) ;
-		}
-		else
-		{
-			doLogPlaying(xmlOutput) ;
-		}
-	}
+    protected Hashtable<String, CScenarioWarningDetail> tabScenarioWarningDetails = new Hashtable<String, CScenarioWarningDetail>() ;
+    /**
+     * @param xmlOutput
+     */
+    public void CheckOutput(Document xmlOutput)
+    {
+        if (docScenarioPlayingLog == null)
+        {
+            doCheckOutput(xmlOutput) ;
+        }
+        else
+        {
+            doLogPlaying(xmlOutput) ;
+        }
+    }
 
-	private void doLogPlaying(Document xmlOutput)
-	{
-		Element ePage = docScenarioPlayingLog.createElement("Output") ;
-		docScenarioPlayingLog.getDocumentElement().appendChild(ePage) ;
-		String name = getPageNameFromXMLOutput(xmlOutput) ;
-		ePage.setAttribute("program", name) ;
-		if (modeRecord == ScenarioRecordDataMode.MODE_3270)
-		{
-			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
-			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
+    private void doLogPlaying(Document xmlOutput)
+    {
+        Element ePage = docScenarioPlayingLog.createElement("Output") ;
+        docScenarioPlayingLog.getDocumentElement().appendChild(ePage) ;
+        String name = getPageNameFromXMLOutput(xmlOutput) ;
+        ePage.setAttribute("program", name) ;
+        if (modeRecord == ScenarioRecordDataMode.MODE_3270)
+        {
+            String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
+            Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
 
-			NodeList lst = xmlOutput.getElementsByTagName("edit") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = eEdit.getAttribute("value").trim() ;
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				String mutable = eEdit.getAttribute("replayMutable") ;
-				f.mutable = (mutable!= null) && mutable.equalsIgnoreCase("true") ;
+            NodeList lst = xmlOutput.getElementsByTagName("edit") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = eEdit.getAttribute("value").trim() ;
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                String mutable = eEdit.getAttribute("replayMutable") ;
+                f.mutable = (mutable!= null) && mutable.equalsIgnoreCase("true") ;
 
-				String intents = eEdit.getAttribute("intensity");
-				f.mutable |= (intents!=null && intents.equals("dark")) ;
+                String intents = eEdit.getAttribute("intensity");
+                f.mutable |= (intents!=null && intents.equals("dark")) ;
 
-				String csKey = f.getKey() ;
-				tabPageFields.put(csKey, f) ;
-			}
-			lst = xmlOutput.getElementsByTagName("label") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = getLabelValue(eEdit, lang);
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				String intents = eEdit.getAttribute("intensity");
-				f.mutable |= (intents!=null && intents.equals("dark")) ;
+                String csKey = f.getKey() ;
+                tabPageFields.put(csKey, f) ;
+            }
+            lst = xmlOutput.getElementsByTagName("label") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = getLabelValue(eEdit, lang);
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                String intents = eEdit.getAttribute("intensity");
+                f.mutable |= (intents!=null && intents.equals("dark")) ;
 
-				String csKey = f.getKey() ;
-				tabPageFields.put(csKey, f) ;
-			}
-			lst = xmlOutput.getElementsByTagName("title") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = getLabelValue(eEdit, lang);
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				f.mutable = true ;
-				String csKey = f.getKey() ;
-				tabPageFields.put(csKey, f) ;
-			}
+                String csKey = f.getKey() ;
+                tabPageFields.put(csKey, f) ;
+            }
+            lst = xmlOutput.getElementsByTagName("title") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = getLabelValue(eEdit, lang);
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                f.mutable = true ;
+                String csKey = f.getKey() ;
+                tabPageFields.put(csKey, f) ;
+            }
 
-			Element eCycle = (Element) listpages.item(nCurrentPage) ;
-			lst = eCycle.getElementsByTagName("Field") ;
-			if (lst.getLength() == 0)
-			{
-				return ;
-			}
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eField = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eField.getAttribute("X") ;
-				f.posline = eField.getAttribute("Y") ;
-				f.length = eField.getAttribute("Len");
-				//String modified = eField.getAttribute("KeyHit");
-				f.value = eField.getAttribute("Val").trim();
-				f.modified = eField.getAttribute("Update");
-				String mutable = eField.getAttribute("mutable") ;
-				if (mutable != null && !mutable.equals(""))
-				{
-					f.mutable = true ;
-				}
-				f.field = eField ;
-				String csKey = f.getKey() ;
-				EditedField ff = tabPageFields.get(csKey) ;
-				if (ff != null)
-				{
-					Element e = docScenarioPlayingLog.createElement("Field") ;
-					ePage.appendChild(e) ;
-					e.setAttribute("name", ff.name) ;
-					e.setAttribute("key", ff.posline+"."+ff.poscol) ;
-					e.setAttribute("value", ff.value) ;
-					if (f.mutable || ff.mutable)
-					{
-						e.setAttribute("mutable", "true") ;
-					}
-				}
-			}
-		}
-	}
+            Element eCycle = (Element) listpages.item(nCurrentPage) ;
+            lst = eCycle.getElementsByTagName("Field") ;
+            if (lst.getLength() == 0)
+            {
+                return ;
+            }
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eField = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eField.getAttribute("X") ;
+                f.posline = eField.getAttribute("Y") ;
+                f.length = eField.getAttribute("Len");
+                //String modified = eField.getAttribute("KeyHit");
+                f.value = eField.getAttribute("Val").trim();
+                f.modified = eField.getAttribute("Update");
+                String mutable = eField.getAttribute("mutable") ;
+                if (mutable != null && !mutable.equals(""))
+                {
+                    f.mutable = true ;
+                }
+                f.field = eField ;
+                String csKey = f.getKey() ;
+                EditedField ff = tabPageFields.get(csKey) ;
+                if (ff != null)
+                {
+                    Element e = docScenarioPlayingLog.createElement("Field") ;
+                    ePage.appendChild(e) ;
+                    e.setAttribute("name", ff.name) ;
+                    e.setAttribute("key", ff.posline+"."+ff.poscol) ;
+                    e.setAttribute("value", ff.value) ;
+                    if (f.mutable || ff.mutable)
+                    {
+                        e.setAttribute("mutable", "true") ;
+                    }
+                }
+            }
+        }
+    }
 
-	private void doCheckOutput(Document xmlOutput)
-	{
-		tabScenarioWarningDetails.clear() ;
-		if (modeRecord == ScenarioRecordDataMode.MODE_3270)
-		{
-			String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
-			Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
-			Element eCycle = (Element) listpages.item(nCurrentPage) ;
-			NodeList lst = eCycle.getElementsByTagName("Field") ;
-			if (lst.getLength() == 0)
-			{
-				return ;
-			}
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eField = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eField.getAttribute("X") ;
-				f.posline = eField.getAttribute("Y") ;
-				f.length = eField.getAttribute("Len");
-				//String modified = eField.getAttribute("KeyHit");
-				f.value = eField.getAttribute("Val").trim();
-				f.modified = eField.getAttribute("Update");
-				String mutable = eField.getAttribute("mutable") ;
-				if (mutable != null && !mutable.equals(""))
-				{
-					f.mutable = true ;
-				}
-				f.field = eField ;
-				String csKey = f.getKey() ;
-				tabPageFields.put(csKey, f) ;
-			}
+    private void doCheckOutput(Document xmlOutput)
+    {
+        tabScenarioWarningDetails.clear() ;
+        if (modeRecord == ScenarioRecordDataMode.MODE_3270)
+        {
+            String lang = xmlOutput.getDocumentElement().getAttribute("lang") ;
+            Hashtable<String, EditedField> tabPageFields = new Hashtable<String, EditedField>() ;
+            Element eCycle = (Element) listpages.item(nCurrentPage) ;
+            NodeList lst = eCycle.getElementsByTagName("Field") ;
+            if (lst.getLength() == 0)
+            {
+                return ;
+            }
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eField = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eField.getAttribute("X") ;
+                f.posline = eField.getAttribute("Y") ;
+                f.length = eField.getAttribute("Len");
+                //String modified = eField.getAttribute("KeyHit");
+                f.value = eField.getAttribute("Val").trim();
+                f.modified = eField.getAttribute("Update");
+                String mutable = eField.getAttribute("mutable") ;
+                if (mutable != null && !mutable.equals(""))
+                {
+                    f.mutable = true ;
+                }
+                f.field = eField ;
+                String csKey = f.getKey() ;
+                tabPageFields.put(csKey, f) ;
+            }
 
-			lst = xmlOutput.getElementsByTagName("edit") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = eEdit.getAttribute("value").trim() ;
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				String mutable = eEdit.getAttribute("replayMutable") ;
-				boolean ismutable = mutable!= null && mutable.equalsIgnoreCase("true") ;
-				String csKey = f.getKey() ;
-				EditedField ff = tabPageFields.get(csKey) ;
-				if (ff != null)
-				{
-					if ((!f.value.equals(ff.value) && !f.value.endsWith(ff.value)) && !ismutable && !ff.mutable)
-					{
-						System.out.println("Unmatching value for field : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ;
-						if (ff.value.equals(""))
-						{
-							eWarn.setAttribute("value", "(empty)") ;
-						}
-						else
-						{
-							eWarn.setAttribute("value", ff.value) ;
-						}
-						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
-						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.pageField = eEdit ;
-						detail.scenarioField = ff.field ;
-						detail.pageFieldDetails = f ;
-						detail.scenarioFieldDetails = ff ;
-						String id = "EDIT" + i ;
-						eWarn.setAttribute("id", id) ;
-						tabScenarioWarningDetails.put(id, detail) ;
-					}
-					tabPageFields.remove(csKey) ;
-				}
-				else
-				{
-//					System.out.println("Field not found in original page : "+f.name) ;
-				}
-			}
-			lst = xmlOutput.getElementsByTagName("label") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = getLabelValue(eEdit, lang);
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				String csKey = f.getKey() ;
-				EditedField ff = tabPageFields.get(csKey) ;
-				if (ff != null)
-				{
-					if (!f.value.equals(ff.value) && !ff.mutable)
-					{
-						System.out.println("Unmatching value for label : col="+f.poscol+" ; line="+f.posline+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ;
-						if (ff.value.equals(""))
-						{
-							eWarn.setAttribute("value", "(empty)") ;
-						}
-						else
-						{
-							eWarn.setAttribute("value", ff.value) ;
-						}
-						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
-						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.pageField = eEdit ;
-						detail.scenarioField = ff.field ;
-						detail.pageFieldDetails = f ;
-						detail.scenarioFieldDetails = ff ;
-						String id = "LABEL" + i ;
-						eWarn.setAttribute("id", id) ;
-						tabScenarioWarningDetails.put(id, detail) ;
-						if (f.name.equals(""))
-						{
-							f.name = "(label)" ;
-						}
-					}
-					tabPageFields.remove(csKey) ;
-				}
-				else
-				{
+            lst = xmlOutput.getElementsByTagName("edit") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = eEdit.getAttribute("value").trim() ;
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                String mutable = eEdit.getAttribute("replayMutable") ;
+                boolean ismutable = mutable!= null && mutable.equalsIgnoreCase("true") ;
+                String csKey = f.getKey() ;
+                EditedField ff = tabPageFields.get(csKey) ;
+                if (ff != null)
+                {
+                    if ((!f.value.equals(ff.value) && !f.value.endsWith(ff.value)) && !ismutable && !ff.mutable)
+                    {
+                        System.out.println("Unmatching value for field : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
+                        Element eWarn = xmlOutput.createElement("warning") ;
+                        if (ff.value.equals(""))
+                        {
+                            eWarn.setAttribute("value", "(empty)") ;
+                        }
+                        else
+                        {
+                            eWarn.setAttribute("value", ff.value) ;
+                        }
+                        eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
+                        CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
+                        detail.pageField = eEdit ;
+                        detail.scenarioField = ff.field ;
+                        detail.pageFieldDetails = f ;
+                        detail.scenarioFieldDetails = ff ;
+                        String id = "EDIT" + i ;
+                        eWarn.setAttribute("id", id) ;
+                        tabScenarioWarningDetails.put(id, detail) ;
+                    }
+                    tabPageFields.remove(csKey) ;
+                }
+                else
+                {
+//                  System.out.println("Field not found in original page : "+f.name) ;
+                }
+            }
+            lst = xmlOutput.getElementsByTagName("label") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = getLabelValue(eEdit, lang);
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                String csKey = f.getKey() ;
+                EditedField ff = tabPageFields.get(csKey) ;
+                if (ff != null)
+                {
+                    if (!f.value.equals(ff.value) && !ff.mutable)
+                    {
+                        System.out.println("Unmatching value for label : col=" + f.poscol + " ; line=" + f.posline + " ; field : " + f.value
+                            + " ; original : " + ff.value) ;
+                        Element eWarn = xmlOutput.createElement("warning") ;
+                        if (ff.value.equals(""))
+                        {
+                            eWarn.setAttribute("value", "(empty)") ;
+                        }
+                        else
+                        {
+                            eWarn.setAttribute("value", ff.value) ;
+                        }
+                        eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
+                        CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
+                        detail.pageField = eEdit ;
+                        detail.scenarioField = ff.field ;
+                        detail.pageFieldDetails = f ;
+                        detail.scenarioFieldDetails = ff ;
+                        String id = "LABEL" + i ;
+                        eWarn.setAttribute("id", id) ;
+                        tabScenarioWarningDetails.put(id, detail) ;
+                        if (f.name.equals(""))
+                        {
+                            f.name = "(label)" ;
+                        }
+                    }
+                    tabPageFields.remove(csKey) ;
+                }
+                else
+                {
 // System.out.println("Label not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
-				}
-			}
-			lst = xmlOutput.getElementsByTagName("title") ;
-			for (int i=0; i<lst.getLength(); i++)
-			{
-				Element eEdit = (Element)lst.item(i) ;
-				EditedField f = new EditedField() ;
-				f.poscol = eEdit.getAttribute("col") ;
-				f.posline = eEdit.getAttribute("line") ;
-				f.length = eEdit.getAttribute("length");
-				f.value = getLabelValue(eEdit, lang);
-				f.name = eEdit.getAttribute("linkedvalue");
-				f.modified = eEdit.getAttribute("modified");
-				String csKey = f.getKey() ;
-				EditedField ff = tabPageFields.get(csKey) ;
-				if (ff != null)
-				{
-					if (!f.value.equalsIgnoreCase(ff.value) && !ff.mutable)
-					{
-						System.out.println("Unmatching value for title : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
-						Element eWarn = xmlOutput.createElement("warning") ;
-						if (ff.value.equals(""))
-						{
-							eWarn.setAttribute("value", "(empty)") ;
-						}
-						else
-						{
-							eWarn.setAttribute("value", ff.value) ;
-						}
-						eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
-						CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
-						detail.pageField = eEdit ;
-						detail.scenarioField = ff.field ;
-						detail.pageFieldDetails = f ;
-						detail.scenarioFieldDetails = ff ;
-						String id = "TITLE" + i ;
-						eWarn.setAttribute("id", id) ;
-						tabScenarioWarningDetails.put(id, detail) ;
-					}
-					tabPageFields.remove(csKey) ;
-				}
-				else
-				{
+                }
+            }
+            lst = xmlOutput.getElementsByTagName("title") ;
+            for (int i=0; i<lst.getLength(); i++)
+            {
+                Element eEdit = (Element)lst.item(i) ;
+                EditedField f = new EditedField() ;
+                f.poscol = eEdit.getAttribute("col") ;
+                f.posline = eEdit.getAttribute("line") ;
+                f.length = eEdit.getAttribute("length");
+                f.value = getLabelValue(eEdit, lang);
+                f.name = eEdit.getAttribute("linkedvalue");
+                f.modified = eEdit.getAttribute("modified");
+                String csKey = f.getKey() ;
+                EditedField ff = tabPageFields.get(csKey) ;
+                if (ff != null)
+                {
+                    if (!f.value.equalsIgnoreCase(ff.value) && !ff.mutable)
+                    {
+                        System.out.println("Unmatching value for title : "+f.name+" ; field : "+f.value + " ; original : "+ff.value) ;
+                        Element eWarn = xmlOutput.createElement("warning") ;
+                        if (ff.value.equals(""))
+                        {
+                            eWarn.setAttribute("value", "(empty)") ;
+                        }
+                        else
+                        {
+                            eWarn.setAttribute("value", ff.value) ;
+                        }
+                        eEdit.getParentNode().insertBefore(eWarn, eEdit) ;
+                        CScenarioWarningDetail detail = new CScenarioWarningDetail() ;
+                        detail.pageField = eEdit ;
+                        detail.scenarioField = ff.field ;
+                        detail.pageFieldDetails = f ;
+                        detail.scenarioFieldDetails = ff ;
+                        String id = "TITLE" + i ;
+                        eWarn.setAttribute("id", id) ;
+                        tabScenarioWarningDetails.put(id, detail) ;
+                    }
+                    tabPageFields.remove(csKey) ;
+                }
+                else
+                {
 // System.out.println("title not found in original page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
-				}
-			}
+                }
+            }
 
-			Enumeration enumere = tabPageFields.elements() ;
-			try
-			{
-				EditedField f = (EditedField)enumere.nextElement() ;
-				while (f != null)
-				{
+            Enumeration enumere = tabPageFields.elements() ;
+            try
+            {
+                EditedField f = (EditedField)enumere.nextElement() ;
+                while (f != null)
+                {
 // System.out.println("Field not found in new page : col="+f.poscol+" ; line="+f.posline+" ; value="+f.value) ;
-					f = (EditedField)enumere.nextElement() ;
-				}
-			}
-			catch (NoSuchElementException e)
-			{
-			}
-		}
-	}
+                    f = (EditedField)enumere.nextElement() ;
+                }
+            }
+            catch (NoSuchElementException e)
+            {
+            }
+        }
+    }
 
-	/**
-	 * @param edit
-	 * @param lang
-	 * @return
-	 */
-	private String getLabelValue(Element edit, String lang)
-	{
-		NodeList lst = edit.getElementsByTagName("text") ;
-		for (int i=0; i<lst.getLength(); i++)
-		{
-			Element e = (Element)lst.item(i);
-			String l = e.getAttribute("lang") ;
-			if (l.equals(lang))
-			{
-				String text = e.getFirstChild().getNodeValue() ;
-				return text.trim() ;
-			}
-		}
+    /**
+     * @param edit
+     * @param lang
+     * @return
+     */
+    private String getLabelValue(Element edit, String lang)
+    {
+        NodeList lst = edit.getElementsByTagName("text") ;
+        for (int i=0; i<lst.getLength(); i++)
+        {
+            Element e = (Element)lst.item(i);
+            String l = e.getAttribute("lang") ;
+            if (l.equals(lang))
+            {
+                String text = e.getFirstChild().getNodeValue() ;
+                return text.trim() ;
+            }
+        }
 
-		return "" ;
-	}
+        return "" ;
+    }
 
-	/**
-	 * @return
-	 */
-	public KeyPressed getKeyPressed()
-	{
-		return null;
-	}
+    /**
+     * @return
+     */
+    public KeyPressed getKeyPressed()
+    {
+        return null;
+    }
 
-	/**
-	 * @param sceId
-	 * @return
-	 */
-	public CScenarioWarningDetail getWarningDetail(String sceId)
-	{
-		return tabScenarioWarningDetails.get(sceId) ;
-	}
+    /**
+     * @param sceId
+     * @return
+     */
+    public CScenarioWarningDetail getWarningDetail(String sceId)
+    {
+        return tabScenarioWarningDetails.get(sceId) ;
+    }
 
-	/**
-	 * @param sceId
-	 */
-	public void IgnoreWarning(String sceId)
-	{
-		CScenarioWarningDetail detail = tabScenarioWarningDetails.get(sceId) ;
-		if (detail != null)
-		{
-			detail.scenarioField.setAttribute("mutable", "true") ;
-			if (XMLUtil.ExportXML(docScenario, filePath))
-			{
-				detail.scenarioFieldDetails.mutable = true ;
-			}
-		}
-	}
+    /**
+     * @param sceId
+     */
+    public void IgnoreWarning(String sceId)
+    {
+        CScenarioWarningDetail detail = tabScenarioWarningDetails.get(sceId) ;
+        if (detail != null)
+        {
+            detail.scenarioField.setAttribute("mutable", "true") ;
+            if (XMLUtil.ExportXML(docScenario, filePath))
+            {
+                detail.scenarioFieldDetails.mutable = true ;
+            }
+        }
+    }
 
-	/**
-	 * @param docOutput
-	 */
-	public void setDocumentTracing(Document docOutput)
-	{
-		docScenarioPlayingLog = docOutput ;
-	}
-	protected Document docScenarioPlayingLog = null ;
+    /**
+     * @param docOutput
+     */
+    public void setDocumentTracing(Document docOutput)
+    {
+        docScenarioPlayingLog = docOutput ;
+    }
+    protected Document docScenarioPlayingLog = null ;
 
 }

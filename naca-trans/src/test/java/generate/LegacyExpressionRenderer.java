@@ -16,36 +16,36 @@ import semantic.expression.CBaseEntityCondExpr;
  */
 public final class LegacyExpressionRenderer
 {
-	private LegacyExpressionRenderer()
-	{
-	}
+    private LegacyExpressionRenderer()
+    {
+    }
 
-	public static String render(CBaseEntityCondExpr expression)
-	{
-		if (expression == null)
-		{
-			return "[UNDEFINED]" ;
-		}
-		try
-		{
-			Method legacyMethod = expression.getClass().getMethod("Export") ;
-			if (!legacyMethod.getDeclaringClass().getName().startsWith("semantic."))
-			{
-				legacyMethod.setAccessible(true) ;
-				return (String) legacyMethod.invoke(expression) ;
-			}
-		}
-		catch (NoSuchMethodException ignored)
-		{
-			// Pure semantic node: use the recursive assembler below.
-		}
-		catch (IllegalAccessException | InvocationTargetException error)
-		{
-			throw new IllegalStateException(
-				"Cannot render legacy expression " + expression.getClass().getName(),
-				error) ;
-		}
-		return TemplateLoader.getRecursiveAssembler()
-			.renderRoot(expression, JavaTemplateRole.REFERENCE) ;
-	}
+    public static String render(CBaseEntityCondExpr expression)
+    {
+        if (expression == null)
+        {
+            return "[UNDEFINED]" ;
+        }
+        try
+        {
+            Method legacyMethod = expression.getClass().getMethod("Export") ;
+            if (!legacyMethod.getDeclaringClass().getName().startsWith("semantic."))
+            {
+                legacyMethod.setAccessible(true) ;
+                return (String) legacyMethod.invoke(expression) ;
+            }
+        }
+        catch (NoSuchMethodException ignored)
+        {
+            // Pure semantic node: use the recursive assembler below.
+        }
+        catch (IllegalAccessException | InvocationTargetException error)
+        {
+            throw new IllegalStateException(
+                "Cannot render legacy expression " + expression.getClass().getName(),
+                error) ;
+        }
+        return TemplateLoader.getRecursiveAssembler()
+            .renderRoot(expression, JavaTemplateRole.REFERENCE) ;
+    }
 }

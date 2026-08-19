@@ -25,106 +25,106 @@ import nacaLib.misc.KeyPressed;
  */
 public class CHTTPMapFieldLoader extends CMapFieldLoader
 {
-	protected HttpServletRequest httpRequest = null ;
-	public CHTTPMapFieldLoader(HttpServletRequest req)
-	{
-		httpRequest = req ;
-		String csKey = req.getParameter("PFKey") ;
-		keyPressed = KeyPressed.getKeyFromHttp(csKey);
-	}
+    protected HttpServletRequest httpRequest = null ;
+    public CHTTPMapFieldLoader(HttpServletRequest req)
+    {
+        httpRequest = req ;
+        String csKey = req.getParameter("PFKey") ;
+        keyPressed = KeyPressed.getKeyFromHttp(csKey);
+    }
 
 
-	/* (non-Javadoc)
-	 * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
-	 */
-	public String getFieldValue(String fieldName)
-	{
-		String cs = httpRequest.getParameter(fieldName);
-		if (cs == null)
-		{
-			return "" ;
-		}
-		else if (cs.indexOf(195) >= 0)
-		{
-			String encoding = "" ;
-			try
-			{
-				InputStreamReader isr = new InputStreamReader(httpRequest.getInputStream()) ;
-				encoding = isr.getEncoding() ;
-			}
-			catch (IOException e)
-			{
-				encoding = Charset.defaultCharset().displayName() ;
-			}
-			if (encoding.equalsIgnoreCase("UTF-8"))
-			{
-				Charset charset = Charset.forName("ISO-8859-1") ;
-				//ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
-				ByteBuffer buf = charset.encode(cs) ;
-				String cs2 = new String(buf.array()) ;
-				cs2 = cs2.trim() ;
-				return cs2;
-			}
-//			else if (encoding.equalsIgnoreCase("ASCII"))
-//			{
-//				Charset charset1 = Charset.forName("UTF-8") ;
-//				Charset charset2 = Charset.forName("ISO-8859-1") ;
-//				//ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
-//				ByteBuffer buf = charset2.encode(cs) ;
-//				CharBuffer cbuf = charset1.decode(buf) ;
-//				String cs2 = new String(cbuf.array()) ;
-//				cs2 = cs2.trim() ;
-//				return cs2;
-//			}
-			else
-			{
-				Charset charset1 = Charset.forName("UTF-8") ;
-				Charset charset2 = Charset.forName("ISO-8859-1") ;
-				//ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
-				ByteBuffer buf = charset2.encode(cs) ;
-				CharBuffer cbuf = charset1.decode(buf) ;
-				String cs2 = new String(cbuf.array()) ;
-				cs2 = cs2.trim() ;
-				return cs2;
-			}
-		}
-		return cs ;
-	}
-	/* (non-Javadoc)
-	 * @see CJMap.CBaseMapFieldLoader#IsFieldModified(java.lang.String)
-	 */
-	public boolean isFieldModified(String fieldName)
-	{
-		String cs = httpRequest.getParameter(fieldName+"UPD");
-		if (cs == null)
-		{
-			return false ;
-		}
-		if (cs.equals("1"))
-		{
-			return true ;
-		}
-		else
-		{
-			return false ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
+     */
+    public String getFieldValue(String fieldName)
+    {
+        String cs = httpRequest.getParameter(fieldName);
+        if (cs == null)
+        {
+            return "" ;
+        }
+        else if (cs.indexOf(195) >= 0)
+        {
+            String encoding = "" ;
+            try
+            {
+                InputStreamReader isr = new InputStreamReader(httpRequest.getInputStream()) ;
+                encoding = isr.getEncoding() ;
+            }
+            catch (IOException e)
+            {
+                encoding = Charset.defaultCharset().displayName() ;
+            }
+            if (encoding.equalsIgnoreCase("UTF-8"))
+            {
+                Charset charset = Charset.forName("ISO-8859-1") ;
+                //ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
+                ByteBuffer buf = charset.encode(cs) ;
+                String cs2 = new String(buf.array()) ;
+                cs2 = cs2.trim() ;
+                return cs2;
+            }
+//          else if (encoding.equalsIgnoreCase("ASCII"))
+//          {
+//              Charset charset1 = Charset.forName("UTF-8") ;
+//              Charset charset2 = Charset.forName("ISO-8859-1") ;
+//              //ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
+//              ByteBuffer buf = charset2.encode(cs) ;
+//              CharBuffer cbuf = charset1.decode(buf) ;
+//              String cs2 = new String(cbuf.array()) ;
+//              cs2 = cs2.trim() ;
+//              return cs2;
+//          }
+            else
+            {
+                Charset charset1 = Charset.forName("UTF-8") ;
+                Charset charset2 = Charset.forName("ISO-8859-1") ;
+                //ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
+                ByteBuffer buf = charset2.encode(cs) ;
+                CharBuffer cbuf = charset1.decode(buf) ;
+                String cs2 = new String(cbuf.array()) ;
+                cs2 = cs2.trim() ;
+                return cs2;
+            }
+        }
+        return cs ;
+    }
+    /* (non-Javadoc)
+     * @see CJMap.CBaseMapFieldLoader#IsFieldModified(java.lang.String)
+     */
+    public boolean isFieldModified(String fieldName)
+    {
+        String cs = httpRequest.getParameter(fieldName+"UPD");
+        if (cs == null)
+        {
+            return false ;
+        }
+        if (cs.equals("1"))
+        {
+            return true ;
+        }
+        else
+        {
+            return false ;
+        }
+    }
 
-//	public KeyPressed getKeyPressed()
-//	{
-//		return null;
-//	}
+//  public KeyPressed getKeyPressed()
+//  {
+//      return null;
+//  }
 
-	/* (non-Javadoc)
-	 * @see CBaseMapFieldLoader#getIDPage()
-	 */
-	public String getIDPage()
-	{
-		String cs = httpRequest.getParameter("idPage");
-		if (cs == null)
-		{
-			cs = "" ;
-		}
-		return cs;
-	}
+    /* (non-Javadoc)
+     * @see CBaseMapFieldLoader#getIDPage()
+     */
+    public String getIDPage()
+    {
+        String cs = httpRequest.getParameter("idPage");
+        if (cs == null)
+        {
+            cs = "" ;
+        }
+        return cs;
+    }
 }

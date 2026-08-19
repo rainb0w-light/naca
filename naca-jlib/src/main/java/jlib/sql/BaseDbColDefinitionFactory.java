@@ -25,100 +25,100 @@ import jlib.log.Log;
  */
 public class BaseDbColDefinitionFactory
 {
-	public BaseDbColDefinitionFactory()
-	{
-	}
+    public BaseDbColDefinitionFactory()
+    {
+    }
 
-	public static String makeInsertString(String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDefinition)
-	{
-		String insert = "INSERT INTO " + csTableFullName + " VALUES (";
+    public static String makeInsertString(String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDefinition)
+    {
+        String insert = "INSERT INTO " + csTableFullName + " VALUES (";
 
-		int nNbCols = arrDbColDefinition.size();
-		for(int n=0; n<nNbCols; n++)
-		{
-			if(n == 0)
-				insert += "?";
-			else
-				insert += ",?";
-		}
+        int nNbCols = arrDbColDefinition.size();
+        for(int n=0; n<nNbCols; n++)
+        {
+            if(n == 0)
+                insert += "?";
+            else
+                insert += ",?";
+        }
 
-		insert += ")";
-		return insert;
-	}
+        insert += ")";
+        return insert;
+    }
 
-	public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(DbConnectionBase dbConnection, String csPrefix, String csTableName)
-	{
-		int nDebugStep = 0;
-		ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
-		try
-		{
-			ColDescription colDescription = new ColDescription();
+    public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(DbConnectionBase dbConnection, String csPrefix, String csTableName)
+    {
+        int nDebugStep = 0;
+        ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
+        try
+        {
+            ColDescription colDescription = new ColDescription();
 
-			DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
-			nDebugStep = 1;
-			ResultSet cols = dmd.getColumns(null, csPrefix, csTableName, "%");
-			nDebugStep = 2;
-			if (cols != null)
-			{
-				boolean b = true;
-				while(cols.next() && b)
-				{
-					b = colDescription.fill(cols);
-					if(b)
-					{
-						//System.out.println(colDescription.toString());
-						BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
-						if(dbColDef != null)
-							arrDbColDef.add(dbColDef);
-						else
-						{
-							Log.logImportant("Could create DbColDefinition for colDescription="+colDescription.toString());
-						}
-					}
-					nDebugStep++;
-				}
-			}
-		}
-		catch (SQLException e)
-		{
-			String cs = csTableName;
-			if(csPrefix != null)
-				cs = csPrefix + "." + csTableName;
-			Log.logImportant("SQL excption in makeArrayDbColDefinitions from table " + cs + " at debugStep="+nDebugStep);
-			return null;
-		}
-		return arrDbColDef;
-	}
+            DatabaseMetaData dmd = dbConnection.getDbConnection().getMetaData();
+            nDebugStep = 1;
+            ResultSet cols = dmd.getColumns(null, csPrefix, csTableName, "%");
+            nDebugStep = 2;
+            if (cols != null)
+            {
+                boolean b = true;
+                while(cols.next() && b)
+                {
+                    b = colDescription.fill(cols);
+                    if(b)
+                    {
+                        //System.out.println(colDescription.toString());
+                        BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
+                        if(dbColDef != null)
+                            arrDbColDef.add(dbColDef);
+                        else
+                        {
+                            Log.logImportant("Could create DbColDefinition for colDescription="+colDescription.toString());
+                        }
+                    }
+                    nDebugStep++;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            String cs = csTableName;
+            if(csPrefix != null)
+                cs = csPrefix + "." + csTableName;
+            Log.logImportant("SQL excption in makeArrayDbColDefinitions from table " + cs + " at debugStep="+nDebugStep);
+            return null;
+        }
+        return arrDbColDef;
+    }
 
-	public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(ResultSet resultSet)
-	{
-		ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
-		try
-		{
-			ResultSetMetaData rsm = resultSet.getMetaData();
-			ColDescription colDescription = new ColDescription();
-			int nNbCols = rsm.getColumnCount();
-			boolean b = true;
-			for(int nCol=0; nCol<nNbCols && b; nCol++)
-			{
-				b = colDescription.fill(rsm, nCol+1);
-				//System.out.println(colDescription.toString());
-				if(b)
-				{
-					BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
-					if(dbColDef != null)
-						arrDbColDef.add(dbColDef);
-				}
-				else
-					return null;
-			}
-		}
-		catch (SQLException e)
-		{
-			Log.logImportant("SQL excption in makeArrayDbColDefinitions from resultset");
-			return null;
-		}
+    public ArrayList<BaseDbColDefinition> makeArrayDbColDefinitions(ResultSet resultSet)
+    {
+        ArrayList<BaseDbColDefinition> arrDbColDef = new ArrayList<BaseDbColDefinition>();
+        try
+        {
+            ResultSetMetaData rsm = resultSet.getMetaData();
+            ColDescription colDescription = new ColDescription();
+            int nNbCols = rsm.getColumnCount();
+            boolean b = true;
+            for(int nCol=0; nCol<nNbCols && b; nCol++)
+            {
+                b = colDescription.fill(rsm, nCol+1);
+                //System.out.println(colDescription.toString());
+                if(b)
+                {
+                    BaseDbColDefinition dbColDef = colDescription.makeDbColDefinition();
+                    if(dbColDef != null)
+                        arrDbColDef.add(dbColDef);
+                }
+                else
+                    return null;
+            }
+        }
+        catch (SQLException e)
+        {
+            Log.logImportant("SQL excption in makeArrayDbColDefinitions from resultset");
+            return null;
+        }
 
-		return arrDbColDef;
-	}
+        return arrDbColDef;
+    }
 }

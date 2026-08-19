@@ -34,83 +34,83 @@ import utils.CRulesManager;
  */
 public class CExecSQLDeclareTable extends CBaseExecSQLAction
 {
-	protected static Hashtable ms_tabViewRenamed = null ;
+    protected static Hashtable ms_tabViewRenamed = null ;
 
-	public CExecSQLDeclareTable(int nLine)
-	{
-		super(nLine);
-	}
+    public CExecSQLDeclareTable(int nLine)
+    {
+        super(nLine);
+    }
 
-	public void SetTableName(String csTableName)
-	{
-		if (csTableName == null)
-		{
-			int n = 0;
-		}
-		this.csTableName = csTableName;
-	}
+    public void SetTableName(String csTableName)
+    {
+        if (csTableName == null)
+        {
+            int n = 0;
+        }
+        this.csTableName = csTableName;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.elements.CExecSQL.CBaseExecSQLAction#Export(org.w3c.dom.Document)
-	 */
-	public Element ExportCustom(Document root)
-	{
-	//	Element eSelect = null;
-		Element eReturned = null;
-	/*	if(bCursor)
-		{
-			Element eCursor = root.createElement("SQLDeclareTable") ;
-			eReturned = eCursor;
-			eCursor.setAttribute("Name", csCursorName);
+    /* (non-Javadoc)
+     * @see parser.elements.CExecSQL.CBaseExecSQLAction#Export(org.w3c.dom.Document)
+     */
+    public Element ExportCustom(Document root)
+    {
+    //  Element eSelect = null;
+        Element eReturned = null;
+    /*  if(bCursor)
+        {
+            Element eCursor = root.createElement("SQLDeclareTable") ;
+            eReturned = eCursor;
+            eCursor.setAttribute("Name", csCursorName);
 
-			eSelect = root.createElement("SQLSelect") ;
-			eCursor.appendChild(eSelect);
-		}
-		else
-		{
-			eSelect = root.createElement("SQLSelect") ;
-			eReturned = eSelect;
-		}
-		eSelect.setAttribute("Clause", clause) ;
-		ExportParameters(root, eSelect);
-		ExportInto(root, eSelect);
+            eSelect = root.createElement("SQLSelect") ;
+            eCursor.appendChild(eSelect);
+        }
+        else
+        {
+            eSelect = root.createElement("SQLSelect") ;
+            eReturned = eSelect;
+        }
+        eSelect.setAttribute("Clause", clause) ;
+        ExportParameters(root, eSelect);
+        ExportInto(root, eSelect);
 */
-		return eReturned;
-	}
+        return eReturned;
+    }
 
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see parser.elements.CExecSQL.CBaseExecSQLAction#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CheckTabViewRenamed() ;
-		String csActualTableName = "" ;
-		if (csTableName.startsWith("V"))
-		{
-			String table = (String)ms_tabViewRenamed.get(csTableName);
-			if (table == null)
-			{
-				if (csTableName.length() > 6)
-					csActualTableName = csTableName.substring(1, csTableName.length()-1);
-				else
-					csActualTableName = csTableName;
-			}
-			else
-			{
-				csActualTableName = table ;
-			}
-		}
-		else
-		{
-			csActualTableName = csTableName ;
-		}
-		CEntitySQLDeclareTable eSQL = factory.NewEntitySQLDeclareTable(getLine(), csActualTableName, csTableName, arrTableColDescription);
-		parent.AddChild(eSQL) ;
-		return eSQL;
-	}
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CheckTabViewRenamed() ;
+        String csActualTableName = "" ;
+        if (csTableName.startsWith("V"))
+        {
+            String table = (String)ms_tabViewRenamed.get(csTableName);
+            if (table == null)
+            {
+                if (csTableName.length() > 6)
+                    csActualTableName = csTableName.substring(1, csTableName.length()-1);
+                else
+                    csActualTableName = csTableName;
+            }
+            else
+            {
+                csActualTableName = table ;
+            }
+        }
+        else
+        {
+            csActualTableName = csTableName ;
+        }
+        CEntitySQLDeclareTable eSQL = factory.NewEntitySQLDeclareTable(getLine(), csActualTableName, csTableName, arrTableColDescription);
+        parent.AddChild(eSQL) ;
+        return eSQL;
+    }
 
-	/*
+    /*
 
          UTISTE                         CHAR(2) NOT NULL,
          UTIENTO                        CHAR(5) NOT NULL,
@@ -128,133 +128,133 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
        ) END-EXEC.
        */
 
-	/**
-	 *
-	 */
-	private void CheckTabViewRenamed()
-	{
-		if (ms_tabViewRenamed == null)
-		{
-			ms_tabViewRenamed = new Hashtable() ;
-			CRulesManager rules = CRulesManager.getInstance() ;
+    /**
+     *
+     */
+    private void CheckTabViewRenamed()
+    {
+        if (ms_tabViewRenamed == null)
+        {
+            ms_tabViewRenamed = new Hashtable() ;
+            CRulesManager rules = CRulesManager.getInstance() ;
 
-			int nb = rules.getNbRules("renameSQLView") ;
-			for (int i=0; i<nb; i++)
-			{
-				Tag e = rules.getRule("renameSQLView", i);
-				if (e != null)
-				{
-					String view = e.getVal("viewName");
-					String table = e.getVal("tableName");
-					ms_tabViewRenamed.put(view, table) ;
-				}
-			}
-		}
-	}
+            int nb = rules.getNbRules("renameSQLView") ;
+            for (int i=0; i<nb; i++)
+            {
+                Tag e = rules.getRule("renameSQLView", i);
+                if (e != null)
+                {
+                    String view = e.getVal("viewName");
+                    String table = e.getVal("tableName");
+                    ms_tabViewRenamed.put(view, table) ;
+                }
+            }
+        }
+    }
 
-	protected boolean DoParsing()
-	{
-		// Parse until reaching END-EXEC.
-		boolean isdone = false ;
+    protected boolean DoParsing()
+    {
+        // Parse until reaching END-EXEC.
+        boolean isdone = false ;
 
-		while (!isdone)
-		{
-			CSQLTableColDescriptor SQLTableColDescriptor = new CSQLTableColDescriptor();
+        while (!isdone)
+        {
+            CSQLTableColDescriptor SQLTableColDescriptor = new CSQLTableColDescriptor();
 
-			CBaseToken tok = GetCurrentToken() ;
+            CBaseToken tok = GetCurrentToken() ;
 
-			if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING)
-			{
-				String csName = new String(tok.GetValue());
-				SQLTableColDescriptor.SetName(csName);
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.IDENTIFIER)	// Type
-				{
-					String csType = new String(tok.GetValue());
-					SQLTableColDescriptor.SetType(csType);
-					tok = GetNext();
-				}
-				else if (tok.GetKeyword() == CCobolKeywordList.DATE)
-				{
-					String csType = "DATE" ;
-					SQLTableColDescriptor.SetType(csType);
-					tok = GetNext();
-				}
-				else if (tok.GetKeyword() == CCobolKeywordList.TIME)
-				{
-					String csType = "TIME" ;
-					SQLTableColDescriptor.SetType(csType);
-					tok = GetNext();
-				}
-			}
-			else
-			{
-				// Should ASSERT();
-				return false;
-			}
+            if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING)
+            {
+                String csName = new String(tok.GetValue());
+                SQLTableColDescriptor.SetName(csName);
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.IDENTIFIER) // Type
+                {
+                    String csType = new String(tok.GetValue());
+                    SQLTableColDescriptor.SetType(csType);
+                    tok = GetNext();
+                }
+                else if (tok.GetKeyword() == CCobolKeywordList.DATE)
+                {
+                    String csType = "DATE" ;
+                    SQLTableColDescriptor.SetType(csType);
+                    tok = GetNext();
+                }
+                else if (tok.GetKeyword() == CCobolKeywordList.TIME)
+                {
+                    String csType = "TIME" ;
+                    SQLTableColDescriptor.SetType(csType);
+                    tok = GetNext();
+                }
+            }
+            else
+            {
+                // Should ASSERT();
+                return false;
+            }
 
-			if (tok.GetType() == CTokenType.LEFT_BRACKET)	// Length
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.NUMBER)
-				{
-					String csLength = new String(tok.GetValue());
-					SQLTableColDescriptor.SetLength(Integer.parseInt(csLength));
-					tok = GetNext();
-					if (tok.GetType() == CTokenType.COMMA)	// Precision
-					{
-						tok = GetNext();
-						if (tok.GetType() == CTokenType.NUMBER)
-						{
-							String csPrecision = new String(tok.GetValue());
-							SQLTableColDescriptor.SetDecimal(Integer.parseInt(csPrecision));
-							tok = GetNext();
-						}
-					}
-				}
-				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					tok = GetNext();
-			}
+            if (tok.GetType() == CTokenType.LEFT_BRACKET)   // Length
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.NUMBER)
+                {
+                    String csLength = new String(tok.GetValue());
+                    SQLTableColDescriptor.SetLength(Integer.parseInt(csLength));
+                    tok = GetNext();
+                    if (tok.GetType() == CTokenType.COMMA)  // Precision
+                    {
+                        tok = GetNext();
+                        if (tok.GetType() == CTokenType.NUMBER)
+                        {
+                            String csPrecision = new String(tok.GetValue());
+                            SQLTableColDescriptor.SetDecimal(Integer.parseInt(csPrecision));
+                            tok = GetNext();
+                        }
+                    }
+                }
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    tok = GetNext();
+            }
 
-			if (tok.GetKeyword() == CCobolKeywordList.NOT)
-			{
-				tok = GetNext();
-				if (tok.GetKeyword() == CCobolKeywordList.NULL)
-				{
-					SQLTableColDescriptor.SetNull(false);
-					tok = GetNext();
-				}
-				else
-				{
-					// Should assert
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.NULL)
-			{
-				SQLTableColDescriptor.SetNull(true);
-				tok = GetNext();
-			}
+            if (tok.GetKeyword() == CCobolKeywordList.NOT)
+            {
+                tok = GetNext();
+                if (tok.GetKeyword() == CCobolKeywordList.NULL)
+                {
+                    SQLTableColDescriptor.SetNull(false);
+                    tok = GetNext();
+                }
+                else
+                {
+                    // Should assert
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.NULL)
+            {
+                SQLTableColDescriptor.SetNull(true);
+                tok = GetNext();
+            }
 
-			if (tok.GetType() == CTokenType.COMMA)
-			{
-				tok = GetNext();
-				arrTableColDescription.add(SQLTableColDescriptor);
-			}
-			else if (tok.GetType() == CTokenType.RIGHT_BRACKET)	// Last ')'
-			{
-				arrTableColDescription.add(SQLTableColDescriptor);
-				tok = GetNext();
-			}
+            if (tok.GetType() == CTokenType.COMMA)
+            {
+                tok = GetNext();
+                arrTableColDescription.add(SQLTableColDescriptor);
+            }
+            else if (tok.GetType() == CTokenType.RIGHT_BRACKET) // Last ')'
+            {
+                arrTableColDescription.add(SQLTableColDescriptor);
+                tok = GetNext();
+            }
 
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-				break;
-			}
-		}
-		return true ;
-	}
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+                break;
+            }
+        }
+        return true ;
+    }
 
-	protected ArrayList<CSQLTableColDescriptor> arrTableColDescription = new ArrayList<CSQLTableColDescriptor>();
-	protected String csTableName = "" ;
+    protected ArrayList<CSQLTableColDescriptor> arrTableColDescription = new ArrayList<CSQLTableColDescriptor>();
+    protected String csTableName = "" ;
 }

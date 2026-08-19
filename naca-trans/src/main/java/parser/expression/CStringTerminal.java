@@ -18,68 +18,68 @@ import semantic.CBaseEntityFactory;
  */
 public class CStringTerminal extends CTerminal
 {
-	public CStringTerminal(char[] arr)
-	{
-		value = arr ;
-		str = new String(value);
-	}
-	public CStringTerminal(String cs)
-	{
-		value = cs.toCharArray() ;
-		str = cs ;
-	}
+    public CStringTerminal(char[] arr)
+    {
+        value = arr ;
+        str = new String(value);
+    }
+    public CStringTerminal(String cs)
+    {
+        value = cs.toCharArray() ;
+        str = cs ;
+    }
 
-	protected char[] value = {} ;
-	protected String str = "" ;
+    protected char[] value = {} ;
+    protected String str = "" ;
 
-	public void ExportTo(Element e, Document root)
-	{
-		String cs = new String(value);
-		e.setAttribute("String", cs) ;
-	}
+    public void ExportTo(Element e, Document root)
+    {
+        String cs = new String(value);
+        e.setAttribute("String", cs) ;
+    }
 
-	public boolean IsReference()
-	{
-		return false;
-	}
+    public boolean IsReference()
+    {
+        return false;
+    }
 
-	public boolean IsOne()
-	{
-		return false;
-	}
+    public boolean IsOne()
+    {
+        return false;
+    }
 
-	public boolean IsMinusOne()
-	{
-		return false;
-	}
+    public boolean IsMinusOne()
+    {
+        return false;
+    }
 
 
-	public String GetValue()
-	{
-		String cs = new String(value);
-		return cs ;
-	}
+    public String GetValue()
+    {
+        String cs = new String(value);
+        return cs ;
+    }
 
-	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
-	{
-		String val = new String(value) ;
-		CDataEntity e = factory.getSpecialConstantValue(val);
-		if (e != null)
-		{
-			return e ;
-		}
-		else
-		{
-			return factory.NewEntityString(value);
-		}
-	}
-	public String toString()
-	{
-		return "\"" + new String(value) + "\"" ;
-	}
+    public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
+    {
+        String val = new String(value) ;
+        CDataEntity e = factory.getSpecialConstantValue(val);
+        if (e != null)
+        {
+            return e ;
+        }
+        else
+        {
+            return factory.NewEntityString(value);
+        }
+    }
+    public String toString()
+    {
+        return "\"" + new String(value) + "\"" ;
+    }
 
-	public boolean IsNumber()
-	{
-		return false ;
-	}
+    public boolean IsNumber()
+    {
+        return false ;
+    }
 }

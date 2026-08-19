@@ -16,264 +16,264 @@ import jlib.log.stdEvents.StdInfo;
 
 public class ControlerThread extends Thread
 {
-	private BaseControler controler = null ;
-	private BaseControlerTaskConfig grpConfig =  null ;
-	private int nCurrentSite = -1 ;
-	private boolean isdoAllSites = false ;
-	private String csControlerName = "" ;
-	private boolean bForceStarting = false ;
-	private boolean isstopASAP = false ; 	   //Un flag qui permet d'arr�ter le crawl en urgence.
-	
-	public ControlerThread(BaseControler ctrl)
-	{
-		controler = ctrl ;
-		grpConfig = ctrl.getTaskConfig() ;
-		csControlerName = grpConfig.getName() ;
-	}
+    private BaseControler controler = null ;
+    private BaseControlerTaskConfig grpConfig =  null ;
+    private int nCurrentSite = -1 ;
+    private boolean isdoAllSites = false ;
+    private String csControlerName = "" ;
+    private boolean bForceStarting = false ;
+    private boolean isstopASAP = false ;       //Un flag qui permet d'arr�ter le crawl en urgence.
 
-	public void AutoStart(int nStepId)
-	{
-		bForceStarting = false ;
-		DoStart(nStepId) ;
-	}
+    public ControlerThread(BaseControler ctrl)
+    {
+        controler = ctrl ;
+        grpConfig = ctrl.getTaskConfig() ;
+        csControlerName = grpConfig.getName() ;
+    }
 
-	public void StopControler(boolean bForce)
-	{
-		if (nCurrentSite>=0)
-		{
-			controler.setStatus(nCurrentSite, "STOPPING...") ;
-		}
-		controler.Stop(bForce) ;
-		State st = this.getState() ;
-		if (st == State.TIMED_WAITING || st == State.WAITING)
-		{
-			this.interrupt() ;
-		}
-		try
-		{
-			this.join() ;
-		}
-		catch (InterruptedException e)
-		{
-		}
-		if (nCurrentSite>=0)
-		{
-			controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
-		}
-	}
+    public void AutoStart(int nStepId)
+    {
+        bForceStarting = false ;
+        DoStart(nStepId) ;
+    }
 
-	private void DoStart(int nStepId)
-	{
-		if (grpConfig.isModeGroup() || nStepId == -1 || (grpConfig.getNbSteps()==1 && nStepId==0))
-		{
-			nCurrentSite = 0 ;
-			isdoAllSites = true ;
-		}
-		else
-		{
-			nCurrentSite = nStepId ;
-			isdoAllSites = false ;
-		}
-		start() ;
-	}
-	public void StartControler(int nStepId)
-	{
-		bForceStarting = true ;
-		DoStart(nStepId) ;
-	}
+    public void StopControler(boolean bForce)
+    {
+        if (nCurrentSite>=0)
+        {
+            controler.setStatus(nCurrentSite, "STOPPING...") ;
+        }
+        controler.Stop(bForce) ;
+        State st = this.getState() ;
+        if (st == State.TIMED_WAITING || st == State.WAITING)
+        {
+            this.interrupt() ;
+        }
+        try
+        {
+            this.join() ;
+        }
+        catch (InterruptedException e)
+        {
+        }
+        if (nCurrentSite>=0)
+        {
+            controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
+        }
+    }
 
-	//	..............................................................................................................
-	/*
-	 * M�thode principale du thread.
-	 * Cette m�thode v�rifie l'�tat dans lequel se trouve le crawling et agit en cons�quence.
-	 */
-	public void run() 
-	{
-		if (nCurrentSite<0 && nCurrentSite >= grpConfig.getNbSteps())
-		{
-			return ;
-		}
-//		grpConfig.setCurrentControler(controler) ;
-		doRun() ;
-//		grpConfig.setCurrentControler(null) ;
-		
-	}
-	private void doRun()
-	{
-		int nSite = nCurrentSite ;
+    private void DoStart(int nStepId)
+    {
+        if (grpConfig.isModeGroup() || nStepId == -1 || (grpConfig.getNbSteps()==1 && nStepId==0))
+        {
+            nCurrentSite = 0 ;
+            isdoAllSites = true ;
+        }
+        else
+        {
+            nCurrentSite = nStepId ;
+            isdoAllSites = false ;
+        }
+        start() ;
+    }
+    public void StartControler(int nStepId)
+    {
+        bForceStarting = true ;
+        DoStart(nStepId) ;
+    }
 
-		boolean isalreadyRun = false ;
-		boolean iscontinue = true ;
-		while(iscontinue)
-		{
-			if ((!bForceStarting || isalreadyRun) && isdoAllSites)
-			{
-				Date dategrpEnds = controler.getDateGroupEnds() ;
-				
-				if (dategrpEnds == null)
-				{
-					if (grpConfig.getDelayBeforeStart() > 0)
-					{
-						StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Waiting to start") ; 
-						controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
-						try
-						{
-							Thread.sleep(grpConfig.getDelayBeforeStart() * 1000) ;
-						}
-						catch (InterruptedException e1)
-						{
-							StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Interrupted. Getting out") ; 
-							controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
-							return ;
-						}
-					}
-				}
-				else
-				{
-					Date now = new Date() ;
-					long msec = now.getTime() - dategrpEnds.getTime() ;
-					if (grpConfig.getDelayBeforeRestart()*1000 > msec)
-					{
-						StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Waiting to restart") ; 
-						controler.setStatus(nCurrentSite, "NONE : Waiting to restart") ;
-						try
-						{
-							Thread.sleep(grpConfig.getDelayBeforeRestart()*1000 - msec) ;
-						}
-						catch (InterruptedException e1)
-						{
-							StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Interrupted. Getting out") ; 
-							controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
-							return ;
-						}
-					}
-				}
-			}
+    //  ..............................................................................................................
+    /*
+     * M�thode principale du thread.
+     * Cette m�thode v�rifie l'�tat dans lequel se trouve le crawling et agit en cons�quence.
+     */
+    public void run()
+    {
+        if (nCurrentSite<0 && nCurrentSite >= grpConfig.getNbSteps())
+        {
+            return ;
+        }
+//      grpConfig.setCurrentControler(controler) ;
+        doRun() ;
+//      grpConfig.setCurrentControler(null) ;
 
-			iscontinue &= !isstopASAP;
-			while (iscontinue && nSite < grpConfig.getNbSteps())
-			{
-				nCurrentSite = nSite ;
-				BaseControlerStepConfig stepConfig = grpConfig.getStep(nCurrentSite);
-				String context = csControlerName ;
-				if (!context.equals(""))
-					context += "/" ;
-				context += stepConfig.getName() ;
-				if (!stepConfig.isActive())
-				{
-					controler.setStatus(nCurrentSite, "NONE : Inactive") ;
-					StdInfo.log(grpConfig.getLogChannel(), context, "Site is INACTIVE") ; 
-					iscontinue = isdoAllSites;
-					nSite ++ ;
-					continue ;
-				}
-	
-				//if (!bForceStarting)
-				//{
-					Date datestepEnds = controler.getDateStepEnds(nCurrentSite) ;
-					
-					if (datestepEnds == null)
-					{
-						if (stepConfig.getDelayBeforeStart() < 0)
-						{
-							controler.setStatus(nCurrentSite, "NONE : Not started ") ;
-							StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ; 
-							iscontinue = isdoAllSites;
-							nSite ++ ;
-							continue ;
-						}
-						else if (stepConfig.getDelayBeforeStart() > 0)
-						{
-							StdInfo.log(grpConfig.getLogChannel(), context, "Waiting to start") ; 
-							controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
-							try
-							{
-								Thread.sleep(stepConfig.getDelayBeforeStart() * 1000) ;
-							}
-							catch (InterruptedException e1)
-							{
-								StdInfo.log(grpConfig.getLogChannel(), context, "Interrupted. Getting out") ; 
-								controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
-								return ;
-							}
-						}
-					}
-					else
-					{
-						long msec = (new Date()).getTime() - datestepEnds.getTime() ;
-						
-						if (stepConfig.getDelayBeforeRestart() < 0)
-						{
-							controler.setStatus(nCurrentSite, "NONE : Not started ") ;
-							StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ; 
-							iscontinue = isdoAllSites;
-							nSite ++ ;
-							continue ;
-						}
-						else if (stepConfig.getDelayBeforeRestart()*1000 > msec)
-						{
-							StdInfo.log(grpConfig.getLogChannel(), context, "Waiting to start") ; 
-							controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
-							
-							
-							try
-							{
-								Thread.sleep(stepConfig.getDelayBeforeRestart() * 1000 - msec) ;
-							}
-							catch (InterruptedException e1)
-							{
-								StdInfo.log(grpConfig.getLogChannel(), context, "Interrupted. Getting out") ; 
-								controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
-								return ;
-							}
-						}
-					}
-				//}
-			
-				boolean isret = controler.RunStep(nCurrentSite) ;
+    }
+    private void doRun()
+    {
+        int nSite = nCurrentSite ;
 
-				if (!isret)
-				{
-					iscontinue = false ;
-				}
-				else if (isstopASAP)
-				{
-					iscontinue = false ;
-				}
-				else
-				{
-					iscontinue = isdoAllSites;
-					nSite ++ ;
-				}
-				
-				// Set start date for next site
-				/*if (nCurrentSite < grpConfig.getNbSteps())
-				{
-					Date nextDate = new Date(new Date().getTime() + grpConfig.getStep(nCurrentSite + 1).getDelayBeforeRestart() * 1000);
-					controler.setStartDate(nCurrentSite + 1, nextDate);
-				}*/
-				
-			}
-			isalreadyRun = true ;
-			nSite = 0 ;
-			controler.setDateGroupEnds() ;
-		}
-	}
+        boolean isalreadyRun = false ;
+        boolean iscontinue = true ;
+        while(iscontinue)
+        {
+            if ((!bForceStarting || isalreadyRun) && isdoAllSites)
+            {
+                Date dategrpEnds = controler.getDateGroupEnds() ;
 
-	public void StopControler(boolean bRestart, boolean bForce)
-	{
-		this.isDaemon() ;
-		isstopASAP = !bRestart ;
-		StopControler(bForce) ;
-	}
+                if (dategrpEnds == null)
+                {
+                    if (grpConfig.getDelayBeforeStart() > 0)
+                    {
+                        StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Waiting to start") ;
+                        controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
+                        try
+                        {
+                            Thread.sleep(grpConfig.getDelayBeforeStart() * 1000) ;
+                        }
+                        catch (InterruptedException e1)
+                        {
+                            StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Interrupted. Getting out") ;
+                            controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
+                            return ;
+                        }
+                    }
+                }
+                else
+                {
+                    Date now = new Date() ;
+                    long msec = now.getTime() - dategrpEnds.getTime() ;
+                    if (grpConfig.getDelayBeforeRestart()*1000 > msec)
+                    {
+                        StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Waiting to restart") ;
+                        controler.setStatus(nCurrentSite, "NONE : Waiting to restart") ;
+                        try
+                        {
+                            Thread.sleep(grpConfig.getDelayBeforeRestart()*1000 - msec) ;
+                        }
+                        catch (InterruptedException e1)
+                        {
+                            StdInfo.log(grpConfig.getLogChannel(), grpConfig.getName(), "Interrupted. Getting out") ;
+                            controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
+                            return ;
+                        }
+                    }
+                }
+            }
 
-	public void AutoStart()
-	{
-		AutoStart(-1) ;
-	}
+            iscontinue &= !isstopASAP;
+            while (iscontinue && nSite < grpConfig.getNbSteps())
+            {
+                nCurrentSite = nSite ;
+                BaseControlerStepConfig stepConfig = grpConfig.getStep(nCurrentSite);
+                String context = csControlerName ;
+                if (!context.equals(""))
+                    context += "/" ;
+                context += stepConfig.getName() ;
+                if (!stepConfig.isActive())
+                {
+                    controler.setStatus(nCurrentSite, "NONE : Inactive") ;
+                    StdInfo.log(grpConfig.getLogChannel(), context, "Site is INACTIVE") ;
+                    iscontinue = isdoAllSites;
+                    nSite ++ ;
+                    continue ;
+                }
 
-	public int getCurrentStep()
-	{
-		return nCurrentSite ;
-	}	
+                //if (!bForceStarting)
+                //{
+                    Date datestepEnds = controler.getDateStepEnds(nCurrentSite) ;
+
+                    if (datestepEnds == null)
+                    {
+                        if (stepConfig.getDelayBeforeStart() < 0)
+                        {
+                            controler.setStatus(nCurrentSite, "NONE : Not started ") ;
+                            StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ;
+                            iscontinue = isdoAllSites;
+                            nSite ++ ;
+                            continue ;
+                        }
+                        else if (stepConfig.getDelayBeforeStart() > 0)
+                        {
+                            StdInfo.log(grpConfig.getLogChannel(), context, "Waiting to start") ;
+                            controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
+                            try
+                            {
+                                Thread.sleep(stepConfig.getDelayBeforeStart() * 1000) ;
+                            }
+                            catch (InterruptedException e1)
+                            {
+                                StdInfo.log(grpConfig.getLogChannel(), context, "Interrupted. Getting out") ;
+                                controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
+                                return ;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        long msec = (new Date()).getTime() - datestepEnds.getTime() ;
+
+                        if (stepConfig.getDelayBeforeRestart() < 0)
+                        {
+                            controler.setStatus(nCurrentSite, "NONE : Not started ") ;
+                            StdInfo.log(grpConfig.getLogChannel(), context, "Site is not Autostart") ;
+                            iscontinue = isdoAllSites;
+                            nSite ++ ;
+                            continue ;
+                        }
+                        else if (stepConfig.getDelayBeforeRestart()*1000 > msec)
+                        {
+                            StdInfo.log(grpConfig.getLogChannel(), context, "Waiting to start") ;
+                            controler.setStatus(nCurrentSite, "NONE : Waiting to start") ;
+
+
+                            try
+                            {
+                                Thread.sleep(stepConfig.getDelayBeforeRestart() * 1000 - msec) ;
+                            }
+                            catch (InterruptedException e1)
+                            {
+                                StdInfo.log(grpConfig.getLogChannel(), context, "Interrupted. Getting out") ;
+                                controler.setStatus(nCurrentSite, "NONE : Interrupted") ;
+                                return ;
+                            }
+                        }
+                    }
+                //}
+
+                boolean isret = controler.RunStep(nCurrentSite) ;
+
+                if (!isret)
+                {
+                    iscontinue = false ;
+                }
+                else if (isstopASAP)
+                {
+                    iscontinue = false ;
+                }
+                else
+                {
+                    iscontinue = isdoAllSites;
+                    nSite ++ ;
+                }
+
+                // Set start date for next site
+                /*if (nCurrentSite < grpConfig.getNbSteps())
+                {
+                    Date nextDate = new Date(new Date().getTime() + grpConfig.getStep(nCurrentSite + 1).getDelayBeforeRestart() * 1000);
+                    controler.setStartDate(nCurrentSite + 1, nextDate);
+                }*/
+
+            }
+            isalreadyRun = true ;
+            nSite = 0 ;
+            controler.setDateGroupEnds() ;
+        }
+    }
+
+    public void StopControler(boolean bRestart, boolean bForce)
+    {
+        this.isDaemon() ;
+        isstopASAP = !bRestart ;
+        StopControler(bForce) ;
+    }
+
+    public void AutoStart()
+    {
+        AutoStart(-1) ;
+    }
+
+    public int getCurrentStep()
+    {
+        return nCurrentSite ;
+    }
 }

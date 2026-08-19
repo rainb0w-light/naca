@@ -12,52 +12,52 @@ package parser.expression;
  */
 public class CDefaultConditionManager
 {
-	public CDefaultConditionManager(CExpression exp)
-	{
-		expMaster = exp ;
-	}
+    public CDefaultConditionManager(CExpression exp)
+    {
+        expMaster = exp ;
+    }
 
-	protected CExpression expMaster = null ;
+    protected CExpression expMaster = null ;
 
-	public boolean isDefaultOperatorSetted()
-	{
-		return isisDefaultOperatorSetted;
-	}
+    public boolean isDefaultOperatorSetted()
+    {
+        return isisDefaultOperatorSetted;
+    }
 
-	protected boolean isisDefaultOperatorSetted = false ;
+    protected boolean isisDefaultOperatorSetted = false ;
 
-	/**
-	 * @param expression
-	 * @return
-	 */
-	public CExpression GetSimilarExpression(CTermExpression expression)
-	{
-		isisDefaultOperatorSetted = true ;
-		return expMaster.GetSimilarExpression(expression);
-	}
+    /**
+     * @param expression
+     * @return
+     */
+    public CExpression GetSimilarExpression(CTermExpression expression)
+    {
+        isisDefaultOperatorSetted = true ;
+        return expMaster.GetSimilarExpression(expression);
+    }
 
-	/**
-	 * @param st1
-	 */
-	public void SetMasterCondition(CExpression st1)
-	{
-		isisDefaultOperatorSetted = false ;
-		expMaster = st1 ;
-	}
+    /**
+     * @param st1
+     */
+    public void SetMasterCondition(CExpression st1)
+    {
+        isisDefaultOperatorSetted = false ;
+        expMaster = st1 ;
+    }
 
-	/**
-	 * @return
-	 */
-	public CExpression GetFirstOperand()
-	{
-		return expMaster.GetFirstConditionOperand() ;
-	}
+    /**
+     * @return
+     */
+    public CExpression GetFirstOperand()
+    {
+        return expMaster.GetFirstConditionOperand() ;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isSetted()
-	{
-		return expMaster != null ;
-	}
+    /**
+     * @return
+     */
+    public boolean isSetted()
+    {
+        return expMaster != null ;
+    }
 }

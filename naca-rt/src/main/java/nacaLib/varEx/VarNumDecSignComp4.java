@@ -10,70 +10,70 @@ import jlib.misc.AsciiEbcdicConverter;
 
 public class VarNumDecSignComp4 extends VarNum
 {
-	VarNumDecSignComp4(DeclareType9 declareType9)
-	{
-		super(declareType9);
-	}
-	
-	protected VarNumDecSignComp4()
-	{
-		super();
-	}
-	
-	protected VarBase allocCopy()
-	{
-		VarNumDecSignComp4 v = new VarNumDecSignComp4();
-		return v;
-	}
-	
-	public boolean DEBUGisStorageAscii()
-	{
-		return false;
-	}
-	
-	public int compareTo(ComparisonMode mode, String csValue)
-	{
-		double dValue = 0;
-		try
-		{
-			dValue = Double.valueOf(csValue).doubleValue();
-		}
-		catch (Exception ex)
-		{	
-		}
-		return compareTo(dValue);
-	}
-	
-	public int compareTo(int nValue)
-	{
-		double dValue = nValue;
-		return compareTo(dValue);
-	}
-		
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;			
-	}
+    VarNumDecSignComp4(DeclareType9 declareType9)
+    {
+        super(declareType9);
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
-	}
-	
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return ebcdicToUnicodeInBinaryFormat(tBytes);
-	}
-	
+    protected VarNumDecSignComp4()
+    {
+        super();
+    }
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumDecSignComp4;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumDecSignComp4 v = new VarNumDecSignComp4();
+        return v;
+    }
+
+    public boolean DEBUGisStorageAscii()
+    {
+        return false;
+    }
+
+    public int compareTo(ComparisonMode mode, String csValue)
+    {
+        double dValue = 0;
+        try
+        {
+            dValue = Double.valueOf(csValue).doubleValue();
+        }
+        catch (Exception ex)
+        {
+        }
+        return compareTo(dValue);
+    }
+
+    public int compareTo(int nValue)
+    {
+        double dValue = nValue;
+        return compareTo(dValue);
+    }
+
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
+
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        return AsciiEbcdicConverter.noConvertUnicodeToEbcdic(tChars);
+    }
+
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return ebcdicToUnicodeInBinaryFormat(tBytes);
+    }
+
+
+    public VarType getVarType()
+    {
+        return VarType.VarNumDecSignComp4;
+    }
 }

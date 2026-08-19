@@ -10,37 +10,37 @@ import jlib.log.Asserter;
 
 public class CJMapObject //extends BaseObject
 {
-	protected CJMapObject()
-	{
-	}
+    protected CJMapObject()
+    {
+    }
 
-	public static void setAssertActive(boolean b)
-	{
-		Asserter.setAssertActive(b);
-	}
+    public static void setAssertActive(boolean b)
+    {
+        Asserter.setAssertActive(b);
+    }
 
-	public static void Assert(String csMessage)
-	{
-		Asserter.assertAlways(csMessage);
-	}
+    public static void Assert(String csMessage)
+    {
+        Asserter.assertAlways(csMessage);
+    }
 
-	protected void assertIfNull(Object o)
-	{
-		Asserter.assertIfNull(o);
-	}
+    protected void assertIfNull(Object o)
+    {
+        Asserter.assertIfNull(o);
+    }
 
-	protected void assertIfNotNull(Object o)
-	{
-		Asserter.assertIfNotNull(o);
-	}
+    protected void assertIfNotNull(Object o)
+    {
+        Asserter.assertIfNotNull(o);
+    }
 
-	protected void assertIfEmpty(String cs)
-	{
-		Asserter.assertIfEmpty(cs);
-	}
+    protected void assertIfEmpty(String cs)
+    {
+        Asserter.assertIfEmpty(cs);
+    }
 
     protected void assertIfFalse(boolean b)
-	{
+    {
         if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
             // Capture stack trace to find the calling line
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
@@ -70,51 +70,51 @@ public class CJMapObject //extends BaseObject
         } else {
             Asserter.assertIfFalse(b);
         }
-	}
+    }
 
-	protected void assertIfFalse(boolean b, String csReason)
-	{
-		Asserter.assertIfFalse(b, csReason);
-	}
+    protected void assertIfFalse(boolean b, String csReason)
+    {
+        Asserter.assertIfFalse(b, csReason);
+    }
 
-	protected void assertIfDifferent(String a, String b)
-	{
-		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
-		} else {
-			Asserter.assertIfDifferent(a, b);
-		}
-	}
+    protected void assertIfDifferent(String a, String b)
+    {
+        if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+            nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+        } else {
+            Asserter.assertIfDifferent(a, b);
+        }
+    }
 
-	protected void assertIfEquals(String a, String b)
-	{
-		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-			nacaLib.testSupport.TestAssertionCollector.assertNotEquals(a, b, "Assertion failed");
-		} else {
-			Asserter.assertIfEquals(a, b);
-		}
-	}
+    protected void assertIfEquals(String a, String b)
+    {
+        if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+            nacaLib.testSupport.TestAssertionCollector.assertNotEquals(a, b, "Assertion failed");
+        } else {
+            Asserter.assertIfEquals(a, b);
+        }
+    }
 
-	protected void assertIfDifferent(int a, int b)
-	{
-		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
-		} else {
-			Asserter.assertIfDifferent(a, b);
-		}
-	}
+    protected void assertIfDifferent(int a, int b)
+    {
+        if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+            nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+        } else {
+            Asserter.assertIfDifferent(a, b);
+        }
+    }
 
-	protected void assertIfDifferent(double a, double b)
-	{
-		if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
-			nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
-		} else {
-			Asserter.assertIfDifferent(a, b);
-		}
-	}
+    protected void assertIfDifferent(double a, double b)
+    {
+        if (nacaLib.testSupport.TestAssertionCollector.isCollecting()) {
+            nacaLib.testSupport.TestAssertionCollector.assertEquals(a, b, "Assertion failed");
+        } else {
+            Asserter.assertIfDifferent(a, b);
+        }
+    }
 
-	public static final boolean isLogCESM = false;
-	public static final boolean isLogFlow = false;
-	public static final boolean isLogSql = false;
-	public static final boolean IsSTCheck = false;
+    public static final boolean isLogCESM = false;
+    public static final boolean isLogFlow = false;
+    public static final boolean isLogSql = false;
+    public static final boolean IsSTCheck = false;
 }

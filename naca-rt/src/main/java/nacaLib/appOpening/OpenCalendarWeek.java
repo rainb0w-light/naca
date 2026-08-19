@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.appOpening;
 
@@ -17,56 +17,56 @@ package nacaLib.appOpening;
  */
 public class OpenCalendarWeek
 {
-	OpenCalendarWeek()
-	{
-		tRangesOfDays = new OpenCalendarRanges[8]; 
-	}
-	
-	void addRange(int nDayOfWeek, String csType, String csMin, String csMax)
-	{		
-		CalendarOpenState openState = CalendarOpenState.AppClosed;
-		if(csType.equalsIgnoreCase("Open"))
-			openState = CalendarOpenState.AppOpened;
-		
-		OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
-		if(rangesOfDay == null)
-		{
-			rangesOfDay = new OpenCalendarRanges();
-			tRangesOfDays[nDayOfWeek] = rangesOfDay;
-		}
-		
-		OpenCalendarRange range = new OpenCalendarRange();
-		range.set(openState, csMin, csMax);
+    OpenCalendarWeek()
+    {
+        tRangesOfDays = new OpenCalendarRanges[8];
+    }
 
-		rangesOfDay.addRange(range);
-	}
-	
-	void generateSortedIntervals()
-	{
-		for(int nDayOfWeek=0; nDayOfWeek<8; nDayOfWeek++)
-		{
-			if(tRangesOfDays[nDayOfWeek] == null)	// No definition for day: It's closed all day long 
-			{
-				OpenCalendarRanges rangesOfDay = new OpenCalendarRanges();
-				tRangesOfDays[nDayOfWeek] = rangesOfDay;
-				rangesOfDay.setCloseAllDay();
-			}
-			else	// Merge definitions
-			{
-				OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
-				rangesOfDay.sortIntervals();
-			}			
-		}
-	}
-	
-	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
-	{
-		int nDayOfWeek = cacheManager.getCurrentDayOfWeek();
-		
-		OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
-		return rangesOfDay.getOpenState(cacheManager, bCacheState);		
-	}
-	
-	private OpenCalendarRanges[] tRangesOfDays = null;
+    void addRange(int nDayOfWeek, String csType, String csMin, String csMax)
+    {
+        CalendarOpenState openState = CalendarOpenState.AppClosed;
+        if(csType.equalsIgnoreCase("Open"))
+            openState = CalendarOpenState.AppOpened;
+
+        OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
+        if(rangesOfDay == null)
+        {
+            rangesOfDay = new OpenCalendarRanges();
+            tRangesOfDays[nDayOfWeek] = rangesOfDay;
+        }
+
+        OpenCalendarRange range = new OpenCalendarRange();
+        range.set(openState, csMin, csMax);
+
+        rangesOfDay.addRange(range);
+    }
+
+    void generateSortedIntervals()
+    {
+        for(int nDayOfWeek=0; nDayOfWeek<8; nDayOfWeek++)
+        {
+            if(tRangesOfDays[nDayOfWeek] == null)   // No definition for day: It's closed all day long
+            {
+                OpenCalendarRanges rangesOfDay = new OpenCalendarRanges();
+                tRangesOfDays[nDayOfWeek] = rangesOfDay;
+                rangesOfDay.setCloseAllDay();
+            }
+            else    // Merge definitions
+            {
+                OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
+                rangesOfDay.sortIntervals();
+            }
+        }
+    }
+
+    CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
+    {
+        int nDayOfWeek = cacheManager.getCurrentDayOfWeek();
+
+        OpenCalendarRanges rangesOfDay = tRangesOfDays[nDayOfWeek];
+        return rangesOfDay.getOpenState(cacheManager, bCacheState);
+    }
+
+    private OpenCalendarRanges[] tRangesOfDays = null;
 }
 

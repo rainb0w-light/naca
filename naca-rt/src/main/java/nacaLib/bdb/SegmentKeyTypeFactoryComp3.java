@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -16,8 +16,8 @@ package nacaLib.bdb;
  */
 public class SegmentKeyTypeFactoryComp3 extends BtreeSegmentKeyTypeFactory
 {
-	BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending)
-	{
-		return new BtreeKeySegmentComp3(nKeyPositionInData, nKeyPositionInKey, nBufferLength, bAscending);
-	}
+    BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending)
+    {
+        return new BtreeKeySegmentComp3(nKeyPositionInData, nKeyPositionInKey, nBufferLength, bAscending);
+    }
 }

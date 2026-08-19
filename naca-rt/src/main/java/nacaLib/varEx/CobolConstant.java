@@ -12,8 +12,8 @@ package nacaLib.varEx;
 
 public class CobolConstant
 {
-	public static final CobolConstantSpace Space = new CobolConstantSpace();
-	public static final CobolConstantHighValue HighValue = new CobolConstantHighValue();
-	public static final CobolConstantLowValue LowValue = new CobolConstantLowValue();
-	public static final CobolConstantZero Zero = new CobolConstantZero();
+    public static final CobolConstantSpace Space = new CobolConstantSpace();
+    public static final CobolConstantHighValue HighValue = new CobolConstantHighValue();
+    public static final CobolConstantLowValue LowValue = new CobolConstantLowValue();
+    public static final CobolConstantZero Zero = new CobolConstantZero();
 }

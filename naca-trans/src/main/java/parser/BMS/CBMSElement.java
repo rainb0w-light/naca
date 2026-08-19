@@ -26,139 +26,139 @@ import utils.Transcoder;
  */
 public abstract class CBMSElement extends CBaseElement
 {
-	public enum EBMSElementType
-	{
-		ARRAY,
-		MAPSET,
-		MAP,
-		FIELD,
-		GROUP ;
-	}
-	public abstract EBMSElementType GetType() ;
+    public enum EBMSElementType
+    {
+        ARRAY,
+        MAPSET,
+        MAP,
+        FIELD,
+        GROUP ;
+    }
+    public abstract EBMSElementType GetType() ;
 
 
-	//public abstract CBaseResourceEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
+    //public abstract CBaseResourceEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
 
-	protected CBMSElement(String name, int line)
-	{
-		super(line) ;
-		this.name = name ;
-	}
+    protected CBMSElement(String name, int line)
+    {
+        super(line) ;
+        this.name = name ;
+    }
 
-	public String getName()
-	{
-		return name ;
-	}
+    public String getName()
+    {
+        return name ;
+    }
 
-	protected void setName(String cs)
-	{
-		name = cs;
-	}
+    protected void setName(String cs)
+    {
+        name = cs;
+    }
 
-	public void AddElement(CBMSElement e)
-	{
-		AddChild(e) ;
-	}
+    public void AddElement(CBMSElement e)
+    {
+        AddChild(e) ;
+    }
 
-	/**
-	 * Read-only view of this element's parsed child elements. Exposes the parser
-	 * tree structure (mapset → maps → fields/groups) for inspection, e.g. by tests
-	 * that verify a whole BMS source parsed into a non-empty tree. Does not perform
-	 * any semantic analysis or code generation.
-	 */
-	public java.util.List<CBaseElement> getChildElements()
-	{
-		return java.util.Collections.unmodifiableList(children) ;
-	}
+    /**
+     * Read-only view of this element's parsed child elements. Exposes the parser
+     * tree structure (mapset → maps → fields/groups) for inspection, e.g. by tests
+     * that verify a whole BMS source parsed into a non-empty tree. Does not perform
+     * any semantic analysis or code generation.
+     */
+    public java.util.List<CBaseElement> getChildElements()
+    {
+        return java.util.Collections.unmodifiableList(children) ;
+    }
 
-	public int getNbChildren()
-	{
-		return children.size() ;
-	}
+    public int getNbChildren()
+    {
+        return children.size() ;
+    }
 
-	protected abstract Element DoExportCustom(Document root) ;
-	protected Element ExportCustom(Document root)
-	{
-		Element e = DoExportCustom(root);
-		e.setAttribute("Name", name) ;
-		return e ;
-	}
+    protected abstract Element DoExportCustom(Document root) ;
+    protected Element ExportCustom(Document root)
+    {
+        Element e = DoExportCustom(root);
+        e.setAttribute("Name", name) ;
+        return e ;
+    }
 
-	protected abstract boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens) ;
+    protected abstract boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens) ;
 
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tokMapSet = lstTokens.GetCurrentToken() ;
-			if (tokMapSet.GetType() == CTokenType.KEYWORD)
-			{
-				CBaseToken tokNext = lstTokens.GetNext() ;
-				if (tokNext.GetType() != CTokenType.EQUALS)
-				{
-					Transcoder.logError(getLine(), "Expecting EQUALS after " + tokMapSet.GetValue());
-					return false ;
-				}
-				lstTokens.GetNext() ;
-				if (!InterpretKeyword(tokMapSet.GetKeyword(), lstTokens))
-				{
-					Transcoder.logError(getLine(), "Problem parsing keyword : " + tokMapSet.GetValue());
-					return false ;
-				}
-				tokNext = lstTokens.GetCurrentToken() ;
-				if (tokNext.GetType() == CTokenType.COMMA)
-				{
-					lstTokens.GetNext() ;
-				}
-				else
-				{
-					isdone = true ;
-				}
-			}
-			else if(tokMapSet.GetType() == CTokenType.STAR)
-			{
-				lstTokens.GetNext() ;
-			}
-			else if(tokMapSet.GetType() == CTokenType.IDENTIFIER)
-			{
-				isdone = true ;
-			}
-			else if(tokMapSet.GetType() == CTokenType.COMMENTS)
-			{
-				String com = tokMapSet.GetValue().trim() ;
-				if (com.startsWith("'") && com.endsWith("'"))
-				{
-					isdone = true ;
-				}
-				else
-				{
-					ParseComment() ;
-				}
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Unrecognized token : " + tokMapSet.GetValue());
-				lstTokens.GetNext() ;
-			}
-		}
-		return true ;
-	}
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tokMapSet = lstTokens.GetCurrentToken() ;
+            if (tokMapSet.GetType() == CTokenType.KEYWORD)
+            {
+                CBaseToken tokNext = lstTokens.GetNext() ;
+                if (tokNext.GetType() != CTokenType.EQUALS)
+                {
+                    Transcoder.logError(getLine(), "Expecting EQUALS after " + tokMapSet.GetValue());
+                    return false ;
+                }
+                lstTokens.GetNext() ;
+                if (!InterpretKeyword(tokMapSet.GetKeyword(), lstTokens))
+                {
+                    Transcoder.logError(getLine(), "Problem parsing keyword : " + tokMapSet.GetValue());
+                    return false ;
+                }
+                tokNext = lstTokens.GetCurrentToken() ;
+                if (tokNext.GetType() == CTokenType.COMMA)
+                {
+                    lstTokens.GetNext() ;
+                }
+                else
+                {
+                    isdone = true ;
+                }
+            }
+            else if(tokMapSet.GetType() == CTokenType.STAR)
+            {
+                lstTokens.GetNext() ;
+            }
+            else if(tokMapSet.GetType() == CTokenType.IDENTIFIER)
+            {
+                isdone = true ;
+            }
+            else if(tokMapSet.GetType() == CTokenType.COMMENTS)
+            {
+                String com = tokMapSet.GetValue().trim() ;
+                if (com.startsWith("'") && com.endsWith("'"))
+                {
+                    isdone = true ;
+                }
+                else
+                {
+                    ParseComment() ;
+                }
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Unrecognized token : " + tokMapSet.GetValue());
+                lstTokens.GetNext() ;
+            }
+        }
+        return true ;
+    }
 
-	protected String name = "" ;
+    protected String name = "" ;
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        return null;
+    }
 
-	public abstract CResourceStrings GetResourceStrings() ;
-	public abstract void SetResourceStrings(CResourceStrings res) ;
+    public abstract CResourceStrings GetResourceStrings() ;
+    public abstract void SetResourceStrings(CResourceStrings res) ;
 
-	// Used form XML resource loading and export as .res and .java
-	public abstract CBMSElement parseXMLResource(Tag tagCurrent);
-	public abstract CBMSElement loadTagParameters(Tag tagCurrent);
+    // Used form XML resource loading and export as .res and .java
+    public abstract CBMSElement parseXMLResource(Tag tagCurrent);
+    public abstract CBMSElement loadTagParameters(Tag tagCurrent);
 }

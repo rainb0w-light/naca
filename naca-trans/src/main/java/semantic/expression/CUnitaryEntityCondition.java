@@ -14,38 +14,38 @@ import semantic.CDataEntity;
  */
 public abstract class CUnitaryEntityCondition extends CBaseEntityCondition
 {
-//	public CUnitaryEntityCondition(int nLine)
-//	{
-//		super(nLine);
-//	}
-	/* (non-Javadoc)
-	 * @see semantic.expression.CBaseEntityCondition#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
-	 */
-	@Override
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		if (reference == field)
-		{
-			reference = var ;
-			field.UnRegisterVarTesting(this) ;
-			field.RegisterVarTesting(this) ;
-			return true ;
-		}
-		return false ;
-	}
-	public void SetConditonReference(CDataEntity e)
-	{
-		ASSERT(e) ;
-		reference = e ;
-	}
-	public CDataEntity GetConditionReference()
-	{
-		return reference ;
-	}
-	protected CDataEntity reference = null;
-	public void Clear()
-	{
-		super.Clear() ;
-		reference = null ;
-	}
+//  public CUnitaryEntityCondition(int nLine)
+//  {
+//      super(nLine);
+//  }
+    /* (non-Javadoc)
+     * @see semantic.expression.CBaseEntityCondition#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
+     */
+    @Override
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        if (reference == field)
+        {
+            reference = var ;
+            field.UnRegisterVarTesting(this) ;
+            field.RegisterVarTesting(this) ;
+            return true ;
+        }
+        return false ;
+    }
+    public void SetConditonReference(CDataEntity e)
+    {
+        ASSERT(e) ;
+        reference = e ;
+    }
+    public CDataEntity GetConditionReference()
+    {
+        return reference ;
+    }
+    protected CDataEntity reference = null;
+    public void Clear()
+    {
+        super.Clear() ;
+        reference = null ;
+    }
 }

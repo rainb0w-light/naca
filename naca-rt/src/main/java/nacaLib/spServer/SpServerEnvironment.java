@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -23,49 +23,52 @@ import nacaLib.basePrgEnv.BaseResourceManager;
 
 public class SpServerEnvironment extends BaseEnvironment
 {
-	public SpServerEnvironment(SpServerSession spServerSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
-	{	
-		super(spServerSession, connectionManager, baseResourceManager);
-	}
-	
-	public BaseCESMManager createCESMManager()
-	{
-		return null;
-	}
-	
-	public SpServerSession getSession()
-	{
-		return null;
-	}
-	
-	public void breakCurrentSessionIfTimeout()
-	{
-	}
-	
-	public SQLException commitSQL()
-	{	
-		return null;
-	}
-	
-	public SQLException rollbackSQL()
-	{
-		return null;
-	}
-	
-	public void cleanupOnExceptionCatched()
-	{
-		rollbackSQL() ;
-		releaseSQLConnection() ;
-		autoCloseOpenFile();
-		returnTempCacheToStack();
-	}
-	
-	public void releaseSQLConnection()
-	{
-		if (getSQLConnection() != null)
-		{
-			getSQLConnection().removeAllPreparedStatements();
-			super.releaseSQLConnection();
-		}
-	}
+    public SpServerEnvironment(
+        SpServerSession spServerSession,
+        DbConnectionManagerBase connectionManager,
+        BaseResourceManager baseResourceManager)
+    {
+        super(spServerSession, connectionManager, baseResourceManager);
+    }
+
+    public BaseCESMManager createCESMManager()
+    {
+        return null;
+    }
+
+    public SpServerSession getSession()
+    {
+        return null;
+    }
+
+    public void breakCurrentSessionIfTimeout()
+    {
+    }
+
+    public SQLException commitSQL()
+    {
+        return null;
+    }
+
+    public SQLException rollbackSQL()
+    {
+        return null;
+    }
+
+    public void cleanupOnExceptionCatched()
+    {
+        rollbackSQL() ;
+        releaseSQLConnection() ;
+        autoCloseOpenFile();
+        returnTempCacheToStack();
+    }
+
+    public void releaseSQLConnection()
+    {
+        if (getSQLConnection() != null)
+        {
+            getSQLConnection().removeAllPreparedStatements();
+            super.releaseSQLConnection();
+        }
+    }
 }

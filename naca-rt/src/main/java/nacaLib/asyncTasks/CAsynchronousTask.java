@@ -24,117 +24,117 @@ import nacaLib.exceptions.AbortSessionException;
  */
 public class CAsynchronousTask extends CJMapObject implements Runnable
 {
-	private String csProgramParent = null;
-	private String csProgramToRun = null ;
-	private int nDelaySeconds = 0 ;
-	private Thread thread = null ;
-	private boolean isinvalidate = false ;
-	private CESMStartData startData = null ;
+    private String csProgramParent = null;
+    private String csProgramToRun = null ;
+    private int nDelaySeconds = 0 ;
+    private Thread thread = null ;
+    private boolean isinvalidate = false ;
+    private CESMStartData startData = null ;
 
-	public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds)
-	{
-		this.csProgramToRun = csProgramToRun;
-		this.csProgramParent = csProgramParent;
-		this.nDelaySeconds = nDelaySeconds ;
-		this.startData = startData;
-		thread = new Thread(this, csProgramToRun);
-	}
+    public CAsynchronousTask(String csProgramToRun, String csProgramParent, CESMStartData startData, int nDelaySeconds)
+    {
+        this.csProgramToRun = csProgramToRun;
+        this.csProgramParent = csProgramParent;
+        this.nDelaySeconds = nDelaySeconds ;
+        this.startData = startData;
+        thread = new Thread(this, csProgramToRun);
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run()
-	{
-		boolean bUseJmx = BaseResourceManager.getUsingJmx();
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
+    public void run()
+    {
+        boolean bUseJmx = BaseResourceManager.getUsingJmx();
 
-		long threadId = thread.getId();
-		String csThreadId = String.valueOf(threadId);
-		String csThreadName = thread.getName();
+        long threadId = thread.getId();
+        String csThreadId = String.valueOf(threadId);
+        String csThreadName = thread.getName();
 
-		if(bUseJmx)
-		{
-			AsyncThreadJmxManager.startAsyncProgram(csThreadId, csThreadName, csProgramToRun, csProgramParent, nDelaySeconds);
-		}
+        if(bUseJmx)
+        {
+            AsyncThreadJmxManager.startAsyncProgram(csThreadId, csThreadName, csProgramToRun, csProgramParent, nDelaySeconds);
+        }
 
-		Time_ms.wait_ms(nDelaySeconds * 1000);
+        Time_ms.wait_ms(nDelaySeconds * 1000);
 
-		while (BaseResourceManager.isInUpdateMode())
-		{
-			Time_ms.wait_ms(1 * 60 * 1000);
-		}
+        while (BaseResourceManager.isInUpdateMode())
+        {
+            Time_ms.wait_ms(1 * 60 * 1000);
+        }
 
-		CalendarOpenState openState = BaseResourceManager.getAppOpenState();
-		while(openState != CalendarOpenState.AppOpened)
-		{
-			Time_ms.wait_ms(5 * 60 * 1000);
-			openState = BaseResourceManager.getAppOpenState();
-		}
+        CalendarOpenState openState = BaseResourceManager.getAppOpenState();
+        while(openState != CalendarOpenState.AppOpened)
+        {
+            Time_ms.wait_ms(5 * 60 * 1000);
+            openState = BaseResourceManager.getAppOpenState();
+        }
 
-		if (isinvalidate)
-		{
-			return ;
-		}
+        if (isinvalidate)
+        {
+            return ;
+        }
 
-		OnlineSession session = new OnlineSession(true) ;
-		BaseProgramLoader loader = BaseProgramLoader.GetProgramLoaderInstance() ;
-		BaseEnvironment env = loader.GetEnvironment(session, csProgramToRun, csProgramParent) ;
+        OnlineSession session = new OnlineSession(true) ;
+        BaseProgramLoader loader = BaseProgramLoader.GetProgramLoaderInstance() ;
+        BaseEnvironment env = loader.GetEnvironment(session, csProgramToRun, csProgramParent) ;
 
-		env.startRunTransaction();
+        env.startRunTransaction();
 
-		env.enqueueData(startData);
+        env.enqueueData(startData);
 
-		try
-		{
-			if(bUseJmx)
-				AsyncThreadJmxManager.setRunningAsyncProgram(csThreadId, csThreadName);
+        try
+        {
+            if(bUseJmx)
+                AsyncThreadJmxManager.setRunningAsyncProgram(csThreadId, csThreadName);
 
-			loader.runTopProgram(env, null);
-			env.endRunTransaction(CriteriaEndRunMain.Normal);
-			env.resetSession();
-		}
-		catch (AbortSessionException e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			env.resetSession();
-		}
-		catch (Exception e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.Abort);
-			env.resetSession();
-		}
-		if(bUseJmx)
-			AsyncThreadJmxManager.endAsyncProgram(csThreadId, csThreadName);
-	}
+            loader.runTopProgram(env, null);
+            env.endRunTransaction(CriteriaEndRunMain.Normal);
+            env.resetSession();
+        }
+        catch (AbortSessionException e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            env.resetSession();
+        }
+        catch (Exception e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.Abort);
+            env.resetSession();
+        }
+        if(bUseJmx)
+            AsyncThreadJmxManager.endAsyncProgram(csThreadId, csThreadName);
+    }
 
-	public void Start()
-	{
-		if (!isinvalidate)
-		{
-			thread.start();
-		}
-		else
-		{
-			thread = null ;
-		}
-	}
+    public void Start()
+    {
+        if (!isinvalidate)
+        {
+            thread.start();
+        }
+        else
+        {
+            thread = null ;
+        }
+    }
 
-	public void Wait()
-	{
-		if (thread != null)
-		{
-			try
-			{
-				thread.join() ;
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+    public void Wait()
+    {
+        if (thread != null)
+        {
+            try
+            {
+                thread.join() ;
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public void Invalidate()
-	{
-		isinvalidate = true ;
-		thread.interrupt() ;
-	}
+    public void Invalidate()
+    {
+        isinvalidate = true ;
+        thread.interrupt() ;
+    }
 }

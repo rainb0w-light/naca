@@ -8,20 +8,20 @@ package nacaLib.varEx;
 
 public class SortParagHandler
 {
-	SortParagHandler(SortCommand sortCommand)
-	{
-		this.sortCommand = sortCommand;
-	}
+    SortParagHandler(SortCommand sortCommand)
+    {
+        this.sortCommand = sortCommand;
+    }
 
-	public void release(Var varRecord)
-	{
-		sortCommand.release(varRecord);
-	}
+    public void release(Var varRecord)
+    {
+        sortCommand.release(varRecord);
+    }
 
-	public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
-	{
-		return sortCommand.returnSort(sortDescriptor);
-	}
+    public RecordDescriptorAtEnd returnSort(SortDescriptor sortDescriptor)
+    {
+        return sortCommand.returnSort(sortDescriptor);
+    }
 
-	private SortCommand sortCommand = null;
+    private SortCommand sortCommand = null;
 }

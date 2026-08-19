@@ -10,5 +10,5 @@ import jlib.engine.BaseNotification;
 
 public class NotifSetDefaultInputFile extends BaseNotification
 {
-	public String fileRef = "" ;
+    public String fileRef = "" ;
 }

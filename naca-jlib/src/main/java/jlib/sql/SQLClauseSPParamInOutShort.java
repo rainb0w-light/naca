@@ -19,29 +19,29 @@ import java.sql.Types;
  */
 public class SQLClauseSPParamInOutShort extends SQLClauseSPParamInOut
 {
-	private short tsVal[] = null;
+    private short tsVal[] = null;
 
-	public SQLClauseSPParamInOutShort(SQLClauseSPParamWay wayInOut, short tsVal[])
-	{
-		super(wayInOut);
-		this.tsVal = tsVal;
-	}
+    public SQLClauseSPParamInOutShort(SQLClauseSPParamWay wayInOut, short tsVal[])
+    {
+        super(wayInOut);
+        this.tsVal = tsVal;
+    }
 
-	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.setInValueWithException(nParamId, tsVal[0]);
-	}
+    protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.setInValueWithException(nParamId, tsVal[0]);
+    }
 
-	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.registerOutParameterWithException(nParamId, Types.SMALLINT);
-	}
+    protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.registerOutParameterWithException(nParamId, Types.SMALLINT);
+    }
 
-	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
-	 	throws SQLException
-	{
-		tsVal[0] = stmt.getOutValueShortWithException(nParamId);
-	}
+    protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        tsVal[0] = stmt.getOutValueShortWithException(nParamId);
+    }
 }

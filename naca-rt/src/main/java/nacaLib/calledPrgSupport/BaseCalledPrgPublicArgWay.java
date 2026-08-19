@@ -13,16 +13,16 @@ package nacaLib.calledPrgSupport;
  */
 public class BaseCalledPrgPublicArgWay
 {
-	public static BaseCalledPrgPublicArgWay IN = new BaseCalledPrgPublicArgWay(true, false);
-	public static BaseCalledPrgPublicArgWay OUT = new BaseCalledPrgPublicArgWay(false, true);
-	public static BaseCalledPrgPublicArgWay INOUT = new BaseCalledPrgPublicArgWay(true, true);
-	
-	private boolean isin = false;
-	private boolean isout = false;
-	
-	private BaseCalledPrgPublicArgWay(boolean isin, boolean isout)
-	{
-		this.isin = isin;
-		this.isout = isout;
-	}
+    public static BaseCalledPrgPublicArgWay IN = new BaseCalledPrgPublicArgWay(true, false);
+    public static BaseCalledPrgPublicArgWay OUT = new BaseCalledPrgPublicArgWay(false, true);
+    public static BaseCalledPrgPublicArgWay INOUT = new BaseCalledPrgPublicArgWay(true, true);
+
+    private boolean isin = false;
+    private boolean isout = false;
+
+    private BaseCalledPrgPublicArgWay(boolean isin, boolean isout)
+    {
+        this.isin = isin;
+        this.isout = isout;
+    }
 }

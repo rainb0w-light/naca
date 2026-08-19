@@ -26,123 +26,123 @@ import utils.FPacTranscoder.notifs.NotifRegisterInputFile;
 public class CFPacInputFile extends CFPacElement
 {
 
-	public CFPacInputFile(int line)
-	{
-		super(line);
-	}
+    public CFPacInputFile(int line)
+    {
+        super(line);
+    }
 
-	protected int ulFileId = 0;
-	protected boolean isvariableFile = false;
-	private boolean isvSFile = false ;
-	private int length = 0 ;
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() == CFPacKeywordList.IPF)
-			ulFileId = 0 ;
-		else if (tok.GetKeyword().name.startsWith("IPF"))
-		{
-			ulFileId = NumberParser.getAsInt(tok.GetKeyword().name.substring(3)); 
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
-			return false ;
-		}
-		
-		tok = GetNext() ;
-		if  (tok.GetType() != CTokenType.EQUALS)
-		{
-			return false ;
-		}
-		
-		tok = GetNext() ;
-		if (tok.GetKeyword() == CFPacKeywordList.SQ)
-		{
-			isvariableFile = false ;
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.MINUS)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() == CFPacKeywordList.VAR)
-				{
-					isvariableFile = true ;
-					tok = GetNext() ;
-				}
-				else
-				{
-					Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ-VAR") ;
-				}
-			}
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.VS)
-		{
-			isvSFile = true ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ[-VAR]") ;
-			return false ;
-		}
-		
-		if (tok.GetType() == CTokenType.COMMA)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.NUMBER)
-			{
-				length  = NumberParser.getAsInt(tok.GetValue()) ;
-				tok = GetNext() ;
-			}
-			else 
-			{
-				Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
-				return false ;
-			}
-		}
-				
-		return true ;
-	}
+    protected int ulFileId = 0;
+    protected boolean isvariableFile = false;
+    private boolean isvSFile = false ;
+    private int length = 0 ;
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() == CFPacKeywordList.IPF)
+            ulFileId = 0 ;
+        else if (tok.GetKeyword().name.startsWith("IPF"))
+        {
+            ulFileId = NumberParser.getAsInt(tok.GetKeyword().name.substring(3));
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
+            return false ;
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (isvSFile)
-		{
-			Transcoder.logError(getLine(), "INPUT file type 'VS' not supported") ;
-		}
-		String csDescName = "IPF"+ulFileId ;
-		String csDescAlias = "I"+ulFileId ;
-		if (ulFileId == 0)
-		{
-			csDescName = "IPF";
-			csDescAlias = "I0" ;
-		}
-		CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
-		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
-		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
-		
-		att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT) ;
-		att.setRecordSizeVariable(isvariableFile) ;
-		
-		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
-		NotifRegisterInputFile notif = new NotifRegisterInputFile() ;
-		notif.id = csDescAlias ;
-		notif.fileBuffer = buff ;
-		factory.programCatalog.SendNotifRequest(notif) ;
+        tok = GetNext() ;
+        if  (tok.GetType() != CTokenType.EQUALS)
+        {
+            return false ;
+        }
 
-		parent.AddChild(att) ;
-		return att ;
-	}
+        tok = GetNext() ;
+        if (tok.GetKeyword() == CFPacKeywordList.SQ)
+        {
+            isvariableFile = false ;
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.MINUS)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() == CFPacKeywordList.VAR)
+                {
+                    isvariableFile = true ;
+                    tok = GetNext() ;
+                }
+                else
+                {
+                    Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ-VAR") ;
+                }
+            }
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.VS)
+        {
+            isvSFile = true ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ[-VAR]") ;
+            return false ;
+        }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("InputFile") ;
-		eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
-		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
-		return eAdd ;
-	}
+        if (tok.GetType() == CTokenType.COMMA)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.NUMBER)
+            {
+                length  = NumberParser.getAsInt(tok.GetValue()) ;
+                tok = GetNext() ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
+                return false ;
+            }
+        }
+
+        return true ;
+    }
+
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (isvSFile)
+        {
+            Transcoder.logError(getLine(), "INPUT file type 'VS' not supported") ;
+        }
+        String csDescName = "IPF"+ulFileId ;
+        String csDescAlias = "I"+ulFileId ;
+        if (ulFileId == 0)
+        {
+            csDescName = "IPF";
+            csDescAlias = "I0" ;
+        }
+        CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
+        factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
+        factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
+
+        att.setFileAccessType(CEntityOpenFile.OpenMode.INPUT) ;
+        att.setRecordSizeVariable(isvariableFile) ;
+
+        CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
+        NotifRegisterInputFile notif = new NotifRegisterInputFile() ;
+        notif.id = csDescAlias ;
+        notif.fileBuffer = buff ;
+        factory.programCatalog.SendNotifRequest(notif) ;
+
+        parent.AddChild(att) ;
+        return att ;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("InputFile") ;
+        eAdd.setAttribute("FileId", String.valueOf(ulFileId)) ;
+        eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
+        return eAdd ;
+    }
 
 }

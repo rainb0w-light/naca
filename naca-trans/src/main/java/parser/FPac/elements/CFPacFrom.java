@@ -27,74 +27,74 @@ import utils.FPacTranscoder.notifs.NotifSetDefaultInputFile;
 public class CFPacFrom extends CFPacElement
 {
 
-	private CIdentifier idFile;
+    private CIdentifier idFile;
 
-	/**
-	 * @param line
-	 */
-	public CFPacFrom(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CFPacFrom(int line)
+    {
+        super(line);
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.FROM)
-		{
-			tok = GetNext() ;
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok =GetNext() ;
-			if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				idFile = new CIdentifier(tok.GetValue()) ;
-				tok =GetNext() ;
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Expecting IDENTIFIER after FROM- instead of "+tok.toString()) ;
-				return false ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(tok.getLine(), "Expecting '-' after FROM instead of "+tok.toString()) ;
-			return false ;
-		}
-		return true ;
-	}
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.FROM)
+        {
+            tok = GetNext() ;
+        }
 
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		NotifSetDefaultInputFile notif = new NotifSetDefaultInputFile() ;
-		notif.fileRef = idFile.GetName() ;
-		factory.programCatalog.SendNotifRequest(notif) ;
-		
-		return null;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok =GetNext() ;
+            if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                idFile = new CIdentifier(tok.GetValue()) ;
+                tok =GetNext() ;
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Expecting IDENTIFIER after FROM- instead of "+tok.toString()) ;
+                return false ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(tok.getLine(), "Expecting '-' after FROM instead of "+tok.toString()) ;
+            return false ;
+        }
+        return true ;
+    }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eTo = root.createElement("From") ;
-		Element e = root.createElement("File") ;
-		eTo.appendChild(e) ;
-		idFile.ExportTo(e, root) ;
-		return eTo ;
-	}
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        NotifSetDefaultInputFile notif = new NotifSetDefaultInputFile() ;
+        notif.fileRef = idFile.GetName() ;
+        factory.programCatalog.SendNotifRequest(notif) ;
+
+        return null;
+    }
+
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eTo = root.createElement("From") ;
+        Element e = root.createElement("File") ;
+        eTo.appendChild(e) ;
+        idFile.ExportTo(e, root) ;
+        return eTo ;
+    }
 
 }

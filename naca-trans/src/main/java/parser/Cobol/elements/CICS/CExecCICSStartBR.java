@@ -28,137 +28,137 @@ import utils.Transcoder;
 public class CExecCICSStartBR extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSStartBR(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSStartBR(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (dataSet == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.startbr.missing-dataset",
-				"embedded-cics", getLine(),
-				"EXEC CICS STARTBR requires DATASET");
-			return null;
-		}
-		DiagnosticSink.recordUnsupported("cics.startbr.runtime-backend-unavailable",
-			"embedded-cics", getLine(),
-			"EXEC CICS STARTBR requires a configured indexed-file backend");
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (dataSet == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.startbr.missing-dataset",
+                "embedded-cics", getLine(),
+                "EXEC CICS STARTBR requires DATASET");
+            return null;
+        }
+        DiagnosticSink.recordUnsupported("cics.startbr.runtime-backend-unavailable",
+            "embedded-cics", getLine(),
+            "EXEC CICS STARTBR requires a configured indexed-file backend");
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.STARTBR)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.STARTBR)
+        {
+            tok = GetNext();
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.DATASET)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext() ;
-					dataSet = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext() ;
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext() ;
-					keyLength = ReadTerminal() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext() ;
-					}
-				}
-			}
-			else if (tok.GetValue().equals("RIDFLD"))
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext() ;
-					recIDField = ReadIdentifier() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext() ;
-					}
-				}
-			}
-			else if (tok.GetValue().equals("GTEQ"))
-			{
-				isgTEQ = true ;
-				tok = GetNext() ;
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.DATASET)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext() ;
+                    dataSet = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext() ;
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext() ;
+                    keyLength = ReadTerminal() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext() ;
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("RIDFLD"))
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext() ;
+                    recIDField = ReadIdentifier() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext() ;
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("GTEQ"))
+            {
+                isgTEQ = true ;
+                tok = GetNext() ;
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS STARBR");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS STARBR");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eCICS = root.createElement("ExecCICSStartBrowse") ;
-		if (dataSet != null)
-		{
-			Element e = root.createElement("DataSet") ;
-			eCICS.appendChild(e) ;
-			dataSet.ExportTo(e, root);
-		}
-		if (recIDField != null)
-		{
-			Element e = root.createElement("RecIdField") ;
-			eCICS.appendChild(e) ;
-			recIDField.ExportTo(e, root);
-		}
-		if (isgTEQ)
-		{
-			eCICS.setAttribute("GTEQ", "true") ;
-		}
-		return eCICS;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eCICS = root.createElement("ExecCICSStartBrowse") ;
+        if (dataSet != null)
+        {
+            Element e = root.createElement("DataSet") ;
+            eCICS.appendChild(e) ;
+            dataSet.ExportTo(e, root);
+        }
+        if (recIDField != null)
+        {
+            Element e = root.createElement("RecIdField") ;
+            eCICS.appendChild(e) ;
+            recIDField.ExportTo(e, root);
+        }
+        if (isgTEQ)
+        {
+            eCICS.setAttribute("GTEQ", "true") ;
+        }
+        return eCICS;
+    }
 
 
-	protected CTerminal dataSet = null ;
-	protected CTerminal keyLength = null ;
-	protected CIdentifier recIDField = null ;
-	protected boolean isgTEQ = false ;
+    protected CTerminal dataSet = null ;
+    protected CTerminal keyLength = null ;
+    protected CIdentifier recIDField = null ;
+    protected boolean isgTEQ = false ;
 }

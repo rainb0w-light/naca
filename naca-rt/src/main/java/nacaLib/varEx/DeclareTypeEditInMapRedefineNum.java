@@ -12,31 +12,31 @@ package nacaLib.varEx;
  */
 public class DeclareTypeEditInMapRedefineNum extends DeclareTypeBase
 {
-	private NumericValue numericValue = null;
+    private NumericValue numericValue = null;
 
-	public DeclareTypeEditInMapRedefineNum()
-	{
-	}
+    public DeclareTypeEditInMapRedefineNum()
+    {
+    }
 
-	public void set(VarLevel varLevel, NumericValue numericValue)
-	{
-		super.set(varLevel);
-		this.numericValue = numericValue;
-	}
+    public void set(VarLevel varLevel, NumericValue numericValue)
+    {
+        super.set(varLevel);
+        this.numericValue = numericValue;
+    }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = new VarDefEditInMapRedefineNum(varDefParent, this);
-		return varDef;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = new VarDefEditInMapRedefineNum(varDefParent, this);
+        return varDef;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 
-	NumericValue getNumericValue()
-	{
-		return numericValue;
-	}
+    NumericValue getNumericValue()
+    {
+        return numericValue;
+    }
 }

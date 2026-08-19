@@ -12,11 +12,11 @@ package lexer;
  */
 public class CReservedConstant
 {
-	public CReservedConstant(CConstantList list, String name)
-	{
-		this.name = name ;
-		if(list != null)
-			list.Register(this) ;
-	}
-	public String name = "" ;
+    public CReservedConstant(CConstantList list, String name)
+    {
+        this.name = name ;
+        if(list != null)
+            list.Register(this) ;
+    }
+    public String name = "" ;
 }

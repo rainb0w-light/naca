@@ -12,18 +12,18 @@ package nacaLib.varEx;
  */
 public class InitializeManagerStringEdited extends InitializeManager
 {
-	public InitializeManagerStringEdited()
-	{
-	}
+    public InitializeManagerStringEdited()
+    {
+    }
 
-//	public void initialize(VarBufferPos buffer, VarDefBuffer varDef)
-//	{
-//		assertIfFalse(false);
-//	}
+//  public void initialize(VarBufferPos buffer, VarDefBuffer varDef)
+//  {
+//      assertIfFalse(false);
+//  }
 
-	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
-	{
-		assertIfFalse(false);
-	}
+    public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
+    {
+        assertIfFalse(false);
+    }
 
 }

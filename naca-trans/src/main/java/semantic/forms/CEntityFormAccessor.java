@@ -54,158 +54,158 @@ import utils.CObjectCatalog;
  */
 public class CEntityFormAccessor extends CBaseDataReference
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 * @param owner the owning screen-map form this accessor aliases
-	 */
-	public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CEntityResourceForm owner)
-	{
-		super(l, name, cat);
-		// Fixes the legacy `owner = owner` self-assignment no-op (the parameter shadowed
-		// the field, leaving it null); the owner-delegating protocols below rely on it.
-		this.owner = owner ;
-		reference = owner ;
-		parent = owner ;
-	}
-	public CEntityResourceForm GetForm()
-	{
-		return owner ;
-	}
-	protected CEntityResourceForm owner = null ;
-	public void Clear()
-	{
-		super.Clear();
-		owner = null ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		String value = term.GetValue() ;
-		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
-		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
-		{
-			eAssign.SetToZero(owner) ;
-		}
-		else if (value.equals("SPACE") || value.equals("SPACES"))
-		{
-			eAssign.SetToSpace(owner) ;
-		}
-		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{
-			CEntityInitialize init = factory.NewEntityInitialize(l, owner);
-			owner.RegisterWritingAction(init);
-			return init ;
-			//eAssign.SetToLowValue(owner) ;
-		}
-		else
-		{
-			return null ;
-		}
-		owner.RegisterWritingAction(eAssign);
-		return eAssign ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     * @param owner the owning screen-map form this accessor aliases
+     */
+    public CEntityFormAccessor(int l, String name, CObjectCatalog cat, CEntityResourceForm owner)
+    {
+        super(l, name, cat);
+        // Fixes the legacy `owner = owner` self-assignment no-op (the parameter shadowed
+        // the field, leaving it null); the owner-delegating protocols below rely on it.
+        this.owner = owner ;
+        reference = owner ;
+        parent = owner ;
+    }
+    public CEntityResourceForm GetForm()
+    {
+        return owner ;
+    }
+    protected CEntityResourceForm owner = null ;
+    public void Clear()
+    {
+        super.Clear();
+        owner = null ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        String value = term.GetValue() ;
+        CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
+        if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+        {
+            eAssign.SetToZero(owner) ;
+        }
+        else if (value.equals("SPACE") || value.equals("SPACES"))
+        {
+            eAssign.SetToSpace(owner) ;
+        }
+        else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
+        {
+            CEntityInitialize init = factory.NewEntityInitialize(l, owner);
+            owner.RegisterWritingAction(init);
+            return init ;
+            //eAssign.SetToLowValue(owner) ;
+        }
+        else
+        {
+            return null ;
+        }
+        owner.RegisterWritingAction(eAssign);
+        return eAssign ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	protected boolean isvirtual = false ;
-	public void setVirtual()
-	{
-		isvirtual = true ;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetDataType()
-	 */
-	public CDataEntityType GetDataType()
-	{
-		if (isvirtual)
-		{
-			return CDataEntityType.VIRTUAL_FORM ;
-		}
-		else
-		{
-			return CDataEntityType.FORM ;
-		}
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		if (term.GetDataType() == CDataEntityType.FORM && !owner.IsSaveCopy())
-		{
-			CEntityNoAction act = factory.NewEntityNoAction(l) ;
-			factory.programCatalog.RegisterMapCopy(act) ;
-			return act ;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
-	{
-		boolean b = super.ReplaceVariable(field, var, bRead) ;
-		if (field == owner)
-		{
-			owner = (CEntityResourceForm)var ;
-			if (bRead)
-			{
-				var.RegisterReadReference(this) ;
-				field.UnRegisterReadReference(this) ;
-			}
-			else
-			{
-				var.RegisterWriteReference(this) ;
-				field.UnRegisterWriteReference(this) ;
-			}
-			return true ;
-		}
-		return b ;
-	}
-	public CEntityResourceForm getSaveCopy()
-	{
-		return owner.getSaveCopy() ;
-	}
+    protected boolean isvirtual = false ;
+    public void setVirtual()
+    {
+        isvirtual = true ;
+    }
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetDataType()
+     */
+    public CDataEntityType GetDataType()
+    {
+        if (isvirtual)
+        {
+            return CDataEntityType.VIRTUAL_FORM ;
+        }
+        else
+        {
+            return CDataEntityType.FORM ;
+        }
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        if (term.GetDataType() == CDataEntityType.FORM && !owner.IsSaveCopy())
+        {
+            CEntityNoAction act = factory.NewEntityNoAction(l) ;
+            factory.programCatalog.RegisterMapCopy(act) ;
+            return act ;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var, boolean bRead)
+    {
+        boolean b = super.ReplaceVariable(field, var, bRead) ;
+        if (field == owner)
+        {
+            owner = (CEntityResourceForm)var ;
+            if (bRead)
+            {
+                var.RegisterReadReference(this) ;
+                field.UnRegisterReadReference(this) ;
+            }
+            else
+            {
+                var.RegisterWriteReference(this) ;
+                field.UnRegisterWriteReference(this) ;
+            }
+            return true ;
+        }
+        return b ;
+    }
+    public CEntityResourceForm getSaveCopy()
+    {
+        return owner.getSaveCopy() ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the {@code recursiveFormAccessorEntity} template:
-	 * the owning form's data reference this accessor aliases. The owner's reference is the
-	 * precomputed, target-formatted reference {@link CEntityResourceForm#getFormReference()}
-	 * exposes (itself rendered through the {@code recursiveFormEntity} binding) — a pure
-	 * delegation over precomputed state, no data-reference resolution and no lowering when
-	 * ST4 accesses it. When the owner is absent (a cleared entity), returns the legacy
-	 * {@code [UNDEFINED]} sentinel {@code LegacyDataRenderer.renderReference(null, ...)}
-	 * returned for the retired backend.
-	 */
-	public String getFormReference()
-	{
-		if (owner == null)
-		{
-			return "[UNDEFINED]" ;
-		}
-		return owner.getFormReference() ;
-	}
+    /**
+     * Pure read-only getter consumed by the {@code recursiveFormAccessorEntity} template:
+     * the owning form's data reference this accessor aliases. The owner's reference is the
+     * precomputed, target-formatted reference {@link CEntityResourceForm#getFormReference()}
+     * exposes (itself rendered through the {@code recursiveFormEntity} binding) — a pure
+     * delegation over precomputed state, no data-reference resolution and no lowering when
+     * ST4 accesses it. When the owner is absent (a cleared entity), returns the legacy
+     * {@code [UNDEFINED]} sentinel {@code LegacyDataRenderer.renderReference(null, ...)}
+     * returned for the retired backend.
+     */
+    public String getFormReference()
+    {
+        if (owner == null)
+        {
+            return "[UNDEFINED]" ;
+        }
+        return owner.getFormReference() ;
+    }
 
-	public boolean HasAccessors()
-	{
-		// Preserved from the retired backend: the accessor bears accessors iff its owner
-		// does (a screen-map form bears none).
-		return owner != null && owner.HasAccessors() ;
-	}
+    public boolean HasAccessors()
+    {
+        // Preserved from the retired backend: the accessor bears accessors iff its owner
+        // does (a screen-map form bears none).
+        return owner != null && owner.HasAccessors() ;
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: a form accessor is never declared as a val.
-		return false ;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: a form accessor is never declared as a val.
+        return false ;
+    }
 
-//	protected void RegisterMySelfToCatalog()
-//	{
-//		programCatalog.RegisterDataEntity(GetName(), this) ;
-//		programCatalog.RegisterDataEntity("S" + GetName(), this) ;
-//	}
+//  protected void RegisterMySelfToCatalog()
+//  {
+//      programCatalog.RegisterDataEntity(GetName(), this) ;
+//      programCatalog.RegisterDataEntity("S" + GetName(), this) ;
+//  }
 }

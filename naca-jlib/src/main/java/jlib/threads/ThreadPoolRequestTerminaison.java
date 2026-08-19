@@ -8,12 +8,12 @@ package jlib.threads;
 
 public class ThreadPoolRequestTerminaison extends ThreadPoolRequest
 {
-	ThreadPoolRequestTerminaison()
-	{
-		super(true);	
-	}
-	
-	public void execute()
-	{
-	}
+    ThreadPoolRequestTerminaison()
+    {
+        super(true);
+    }
+
+    public void execute()
+    {
+    }
 }

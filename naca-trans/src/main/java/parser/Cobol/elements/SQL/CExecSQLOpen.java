@@ -25,55 +25,55 @@ import semantic.SQL.CEntitySQLOpenStatement;
  */
 public class CExecSQLOpen extends CBaseExecSQLAction
 {
-	public CExecSQLOpen(int l)
-	{
-		super(l);
-	}
+    public CExecSQLOpen(int l)
+    {
+        super(l);
+    }
 
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLOpenCursor") ;
-		e.setAttribute("Name", csCursorName);
-		return e;
-	}
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLOpenCursor") ;
+        e.setAttribute("Name", csCursorName);
+        return e;
+    }
 
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
-		if (cur != null)
-		{
-			CEntitySQLOpenStatement eSQL = factory.NewEntitySQLOpenStatement(getLine(), cur) ;
-			CDataEntity var = cur.getVariableStatement() ;
-			if (var != null)
-			 	eSQL.setVariableStatement(var) ;
-			parent.AddChild(eSQL) ;
-			return eSQL;
-		}
-		return null ;
-	}
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
+        if (cur != null)
+        {
+            CEntitySQLOpenStatement eSQL = factory.NewEntitySQLOpenStatement(getLine(), cur) ;
+            CDataEntity var = cur.getVariableStatement() ;
+            if (var != null)
+                eSQL.setVariableStatement(var) ;
+            parent.AddChild(eSQL) ;
+            return eSQL;
+        }
+        return null ;
+    }
 
-	protected boolean DoParsing()
-	{
-		// Parse until reaching END-EXEC.
-		boolean isdone = false ;
+    protected boolean DoParsing()
+    {
+        // Parse until reaching END-EXEC.
+        boolean isdone = false ;
 
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				csCursorName = new String(tok.GetValue());
-			}
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-				break;
-			}
-			GetNext();
-		}
-		return true ;
-	}
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                csCursorName = new String(tok.GetValue());
+            }
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+                break;
+            }
+            GetNext();
+        }
+        return true ;
+    }
 
-	private String csCursorName = null;
+    private String csCursorName = null;
 
 }

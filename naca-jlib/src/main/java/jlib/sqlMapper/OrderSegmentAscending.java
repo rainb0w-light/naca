@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sqlMapper;
 
@@ -16,8 +16,8 @@ package jlib.sqlMapper;
  */
 public class OrderSegmentAscending extends OrderSegment
 {
-	public OrderSegmentAscending(String csColName)
-	{
-		super(csColName, true);
-	}
+    public OrderSegmentAscending(String csColName)
+    {
+        super(csColName, true);
+    }
 }

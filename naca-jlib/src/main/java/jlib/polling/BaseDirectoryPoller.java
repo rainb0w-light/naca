@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.polling;
 
@@ -23,43 +23,43 @@ import jlib.misc.FileSystem;
  */
 public abstract class BaseDirectoryPoller
 {
-	private String csPath;						// Path polled; the sub dir are not polled
-	public MaskFileFilter maskFileFilter = null; 
-		
-	public BaseDirectoryPoller(String csPath)
-	{
-		csPath = FileSystem.normalizePath(csPath);
-	}
-	
-	// Pass a list of ; separated file masks e.g. *.xml;*.pdf
-	public void setMasks(String csMasks)
-	{
-		String arr[] = csMasks.split(";");
-		for(int n=0; n<arr.length; n++)
-			addSingleMask(arr[n]);
-	}
+    private String csPath;                      // Path polled; the sub dir are not polled
+    public MaskFileFilter maskFileFilter = null;
 
-	public void addSingleMask(String csMask)
-	{
-		if(maskFileFilter == null)
-			maskFileFilter = new MaskFileFilter();
-		maskFileFilter.add(csMask);
-	}
+    public BaseDirectoryPoller(String csPath)
+    {
+        csPath = FileSystem.normalizePath(csPath);
+    }
 
-	public void poll()
-	{
-		File path = new File(csPath);
-		File[] files = path.listFiles(maskFileFilter);
-		if (files != null)
-		{
-			ArrayList<File> arr = new ArrayList<File>();
-			for(int n=0; n<files.length; n++)
-			{
-				arr.add(files[n]);
-			}
-			handlePolledFiles(arr);
-		}
-	}
-	
-	protected abstract void handlePolledFiles(ArrayList<File> arrFiles);
+    // Pass a list of ; separated file masks e.g. *.xml;*.pdf
+    public void setMasks(String csMasks)
+    {
+        String arr[] = csMasks.split(";");
+        for(int n=0; n<arr.length; n++)
+            addSingleMask(arr[n]);
+    }
+
+    public void addSingleMask(String csMask)
+    {
+        if(maskFileFilter == null)
+            maskFileFilter = new MaskFileFilter();
+        maskFileFilter.add(csMask);
+    }
+
+    public void poll()
+    {
+        File path = new File(csPath);
+        File[] files = path.listFiles(maskFileFilter);
+        if (files != null)
+        {
+            ArrayList<File> arr = new ArrayList<File>();
+            for(int n=0; n<files.length; n++)
+            {
+                arr.add(files[n]);
+            }
+            handlePolledFiles(arr);
+        }
+    }
+
+    protected abstract void handlePolledFiles(ArrayList<File> arrFiles);
 }

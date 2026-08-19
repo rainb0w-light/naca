@@ -15,8 +15,8 @@ import parser.Cobol.CCobolElement;
 
 public abstract class CBaseExecSQLAction extends CCobolElement
 {
-	protected CBaseExecSQLAction(int l)
-	{
-		super(l) ;
-	}
+    protected CBaseExecSQLAction(int l)
+    {
+        super(l) ;
+    }
 }

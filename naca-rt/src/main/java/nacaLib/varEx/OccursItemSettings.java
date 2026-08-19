@@ -20,29 +20,29 @@ import jlib.misc.ArrayFixDyn;
  */
 public class OccursItemSettings
 {
-	OccursItemSettings()
-	{
-		arrVarDefOccursOwner = new ArrayDyn<VarDefBase>();
-	}
+    OccursItemSettings()
+    {
+        arrVarDefOccursOwner = new ArrayDyn<VarDefBase>();
+    }
 
-	void compress()
-	{
-		if(arrVarDefOccursOwner != null)
-		{
-			// Swap the type inside arrRedefinition
-			if(arrVarDefOccursOwner.isDyn())
-			{
-				int nSize = arrVarDefOccursOwner.size();
-				VarDefBase arr[] = new VarDefBase [nSize];
-				arrVarDefOccursOwner.transferInto(arr);
+    void compress()
+    {
+        if(arrVarDefOccursOwner != null)
+        {
+            // Swap the type inside arrRedefinition
+            if(arrVarDefOccursOwner.isDyn())
+            {
+                int nSize = arrVarDefOccursOwner.size();
+                VarDefBase arr[] = new VarDefBase [nSize];
+                arrVarDefOccursOwner.transferInto(arr);
 
-				ArrayFix<VarDefBase> varDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
-				arrVarDefOccursOwner = varDefOccursOwnerFix;	// replace by a fix one (uning less memory)
-			}
-		}
-	}
+                ArrayFix<VarDefBase> varDefOccursOwnerFix = new ArrayFix<VarDefBase>(arr);
+                arrVarDefOccursOwner = varDefOccursOwnerFix;    // replace by a fix one (uning less memory)
+            }
+        }
+    }
 
-	protected OccursOwnerLocation aOccursOwnerLocation[] = null;
+    protected OccursOwnerLocation aOccursOwnerLocation[] = null;
     // Array of VarDefBase; That is all occurs owner; may include ourself
-	protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;
+    protected ArrayFixDyn<VarDefBase> arrVarDefOccursOwner = null;
 }

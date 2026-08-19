@@ -22,76 +22,76 @@ import jlib.misc.NumberParser;
  */
 public class ColValueGeneric extends ColValue
 {
-	public ColValueGeneric(String csName)
-	{
-		super(csName);
-	}
+    public ColValueGeneric(String csName)
+    {
+        super(csName);
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueGeneric(csName);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueGeneric(csName);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(value);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(value);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		value = resultSet.getString(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        value = resultSet.getString(nCol);
+    }
 
-	public void setValue(String csValue)
-	{
-		this.value = csValue;
-	}
+    public void setValue(String csValue)
+    {
+        this.value = csValue;
+    }
 
-	public void setValue(int n)
-	{
-		value = String.valueOf(n);
-	}
+    public void setValue(int n)
+    {
+        value = String.valueOf(n);
+    }
 
-	public void setValue(long l)
-	{
-		value = String.valueOf(l);
-	}
+    public void setValue(long l)
+    {
+        value = String.valueOf(l);
+    }
 
-	public String getValueAsString()
-	{
-		return value;
-	}
+    public String getValueAsString()
+    {
+        return value;
+    }
 
-	public int getValueAsInt()
-	{
-		return NumberParser.getAsInt(value);
-	}
+    public int getValueAsInt()
+    {
+        return NumberParser.getAsInt(value);
+    }
 
-	double getValueAsDouble()
-	{
-		return NumberParser.getAsDouble(value);
-	}
+    double getValueAsDouble()
+    {
+        return NumberParser.getAsDouble(value);
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(Generic):'"+value+"'";
-	}
+    String getDumpValueAsString()
+    {
+        return "(Generic):'"+value+"'";
+    }
 
-	String getType()
-	{
-		return "Generic";
-	}
+    String getType()
+    {
+        return "Generic";
+    }
 
-	int getSQLType()
-	{
-		return Types.CHAR;
-	}
+    int getSQLType()
+    {
+        return Types.CHAR;
+    }
 
-	Object getValue()
-	{
-		return value;
-	}
+    Object getValue()
+    {
+        return value;
+    }
 
-	private String value = null;
+    private String value = null;
 }

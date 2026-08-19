@@ -16,33 +16,33 @@ package semantic.expression;
 public class CEntityExprOpposite extends CBaseEntityExpression
 {
 
-	public void SetOpposite(CBaseEntityExpression e)
-	{
-		data = e ;
-	}
-	protected CBaseEntityExpression data = null ;
+    public void SetOpposite(CBaseEntityExpression e)
+    {
+        data = e ;
+    }
+    protected CBaseEntityExpression data = null ;
 
-	public CBaseEntityExpression getOperand()
-	{
-		return data;
-	}
+    public CBaseEntityExpression getOperand()
+    {
+        return data;
+    }
 
-	public void Clear()
-	{
-		super.Clear() ;
-		data.Clear() ;
-		data = null ;
-	}
-	public boolean ignore()
-	{
-		return data.ignore();
-	}
+    public void Clear()
+    {
+        super.Clear() ;
+        data.Clear() ;
+        data = null ;
+    }
+    public boolean ignore()
+    {
+        return data.ignore();
+    }
 
-	@Override
-	public CEntityExpressionType getExpressionType()
-	{
-		return CEntityExpressionType.MATH;
-	}
+    @Override
+    public CEntityExpressionType getExpressionType()
+    {
+        return CEntityExpressionType.MATH;
+    }
 
 
 }

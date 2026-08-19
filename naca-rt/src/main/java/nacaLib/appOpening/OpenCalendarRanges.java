@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.appOpening;
 
@@ -21,90 +21,90 @@ import jlib.misc.QuickSort;
  */
 public class OpenCalendarRanges
 {
-	OpenCalendarRanges()
-	{		
-	}
-	
-	void addRange(CalendarOpenState state, String csMin, String csMax)
-	{
-		OpenCalendarRange range = new OpenCalendarRange();
-		range.set(state, csMin, csMax);
-		addRange(range);
-	}
-	
-	void addRange(OpenCalendarRange range)
-	{
-		if(ranges == null)
-			ranges = new ArrayList<OpenCalendarRange>();
-		ranges.add(range);
-	}
-	
-	void sortIntervals()
-	{
-		if(ranges == null)
-		{
-			setCloseAllDay();
-		}
-		
-		ArrayList<CalendarInstant> instant = new ArrayList<CalendarInstant>();
-		for(int n = 0; n< ranges.size(); n++)
-		{
-			OpenCalendarRange range = ranges.get(n);
-			
-			CalendarInstant begin = range.getInstant(0);
-			instant.add(begin);
-			
-			CalendarInstant end = range.getInstant(1);
-			instant.add(end);
-		}
-		ranges.clear();
-		
-		QuickSort<CalendarInstant> qs = new QuickSort<CalendarInstant>(instant);
-		qs.sort();
-		
-		int n=0;
-		while(n< instant.size())
-		{
-			OpenCalendarRange range = new OpenCalendarRange();
-			CalendarInstant begin = instant.get(n);
-			range.setBegin(begin);
+    OpenCalendarRanges()
+    {
+    }
 
-			n++;
-			CalendarInstant end = instant.get(n);
-			range.setEnd(end);
-			
-			ranges.add(range);
-			
-			n++;
-		}
-	}
-		
-	void setCloseAllDay()
-	{
-		OpenCalendarRange rangeClosedAllDay = new OpenCalendarRange();
-		rangeClosedAllDay.setCloseAllDay();
+    void addRange(CalendarOpenState state, String csMin, String csMax)
+    {
+        OpenCalendarRange range = new OpenCalendarRange();
+        range.set(state, csMin, csMax);
+        addRange(range);
+    }
 
-		addRange(rangeClosedAllDay);
-	}
+    void addRange(OpenCalendarRange range)
+    {
+        if(ranges == null)
+            ranges = new ArrayList<OpenCalendarRange>();
+        ranges.add(range);
+    }
 
-	CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
-	{
-		CurrentDateInfo currentDate = cacheManager.getCurrentDate();
-		for(int n = 0; n< ranges.size(); n++)
-		{
-			OpenCalendarRange range = ranges.get(n);
-			if(range.concernDate(currentDate))
-			{
-				CalendarOpenState state = range.getOpenState();
-				if(bCacheState)
-					cacheManager.setCurrentOpenState(state, range);
-				return state;
-			}			
-		}
-		if(bCacheState)
-			cacheManager.setCurrentOpenStateUnknown();
-		return CalendarOpenState.Unknown;
-	}
-	
-	private ArrayList<OpenCalendarRange> ranges = null;
+    void sortIntervals()
+    {
+        if(ranges == null)
+        {
+            setCloseAllDay();
+        }
+
+        ArrayList<CalendarInstant> instant = new ArrayList<CalendarInstant>();
+        for(int n = 0; n< ranges.size(); n++)
+        {
+            OpenCalendarRange range = ranges.get(n);
+
+            CalendarInstant begin = range.getInstant(0);
+            instant.add(begin);
+
+            CalendarInstant end = range.getInstant(1);
+            instant.add(end);
+        }
+        ranges.clear();
+
+        QuickSort<CalendarInstant> qs = new QuickSort<CalendarInstant>(instant);
+        qs.sort();
+
+        int n=0;
+        while(n< instant.size())
+        {
+            OpenCalendarRange range = new OpenCalendarRange();
+            CalendarInstant begin = instant.get(n);
+            range.setBegin(begin);
+
+            n++;
+            CalendarInstant end = instant.get(n);
+            range.setEnd(end);
+
+            ranges.add(range);
+
+            n++;
+        }
+    }
+
+    void setCloseAllDay()
+    {
+        OpenCalendarRange rangeClosedAllDay = new OpenCalendarRange();
+        rangeClosedAllDay.setCloseAllDay();
+
+        addRange(rangeClosedAllDay);
+    }
+
+    CalendarOpenState getOpenState(CalendarCacheManager cacheManager, boolean bCacheState)
+    {
+        CurrentDateInfo currentDate = cacheManager.getCurrentDate();
+        for(int n = 0; n< ranges.size(); n++)
+        {
+            OpenCalendarRange range = ranges.get(n);
+            if(range.concernDate(currentDate))
+            {
+                CalendarOpenState state = range.getOpenState();
+                if(bCacheState)
+                    cacheManager.setCurrentOpenState(state, range);
+                return state;
+            }
+        }
+        if(bCacheState)
+            cacheManager.setCurrentOpenStateUnknown();
+        return CalendarOpenState.Unknown;
+    }
+
+    private ArrayList<OpenCalendarRange> ranges = null;
 }

@@ -13,64 +13,64 @@ package nacaLib.varEx;
  */
 public class VarNumIntSignLeadingComp0 extends VarNum
 {
-	VarNumIntSignLeadingComp0(DeclareType9 declareType9)
-	{
-		super(declareType9);
-	}
+    VarNumIntSignLeadingComp0(DeclareType9 declareType9)
+    {
+        super(declareType9);
+    }
 
-	protected VarNumIntSignLeadingComp0()
-	{
-		super();
-	}
+    protected VarNumIntSignLeadingComp0()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarNumIntSignLeadingComp0 v = new VarNumIntSignLeadingComp0();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumIntSignLeadingComp0 v = new VarNumIntSignLeadingComp0();
+        return v;
+    }
 
-	public int compareTo(ComparisonMode mode, String csValue)
-	{
-		double dValue = 0;
-		try
-		{
-			dValue = Double.valueOf(csValue).doubleValue();
-		}
-		catch (Exception ex)
-		{
-		}
-		return compareTo(dValue);
-	}
+    public int compareTo(ComparisonMode mode, String csValue)
+    {
+        double dValue = 0;
+        try
+        {
+            dValue = Double.valueOf(csValue).doubleValue();
+        }
+        catch (Exception ex)
+        {
+        }
+        return compareTo(dValue);
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumIntSignLeadingComp0;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarNumIntSignLeadingComp0;
+    }
 }

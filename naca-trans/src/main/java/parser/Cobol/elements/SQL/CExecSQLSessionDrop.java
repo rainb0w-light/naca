@@ -19,49 +19,49 @@ import semantic.SQL.CEntitySQLSessionDrop;
 
 public class CExecSQLSessionDrop extends CBaseExecSQLAction
 {
-	public CExecSQLSessionDrop(int line)
-	{
-		super(line);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element eExe = root.createElement("SQLSessionDrop");
-		eExe.setAttribute("sql", csSql);
-		return eExe;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLSessionDrop session = factory.NewEntitySQLSessionDrop(getLine()) ;
-		session.setSql(csSql);
-		parent.AddChild(session);
-		return session;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok;
-		
-		csSql = "DROP";
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetNext() ;
-			if (tok.GetType()==CTokenType.DOT)
-			{
-				csSql += tok.GetType().GetSourceValue();
-				tok = GetNext();
-				csSql += tok.GetValue();
-			}
-			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-			}
-			else
-			{
-				csSql += " " + tok.GetValue();
-			}
-		}
-		return true ;
-	}
-	
-	protected String csSql = null ;
+    public CExecSQLSessionDrop(int line)
+    {
+        super(line);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element eExe = root.createElement("SQLSessionDrop");
+        eExe.setAttribute("sql", csSql);
+        return eExe;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLSessionDrop session = factory.NewEntitySQLSessionDrop(getLine()) ;
+        session.setSql(csSql);
+        parent.AddChild(session);
+        return session;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok;
+
+        csSql = "DROP";
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetNext() ;
+            if (tok.GetType()==CTokenType.DOT)
+            {
+                csSql += tok.GetType().GetSourceValue();
+                tok = GetNext();
+                csSql += tok.GetValue();
+            }
+            else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+            }
+            else
+            {
+                csSql += " " + tok.GetValue();
+            }
+        }
+        return true ;
+    }
+
+    protected String csSql = null ;
 }

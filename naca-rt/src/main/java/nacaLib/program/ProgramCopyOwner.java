@@ -18,90 +18,90 @@ import jlib.log.Log;
 
 public class ProgramCopyOwner extends BaseCloseMBean
 {
-	ProgramCopyOwner(String csCopyName)
-	{
-		super();
+    ProgramCopyOwner(String csCopyName)
+    {
+        super();
 
-		if(JmxGeneralStat.showCopyBeans())
-			createMBean("Copy."+csCopyName, csCopyName);
-		this.csCopyName = csCopyName;
-		hashPrograms = new Hashtable<String, String>();
-	}
+        if(JmxGeneralStat.showCopyBeans())
+            createMBean("Copy."+csCopyName, csCopyName);
+        this.csCopyName = csCopyName;
+        hashPrograms = new Hashtable<String, String>();
+    }
 
-	void showBean(boolean bToShow)
-	{
-		if(bToShow && !isBeanCreated())
-			createMBean("Copy."+csCopyName, csCopyName);
-		else if(!bToShow && isBeanCreated())
-			unregisterMBean();
-	}
+    void showBean(boolean bToShow)
+    {
+        if(bToShow && !isBeanCreated())
+            createMBean("Copy."+csCopyName, csCopyName);
+        else if(!bToShow && isBeanCreated())
+            unregisterMBean();
+    }
 
-	void add(String csProgramName)
-	{
-		hashPrograms.put(csProgramName, csProgramName);
-	}
+    void add(String csProgramName)
+    {
+        hashPrograms.put(csProgramName, csProgramName);
+    }
 
-	boolean removeProgramOwner(String csProgramName)
-	{
-		if(hashPrograms != null)
-		{
-			String cs = hashPrograms.get(csProgramName);
-			if(cs != null)
-			{
-				hashPrograms.remove(csProgramName);
-				if(hashPrograms.size() == 0)
-				{
-					unregisterMBean();
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    boolean removeProgramOwner(String csProgramName)
+    {
+        if(hashPrograms != null)
+        {
+            String cs = hashPrograms.get(csProgramName);
+            if(cs != null)
+            {
+                hashPrograms.remove(csProgramName);
+                if(hashPrograms.size() == 0)
+                {
+                    unregisterMBean();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	protected void buildDynamicMBeanInfo()
-	{
-		addAttribute("Name", getClass(), "Name", String.class);
-		addAttribute("NbProgramOwner", getClass(), "NbProgramOwner", int.class);
+    protected void buildDynamicMBeanInfo()
+    {
+        addAttribute("Name", getClass(), "Name", String.class);
+        addAttribute("NbProgramOwner", getClass(), "NbProgramOwner", int.class);
 
-    	addOperation("Unload Copy", getClass(), "unloadCopy");	//Boolean.TYPE);
-	}
+        addOperation("Unload Copy", getClass(), "unloadCopy");  //Boolean.TYPE);
+    }
 
-	public String getName()
-	{
-		return csCopyName;
-	}
+    public String getName()
+    {
+        return csCopyName;
+    }
 
-	public int getNbProgramOwner()
-	{
-		if(hashPrograms == null)
-			return 0;
-		return hashPrograms.size();
-	}
+    public int getNbProgramOwner()
+    {
+        if(hashPrograms == null)
+            return 0;
+        return hashPrograms.size();
+    }
 
-	public void unloadCopy()
-	{
-		Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);
-		if(hashPrograms != null)
-		{
-			Collection<String> collectionprogramNames = hashPrograms.values();
-			Object programs[] = collectionprogramNames.toArray();
-			int nNbPrograms = programs.length;
-			for(int n=nNbPrograms-1; n>=0; n--)
-			{
-				String csProgramName = (String) programs[n];
-				BaseResourceManager.unloadProgram(csProgramName);
-			}
-//			if(m_hashPrograms.size() == 0)
-//				Log.logNormal("unloadCopy; Correctly unload " + nNbPrograms + " programs using copy "+csCopyName);
-//			else
+    public void unloadCopy()
+    {
+        Log.logNormal("unloadCopy; Begin to unload all programs using copy "+csCopyName);
+        if(hashPrograms != null)
+        {
+            Collection<String> collectionprogramNames = hashPrograms.values();
+            Object programs[] = collectionprogramNames.toArray();
+            int nNbPrograms = programs.length;
+            for(int n=nNbPrograms-1; n>=0; n--)
+            {
+                String csProgramName = (String) programs[n];
+                BaseResourceManager.unloadProgram(csProgramName);
+            }
+//          if(m_hashPrograms.size() == 0)
+//              Log.logNormal("unloadCopy; Correctly unload " + nNbPrograms + " programs using copy "+csCopyName);
+//          else
 // Log.logImportant("unloadCopy; ERROR: unload " + nNbPrograms + " programs using copy "+csCopyName + " but " + m_hashPrograms.size() + "
 // remains uncorrectly loaded");
-		}
-		else
-			Log.logImportant("unloadCopy; ERROR: No program to unload");
-	}
+        }
+        else
+            Log.logImportant("unloadCopy; ERROR: No program to unload");
+    }
 
-	private String csCopyName = null;
-	private Hashtable<String, String> hashPrograms = null;
+    private String csCopyName = null;
+    private Hashtable<String, String> hashPrograms = null;
 }

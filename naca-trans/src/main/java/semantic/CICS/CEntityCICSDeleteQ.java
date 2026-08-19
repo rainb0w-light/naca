@@ -18,62 +18,62 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSDeleteQ extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSDeleteQ(int line, CObjectCatalog cat, boolean ispersistent)
-	{
-		super(line, cat);
-		this.ispersistent = ispersistent;
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSDeleteQ(int line, CObjectCatalog cat, boolean ispersistent)
+    {
+        super(line, cat);
+        this.ispersistent = ispersistent;
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetName(CDataEntity name)
-	{
-		this.name = name ;
-	}
-	public void SetSysID(CDataEntity sys)
-	{
-		sysID = sys ;
-	}
+    public void SetName(CDataEntity name)
+    {
+        this.name = name ;
+    }
+    public void SetSysID(CDataEntity sys)
+    {
+        sysID = sys ;
+    }
 
-	protected boolean ispersistent = false ;
-	protected CDataEntity name = null ;
-	protected CDataEntity sysID = null ;
+    protected boolean ispersistent = false ;
+    protected CDataEntity name = null ;
+    protected CDataEntity sysID = null ;
 
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		name = null ;
-		sysID = null ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        name = null ;
+        sysID = null ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSDeleteQEntity). They expose the already-resolved semantic
-	// sub-entities; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveCICSDeleteQEntity). They expose the already-resolved semantic
+    // sub-entities; rendering is done by the template, never here.
 
-	public CDataEntity getName()
-	{
-		return name;
-	}
+    public CDataEntity getName()
+    {
+        return name;
+    }
 
-	public CDataEntity getSysID()
-	{
-		return sysID;
-	}
+    public CDataEntity getSysID()
+    {
+        return sysID;
+    }
 
-	public boolean isPersistent()
-	{
-		return ispersistent;
-	}
+    public boolean isPersistent()
+    {
+        return ispersistent;
+    }
 
 }

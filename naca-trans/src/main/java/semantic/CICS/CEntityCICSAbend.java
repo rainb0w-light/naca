@@ -17,54 +17,54 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSAbend extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSAbend(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// and CICS XCTL/LINK exemplars), so guard it instead of dereferencing
-		// unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSAbend(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // and CICS XCTL/LINK exemplars), so guard it instead of dereferencing
+        // unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetABCode(CDataEntity ab)
-	{
-		aBCode = ab ;
-	}
+    public void SetABCode(CDataEntity ab)
+    {
+        aBCode = ab ;
+    }
 
-	protected CDataEntity aBCode = null ;
-	public boolean ignore()
-	{
-		return false;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		if (aBCode != null)
-		{
-			aBCode.Clear() ;
-		}
-		aBCode = null ;
-	}
-	public boolean hasExplicitGetOut()
-	{
-		return true ;
-	}
+    protected CDataEntity aBCode = null ;
+    public boolean ignore()
+    {
+        return false;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        if (aBCode != null)
+        {
+            aBCode.Clear() ;
+        }
+        aBCode = null ;
+    }
+    public boolean hasExplicitGetOut()
+    {
+        return true ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSAbendEntity). They expose the already-resolved semantic
-	// sub-entities; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveCICSAbendEntity). They expose the already-resolved semantic
+    // sub-entities; rendering is done by the template, never here.
 
-	public CDataEntity getABCode()
-	{
-		return aBCode;
-	}
+    public CDataEntity getABCode()
+    {
+        return aBCode;
+    }
 }

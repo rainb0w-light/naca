@@ -18,62 +18,62 @@ import java.util.concurrent.Semaphore;
  */
 public class FixedSizeBlockingQueue<T>
 {
-	public FixedSizeBlockingQueue(int nNbEntries)
-	{
-		this.nNbEntries = nNbEntries;
-		arr = new Object[nNbEntries];
-		semFilledEntries = new Semaphore(0, true);
-		semNotFilledEntries = new Semaphore(nNbEntries, true);
-	}
+    public FixedSizeBlockingQueue(int nNbEntries)
+    {
+        this.nNbEntries = nNbEntries;
+        arr = new Object[nNbEntries];
+        semFilledEntries = new Semaphore(0, true);
+        semNotFilledEntries = new Semaphore(nNbEntries, true);
+    }
 
-	public void enqueue(T t)
-	{
-		try
-		{
-			semNotFilledEntries.acquire();
-		}
-		catch (InterruptedException e)
-		{
-			return;
-		}
+    public void enqueue(T t)
+    {
+        try
+        {
+            semNotFilledEntries.acquire();
+        }
+        catch (InterruptedException e)
+        {
+            return;
+        }
 
-		synchronized(arr)
-		{
-			arr[nIndexSet] = t;
-			nIndexSet++;
-			if(nIndexSet >= nNbEntries)
-				nIndexSet  = 0;
-		}
-		semFilledEntries.release();
-	}
+        synchronized(arr)
+        {
+            arr[nIndexSet] = t;
+            nIndexSet++;
+            if(nIndexSet >= nNbEntries)
+                nIndexSet  = 0;
+        }
+        semFilledEntries.release();
+    }
 
-	public T dequeue()
-	{
-		try
-		{
-			semFilledEntries.acquire();
-		}
-		catch (InterruptedException e)
-		{
-			return null;
-		}
+    public T dequeue()
+    {
+        try
+        {
+            semFilledEntries.acquire();
+        }
+        catch (InterruptedException e)
+        {
+            return null;
+        }
 
-		synchronized(arr)
-		{
-			T t = (T)arr[nIndexGet];
-			nIndexGet++;
-			if(nIndexGet >= nNbEntries)
-				nIndexGet = 0;
-			semNotFilledEntries.release();
-			return t;
-		}
-	}
+        synchronized(arr)
+        {
+            T t = (T)arr[nIndexGet];
+            nIndexGet++;
+            if(nIndexGet >= nNbEntries)
+                nIndexGet = 0;
+            semNotFilledEntries.release();
+            return t;
+        }
+    }
 
-	private int nNbEntries = 0;
-	private Object arr[] = null;
-	private int nIndexSet = 0;
-	private int nIndexGet = 0;
-	private Semaphore semFilledEntries = null;	// Semaphore counting the number of filled entries
+    private int nNbEntries = 0;
+    private Object arr[] = null;
+    private int nIndexSet = 0;
+    private int nIndexGet = 0;
+    private Semaphore semFilledEntries = null;  // Semaphore counting the number of filled entries
     // Semaphore counting the number of entries that can still be filled (that are not filled yet)
-	private Semaphore semNotFilledEntries = null;
+    private Semaphore semNotFilledEntries = null;
 }

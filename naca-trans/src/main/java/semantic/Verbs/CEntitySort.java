@@ -19,157 +19,157 @@ import utils.CObjectCatalog;
 public class CEntitySort extends CBaseActionEntity
 {
 
-	public CEntitySort(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntitySort(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDesriptor(CEntityFileDescriptor fileDesc)
-	{
-		fileDescriptor = fileDesc ;
-	}
-	
-	protected CEntityFileDescriptor fileDescriptor = null ;
-	protected class CEntitySortKey
-	{
-		public CDataEntity key = null;
-		public boolean bAscending = false ;
-	}
-	protected Vector<CEntitySortKey> sortKey = new Vector<CEntitySortKey>() ;
-	
-	public void AddKey(boolean ascending, CDataEntity key)
-	{
-		CEntitySortKey sk = new CEntitySortKey() ;
-		sk.bAscending = ascending ;
-		sk.key = key ;
-		sortKey.add(sk) ;
-	}
+    public void setFileDesriptor(CEntityFileDescriptor fileDesc)
+    {
+        fileDescriptor = fileDesc ;
+    }
 
-	protected CEntityFileDescriptor fdInputFile = null ;
-	protected CEntityFileDescriptor fdOutputFile = null ;
-	protected CEntityProcedure pInputProcedure = null ;
-	protected CEntityProcedure pOutputProcedure = null ;
-	
-	public void setInputFile(CEntityFileDescriptor input)
-	{
-		fdInputFile = input ;		
-	}
+    protected CEntityFileDescriptor fileDescriptor = null ;
+    protected class CEntitySortKey
+    {
+        public CDataEntity key = null;
+        public boolean bAscending = false ;
+    }
+    protected Vector<CEntitySortKey> sortKey = new Vector<CEntitySortKey>() ;
 
-	public void setInputProcedure(CEntityProcedure proc)
-	{
-		pInputProcedure = proc ;
-	}
+    public void AddKey(boolean ascending, CDataEntity key)
+    {
+        CEntitySortKey sk = new CEntitySortKey() ;
+        sk.bAscending = ascending ;
+        sk.key = key ;
+        sortKey.add(sk) ;
+    }
 
-	public void setOutputFile(CEntityFileDescriptor output)
-	{
-		fdOutputFile = output ;
-	}
+    protected CEntityFileDescriptor fdInputFile = null ;
+    protected CEntityFileDescriptor fdOutputFile = null ;
+    protected CEntityProcedure pInputProcedure = null ;
+    protected CEntityProcedure pOutputProcedure = null ;
 
-	public void setOutputProcedure(CEntityProcedure proc)
-	{
-		pOutputProcedure = proc ;
-	}
+    public void setInputFile(CEntityFileDescriptor input)
+    {
+        fdInputFile = input ;
+    }
 
-	protected String csOutputProcedureName = null ;
-	public void setOutputProcedure(String string)
-	{
-		csOutputProcedureName = string ;	
-	}
-	
-	protected String csInputProcedureName = null ;
-	public void setInputProcedure(String string)
-	{
-		csInputProcedureName = string ;	
-	}
+    public void setInputProcedure(CEntityProcedure proc)
+    {
+        pInputProcedure = proc ;
+    }
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return fileDescriptor;
-	}
+    public void setOutputFile(CEntityFileDescriptor output)
+    {
+        fdOutputFile = output ;
+    }
 
-	public CEntityFileDescriptor getInputFile()
-	{
-		return fdInputFile;
-	}
+    public void setOutputProcedure(CEntityProcedure proc)
+    {
+        pOutputProcedure = proc ;
+    }
 
-	public CEntityFileDescriptor getOutputFile()
-	{
-		return fdOutputFile;
-	}
+    protected String csOutputProcedureName = null ;
+    public void setOutputProcedure(String string)
+    {
+        csOutputProcedureName = string ;
+    }
 
-	public CEntityProcedure getInputProcedure()
-	{
-		return resolveProcedure(pInputProcedure, csInputProcedureName);
-	}
+    protected String csInputProcedureName = null ;
+    public void setInputProcedure(String string)
+    {
+        csInputProcedureName = string ;
+    }
 
-	public CEntityProcedure getOutputProcedure()
-	{
-		return resolveProcedure(pOutputProcedure, csOutputProcedureName);
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return fileDescriptor;
+    }
 
-	public String getInputProcedureName()
-	{
-		CEntityProcedure procedure = getInputProcedure();
-		return procedure == null ? null : procedure.GetName();
-	}
+    public CEntityFileDescriptor getInputFile()
+    {
+        return fdInputFile;
+    }
 
-	public String getOutputProcedureName()
-	{
-		CEntityProcedure procedure = getOutputProcedure();
-		return procedure == null ? null : procedure.GetName();
-	}
+    public CEntityFileDescriptor getOutputFile()
+    {
+        return fdOutputFile;
+    }
 
-	public String getUnresolvedInputProcedureName()
-	{
-		return getInputProcedure() == null ? csInputProcedureName : null;
-	}
+    public CEntityProcedure getInputProcedure()
+    {
+        return resolveProcedure(pInputProcedure, csInputProcedureName);
+    }
 
-	public String getUnresolvedOutputProcedureName()
-	{
-		return getOutputProcedure() == null ? csOutputProcedureName : null;
-	}
+    public CEntityProcedure getOutputProcedure()
+    {
+        return resolveProcedure(pOutputProcedure, csOutputProcedureName);
+    }
 
-	private CEntityProcedure resolveProcedure(
-		CEntityProcedure procedure,
-		String procedureName)
-	{
-		if (procedure != null || procedureName == null || programCatalog == null)
-		{
-			return procedure;
-		}
-		return programCatalog.GetProcedure(procedureName, "");
-	}
+    public String getInputProcedureName()
+    {
+        CEntityProcedure procedure = getInputProcedure();
+        return procedure == null ? null : procedure.GetName();
+    }
 
-	public List<SortKeyModel> getSortKeys()
-	{
-		List<SortKeyModel> result = new ArrayList<SortKeyModel>();
-		for (CEntitySortKey sortKeyEntity : sortKey)
-		{
-			result.add(new SortKeyModel(sortKeyEntity.key, sortKeyEntity.bAscending));
-		}
-		return result;
-	}
+    public String getOutputProcedureName()
+    {
+        CEntityProcedure procedure = getOutputProcedure();
+        return procedure == null ? null : procedure.GetName();
+    }
 
-	public static class SortKeyModel
-	{
-		private final CDataEntity key;
-		private final boolean ascending;
+    public String getUnresolvedInputProcedureName()
+    {
+        return getInputProcedure() == null ? csInputProcedureName : null;
+    }
 
-		public SortKeyModel(CDataEntity key, boolean ascending)
-		{
-			this.key = key;
-			this.ascending = ascending;
-		}
+    public String getUnresolvedOutputProcedureName()
+    {
+        return getOutputProcedure() == null ? csOutputProcedureName : null;
+    }
 
-		public CDataEntity getKey()
-		{
-			return key;
-		}
+    private CEntityProcedure resolveProcedure(
+        CEntityProcedure procedure,
+        String procedureName)
+    {
+        if (procedure != null || procedureName == null || programCatalog == null)
+        {
+            return procedure;
+        }
+        return programCatalog.GetProcedure(procedureName, "");
+    }
 
-		public boolean isAscending()
-		{
-			return ascending;
-		}
-	}
+    public List<SortKeyModel> getSortKeys()
+    {
+        List<SortKeyModel> result = new ArrayList<SortKeyModel>();
+        for (CEntitySortKey sortKeyEntity : sortKey)
+        {
+            result.add(new SortKeyModel(sortKeyEntity.key, sortKeyEntity.bAscending));
+        }
+        return result;
+    }
+
+    public static class SortKeyModel
+    {
+        private final CDataEntity key;
+        private final boolean ascending;
+
+        public SortKeyModel(CDataEntity key, boolean ascending)
+        {
+            this.key = key;
+            this.ascending = ascending;
+        }
+
+        public CDataEntity getKey()
+        {
+            return key;
+        }
+
+        public boolean isAscending()
+        {
+            return ascending;
+        }
+    }
 
 }

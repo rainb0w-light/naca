@@ -29,47 +29,47 @@ import org.w3c.dom.Document;
  */
 public class XSLTransformer
 {
-	private Templates template = null ;
+    private Templates template = null ;
 
-	protected XSLTransformer(Templates trans)
-	{
-		template = trans ;
-	}
+    protected XSLTransformer(Templates trans)
+    {
+        template = trans ;
+    }
 
-	public static XSLTransformer loadFromFile(File fSS, boolean bForCache)
-	{
-		try
-		{
-			Source stylesheet = new StreamSource(fSS) ;
-			if (bForCache)
-			{ // if this processor is cached, use XALAN XSLTCompiler, instead of XALAN interpretor
-				System.setProperty("javax.xml.transform.TransformerFactory", "org.apache.xalan.xsltc.trax.TransformerFactoryImpl") ;
-			}
-			Templates templ = TransformerFactory.newInstance().newTemplates(stylesheet) ;
-			return new XSLTransformer(templ);
-		}
-		catch (TransformerConfigurationException e)
-		{
-			return null ;
-		}
-	}
+    public static XSLTransformer loadFromFile(File fSS, boolean bForCache)
+    {
+        try
+        {
+            Source stylesheet = new StreamSource(fSS) ;
+            if (bForCache)
+            { // if this processor is cached, use XALAN XSLTCompiler, instead of XALAN interpretor
+                System.setProperty("javax.xml.transform.TransformerFactory", "org.apache.xalan.xsltc.trax.TransformerFactoryImpl") ;
+            }
+            Templates templ = TransformerFactory.newInstance().newTemplates(stylesheet) ;
+            return new XSLTransformer(templ);
+        }
+        catch (TransformerConfigurationException e)
+        {
+            return null ;
+        }
+    }
 
-	public boolean doTransform(Document xmlOutput, OutputStream out)
-	{
-		try
-		{
-			Transformer xformer = template.newTransformer() ;
-			Source source = new DOMSource(xmlOutput);
-			StreamResult result = new StreamResult(out) ;
-			xformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-			//xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "false");
-			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			xformer.transform(source, result);
-			return true ;
-		}
-		catch (TransformerException e)
-		{
-			return false ;
-		}
-	}
+    public boolean doTransform(Document xmlOutput, OutputStream out)
+    {
+        try
+        {
+            Transformer xformer = template.newTransformer() ;
+            Source source = new DOMSource(xmlOutput);
+            StreamResult result = new StreamResult(out) ;
+            xformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+            //xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "false");
+            xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            xformer.transform(source, result);
+            return true ;
+        }
+        catch (TransformerException e)
+        {
+            return false ;
+        }
+    }
 }

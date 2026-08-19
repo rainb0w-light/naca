@@ -15,124 +15,124 @@ import nacaLib.varEx.FileDescriptor;
 
 public class MailUtil
 {
-	private FileDescriptor file = null;
-	
-	private String csForcedMail = null;
-	private String csSmtpServer = "smtp.intra.consultas.ch";
+    private FileDescriptor file = null;
 
-	public MailUtil(FileDescriptor file)
-	{
-		this.file = file;
-	}
+    private String csForcedMail = null;
+    private String csSmtpServer = "smtp.intra.consultas.ch";
 
-	public boolean execute(String csParameter)
-	{
-		if (csParameter != null)
-		{	
-			String csParameterUpper = csParameter.toUpperCase();
-			if (csParameterUpper.indexOf("FORCEDMAIL=") != -1)
-			{
-				int nPos = csParameterUpper.indexOf("FORCEDMAIL=") + 11;
-				int nPosEnd = csParameterUpper.indexOf(",", nPos);
-				if (nPosEnd == -1)
-					csForcedMail = csParameter.substring(nPos);
-				else
-					csForcedMail = csParameter.substring(nPos, nPosEnd);
-			}
-			if (csParameterUpper.indexOf("SMTPSERVER=") != -1)
-			{
-				int nPos = csParameterUpper.indexOf("SMTPSERVER=") + 11;
-				int nPosEnd = csParameterUpper.indexOf(",", nPos);
-				if (nPosEnd == -1)
-					csSmtpServer = csParameter.substring(nPos);
-				else
-					csSmtpServer = csParameter.substring(nPos, nPosEnd);
-			}
-		}
-		
-		if (csForcedMail != null)
-			System.out.println("MailUtil: Forced mail " + csForcedMail);
-		
-		try
-		{
-			String csFile = file.getPhysicalName();
-			mail(csFile);
-		}
-		catch(Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
+    public MailUtil(FileDescriptor file)
+    {
+        this.file = file;
+    }
 
-		return true;
-	}
+    public boolean execute(String csParameter)
+    {
+        if (csParameter != null)
+        {
+            String csParameterUpper = csParameter.toUpperCase();
+            if (csParameterUpper.indexOf("FORCEDMAIL=") != -1)
+            {
+                int nPos = csParameterUpper.indexOf("FORCEDMAIL=") + 11;
+                int nPosEnd = csParameterUpper.indexOf(",", nPos);
+                if (nPosEnd == -1)
+                    csForcedMail = csParameter.substring(nPos);
+                else
+                    csForcedMail = csParameter.substring(nPos, nPosEnd);
+            }
+            if (csParameterUpper.indexOf("SMTPSERVER=") != -1)
+            {
+                int nPos = csParameterUpper.indexOf("SMTPSERVER=") + 11;
+                int nPosEnd = csParameterUpper.indexOf(",", nPos);
+                if (nPosEnd == -1)
+                    csSmtpServer = csParameter.substring(nPos);
+                else
+                    csSmtpServer = csParameter.substring(nPos, nPosEnd);
+            }
+        }
 
-	private boolean mail(String csFile)
-	{
-		DataFileLineReader dataFileIn = new DataFileLineReader(csFile, 65536, 0);
-		LogicalFileDescriptor logicalFileDescriptor = new LogicalFileDescriptor("", csFile);
-		if(logicalFileDescriptor != null)
-		{
-			boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
-			if(isinOpened)
-			{
-				LineRead lineRead = dataFileIn.readNextUnixLine();
-				if (lineRead != null)
-				{
-					MailService mailService = new MailService(csSmtpServer, "");
-					
-					String csMail = null;
-					String csSubject = null;
-					String csMailFrom = null;
-					boolean isstartText = false;
-					StringBuffer sbText = new StringBuffer();
-					
-					while (lineRead != null)
-					{
-						String csLine = lineRead.getChunkAsString().trim();
-						if (csLine.startsWith("%XMITIP "))
-						{
-							csMail = csLine.substring(8, csLine.length() - 2);
-						}
-						else if (csLine.startsWith("SUBJECT "))
-						{
-							csSubject = csLine.substring(9, csLine.length() - 3).trim();
-						}
-						else if (csLine.startsWith("FROM "))
-						{
-							csMailFrom = csLine.substring(5, csLine.length() - 2);
-						}
-						else if (csLine.startsWith("MSGT "))
-						{
-							isstartText = true;
-							sbText.append("\r\n");
-						}
-						else if (csLine.startsWith("'"))
-						{
-							Mail mail = mailService.createMail();
-							mail.setFrom(csMailFrom);
-							if (csForcedMail == null)
-								mail.addTo(csMail);
-							else
-								mail.addTo(csForcedMail);
-							mail.setSubject(csSubject);
-							mail.setText(sbText.toString());
-							mail.send();
-							isstartText = false;
-							sbText = new StringBuffer();
-						}
-						else if (isstartText)
-						{
-							sbText.append(csLine.substring(0, csLine.length() - 2) + "\r\n");
-						}
+        if (csForcedMail != null)
+            System.out.println("MailUtil: Forced mail " + csForcedMail);
 
-						lineRead = dataFileIn.readNextUnixLine();
-					}
-				}
-				dataFileIn.close();
-				return true;
-			}
-		}
-		
-		return false;
-	}
+        try
+        {
+            String csFile = file.getPhysicalName();
+            mail(csFile);
+        }
+        catch(Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+        return true;
+    }
+
+    private boolean mail(String csFile)
+    {
+        DataFileLineReader dataFileIn = new DataFileLineReader(csFile, 65536, 0);
+        LogicalFileDescriptor logicalFileDescriptor = new LogicalFileDescriptor("", csFile);
+        if(logicalFileDescriptor != null)
+        {
+            boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+            if(isinOpened)
+            {
+                LineRead lineRead = dataFileIn.readNextUnixLine();
+                if (lineRead != null)
+                {
+                    MailService mailService = new MailService(csSmtpServer, "");
+
+                    String csMail = null;
+                    String csSubject = null;
+                    String csMailFrom = null;
+                    boolean isstartText = false;
+                    StringBuffer sbText = new StringBuffer();
+
+                    while (lineRead != null)
+                    {
+                        String csLine = lineRead.getChunkAsString().trim();
+                        if (csLine.startsWith("%XMITIP "))
+                        {
+                            csMail = csLine.substring(8, csLine.length() - 2);
+                        }
+                        else if (csLine.startsWith("SUBJECT "))
+                        {
+                            csSubject = csLine.substring(9, csLine.length() - 3).trim();
+                        }
+                        else if (csLine.startsWith("FROM "))
+                        {
+                            csMailFrom = csLine.substring(5, csLine.length() - 2);
+                        }
+                        else if (csLine.startsWith("MSGT "))
+                        {
+                            isstartText = true;
+                            sbText.append("\r\n");
+                        }
+                        else if (csLine.startsWith("'"))
+                        {
+                            Mail mail = mailService.createMail();
+                            mail.setFrom(csMailFrom);
+                            if (csForcedMail == null)
+                                mail.addTo(csMail);
+                            else
+                                mail.addTo(csForcedMail);
+                            mail.setSubject(csSubject);
+                            mail.setText(sbText.toString());
+                            mail.send();
+                            isstartText = false;
+                            sbText = new StringBuffer();
+                        }
+                        else if (isstartText)
+                        {
+                            sbText.append(csLine.substring(0, csLine.length() - 2) + "\r\n");
+                        }
+
+                        lineRead = dataFileIn.readNextUnixLine();
+                    }
+                }
+                dataFileIn.close();
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -12,7 +12,7 @@ package jlib.log;
  */
 public abstract class LogPatternLayout
 {
-	abstract String getMessage(LogParams logParams);
-	abstract String format(LogParams logParams, int n);
-	abstract int getNbLoop(LogParams logParams);
+    abstract String getMessage(LogParams logParams);
+    abstract String format(LogParams logParams, int n);
+    abstract int getNbLoop(LogParams logParams);
 }

@@ -28,130 +28,130 @@ import utils.Transcoder;
 public class CExecCICSInquire extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSInquire(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSInquire(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (transaction == null || program == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.inquire.unsupported-form",
-				"embedded-cics", getLine(),
-				"EXEC CICS INQUIRE requires both TRANSACTION and PROGRAM for local resolution");
-			return null;
-		}
-		CEntityCICSInquire inq = factory.NewEntityCICSInquire(getLine());
-		parent.AddChild(inq) ;
-		if (transaction != null)
-		{
-			inq.transaction = transaction.GetDataEntity(getLine(), factory) ;
-			inq.transaction.RegisterReadingAction(inq) ;
-		}
-		if (program != null)
-		{
-			inq.program = program.GetDataEntity(getLine(), factory);
-			inq.program.RegisterWritingAction(inq) ;
-		}
-		return inq ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis( CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (transaction == null || program == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.inquire.unsupported-form",
+                "embedded-cics", getLine(),
+                "EXEC CICS INQUIRE requires both TRANSACTION and PROGRAM for local resolution");
+            return null;
+        }
+        CEntityCICSInquire inq = factory.NewEntityCICSInquire(getLine());
+        parent.AddChild(inq) ;
+        if (transaction != null)
+        {
+            inq.transaction = transaction.GetDataEntity(getLine(), factory) ;
+            inq.transaction.RegisterReadingAction(inq) ;
+        }
+        if (program != null)
+        {
+            inq.program = program.GetDataEntity(getLine(), factory);
+            inq.program.RegisterWritingAction(inq) ;
+        }
+        return inq ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.INQUIRE)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.INQUIRE)
+        {
+            tok = GetNext();
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-			}
-			else
-			{
-				String cs = tok.GetValue() ;
-				tok = GetNext();
-				CTerminal id = null ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext() ;
-					id = ReadTerminal() ;
-					tok = GetCurrentToken();
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-				if (cs.equalsIgnoreCase("TRANSACTION"))
-				{
-					transaction = id ;
-				}
-				else if (cs.equalsIgnoreCase("PROGRAM"))
-				{
-					program = id ;
-				}
-				else if (cs.equalsIgnoreCase("SYSTEM"))
-				{
-					// missing
-				}
-				else if (cs.equalsIgnoreCase("RELEASE"))
-				{
-					release = id ;
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Unexpecting token : "+cs);
-				}
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+            }
+            else
+            {
+                String cs = tok.GetValue() ;
+                tok = GetNext();
+                CTerminal id = null ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext() ;
+                    id = ReadTerminal() ;
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+                if (cs.equalsIgnoreCase("TRANSACTION"))
+                {
+                    transaction = id ;
+                }
+                else if (cs.equalsIgnoreCase("PROGRAM"))
+                {
+                    program = id ;
+                }
+                else if (cs.equalsIgnoreCase("SYSTEM"))
+                {
+                    // missing
+                }
+                else if (cs.equalsIgnoreCase("RELEASE"))
+                {
+                    release = id ;
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Unexpecting token : "+cs);
+                }
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS INQUIRE");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS INQUIRE");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eInq = root.createElement("ExecCICSInquire") ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eInq = root.createElement("ExecCICSInquire") ;
 
-		if (transaction != null)
-		{
-			Element e = root.createElement("Transaction");
-			eInq.appendChild(e);
-			transaction.ExportTo(e, root);
-		}
-		if (program != null)
-		{
-			Element e = root.createElement("Program");
-			eInq.appendChild(e);
-			program.ExportTo(e, root);
-		}
-		return eInq;
-	}
+        if (transaction != null)
+        {
+            Element e = root.createElement("Transaction");
+            eInq.appendChild(e);
+            transaction.ExportTo(e, root);
+        }
+        if (program != null)
+        {
+            Element e = root.createElement("Program");
+            eInq.appendChild(e);
+            program.ExportTo(e, root);
+        }
+        return eInq;
+    }
 
-	protected CTerminal transaction = null ;
-	protected CTerminal release = null ;
-	protected CTerminal program = null ;
+    protected CTerminal transaction = null ;
+    protected CTerminal release = null ;
+    protected CTerminal program = null ;
 }

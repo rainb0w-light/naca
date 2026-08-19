@@ -21,31 +21,31 @@ import semantic.SQL.CEntitySQLRollBack;
  */
 public class CExecSQLRollBack extends CBaseExecSQLAction
 {
-	/**
-	 * @param l
-	 */
-	public CExecSQLRollBack(int l)
-	{
-		super(l);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLRollBack") ;
-		return e ;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLRollBack eRB = factory.NewEntitySQLRollBack(getLine());
-		parent.AddChild(eRB) ;
-		return eRB;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetValue().equals("ROLLBACK"))
-		{
-			tok = GetNext();
-		}
-		return true ;
-	}
+    /**
+     * @param l
+     */
+    public CExecSQLRollBack(int l)
+    {
+        super(l);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLRollBack") ;
+        return e ;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLRollBack eRB = factory.NewEntitySQLRollBack(getLine());
+        parent.AddChild(eRB) ;
+        return eRB;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetValue().equals("ROLLBACK"))
+        {
+            tok = GetNext();
+        }
+        return true ;
+    }
 }

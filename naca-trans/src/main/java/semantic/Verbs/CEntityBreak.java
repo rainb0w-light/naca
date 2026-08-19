@@ -12,10 +12,10 @@ import utils.CObjectCatalog;
 public class CEntityBreak extends CBaseActionEntity
 {
 
-	public CEntityBreak(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntityBreak(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
 
 }

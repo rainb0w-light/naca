@@ -13,68 +13,68 @@ import java.util.zip.ZipFile;
 
 public class JarItemEntry
 {
-	JarItemEntry(ZipEntry zipEntry)
-	{
-		this.zipEntry = zipEntry;
-	}
+    JarItemEntry(ZipEntry zipEntry)
+    {
+        this.zipEntry = zipEntry;
+    }
 
-	public int getSize()
-	{
-		if(zipEntry != null)
-			return (int) zipEntry.getSize();
-		return 0;
-	}
+    public int getSize()
+    {
+        if(zipEntry != null)
+            return (int) zipEntry.getSize();
+        return 0;
+    }
 
-	public String getName()
-	{
-		if(zipEntry != null)
-			return zipEntry.getName();
-		return null;
-	}
+    public String getName()
+    {
+        if(zipEntry != null)
+            return zipEntry.getName();
+        return null;
+    }
 
-	public ZipEntry getZipEntry()
-	{
-		return zipEntry;
-	}
+    public ZipEntry getZipEntry()
+    {
+        return zipEntry;
+    }
 
-	public byte[] loadBytes(JarEntries jarEntries)
-	{
-		return loadBytes(jarEntries.getZipFile());
-	}
+    public byte[] loadBytes(JarEntries jarEntries)
+    {
+        return loadBytes(jarEntries.getZipFile());
+    }
 
-	public byte[] loadBytes(ZipFile zipFile)
-	{
-		try
-		{
-			InputStream inputStream = zipFile.getInputStream(zipEntry);
-			if(inputStream != null)
-			{
-		    	int nSize= (int) zipEntry.getSize();	// -1 means unknown size.
-		    	if (nSize != -1)
-		    	{
-			    	byte[] tb = new byte[nSize];
-			    	int radioButton = 0;
-			    	int nChunk = 0;
-			    	while ((nSize - radioButton) > 0)
-			    	{
-						nChunk = inputStream.read(tb, radioButton, nSize - radioButton);
-			    		if (nChunk == -1)
-			    		{
-			    			break;
-			    		}
-			    		radioButton += nChunk;
-			    	}
-			    	return tb;
-		    	}
-		    	inputStream.close();
-			}
-		}
-		catch (IOException e)
-		{
-		}
-		return null;
-	}
+    public byte[] loadBytes(ZipFile zipFile)
+    {
+        try
+        {
+            InputStream inputStream = zipFile.getInputStream(zipEntry);
+            if(inputStream != null)
+            {
+                int nSize= (int) zipEntry.getSize();    // -1 means unknown size.
+                if (nSize != -1)
+                {
+                    byte[] tb = new byte[nSize];
+                    int radioButton = 0;
+                    int nChunk = 0;
+                    while ((nSize - radioButton) > 0)
+                    {
+                        nChunk = inputStream.read(tb, radioButton, nSize - radioButton);
+                        if (nChunk == -1)
+                        {
+                            break;
+                        }
+                        radioButton += nChunk;
+                    }
+                    return tb;
+                }
+                inputStream.close();
+            }
+        }
+        catch (IOException e)
+        {
+        }
+        return null;
+    }
 
 
-	private ZipEntry zipEntry = null;
+    private ZipEntry zipEntry = null;
 }

@@ -17,64 +17,64 @@ import nacaLib.varEx.VarBase;
  */
 public class SQLRecordSetVarFiller
 {
-	public SQLRecordSetVarFiller()
-	{
-		recordSetCacheColTypeType = new RecordSetCacheColTypeType();
-	}
+    public SQLRecordSetVarFiller()
+    {
+        recordSetCacheColTypeType = new RecordSetCacheColTypeType();
+    }
 
-	void apply(CSQLResultSet resultSet)
-	{
-		if(arrItem != null)
-		{
-			int nNbItems = arrItem.size();
-			for(int n=0; n<nNbItems; n++)
-			{
-				SQLRecordSetVarFillerItem item = arrItem.get(n);
-				item.apply(resultSet, recordSetCacheColTypeType);
-			}
-		}
-	}
+    void apply(CSQLResultSet resultSet)
+    {
+        if(arrItem != null)
+        {
+            int nNbItems = arrItem.size();
+            for(int n=0; n<nNbItems; n++)
+            {
+                SQLRecordSetVarFillerItem item = arrItem.get(n);
+                item.apply(resultSet, recordSetCacheColTypeType);
+            }
+        }
+    }
 
-	void addLinkColDestination(int nColSource, VarBase varInto, VarBase varIndicator)
-	{
-		SQLRecordSetVarFillerItem item = new SQLRecordSetVarFillerItem(nColSource, varInto, varIndicator);
-		if(arrItem == null)
-			arrItem = new ArrayDyn<SQLRecordSetVarFillerItem>();	// new ArrayList<SQLRecordSetVarFillerItem>();
-		arrItem.add(item);
-	}
+    void addLinkColDestination(int nColSource, VarBase varInto, VarBase varIndicator)
+    {
+        SQLRecordSetVarFillerItem item = new SQLRecordSetVarFillerItem(nColSource, varInto, varIndicator);
+        if(arrItem == null)
+            arrItem = new ArrayDyn<SQLRecordSetVarFillerItem>();    // new ArrayList<SQLRecordSetVarFillerItem>();
+        arrItem.add(item);
+    }
 
-	void compress()
-	{
-		if(arrItem.isDyn())
-		{
-			int nSize = arrItem.size();
-			SQLRecordSetVarFillerItem arr[] = new SQLRecordSetVarFillerItem[nSize];
-			arrItem.transferInto(arr);
+    void compress()
+    {
+        if(arrItem.isDyn())
+        {
+            int nSize = arrItem.size();
+            SQLRecordSetVarFillerItem arr[] = new SQLRecordSetVarFillerItem[nSize];
+            arrItem.transferInto(arr);
 
-			ArrayFix<SQLRecordSetVarFillerItem> fix = new ArrayFix<SQLRecordSetVarFillerItem>(arr);
-			arrItem = fix;	// replace by a fix one (uning less memory)
-		}
-	}
+            ArrayFix<SQLRecordSetVarFillerItem> fix = new ArrayFix<SQLRecordSetVarFillerItem>(arr);
+            arrItem = fix;  // replace by a fix one (uning less memory)
+        }
+    }
 
-	RecordSetCacheColTypeType getRecordSetCacheColTypeType()
-	{
-		return recordSetCacheColTypeType;
-	}
+    RecordSetCacheColTypeType getRecordSetCacheColTypeType()
+    {
+        return recordSetCacheColTypeType;
+    }
 
-	public int getNbCol()
-	{
-		return nNbColResultSet;
-	}
+    public int getNbCol()
+    {
+        return nNbColResultSet;
+    }
 
-	public void setNbCol(int nNbColResultSet)
-	{
-		this.nNbColResultSet = nNbColResultSet;
-	}
+    public void setNbCol(int nNbColResultSet)
+    {
+        this.nNbColResultSet = nNbColResultSet;
+    }
 
-	private int nNbColResultSet = 0;
+    private int nNbColResultSet = 0;
 
-	private ArrayFixDyn<SQLRecordSetVarFillerItem> arrItem = null;
-	// ArrayFixDynList<SQLRecordSetVarFillerItem> arrItem = null;
+    private ArrayFixDyn<SQLRecordSetVarFillerItem> arrItem = null;
+    // ArrayFixDynList<SQLRecordSetVarFillerItem> arrItem = null;
 
-	private RecordSetCacheColTypeType recordSetCacheColTypeType = null;
+    private RecordSetCacheColTypeType recordSetCacheColTypeType = null;
 }

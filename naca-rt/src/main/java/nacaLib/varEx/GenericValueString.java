@@ -14,56 +14,56 @@ import jlib.misc.*;
  */
 public class GenericValueString extends GenericValue
 {
-	GenericValueString(String cs)
-	{
-		this.cs = cs;
-	}
+    GenericValueString(String cs)
+    {
+        this.cs = cs;
+    }
 
-	String getAsRawString()
-	{
-		return cs;
-	}
+    String getAsRawString()
+    {
+        return cs;
+    }
 
-	String getAsString()
-	{
-		return String.valueOf(cs);
-	}
-
-
-	int getAsInt()
-	{
-		int n = NumberParser.getAsInt(cs);
-		return n;
-	}
-
-	int getAsUnsignedInt()
-	{
-		int n = getAsInt();
-		if(n < 0)
-			return -n;
-		return n;
-	}
+    String getAsString()
+    {
+        return String.valueOf(cs);
+    }
 
 
-	Dec getAsDec()
-	{
-		long l = NumberParser.getAsLong(cs);
-		Dec dec = new Dec(l, "");
-		return dec;
-	}
+    int getAsInt()
+    {
+        int n = NumberParser.getAsInt(cs);
+        return n;
+    }
 
-	Dec getAsUnsignedDec()
-	{
-		Dec dec = getAsDec();
-		dec.setPositive(true);
-		return dec;
-	}
+    int getAsUnsignedInt()
+    {
+        int n = getAsInt();
+        if(n < 0)
+            return -n;
+        return n;
+    }
 
-	double getAsDouble()
-	{
-		double d = NumberParser.getAsDouble(cs);
-		return d;
-	}
 
-	private String cs = null;
+    Dec getAsDec()
+    {
+        long l = NumberParser.getAsLong(cs);
+        Dec dec = new Dec(l, "");
+        return dec;
+    }
+
+    Dec getAsUnsignedDec()
+    {
+        Dec dec = getAsDec();
+        dec.setPositive(true);
+        return dec;
+    }
+
+    double getAsDouble()
+    {
+        double d = NumberParser.getAsDouble(cs);
+        return d;
+    }
+
+    private String cs = null;
 }

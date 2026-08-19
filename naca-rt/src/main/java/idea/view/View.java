@@ -20,67 +20,67 @@ import org.w3c.dom.Document;
 public class View
 {
 
-	/**
-	 * @param out
-	 * @param appSession
-	 */
-	public void mergeOutput(OnlineSession appSession)
-	{
-		Document xmlData = appSession.getXMLData() ;
-		Document xmlStruct = appSession.getCurrentXMLStructure() ;
-		if (xmlStruct != null)
-		{
-			XMLMerger merger = XMLMergerManager.get(appSession);
-			Document xmlOutput = merger.doMerging(xmlStruct, xmlData) ;	// 5 ms per loop
-			XMLMergerManager.release(merger);
-			appSession.setXMLOutput(xmlOutput) ;	// 1ms per loop: should be true
-		}
-	}
+    /**
+     * @param out
+     * @param appSession
+     */
+    public void mergeOutput(OnlineSession appSession)
+    {
+        Document xmlData = appSession.getXMLData() ;
+        Document xmlStruct = appSession.getCurrentXMLStructure() ;
+        if (xmlStruct != null)
+        {
+            XMLMerger merger = XMLMergerManager.get(appSession);
+            Document xmlOutput = merger.doMerging(xmlStruct, xmlData) ; // 5 ms per loop
+            XMLMergerManager.release(merger);
+            appSession.setXMLOutput(xmlOutput) ;    // 1ms per loop: should be true
+        }
+    }
 
-	public void mergeOutputForPrintScreen(OnlineSession appSession)
-	{
-		Document xmlData = appSession.getXMLData() ;
-		Document xmlStruct = appSession.getCurrentXMLStructureForPrintScreen() ;
-		if (xmlStruct != null)
-		{
-			XMLMerger merger = XMLMergerManager.get(appSession);
-			Document xmlOutput = merger.doMerging(xmlStruct, xmlData) ;	// 5 ms per loop
-			XMLMergerManager.release(merger);
-			appSession.setXMLOutput(xmlOutput) ;	// 1ms per loop: should be true
-		}
-	}
+    public void mergeOutputForPrintScreen(OnlineSession appSession)
+    {
+        Document xmlData = appSession.getXMLData() ;
+        Document xmlStruct = appSession.getCurrentXMLStructureForPrintScreen() ;
+        if (xmlStruct != null)
+        {
+            XMLMerger merger = XMLMergerManager.get(appSession);
+            Document xmlOutput = merger.doMerging(xmlStruct, xmlData) ; // 5 ms per loop
+            XMLMergerManager.release(merger);
+            appSession.setXMLOutput(xmlOutput) ;    // 1ms per loop: should be true
+        }
+    }
 
-	public void mergeOutputForServerdown(OnlineSession appSession)
-	{
-		OnlineResourceManager resManager = OnlineResourceManagerFactory.GetInstance() ;
+    public void mergeOutputForServerdown(OnlineSession appSession)
+    {
+        OnlineResourceManager resManager = OnlineResourceManagerFactory.GetInstance() ;
 
-		Document xmlData = appSession.getXMLData() ;
-		Document docServerDown = resManager.getMainPage("ServerDown") ;
-		if (docServerDown != null)
-		{
-			XMLMerger merger = XMLMergerManager.get(appSession);
-			Document xmlOutput = merger.doMerging(docServerDown, xmlData) ;	// 5 ms per loop
-			XMLMergerManager.release(merger);
-			appSession.setXMLOutput(xmlOutput) ;	// 1ms per loop: should be true
-		}
-	}
+        Document xmlData = appSession.getXMLData() ;
+        Document docServerDown = resManager.getMainPage("ServerDown") ;
+        if (docServerDown != null)
+        {
+            XMLMerger merger = XMLMergerManager.get(appSession);
+            Document xmlOutput = merger.doMerging(docServerDown, xmlData) ; // 5 ms per loop
+            XMLMergerManager.release(merger);
+            appSession.setXMLOutput(xmlOutput) ;    // 1ms per loop: should be true
+        }
+    }
 
 
 
-	/**
-	 * @param appSession
-	 */
-	public void updateOutput(OnlineSession appSession)
-	{
-		Document xmlData = appSession.getXMLData() ;
-		Document xmlOutput = appSession.getXMLOutput() ;
-		if (xmlOutput != null)
-		{
-			XMLMerger merger = XMLMergerManager.get(appSession);
-			merger.doUpdate(xmlOutput, xmlData) ;
-			XMLMergerManager.release(merger);
+    /**
+     * @param appSession
+     */
+    public void updateOutput(OnlineSession appSession)
+    {
+        Document xmlData = appSession.getXMLData() ;
+        Document xmlOutput = appSession.getXMLOutput() ;
+        if (xmlOutput != null)
+        {
+            XMLMerger merger = XMLMergerManager.get(appSession);
+            merger.doUpdate(xmlOutput, xmlData) ;
+            XMLMergerManager.release(merger);
 
-		}
-	}
+        }
+    }
 
 }

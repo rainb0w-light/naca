@@ -10,20 +10,20 @@ import nacaLib.varEx.VarSectionDeclaration;
 
 public class FPacVarSectionDeclaration extends VarSectionDeclaration
 {
-	
-	public FPacVarSectionDeclaration(FPacProgram program)
-	{
-		super(program);
-	}
-	
-	public FPacFileDeclaration fpacFile(String csName)
-	{
-		return new FPacFileDeclaration(this, csName);
-//		DataSectionFile fileSection = fileSection();
-//		FPacFileDescriptor fileDef = new FPacFileDescriptor((BaseFPacProgram)program, csName);
-//		fileSection.setCurrentFileDef(fileDef);
-//		return fileDef;
-	}
+
+    public FPacVarSectionDeclaration(FPacProgram program)
+    {
+        super(program);
+    }
+
+    public FPacFileDeclaration fpacFile(String csName)
+    {
+        return new FPacFileDeclaration(this, csName);
+//      DataSectionFile fileSection = fileSection();
+//      FPacFileDescriptor fileDef = new FPacFileDescriptor((BaseFPacProgram)program, csName);
+//      fileSection.setCurrentFileDef(fileDef);
+//      return fileDef;
+    }
 
 
 }

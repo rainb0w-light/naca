@@ -11,21 +11,21 @@ import java.io.FilenameFilter;
 
 public class PreloadFileFilter implements FilenameFilter
 {
-	PreloadFileFilter()
-	{
-	}
-	
-	public boolean accept(File dir, String csName)
-	{
-		if(csName != null)
-		{
-			if(csName.indexOf('$') == -1)	// No $ in name 
-			{
-				String cs = csName.toUpperCase();			
-				if(cs.endsWith(".CLASS"))
-					return true;
-			}
-		}
-		return false;		
-	}
+    PreloadFileFilter()
+    {
+    }
+
+    public boolean accept(File dir, String csName)
+    {
+        if(csName != null)
+        {
+            if(csName.indexOf('$') == -1)   // No $ in name
+            {
+                String cs = csName.toUpperCase();
+                if(cs.endsWith(".CLASS"))
+                    return true;
+            }
+        }
+        return false;
+    }
 }

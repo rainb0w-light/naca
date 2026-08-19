@@ -52,121 +52,121 @@ import utils.CObjectCatalog;
  */
 public class CEntityLabelField extends CEntityResourceField
 {
-	/**
-	 * @param l source line
-	 * @param cat the program catalog
-	 */
-	public CEntityLabelField(int l, CObjectCatalog cat)
-	{
-		super(l, "", cat);
-	}
+    /**
+     * @param l source line
+     * @param cat the program catalog
+     */
+    public CEntityLabelField(int l, CObjectCatalog cat)
+    {
+        super(l, "", cat);
+    }
 
-	public boolean IsEntryField()
-	{
-		return false;
-	}
+    public boolean IsEntryField()
+    {
+        return false;
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD ;
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseExternalEntity#GetTypeDecl()
-	 */
-	public String GetTypeDecl()
-	{
-		return "" ; // unused
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseExternalEntity#GetTypeDecl()
+     */
+    public String GetTypeDecl()
+    {
+        return "" ; // unused
+    }
 
-	/**
-	 * Target-neutral identifier formatter for the {@code linkedActiveChoice} XML branch.
-	 * Installed by the generate-layer factory ({@code BmsJavaEntities.labelField} injects
-	 * the bound output's {@code FormatIdentifier}); defaults to the neutral legacy fallback
-	 * so a directly-constructed entity stays well-formed. A pure injected value — no
-	 * {@code generate.*} coupling lives in this tree.
-	 */
-	private Function<String, String> identifierFormatter =
-		identifier -> identifier.replace('-', '_').replace('#', '$');
+    /**
+     * Target-neutral identifier formatter for the {@code linkedActiveChoice} XML branch.
+     * Installed by the generate-layer factory ({@code BmsJavaEntities.labelField} injects
+     * the bound output's {@code FormatIdentifier}); defaults to the neutral legacy fallback
+     * so a directly-constructed entity stays well-formed. A pure injected value — no
+     * {@code generate.*} coupling lives in this tree.
+     */
+    private Function<String, String> identifierFormatter =
+        identifier -> identifier.replace('-', '_').replace('#', '$');
 
-	public void setIdentifierFormatter(Function<String, String> formatter)
-	{
-		if (formatter != null)
-		{
-			identifierFormatter = formatter ;
-		}
-	}
+    public void setIdentifierFormatter(Function<String, String> formatter)
+    {
+        if (formatter != null)
+        {
+            identifierFormatter = formatter ;
+        }
+    }
 
-	/**
-	 * Pure read-only view of the active-choice link slot, formatted through the injected
-	 * target-specific formatter. Exposed so the XML emission below (and tests) read only
-	 * precomputed state; the formatting is supplied by the generate-layer factory, never
-	 * resolved here.
-	 */
-	public String getActiveChoiceLink()
-	{
-		return identifierFormatter.apply(csActiveChoiceValue) ;
-	}
+    /**
+     * Pure read-only view of the active-choice link slot, formatted through the injected
+     * target-specific formatter. Exposed so the XML emission below (and tests) read only
+     * precomputed state; the formatting is supplied by the generate-layer factory, never
+     * resolved here.
+     */
+    public String getActiveChoiceLink()
+    {
+        return identifierFormatter.apply(csActiveChoiceValue) ;
+    }
 
-	public Element DoXMLExport(Document doc, CResourceStrings res)
-	{
-		Element ef ;
-		if (mode == FieldMode.TITLE)
-		{
-			ef = doc.createElement("title") ;
-		}
-		else if (mode == FieldMode.HIDDEN)
-		{
-			return null ;
-		}
-		else if (mode == FieldMode.ACTIVE_CHOICE)
-		{
-			ef = doc.createElement("label") ;
-			ef.setAttribute("type", "activeChoice") ;
-			ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
-			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
-		}
-		else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
-		{
-			ef = doc.createElement("label") ;
-			ef.setAttribute("type", "linkedActiveChoice") ;
-			ef.setAttribute("activeChoiceLink", getActiveChoiceLink());
-			ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
-			ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
-		}
-		else
-		{
-			ef = doc.createElement("label") ;
-		}
-		ef.setAttribute("length", String.valueOf(nLength)) ;
-		ef.setAttribute("line", String.valueOf(nPosLine)) ;
-		ef.setAttribute("col", String.valueOf(nPosCol)) ;
-		if (!csInitialValue.equals(""))
-		{
-			ef.appendChild(res.exportResource(csInitialValue, doc)) ;
-		}
-		if (!csDisplayName.equals(""))
-		{
-			ef.setAttribute("name", csDisplayName);
-		}
-		if (!csColor.equals(""))
-		{
-			ef.setAttribute("color", csColor.toLowerCase());
-		}
-		if (!csHighLight.equals(""))
-		{
-			ef.setAttribute("highlighting", csHighLight.toLowerCase());
-		}
-		if (!csBrightness.equals(""))
-		{
-			ef.setAttribute("brightness", csBrightness.toLowerCase());
-		}
-		return ef ;
-	}
+    public Element DoXMLExport(Document doc, CResourceStrings res)
+    {
+        Element ef ;
+        if (mode == FieldMode.TITLE)
+        {
+            ef = doc.createElement("title") ;
+        }
+        else if (mode == FieldMode.HIDDEN)
+        {
+            return null ;
+        }
+        else if (mode == FieldMode.ACTIVE_CHOICE)
+        {
+            ef = doc.createElement("label") ;
+            ef.setAttribute("type", "activeChoice") ;
+            ef.setAttribute("activeChoiceValue", csActiveChoiceValue);
+            ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+            ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
+        }
+        else if (mode == FieldMode.LINKED_ACTIVE_CHOICE)
+        {
+            ef = doc.createElement("label") ;
+            ef.setAttribute("type", "linkedActiveChoice") ;
+            ef.setAttribute("activeChoiceLink", getActiveChoiceLink());
+            ef.setAttribute("activeChoiceTarget", csActiveChoiceTarget);
+            ef.setAttribute("activeChoiceSubmit", isactiveChoiceSubmit ?"true":"false");
+        }
+        else
+        {
+            ef = doc.createElement("label") ;
+        }
+        ef.setAttribute("length", String.valueOf(nLength)) ;
+        ef.setAttribute("line", String.valueOf(nPosLine)) ;
+        ef.setAttribute("col", String.valueOf(nPosCol)) ;
+        if (!csInitialValue.equals(""))
+        {
+            ef.appendChild(res.exportResource(csInitialValue, doc)) ;
+        }
+        if (!csDisplayName.equals(""))
+        {
+            ef.setAttribute("name", csDisplayName);
+        }
+        if (!csColor.equals(""))
+        {
+            ef.setAttribute("color", csColor.toLowerCase());
+        }
+        if (!csHighLight.equals(""))
+        {
+            ef.setAttribute("highlighting", csHighLight.toLowerCase());
+        }
+        if (!csBrightness.equals(""))
+        {
+            ef.setAttribute("brightness", csBrightness.toLowerCase());
+        }
+        return ef ;
+    }
 }

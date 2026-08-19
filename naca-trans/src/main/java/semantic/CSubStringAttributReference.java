@@ -20,131 +20,136 @@ import utils.CObjectCatalog;
 public class CSubStringAttributReference extends CBaseDataReference
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CSubStringAttributReference(int l, CObjectCatalog cat)
-	{
-		super(l, "", cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CSubStringAttributReference(int l, CObjectCatalog cat)
+    {
+        super(l, "", cat);
+    }
 
-	public boolean HasAccessors()
-	{
-		return true;
-	}
+    public boolean HasAccessors()
+    {
+        return true;
+    }
 
-	public boolean isValNeeded()
-	{
-		return true;
-	}
+    public boolean isValNeeded()
+    {
+        return true;
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.VAR;
-	}
-	public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
-	{
-		reference = ref ;
-		this.start = start ;
-		this.length = length;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.VAR;
+    }
+    public void SetReference(CDataEntity ref, CBaseEntityExpression start, CBaseEntityExpression length)
+    {
+        reference = ref ;
+        this.start = start ;
+        this.length = length;
+    }
 
-	public CDataEntity getReference()
-	{
-		return reference;
-	}
+    public CDataEntity getReference()
+    {
+        return reference;
+    }
 
-	public CBaseEntityExpression getStart()
-	{
-		return start;
-	}
+    public CBaseEntityExpression getStart()
+    {
+        return start;
+    }
 
-	public CBaseEntityExpression getLength()
-	{
-		return length;
-	}
+    public CBaseEntityExpression getLength()
+    {
+        return length;
+    }
 
-	protected CBaseEntityExpression start = null ;
-	protected CBaseEntityExpression length = null ;
+    protected CBaseEntityExpression start = null ;
+    protected CBaseEntityExpression length = null ;
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		String value = term.GetValue() ;
-		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
-		eAssign.SetSubStringRef(start, length);
-		if (value.equals(CCobolConstantList.ZERO.name) || value.equals(CCobolConstantList.ZEROS.name) || value.equals(CCobolConstantList.ZEROES.name))
-		{
-			eAssign.SetToZero(reference) ;
-		}
-		else if (value.equals(CCobolConstantList.SPACE.name) || value.equals(CCobolConstantList.SPACES.name))
-		{
-			eAssign.SetToSpace(reference) ;
-		}
-		else if (value.equals(CCobolConstantList.LOW_VALUE.name) || value.equals(CCobolConstantList.LOW_VALUES.name))
-		{
-			eAssign.SetToLowValue(reference) ;
-		}
-		else if (value.equals(CCobolConstantList.HIGH_VALUE.name) || value.equals(CCobolConstantList.HIGH_VALUES.name))
-		{
-			eAssign.SetToHighValue(reference) ;
-		}
-		else
-		{
-			return null ;
-		}
-		reference.RegisterWritingAction(eAssign) ;
-		//RegisterWritingAction(eAssign) ;
-		return eAssign ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetSpecialAssignment(parser.expression.CTerminal)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        String value = term.GetValue() ;
+        CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
+        eAssign.SetSubStringRef(start, length);
+        if (value.equals(CCobolConstantList.ZERO.name) || value.equals(CCobolConstantList.ZEROS.name)
+            || value.equals(CCobolConstantList.ZEROES.name))
+        {
+            eAssign.SetToZero(reference) ;
+        }
+        else if (value.equals(CCobolConstantList.SPACE.name) || value.equals(CCobolConstantList.SPACES.name))
+        {
+            eAssign.SetToSpace(reference) ;
+        }
+        else if (value.equals(CCobolConstantList.LOW_VALUE.name) || value.equals(CCobolConstantList.LOW_VALUES.name))
+        {
+            eAssign.SetToLowValue(reference) ;
+        }
+        else if (value.equals(CCobolConstantList.HIGH_VALUE.name) || value.equals(CCobolConstantList.HIGH_VALUES.name))
+        {
+            eAssign.SetToHighValue(reference) ;
+        }
+        else
+        {
+            return null ;
+        }
+        reference.RegisterWritingAction(eAssign) ;
+        //RegisterWritingAction(eAssign) ;
+        return eAssign ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		return null;
-	}
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
-		if (eCond == null)
-		{
-			return null ;
-		}
-		else
-		{
-			CDataEntity eData = eCond.GetConditionReference() ;
-			CSubStringAttributReference eSubStr = factory.NewEntitySubString(getLine()) ;
-			eSubStr.length = length ;
-			eSubStr.start = start ;
-			eSubStr.reference = eData ;
-			eCond.SetConditonReference(eSubStr);
-			eSubStr.RegisterVarTesting(eCond) ;
-			return eCond;
-		}
-	}
-	public boolean ignore()
-	{
-		if (reference == null)
-			return true ;
-		return reference.ignore() ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		length.Clear();
-		length = null ;
-		start.Clear() ;
-		start = null ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetSpecialAssignment(semantic.CBaseDataEntity)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        return null;
+    }
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        CBaseEntityCondition eCond = reference.GetSpecialCondition(getLine(), value, type, factory);
+        if (eCond == null)
+        {
+            return null ;
+        }
+        else
+        {
+            CDataEntity eData = eCond.GetConditionReference() ;
+            CSubStringAttributReference eSubStr = factory.NewEntitySubString(getLine()) ;
+            eSubStr.length = length ;
+            eSubStr.start = start ;
+            eSubStr.reference = eData ;
+            eCond.SetConditonReference(eSubStr);
+            eSubStr.RegisterVarTesting(eCond) ;
+            return eCond;
+        }
+    }
+    public boolean ignore()
+    {
+        if (reference == null)
+            return true ;
+        return reference.ignore() ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        length.Clear();
+        length = null ;
+        start.Clear() ;
+        start = null ;
+    }
 
 }

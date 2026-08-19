@@ -12,20 +12,20 @@ package idea.semanticContext;
  */
 public class CMenuOptionDef
 {
-	CMenuOptionDef()
-	{
-	}
+    CMenuOptionDef()
+    {
+    }
 
-	void setActionId(String csActionId)
-	{
-		this.csActionId = csActionId;
-	}
+    void setActionId(String csActionId)
+    {
+        this.csActionId = csActionId;
+    }
 
-	void setLabel(String csLabel)
-	{
-		this.csLabel = csLabel;
-	}
+    void setLabel(String csLabel)
+    {
+        this.csLabel = csLabel;
+    }
 
-	String csLabel = null;
-	String csActionId = null;
+    String csLabel = null;
+    String csActionId = null;
 }

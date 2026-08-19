@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -18,97 +18,97 @@ import jlib.misc.LittleEndingUnsignBinaryBufferStorage;
  */
 public class BtreeKeySegmentUnsignBinary extends BtreeKeySegment
 {
-	public BtreeKeySegmentUnsignBinary(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
-	{
-		super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
-	}
-	
-	int compare(byte tby1[], byte tby2[])
-	{
-		int n1, n2;
-		int nPos = nKeyPosition;
-		for (int n=0; n<nKeyLength; n++, nPos++)
-		{
-		    n1 = tby1[nPos] & 0xff;	// Get unsigned
-		    n2 = tby2[nPos] & 0xff;
-		    if(n1 == n2)
-		    	continue;
-			if(n1 < n2)
-		    	return bAscending ? -1 : 1;
-	    	return bAscending ? 1 : -1;
-		}
-		return 0;
-//		if(nKeyLength == 4)
-//		{
-//			long l1 = LittleEndingUnsignBinaryBufferStorage.readInt(tby1, nKeyPosition);
-//			long l2 = LittleEndingUnsignBinaryBufferStorage.readInt(tby2, nKeyPosition);
-//			
-//			if(l1 == l2)
-//				return 0;
-//			if(l1 < l2)
-//			{
-//		    	if(bAscending)
-//		    		return -1;
-//		    	return 1;
-//			}
-//			// n1 > n2) 
-//	    	if(bAscending)
-//	    		return 1;
-//	    	return -1;
-//		}
-//		else if(nKeyLength == 8)
-//		{
-//			long l1 = LittleEndingUnsignBinaryBufferStorage.readLong(tby1, nKeyPosition);
-//			long l2 = LittleEndingUnsignBinaryBufferStorage.readLong(tby2, nKeyPosition);
-//			if(l1 == l2)
-//				return 0;
-//			if(l1 < l2)
-//			{
-//		    	if(bAscending)
-//		    		return -1;
-//		    	return 1;
-//			}
-//	    	if(bAscending)
-//	    		return 1;
-//	    	return -1;
-//		}
-//		else if(nKeyLength == 2)
-//		{
-//			int n1 = LittleEndingUnsignBinaryBufferStorage.readShort(tby1, nKeyPosition);
-//			int n2 = LittleEndingUnsignBinaryBufferStorage.readShort(tby2, nKeyPosition);
-//			if(n1 == n2)
-//				return 0;
-//			if(n1 < n2)
-//			{
-//		    	if(bAscending)
-//		    		return -1;
-//		    	return 1;
-//			}
-//	    	if(bAscending)
-//	    		return 1;
-//	    	return -1;
-//		}		
-//		else if(nKeyLength == 1)
-//		{
-//			int n1 = LittleEndingUnsignBinaryBufferStorage.readByte(tby1, nKeyPosition);
-//			int n2 = LittleEndingUnsignBinaryBufferStorage.readByte(tby2, nKeyPosition);
-//			if(n1 == n2)
-//				return 0;
-//			if(n1 < n2)
-//			{
-//		    	if(bAscending)
-//		    		return -1;
-//		    	return 1;
-//			}
-//	    	if(bAscending)
-//	    		return 1;
-//	    	return -1;
-//		}
-//		// Unmannaged length
-//		return 0;
-	}
-	
-	void convertKeySegmentToAscii(byte tbyKey[], int nKeyPosition, int nKeyLength)
-	{
-	}
+    public BtreeKeySegmentUnsignBinary(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
+    {
+        super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+    }
+
+    int compare(byte tby1[], byte tby2[])
+    {
+        int n1, n2;
+        int nPos = nKeyPosition;
+        for (int n=0; n<nKeyLength; n++, nPos++)
+        {
+            n1 = tby1[nPos] & 0xff; // Get unsigned
+            n2 = tby2[nPos] & 0xff;
+            if(n1 == n2)
+                continue;
+            if(n1 < n2)
+                return bAscending ? -1 : 1;
+            return bAscending ? 1 : -1;
+        }
+        return 0;
+//      if(nKeyLength == 4)
+//      {
+//          long l1 = LittleEndingUnsignBinaryBufferStorage.readInt(tby1, nKeyPosition);
+//          long l2 = LittleEndingUnsignBinaryBufferStorage.readInt(tby2, nKeyPosition);
+//
+//          if(l1 == l2)
+//              return 0;
+//          if(l1 < l2)
+//          {
+//              if(bAscending)
+//                  return -1;
+//              return 1;
+//          }
+//          // n1 > n2)
+//          if(bAscending)
+//              return 1;
+//          return -1;
+//      }
+//      else if(nKeyLength == 8)
+//      {
+//          long l1 = LittleEndingUnsignBinaryBufferStorage.readLong(tby1, nKeyPosition);
+//          long l2 = LittleEndingUnsignBinaryBufferStorage.readLong(tby2, nKeyPosition);
+//          if(l1 == l2)
+//              return 0;
+//          if(l1 < l2)
+//          {
+//              if(bAscending)
+//                  return -1;
+//              return 1;
+//          }
+//          if(bAscending)
+//              return 1;
+//          return -1;
+//      }
+//      else if(nKeyLength == 2)
+//      {
+//          int n1 = LittleEndingUnsignBinaryBufferStorage.readShort(tby1, nKeyPosition);
+//          int n2 = LittleEndingUnsignBinaryBufferStorage.readShort(tby2, nKeyPosition);
+//          if(n1 == n2)
+//              return 0;
+//          if(n1 < n2)
+//          {
+//              if(bAscending)
+//                  return -1;
+//              return 1;
+//          }
+//          if(bAscending)
+//              return 1;
+//          return -1;
+//      }
+//      else if(nKeyLength == 1)
+//      {
+//          int n1 = LittleEndingUnsignBinaryBufferStorage.readByte(tby1, nKeyPosition);
+//          int n2 = LittleEndingUnsignBinaryBufferStorage.readByte(tby2, nKeyPosition);
+//          if(n1 == n2)
+//              return 0;
+//          if(n1 < n2)
+//          {
+//              if(bAscending)
+//                  return -1;
+//              return 1;
+//          }
+//          if(bAscending)
+//              return 1;
+//          return -1;
+//      }
+//      // Unmannaged length
+//      return 0;
+    }
+
+    void convertKeySegmentToAscii(byte tbyKey[], int nKeyPosition, int nKeyLength)
+    {
+    }
 }

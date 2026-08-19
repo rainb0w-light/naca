@@ -14,38 +14,38 @@ public class SpServerProgramManager //extends BaseProgramManager
 {
 // public SpServerProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean
 // bInheritedSharedProgramInstanceData)
-//	{
-//		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+//  {
+//      super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
 //
-//		BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
-//		setEnv(env);
-//	}
+//      BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
+//      setEnv(env);
+//  }
 //
-//	public String getTerminalID()
-//	{
-//		return "";
-//	}
+//  public String getTerminalID()
+//  {
+//      return "";
+//  }
 //
-//	public void setEnv(BaseEnvironment env)
-//	{
-//		//env = (SpServerEnvironment)env;
-//		env = env;
-//	}
+//  public void setEnv(BaseEnvironment env)
+//  {
+//      //env = (SpServerEnvironment)env;
+//      env = env;
+//  }
 //
-//	public void detachFromEnv()
-//	{
-//		env = null;
-//	}
+//  public void detachFromEnv()
+//  {
+//      env = null;
+//  }
 //
-//	public BaseEnvironment getEnv()
-//	{
-//		return env;
-//	}
+//  public BaseEnvironment getEnv()
+//  {
+//      return env;
+//  }
 //
-//	public void prepareRunMain(BaseProgram prg)
-//	{
-//	}
+//  public void prepareRunMain(BaseProgram prg)
+//  {
+//  }
 //
-//	//private SpServerEnvironment env = null;
-//	private BaseEnvironment env = null;
+//  //private SpServerEnvironment env = null;
+//  private BaseEnvironment env = null;
 }

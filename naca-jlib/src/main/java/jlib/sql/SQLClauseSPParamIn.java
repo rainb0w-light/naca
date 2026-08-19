@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -18,20 +18,20 @@ import java.sql.SQLException;
  */
 public abstract class SQLClauseSPParamIn extends SQLClauseSPParam
 {
-	protected SQLClauseSPParamIn()
-	{
-		super(SQLClauseSPParamWay.In);
-	}
+    protected SQLClauseSPParamIn()
+    {
+        super(SQLClauseSPParamWay.In);
+    }
 
-	// Do nothing; in only parameter
-	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-	}
-	
-	// Do nothing; in only parameter
-	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
-	 	throws SQLException
-	{
-	}
+    // Do nothing; in only parameter
+    protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+    }
+
+    // Do nothing; in only parameter
+    protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+    }
 }

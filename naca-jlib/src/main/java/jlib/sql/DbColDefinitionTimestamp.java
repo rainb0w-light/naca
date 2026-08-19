@@ -24,79 +24,88 @@ import jlib.misc.StringUtil;
  */
 public class DbColDefinitionTimestamp extends BaseDbColDefinition
 {
-	DbColDefinitionTimestamp(ColDescriptionInfo colDescription)
-	{
-		super(colDescription);
-	}
+    DbColDefinitionTimestamp(ColDescriptionInfo colDescription)
+    {
+        super(colDescription);
+    }
 
-	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			Timestamp ts = resultSet.getTimestamp(nCol1Based);
-			String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
+    public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            Timestamp ts = resultSet.getTimestamp(nCol1Based);
+            String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
 
-			Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
-			String nano = intNanos.toString();
-			String nanoPadded = StringUtil.leftPad(nano, 6, '0');
+            Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
+            String nano = intNanos.toString();
+            String nanoPadded = StringUtil.leftPad(nano, 6, '0');
 
-			value += nanoPadded;
-			byte[] aBytes = value.getBytes();
-			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+            value += nanoPadded;
+            byte[] aBytes = value.getBytes();
+            if(bEbcdicOutput)   // Must outout in ebcdic
+                AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 
-//	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
-//	{
-//		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
-//		String cs = new String(arrByteValue, nSourceOffset, 26);
-//		colValueGenericDest.setValue(cs);
-//		return 26;
-//	}
+//  public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
+//  {
+//      if(bEbcdicInput)    // Must outout in ebcdic
+//          AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
+//      String cs = new String(arrByteValue, nSourceOffset, 26);
+//      colValueGenericDest.setValue(cs);
+//      return 26;
+//  }
 
-	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
-	{
-		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
-		String cs = new String(arrByteValue, nSourceOffset, 26);
-		stmt.setColParam(nCol, cs);
-		return 26;
-	}
+    public int setByteValueInStmtCol(
+        DbColDefErrorManager dbColDefErrorManager,
+        DbPreparedStatement stmt,
+        int nCol,
+        byte arrByteValue[],
+        int nSourceOffset,
+        boolean bEbcdicInput)
+    {
+        if(bEbcdicInput)    // Must outout in ebcdic
+            AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, 26);
+        String cs = new String(arrByteValue, nSourceOffset, 26);
+        stmt.setColParam(nCol, cs);
+        return 26;
+    }
 
 
-	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
-	{
-		String cs = storedProcParamDescBase.getInValueAsString();
-		return callableStatement.setInValue(nParamId, cs);
-	}
+    public boolean fillCallableStatementParam(
+        int nParamId,
+        StoredProcParamDescBase storedProcParamDescBase,
+        DbPreparedCallableStatement callableStatement)
+    {
+        String cs = storedProcParamDescBase.getInValueAsString();
+        return callableStatement.setInValue(nParamId, cs);
+    }
 
-	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			Timestamp ts = resultSet.getTimestamp(nCol1Based);
-			String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
+    public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            Timestamp ts = resultSet.getTimestamp(nCol1Based);
+            String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
 
-			Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
-			String nano = intNanos.toString();
-			String nanoPadded = StringUtil.leftPad(nano, 6, '0');
-			value += nanoPadded;
-			value = "\"" + value + "\"";
-			byte[] aBytes = value.getBytes();	// 26 bytes
-			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+            Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
+            String nano = intNanos.toString();
+            String nanoPadded = StringUtil.leftPad(nano, 6, '0');
+            value += nanoPadded;
+            value = "\"" + value + "\"";
+            byte[] aBytes = value.getBytes();   // 26 bytes
+            if(bEbcdicOutput)   // Must outout in ebcdic
+                AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 }

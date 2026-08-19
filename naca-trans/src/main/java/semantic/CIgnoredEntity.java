@@ -20,81 +20,81 @@ import utils.CObjectCatalog;
 public class CIgnoredEntity extends CDataEntity
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 * @param out
-	 */
-	public CIgnoredEntity(int l, String name, CObjectCatalog cat)
-	{
-		super(l, name, cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     * @param out
+     */
+    public CIgnoredEntity(int l, String name, CObjectCatalog cat)
+    {
+        super(l, name, cat);
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.IGNORE ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.IGNORE ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#HasAccessors()
-	 */
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#HasAccessors()
+     */
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#ignore()
-	 */
-	public boolean ignore()
-	{
-		return true ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseLanguageEntity#ignore()
+     */
+    public boolean ignore()
+    {
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetSpecialAssignment(semantic.CDataEntity, semantic.CBaseEntityFactory, int)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		return factory.NewEntityNoAction(l) ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetSpecialAssignment(semantic.CDataEntity, semantic.CBaseEntityFactory, int)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        return factory.NewEntityNoAction(l) ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetSpecialAssignment(parser.expression.CTerminal, semantic.CBaseEntityFactory, int)
-	 */
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		return factory.NewEntityNoAction(l) ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetSpecialAssignment(parser.expression.CTerminal, semantic.CBaseEntityFactory, int)
+     */
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        return factory.NewEntityNoAction(l) ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetConstantValue()
-	 */
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public boolean isValNeeded()
-	{
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetConstantValue()
+     */
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public boolean isValNeeded()
+    {
+        return true;
+    }
 
 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
-		e.SetReference(this) ;
-		for (int i=0; i<v.size(); i++)
-		{
-			CExpression expr = (CExpression)v.get(i);
-			CBaseEntityExpression exp = expr.AnalyseExpression(factory);
-			e.AddIndex(exp);
-		}
-		return e ;
-	}
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+        CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
+        e.SetReference(this) ;
+        for (int i=0; i<v.size(); i++)
+        {
+            CExpression expr = (CExpression)v.get(i);
+            CBaseEntityExpression exp = expr.AnalyseExpression(factory);
+            e.AddIndex(exp);
+        }
+        return e ;
+    }
 
 }

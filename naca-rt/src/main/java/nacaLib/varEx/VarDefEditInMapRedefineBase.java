@@ -14,93 +14,93 @@ import nacaLib.mapSupport.MapFieldAttribute;
  */
 public abstract class VarDefEditInMapRedefineBase extends VarDefEdit
 {
-	public VarDefEditInMapRedefineBase(VarDefBase varDefParent, VarLevel varLevel)
-	{
-		super(varDefParent, varLevel);
-		bJustifyRight = varLevel.getJustifyRight();
-	}
+    public VarDefEditInMapRedefineBase(VarDefBase varDefParent, VarLevel varLevel)
+    {
+        super(varDefParent, varLevel);
+        bJustifyRight = varLevel.getJustifyRight();
+    }
 
-	public void mapOnOriginEdit()
-	{
-		VarDefMapRedefine mapRedefine = getMapRedefine();
-		if(mapRedefine == null)
-		{
-			int n =0 ;
-		}
+    public void mapOnOriginEdit()
+    {
+        VarDefMapRedefine mapRedefine = getMapRedefine();
+        if(mapRedefine == null)
+        {
+            int n =0 ;
+        }
 
-		FoundFlag foundFlag = new FoundFlag();
-		int n = mapRedefine.getNbEditUntil(this, foundFlag);
-		varDefEditOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
-		varDefRedefinOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
-		if(varDefEditOrigin != null)
-		{
-			nTotalSize = varDefEditOrigin.nTotalSize;
-		}
-		else
-		{
-			nTotalSize = 0;	// Should never happen
-		}
-	}
+        FoundFlag foundFlag = new FoundFlag();
+        int n = mapRedefine.getNbEditUntil(this, foundFlag);
+        varDefEditOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
+        varDefRedefinOrigin = mapRedefine.varDefFormRedefineOrigin.getChild(n);
+        if(varDefEditOrigin != null)
+        {
+            nTotalSize = varDefEditOrigin.nTotalSize;
+        }
+        else
+        {
+            nTotalSize = 0; // Should never happen
+        }
+    }
 
-	void assignForm(VarDefForm varDefForm)
-	{
-		varDefFormRedefineOrigin = varDefForm;
-		varDefEditOrigin = varDefFormRedefineOrigin.getChildAtDefaultPosition(nDefaultAbsolutePosition);
-	}
+    void assignForm(VarDefForm varDefForm)
+    {
+        varDefFormRedefineOrigin = varDefForm;
+        varDefEditOrigin = varDefFormRedefineOrigin.getChildAtDefaultPosition(nDefaultAbsolutePosition);
+    }
 
-	VarDefBuffer getVarDefEditInMapOrigin()
-	{
-		return varDefEditOrigin;
-	}
+    VarDefBuffer getVarDefEditInMapOrigin()
+    {
+        return varDefEditOrigin;
+    }
 
-	public VarDefEditInMapRedefineBase()
-	{
-		super();
-	}
+    public VarDefEditInMapRedefineBase()
+    {
+        super();
+    }
 
-	public int getBodyLength()
-	{
-		return nTotalSize - getHeaderLength();
-	}
+    public int getBodyLength()
+    {
+        return nTotalSize - getHeaderLength();
+    }
 
-	protected int getHeaderLength()
-	{
-		if(occursDef == null)
-			return 7;
-		// We are an edit Occurs
-		return 0;
-	}
+    protected int getHeaderLength()
+    {
+        if(occursDef == null)
+            return 7;
+        // We are an edit Occurs
+        return 0;
+    }
 
-	protected boolean isEditInMapRedefine()
-	{
-		return true;
-	}
+    protected boolean isEditInMapRedefine()
+    {
+        return true;
+    }
 
-	protected boolean isEditInMapOrigin()
-	{
-		return false;
-	}
+    protected boolean isEditInMapOrigin()
+    {
+        return false;
+    }
 
-	protected boolean isVarInMapRedefine()
-	{
-		return false;
-	}
+    protected boolean isVarInMapRedefine()
+    {
+        return false;
+    }
 
-	protected boolean isVarDefForm()
-	{
-		return false;
-	}
+    protected boolean isVarDefForm()
+    {
+        return false;
+    }
 
 
-	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
-	{
-		VarDefEditInMapRedefineBase varDefCopy = (VarDefEditInMapRedefineBase)varDefBufferCopySingleItem;
-		//varDefCopy.mapFieldAttribute = mapFieldAttribute;
-		//varDefCopy.varDefEditOrigin = varDefEditOrigin;
-		varDefCopy.bJustifyRight = bJustifyRight;
-	}
+    protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
+    {
+        VarDefEditInMapRedefineBase varDefCopy = (VarDefEditInMapRedefineBase)varDefBufferCopySingleItem;
+        //varDefCopy.mapFieldAttribute = mapFieldAttribute;
+        //varDefCopy.varDefEditOrigin = varDefEditOrigin;
+        varDefCopy.bJustifyRight = bJustifyRight;
+    }
 
-	protected MapFieldAttribute mapFieldAttribute = null;
-	protected VarDefBuffer varDefEditOrigin = null;
-	protected boolean bJustifyRight = false;
+    protected MapFieldAttribute mapFieldAttribute = null;
+    protected VarDefBuffer varDefEditOrigin = null;
+    protected boolean bJustifyRight = false;
 }

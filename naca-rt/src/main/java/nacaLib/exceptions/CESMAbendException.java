@@ -8,10 +8,10 @@ package nacaLib.exceptions;
 
 public class CESMAbendException extends RuntimeException
 {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CESMAbendException(String code)
-	{
-		super("ABend code : " + code);
-	}
+    public CESMAbendException(String code)
+    {
+        super("ABend code : " + code);
+    }
 }

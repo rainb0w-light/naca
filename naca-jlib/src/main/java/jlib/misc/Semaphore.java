@@ -23,7 +23,7 @@ public class Semaphore
     public Semaphore(int n)
     {
         if (n < 0)
-        	throw new IllegalArgumentException(n + " < 0");
+            throw new IllegalArgumentException(n + " < 0");
         counter = n;
     }
 
@@ -47,7 +47,7 @@ public class Semaphore
      * @exception InterruptedException passed from this.wait().
      */
     public synchronized void acquire() throws InterruptedException
-	{
+    {
         while (counter == 0)
         {
             wait();
@@ -56,18 +56,18 @@ public class Semaphore
     }
 
     public synchronized boolean acquireNoInterrupt()
-	{
+    {
         while (counter == 0)
         {
             try
-			{
-				wait();
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-				return false;
-			}
+            {
+                wait();
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+                return false;
+            }
         }
         counter--;
         return true;

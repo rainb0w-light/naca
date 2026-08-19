@@ -21,75 +21,77 @@ import jlib.exception.TechnicalException;
  */
 public abstract class SQLClauseSPParam
 {
-	private SQLClauseSPParamWay wayInOut = null;
+    private SQLClauseSPParamWay wayInOut = null;
 
-	protected SQLClauseSPParam(SQLClauseSPParamWay wayInOut)
-	{
-		this.wayInOut = wayInOut;
-	}
+    protected SQLClauseSPParam(SQLClauseSPParamWay wayInOut)
+    {
+        this.wayInOut = wayInOut;
+    }
 
-	void registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement, SQLClauseSPParamDesc paramDesc)
-		throws TechnicalException
-	{
-		nParamId++;	// 1 based
-		String error = null;
-		try
-		{
-			if(wayInOut == SQLClauseSPParamWay.In)
-			{
-				if(paramDesc != null && paramDesc.isColIn())
-				{
-					error = TechnicalException.STORED_PROC_CALL_IN_PARAM_SET_ERROR;
-					setInValueWithException(nParamId, callableStatement);
-					return ;
-				}
-			}
+    void registerIntoCallableStatement(int nParamId, DbPreparedCallableStatement callableStatement, SQLClauseSPParamDesc paramDesc)
+        throws TechnicalException
+    {
+        nParamId++; // 1 based
+        String error = null;
+        try
+        {
+            if(wayInOut == SQLClauseSPParamWay.In)
+            {
+                if(paramDesc != null && paramDesc.isColIn())
+                {
+                    error = TechnicalException.STORED_PROC_CALL_IN_PARAM_SET_ERROR;
+                    setInValueWithException(nParamId, callableStatement);
+                    return ;
+                }
+            }
 
-			if(wayInOut == SQLClauseSPParamWay.Out)
-			{
-				if(paramDesc != null && paramDesc.isColOut())
-				{
-					error = TechnicalException.STORED_PROC_CALL_OUT_PARAM_SET_ERROR;
-					registerOutParameterWithException(nParamId, callableStatement);
-					return ;
-				}
-			}
+            if(wayInOut == SQLClauseSPParamWay.Out)
+            {
+                if(paramDesc != null && paramDesc.isColOut())
+                {
+                    error = TechnicalException.STORED_PROC_CALL_OUT_PARAM_SET_ERROR;
+                    registerOutParameterWithException(nParamId, callableStatement);
+                    return ;
+                }
+            }
 
-			if(wayInOut == SQLClauseSPParamWay.InOut)
-			{
-				if(paramDesc != null && paramDesc.isColInOut())
-				{
-					error = TechnicalException.STORED_PROC_CALL_INOUT_PARAM_SET_ERROR;
-					registerOutParameterWithException(nParamId, callableStatement);
-					setInValueWithException(nParamId, callableStatement);
-					return ;
-				}
-			}
+            if(wayInOut == SQLClauseSPParamWay.InOut)
+            {
+                if(paramDesc != null && paramDesc.isColInOut())
+                {
+                    error = TechnicalException.STORED_PROC_CALL_INOUT_PARAM_SET_ERROR;
+                    registerOutParameterWithException(nParamId, callableStatement);
+                    setInValueWithException(nParamId, callableStatement);
+                    return ;
+                }
+            }
 
-			TechnicalException.throwException(TechnicalException.STORED_PROC_CALL_INOUT_PARAM_WAY_NOT_MATCHING_DEF, "ParameterId (1based): "+nParamId);
+            TechnicalException.throwException(
+                TechnicalException.STORED_PROC_CALL_INOUT_PARAM_WAY_NOT_MATCHING_DEF,
+                "ParameterId (1based): "+nParamId);
 
-		}
-		catch (SQLException e)
-		{
-			TechnicalException.throwException(error, "ParameterId (1based): "+nParamId, e);
-		}
-	}
+        }
+        catch (SQLException e)
+        {
+            TechnicalException.throwException(error, "ParameterId (1based): "+nParamId, e);
+        }
+    }
 
-	public String toString()
-	{
-		return wayInOut.toString();
-	}
+    public String toString()
+    {
+        return wayInOut.toString();
+    }
 
-	public String toString(SQLClauseSPParamDesc paramDesc)
-	{
-		if(paramDesc != null)
-			return toString() + " "+ paramDesc.toString();
-		return toString();
-	}
+    public String toString(SQLClauseSPParamDesc paramDesc)
+    {
+        if(paramDesc != null)
+            return toString() + " "+ paramDesc.toString();
+        return toString();
+    }
 
 
 
-	protected abstract void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
-	protected abstract void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
-	protected abstract void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
+    protected abstract void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
+    protected abstract void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
+    protected abstract void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt) throws SQLException;
 }

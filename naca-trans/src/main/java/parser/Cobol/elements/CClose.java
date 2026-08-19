@@ -30,75 +30,75 @@ import utils.Transcoder;
  */
 public class CClose extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CClose(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		for (int i = 0; i< fileDesc.size(); i++)
-		{
-			CIdentifier id = fileDesc.get(i) ;
-			CEntityFileDescriptor fd = factory.programCatalog.getFileDescriptor(id.GetName()) ;
-			if (fd != null)
-			{
-				CEntityCloseFile eClose = factory.NewEntityCloseFile(getLine()) ;
-				parent.AddChild(eClose) ;
-				eClose.setFileDescriptor(fd) ;
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "File descriptor not found : " + id.GetName()) ;
-			}
-		}
-		return parent;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.CLOSE)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+    /**
+     * @param line
+     */
+    public CClose(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        for (int i = 0; i< fileDesc.size(); i++)
+        {
+            CIdentifier id = fileDesc.get(i) ;
+            CEntityFileDescriptor fd = factory.programCatalog.getFileDescriptor(id.GetName()) ;
+            if (fd != null)
+            {
+                CEntityCloseFile eClose = factory.NewEntityCloseFile(getLine()) ;
+                parent.AddChild(eClose) ;
+                eClose.setFileDescriptor(fd) ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "File descriptor not found : " + id.GetName()) ;
+            }
+        }
+        return parent;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.CLOSE)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext();
-		CIdentifier id = ReadIdentifier();
-		fileDesc.add(id) ;
-		tok = GetCurrentToken() ;
-		while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			if (tok.GetType() == CTokenType.COMMA)
-			{
-				tok = GetNext() ;
-			}
-			else
-			{
-				id = ReadIdentifier() ;
-				if (id != null)
-				{
-					fileDesc.add(id) ;
-					tok = GetCurrentToken() ;
-				}
-			}
-		}
-		return true ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eClose = root.createElement("Close");
-		for (int i = 0; i< fileDesc.size(); i++)
-		{
-			CIdentifier id = fileDesc.get(i);
-			Element eFile = root.createElement("File");
-			eClose.appendChild(eFile);
-			id.ExportTo(eFile, root) ;
-		}
-		return eClose;
-	}
+        tok = GetNext();
+        CIdentifier id = ReadIdentifier();
+        fileDesc.add(id) ;
+        tok = GetCurrentToken() ;
+        while (tok.GetType() == CTokenType.COMMA || tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            if (tok.GetType() == CTokenType.COMMA)
+            {
+                tok = GetNext() ;
+            }
+            else
+            {
+                id = ReadIdentifier() ;
+                if (id != null)
+                {
+                    fileDesc.add(id) ;
+                    tok = GetCurrentToken() ;
+                }
+            }
+        }
+        return true ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eClose = root.createElement("Close");
+        for (int i = 0; i< fileDesc.size(); i++)
+        {
+            CIdentifier id = fileDesc.get(i);
+            Element eFile = root.createElement("File");
+            eClose.appendChild(eFile);
+            id.ExportTo(eFile, root) ;
+        }
+        return eClose;
+    }
 
-	protected Vector<CIdentifier> fileDesc = new Vector<CIdentifier>() ;
+    protected Vector<CIdentifier> fileDesc = new Vector<CIdentifier>() ;
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -18,27 +18,27 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class SortedRecordReq extends ThreadPoolRequest
 {
-	private byte tbyData[] = null;
-	
-	SortedRecordReq(byte tbyData[])
-	{
-		super(false);
-		
-		int nLength = tbyData.length;
-		tbyData = new byte[nLength];
-		for(int n=0; n<nLength; n++)
-		{
-			tbyData[n] = tbyData[n];
-		}
-	}
-	
-	public void execute()
-	{
-		// unused here
-	}
-	
-	byte[] getData()
-	{
-		return tbyData;
-	}
+    private byte tbyData[] = null;
+
+    SortedRecordReq(byte tbyData[])
+    {
+        super(false);
+
+        int nLength = tbyData.length;
+        tbyData = new byte[nLength];
+        for(int n=0; n<nLength; n++)
+        {
+            tbyData[n] = tbyData[n];
+        }
+    }
+
+    public void execute()
+    {
+        // unused here
+    }
+
+    byte[] getData()
+    {
+        return tbyData;
+    }
 }

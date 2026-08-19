@@ -17,154 +17,154 @@ import jlib.misc.*;
  */
 public class Dec extends DecBase
 {
-	public Dec(Dec dec)
-	{
-		super();
-		lInt = dec.lInt;
-		csDec = dec.csDec;
-		bPositive = dec.bPositive;
-	}
+    public Dec(Dec dec)
+    {
+        super();
+        lInt = dec.lInt;
+        csDec = dec.csDec;
+        bPositive = dec.bPositive;
+    }
 
-	public Dec(long lInt, CStr csDec)
-	{
-		super();
-		setLong(lInt);
-		setDecPart(csDec.getAsString());
-	}
+    public Dec(long lInt, CStr csDec)
+    {
+        super();
+        setLong(lInt);
+        setDecPart(csDec.getAsString());
+    }
 
-	public Dec(long lInt, String csDec)
-	{
-		super(lInt, csDec);
-	}
+    public Dec(long lInt, String csDec)
+    {
+        super(lInt, csDec);
+    }
 
-	public Dec(String csInt, String csDec)
-	{
-		super(csInt, csDec);
-	}
+    public Dec(String csInt, String csDec)
+    {
+        super(csInt, csDec);
+    }
 
-	public void setDecPart(CStr csDec)
-	{
-		this.csDec = csDec.getAsString();
-	}
+    public void setDecPart(CStr csDec)
+    {
+        this.csDec = csDec.getAsString();
+    }
 
-	double getAsDouble()
-	{
-		String cs = String.valueOf(lInt) + "." + csDec;
-		double d = Double.parseDouble(cs);
-		if(!bPositive)
-			return -d;
-		return d;
-	}
+    double getAsDouble()
+    {
+        String cs = String.valueOf(lInt) + "." + csDec;
+        double d = Double.parseDouble(cs);
+        if(!bPositive)
+            return -d;
+        return d;
+    }
 
-	int getSignedInt()
-	{
-		if(bPositive)
-			return (int)lInt;
-		return (int) -lInt;
-	}
+    int getSignedInt()
+    {
+        if(bPositive)
+            return (int)lInt;
+        return (int) -lInt;
+    }
 
-	public long getSignedLong()
-	{
-		if(bPositive)
-			return lInt;
-		return -lInt;
-	}
+    public long getSignedLong()
+    {
+        if(bPositive)
+            return lInt;
+        return -lInt;
+    }
 
-	int getUnsignedInt()
-	{
-		return (int)lInt;
-	}
+    int getUnsignedInt()
+    {
+        return (int)lInt;
+    }
 
-	String getUnsignedLongAsString()
-	{
-		String cs = String.valueOf(lInt);
-		return cs;
-	}
+    String getUnsignedLongAsString()
+    {
+        String cs = String.valueOf(lInt);
+        return cs;
+    }
 
-//	String getDecPartAsString()
-//	{
-//		return getDecPart();
-//	}
+//  String getDecPartAsString()
+//  {
+//      return getDecPart();
+//  }
 
-	String getAsString()
-	{
-		String cs = "";
-		if(isNegative())
-			cs = "-";
-		long l = getUnsignedLong();
-		cs += String.valueOf(l);
-		if(!csDec.equals(""))
-			cs += "." + csDec;
-		return cs;
-	}
+    String getAsString()
+    {
+        String cs = "";
+        if(isNegative())
+            cs = "-";
+        long l = getUnsignedLong();
+        cs += String.valueOf(l);
+        if(!csDec.equals(""))
+            cs += "." + csDec;
+        return cs;
+    }
 
-	CStr getAsCStr()
-	{
-		String s = getAsString();
-		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
-		cs.set(s);
-		return cs;
-	}
+    CStr getAsCStr()
+    {
+        String s = getAsString();
+        CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
+        cs.set(s);
+        return cs;
+    }
 
-	public int compare(int n)
-	{
-		long lThis = getSignedLong();
-		long l = n;
+    public int compare(int n)
+    {
+        long lThis = getSignedLong();
+        long l = n;
 
-		if(lThis < l)
-			return -1;
-		if(lThis == l)
-			return 0;
-		return 1;
-	}
+        if(lThis < l)
+            return -1;
+        if(lThis == l)
+            return 0;
+        return 1;
+    }
 
-	public int compare(long l)
-	{
-		long lThis = getSignedLong();
-		if(lThis < l)
-			return -1;
-		if(lThis == l)
-			return 0;
-		return 1;
-	}
+    public int compare(long l)
+    {
+        long lThis = getSignedLong();
+        if(lThis < l)
+            return -1;
+        if(lThis == l)
+            return 0;
+        return 1;
+    }
 
-	public int compare(Dec dec2)
-	{
-		long signedInt = getSignedLong();
-		long signedInt2 = dec2.getSignedLong();
-		if(signedInt < signedInt2)
-			return -1;
-		if(signedInt == signedInt2)
-		{
-			long l1 = getDecAsLong();
-			long l2 = dec2.getDecAsLong();
-			if(l1 < l2)
-				return -1;
-			if(l1 == l2)
-				return 0;
-		}
-		return 1;
-	}
+    public int compare(Dec dec2)
+    {
+        long signedInt = getSignedLong();
+        long signedInt2 = dec2.getSignedLong();
+        if(signedInt < signedInt2)
+            return -1;
+        if(signedInt == signedInt2)
+        {
+            long l1 = getDecAsLong();
+            long l2 = dec2.getDecAsLong();
+            if(l1 < l2)
+                return -1;
+            if(l1 == l2)
+                return 0;
+        }
+        return 1;
+    }
 
-	public long getDecAsLong()
-	{
-		String csDecPadded = StringUtil.rightPad(this.csDec, 14, '0');
-		long l = NumberParser.getAsLong(csDecPadded);
-		if(bPositive)
-			return l;
-		return -l;
-	}
+    public long getDecAsLong()
+    {
+        String csDecPadded = StringUtil.rightPad(this.csDec, 14, '0');
+        long l = NumberParser.getAsLong(csDecPadded);
+        if(bPositive)
+            return l;
+        return -l;
+    }
 
-	public boolean isZero()
-	{
-		if(lInt == 0 && NumberParser.getAsInt(csDec) == 0)
-			return true;
-		return false;
-	}
+    public boolean isZero()
+    {
+        if(lInt == 0 && NumberParser.getAsInt(csDec) == 0)
+            return true;
+        return false;
+    }
 
-	@Override
-	public String toString()
-	{
-		return getAsString();
-	}
+    @Override
+    public String toString()
+    {
+        return getAsString();
+    }
 }

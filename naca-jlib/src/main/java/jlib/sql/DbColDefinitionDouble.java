@@ -20,62 +20,71 @@ import jlib.misc.NumberParser;
  */
 public class DbColDefinitionDouble extends BaseDbColDefinition
 {
-	DbColDefinitionDouble(ColDescriptionInfo colDescription)
-	{
-		super(colDescription);
-	}
+    DbColDefinitionDouble(ColDescriptionInfo colDescription)
+    {
+        super(colDescription);
+    }
 
-	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			String value = resultSet.getString(nCol1Based);
-			long lValue = NumberParser.getAsLong(value);
-			byte aBytes[] = new byte[8];
-			LittleEndingUnsignBinaryBufferStorage.writeLong(aBytes, lValue, 0);
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+    public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            String value = resultSet.getString(nCol1Based);
+            long lValue = NumberParser.getAsLong(value);
+            byte aBytes[] = new byte[8];
+            LittleEndingUnsignBinaryBufferStorage.writeLong(aBytes, lValue, 0);
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 
-//	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
-//	{
-//		long lValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
-//		colValueGenericDest.setValue(lValue);
+//  public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
+//  {
+//      long lValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
+//      colValueGenericDest.setValue(lValue);
 //
-//		return 8;
-//	}
+//      return 8;
+//  }
 
-	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
-	{
-		long originalValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
-		stmt.setColParam(nCol, originalValue);
+    public int setByteValueInStmtCol(
+        DbColDefErrorManager dbColDefErrorManager,
+        DbPreparedStatement stmt,
+        int nCol,
+        byte arrByteValue[],
+        int nSourceOffset,
+        boolean bEbcdicInput)
+    {
+        long originalValue = LittleEndingUnsignBinaryBufferStorage.readLong(arrByteValue, nSourceOffset);
+        stmt.setColParam(nCol, originalValue);
 
-		return 8;
-	}
+        return 8;
+    }
 
-	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
-	{
-		double d = storedProcParamDescBase.getInValueAsDouble();
-		return callableStatement.setInValue(nParamId, d);
-	}
+    public boolean fillCallableStatementParam(
+        int nParamId,
+        StoredProcParamDescBase storedProcParamDescBase,
+        DbPreparedCallableStatement callableStatement)
+    {
+        double d = storedProcParamDescBase.getInValueAsDouble();
+        return callableStatement.setInValue(nParamId, d);
+    }
 
-	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			String value = resultSet.getString(nCol1Based);
-			byte[] aBytes = value.getBytes();
-			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+    public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            String value = resultSet.getString(nCol1Based);
+            byte[] aBytes = value.getBytes();
+            if(bEbcdicOutput)   // Must outout in ebcdic
+                AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 }

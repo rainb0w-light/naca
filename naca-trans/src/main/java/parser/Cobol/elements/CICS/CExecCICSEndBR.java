@@ -24,47 +24,47 @@ import utils.Transcoder;
 public class CExecCICSEndBR extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSEndBR(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ENDBR") ;
-		return null;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		//if (tok.GetKeyword() == CCobolKeywordList.)
-		{
-			tok = GetNext();
-		}
+    /**
+     * @param line
+     */
+    public CExecCICSEndBR(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ENDBR") ;
+        return null;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        //if (tok.GetKeyword() == CCobolKeywordList.)
+        {
+            tok = GetNext();
+        }
 
-		String cs = "" ;
-		tok = GetCurrentToken() ;
-		while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			cs += tok.GetDisplay() + " " ;
-			tok = GetNext() ;
-		}
+        String cs = "" ;
+        tok = GetCurrentToken() ;
+        while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            cs += tok.GetDisplay() + " " ;
+            tok = GetNext() ;
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ENDBR");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-//		m_Logger.error("No Export for EXEC CICS ENDBR") ;
-		Element e = root.createElement("ExecCICSEndBR") ;
-		return e;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS ENDBR");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+//      m_Logger.error("No Export for EXEC CICS ENDBR") ;
+        Element e = root.createElement("ExecCICSEndBR") ;
+        return e;
+    }
 
 }

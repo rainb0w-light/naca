@@ -73,117 +73,117 @@ import utils.CObjectCatalog;
  */
 public class CEntityFormRedefine extends CEntityResourceForm //CEntityAttribute
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	protected CDataEntity eForm = null ;
-	//protected CEntityResourceForm eForm = null ;
-	public void Clear()
-	{
-		super.Clear();
-		eForm = null ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    protected CDataEntity eForm = null ;
+    //protected CEntityResourceForm eForm = null ;
+    public void Clear()
+    {
+        super.Clear();
+        eForm = null ;
+    }
 
-	public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CDataEntity eForm, boolean bSaveMap)
-	{
-		super(l, name, cat, bSaveMap);
-		if (name.equals(""))
-		{
-			name = GetDefaultName() ;
-			if (!name.equals(""))
-			{
-				SetName(name) ;
-			}
-		}
-		// Fixed latent self-assignment: the legacy constructor assigned the parameter to itself
-		// (the parameter shadows the field), leaving the field null. Bind the resolved origin form.
-		this.eForm = eForm ;
-	}
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FORM ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		return null;
-	}
+    public CEntityFormRedefine(int l, String name, CObjectCatalog cat, CDataEntity eForm, boolean bSaveMap)
+    {
+        super(l, name, cat, bSaveMap);
+        if (name.equals(""))
+        {
+            name = GetDefaultName() ;
+            if (!name.equals(""))
+            {
+                SetName(name) ;
+            }
+        }
+        // Fixed latent self-assignment: the legacy constructor assigned the parameter to itself
+        // (the parameter shadows the field), leaving the field null. Bind the resolved origin form.
+        this.eForm = eForm ;
+    }
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FORM ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        return null;
+    }
 
-	// ---------------------------------------------------------------------------------------------
-	// Retired direct backend generate.java.forms.CJavaFormRedefine: the output protocols below were
-	// moved out of the generate layer onto this pure semantic entity when the backend was retired
-	// onto the recursive ST4 assembly contract. They read only precomputed state; the two
-	// generate-layer operations the backend performed inline (identifier formatting and the
-	// declaration/block rendering) are injected by the generate-layer factory
-	// (BmsJavaEntities.formRedefine), so this tree names no generate.* class.
-	// ---------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    // Retired direct backend generate.java.forms.CJavaFormRedefine: the output protocols below were
+    // moved out of the generate layer onto this pure semantic entity when the backend was retired
+    // onto the recursive ST4 assembly contract. They read only precomputed state; the two
+    // generate-layer operations the backend performed inline (identifier formatting and the
+    // declaration/block rendering) are injected by the generate-layer factory
+    // (BmsJavaEntities.formRedefine), so this tree names no generate.* class.
+    // ---------------------------------------------------------------------------------------------
 
-	public boolean HasAccessors()
-	{
-		// Preserved from the retired backend: a form redefine bears no accessors.
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        // Preserved from the retired backend: a form redefine bears no accessors.
+        return false;
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: a form redefine is never declared as a val.
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: a form redefine is never declared as a val.
+        return false;
+    }
 
-	public String GetTypeDecl()
-	{
-		// Preserved from the retired backend: a form redefine contributes no type declaration
-		// (unused).
-		return "";
-	}
+    public String GetTypeDecl()
+    {
+        // Preserved from the retired backend: a form redefine contributes no type declaration
+        // (unused).
+        return "";
+    }
 
-	public Element DoXMLExport()
-	{
-		// Preserved from the retired backend: a form redefine contributes no XML/.res node of its
-		// own (unused).
-		return null;
-	}
+    public Element DoXMLExport()
+    {
+        // Preserved from the retired backend: a form redefine contributes no XML/.res node of its
+        // own (unused).
+        return null;
+    }
 
-	/**
-	 * Read-only getter exposing the origin form this redefine re-views. Consumed by the
-	 * generate-layer declaration bridge ({@code BmsJavaEntities.renderFormRedefineDeclaration})
-	 * to pre-render the {@code redefinesMap(<ref>)} argument through the exact legacy
-	 * {@code LegacyDataRenderer.renderReference} protocol. A plain field read.
-	 */
-	public CDataEntity getForm()
-	{
-		return eForm ;
-	}
+    /**
+     * Read-only getter exposing the origin form this redefine re-views. Consumed by the
+     * generate-layer declaration bridge ({@code BmsJavaEntities.renderFormRedefineDeclaration})
+     * to pre-render the {@code redefinesMap(<ref>)} argument through the exact legacy
+     * {@code LegacyDataRenderer.renderReference} protocol. A plain field read.
+     */
+    public CDataEntity getForm()
+    {
+        return eForm ;
+    }
 
-	// The identifier formatter (setIdentifierFormatter / getFormattedName) is inherited from
-	// CEntityResourceForm. The generate-layer factory (BmsJavaEntities.formRedefine) injects
-	// the bound output's FormatIdentifier through the inherited setter; a hand-built entity
-	// inherits the neutral legacy fallback ('-'->'_', '#'->'$').
+    // The identifier formatter (setIdentifierFormatter / getFormattedName) is inherited from
+    // CEntityResourceForm. The generate-layer factory (BmsJavaEntities.formRedefine) injects
+    // the bound output's FormatIdentifier through the inherited setter; a hand-built entity
+    // inherits the neutral legacy fallback ('-'->'_', '#'->'$').
 
-	/**
-	 * The pre-rendered origin form reference consumed by the
-	 * {@code recursiveFormRedefineDeclarationEntity} template: the
-	 * {@code redefinesMap(<ref>)} argument. Pre-rendered by the generate-layer bridge through
-	 * the exact legacy {@code LegacyDataRenderer.renderReference} protocol, preserving byte
-	 * parity. A plain field read.
-	 */
-	private String redefinesReference = "" ;
+    /**
+     * The pre-rendered origin form reference consumed by the
+     * {@code recursiveFormRedefineDeclarationEntity} template: the
+     * {@code redefinesMap(<ref>)} argument. Pre-rendered by the generate-layer bridge through
+     * the exact legacy {@code LegacyDataRenderer.renderReference} protocol, preserving byte
+     * parity. A plain field read.
+     */
+    private String redefinesReference = "" ;
 
-	public void setRedefinesReference(String reference)
-	{
-		if (reference != null)
-		{
-			redefinesReference = reference ;
-		}
-	}
+    public void setRedefinesReference(String reference)
+    {
+        if (reference != null)
+        {
+            redefinesReference = reference ;
+        }
+    }
 
-	public String getRedefinesReference()
-	{
-		return redefinesReference ;
-	}
+    public String getRedefinesReference()
+    {
+        return redefinesReference ;
+    }
 }

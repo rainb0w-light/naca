@@ -275,18 +275,18 @@ public class TranspilerService {
             if (rootEntity.GetName() == null || rootEntity.GetName().isEmpty()) {
                 rootEntity.SetName(programName);
             }
-			return generate.templates.TemplateLoader.getRecursiveAssembler()
-				.renderRoot(rootEntity, generate.templates.recursive.JavaTemplateRole.ROOT);
-		} catch (diagnostic.UnsupportedFeatureException e) {
-			// Recognized-but-unlowered syntax: propagate so transpile() fails with
-			// the structured diagnostic, not a black-box "empty result".
-			throw e;
-		} catch (generate.templates.recursive.MissingTemplateRendererException e) {
-			// Fail-closed: propagate so the missing ST binding is reported, not hidden.
-			throw e;
-		} catch (Exception e) {
-			return null;
-		}
+            return generate.templates.TemplateLoader.getRecursiveAssembler()
+                .renderRoot(rootEntity, generate.templates.recursive.JavaTemplateRole.ROOT);
+        } catch (diagnostic.UnsupportedFeatureException e) {
+            // Recognized-but-unlowered syntax: propagate so transpile() fails with
+            // the structured diagnostic, not a black-box "empty result".
+            throw e;
+        } catch (generate.templates.recursive.MissingTemplateRendererException e) {
+            // Fail-closed: propagate so the missing ST binding is reported, not hidden.
+            throw e;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 

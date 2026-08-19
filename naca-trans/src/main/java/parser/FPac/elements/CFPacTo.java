@@ -23,76 +23,76 @@ import utils.FPacTranscoder.notifs.NotifSetDefaultOutputFile;
 public class CFPacTo extends CFPacElement
 {
 
-	private CIdentifier idFile;
+    private CIdentifier idFile;
 
-	public CFPacTo(int line)
-	{
-		super(line);
-	}
+    public CFPacTo(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.TO)
-		{
-			tok = GetNext() ;
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok =GetNext() ;
-			if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				idFile = new CIdentifier(tok.GetValue()) ;
-				tok =GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
-							tok.GetKeyword() == CFPacKeywordList.OPF1 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF2 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF3 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF4 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF5 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF6 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF7 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF8 ||
-							tok.GetKeyword() == CFPacKeywordList.OPF9)
-			{
-				idFile = new CIdentifier(tok.GetValue()) ;
-				tok = GetNext() ;
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Expecting IDENTIFIER after TO- instead of "+tok.toString()) ;
-				return false ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting '-' after TO instead of "+tok.toString()) ;
-			return false ;
-		}
-		return true ;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.TO)
+        {
+            tok = GetNext() ;
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		NotifSetDefaultOutputFile notif = new NotifSetDefaultOutputFile() ;
-		notif.fileRef = idFile.GetName() ;
-		factory.programCatalog.SendNotifRequest(notif) ;
-		
-		return null;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok =GetNext() ;
+            if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                idFile = new CIdentifier(tok.GetValue()) ;
+                tok =GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF1 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF2 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF3 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF4 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF5 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF6 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF7 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF8 ||
+                            tok.GetKeyword() == CFPacKeywordList.OPF9)
+            {
+                idFile = new CIdentifier(tok.GetValue()) ;
+                tok = GetNext() ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Expecting IDENTIFIER after TO- instead of "+tok.toString()) ;
+                return false ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting '-' after TO instead of "+tok.toString()) ;
+            return false ;
+        }
+        return true ;
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eTo = root.createElement("To") ;
-		Element e = root.createElement("File") ;
-		eTo.appendChild(e) ;
-		idFile.ExportTo(e, root) ;
-		return eTo ;
-	}
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        NotifSetDefaultOutputFile notif = new NotifSetDefaultOutputFile() ;
+        notif.fileRef = idFile.GetName() ;
+        factory.programCatalog.SendNotifRequest(notif) ;
+
+        return null;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eTo = root.createElement("To") ;
+        Element e = root.createElement("File") ;
+        eTo.appendChild(e) ;
+        idFile.ExportTo(e, root) ;
+        return eTo ;
+    }
 
 }

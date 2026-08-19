@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.servlet;
 
@@ -21,35 +21,35 @@ import jlib.misc.StringUtil;
  */
 public class FormUtil
 {
-	public static String getParameterAsString(HttpServletRequest request, String csName)
-	{
-		String csValue = request.getParameter(csName);
-		if(StringUtil.isEmpty(csValue))
-			return "";
-		return csValue;
-	}
-	
-	public static String getParameterAsString(HttpServletRequest request, String csName, String csDefaultValue)
-	{
-		String csValue = request.getParameter(csName);
-		if(StringUtil.isEmpty(csValue))
-			return csDefaultValue;
-		return csValue;
-	}
-	
-	public static int getParameterAsInt(HttpServletRequest request, String csName)
-	{
-		String csValue = request.getParameter(csName);
-		if(StringUtil.isEmpty(csValue))
-			return 0;
-		return NumberParser.getAsInt(csValue);
-	}
-	
-	public static int getParameterAsInt(HttpServletRequest request, String csName, int nDefaultValue)
-	{
-		String csValue = request.getParameter(csName);
-		if(StringUtil.isEmpty(csValue))
-			return nDefaultValue;
-		return NumberParser.getAsInt(csValue);
-	}
+    public static String getParameterAsString(HttpServletRequest request, String csName)
+    {
+        String csValue = request.getParameter(csName);
+        if(StringUtil.isEmpty(csValue))
+            return "";
+        return csValue;
+    }
+
+    public static String getParameterAsString(HttpServletRequest request, String csName, String csDefaultValue)
+    {
+        String csValue = request.getParameter(csName);
+        if(StringUtil.isEmpty(csValue))
+            return csDefaultValue;
+        return csValue;
+    }
+
+    public static int getParameterAsInt(HttpServletRequest request, String csName)
+    {
+        String csValue = request.getParameter(csName);
+        if(StringUtil.isEmpty(csValue))
+            return 0;
+        return NumberParser.getAsInt(csValue);
+    }
+
+    public static int getParameterAsInt(HttpServletRequest request, String csName, int nDefaultValue)
+    {
+        String csValue = request.getParameter(csName);
+        if(StringUtil.isEmpty(csValue))
+            return nDefaultValue;
+        return NumberParser.getAsInt(csValue);
+    }
 }

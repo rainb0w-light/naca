@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -20,30 +20,30 @@ import java.util.Hashtable;
  */
 public class UnboundRefIdColl
 {
-	UnboundRefIdColl()
-	{
-	}
-	
-	UnboundRefId find(String csName)
-	{
-		return hash.get(csName);
-	}
-	
-	void add(int nLine, String csName, String csFile)
-	{
-		UnboundRefId ref = new UnboundRefId(nLine, csFile); 
-		hash.put(csName, ref);
-	}
-	
-	Enumeration<String> getKeys()
-	{
-		return hash.keys();
-	}
-	
-	UnboundRefId getVal(String csName)
-	{
-		return hash.get(csName);
-	}
-	
-	Hashtable<String, UnboundRefId> hash = new Hashtable<String, UnboundRefId>(); 
+    UnboundRefIdColl()
+    {
+    }
+
+    UnboundRefId find(String csName)
+    {
+        return hash.get(csName);
+    }
+
+    void add(int nLine, String csName, String csFile)
+    {
+        UnboundRefId ref = new UnboundRefId(nLine, csFile);
+        hash.put(csName, ref);
+    }
+
+    Enumeration<String> getKeys()
+    {
+        return hash.keys();
+    }
+
+    UnboundRefId getVal(String csName)
+    {
+        return hash.get(csName);
+    }
+
+    Hashtable<String, UnboundRefId> hash = new Hashtable<String, UnboundRefId>();
 }

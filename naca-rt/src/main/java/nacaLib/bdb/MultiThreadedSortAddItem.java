@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -18,44 +18,50 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class MultiThreadedSortAddItem extends ThreadPoolRequest
 {
-	private BtreeFile btreeFile = null;
-	private byte tbyData[] = null;
-	int nTotalLength;
-	int nNbRecordRead;
-	boolean isvariableLength;
-	
-	MultiThreadedSortAddItem(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
-	{
-		super(false);
+    private BtreeFile btreeFile = null;
+    private byte tbyData[] = null;
+    int nTotalLength;
+    int nNbRecordRead;
+    boolean isvariableLength;
 
-		this.btreeFile = btreeFile;
-		tbyData = new byte[nTotalLength];
-		for(int n=0; n<nTotalLength; n++)
-		{
-			tbyData[n] = tbyData[nSourceOffset++];
-		}
-		this.nTotalLength = nTotalLength;
-		this.nNbRecordRead = nNbRecordRead;
-		this.isvariableLength = bVariableLength;
-	}
-	
-	void fill(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
-	{
-		this.btreeFile = btreeFile;
+    MultiThreadedSortAddItem(
+        BtreeFile btreeFile,
+        byte tbyData[],
+        int nSourceOffset,
+        int nTotalLength,
+        int nNbRecordRead,
+        boolean bVariableLength)
+    {
+        super(false);
 
-		if(tbyData.length < nTotalLength)
-			tbyData = new byte[nTotalLength];
+        this.btreeFile = btreeFile;
+        tbyData = new byte[nTotalLength];
+        for(int n=0; n<nTotalLength; n++)
+        {
+            tbyData[n] = tbyData[nSourceOffset++];
+        }
+        this.nTotalLength = nTotalLength;
+        this.nNbRecordRead = nNbRecordRead;
+        this.isvariableLength = bVariableLength;
+    }
 
-		for(int n=0; n<nTotalLength; n++)
-			tbyData[n] = tbyData[nSourceOffset++];
+    void fill(BtreeFile btreeFile, byte tbyData[], int nSourceOffset, int nTotalLength, int nNbRecordRead, boolean bVariableLength)
+    {
+        this.btreeFile = btreeFile;
 
-		this.nTotalLength = nTotalLength;
-		this.nNbRecordRead = nNbRecordRead;
-		this.isvariableLength = bVariableLength;
-	}
-	
-	public void execute()
-	{
-		btreeFile.asyncAddItemToSortByMultiThreads(this, tbyData);
-	}
+        if(tbyData.length < nTotalLength)
+            tbyData = new byte[nTotalLength];
+
+        for(int n=0; n<nTotalLength; n++)
+            tbyData[n] = tbyData[nSourceOffset++];
+
+        this.nTotalLength = nTotalLength;
+        this.nNbRecordRead = nNbRecordRead;
+        this.isvariableLength = bVariableLength;
+    }
+
+    public void execute()
+    {
+        btreeFile.asyncAddItemToSortByMultiThreads(this, tbyData);
+    }
 }

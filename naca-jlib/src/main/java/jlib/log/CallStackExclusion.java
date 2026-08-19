@@ -16,36 +16,36 @@ import jlib.xml.Tag;
  */
 public class CallStackExclusion
 {
-	CallStackExclusion()
-	{
-	}
+    CallStackExclusion()
+    {
+    }
 
-	void fillExcluded(Tag tagSettings)
-	{
-		exclude = new ArrayList<String>();
-		Tag tagCallLocation = tagSettings.getEnumChild("CallLocation");
-		while(tagCallLocation != null)
-		{
-			String csExcludeName = tagCallLocation.getVal("Exclude");
-			exclude.add(csExcludeName);
-			tagCallLocation = tagSettings.getEnumChild("CallLocation");
-		}
-	}
+    void fillExcluded(Tag tagSettings)
+    {
+        exclude = new ArrayList<String>();
+        Tag tagCallLocation = tagSettings.getEnumChild("CallLocation");
+        while(tagCallLocation != null)
+        {
+            String csExcludeName = tagCallLocation.getVal("Exclude");
+            exclude.add(csExcludeName);
+            tagCallLocation = tagSettings.getEnumChild("CallLocation");
+        }
+    }
 
-	boolean doNotContains(String csClassName)
-	{
-		if(exclude != null)
-		{
-			int nNbExclusion = exclude.size();
-			for(int n=0; n<nNbExclusion; n++)
-			{
-				String csExclude = exclude.get(n);
-				if(csClassName.startsWith(csExclude))
-					return false;
-			}
-		}
-		return true;
-	}
+    boolean doNotContains(String csClassName)
+    {
+        if(exclude != null)
+        {
+            int nNbExclusion = exclude.size();
+            for(int n=0; n<nNbExclusion; n++)
+            {
+                String csExclude = exclude.get(n);
+                if(csClassName.startsWith(csExclude))
+                    return false;
+            }
+        }
+        return true;
+    }
 
-	private ArrayList<String> exclude = null;
+    private ArrayList<String> exclude = null;
 }

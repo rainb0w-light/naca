@@ -22,65 +22,65 @@ import jlib.xml.XSLTransformer;
  */
 public class DisplayOutput
 {
-	protected DisplayContext context = null  ;
-	protected DisplayConfig config = null ;
-	public DisplayOutput(DisplayContext context)
-	{
-		this.context = context ;
-		config = DisplayConfig.getInstance() ;
-	}
-	/**
-	 * @param tagOutput
-	 */
-	public void setXMLDisplay(Tag tagOutput)
-	{
-		tagDisplayOutput = tagOutput ;
-	}
+    protected DisplayContext context = null  ;
+    protected DisplayConfig config = null ;
+    public DisplayOutput(DisplayContext context)
+    {
+        this.context = context ;
+        config = DisplayConfig.getInstance() ;
+    }
+    /**
+     * @param tagOutput
+     */
+    public void setXMLDisplay(Tag tagOutput)
+    {
+        tagDisplayOutput = tagOutput ;
+    }
 
-	protected Tag tagDisplayOutput = null ;
+    protected Tag tagDisplayOutput = null ;
 
-	public void doRenderOutput(HttpServletResponse res)
-	{
-		res.setContentType("text/html");
-		try
-		{
-			Document xmlOutput = tagDisplayOutput.getEmbeddedDocument() ;
-			tagDisplayOutput.exportToFile(config.getRootPath()+"output.xml") ;
+    public void doRenderOutput(HttpServletResponse res)
+    {
+        res.setContentType("text/html");
+        try
+        {
+            Document xmlOutput = tagDisplayOutput.getEmbeddedDocument() ;
+            tagDisplayOutput.exportToFile(config.getRootPath()+"output.xml") ;
 
-			ServletOutputStream out = res.getOutputStream();
-			if (xmlOutput == null)
-			{
-				res.setStatus(500);
-				out.println("Session aborded") ;
-			}
-			else
-			{
-				ResourceManager man = config.getResourceManager() ;
-				XSLTransformer trans = man.getXSLTransformer("MAIN") ;
-				if (trans == null)
-				{
-					out.println("Erreur interne") ;
-					res.setStatus(500);
-				}
+            ServletOutputStream out = res.getOutputStream();
+            if (xmlOutput == null)
+            {
+                res.setStatus(500);
+                out.println("Session aborded") ;
+            }
+            else
+            {
+                ResourceManager man = config.getResourceManager() ;
+                XSLTransformer trans = man.getXSLTransformer("MAIN") ;
+                if (trans == null)
+                {
+                    out.println("Erreur interne") ;
+                    res.setStatus(500);
+                }
 
-				if (!trans.doTransform(xmlOutput, out))
-				{
-					out.println("Erreur interne") ;
-					res.setStatus(500);
-				}
+                if (!trans.doTransform(xmlOutput, out))
+                {
+                    out.println("Erreur interne") ;
+                    res.setStatus(500);
+                }
 
-			}
-		}
-		catch (IOException e)
-		{
-			res.setStatus(500);
-		}
-	}
-	/**
-	 * @param s
-	 */
-	public void setURL(String s)
-	{
-		tagDisplayOutput.addVal("URL", s) ;
-	}
+            }
+        }
+        catch (IOException e)
+        {
+            res.setStatus(500);
+        }
+    }
+    /**
+     * @param s
+     */
+    public void setURL(String s)
+    {
+        tagDisplayOutput.addVal("URL", s) ;
+    }
 }

@@ -14,7 +14,7 @@ package nacaLib.basePrgEnv;
 
 public abstract class CBaseMapFieldLoader
 {
-	public abstract String getFieldValue(String fieldName);
-	public abstract String getIDPage() ;
-	public abstract boolean isFieldModified(String fieldName);
+    public abstract String getFieldValue(String fieldName);
+    public abstract String getIDPage() ;
+    public abstract boolean isFieldModified(String fieldName);
 }

@@ -16,57 +16,57 @@ import nacaLib.varEx.InternalCharBuffer;
  */
 public class CESMTempStorageColl
 {
-	CESMTempStorageColl()
-	{
-		arr = new ArrayList<InternalCharBuffer>();
-	}
+    CESMTempStorageColl()
+    {
+        arr = new ArrayList<InternalCharBuffer>();
+    }
 
-	int add(InternalCharBuffer data)
-	{
-		arr.add(data);
-		return arr.size();
-	}
+    int add(InternalCharBuffer data)
+    {
+        arr.add(data);
+        return arr.size();
+    }
 
-	boolean set(int item, InternalCharBuffer bufItem)
-	{
-		if (item >=0 && item < arr.size())
-		{
-			arr.set(item, bufItem);
-			return true;
-		}
-		return false;
-	}
+    boolean set(int item, InternalCharBuffer bufItem)
+    {
+        if (item >=0 && item < arr.size())
+        {
+            arr.set(item, bufItem);
+            return true;
+        }
+        return false;
+    }
 
-	InternalCharBuffer getNextItem()
-	{
-		if(nLastItemRead+1 < arr.size())
-		{
-			nLastItemRead++;
-			InternalCharBuffer item = arr.get(nLastItemRead);
-			return item;
-		}
-		return null;
-	}
+    InternalCharBuffer getNextItem()
+    {
+        if(nLastItemRead+1 < arr.size())
+        {
+            nLastItemRead++;
+            InternalCharBuffer item = arr.get(nLastItemRead);
+            return item;
+        }
+        return null;
+    }
 
-	InternalCharBuffer getIndexedTempQueue(int nIndex)
-	{
-		nLastItemRead = nIndex-1;
-		if(nLastItemRead>=0 && nLastItemRead < arr.size())
-		{
-			InternalCharBuffer item = arr.get(nLastItemRead);
-			return item;
-		}
-		return null;
-	}
+    InternalCharBuffer getIndexedTempQueue(int nIndex)
+    {
+        nLastItemRead = nIndex-1;
+        if(nLastItemRead>=0 && nLastItemRead < arr.size())
+        {
+            InternalCharBuffer item = arr.get(nLastItemRead);
+            return item;
+        }
+        return null;
+    }
 
-	int getNbItems()
-	{
-		return arr.size();
-	}
-
-
+    int getNbItems()
+    {
+        return arr.size();
+    }
 
 
-	private ArrayList<InternalCharBuffer> arr = null;
-	private int nLastItemRead = -1;
+
+
+    private ArrayList<InternalCharBuffer> arr = null;
+    private int nLastItemRead = -1;
 }

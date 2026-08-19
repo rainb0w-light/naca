@@ -16,51 +16,51 @@ import nacaLib.sqlSupport.SQLConnectionManager;
 
 public abstract class CBaseProgramLoaderFactory // extends SequencerFactory
 {
-	protected SQLConnectionManager connectionManager = null;
-	protected Tag tagSequencerConfig = null ;
+    protected SQLConnectionManager connectionManager = null;
+    protected Tag tagSequencerConfig = null ;
 
-	public abstract ProgramSequencer NewSequencer() ;
-	
-	public CBaseProgramLoaderFactory()
-	{
-		connectionManager = new SQLConnectionManager();
-	}
+    public abstract ProgramSequencer NewSequencer() ;
 
-	public void init(String csDBParameterPrefix, Tag tagSequencerConfig)	//, ClassLoaderUnloader loader)
-	{
-		if (tagSequencerConfig != null)
-		{
-			this.tagSequencerConfig = tagSequencerConfig;
-			
-			Tag tagSQLConfig = tagSequencerConfig.getChild("SQLConfig");
-			if(tagSQLConfig != null)
-			{
-				DbConnectionPool dbConnectionPool = connectionManager.init(csDBParameterPrefix, tagSQLConfig);
-				BaseResourceManager.addDbConnectionPool(dbConnectionPool);
-				
-				// Load connection killer SQLcodes 
-				Tag tagConnectionKillerSQLCodes = tagSQLConfig.getChild("ConnectionKillerSQLCodes");
-				if(tagConnectionKillerSQLCodes != null)
-				{
-					SQLCode.fillConnectionKillerSQLCodes(tagConnectionKillerSQLCodes);
-				}
-			}
-		}
-	}
-	
-	public DbConnectionBase getConnection(String csProgramId, boolean bUseStatementCache)
-	{		
-		if(connectionManager != null)
-		{
-			try
-			{
-				return connectionManager.getConnection(csProgramId, bUseStatementCache);
-			}
-			catch (DbConnectionException e)
-			{
-				Log.logImportant("Db connection error: "+e.toString());
-			}
-		}
-		return null;
-	}
+    public CBaseProgramLoaderFactory()
+    {
+        connectionManager = new SQLConnectionManager();
+    }
+
+    public void init(String csDBParameterPrefix, Tag tagSequencerConfig)    //, ClassLoaderUnloader loader)
+    {
+        if (tagSequencerConfig != null)
+        {
+            this.tagSequencerConfig = tagSequencerConfig;
+
+            Tag tagSQLConfig = tagSequencerConfig.getChild("SQLConfig");
+            if(tagSQLConfig != null)
+            {
+                DbConnectionPool dbConnectionPool = connectionManager.init(csDBParameterPrefix, tagSQLConfig);
+                BaseResourceManager.addDbConnectionPool(dbConnectionPool);
+
+                // Load connection killer SQLcodes
+                Tag tagConnectionKillerSQLCodes = tagSQLConfig.getChild("ConnectionKillerSQLCodes");
+                if(tagConnectionKillerSQLCodes != null)
+                {
+                    SQLCode.fillConnectionKillerSQLCodes(tagConnectionKillerSQLCodes);
+                }
+            }
+        }
+    }
+
+    public DbConnectionBase getConnection(String csProgramId, boolean bUseStatementCache)
+    {
+        if(connectionManager != null)
+        {
+            try
+            {
+                return connectionManager.getConnection(csProgramId, bUseStatementCache);
+            }
+            catch (DbConnectionException e)
+            {
+                Log.logImportant("Db connection error: "+e.toString());
+            }
+        }
+        return null;
+    }
 }

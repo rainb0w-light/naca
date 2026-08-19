@@ -13,64 +13,64 @@ package nacaLib.varEx;
  */
 public class VarNumIntSignTrailingComp0 extends VarNum
 {
-	VarNumIntSignTrailingComp0(DeclareType9 declareType9)
-	{
-		super(declareType9);
-	}
+    VarNumIntSignTrailingComp0(DeclareType9 declareType9)
+    {
+        super(declareType9);
+    }
 
-	protected VarNumIntSignTrailingComp0()
-	{
-		super();
-	}
+    protected VarNumIntSignTrailingComp0()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarNumIntSignTrailingComp0 v = new VarNumIntSignTrailingComp0();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumIntSignTrailingComp0 v = new VarNumIntSignTrailingComp0();
+        return v;
+    }
 
-	public int compareTo(ComparisonMode mode, String csValue)
-	{
-		double dValue = 0;
-		try
-		{
-			dValue = Double.valueOf(csValue).doubleValue();
-		}
-		catch (Exception ex)
-		{
-		}
-		return compareTo(dValue);
-	}
+    public int compareTo(ComparisonMode mode, String csValue)
+    {
+        double dValue = 0;
+        try
+        {
+            dValue = Double.valueOf(csValue).doubleValue();
+        }
+        catch (Exception ex)
+        {
+        }
+        return compareTo(dValue);
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumIntSignTrailingComp0;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarNumIntSignTrailingComp0;
+    }
 }

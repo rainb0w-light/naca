@@ -18,92 +18,92 @@ import org.w3c.dom.Element;
  */
 public class LogCenterPluginConsole extends LogCenter
 {
-	private static int nLineId = 0;
+    private static int nLineId = 0;
 
-	public static void resetLineCoutner()
-	{
-		nLineId = 0;
-	}
+    public static void resetLineCoutner()
+    {
+        nLineId = 0;
+    }
 
-	public LogCenterPluginConsole(LogCenterLoader logCenterLoader)
-	{
-		super(logCenterLoader);
-	}
+    public LogCenterPluginConsole(LogCenterLoader logCenterLoader)
+    {
+        super(logCenterLoader);
+    }
 
-	public void loadSpecificsEntries(Element el)
-	{
-	}
+    public void loadSpecificsEntries(Element el)
+    {
+    }
 
-	public static String getAndIncLine()
-	{
-		int n = nLineId;
-		nLineId++;
-		return StringUtil.FormatWithFill4LeftZero(n);
-	}
+    public static String getAndIncLine()
+    {
+        int n = nLineId;
+        nLineId++;
+        return StringUtil.FormatWithFill4LeftZero(n);
+    }
 
-	public void loadSpecificsEntries(Tag tagLogCenter)
-	{
-		csFormat = tagLogCenter.getVal("Format");
-	}
+    public void loadSpecificsEntries(Tag tagLogCenter)
+    {
+        csFormat = tagLogCenter.getVal("Format");
+    }
 
-	boolean open()
-	{
-		return true;
-	}
+    boolean open()
+    {
+        return true;
+    }
 
-	boolean closeLogCenter()
-	{
-		return true;
-	}
+    boolean closeLogCenter()
+    {
+        return true;
+    }
 
-	void preSendOutput()
-	{
-	}
+    void preSendOutput()
+    {
+    }
 
-	void sendOutput(LogParams logParam)
-	{
-		String csOut = patternLayout.format(logParam, 0);
-		if(pluginMarker != null)
-		{
-			LogEventType logEventType = logParam.getLogEventType();
-			if(logEventType == LogEventType.Error)
-				pluginMarker.error("(0) [Error] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
-			else if(logEventType == LogEventType.Warning)
-				pluginMarker.warn("(0) [warning] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
-			else
-				pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
-		}
-	}
+    void sendOutput(LogParams logParam)
+    {
+        String csOut = patternLayout.format(logParam, 0);
+        if(pluginMarker != null)
+        {
+            LogEventType logEventType = logParam.getLogEventType();
+            if(logEventType == LogEventType.Error)
+                pluginMarker.error("(0) [Error] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
+            else if(logEventType == LogEventType.Warning)
+                pluginMarker.warn("(0) [warning] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
+            else
+                pluginMarker.info("(0) [Info] " + getAndIncLine() + " " + csDecoratedFileNameSource + csOut);
+        }
+    }
 
-	void postSendOutput()
-	{
-	}
+    void postSendOutput()
+    {
+    }
 
 
-	String getFormat()
-	{
-		return csFormat;
-	}
+    String getFormat()
+    {
+        return csFormat;
+    }
 
-	private String csFormat = null;
+    private String csFormat = null;
 
-	public String getType()
-	{
-		return "LogCenterPluginConsole";
-	}
+    public String getType()
+    {
+        return "LogCenterPluginConsole";
+    }
 
-	public void setPluginMarker(BasePluginMarker pluginMarker, String csFileNameSource, boolean bInfo, boolean bWarning, boolean bError)
-	{
-		this.pluginMarker = pluginMarker;
-		this.isinfo = bInfo;
-		this.iswarning = bWarning;
-		this.iserror = bError;
-		csDecoratedFileNameSource = "%" + csFileNameSource + "% ";
-	}
+    public void setPluginMarker(BasePluginMarker pluginMarker, String csFileNameSource, boolean bInfo, boolean bWarning, boolean bError)
+    {
+        this.pluginMarker = pluginMarker;
+        this.isinfo = bInfo;
+        this.iswarning = bWarning;
+        this.iserror = bError;
+        csDecoratedFileNameSource = "%" + csFileNameSource + "% ";
+    }
 
-	private BasePluginMarker pluginMarker = null;
-	private String csDecoratedFileNameSource = null;
-	boolean isinfo = false;
-	boolean iswarning = false;
-	boolean iserror = false;
+    private BasePluginMarker pluginMarker = null;
+    private String csDecoratedFileNameSource = null;
+    boolean isinfo = false;
+    boolean iswarning = false;
+    boolean iserror = false;
 }

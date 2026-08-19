@@ -29,101 +29,101 @@ import utils.Transcoder;
 public class CMultiply extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CMultiply(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CMultiply(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityMultiply eMult = factory.NewEntityMultiply(getLine()) ;
-		parent.AddChild(eMult) ;
-		CDataEntity eWhat = multiplyWhat.GetDataEntity(getLine(), factory);
-		CDataEntity eBy = multiplyBy.GetDataEntity(getLine(), factory);
-		if (result != null)
-		{
-			CDataEntity eTo = result.GetDataReference(getLine(), factory);
-			eMult.SetMultiply(eWhat, eBy, eTo, isisRounded) ;
-		}
-		else
-		{
-			eMult.SetMultiply(eWhat, eBy, isisRounded) ;
-		}
-		return eMult;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityMultiply eMult = factory.NewEntityMultiply(getLine()) ;
+        parent.AddChild(eMult) ;
+        CDataEntity eWhat = multiplyWhat.GetDataEntity(getLine(), factory);
+        CDataEntity eBy = multiplyBy.GetDataEntity(getLine(), factory);
+        if (result != null)
+        {
+            CDataEntity eTo = result.GetDataReference(getLine(), factory);
+            eMult.SetMultiply(eWhat, eBy, eTo, isisRounded) ;
+        }
+        else
+        {
+            eMult.SetMultiply(eWhat, eBy, isisRounded) ;
+        }
+        return eMult;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.MULTIPLY)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		tok = GetNext();
-		multiplyWhat = ReadTerminal();
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.MULTIPLY)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        tok = GetNext();
+        multiplyWhat = ReadTerminal();
 
-		tok=GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.BY)
-		{
-			Transcoder.logError(tok.getLine(), "Unexpecting token : " + tok.GetValue());
-			return false ;
-		}
-		GetNext() ;
-		multiplyBy = ReadTerminal();
+        tok=GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.BY)
+        {
+            Transcoder.logError(tok.getLine(), "Unexpecting token : " + tok.GetValue());
+            return false ;
+        }
+        GetNext() ;
+        multiplyBy = ReadTerminal();
 
-		tok = GetCurrentToken();
-		if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
-		{
-			isisRounded = true ;
-			GetNext() ;
-		}
-		else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
-		{
-			GetNext();
-			result = ReadIdentifier();
-			tok = GetCurrentToken();
-			if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
-			{
-				isisRounded = true ;
-				GetNext() ;
-			}
-		}
-		return true;
-	}
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
+        {
+            isisRounded = true ;
+            GetNext() ;
+        }
+        else if (tok.GetKeyword() == CCobolKeywordList.GIVING)
+        {
+            GetNext();
+            result = ReadIdentifier();
+            tok = GetCurrentToken();
+            if (tok.GetKeyword() == CCobolKeywordList.ROUNDED)
+            {
+                isisRounded = true ;
+                GetNext() ;
+            }
+        }
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eMult = root.createElement("Multiply");
-		Element eWhat = root.createElement("Multiply");
-		eMult.appendChild(eWhat) ;
-		multiplyWhat.ExportTo(eWhat, root);
-		Element eBy = root.createElement("By") ;
-		eMult.appendChild(eBy);
-		multiplyBy.ExportTo(eBy, root);
-		if (result != null)
-		{
-			Element eResult = root.createElement("To");
-			eMult.appendChild(eResult);
-			result.ExportTo(eResult, root);
-		}
-		return eMult;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eMult = root.createElement("Multiply");
+        Element eWhat = root.createElement("Multiply");
+        eMult.appendChild(eWhat) ;
+        multiplyWhat.ExportTo(eWhat, root);
+        Element eBy = root.createElement("By") ;
+        eMult.appendChild(eBy);
+        multiplyBy.ExportTo(eBy, root);
+        if (result != null)
+        {
+            Element eResult = root.createElement("To");
+            eMult.appendChild(eResult);
+            result.ExportTo(eResult, root);
+        }
+        return eMult;
+    }
 
-	protected CTerminal multiplyWhat = null ;
-	protected CTerminal multiplyBy = null ;
-	protected CIdentifier result = null ;
-	protected boolean isisRounded = false ;
+    protected CTerminal multiplyWhat = null ;
+    protected CTerminal multiplyBy = null ;
+    protected CIdentifier result = null ;
+    protected boolean isisRounded = false ;
 }

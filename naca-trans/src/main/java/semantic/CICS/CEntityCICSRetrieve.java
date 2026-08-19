@@ -17,40 +17,40 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSRetrieve extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSRetrieve(int line,CObjectCatalog cat, boolean ispointer)
-	{
-		super(line, cat);
-		this.ispointer = ispointer;
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSRetrieve(int line,CObjectCatalog cat, boolean ispointer)
+    {
+        super(line, cat);
+        this.ispointer = ispointer;
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetRetrieve(CDataEntity into, CDataEntity length)
-	{
-		refInto = into ;
-		dataLength = length ;
-	}
+    public void SetRetrieve(CDataEntity into, CDataEntity length)
+    {
+        refInto = into ;
+        dataLength = length ;
+    }
 
-	protected CDataEntity refInto = null;
-	protected CDataEntity dataLength = null ;
-	protected boolean ispointer = false ;
-	public void Clear()
-	{
-		super.Clear();
-		refInto = null ;
-		dataLength = null ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	public CDataEntity getRefInto() { return refInto; }
-	public CDataEntity getDataLength() { return dataLength; }
-	public boolean isPointer() { return ispointer; }
+    protected CDataEntity refInto = null;
+    protected CDataEntity dataLength = null ;
+    protected boolean ispointer = false ;
+    public void Clear()
+    {
+        super.Clear();
+        refInto = null ;
+        dataLength = null ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    public CDataEntity getRefInto() { return refInto; }
+    public CDataEntity getDataLength() { return dataLength; }
+    public boolean isPointer() { return ispointer; }
 }

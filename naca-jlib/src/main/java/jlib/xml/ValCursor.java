@@ -15,54 +15,54 @@ import org.w3c.dom.Node;
  */
 public class ValCursor
 {
-	public ValCursor()
-	{
-	}
+    public ValCursor()
+    {
+    }
 
-	void setEnumVal(NamedNodeMap nodeMap)
-	{
-		this.nodeMap = nodeMap;
-	}
+    void setEnumVal(NamedNodeMap nodeMap)
+    {
+        this.nodeMap = nodeMap;
+    }
 
-	public String getFirstVal()
-	{
-		nIndex = 0;
-		return getNextVal();
-	}
+    public String getFirstVal()
+    {
+        nIndex = 0;
+        return getNextVal();
+    }
 
-	public String getNextVal()
-	{
-		int nNbIndex = nodeMap.getLength();
-		if(nIndex < nNbIndex)
-		{
-			Node node = nodeMap.item(nIndex);
-			nIndex++;
-			String cs = node.getNodeValue();
-			return cs;
-		}
-		return null;
-	}
+    public String getNextVal()
+    {
+        int nNbIndex = nodeMap.getLength();
+        if(nIndex < nNbIndex)
+        {
+            Node node = nodeMap.item(nIndex);
+            nIndex++;
+            String cs = node.getNodeValue();
+            return cs;
+        }
+        return null;
+    }
 
-	public Node getFirstParam()
-	{
-		nIndex = 0;
-		return getNextParam();
-	}
+    public Node getFirstParam()
+    {
+        nIndex = 0;
+        return getNextParam();
+    }
 
-	public Node getNextParam()
-	{
-		int nNbIndex = nodeMap.getLength();
-		if(nIndex < nNbIndex)
-		{
-			Node node = nodeMap.item(nIndex);
-			nIndex++;
-			return node;
-		}
-		return null;
-	}
+    public Node getNextParam()
+    {
+        int nNbIndex = nodeMap.getLength();
+        if(nIndex < nNbIndex)
+        {
+            Node node = nodeMap.item(nIndex);
+            nIndex++;
+            return node;
+        }
+        return null;
+    }
 
 
 
-	NamedNodeMap nodeMap = null;
-	int nIndex = 0;
+    NamedNodeMap nodeMap = null;
+    int nIndex = 0;
 }

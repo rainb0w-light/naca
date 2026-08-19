@@ -66,366 +66,371 @@ import utils.TranscoderEngine;
 public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityClass>
 {
 
-	public boolean CustomInit(Tag eConf)
-	{
-		Transcoder.logDebug("Do CSD Registering...");
-		DoCSDRegistering(eConf) ;
+    public boolean CustomInit(Tag eConf)
+    {
+        Transcoder.logDebug("Do CSD Registering...");
+        DoCSDRegistering(eConf) ;
 
-		Transcoder.logDebug("Init Global Entities...");
-		CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null);
-		CJavaEntityFactory factory = new CJavaEntityFactory(ocat, null) ;
-		InitGlobalEntitiesFromRules(factory) ;
-		factory.InitCustomGlobalEntities(cat) ;
+        Transcoder.logDebug("Init Global Entities...");
+        CObjectCatalog ocat = new CObjectCatalog(cat, null, null, null);
+        CJavaEntityFactory factory = new CJavaEntityFactory(ocat, null) ;
+        InitGlobalEntitiesFromRules(factory) ;
+        factory.InitCustomGlobalEntities(cat) ;
 
-		return true ;
-	}
-	/**
-	 *
-	 */
+        return true ;
+    }
+    /**
+     *
+     */
 
-	/**
-	 * @param eConf
-	 */
-	private void DoCSDParsing(Tag eConf)
-	{
-		Tag eCSD = eConf.getChild("CSD") ;
-		if (eCSD != null)
-		{
-			String csdFile = eCSD.getVal("File");
-			String csdOutput = eCSD.getVal("Output");
-			if (!csdFile.equals("") && !csdOutput.equals(""))
-			{
-				DoCSDParsing(csdFile, csdOutput) ;
-			}
-		}
-	}
+    /**
+     * @param eConf
+     */
+    private void DoCSDParsing(Tag eConf)
+    {
+        Tag eCSD = eConf.getChild("CSD") ;
+        if (eCSD != null)
+        {
+            String csdFile = eCSD.getVal("File");
+            String csdOutput = eCSD.getVal("Output");
+            if (!csdFile.equals("") && !csdOutput.equals(""))
+            {
+                DoCSDParsing(csdFile, csdOutput) ;
+            }
+        }
+    }
 
-	/**
-	 * @param eConf
-	 */
-	private void DoCSDRegistering(Tag eConf)
-	{
-		Tag eCSD = eConf.getChild("CSD") ;
-		if (eCSD != null)
-		{
-			String csdOutput = eCSD.getVal("Output");
-			if (!csdOutput.equals(""))
-			{
-				DoCSDRegistering(csdOutput) ;
-			}
-		}
-	}
-
-
-	/**
-	 * @param appName
-	 * @return
-	 */
-	protected @Override CBaseLexer getLexer()
-	{
-		return new CCobolLexer();
-	}
-
-	protected CParser<CProgram> doParsing(CTokenList lst)
-	{
-		CParser<CProgram> parser = new CCobolParser() ;
-		if (parser.StartParsing(lst))
-		{
-			CGlobalEntityCounter.GetInstance().CountCobolFile();
-			return parser ;
-		}
-		else
-		{
-			Transcoder.logError("COBOL parsing failed") ;
-			return null ;
-		}
-	}
+    /**
+     * @param eConf
+     */
+    private void DoCSDRegistering(Tag eConf)
+    {
+        Tag eCSD = eConf.getChild("CSD") ;
+        if (eCSD != null)
+        {
+            String csdOutput = eCSD.getVal("Output");
+            if (!csdOutput.equals(""))
+            {
+                DoCSDRegistering(csdOutput) ;
+            }
+        }
+    }
 
 
-	private void DoCSDParsing(String csdFilePath, String xmlFilePath)
-	{
-		try
-		{
-			BufferedReader inputStream = new BufferedReader(new FileReader(csdFilePath));
-			String var = inputStream.readLine();
-			while (var != null)
-			{
-				if (var.startsWith("DEFINE TRANSACTION"))
-				{
-					String TID = var.substring(19, 23) ;
-					int i = 0 ;
-					do
-					{
-						i = var.indexOf("PROGRAM(") ;
-						if (i>0)
-						{
-							int f = var.indexOf(")", i+8);
-							if (f>0)
-							{
-								String prog = var.substring(i+8, f) ;
-								//cat.registerTransID(TID, prog) ;
-							}
-						}
-						var = inputStream.readLine() ;
-					} while (var != null && i == -1) ;
-				}
-				else
-				{
-					var = inputStream.readLine();
-				}
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			return ;
-		}
-		catch (IOException e)
-		{
-			return ;
-		}
-		try
-		{
-			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
-			Element eRoot = doc.createElement("root") ;
-			doc.appendChild(eRoot);
-			cat.ExportTransID(eRoot, doc);
-			Source source = new DOMSource(doc);
-			FileOutputStream file = new FileOutputStream(xmlFilePath);
-			StreamResult res = new StreamResult(file) ;
-			Transformer xformer = TransformerFactory.newInstance().newTransformer();
-			xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
-			xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			xformer.transform(source, res);
-		}
-		catch (DOMException e1)
-		{
-		}
-		catch (FileNotFoundException e1)
-		{
-		}
-		catch (TransformerConfigurationException e1)
-		{
-		}
-		catch (IllegalArgumentException e1)
-		{
-		}
-		catch (ParserConfigurationException e1)
-		{
-		}
-		catch (FactoryConfigurationError e1)
-		{
-		}
-		catch (TransformerFactoryConfigurationError e1)
-		{
-		}
-		catch (TransformerException e1)
-		{
-		}
-	}
+    /**
+     * @param appName
+     * @return
+     */
+    protected @Override CBaseLexer getLexer()
+    {
+        return new CCobolLexer();
+    }
 
-	private void DoCSDRegistering(String xmlFilePath)
-	{
-		try
-		{
-			Tag docCSD = Tag.createFromFile(xmlFilePath) ;
-			if (docCSD != null)
-			{
-
-				Collection<Tag> lst = docCSD.getChilds("transid") ;
-				for (Tag e : lst)
-				{
-					String id = e.getVal("id");
-					String program = e.getVal("program");
-					if (id != null && !id.equals("") && program != null && !program.equals(""))
-					{
-						cat.registerTransID(id, program);
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-		}
-
-	}
-
-	protected CEntityClass doSemanticAnalysis(CParser<CProgram> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources)
-	{
-		CJavaExporter out = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
-		cat.setExporter(out) ;
-		CJavaEntityFactory factory = newJavaEntityFactory(cat, out) ;
-		InitCustomCICSEntriesFromRules(factory) ;
-		factory.InitCustomCICSEntities();
-		CProgram prg = parser.GetRootElement() ;
-		CEntityClass eSem = prg.DoSemanticAnalysis(factory) ;
-		parser.commentContainer.DoSemanticAnalysis(factory) ;
-		DoAlgorythmicAnalysis(cat, factory);
-
-		return eSem ;
-	}
-
-	static CJavaEntityFactory newJavaEntityFactory(CObjectCatalog cat, CJavaExporter out)
-	{
-		return new CJavaEntityFactory(cat, out);
-	}
-
-	private void InitGlobalEntitiesFromRules(CBaseEntityFactory factory)
-	{
-		int nb = rulesManager.getNbRules("ignoredCopy") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("ignoredCopy", i) ;
-			String name = e.getVal("copyName") ;
-			cat.AddIgnoredExternal(factory.NewIgnoreExternalEntity(name)) ;
-		}
-
-		nb = rulesManager.getNbRules("customSubProgram") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("customSubProgram", i) ;
-			String name = e.getVal("subProgram") ;
-			boolean isignore = e.getValAsBoolean("ignore") ;
-			cat.AddCustomSubProgram(name, isignore);
-		}
-
-		nb = rulesManager.getNbRules("SpecialConstantValue") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
-			String value = e.getVal("value") ;
-			String constant = e.getVal("constant") ;
-			char[] arr = value.toCharArray() ;
-			char[] b = new char[arr.length/2] ;
-			for (int j=0; j<arr.length; j+=2)
-			{
-				String s = "" + arr[j] + arr[j+1] ;
-				Integer in = Integer.valueOf(s, 16) ;
-				b[j/2] = (char) in.intValue() ;
-			}
-			String text = new String(b) ;
-			factory.addSpecialConstantValue(text, constant) ;
-		}
-	}
-
-	/**
-	 *
-	 */
-	private void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
-	{
-		int nb = rulesManager.getNbRules("ignoreEntity") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("ignoreEntity", i) ;
-			String name = e.getVal("name") ;
-			factory.NewIgnoreEntity(name) ;
-		}
-		nb = rulesManager.getNbRules("environmentVariable") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("environmentVariable", i) ;
-			String name = e.getVal("name") ;
-			String read = e.getVal("methodeRead") ;
-			String write = e.getVal("methodeWrite") ;
-			boolean isnumeric = e.getValAsBoolean("Numeric") ;
-			factory.NewEntityEnvironmentVariable(name, read, write, isnumeric) ;
-		}
-		nb = rulesManager.getNbRules("keyPressed") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("keyPressed", i) ;
-			String key = e.getVal("keyName") ;
-			String alias = e.getVal("CICSAlias") ;
-			factory.NewEntityKeyPressed(alias, key) ;
-		}
-		nb = rulesManager.getNbRules("routineEmulation") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("routineEmulation", i) ;
-			String name = e.getVal("routine") ;
-			String method = e.getVal("method") ;
-			factory.programCatalog.RegisterRoutineEmulation(name, method) ;
-		}
-
-		nb = rulesManager.getNbRules("NoExportResource") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("NoExportResource", i) ;
-			String name = e.getVal("program") ;
-			cat.RegisterNotExportingResource(name);
-		}
-		nb = rulesManager.getNbRules("SpecialConstantValue") ;
-		for (int i=0; i<nb; i++)
-		{
-			Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
-			String value = e.getVal("value") ;
-			String constant = e.getVal("constant") ;
-			char[] arr = value.toCharArray() ;
-			char[] b = new char[arr.length/2] ;
-			for (int j=0; j<arr.length; j+=2)
-			{
-				String s = "" + arr[j] + arr[j+1] ;
-				Integer in = Integer.valueOf(s, 16) ;
-				b[j/2] = (char) in.intValue() ;
-			}
-			String text = new String(b) ;
-			factory.addSpecialConstantValue(text, constant) ;
-		}
-	}
-
-	protected void DoAlgorythmicAnalysis(CObjectCatalog cat, CBaseEntityFactory factory)
-	{
-		CSpecialActionContainer container = new CSpecialActionContainer() ;
-		container.DoExplicitDFHCommarea(cat, factory) ;
-		container.DoRenameSubPrograms(cat, factory);
-		container.DoClearConstantAttributes(cat, factory) ;
-
-		Tag t = rulesManager.getRule("ReduceMaps") ;
-		if (t != null)
-		{
-			boolean isreduce = t.getValAsBoolean("active") ;
-			if (isreduce)
-			{
-				container.DoClearSymbolicMap(cat, factory) ;
-			}
-		}
-		container.DoRegisterPFKeys(cat) ;
-		container.DoCheckEditName(cat) ;
-		container.DoReplaceCall_RS7ZPA04(cat, factory) ;
-		container.DoReplacePerformThrough(cat, factory) ;
-		container.DoReplaceMapName(cat, factory) ;
-		container.DoSimplifyDFHCommArea(cat) ;
-		container.DoSimplifyFDVariableZones(cat, factory) ;
-		//container.DoReduceSections(cat, factory) ;
-	}
+    protected CParser<CProgram> doParsing(CTokenList lst)
+    {
+        CParser<CProgram> parser = new CCobolParser() ;
+        if (parser.StartParsing(lst))
+        {
+            CGlobalEntityCounter.GetInstance().CountCobolFile();
+            return parser ;
+        }
+        else
+        {
+            Transcoder.logError("COBOL parsing failed") ;
+            return null ;
+        }
+    }
 
 
-	@Override
-	protected void doLogs(String csInput, String csOutput)
-	{
-		Transcoder.logInfo("Start transcoding file to "+ csOutput);
-	}
+    private void DoCSDParsing(String csdFilePath, String xmlFilePath)
+    {
+        try
+        {
+            BufferedReader inputStream = new BufferedReader(new FileReader(csdFilePath));
+            String var = inputStream.readLine();
+            while (var != null)
+            {
+                if (var.startsWith("DEFINE TRANSACTION"))
+                {
+                    String TID = var.substring(19, 23) ;
+                    int i = 0 ;
+                    do
+                    {
+                        i = var.indexOf("PROGRAM(") ;
+                        if (i>0)
+                        {
+                            int f = var.indexOf(")", i+8);
+                            if (f>0)
+                            {
+                                String prog = var.substring(i+8, f) ;
+                                //cat.registerTransID(TID, prog) ;
+                            }
+                        }
+                        var = inputStream.readLine() ;
+                    } while (var != null && i == -1) ;
+                }
+                else
+                {
+                    var = inputStream.readLine();
+                }
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            return ;
+        }
+        catch (IOException e)
+        {
+            return ;
+        }
+        try
+        {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
+            Element eRoot = doc.createElement("root") ;
+            doc.appendChild(eRoot);
+            cat.ExportTransID(eRoot, doc);
+            Source source = new DOMSource(doc);
+            FileOutputStream file = new FileOutputStream(xmlFilePath);
+            StreamResult res = new StreamResult(file) ;
+            Transformer xformer = TransformerFactory.newInstance().newTransformer();
+            xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
+            xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            xformer.transform(source, res);
+        }
+        catch (DOMException e1)
+        {
+        }
+        catch (FileNotFoundException e1)
+        {
+        }
+        catch (TransformerConfigurationException e1)
+        {
+        }
+        catch (IllegalArgumentException e1)
+        {
+        }
+        catch (ParserConfigurationException e1)
+        {
+        }
+        catch (FactoryConfigurationError e1)
+        {
+        }
+        catch (TransformerFactoryConfigurationError e1)
+        {
+        }
+        catch (TransformerException e1)
+        {
+        }
+    }
 
-	@Override
-	protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
-	{
-		engine.RegisterNotificationHandler(new SpecialCobolActionNotifHandler()) ;
-	}
+    private void DoCSDRegistering(String xmlFilePath)
+    {
+        try
+        {
+            Tag docCSD = Tag.createFromFile(xmlFilePath) ;
+            if (docCSD != null)
+            {
+
+                Collection<Tag> lst = docCSD.getChilds("transid") ;
+                for (Tag e : lst)
+                {
+                    String id = e.getVal("id");
+                    String program = e.getVal("program");
+                    if (id != null && !id.equals("") && program != null && !program.equals(""))
+                    {
+                        cat.registerTransID(id, program);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+        }
+
+    }
+
+    protected CEntityClass doSemanticAnalysis(
+        CParser<CProgram> parser,
+        String fileName,
+        CObjectCatalog cat,
+        CTransApplicationGroup grp,
+        boolean bResources)
+    {
+        CJavaExporter out = new CJavaExporter(cat.listing, fileName, parser.commentContainer, bResources) ;
+        cat.setExporter(out) ;
+        CJavaEntityFactory factory = newJavaEntityFactory(cat, out) ;
+        InitCustomCICSEntriesFromRules(factory) ;
+        factory.InitCustomCICSEntities();
+        CProgram prg = parser.GetRootElement() ;
+        CEntityClass eSem = prg.DoSemanticAnalysis(factory) ;
+        parser.commentContainer.DoSemanticAnalysis(factory) ;
+        DoAlgorythmicAnalysis(cat, factory);
+
+        return eSem ;
+    }
+
+    static CJavaEntityFactory newJavaEntityFactory(CObjectCatalog cat, CJavaExporter out)
+    {
+        return new CJavaEntityFactory(cat, out);
+    }
+
+    private void InitGlobalEntitiesFromRules(CBaseEntityFactory factory)
+    {
+        int nb = rulesManager.getNbRules("ignoredCopy") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("ignoredCopy", i) ;
+            String name = e.getVal("copyName") ;
+            cat.AddIgnoredExternal(factory.NewIgnoreExternalEntity(name)) ;
+        }
+
+        nb = rulesManager.getNbRules("customSubProgram") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("customSubProgram", i) ;
+            String name = e.getVal("subProgram") ;
+            boolean isignore = e.getValAsBoolean("ignore") ;
+            cat.AddCustomSubProgram(name, isignore);
+        }
+
+        nb = rulesManager.getNbRules("SpecialConstantValue") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
+            String value = e.getVal("value") ;
+            String constant = e.getVal("constant") ;
+            char[] arr = value.toCharArray() ;
+            char[] b = new char[arr.length/2] ;
+            for (int j=0; j<arr.length; j+=2)
+            {
+                String s = "" + arr[j] + arr[j+1] ;
+                Integer in = Integer.valueOf(s, 16) ;
+                b[j/2] = (char) in.intValue() ;
+            }
+            String text = new String(b) ;
+            factory.addSpecialConstantValue(text, constant) ;
+        }
+    }
+
+    /**
+     *
+     */
+    private void InitCustomCICSEntriesFromRules(CBaseEntityFactory factory)
+    {
+        int nb = rulesManager.getNbRules("ignoreEntity") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("ignoreEntity", i) ;
+            String name = e.getVal("name") ;
+            factory.NewIgnoreEntity(name) ;
+        }
+        nb = rulesManager.getNbRules("environmentVariable") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("environmentVariable", i) ;
+            String name = e.getVal("name") ;
+            String read = e.getVal("methodeRead") ;
+            String write = e.getVal("methodeWrite") ;
+            boolean isnumeric = e.getValAsBoolean("Numeric") ;
+            factory.NewEntityEnvironmentVariable(name, read, write, isnumeric) ;
+        }
+        nb = rulesManager.getNbRules("keyPressed") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("keyPressed", i) ;
+            String key = e.getVal("keyName") ;
+            String alias = e.getVal("CICSAlias") ;
+            factory.NewEntityKeyPressed(alias, key) ;
+        }
+        nb = rulesManager.getNbRules("routineEmulation") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("routineEmulation", i) ;
+            String name = e.getVal("routine") ;
+            String method = e.getVal("method") ;
+            factory.programCatalog.RegisterRoutineEmulation(name, method) ;
+        }
+
+        nb = rulesManager.getNbRules("NoExportResource") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("NoExportResource", i) ;
+            String name = e.getVal("program") ;
+            cat.RegisterNotExportingResource(name);
+        }
+        nb = rulesManager.getNbRules("SpecialConstantValue") ;
+        for (int i=0; i<nb; i++)
+        {
+            Tag e = rulesManager.getRule("SpecialConstantValue", i) ;
+            String value = e.getVal("value") ;
+            String constant = e.getVal("constant") ;
+            char[] arr = value.toCharArray() ;
+            char[] b = new char[arr.length/2] ;
+            for (int j=0; j<arr.length; j+=2)
+            {
+                String s = "" + arr[j] + arr[j+1] ;
+                Integer in = Integer.valueOf(s, 16) ;
+                b[j/2] = (char) in.intValue() ;
+            }
+            String text = new String(b) ;
+            factory.addSpecialConstantValue(text, constant) ;
+        }
+    }
+
+    protected void DoAlgorythmicAnalysis(CObjectCatalog cat, CBaseEntityFactory factory)
+    {
+        CSpecialActionContainer container = new CSpecialActionContainer() ;
+        container.DoExplicitDFHCommarea(cat, factory) ;
+        container.DoRenameSubPrograms(cat, factory);
+        container.DoClearConstantAttributes(cat, factory) ;
+
+        Tag t = rulesManager.getRule("ReduceMaps") ;
+        if (t != null)
+        {
+            boolean isreduce = t.getValAsBoolean("active") ;
+            if (isreduce)
+            {
+                container.DoClearSymbolicMap(cat, factory) ;
+            }
+        }
+        container.DoRegisterPFKeys(cat) ;
+        container.DoCheckEditName(cat) ;
+        container.DoReplaceCall_RS7ZPA04(cat, factory) ;
+        container.DoReplacePerformThrough(cat, factory) ;
+        container.DoReplaceMapName(cat, factory) ;
+        container.DoSimplifyDFHCommArea(cat) ;
+        container.DoSimplifyFDVariableZones(cat, factory) ;
+        //container.DoReduceSections(cat, factory) ;
+    }
 
 
-	/**
-	 * @see utils.TranscoderEngine#generateOutputFileName(java.lang.String)
-	 */
-	@Override
-	protected String generateOutputFileName(String filename)
-	{
-		return ReplaceExtensionFileName(CobolNameUtil.fixJavaName(filename), "java") ;
-	}
-	/**
-	 * @see utils.TranscoderEngine#generateInputFileName(java.lang.String)
-	 */
-	@Override
-	protected String generateInputFileName(String filename)
-	{
-		return ReplaceExtensionFileName(filename, "cbl");
-	}
+    @Override
+    protected void doLogs(String csInput, String csOutput)
+    {
+        Transcoder.logInfo("Start transcoding file to "+ csOutput);
+    }
+
+    @Override
+    protected void doPopulateSpecialActionHandlers(NotificationEngine engine)
+    {
+        engine.RegisterNotificationHandler(new SpecialCobolActionNotifHandler()) ;
+    }
+
+
+    /**
+     * @see utils.TranscoderEngine#generateOutputFileName(java.lang.String)
+     */
+    @Override
+    protected String generateOutputFileName(String filename)
+    {
+        return ReplaceExtensionFileName(CobolNameUtil.fixJavaName(filename), "java") ;
+    }
+    /**
+     * @see utils.TranscoderEngine#generateInputFileName(java.lang.String)
+     */
+    @Override
+    protected String generateInputFileName(String filename)
+    {
+        return ReplaceExtensionFileName(filename, "cbl");
+    }
 }

@@ -27,117 +27,117 @@ import utils.Transcoder;
  */
 public class CCondIsNumeric extends CExpression
 {
-	public CCondIsNumeric(int line, CExpression term)
-	{
-		super(line) ;
-		this.term = term ;
-		bIsOpposite = false ;
-	}
-	public CCondIsNumeric(int line, CExpression term, boolean bOpposite)
-	{
-		super(line) ;
-		this.term = term ;
-		bIsOpposite = bOpposite ;
-	}
-	protected boolean bIsOpposite = false ;
+    public CCondIsNumeric(int line, CExpression term)
+    {
+        super(line) ;
+        this.term = term ;
+        bIsOpposite = false ;
+    }
+    public CCondIsNumeric(int line, CExpression term, boolean bOpposite)
+    {
+        super(line) ;
+        this.term = term ;
+        bIsOpposite = bOpposite ;
+    }
+    protected boolean bIsOpposite = false ;
 
-	CExpression term = null ;
+    CExpression term = null ;
 
-	protected boolean CheckMembersBeforeExport()
-	{
-		return CheckMemberNotNull(term);
-	}
+    protected boolean CheckMembersBeforeExport()
+    {
+        return CheckMemberNotNull(term);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
-	 */
-	public Element DoExport(Document root)
-	{
-		Element e = root.createElement("IsNumeric") ;
-		e.appendChild(term.Export(root)) ;
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
+     */
+    public Element DoExport(Document root)
+    {
+        Element e = root.createElement("IsNumeric") ;
+        e.appendChild(term.Export(root)) ;
+        return e;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetPriorityLEvel()
-	 */
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetPriorityLEvel()
+     */
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetOppositeCondition()
-	 */
-	public CExpression GetOppositeCondition()
-	{
-		return new CCondIsNumeric(getLine(), term, !bIsOpposite) ;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetOppositeCondition()
+     */
+    public CExpression GetOppositeCondition()
+    {
+        return new CCondIsNumeric(getLine(), term, !bIsOpposite) ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
-	{
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
+    {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
-	{
-		CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
-		if (bIsOpposite)
-		{
-			eCond.setOpposite() ;
-		}
-		if (term.IsReference())
-		{
-			CDataEntity eData = term.GetReference(factory) ;
-			eCond.SetIsNumeric(eData);
-			eData.RegisterVarTesting(eCond) ;
-			return eCond;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting situation : MUST be an identifier");
-			return null ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager condMaster)
+    {
+        CEntityCondIsKindOf eCond = factory.NewEntityCondIsKindOf() ;
+        if (bIsOpposite)
+        {
+            eCond.setOpposite() ;
+        }
+        if (term.IsReference())
+        {
+            CDataEntity eData = term.GetReference(factory) ;
+            eCond.SetIsNumeric(eData);
+            eData.RegisterVarTesting(eCond) ;
+            return eCond;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting situation : MUST be an identifier");
+            return null ;
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetFirstOperand()
-	 */
-	public CExpression GetFirstConditionOperand()
-	{
-		return term;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetFirstOperand()
+     */
+    public CExpression GetFirstConditionOperand()
+    {
+        return term;
+    }
 
-	public CExpression GetSimilarExpression(CExpression operand)
-	{
-		ASSERT(null, null);
-		return null;
-	}
+    public CExpression GetSimilarExpression(CExpression operand)
+    {
+        ASSERT(null, null);
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#IsBinaryCondition()
-	 */
-	public boolean IsBinaryCondition()
-	{
-		return false;
-	}
-	public String toString()
-	{
-		return "IS_NUMERIC(" + term.toString() + ")" ;
-	}
-	public CExpression getMasterBinaryCondition()
-	{
-		return this ;
-	}
-	@Override
-	public CExpression GetFirstCalculOperand()
-	{
-		return term.GetFirstCalculOperand() ;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#IsBinaryCondition()
+     */
+    public boolean IsBinaryCondition()
+    {
+        return false;
+    }
+    public String toString()
+    {
+        return "IS_NUMERIC(" + term.toString() + ")" ;
+    }
+    public CExpression getMasterBinaryCondition()
+    {
+        return this ;
+    }
+    @Override
+    public CExpression GetFirstCalculOperand()
+    {
+        return term.GetFirstCalculOperand() ;
+    }
 }

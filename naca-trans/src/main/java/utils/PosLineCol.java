@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -16,51 +16,51 @@ package utils;
  */
 public class PosLineCol
 {
-	public PosLineCol()
-	{
-		nLine = 0;
-		nCol = 0;
-		nLength = 0;
-	}
-	
-	public void setLine(int n)
-	{
-		nLine = n;
-	}
-	
-	public void setCol(int n)
-	{
-		nCol = n;
-	}
+    public PosLineCol()
+    {
+        nLine = 0;
+        nCol = 0;
+        nLength = 0;
+    }
 
-	public void setLength(int n)
-	{
-		nLength = n;
-	}
-	
-	public void setLineColLength(int nLine, int nCol, int nLength)
-	{
-		this.nLine = nLine;
-		this.nCol = nCol;
-		this.nLength = nLength;
-	}
-	
-	public int getLine()
-	{
-		return nLine;
-	}
-	
-	public int getCol()
-	{
-		return nCol;
-	}
-	
-	public int getLength()
-	{
-		return nLength;
-	}
-	
-	private int nLine;
-	private int nCol;
-	private int nLength;
+    public void setLine(int n)
+    {
+        nLine = n;
+    }
+
+    public void setCol(int n)
+    {
+        nCol = n;
+    }
+
+    public void setLength(int n)
+    {
+        nLength = n;
+    }
+
+    public void setLineColLength(int nLine, int nCol, int nLength)
+    {
+        this.nLine = nLine;
+        this.nCol = nCol;
+        this.nLength = nLength;
+    }
+
+    public int getLine()
+    {
+        return nLine;
+    }
+
+    public int getCol()
+    {
+        return nCol;
+    }
+
+    public int getLength()
+    {
+        return nLength;
+    }
+
+    private int nLine;
+    private int nCol;
+    private int nLength;
 }

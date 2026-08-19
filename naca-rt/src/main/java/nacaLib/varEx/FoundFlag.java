@@ -12,19 +12,19 @@ package nacaLib.varEx;
  */
 public class FoundFlag
 {
-	FoundFlag()
-	{
-	}
+    FoundFlag()
+    {
+    }
 
-	void setFound()
-	{
-		is = true;
-	}
+    void setFound()
+    {
+        is = true;
+    }
 
-	boolean isFound()
-	{
-		return is;
-	}
+    boolean isFound()
+    {
+        return is;
+    }
 
-	private boolean is = false;
+    private boolean is = false;
 }

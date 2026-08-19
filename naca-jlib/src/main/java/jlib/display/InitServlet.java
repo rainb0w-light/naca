@@ -16,44 +16,44 @@ import jakarta.servlet.http.HttpServlet;
  */
 public class InitServlet extends HttpServlet
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public void init(ServletConfig config) throws ServletException
-	{
-		super.init(config);
+    public void init(ServletConfig config) throws ServletException
+    {
+        super.init(config);
 
-		this.config = DisplayConfig.getInstance() ;
+        this.config = DisplayConfig.getInstance() ;
 
-		String path = this.getServletContext().getRealPath("/") ;
-		this.config.setRootPath(path) ;
+        String path = this.getServletContext().getRealPath("/") ;
+        this.config.setRootPath(path) ;
 
-		String csINIFilePath = config.getInitParameter("INIFilePath");
-		csINIFilePath = this.config.getRootPath() + csINIFilePath ;
-		this.config.LoadConfig(csINIFilePath) ;
+        String csINIFilePath = config.getInitParameter("INIFilePath");
+        csINIFilePath = this.config.getRootPath() + csINIFilePath ;
+        this.config.LoadConfig(csINIFilePath) ;
 
 
 /*
-		resourceManager.setXMLConfigFilePath(csINIFilePath) ;
-		resourceManager.Init() ;
+        resourceManager.setXMLConfigFilePath(csINIFilePath) ;
+        resourceManager.Init() ;
 
-		resourceManager.loadDBSemanticContextDef();
+        resourceManager.loadDBSemanticContextDef();
 
-		// Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
+        // Load semantic context data dictionnary: Defines semantic context associtaed to DB columns
 
 
-		// Load semantic context configuration file: Defines menus, options, ...
-		String csSemanticContext = resourceManager.getSemanticContextPathFile();
-		if(csSemanticContext != null && csSemanticContext.length() != 0)
-		{
-			SemanticManager semanticManager = SemanticManager.GetInstance();
-			semanticManager.Init(csSemanticContext);
-			resourceManager.registerSemanticManager(semanticManager);
-		}
-	*/
-	}
+        // Load semantic context configuration file: Defines menus, options, ...
+        String csSemanticContext = resourceManager.getSemanticContextPathFile();
+        if(csSemanticContext != null && csSemanticContext.length() != 0)
+        {
+            SemanticManager semanticManager = SemanticManager.GetInstance();
+            semanticManager.Init(csSemanticContext);
+            resourceManager.registerSemanticManager(semanticManager);
+        }
+    */
+    }
 
-	DisplayConfig config = null ;
+    DisplayConfig config = null ;
 }

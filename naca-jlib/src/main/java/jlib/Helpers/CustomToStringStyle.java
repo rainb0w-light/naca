@@ -16,37 +16,37 @@ package jlib.Helpers;
  */
 //public class CustomToStringStyle extends ToStringStyle
 //{
-//	private static CustomToStringStyle ms_customToStringStyle = null;
+//  private static CustomToStringStyle ms_customToStringStyle = null;
 //
-//	/**
-//	 *
-//	 */
-//	private CustomToStringStyle()
-//	{
-//	}
+//  /**
+//   *
+//   */
+//  private CustomToStringStyle()
+//  {
+//  }
 //
-//	public static CustomToStringStyle getInstance()
-//	{
-//		if (ms_customToStringStyle == null) {
-//			ms_customToStringStyle = new CustomToStringStyle();
-//		}
-//		return ms_customToStringStyle;
-//	}
+//  public static CustomToStringStyle getInstance()
+//  {
+//      if (ms_customToStringStyle == null) {
+//          ms_customToStringStyle = new CustomToStringStyle();
+//      }
+//      return ms_customToStringStyle;
+//  }
 //
-//	/* (non-Javadoc)
-//	 * @see org.apache.commons.lang.builder.ToStringStyle#appendIdentityHashCode(java.lang.StringBuffer, java.lang.Object)
-//	 */
-//	protected void appendIdentityHashCode(StringBuffer buffer, Object object)
-//	{
-//		return;
-//	}
+//  /* (non-Javadoc)
+//   * @see org.apache.commons.lang.builder.ToStringStyle#appendIdentityHashCode(java.lang.StringBuffer, java.lang.Object)
+//   */
+//  protected void appendIdentityHashCode(StringBuffer buffer, Object object)
+//  {
+//      return;
+//  }
 //
-//	/* (non-Javadoc)
-//	 * @see org.apache.commons.lang.builder.ToStringStyle#appendClassName(java.lang.StringBuffer, java.lang.Object)
-//	 */
-//	protected void appendClassName(StringBuffer buffer, Object object)
-//	{
-//		buffer.append(getShortClassName(object.getClass()));
-//	}
+//  /* (non-Javadoc)
+//   * @see org.apache.commons.lang.builder.ToStringStyle#appendClassName(java.lang.StringBuffer, java.lang.Object)
+//   */
+//  protected void appendClassName(StringBuffer buffer, Object object)
+//  {
+//      buffer.append(getShortClassName(object.getClass()));
+//  }
 //
 //}

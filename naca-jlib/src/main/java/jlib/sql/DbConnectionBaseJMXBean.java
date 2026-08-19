@@ -21,72 +21,72 @@ import jlib.jmxMBean.BaseCloseMBean;
 
 public class DbConnectionBaseJMXBean extends BaseCloseMBean
 {
-	private DbConnectionBase dbConnectionBase = null;
-	private boolean isshowStatements = false;
-	private DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = null;
-	private ArrayList<DbConnectionBaseStmtJMXBean> stmts = null;
+    private DbConnectionBase dbConnectionBase = null;
+    private boolean isshowStatements = false;
+    private DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = null;
+    private ArrayList<DbConnectionBaseStmtJMXBean> stmts = null;
 
-	DbConnectionBaseJMXBean(DbConnectionBase dbConnectionBase)
-	{
-		 this.dbConnectionBase = dbConnectionBase;
-	}
+    DbConnectionBaseJMXBean(DbConnectionBase dbConnectionBase)
+    {
+         this.dbConnectionBase = dbConnectionBase;
+    }
 
-	void cleanup()
-	{
-		isshowStatements = false;	// Hide sttm beans
-		doSetShowStatments();
-		dbConnectionBaseStmtJMXBean = null;
-		dbConnectionBase = null;
-	}
+    void cleanup()
+    {
+        isshowStatements = false;   // Hide sttm beans
+        doSetShowStatments();
+        dbConnectionBaseStmtJMXBean = null;
+        dbConnectionBase = null;
+    }
 
-	protected void buildDynamicMBeanInfo()
-	{
-		addAttribute("AreStatementsShown", getClass(), "AreStatementsShown", boolean.class);
-		addAttribute("NbCachedStatements", getClass(), "NbCachedStatements", int.class);
-		addOperation("ShowStatments", getClass(), "setShowStatments");
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addAttribute("AreStatementsShown", getClass(), "AreStatementsShown", boolean.class);
+        addAttribute("NbCachedStatements", getClass(), "NbCachedStatements", int.class);
+        addOperation("ShowStatments", getClass(), "setShowStatments");
+    }
 
-	public int getNbCachedStatements()
-	{
-		if(dbConnectionBase != null)
-			return dbConnectionBase.getNbCachedStatements();
-		return 0;
-	}
+    public int getNbCachedStatements()
+    {
+        if(dbConnectionBase != null)
+            return dbConnectionBase.getNbCachedStatements();
+        return 0;
+    }
 
-	public boolean getAreStatementsShown()
-	{
-		return isshowStatements;
-	}
+    public boolean getAreStatementsShown()
+    {
+        return isshowStatements;
+    }
 
-	public void setShowStatments()
-	{
-		isshowStatements = !isshowStatements;
-		doSetShowStatments();
-	}
+    public void setShowStatments()
+    {
+        isshowStatements = !isshowStatements;
+        doSetShowStatments();
+    }
 
-	synchronized void doSetShowStatments()
-	{
-		if(isshowStatements)	//&& !isBeanCreated())
-		{
-			dbConnectionBase.createStmtJMXBeans(this, getMBeanName() + "_Stmt", getMBeanName());
-		}
-		else if(!isshowStatements)	// && isBeanCreated())
-		{
-			if(stmts != null)
-			{
-				for(int n = 0; n< stmts.size(); n++)
-				{
-					DbConnectionBaseStmtJMXBean bean = stmts.get(n);
-					bean.unregisterMBean();
-				}
-			}
-		}
-	}
+    synchronized void doSetShowStatments()
+    {
+        if(isshowStatements)    //&& !isBeanCreated())
+        {
+            dbConnectionBase.createStmtJMXBeans(this, getMBeanName() + "_Stmt", getMBeanName());
+        }
+        else if(!isshowStatements)  // && isBeanCreated())
+        {
+            if(stmts != null)
+            {
+                for(int n = 0; n< stmts.size(); n++)
+                {
+                    DbConnectionBaseStmtJMXBean bean = stmts.get(n);
+                    bean.unregisterMBean();
+                }
+            }
+        }
+    }
 
-	synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
-	{
-		if(stmts == null)
-			stmts = new ArrayList<DbConnectionBaseStmtJMXBean>();
-		stmts.add(dbConnectionBaseStmtJMXBean);
-	}
+    synchronized void add(DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean)
+    {
+        if(stmts == null)
+            stmts = new ArrayList<DbConnectionBaseStmtJMXBean>();
+        stmts.add(dbConnectionBaseStmtJMXBean);
+    }
 }

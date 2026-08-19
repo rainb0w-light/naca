@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package idea.view;
 
@@ -21,25 +21,25 @@ import idea.onlinePrgEnv.OnlineSession;
  */
 public class XMLMergerManager
 {
-	public static synchronized XMLMerger get(OnlineSession appSession)
-	{
-		try
-		{
-			XMLMerger merger = ms_stack.pop();
-			merger.set(appSession);
-			return merger;
-		}
-		catch(EmptyStackException e)
-		{
-			return new XMLMerger(appSession);
-		}
-	}
-	
-	public static synchronized void release(XMLMerger merger)
-	{
-		merger.clear();
-		ms_stack.push(merger);
-	}
-	
-	private static Stack<XMLMerger> ms_stack = new Stack<XMLMerger>(); 
+    public static synchronized XMLMerger get(OnlineSession appSession)
+    {
+        try
+        {
+            XMLMerger merger = ms_stack.pop();
+            merger.set(appSession);
+            return merger;
+        }
+        catch(EmptyStackException e)
+        {
+            return new XMLMerger(appSession);
+        }
+    }
+
+    public static synchronized void release(XMLMerger merger)
+    {
+        merger.clear();
+        ms_stack.push(merger);
+    }
+
+    private static Stack<XMLMerger> ms_stack = new Stack<XMLMerger>();
 }

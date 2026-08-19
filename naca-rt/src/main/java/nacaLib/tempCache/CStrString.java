@@ -5,12 +5,12 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
 /**
- * 
+ *
  */
 
 
@@ -21,35 +21,35 @@ package nacaLib.tempCache;
  */
 public class CStrString extends CStr
 {
-	// Char buffer is always reusable
-	CStrString()
-	{
-		super();
-	}
-	
-	public void set(CStr csIn, char cPad, int nNbCharDest)
-	{
-		if(acBuffer == null)
-			acBuffer = new char[nNbCharDest];
-		else if(acBuffer.length < nNbCharDest)
-			acBuffer = new char[nNbCharDest];
-		
-		nLength = nNbCharDest;
-		nStartPos = 0;
-				
-		int nLength = 0;
-		if(csIn != null)
-		{
-			nLength = Math.min(csIn.length(), nNbCharDest);
-			for(int n=0; n<nLength; n++)
-			{
-				acBuffer[n] = csIn.charAt(n);
-			}
-		}
-		while(nLength < nNbCharDest)	// Pad on the right
-		{
-			acBuffer[nLength] = cPad;
-			nLength++;
-		}			
-	}
+    // Char buffer is always reusable
+    CStrString()
+    {
+        super();
+    }
+
+    public void set(CStr csIn, char cPad, int nNbCharDest)
+    {
+        if(acBuffer == null)
+            acBuffer = new char[nNbCharDest];
+        else if(acBuffer.length < nNbCharDest)
+            acBuffer = new char[nNbCharDest];
+
+        nLength = nNbCharDest;
+        nStartPos = 0;
+
+        int nLength = 0;
+        if(csIn != null)
+        {
+            nLength = Math.min(csIn.length(), nNbCharDest);
+            for(int n=0; n<nLength; n++)
+            {
+                acBuffer[n] = csIn.charAt(n);
+            }
+        }
+        while(nLength < nNbCharDest)    // Pad on the right
+        {
+            acBuffer[nLength] = cPad;
+            nLength++;
+        }
+    }
 }

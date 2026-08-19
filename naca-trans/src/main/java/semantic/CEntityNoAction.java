@@ -15,31 +15,31 @@ import utils.CObjectCatalog;
 public class CEntityNoAction extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityNoAction(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityNoAction(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public boolean ignore()
-	{
-		return true ;
-	}
+    public boolean ignore()
+    {
+        return true ;
+    }
 
-	public boolean IgnoreVariable(CDataEntity data)
-	{
-		data.UnRegisterReadingAction(this) ;
-		data.UnRegisterWritingAction(this) ;
-		return true ;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		field.UnRegisterReadingAction(this) ;
-		field.UnRegisterWritingAction(this) ;
-		return true ;
-	}
+    public boolean IgnoreVariable(CDataEntity data)
+    {
+        data.UnRegisterReadingAction(this) ;
+        data.UnRegisterWritingAction(this) ;
+        return true ;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        field.UnRegisterReadingAction(this) ;
+        field.UnRegisterWritingAction(this) ;
+        return true ;
+    }
 
 }

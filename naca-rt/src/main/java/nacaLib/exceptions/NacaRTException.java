@@ -8,20 +8,20 @@ package nacaLib.exceptions;
 
 public class NacaRTException extends RuntimeException
 {
-	private static final long serialVersionUID = 1L;
-	
-	public NacaRTException()
-	{
-		super();
-	}
-	
-	public NacaRTException(Throwable t)
-	{
-		super(t);
-	}
+    private static final long serialVersionUID = 1L;
 
-	public NacaRTException(String message)
-	{
-		super(message);
-	}
+    public NacaRTException()
+    {
+        super();
+    }
+
+    public NacaRTException(Throwable t)
+    {
+        super(t);
+    }
+
+    public NacaRTException(String message)
+    {
+        super(message);
+    }
 }

@@ -12,15 +12,15 @@ package jlib.log;
  */
 public class LogEventError extends LogEvent
 {
-	LogEventError()
-	{
-		super(LogEventType.Error, LogFlowStd.System, LogLevel.Critical);
-	}
+    LogEventError()
+    {
+        super(LogEventType.Error, LogFlowStd.System, LogLevel.Critical);
+    }
 
-	public static LogEvent info(int n)
-	{
-		LogEventError event = new LogEventError();
-		event.fillMember("nErrorId", n);
-		return event;
-	}
+    public static LogEvent info(int n)
+    {
+        LogEventError event = new LogEventError();
+        event.fillMember("nErrorId", n);
+        return event;
+    }
 }

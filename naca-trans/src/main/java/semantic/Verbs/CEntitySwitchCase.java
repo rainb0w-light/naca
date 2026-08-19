@@ -22,73 +22,73 @@ import utils.*;
  */
 public class CEntitySwitchCase extends CBaseActionEntity
 {
-	public static final class SwitchBranch
-	{
-		private final CEntityCase caseEntity;
-		private final boolean continuation;
+    public static final class SwitchBranch
+    {
+        private final CEntityCase caseEntity;
+        private final boolean continuation;
 
-		private SwitchBranch(CEntityCase caseEntity, boolean continuation)
-		{
-			this.caseEntity = caseEntity;
-			this.continuation = continuation;
-		}
+        private SwitchBranch(CEntityCase caseEntity, boolean continuation)
+        {
+            this.caseEntity = caseEntity;
+            this.continuation = continuation;
+        }
 
-		public CBaseEntityCondition getCondition()
-		{
-			return caseEntity.getCondition();
-		}
+        public CBaseEntityCondition getCondition()
+        {
+            return caseEntity.getCondition();
+        }
 
-		public boolean getOtherwise()
-		{
-			return caseEntity.isOtherwise();
-		}
+        public boolean getOtherwise()
+        {
+            return caseEntity.isOtherwise();
+        }
 
-		public boolean getContinuation()
-		{
-			return continuation;
-		}
+        public boolean getContinuation()
+        {
+            return continuation;
+        }
 
-		public List<CBaseLanguageEntity> getBody()
-		{
-			return caseEntity.getActiveChildren();
-		}
+        public List<CBaseLanguageEntity> getBody()
+        {
+            return caseEntity.getActiveChildren();
+        }
 
-	}
+    }
 
-	/**
-	 * @param cat
-	 * @param out
-	 */
-	public CEntitySwitchCase(int l, CObjectCatalog cat)
-	{
-		super(l, cat);
-	}
-	public boolean ignore()
-	{
-		return isChildrenIgnored() ;
-	}
+    /**
+     * @param cat
+     * @param out
+     */
+    public CEntitySwitchCase(int l, CObjectCatalog cat)
+    {
+        super(l, cat);
+    }
+    public boolean ignore()
+    {
+        return isChildrenIgnored() ;
+    }
 
-	public List<SwitchBranch> getBranches()
-	{
-		List<SwitchBranch> branches = new ArrayList<SwitchBranch>();
-		for (CBaseLanguageEntity child : lstChildren)
-		{
-			if (child instanceof CEntityCase && !child.ignore())
-			{
-				branches.add(new SwitchBranch((CEntityCase) child, !branches.isEmpty()));
-			}
-		}
-		return Collections.unmodifiableList(branches);
-	}
-	public boolean hasExplicitGetOut()
-	{
-		Iterator iter = lstChildren.iterator() ;
-		boolean isexplicit = true ;
-		while (iter.hasNext())
-		{
-			CBaseActionEntity act = (CBaseActionEntity)iter.next() ;
-			isexplicit &= act.hasExplicitGetOut() ;
-		}
-		return isexplicit;
-	}
+    public List<SwitchBranch> getBranches()
+    {
+        List<SwitchBranch> branches = new ArrayList<SwitchBranch>();
+        for (CBaseLanguageEntity child : lstChildren)
+        {
+            if (child instanceof CEntityCase && !child.ignore())
+            {
+                branches.add(new SwitchBranch((CEntityCase) child, !branches.isEmpty()));
+            }
+        }
+        return Collections.unmodifiableList(branches);
+    }
+    public boolean hasExplicitGetOut()
+    {
+        Iterator iter = lstChildren.iterator() ;
+        boolean isexplicit = true ;
+        while (iter.hasNext())
+        {
+            CBaseActionEntity act = (CBaseActionEntity)iter.next() ;
+            isexplicit &= act.hasExplicitGetOut() ;
+        }
+        return isexplicit;
+    }
 }

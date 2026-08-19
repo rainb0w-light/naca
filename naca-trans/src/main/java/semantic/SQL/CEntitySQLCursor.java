@@ -15,79 +15,79 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLCursor extends CDataEntity
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntitySQLCursor(String name, CObjectCatalog cat)
-	{
-		super(0, name, cat);
-		programCatalog.RegisterSQLCursor(this);
-		if (!name.equals(this.GetName()))
-		{
-			programCatalog.RegisterSQLCursor(name, this);
-		}
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntitySQLCursor(String name, CObjectCatalog cat)
+    {
+        super(0, name, cat);
+        programCatalog.RegisterSQLCursor(this);
+        if (!name.equals(this.GetName()))
+        {
+            programCatalog.RegisterSQLCursor(name, this);
+        }
+    }
 
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return null;
-	}
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return null;
+    }
 
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	public void SetSelect(CEntitySQLCursorSelectStatement eSQL)
-	{
-		select = eSQL ;
-	}
+    public void SetSelect(CEntitySQLCursorSelectStatement eSQL)
+    {
+        select = eSQL ;
+    }
 
-	protected CEntitySQLCursorSelectStatement select = null ;
-	protected CDataEntity variableStatement = null ;
+    protected CEntitySQLCursorSelectStatement select = null ;
+    protected CDataEntity variableStatement = null ;
 
-	public int GetNbColumns()
-	{
-		if (select == null)
-			return 0 ;
-		return select.GetNbColumns() ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    public int GetNbColumns()
+    {
+        if (select == null)
+            return 0 ;
+        return select.GetNbColumns() ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
-	/**
-	 *
-	 */
-	public CEntitySQLCursorSelectStatement getSelect()
-	{
-		return select ;
-	}
+    /**
+     *
+     */
+    public CEntitySQLCursorSelectStatement getSelect()
+    {
+        return select ;
+    }
 
-	/**
-	 * @param var
-	 */
-	public void setVariableStatement(CDataEntity var)
-	{
-		variableStatement = var ;
-	}
-	public CDataEntity getVariableStatement()
-	{
-		return variableStatement ;
-	}
+    /**
+     * @param var
+     */
+    public void setVariableStatement(CDataEntity var)
+    {
+        variableStatement = var ;
+    }
+    public CDataEntity getVariableStatement()
+    {
+        return variableStatement ;
+    }
 
 }

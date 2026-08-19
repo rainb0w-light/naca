@@ -13,26 +13,26 @@ package semantic;
 public interface ITypableEntity
 {
 
-	/**
-	 * @param format
-	 */
-	void SetTypeEdited(String format);
+    /**
+     * @param format
+     */
+    void SetTypeEdited(String format);
 
-	/**
-	 * @param length
-	 */
-	void SetTypeString(int length);
+    /**
+     * @param length
+     */
+    void SetTypeString(int length);
 
-	/**
-	 * @param length
-	 * @param decimal
-	 */
-	void SetTypeNum(int length, int decimal);
+    /**
+     * @param length
+     * @param decimal
+     */
+    void SetTypeNum(int length, int decimal);
 
-	/**
-	 * @param length
-	 * @param decimal
-	 */
-	void SetTypeSigned(int length, int decimal);
+    /**
+     * @param length
+     * @param decimal
+     */
+    void SetTypeSigned(int length, int decimal);
 
 }

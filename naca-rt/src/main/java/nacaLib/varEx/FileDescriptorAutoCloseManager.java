@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -21,47 +21,47 @@ import java.util.Map.Entry;
  */
 public class FileDescriptorAutoCloseManager
 {
-	public FileDescriptorAutoCloseManager()
-	{		
-	}
-	
-	public void reportFileDescriptorStatus(FileDescriptor fileDescriptor, FileDescriptorOpenStatus status)
-	{
-		if(hashFileDescriptor != null && !isisInAutoClose)
-		{
-			hashFileDescriptor.remove(fileDescriptor);
-			hashFileDescriptor.put(fileDescriptor, status);
-		}
-	}
-	
-	public void registerFileDescriptor(FileDescriptor fileDescriptor)
-	{
-		if(hashFileDescriptor == null)
-			hashFileDescriptor = new Hashtable<FileDescriptor, FileDescriptorOpenStatus>();
-		hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
-	}
-	
-	public void autoClose()
-	{
-		if(hashFileDescriptor != null)
-		{
-			isisInAutoClose = true;
-			Set<Entry<FileDescriptor, FileDescriptorOpenStatus> > entries = hashFileDescriptor.entrySet();
-			Iterator<Entry<FileDescriptor, FileDescriptorOpenStatus> > iter = entries.iterator();
-			while (iter.hasNext())
-			{
-				Entry<FileDescriptor, FileDescriptorOpenStatus> entry = iter.next();
-				if(entry.getValue() == FileDescriptorOpenStatus.OPEN)
-				{
-					FileDescriptor fileDescriptor = entry.getKey();
-					fileDescriptor.close();
-				}
-			}
-			hashFileDescriptor.clear();
-			isisInAutoClose = false;
-		}		
-	}
-	
-	private Hashtable<FileDescriptor, FileDescriptorOpenStatus> hashFileDescriptor  = null;
-	private boolean isisInAutoClose = false;
+    public FileDescriptorAutoCloseManager()
+    {
+    }
+
+    public void reportFileDescriptorStatus(FileDescriptor fileDescriptor, FileDescriptorOpenStatus status)
+    {
+        if(hashFileDescriptor != null && !isisInAutoClose)
+        {
+            hashFileDescriptor.remove(fileDescriptor);
+            hashFileDescriptor.put(fileDescriptor, status);
+        }
+    }
+
+    public void registerFileDescriptor(FileDescriptor fileDescriptor)
+    {
+        if(hashFileDescriptor == null)
+            hashFileDescriptor = new Hashtable<FileDescriptor, FileDescriptorOpenStatus>();
+        hashFileDescriptor.put(fileDescriptor, FileDescriptorOpenStatus.CLOSE);
+    }
+
+    public void autoClose()
+    {
+        if(hashFileDescriptor != null)
+        {
+            isisInAutoClose = true;
+            Set<Entry<FileDescriptor, FileDescriptorOpenStatus> > entries = hashFileDescriptor.entrySet();
+            Iterator<Entry<FileDescriptor, FileDescriptorOpenStatus> > iter = entries.iterator();
+            while (iter.hasNext())
+            {
+                Entry<FileDescriptor, FileDescriptorOpenStatus> entry = iter.next();
+                if(entry.getValue() == FileDescriptorOpenStatus.OPEN)
+                {
+                    FileDescriptor fileDescriptor = entry.getKey();
+                    fileDescriptor.close();
+                }
+            }
+            hashFileDescriptor.clear();
+            isisInAutoClose = false;
+        }
+    }
+
+    private Hashtable<FileDescriptor, FileDescriptorOpenStatus> hashFileDescriptor  = null;
+    private boolean isisInAutoClose = false;
 }

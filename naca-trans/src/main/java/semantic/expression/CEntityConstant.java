@@ -15,72 +15,72 @@ import semantic.CDataEntity;
 public class CEntityConstant extends CDataEntity
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 * @param out
-	 */
-	public CEntityConstant(Value val)
-	{
-		super(0, "", null);
-		eValue = val ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     * @param out
+     */
+    public CEntityConstant(Value val)
+    {
+        super(0, "", null);
+        eValue = val ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.CONSTANT ;
-	}
+    /**
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.CONSTANT ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#HasAccessors()
-	 */
-	@Override
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    /**
+     * @see semantic.CDataEntity#HasAccessors()
+     */
+    @Override
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#isValNeeded()
-	 */
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    /**
+     * @see semantic.CDataEntity#isValNeeded()
+     */
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#GetConstantValue()
-	 */
-	@Override
-	public String GetConstantValue()
-	{
-		return null;
-	}
+    /**
+     * @see semantic.CDataEntity#GetConstantValue()
+     */
+    @Override
+    public String GetConstantValue()
+    {
+        return null;
+    }
 
 
-	protected Value eValue ;
+    protected Value eValue ;
 
-	public Value getValue()
-	{
-		return eValue;
-	}
-	public boolean isHighValue()
-	{
-		return eValue == Value.HIGH_VALUE;
-	}
-	public boolean isSpaces()
-	{
-		return eValue == Value.SPACES;
-	}
-	
-	public enum Value 
-	{
-		HIGH_VALUE, SPACES ;
-	}
+    public Value getValue()
+    {
+        return eValue;
+    }
+    public boolean isHighValue()
+    {
+        return eValue == Value.HIGH_VALUE;
+    }
+    public boolean isSpaces()
+    {
+        return eValue == Value.SPACES;
+    }
+
+    public enum Value
+    {
+        HIGH_VALUE, SPACES ;
+    }
 }

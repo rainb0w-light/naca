@@ -15,92 +15,92 @@ import semantic.CDataEntity;
 public class CEntityExprTerminal extends CBaseEntityExpression
 {
 
-	/* (non-Javadoc)
-	 * @see semantic.expression.CBaseEntityCondExpr#GetDataType()
-	 */
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return term.GetDataType();
-	}
-	/**
-	 * @param line
-	 * @param cat
-	 * @param out
-	 */
-	public CEntityExprTerminal(CDataEntity term)
-	{
-		ASSERT(term);
-		this.term = term ;
-	}
-	protected CDataEntity term = null ;
-	public CDataEntity getTerm()
-	{
-		return term;
-	}
-	public void Clear()
-	{
-		super.Clear() ;
-		term = null ;
-	}
-	public CDataEntity GetSingleOperator()
-	{
-		return term ;
-	}
-	public boolean ignore()
-	{
-		return term.ignore() ;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		if (term == field)
-		{
-			term = var ;
-			return true ;
-		}
-		return false ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.expression.CBaseEntityCondExpr#GetDataType()
+     */
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return term.GetDataType();
+    }
+    /**
+     * @param line
+     * @param cat
+     * @param out
+     */
+    public CEntityExprTerminal(CDataEntity term)
+    {
+        ASSERT(term);
+        this.term = term ;
+    }
+    protected CDataEntity term = null ;
+    public CDataEntity getTerm()
+    {
+        return term;
+    }
+    public void Clear()
+    {
+        super.Clear() ;
+        term = null ;
+    }
+    public CDataEntity GetSingleOperator()
+    {
+        return term ;
+    }
+    public boolean ignore()
+    {
+        return term.ignore() ;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        if (term == field)
+        {
+            term = var ;
+            return true ;
+        }
+        return false ;
+    }
 
-	@Override
-	public CEntityExpressionType getExpressionType()
-	{
-		CDataEntityType type = term.GetDataType() ;
-		if (type == null)
-		{
-			return null ;
-		}
-		switch (type)
-		{
-			case FIELD_ATTRIBUTE:
-				return CEntityExpressionType.ATTRIBUTE ;
-			case NUMBER:
-			case NUMERIC_VAR:
-				return CEntityExpressionType.NUMERIC ;
-			case CONSOLE_KEY:
-			case CONSTANT :
-			case STRING:
-				return CEntityExpressionType.STRING ;
-			case CONDITION:
-			case FIELD:
-			case EXTERNAL_REFERENCE:
-			case FORM:
-			case VAR:
-			case VIRTUAL_FORM:
-				return CEntityExpressionType.VARIABLE ;
-			case IGNORE:
-				return null ;
-			case EXPRESSION:
-				return CEntityExpressionType.MATH ;
-			case ADDRESS:
-				return CEntityExpressionType.ADDRESS ;
-		}
-		return null ;
-	}
+    @Override
+    public CEntityExpressionType getExpressionType()
+    {
+        CDataEntityType type = term.GetDataType() ;
+        if (type == null)
+        {
+            return null ;
+        }
+        switch (type)
+        {
+            case FIELD_ATTRIBUTE:
+                return CEntityExpressionType.ATTRIBUTE ;
+            case NUMBER:
+            case NUMERIC_VAR:
+                return CEntityExpressionType.NUMERIC ;
+            case CONSOLE_KEY:
+            case CONSTANT :
+            case STRING:
+                return CEntityExpressionType.STRING ;
+            case CONDITION:
+            case FIELD:
+            case EXTERNAL_REFERENCE:
+            case FORM:
+            case VAR:
+            case VIRTUAL_FORM:
+                return CEntityExpressionType.VARIABLE ;
+            case IGNORE:
+                return null ;
+            case EXPRESSION:
+                return CEntityExpressionType.MATH ;
+            case ADDRESS:
+                return CEntityExpressionType.ADDRESS ;
+        }
+        return null ;
+    }
 
 
-	@Override
-	public String GetConstantValue()
-	{
-		return term.GetConstantValue() ;
-	}
+    @Override
+    public String GetConstantValue()
+    {
+        return term.GetConstantValue() ;
+    }
 }

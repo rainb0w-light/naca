@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,28 +19,28 @@ import jlib.jmxMBean.BaseCloseMBean;
 // JMX Bean management for all DbAccessorconnectionManager
 public class DbAccessorConnectionManagerJMX extends BaseCloseMBean
 {
-	DbAccessorConnectionManagerJMX()
-	{
-		super("DbAccessorConManager", "DbAccessorConManager");
-	}
-	
-	protected void buildDynamicMBeanInfo()
-	{
-		addAttribute("NbConMgrContexts", getClass(), "NbConMgrContexts", int.class);
-		addAttribute("NbUnusedCon", getClass(), "NbUnusedCon", int.class);
-	}
+    DbAccessorConnectionManagerJMX()
+    {
+        super("DbAccessorConManager", "DbAccessorConManager");
+    }
 
-	// Number of currently unused connections
-	public int getNbUnusedCon()
-	{
-		int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnections();
-		return nNbUnusedConnections;
-	}
-	
-	// Number of connection contexts
-	public int getNbConMgrContexts()
-	{
-		int n = DbAccessorConnectionManager.getNbConnectionManagerContexts();
-		return n;
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addAttribute("NbConMgrContexts", getClass(), "NbConMgrContexts", int.class);
+        addAttribute("NbUnusedCon", getClass(), "NbUnusedCon", int.class);
+    }
+
+    // Number of currently unused connections
+    public int getNbUnusedCon()
+    {
+        int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnections();
+        return nNbUnusedConnections;
+    }
+
+    // Number of connection contexts
+    public int getNbConMgrContexts()
+    {
+        int n = DbAccessorConnectionManager.getNbConnectionManagerContexts();
+        return n;
+    }
 }

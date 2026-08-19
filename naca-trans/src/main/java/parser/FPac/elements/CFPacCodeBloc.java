@@ -50,629 +50,629 @@ import utils.FPacTranscoder.notifs.NotifGetDefaultOutputFile;
 
 public class CFPacCodeBloc extends CFPacElement
 {
-	protected int nEndLine = 0 ;
-	protected String csName = "" ;
-	public CFPacCodeBloc(int line, String csName)
-	{
-		super(line);
-		this.csName = csName ;
-	}
+    protected int nEndLine = 0 ;
+    protected String csName = "" ;
+    public CFPacCodeBloc(int line, String csName)
+    {
+        super(line);
+        this.csName = csName ;
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while  (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if  (tok == null)
-			{
-				isdone = true ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.P ||
-							tok.GetKeyword() == CFPacKeywordList.X ||
-							tok.GetKeyword() == CFPacKeywordList.C ||
-							tok.GetType() == CTokenType.NUMBER ||
-							tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				if (!ParseInstructionLine())
-				{
-					return false ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.KEYWORD)
-			{
-				if (!ParseKeyWord(tok))
-				{
-					if (tok == GetCurrentToken())
-					{
-						isdone = true ;
-					}
-					else
-						return false ;
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
-		return true ;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while  (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if  (tok == null)
+            {
+                isdone = true ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.P ||
+                            tok.GetKeyword() == CFPacKeywordList.X ||
+                            tok.GetKeyword() == CFPacKeywordList.C ||
+                            tok.GetType() == CTokenType.NUMBER ||
+                            tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                if (!ParseInstructionLine())
+                {
+                    return false ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.KEYWORD)
+            {
+                if (!ParseKeyWord(tok))
+                {
+                    if (tok == GetCurrentToken())
+                    {
+                        isdone = true ;
+                    }
+                    else
+                        return false ;
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
+        return true ;
+    }
 
-	private boolean ParseInstructionLine()
-	{
-		Vector<CExpression> terms = new Vector<CExpression>() ;
-		CReservedKeyword kCommand = null ;
-		int nLine = GetCurrentToken().getLine() ;
-		boolean isok = true ;
-		while (isok)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if  (tok.GetKeyword() == CFPacKeywordList.P)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.STRING)
-				{
-					String cs = tok.GetValue() ;
-					CTerminal term = new CNumberTerminal(cs);
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-					tok = GetNext() ;
-				}
-				else if (tok.GetType() == CTokenType.COMMA)
-				{
-					kCommand = CFPacKeywordList.P ;
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'P'") ;
-					return false ;
-				}
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.C)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.STRING)
-				{
-					String cs = tok.GetValue() ;
-					CTerminal term = new CStringTerminal(cs);
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'C'") ;
-					return false ;
-				}
-				tok = GetNext() ;
-			}
-			else if (tok.GetType() == CTokenType.STRING)
-			{
-				String cs = tok.GetValue() ;
-				CTerminal term = new CStringTerminal(cs);
-				terms.add(new CTermExpression(tok.getLine(), term)) ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.E)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.STRING)
-				{
-					String cs = tok.GetValue() ;
-					CTerminal term = new CStringTerminal(cs);
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'E'") ;
-					return false ;
-				}
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.X)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.STRING)
-				{
-					String cs = tok.GetValue() ;
-					CTerminal term = new CNumberTerminal("0x" + cs);
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'X'") ;
-					return false ;
-				}
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.U)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.A)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.M)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.D)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.ZA)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.CB)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.CD)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.II)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.OO)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetKeyword() == CFPacKeywordList.S)
-			{
-				kCommand = tok.GetKeyword() ;
-				tok = GetNext() ;
-			}
-			else if (tok.GetType() == CTokenType.NUMBER)
-			{
-				CTerminal term = new CAddressTerminal(tok.GetValue()) ;
-				CExpression exp = new CTermExpression(tok.getLine(), term) ;
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.PLUS)
-				{
-					tok = GetNext() ;
-					CExpression exp2 = ReadTerminalExpression() ;
-					if (exp2 == null)
-					{
-						Transcoder.logError(tok.getLine(), "Expecting expression after '+'") ;
-						return false ;
-					}
-					CSumExpression sum = new CSumExpression(tok.getLine(), exp, exp2, CSumExpression.CSumType.ADD) ;
-					terms.add(sum) ;
-				}
-				else
-				{
-					terms.add(exp) ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				CBaseToken tokid = tok ;
-				CIdentifier id = new CIdentifier(tok.GetValue()) ;
-				tok = GetNext() ;
-				if  (tok.GetType() == CTokenType.MINUS)
-				{
-					tok = GetNext() ;
-					if (tok.GetType() == CTokenType.NUMBER)
-					{
-						CExpression exp = new CTermExpression(0, new CAddressTerminal(tok.GetValue())) ;
-						//id.SetSubStringReference(exp, null) ;
-						CTerminal term = new CIdentifierTerminal(id) ;
-						terms.add(new CTermExpression(tok.getLine(), term)) ;
-						terms.add(exp) ;
-						tok = GetNext() ;
-					}
-					else
-					{
-						Transcoder.logError(tok.getLine(), "Expecting number instead of token : "+tok.toString()) ;
-						return false ;
-					}
-				}
-				else if (tok.GetType() == CTokenType.EQUALS)
-				{
-					tok = GetNext() ;
-					//CExpression exp = ReadExpression() ;
-					CExpression exp = null ;
-					if (tok.GetType() == CTokenType.NUMBER)
-					{
-						exp = new CTermExpression(tok.getLine(), new CNumberTerminal(tok.GetValue())) ;
-					}
-					else if (tok.GetType() == CTokenType.IDENTIFIER)
-					{
-						exp = new CTermExpression(tok.getLine(), new CIdentifierTerminal(new CIdentifier(tok.GetValue()))) ;
-					}
-					else
-					{
-						Transcoder.logError(tok.getLine(), "Expecting expression after '+'") ;
-						return false ;
-					}
-					CFPacAssign ass = new CFPacAssign(tok.getLine(), id, exp) ;
-					AddChild(ass) ;
-					tok = GetNext() ;
-					return true ;
-				}
-				else if (tok.GetType() == CTokenType.PLUS)
-				{
-					tok = GetNext() ;
-					int line = tok.getLine() ;
-					CTerminal term = ReadTerminal() ;
-					if (term == null)
-					{
-						Transcoder.logError(tok.getLine(), "Expecting terminal after '+'") ;
-						return false ;
-					}
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.COMMA)
-					{
-						CSumExpression sum = new CSumExpression(tok.getLine(),
-										new CTermExpression(tok.getLine(), new CIdentifierTerminal(id)),
-										new CTermExpression(tok.getLine(), term), CSumExpression.CSumType.ADD) ;
-						terms.add(sum) ;
-					}
-					else
-					{
-						CFPacInc inc = new CFPacInc(line) ;
-						if (!term.IsReference() && NumberParser.getAsInt(term.GetValue())>0)
-						{
-							term = new CNumberTerminal(term.GetValue()) ;
-						}
-						inc.Increments(id, term) ;
-						AddChild(inc) ;
-						return true ;
-					}
-				}
-				else if (tok.GetType() == CTokenType.COMMA)
-				{
-					CTerminal term = new CIdentifierTerminal(id) ;
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-				}
-				else
-				{
-					CTerminal term = new CIdentifierTerminal(id) ;
-					terms.add(new CTermExpression(tok.getLine(), term)) ;
-				}
-			}
+    private boolean ParseInstructionLine()
+    {
+        Vector<CExpression> terms = new Vector<CExpression>() ;
+        CReservedKeyword kCommand = null ;
+        int nLine = GetCurrentToken().getLine() ;
+        boolean isok = true ;
+        while (isok)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if  (tok.GetKeyword() == CFPacKeywordList.P)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.STRING)
+                {
+                    String cs = tok.GetValue() ;
+                    CTerminal term = new CNumberTerminal(cs);
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                    tok = GetNext() ;
+                }
+                else if (tok.GetType() == CTokenType.COMMA)
+                {
+                    kCommand = CFPacKeywordList.P ;
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'P'") ;
+                    return false ;
+                }
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.C)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.STRING)
+                {
+                    String cs = tok.GetValue() ;
+                    CTerminal term = new CStringTerminal(cs);
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'C'") ;
+                    return false ;
+                }
+                tok = GetNext() ;
+            }
+            else if (tok.GetType() == CTokenType.STRING)
+            {
+                String cs = tok.GetValue() ;
+                CTerminal term = new CStringTerminal(cs);
+                terms.add(new CTermExpression(tok.getLine(), term)) ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.E)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.STRING)
+                {
+                    String cs = tok.GetValue() ;
+                    CTerminal term = new CStringTerminal(cs);
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'E'") ;
+                    return false ;
+                }
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.X)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.STRING)
+                {
+                    String cs = tok.GetValue() ;
+                    CTerminal term = new CNumberTerminal("0x" + cs);
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Expecting 'STRING' after 'X'") ;
+                    return false ;
+                }
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.U)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.A)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.M)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.D)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.ZA)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.CB)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.CD)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.II)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.OO)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetKeyword() == CFPacKeywordList.S)
+            {
+                kCommand = tok.GetKeyword() ;
+                tok = GetNext() ;
+            }
+            else if (tok.GetType() == CTokenType.NUMBER)
+            {
+                CTerminal term = new CAddressTerminal(tok.GetValue()) ;
+                CExpression exp = new CTermExpression(tok.getLine(), term) ;
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.PLUS)
+                {
+                    tok = GetNext() ;
+                    CExpression exp2 = ReadTerminalExpression() ;
+                    if (exp2 == null)
+                    {
+                        Transcoder.logError(tok.getLine(), "Expecting expression after '+'") ;
+                        return false ;
+                    }
+                    CSumExpression sum = new CSumExpression(tok.getLine(), exp, exp2, CSumExpression.CSumType.ADD) ;
+                    terms.add(sum) ;
+                }
+                else
+                {
+                    terms.add(exp) ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                CBaseToken tokid = tok ;
+                CIdentifier id = new CIdentifier(tok.GetValue()) ;
+                tok = GetNext() ;
+                if  (tok.GetType() == CTokenType.MINUS)
+                {
+                    tok = GetNext() ;
+                    if (tok.GetType() == CTokenType.NUMBER)
+                    {
+                        CExpression exp = new CTermExpression(0, new CAddressTerminal(tok.GetValue())) ;
+                        //id.SetSubStringReference(exp, null) ;
+                        CTerminal term = new CIdentifierTerminal(id) ;
+                        terms.add(new CTermExpression(tok.getLine(), term)) ;
+                        terms.add(exp) ;
+                        tok = GetNext() ;
+                    }
+                    else
+                    {
+                        Transcoder.logError(tok.getLine(), "Expecting number instead of token : "+tok.toString()) ;
+                        return false ;
+                    }
+                }
+                else if (tok.GetType() == CTokenType.EQUALS)
+                {
+                    tok = GetNext() ;
+                    //CExpression exp = ReadExpression() ;
+                    CExpression exp = null ;
+                    if (tok.GetType() == CTokenType.NUMBER)
+                    {
+                        exp = new CTermExpression(tok.getLine(), new CNumberTerminal(tok.GetValue())) ;
+                    }
+                    else if (tok.GetType() == CTokenType.IDENTIFIER)
+                    {
+                        exp = new CTermExpression(tok.getLine(), new CIdentifierTerminal(new CIdentifier(tok.GetValue()))) ;
+                    }
+                    else
+                    {
+                        Transcoder.logError(tok.getLine(), "Expecting expression after '+'") ;
+                        return false ;
+                    }
+                    CFPacAssign ass = new CFPacAssign(tok.getLine(), id, exp) ;
+                    AddChild(ass) ;
+                    tok = GetNext() ;
+                    return true ;
+                }
+                else if (tok.GetType() == CTokenType.PLUS)
+                {
+                    tok = GetNext() ;
+                    int line = tok.getLine() ;
+                    CTerminal term = ReadTerminal() ;
+                    if (term == null)
+                    {
+                        Transcoder.logError(tok.getLine(), "Expecting terminal after '+'") ;
+                        return false ;
+                    }
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.COMMA)
+                    {
+                        CSumExpression sum = new CSumExpression(tok.getLine(),
+                                        new CTermExpression(tok.getLine(), new CIdentifierTerminal(id)),
+                                        new CTermExpression(tok.getLine(), term), CSumExpression.CSumType.ADD) ;
+                        terms.add(sum) ;
+                    }
+                    else
+                    {
+                        CFPacInc inc = new CFPacInc(line) ;
+                        if (!term.IsReference() && NumberParser.getAsInt(term.GetValue())>0)
+                        {
+                            term = new CNumberTerminal(term.GetValue()) ;
+                        }
+                        inc.Increments(id, term) ;
+                        AddChild(inc) ;
+                        return true ;
+                    }
+                }
+                else if (tok.GetType() == CTokenType.COMMA)
+                {
+                    CTerminal term = new CIdentifierTerminal(id) ;
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                }
+                else
+                {
+                    CTerminal term = new CIdentifierTerminal(id) ;
+                    terms.add(new CTermExpression(tok.getLine(), term)) ;
+                }
+            }
 
-			tok = GetCurrentToken() ;
-			if (tok.GetType() == CTokenType.COMMA)
-			{
-				tok = GetNext();
-			}
-			else
-			{
-				isok = false ;
-			}
-		}
+            tok = GetCurrentToken() ;
+            if (tok.GetType() == CTokenType.COMMA)
+            {
+                tok = GetNext();
+            }
+            else
+            {
+                isok = false ;
+            }
+        }
 
-		if (kCommand == CFPacKeywordList.A)
-		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
-			if (!Parse(add))
-			{
-				return false ;
-			}
-			AddChild(add) ;
-		}
-		else if (kCommand == CFPacKeywordList.P)
-		{
-			CFPacConvert conv = new CFPacConvert(nLine, terms, kCommand) ;
-			if (!Parse(conv))
-			{
-				return false ;
-			}
-			AddChild(conv) ;
-		}
-		else if (kCommand == CFPacKeywordList.II)
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			ass.moveToInput();
-			AddChild(ass) ;
-		}
-		else if (kCommand == CFPacKeywordList.OO)
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			ass.moveFromOutput();
-			AddChild(ass) ;
-		}
-		else if (kCommand == CFPacKeywordList.ZA)
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-//			Transcoder.warn("WARNING : ZA command not managed yet") ;
-			ass.movePacked();
-			AddChild(ass) ;
-		}
-		else if (kCommand == CFPacKeywordList.M)
-		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
-			if (!Parse(add))
-			{
-				return false ;
-			}
-			AddChild(add) ;
-		}
-		else if (kCommand == CFPacKeywordList.S)
-		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
-			if (!Parse(add))
-			{
-				return false ;
-			}
-			AddChild(add) ;
-		}
-		else if (kCommand == CFPacKeywordList.D)
-		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
-			if (!Parse(add))
-			{
-				return false ;
-			}
-			AddChild(add) ;
-		}
-		else if (kCommand == CFPacKeywordList.CB)
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			ass.rejectUnsupportedCommand("CB") ;
-			AddChild(ass) ;
-		}
-		else if (kCommand == CFPacKeywordList.CD)
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			ass.rejectUnsupportedCommand("CD") ;
-			AddChild(ass) ;
-		}
-		else if (kCommand == CFPacKeywordList.U)
-		{
-			CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
-			if (!Parse(add))
-			{
-				return false ;
-			}
-			AddChild(add) ;
-		}
-		else
-		{
-			CFPacMove ass = new CFPacMove(nLine, terms) ;
-			if (!Parse(ass))
-			{
-				return false ;
-			}
-			AddChild(ass) ;
-		}
-		return true ;
+        if (kCommand == CFPacKeywordList.A)
+        {
+            CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
+            if (!Parse(add))
+            {
+                return false ;
+            }
+            AddChild(add) ;
+        }
+        else if (kCommand == CFPacKeywordList.P)
+        {
+            CFPacConvert conv = new CFPacConvert(nLine, terms, kCommand) ;
+            if (!Parse(conv))
+            {
+                return false ;
+            }
+            AddChild(conv) ;
+        }
+        else if (kCommand == CFPacKeywordList.II)
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+            ass.moveToInput();
+            AddChild(ass) ;
+        }
+        else if (kCommand == CFPacKeywordList.OO)
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+            ass.moveFromOutput();
+            AddChild(ass) ;
+        }
+        else if (kCommand == CFPacKeywordList.ZA)
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+//          Transcoder.warn("WARNING : ZA command not managed yet") ;
+            ass.movePacked();
+            AddChild(ass) ;
+        }
+        else if (kCommand == CFPacKeywordList.M)
+        {
+            CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
+            if (!Parse(add))
+            {
+                return false ;
+            }
+            AddChild(add) ;
+        }
+        else if (kCommand == CFPacKeywordList.S)
+        {
+            CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
+            if (!Parse(add))
+            {
+                return false ;
+            }
+            AddChild(add) ;
+        }
+        else if (kCommand == CFPacKeywordList.D)
+        {
+            CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
+            if (!Parse(add))
+            {
+                return false ;
+            }
+            AddChild(add) ;
+        }
+        else if (kCommand == CFPacKeywordList.CB)
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+            ass.rejectUnsupportedCommand("CB") ;
+            AddChild(ass) ;
+        }
+        else if (kCommand == CFPacKeywordList.CD)
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+            ass.rejectUnsupportedCommand("CD") ;
+            AddChild(ass) ;
+        }
+        else if (kCommand == CFPacKeywordList.U)
+        {
+            CFPacArithmeticOperation add = new CFPacArithmeticOperation(nLine, terms, kCommand) ;
+            if (!Parse(add))
+            {
+                return false ;
+            }
+            AddChild(add) ;
+        }
+        else
+        {
+            CFPacMove ass = new CFPacMove(nLine, terms) ;
+            if (!Parse(ass))
+            {
+                return false ;
+            }
+            AddChild(ass) ;
+        }
+        return true ;
 
-	}
+    }
 
-	private boolean ParseKeyWord(CBaseToken tok)
-	{
-		CFPacElement el = null;
-		if (tok.GetKeyword() == CFPacKeywordList.OPEN)
-		{
-			CFPacOpen open = new CFPacOpen(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.IF)
-		{
-			CFPacCondition open = new CFPacCondition(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.CLOSE)
-		{
-			CFPacClose open = new CFPacClose(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.TO)
-		{
-			CFPacTo open = new CFPacTo(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.FROM)
-		{
-			CFPacFrom open = new CFPacFrom(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.GET)
-		{
-			CFPacGet open = new CFPacGet(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.PUT)
-		{
-			CFPacPut open = new CFPacPut(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.GOEND || tok.GetKeyword() == CFPacKeywordList.GOABEND)
-		{
-			CFPacGoEnd open = new CFPacGoEnd(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.GOLAST)
-		{
-			CFPacGoLast open = new CFPacGoLast(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.GOBACK)
-		{
-			CFPacGoback open = new CFPacGoback(tok.getLine()) ;
-			el = open;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.WTO)
-		{
-			CFPacWTO wto = new CFPacWTO(tok.getLine()) ;
-			el = wto;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.CALL)
-		{
-			CFPacCall call = new CFPacCall(tok.getLine()) ;
-			el = call;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.DO)
-		{
-			CFPacDoLoop doloop = new CFPacDoLoop(tok.getLine()) ;
-			el = doloop;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.AT)
-		{
-			CFPacAt doloop = new CFPacAt(tok.getLine()) ;
-			el = doloop;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.DOSUBR)
-		{
-			CFPacDoSubr doSubr = new CFPacDoSubr(tok.getLine()) ;
-			el = doSubr;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.DOQUIT)
-		{
-			CFPacDoQuit doSubr = new CFPacDoQuit(tok.getLine()) ;
-			el = doSubr;
-		}
-		else
-		{
-			//Transcoder.logError("Line "+tok.getLine()+" : unexpected token "+tok.GetDisplay()) ;
-			// managed case : if  false -> keyword not recognized, end of bloc parsing
-			return false ;
-		}
-		if (!Parse(el))
-			return false ;
-		AddChild(el) ;
-		return true ;
-	}
+    private boolean ParseKeyWord(CBaseToken tok)
+    {
+        CFPacElement el = null;
+        if (tok.GetKeyword() == CFPacKeywordList.OPEN)
+        {
+            CFPacOpen open = new CFPacOpen(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.IF)
+        {
+            CFPacCondition open = new CFPacCondition(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.CLOSE)
+        {
+            CFPacClose open = new CFPacClose(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.TO)
+        {
+            CFPacTo open = new CFPacTo(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.FROM)
+        {
+            CFPacFrom open = new CFPacFrom(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.GET)
+        {
+            CFPacGet open = new CFPacGet(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.PUT)
+        {
+            CFPacPut open = new CFPacPut(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.GOEND || tok.GetKeyword() == CFPacKeywordList.GOABEND)
+        {
+            CFPacGoEnd open = new CFPacGoEnd(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.GOLAST)
+        {
+            CFPacGoLast open = new CFPacGoLast(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.GOBACK)
+        {
+            CFPacGoback open = new CFPacGoback(tok.getLine()) ;
+            el = open;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.WTO)
+        {
+            CFPacWTO wto = new CFPacWTO(tok.getLine()) ;
+            el = wto;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.CALL)
+        {
+            CFPacCall call = new CFPacCall(tok.getLine()) ;
+            el = call;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.DO)
+        {
+            CFPacDoLoop doloop = new CFPacDoLoop(tok.getLine()) ;
+            el = doloop;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.AT)
+        {
+            CFPacAt doloop = new CFPacAt(tok.getLine()) ;
+            el = doloop;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.DOSUBR)
+        {
+            CFPacDoSubr doSubr = new CFPacDoSubr(tok.getLine()) ;
+            el = doSubr;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.DOQUIT)
+        {
+            CFPacDoQuit doSubr = new CFPacDoQuit(tok.getLine()) ;
+            el = doSubr;
+        }
+        else
+        {
+            //Transcoder.logError("Line "+tok.getLine()+" : unexpected token "+tok.GetDisplay()) ;
+            // managed case : if  false -> keyword not recognized, end of bloc parsing
+            return false ;
+        }
+        if (!Parse(el))
+            return false ;
+        AddChild(el) ;
+        return true ;
+    }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (csName.equals(""))
-		{
-			CEntityBloc e = factory.NewEntityBloc(getLine()) ;
-			if (parent != null)
-				parent.AddChild(e) ;
-			e.SetEndLine(nEndLine) ;
-			return e ;
-		}
-		else
-		{
-			CEntityProcedure e = factory.NewEntityProcedure(getLine(), csName, null) ;
-			if (parent != null)
-				parent.AddChild(e) ;
-			e.SetEndLine(nEndLine) ;
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (csName.equals(""))
+        {
+            CEntityBloc e = factory.NewEntityBloc(getLine()) ;
+            if (parent != null)
+                parent.AddChild(e) ;
+            e.SetEndLine(nEndLine) ;
+            return e ;
+        }
+        else
+        {
+            CEntityProcedure e = factory.NewEntityProcedure(getLine(), csName, null) ;
+            if (parent != null)
+                parent.AddChild(e) ;
+            e.SetEndLine(nEndLine) ;
 
-			if (csName.equalsIgnoreCase("NORMAL"))
-			{
-				DoSemanticAnalysisForChildren(e, factory) ;
-				bAnalysisDoneForChildren = true;
+            if (csName.equalsIgnoreCase("NORMAL"))
+            {
+                DoSemanticAnalysisForChildren(e, factory) ;
+                bAnalysisDoneForChildren = true;
 
-				NotifGetDefaultInputFile notif = new NotifGetDefaultInputFile() ;
-				factory.programCatalog.SendNotifRequest(notif) ;
-				if (notif.fileBuffer != null)
-				{
-					if (notif.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "IPF" or "IPF1"
-					{
-						CEntityCondition test = factory.NewEntityCondition(getLine()) ;
-						CEntityFunctionCall call = factory.NewEntityFunctionCall("ReadAndTestFile", notif.fileBuffer) ;
-						CEntityCondIsBoolean bool = factory.NewEntityCondIsBoolean() ;
-						bool.setIsTrue(call) ;
-						CEntityBloc thenBloc = factory.NewEntityBloc(0) ;
-						CEntityReturn ret = factory.NewEntityReturn(0) ;
-						thenBloc.AddChild(ret) ;
-						test.SetCondition(bool, thenBloc, null) ;
-						e.AddChild(test, null);
+                NotifGetDefaultInputFile notif = new NotifGetDefaultInputFile() ;
+                factory.programCatalog.SendNotifRequest(notif) ;
+                if (notif.fileBuffer != null)
+                {
+                    if (notif.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "IPF" or "IPF1"
+                    {
+                        CEntityCondition test = factory.NewEntityCondition(getLine()) ;
+                        CEntityFunctionCall call = factory.NewEntityFunctionCall("ReadAndTestFile", notif.fileBuffer) ;
+                        CEntityCondIsBoolean bool = factory.NewEntityCondIsBoolean() ;
+                        bool.setIsTrue(call) ;
+                        CEntityBloc thenBloc = factory.NewEntityBloc(0) ;
+                        CEntityReturn ret = factory.NewEntityReturn(0) ;
+                        thenBloc.AddChild(ret) ;
+                        test.SetCondition(bool, thenBloc, null) ;
+                        e.AddChild(test, null);
 
-					}
-				}
+                    }
+                }
 
-				if (!e.hasExplicitGetOut())
-				{
-					NotifGetDefaultOutputFile notifOutput = new NotifGetDefaultOutputFile() ;
-					factory.programCatalog.SendNotifRequest(notifOutput) ;
-					if (notifOutput.fileBuffer != null)
-					{
-						if (notifOutput.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "OPF" or "OPF1"
-						{
-							CEntityWriteFile write = factory.NewEntityWriteFile(0) ;
-							write.setFileDescriptor(notifOutput.fileBuffer.GetFileDescriptor(), null) ;
-							e.AddChild(write) ;
-						}
-					}
-					if (notif.fileBuffer != null)
-					{
-						if (notif.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "IPF" or "IPF1"
-						{
-							CEntityContinue cont = factory.NewEntityContinue(0) ;
-							e.AddChild(cont) ;
-						}
-					}
-				}
-			}
-			else if (csName.equalsIgnoreCase("FIRST"))
-			{
-				DoSemanticAnalysisForChildren(e, factory) ;
-				bAnalysisDoneForChildren = true;
+                if (!e.hasExplicitGetOut())
+                {
+                    NotifGetDefaultOutputFile notifOutput = new NotifGetDefaultOutputFile() ;
+                    factory.programCatalog.SendNotifRequest(notifOutput) ;
+                    if (notifOutput.fileBuffer != null)
+                    {
+                        if (notifOutput.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "OPF" or "OPF1"
+                        {
+                            CEntityWriteFile write = factory.NewEntityWriteFile(0) ;
+                            write.setFileDescriptor(notifOutput.fileBuffer.GetFileDescriptor(), null) ;
+                            e.AddChild(write) ;
+                        }
+                    }
+                    if (notif.fileBuffer != null)
+                    {
+                        if (notif.fileBuffer.GetFileDescriptor().GetName().endsWith("F"))  // "IPF" or "IPF1"
+                        {
+                            CEntityContinue cont = factory.NewEntityContinue(0) ;
+                            e.AddChild(cont) ;
+                        }
+                    }
+                }
+            }
+            else if (csName.equalsIgnoreCase("FIRST"))
+            {
+                DoSemanticAnalysisForChildren(e, factory) ;
+                bAnalysisDoneForChildren = true;
 
-				NotifGetAllFilesNotOpen notif = new NotifGetAllFilesNotOpen() ;
-				factory.programCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
-					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
-					{
-						return o1.GetName().compareTo(o2.GetName());
-					}
-				});
-				for (CEntityFileDescriptor desc : notif.files)
-				{
-					CEntityOpenFile open = factory.NewEntityOpenFile(0) ;
-					open.setFileDescriptor(desc, null) ;
-					e.AddChild(open, null) ;
-				}
-			}
-			else if (csName.equalsIgnoreCase("LAST"))
-			{
-				DoSemanticAnalysisForChildren(e, factory) ;
-				bAnalysisDoneForChildren = true;
+                NotifGetAllFilesNotOpen notif = new NotifGetAllFilesNotOpen() ;
+                factory.programCatalog.SendNotifRequest(notif) ;
+                Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
+                    public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
+                    {
+                        return o1.GetName().compareTo(o2.GetName());
+                    }
+                });
+                for (CEntityFileDescriptor desc : notif.files)
+                {
+                    CEntityOpenFile open = factory.NewEntityOpenFile(0) ;
+                    open.setFileDescriptor(desc, null) ;
+                    e.AddChild(open, null) ;
+                }
+            }
+            else if (csName.equalsIgnoreCase("LAST"))
+            {
+                DoSemanticAnalysisForChildren(e, factory) ;
+                bAnalysisDoneForChildren = true;
 
-				NotifGetAllFilesNotClosed notif = new NotifGetAllFilesNotClosed() ;
-				factory.programCatalog.SendNotifRequest(notif) ;
-				Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
-					public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
-					{
-						return o2.GetName().compareTo(o1.GetName());
-					}
-				});
-				for (CEntityFileDescriptor desc : notif.files)
-				{
-					CEntityCloseFile close = factory.NewEntityCloseFile(0) ;
-					close.setFileDescriptor(desc) ;
-					e.AddChild(close) ;
-				}
-			}
-			return e ;
-		}
-	}
+                NotifGetAllFilesNotClosed notif = new NotifGetAllFilesNotClosed() ;
+                factory.programCatalog.SendNotifRequest(notif) ;
+                Collections.sort(notif.files, new Comparator<CEntityFileDescriptor>() {
+                    public int compare(CEntityFileDescriptor o1, CEntityFileDescriptor o2)
+                    {
+                        return o2.GetName().compareTo(o1.GetName());
+                    }
+                });
+                for (CEntityFileDescriptor desc : notif.files)
+                {
+                    CEntityCloseFile close = factory.NewEntityCloseFile(0) ;
+                    close.setFileDescriptor(desc) ;
+                    e.AddChild(close) ;
+                }
+            }
+            return e ;
+        }
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		String cs = "Bloc" ;
-		if (!csName.equals(""))
-			cs = csName ;
-		Element eAdd = root.createElement(cs) ;
-		return eAdd;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        String cs = "Bloc" ;
+        if (!csName.equals(""))
+            cs = csName ;
+        Element eAdd = root.createElement(cs) ;
+        return eAdd;
+    }
 
-	/**
-	 * @param line
-	 */
-	public void SetEndLine(int line)
-	{
-		nEndLine = line ;
-	}
+    /**
+     * @param line
+     */
+    public void SetEndLine(int line)
+    {
+        nEndLine = line ;
+    }
 
 }

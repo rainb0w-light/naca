@@ -13,45 +13,45 @@ import utils.CObjectCatalog;
  * @version $Id: CEntityFileDescriptorLengthDependency.java,v 1.1 2006/05/23 11:08:18 u930cv Exp $
  */
 public class CEntityFileDescriptorLengthDependency extends
-				CBaseLanguageEntity
+                CBaseLanguageEntity
 {
 
-	protected CEntityFileDescriptor fileDescriptor = null ;
-	protected CDataEntity lenghtDep = null ;
+    protected CEntityFileDescriptor fileDescriptor = null ;
+    protected CDataEntity lenghtDep = null ;
 
-	/**
-	 * @param line
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityFileDescriptorLengthDependency(String name, CObjectCatalog cat)
-	{
-		super(0, name, cat);
-	}
+    /**
+     * @param line
+     * @param name
+     * @param cat
+     */
+    public CEntityFileDescriptorLengthDependency(String name, CObjectCatalog cat)
+    {
+        super(0, name, cat);
+    }
 
-	public void setDependency(CEntityFileDescriptor desc, CDataEntity var)
-	{
-		fileDescriptor = desc ;
-		lenghtDep = var ;
-	}
+    public void setDependency(CEntityFileDescriptor desc, CDataEntity var)
+    {
+        fileDescriptor = desc ;
+        lenghtDep = var ;
+    }
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return fileDescriptor ;
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return fileDescriptor ;
+    }
 
-	public CDataEntity getLengthDependency()
-	{
-		return lenghtDep ;
-	}
-	
+    public CDataEntity getLengthDependency()
+    {
+        return lenghtDep ;
+    }
 
-	/**
-	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
-	 */
-	@Override
-	protected void RegisterMySelfToCatalog()
-	{
-		// nothing
-	}	
+
+    /**
+     * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
+     */
+    @Override
+    protected void RegisterMySelfToCatalog()
+    {
+        // nothing
+    }
 }

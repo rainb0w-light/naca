@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.fileConverter;
 
@@ -18,8 +18,8 @@ import nacaLib.batchPrgEnv.BatchProgram;
  */
 public class ConverterProgram extends BatchProgram
 {
-	public ConverterProgram()
-	{
-		super();
-	}
+    public ConverterProgram()
+    {
+        super();
+    }
 }

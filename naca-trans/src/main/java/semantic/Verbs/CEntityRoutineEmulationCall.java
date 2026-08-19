@@ -23,64 +23,64 @@ import utils.CObjectCatalog;
 public class CEntityRoutineEmulationCall extends CBaseActionEntity
 {
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
-	 */
-	@Override
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		int pos = parameters.indexOf(field) ;
-		if (pos >= 0)
-		{
-			field.UnRegisterReadingAction(this) ;
-			var.RegisterReadingAction(this) ;
-			parameters.set(pos, var) ;
-			return true ;
-		}
-		return false ;
-	}
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityRoutineEmulationCall(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseActionEntity#ReplaceVariable(semantic.CDataEntity, semantic.CDataEntity)
+     */
+    @Override
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        int pos = parameters.indexOf(field) ;
+        if (pos >= 0)
+        {
+            field.UnRegisterReadingAction(this) ;
+            var.RegisterReadingAction(this) ;
+            parameters.set(pos, var) ;
+            return true ;
+        }
+        return false ;
+    }
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityRoutineEmulationCall(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	protected String csDisplay = "" ;
-	protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
-	public void Clear()
-	{
-		super.Clear() ;
-		parameters.clear() ;
-	}
-	public void SetDisplay(String disp)
-	{
-		csDisplay = disp ;
-	}
-	public void AddParameter(CDataEntity e)
-	{
-		parameters.add(e) ;
-	}
-	public String getRoutineName() {
-		return csDisplay;
-	}
-	public boolean isDynamicAllocation() {
-		return "tools.dynamicAllocation".equals(csDisplay);
-	}
-	public List<CDataEntity> getEmulationParameters() {
-		List<CDataEntity> result = new ArrayList<>();
-		for (CDataEntity e : parameters) {
-			if (e != null && !e.ignore()) {
-				result.add(e);
-			}
-		}
-		return result;
-	}
-	@Override
-	public boolean ignore()
-	{
-		return csDisplay.isEmpty() ;
-	}
+    protected String csDisplay = "" ;
+    protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
+    public void Clear()
+    {
+        super.Clear() ;
+        parameters.clear() ;
+    }
+    public void SetDisplay(String disp)
+    {
+        csDisplay = disp ;
+    }
+    public void AddParameter(CDataEntity e)
+    {
+        parameters.add(e) ;
+    }
+    public String getRoutineName() {
+        return csDisplay;
+    }
+    public boolean isDynamicAllocation() {
+        return "tools.dynamicAllocation".equals(csDisplay);
+    }
+    public List<CDataEntity> getEmulationParameters() {
+        List<CDataEntity> result = new ArrayList<>();
+        for (CDataEntity e : parameters) {
+            if (e != null && !e.ignore()) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+    @Override
+    public boolean ignore()
+    {
+        return csDisplay.isEmpty() ;
+    }
 }

@@ -63,89 +63,89 @@ import semantic.expression.CBaseEntityCondition.EConditionType;
  */
 public class CEntityGetKeyPressed extends CDataEntity
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityGetKeyPressed(String name, CObjectCatalog cat)
-	{
-		super(0, name, cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityGetKeyPressed(String name, CObjectCatalog cat)
+    {
+        super(0, name, cat);
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		// unused
-		return null;
-	}
-	public boolean HasAccessors()
-	{
-		return true;
-	}
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend generate.java.forms.CJavaGetKeyPressed: the
-		// get-key-pressed pseudo-variable is never declared as a val.
-		return false;
-	}
-	public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
-	{
-		if (eData2.GetDataType() == CDataEntityType.CONSOLE_KEY)
-		{
-			if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
-			{
-				CEntityIsKeyPressed is = factory.NewEntityIsKeyPressed() ;
-				eData2.RegisterValueAccess(is) ;
-				is.isNotKeyPressed(eData2) ;
-				return is ;
-			}
-			else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
-			{
-				CEntityIsKeyPressed is = factory.NewEntityIsKeyPressed() ;
-				eData2.RegisterValueAccess(is) ;
-				is.isKeyPressed(eData2) ;
-				return is ;
-			}
-			else
-			{
-				return null ;
-			}
-		}
-		else
-		{
-			return null ;
-		}
-	}
+    public CDataEntityType GetDataType()
+    {
+        // unused
+        return null;
+    }
+    public boolean HasAccessors()
+    {
+        return true;
+    }
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend generate.java.forms.CJavaGetKeyPressed: the
+        // get-key-pressed pseudo-variable is never declared as a val.
+        return false;
+    }
+    public CBaseEntityCondition GetSpecialCondition(int nLine, CDataEntity eData2, EConditionType type, CBaseEntityFactory factory)
+    {
+        if (eData2.GetDataType() == CDataEntityType.CONSOLE_KEY)
+        {
+            if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
+            {
+                CEntityIsKeyPressed is = factory.NewEntityIsKeyPressed() ;
+                eData2.RegisterValueAccess(is) ;
+                is.isNotKeyPressed(eData2) ;
+                return is ;
+            }
+            else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
+            {
+                CEntityIsKeyPressed is = factory.NewEntityIsKeyPressed() ;
+                eData2.RegisterValueAccess(is) ;
+                is.isKeyPressed(eData2) ;
+                return is ;
+            }
+            else
+            {
+                return null ;
+            }
+        }
+        else
+        {
+            return null ;
+        }
+    }
 
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
-	{
-		// unused
-		return null ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		String val = term.GetValue() ;
-		if (val.equals(CCobolConstantList.SPACE.name))
-		{
-			CEntityResetKeyPressed e = factory.NewEntityResetKeyPressed(l) ;
-			return e ;
-		}
-		else
-		{
-			return null ;
-		}
+    public CBaseEntityCondition GetSpecialCondition(int nLine, String value, EConditionType type, CBaseEntityFactory factory)
+    {
+        // unused
+        return null ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        String val = term.GetValue() ;
+        if (val.equals(CCobolConstantList.SPACE.name))
+        {
+            CEntityResetKeyPressed e = factory.NewEntityResetKeyPressed(l) ;
+            return e ;
+        }
+        else
+        {
+            return null ;
+        }
 
-	}
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		return null ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    }
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        return null ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 }

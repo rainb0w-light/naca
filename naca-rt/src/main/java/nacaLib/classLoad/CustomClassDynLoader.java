@@ -16,127 +16,127 @@ import jlib.classLoader.JarEntries;
 
 public class CustomClassDynLoader extends ClassDynLoader
 {
-	public CustomClassDynLoader()
-	{
-		super();
-	}
+    public CustomClassDynLoader()
+    {
+        super();
+    }
 
-	public CustomClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
-	{
-		super(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
-	}
+    public CustomClassDynLoader(ArrayList<String> arrPaths, JarEntries jarEntries, boolean bCanLoadClass, boolean bCanLoadJar)
+    {
+        super(arrPaths, jarEntries, bCanLoadClass, bCanLoadJar);
+    }
 
 //    private synchronized Class loadClassInternal(String name) throws ClassNotFoundException
 //    {
-//    	return loadClass(name);
+//      return loadClass(name);
 //    }
 
 
-	public Class loadClass(String csClassName)
+    public Class loadClass(String csClassName)
     {
-		//if(csClassName.equals("FUF1A00"))
-		//{
-		//	int gg = 0;
-		//}
+        //if(csClassName.equals("FUF1A00"))
+        //{
+        //  int gg = 0;
+        //}
 
-		char c = csClassName.charAt(0);
-		if(c == 'j' || c == 'n' || c == 'i' || c == 'p' || c == 's')
-		{
-			if(csClassName.startsWith("java"))
-				return tryLoadWithPrimordialClassLoader(csClassName);
-			if(csClassName.startsWith("nacaLib"))	// All nacalib classes are directly loaded by promordial class loader
-				return tryLoadWithPrimordialClassLoader(csClassName);
-			if(csClassName.startsWith("nacaTests"))	// All nacaTests classes are directly loaded by promordial class loader
-				return tryLoadWithPrimordialClassLoader(csClassName);
-			if(csClassName.startsWith("idea"))	// All nacalib classes are directly loaded by promordial class loader
-				return tryLoadWithPrimordialClassLoader(csClassName);
+        char c = csClassName.charAt(0);
+        if(c == 'j' || c == 'n' || c == 'i' || c == 'p' || c == 's')
+        {
+            if(csClassName.startsWith("java"))
+                return tryLoadWithPrimordialClassLoader(csClassName);
+            if(csClassName.startsWith("nacaLib"))   // All nacalib classes are directly loaded by promordial class loader
+                return tryLoadWithPrimordialClassLoader(csClassName);
+            if(csClassName.startsWith("nacaTests")) // All nacaTests classes are directly loaded by promordial class loader
+                return tryLoadWithPrimordialClassLoader(csClassName);
+            if(csClassName.startsWith("idea"))  // All nacalib classes are directly loaded by promordial class loader
+                return tryLoadWithPrimordialClassLoader(csClassName);
             // All nacalib classes are directly loaded by promordial class loader
-			if(csClassName.startsWith("pub2000Utils"))
-				return tryLoadWithPrimordialClassLoader(csClassName);
-			if(csClassName.startsWith("sun"))
-				return tryLoadWithPrimordialClassLoader(csClassName);
-		}
-		if(!iscanLoadJar && !bCanLoadClass)
-			return tryLoadWithPrimordialClassLoader(csClassName);
+            if(csClassName.startsWith("pub2000Utils"))
+                return tryLoadWithPrimordialClassLoader(csClassName);
+            if(csClassName.startsWith("sun"))
+                return tryLoadWithPrimordialClassLoader(csClassName);
+        }
+        if(!iscanLoadJar && !bCanLoadClass)
+            return tryLoadWithPrimordialClassLoader(csClassName);
 
-		boolean isprogram = false;
-		boolean bCopyOrStdClass = false;
-		boolean isparagraph = false;
-		boolean iscallOrStdClass = false;
+        boolean isprogram = false;
+        boolean bCopyOrStdClass = false;
+        boolean isparagraph = false;
+        boolean iscallOrStdClass = false;
 
-    	Class classCode = null;
+        Class classCode = null;
 
-    	if(csCurrentClassName != null)	// paragraph or copy
-    	{
-    		if(csClassName.equals(csCurrentClassName))	// Program
-    			isprogram = true;
-    		else if(csClassName.startsWith(csCurrentClassName) && csClassName.indexOf('$') == csCurrentClassName.length())	// Paragraph
-    			isparagraph = true;
-    		else
-    		{
-    			bCopyOrStdClass = true;	// Copy
-    		}
-    	}
-    	else
-    	{
+        if(csCurrentClassName != null)  // paragraph or copy
+        {
+            if(csClassName.equals(csCurrentClassName))  // Program
+                isprogram = true;
+            else if(csClassName.startsWith(csCurrentClassName) && csClassName.indexOf('$') == csCurrentClassName.length())  // Paragraph
+                isparagraph = true;
+            else
+            {
+                bCopyOrStdClass = true; // Copy
+            }
+        }
+        else
+        {
             // Pub2000Routines must be moved into a package of nacaRT, like pub2000Utils
-		if(csClassName.equals("Pub2000Routines"))
-    			bCopyOrStdClass = true;	// Copy
-    		else
-    			iscallOrStdClass = true;	// Call
-    	}
+        if(csClassName.equals("Pub2000Routines"))
+                bCopyOrStdClass = true; // Copy
+            else
+                iscallOrStdClass = true;    // Call
+        }
 
-    	boolean isintf = csClassName.endsWith("Intf");
+        boolean isintf = csClassName.endsWith("Intf");
 
-    	if(iscallOrStdClass || isprogram || isintf)
-    	{
-	    	CoupleCodeLoader couple = ms_hashByName.get(csClassName);
-			if(couple != null)
-			{
-				classCode = couple.getClassCode();
-				return classCode;
-			}
-    	}
-
-    	if(iscallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
-    	{
-    		classCode = tryLoadWithPrimordialClassLoader(csClassName);
-    		if(classCode != null)
+        if(iscallOrStdClass || isprogram || isintf)
+        {
+            CoupleCodeLoader couple = ms_hashByName.get(csClassName);
+            if(couple != null)
+            {
+                classCode = couple.getClassCode();
                 return classCode;
-    	}
+            }
+        }
 
-       	if(iscallOrStdClass)	// If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
-    	{
-    		CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, iscanLoadJar);
-    		Class cls = newCustomClassDynLoader.doLoadClass(csClassName);
-    		return cls;
-    	}
+        if(iscallOrStdClass || (bCopyOrStdClass && BaseResourceManager.isLoadCopyByPrimordialLoader()))
+        {
+            classCode = tryLoadWithPrimordialClassLoader(csClassName);
+            if(classCode != null)
+                return classCode;
+        }
+
+        if(iscallOrStdClass)    // If we want to share a copy among all programs, do a if(bCall || bCopyOrStdClass)
+        {
+            CustomClassDynLoader newCustomClassDynLoader = new CustomClassDynLoader(arrPaths, jarEntries, bCanLoadClass, iscanLoadJar);
+            Class cls = newCustomClassDynLoader.doLoadClass(csClassName);
+            return cls;
+        }
 
         // Try to load it from our paths
         byte  arrbyteClassData[] = getClassFileBytes(csClassName);
         if (arrbyteClassData == null)
         {
-        	return null;	// Class not found
+            return null;    // Class not found
         }
 
         // Define it (parse the class file)
         classCode = defineClass(csClassName, arrbyteClassData, 0, arrbyteClassData.length);
         if (classCode == null)
         {
-        	throw new ClassFormatError();
+            throw new ClassFormatError();
         }
 
         resolveClass(classCode);
 
-		if(classCode != null)
-		{
-			if(iscallOrStdClass || isprogram || isintf)
-			{
-				CoupleCodeLoader couple = new CoupleCodeLoader(classCode, this);
-				register(csClassName, couple);
-			}
-		}
+        if(classCode != null)
+        {
+            if(iscallOrStdClass || isprogram || isintf)
+            {
+                CoupleCodeLoader couple = new CoupleCodeLoader(classCode, this);
+                register(csClassName, couple);
+            }
+        }
 
-		return classCode;
+        return classCode;
     }
 }

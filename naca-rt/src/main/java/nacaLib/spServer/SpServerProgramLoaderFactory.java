@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -20,30 +20,30 @@ import nacaLib.basePrgEnv.ProgramSequencer;
 
 public class SpServerProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
-	public ProgramSequencer NewSequencer()
-	{
-		BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer() (with exception handler)");
-		
-		if(connectionManager != null)
-			BasicLogger.log("connectionManager="+connectionManager.toString());
-		else
-			BasicLogger.log("connectionManager=null");
-		
-		if(connectionManager != null)
-			BasicLogger.log("tagSequencerConfig="+tagSequencerConfig.toString());
-		else
-			BasicLogger.log("tagSequencerConfig=null");
-		try
-		{
-			SpServerProgramLoader prog = new SpServerProgramLoader(null, null);
-			prog.initMailService(tagSequencerConfig);
-			BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer; SpServerProgramLoader="+prog.toString());
-			return prog;
-		}
-		catch (Exception e)
-		{
-			BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer; Exception catched="+e.toString());
-			return null;
-		}
-	}
+    public ProgramSequencer NewSequencer()
+    {
+        BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer() (with exception handler)");
+
+        if(connectionManager != null)
+            BasicLogger.log("connectionManager="+connectionManager.toString());
+        else
+            BasicLogger.log("connectionManager=null");
+
+        if(connectionManager != null)
+            BasicLogger.log("tagSequencerConfig="+tagSequencerConfig.toString());
+        else
+            BasicLogger.log("tagSequencerConfig=null");
+        try
+        {
+            SpServerProgramLoader prog = new SpServerProgramLoader(null, null);
+            prog.initMailService(tagSequencerConfig);
+            BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer; SpServerProgramLoader="+prog.toString());
+            return prog;
+        }
+        catch (Exception e)
+        {
+            BasicLogger.log("SpServerProgramLoaderFactory::NewSequencer; Exception catched="+e.toString());
+            return null;
+        }
+    }
 }

@@ -19,43 +19,43 @@ import semantic.CEntityComment;
  */
 public class CComment extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CComment(int line, String cs) {
-		super(line);
-		commentText = cs ;
-	}
+    /**
+     * @param line
+     */
+    public CComment(int line, String cs) {
+        super(line);
+        commentText = cs ;
+    }
 
-	// ParseComment
-	// expected : Any string in the Comment token
-	protected boolean DoParsing()
-	{
-//		CBaseToken tok = GetCurrentToken();
-//		m_CommentText = tok.GetValue() ;
-//		tok = GetNext() ; // consume COMMENT token
-		return true ;
-	}
+    // ParseComment
+    // expected : Any string in the Comment token
+    protected boolean DoParsing()
+    {
+//      CBaseToken tok = GetCurrentToken();
+//      m_CommentText = tok.GetValue() ;
+//      tok = GetNext() ; // consume COMMENT token
+        return true ;
+    }
 
-	public Element ExportCustom(Document rootdoc)
-	{
-		Element e = rootdoc.createElement("Comment") ;
-		e.setAttribute("Text", commentText) ;
-		return e ;
-	}
+    public Element ExportCustom(Document rootdoc)
+    {
+        Element e = rootdoc.createElement("Comment") ;
+        e.setAttribute("Text", commentText) ;
+        return e ;
+    }
 
-	String commentText = "" ;
+    String commentText = "" ;
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityComment eCom = factory.NewEntityComment(getLine(), commentText) ;
-		if (parent != null)
-		{
-			parent.AddChild(eCom);
-		}
-		return eCom;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityComment eCom = factory.NewEntityComment(getLine(), commentText) ;
+        if (parent != null)
+        {
+            parent.AddChild(eCom);
+        }
+        return eCom;
+    }
 }

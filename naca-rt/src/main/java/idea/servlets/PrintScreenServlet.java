@@ -16,16 +16,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class PrintScreenServlet extends HttpServlet
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	protected void service(HttpServletRequest req, HttpServletResponse rep) throws ServletException, IOException
-	{
-		rep.setStatus(200) ;
-		rep.getOutputStream().println("OK") ;
-	}
+    protected void service(HttpServletRequest req, HttpServletResponse rep) throws ServletException, IOException
+    {
+        rep.setStatus(200) ;
+        rep.getOutputStream().println("OK") ;
+    }
 
 
 }

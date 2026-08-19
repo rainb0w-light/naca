@@ -15,26 +15,26 @@ import nacaLib.varEx.Var;
  */
 public class CalledPrgPublicArgDoubleOutPositioned extends BaseCalledPrgPublicArgPositioned
 {
-	CalledPrgPublicArgDoubleOutPositioned(double dValue[], boolean bInOut)
-	{
-		super(bInOut);
-		this.dValue = dValue;
-	}
-	
-	public void MapOn(Var varLinkageSection)
-	{
-		varLinkageSection.set(dValue[0]);
-	}
-	
-	public void doFillWithVar(Var varSource)
-	{
-		dValue[0] = varSource.getDouble();		
-	}
-	
-	public int getParamLength()
-	{
-		return 8;
-	}
-	
-	private double dValue[];
+    CalledPrgPublicArgDoubleOutPositioned(double dValue[], boolean bInOut)
+    {
+        super(bInOut);
+        this.dValue = dValue;
+    }
+
+    public void MapOn(Var varLinkageSection)
+    {
+        varLinkageSection.set(dValue[0]);
+    }
+
+    public void doFillWithVar(Var varSource)
+    {
+        dValue[0] = varSource.getDouble();
+    }
+
+    public int getParamLength()
+    {
+        return 8;
+    }
+
+    private double dValue[];
 }

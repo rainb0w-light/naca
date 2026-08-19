@@ -8,10 +8,10 @@ package nacaLib.misc;
 
 public class LogFlowCustomNacaRT
 {
-	public static LogFlowDisplay Display = new LogFlowDisplay();
-	
-	static public void declare()
-	{
-	}
-	
+    public static LogFlowDisplay Display = new LogFlowDisplay();
+
+    static public void declare()
+    {
+    }
+
 }

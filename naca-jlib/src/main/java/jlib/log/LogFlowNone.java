@@ -15,7 +15,7 @@ package jlib.log;
  * are not intended for events (see {@link LogEvent}), but only
  * for {@link LogCenter}s.<p/>
  * {@link LogCenter}s assigned to the <i>None</i> flow accept no events.
- *  
+ *
  * @author PJD
  */
 public class LogFlowNone extends LogFlow
@@ -23,19 +23,19 @@ public class LogFlowNone extends LogFlow
 /**
  * Registers the <i>None</i> flow to the {@link LogFlowRegister} singleton.
  */
-	LogFlowNone()
-	{
-		super("None");
-	}
-	
+    LogFlowNone()
+    {
+        super("None");
+    }
+
 /**
  * Checks if an event <i>LogFlow</i> is accepted by the current flow.
  * <i>None</i> flows accept no events at all.
  * @return Always <i>false</i>.
- */			
-	public boolean isAcceptable(LogFlow logFlow)
-	{
-		return false;
-	}	
+ */
+    public boolean isAcceptable(LogFlow logFlow)
+    {
+        return false;
+    }
 }
 

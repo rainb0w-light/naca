@@ -14,7 +14,7 @@
       "spotbugsTest": 0
     },
     "naca-cloud-native": {
-      "checkstyleMain": 40,
+      "checkstyleMain": 39,
       "checkstyleTest": 14,
       "pmdMain": 62,
       "pmdTest": 174,
@@ -22,7 +22,7 @@
       "spotbugsTest": 10
     },
     "naca-jlib": {
-      "checkstyleMain": 3682,
+      "checkstyleMain": 3081,
       "checkstyleTest": 0,
       "pmdMain": 4030,
       "pmdTest": 0,
@@ -30,7 +30,7 @@
       "spotbugsTest": 0
     },
     "naca-rt": {
-      "checkstyleMain": 7214,
+      "checkstyleMain": 6391,
       "checkstyleTest": 0,
       "pmdMain": 9630,
       "pmdTest": 44,
@@ -38,15 +38,15 @@
       "spotbugsTest": 0
     },
     "naca-rt-tests": {
-      "checkstyleMain": 21,
+      "checkstyleMain": 12,
       "checkstyleTest": 31,
       "pmdMain": 13,
       "pmdTest": 81,
       "spotbugsTest": 6
     },
     "naca-trans": {
-      "checkstyleMain": 3562,
-      "checkstyleTest": 65,
+      "checkstyleMain": 2875,
+      "checkstyleTest": 53,
       "pmdMain": 7305,
       "pmdTest": 2623,
       "spotbugsMain": 1524,

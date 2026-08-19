@@ -8,32 +8,32 @@ package jlib.misc;
 
 public class StringRef
 {
-	public StringRef()
-	{
-	}
+    public StringRef()
+    {
+    }
 
-	public StringRef(String cs)
-	{
-		this.cs = cs;
-	}
+    public StringRef(String cs)
+    {
+        this.cs = cs;
+    }
 
 
-	public String get()
-	{
-		return cs;
-	}
+    public String get()
+    {
+        return cs;
+    }
 
-	public void set(String cs)
-	{
-		this.cs = cs;
-	}
+    public void set(String cs)
+    {
+        this.cs = cs;
+    }
 
-	public String toString()
-	{
-		if(cs != null)
-			return "StringRef: \""+cs + "\"";
-		return "StringRef: \"<null>\"";
-	}
+    public String toString()
+    {
+        if(cs != null)
+            return "StringRef: \""+cs + "\"";
+        return "StringRef: \"<null>\"";
+    }
 
-	private String cs = null;
+    private String cs = null;
 }

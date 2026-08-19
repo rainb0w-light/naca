@@ -12,22 +12,22 @@ package nacaLib.varEx;
  */
 public class CallParamByLength extends CCallParam
 {
-	public CallParamByLength(VarAndEdit var)
-	{
-		if(var != null)
-			nLength = var.getTotalSize();
-	}
+    public CallParamByLength(VarAndEdit var)
+    {
+        if(var != null)
+            nLength = var.getTotalSize();
+    }
 
-	public int getParamLength()
-	{
-		return nLength;
-	}
+    public int getParamLength()
+    {
+        return nLength;
+    }
 
-	public void MapOn(Var varLinkageSection)
-	{
-		varLinkageSection.set(nLength);	// Copy the value of the argument provided by the caller
-	}
+    public void MapOn(Var varLinkageSection)
+    {
+        varLinkageSection.set(nLength); // Copy the value of the argument provided by the caller
+    }
 
 
-	private int nLength = 0;
+    private int nLength = 0;
 }

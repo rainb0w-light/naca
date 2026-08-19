@@ -14,51 +14,51 @@ import javax.management.openmbean.OpenType;
 
 public class CompositeTypeDesc
 {
-	public CompositeTypeDesc(String csName, String csDescription)
-	{
-		this.csName = csName;
-		this.csDescription = csDescription;
-	}
-	
-	public void addItem(String csName, String csDescription, OpenType openType)
-	{
-		CompositeTypeDescItem itemDesc = new CompositeTypeDescItem(csName, csDescription, openType);
-		this.itemDesc.add(itemDesc);
-	}
-	
-	public CompositeType generateCompositeType()
-	{
-		try
-		{
-			int nNbItems = itemDesc.size();
-			OpenType [] openTypes = new OpenType [nNbItems];
-			String [] itemTypeNames = new String [nNbItems];
-			String [] itemTypeDescriptions = new String [nNbItems];
-			for(int n=0; n<nNbItems; n++)
-			{
-				CompositeTypeDescItem itemDesc = this.itemDesc.get(n);
-				openTypes[n] = itemDesc.openType;
-				itemTypeNames[n] = itemDesc.csName;
-				itemTypeDescriptions[n] = itemDesc.csDescription;			
-			}
-			
-			CompositeType compositeType = new CompositeType(
-				csName,
-			    csDescription,
-			    itemTypeNames,
-			    itemTypeDescriptions,
-			    openTypes);
-			return compositeType;
-		}
-		catch (OpenDataException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	
-	private String csName = null;
-	private String csDescription = null;
-	private ArrayList<CompositeTypeDescItem> itemDesc = new ArrayList<CompositeTypeDescItem>();
+    public CompositeTypeDesc(String csName, String csDescription)
+    {
+        this.csName = csName;
+        this.csDescription = csDescription;
+    }
+
+    public void addItem(String csName, String csDescription, OpenType openType)
+    {
+        CompositeTypeDescItem itemDesc = new CompositeTypeDescItem(csName, csDescription, openType);
+        this.itemDesc.add(itemDesc);
+    }
+
+    public CompositeType generateCompositeType()
+    {
+        try
+        {
+            int nNbItems = itemDesc.size();
+            OpenType [] openTypes = new OpenType [nNbItems];
+            String [] itemTypeNames = new String [nNbItems];
+            String [] itemTypeDescriptions = new String [nNbItems];
+            for(int n=0; n<nNbItems; n++)
+            {
+                CompositeTypeDescItem itemDesc = this.itemDesc.get(n);
+                openTypes[n] = itemDesc.openType;
+                itemTypeNames[n] = itemDesc.csName;
+                itemTypeDescriptions[n] = itemDesc.csDescription;
+            }
+
+            CompositeType compositeType = new CompositeType(
+                csName,
+                csDescription,
+                itemTypeNames,
+                itemTypeDescriptions,
+                openTypes);
+            return compositeType;
+        }
+        catch (OpenDataException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private String csName = null;
+    private String csDescription = null;
+    private ArrayList<CompositeTypeDescItem> itemDesc = new ArrayList<CompositeTypeDescItem>();
 }

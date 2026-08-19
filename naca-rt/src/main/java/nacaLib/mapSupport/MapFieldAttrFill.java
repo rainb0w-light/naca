@@ -12,77 +12,77 @@ package nacaLib.mapSupport;
 
 public class MapFieldAttrFill extends MapFieldBaseAttr
 {
-	private MapFieldAttrFill(int nValue, String text)
-	{
-		super(nValue, text);
-	}
-	public static MapFieldAttrFill BLANK = new MapFieldAttrFill(1, "blank");
-	public static MapFieldAttrFill ZERO = new MapFieldAttrFill(2, "zero");
+    private MapFieldAttrFill(int nValue, String text)
+    {
+        super(nValue, text);
+    }
+    public static MapFieldAttrFill BLANK = new MapFieldAttrFill(1, "blank");
+    public static MapFieldAttrFill ZERO = new MapFieldAttrFill(2, "zero");
 
-	static int getNbBitsEncoding()
-	{
-		return 2;
-	}
+    static int getNbBitsEncoding()
+    {
+        return 2;
+    }
 
-	static int getMask()
-	{
-		return 3;
-	}
+    static int getMask()
+    {
+        return 3;
+    }
 
-//	public String toString()
-//	{
-//		return getText();
-//	}
+//  public String toString()
+//  {
+//      return getText();
+//  }
 //
-//	public String getText()
-//	{
-//		if(getInternalValue() == 0)
-//			return "zero";
-//		return "blank";
-//	}
+//  public String getText()
+//  {
+//      if(getInternalValue() == 0)
+//          return "zero";
+//      return "blank";
+//  }
 
-	boolean isFillZero()
-	{
-		if(getInternalValue() == ZERO.getInternalValue())
-			return true;
-		return false;
-	}
+    boolean isFillZero()
+    {
+        if(getInternalValue() == ZERO.getInternalValue())
+            return true;
+        return false;
+    }
 
-	boolean isFillBlank()
-	{
-		if(getInternalValue() == BLANK.getInternalValue())
-			return true;
-		return false;
-	}
+    boolean isFillBlank()
+    {
+        if(getInternalValue() == BLANK.getInternalValue())
+            return true;
+        return false;
+    }
 
-	// Encoded in 1 bit
-//	char encodeInto(char cBitField)	//Uses bit 7
-//	{
-//		if(getInternalValue() == 1)	// Set bit 6 to 1
-//		{
-//			cBitField |= 0x40;	// 0100 0000
-//		}
-//		else	// Set bit 6 to 0
-//		{
-//			cBitField &= 0xBf;	// 1011 1111
-//		}
-//		return cBitField;
-//	}
+    // Encoded in 1 bit
+//  char encodeInto(char cBitField) //Uses bit 7
+//  {
+//      if(getInternalValue() == 1) // Set bit 6 to 1
+//      {
+//          cBitField |= 0x40;  // 0100 0000
+//      }
+//      else    // Set bit 6 to 0
+//      {
+//          cBitField &= 0xBf;  // 1011 1111
+//      }
+//      return cBitField;
+//  }
 
-	/**
-	 * @param nValue
-	 * @return
-	 */
-	public static MapFieldAttrFill Select(int nValue)
-	{
-		if (nValue == BLANK.getInternalValue())
-		{
-			return BLANK ;
-		}
-		else if (nValue == ZERO.getInternalValue())
-		{
-			return ZERO ;
-		}
-		return null ;
-	}
+    /**
+     * @param nValue
+     * @return
+     */
+    public static MapFieldAttrFill Select(int nValue)
+    {
+        if (nValue == BLANK.getInternalValue())
+        {
+            return BLANK ;
+        }
+        else if (nValue == ZERO.getInternalValue())
+        {
+            return ZERO ;
+        }
+        return null ;
+    }
 }

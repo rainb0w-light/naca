@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.jslibComp;
 
@@ -20,20 +20,20 @@ import java.util.Collection;
  */
 public class ConstantPool
 {
-	private ArrayList<ConstantItem> arr = null;
-	
-	public void add(String csId, String csValue)
-	{
-		if(arr == null)
-			arr = new ArrayList<ConstantItem>();
-		
-		ConstantItem item = new ConstantItem(csId, csValue);
-		arr.add(item);
-	}
-	
-	public Collection<ConstantItem> getCollection()
-	{
-		return arr;
-	}
-	
+    private ArrayList<ConstantItem> arr = null;
+
+    public void add(String csId, String csValue)
+    {
+        if(arr == null)
+            arr = new ArrayList<ConstantItem>();
+
+        ConstantItem item = new ConstantItem(csId, csValue);
+        arr.add(item);
+    }
+
+    public Collection<ConstantItem> getCollection()
+    {
+        return arr;
+    }
+
 }

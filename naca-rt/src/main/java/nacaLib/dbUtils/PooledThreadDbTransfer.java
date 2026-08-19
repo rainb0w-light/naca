@@ -21,35 +21,39 @@ import jlib.threads.ThreadPoolRequest;
  */
 public class PooledThreadDbTransfer extends PooledThread
 {
-	private DbTransferDesc dbTransferDesc = null;
-	private DbConnectionBase dbConnectionSource = null;
-	private DbConnectionBase dbConnectionDestination = null;
+    private DbTransferDesc dbTransferDesc = null;
+    private DbConnectionBase dbConnectionSource = null;
+    private DbConnectionBase dbConnectionDestination = null;
 
-	public PooledThreadDbTransfer(PoolOfThreads owningPool, DbTransferDesc dbTransferDesc, DbConnectionBase dbConnectionSource, DbConnectionBase dbConnectionDestination)
-	{
-		super(owningPool);
-		this.dbTransferDesc = dbTransferDesc;
-		this.dbConnectionSource = dbConnectionSource;
-		this.dbConnectionDestination = dbConnectionDestination;
-	}
+    public PooledThreadDbTransfer(
+        PoolOfThreads owningPool,
+        DbTransferDesc dbTransferDesc,
+        DbConnectionBase dbConnectionSource,
+        DbConnectionBase dbConnectionDestination)
+    {
+        super(owningPool);
+        this.dbTransferDesc = dbTransferDesc;
+        this.dbConnectionSource = dbConnectionSource;
+        this.dbConnectionDestination = dbConnectionDestination;
+    }
 
-	public boolean preRun()
-	{
-		return true;
-	}
+    public boolean preRun()
+    {
+        return true;
+    }
 
-	public void postRun()
-	{
-	}
+    public void postRun()
+    {
+    }
 
-	protected boolean canHandleRequest()
-	{
-		return true;
-	}
+    protected boolean canHandleRequest()
+    {
+        return true;
+    }
 
-	protected void handleRequest(ThreadPoolRequest request)
-	{
-		TableToTransfer tableToTransfer = (TableToTransfer)request;
-		tableToTransfer.execute(dbConnectionSource, dbConnectionDestination, dbTransferDesc);
-	}
+    protected void handleRequest(ThreadPoolRequest request)
+    {
+        TableToTransfer tableToTransfer = (TableToTransfer)request;
+        tableToTransfer.execute(dbConnectionSource, dbConnectionDestination, dbTransferDesc);
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -25,40 +25,40 @@ import nacaLib.basePrgEnv.CurrentUserInfo;
 import org.w3c.dom.Document;
 
 public class CalledSession extends BaseSession
-{	
-	public CalledSession(BaseResourceManager baseResourceManager)
-	{
-		super(baseResourceManager);
-	}
-		
-	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
-	{
-		CalledEnvironment env = new CalledEnvironment(this, connectionManager, baseResourceManager);
-		return env;
-	}
-	
-	public String getType()
-	{
-		return "Batch";
-	}
-	
-	public void RunProgram(BaseProgramLoader seq)
-	{
-	}
-	
-	public void setHelpPage(Document doc)
-	{
-	}
+{
+    public CalledSession(BaseResourceManager baseResourceManager)
+    {
+        super(baseResourceManager);
+    }
 
-	public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
-	{
-		currentUserInfo.reset();
-	}
-	
-	public Document getLastScreenXMLData()
-	{
-		return null;
-	}
+    public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
+    {
+        CalledEnvironment env = new CalledEnvironment(this, connectionManager, baseResourceManager);
+        return env;
+    }
+
+    public String getType()
+    {
+        return "Batch";
+    }
+
+    public void RunProgram(BaseProgramLoader seq)
+    {
+    }
+
+    public void setHelpPage(Document doc)
+    {
+    }
+
+    public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
+    {
+        currentUserInfo.reset();
+    }
+
+    public Document getLastScreenXMLData()
+    {
+        return null;
+    }
 
 
 }

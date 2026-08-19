@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -18,25 +18,25 @@ import java.util.ArrayList;
  */
 public class StringArray
 {
-	private ArrayList<String> arr = null;
-	
-	public StringArray()
-	{
-		arr = new ArrayList<String>();
-	}
-	
-	public void add(String csElem)
-	{
-		arr.add(csElem);
-	}
-	
-	public int size()
-	{
-		return arr.size(); 
-	}
-	
-	public String get(int n)
-	{
-		return arr.get(n);
-	}
+    private ArrayList<String> arr = null;
+
+    public StringArray()
+    {
+        arr = new ArrayList<String>();
+    }
+
+    public void add(String csElem)
+    {
+        arr.add(csElem);
+    }
+
+    public int size()
+    {
+        return arr.size();
+    }
+
+    public String get(int n)
+    {
+        return arr.get(n);
+    }
 }

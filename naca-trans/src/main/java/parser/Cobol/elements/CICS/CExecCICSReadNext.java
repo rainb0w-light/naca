@@ -29,193 +29,193 @@ import utils.Transcoder;
 public class CExecCICSReadNext extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSReadNext(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSReadNext(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (readType == null || fileName == null || dataInto == null)
-		{
-			DiagnosticSink.recordUnsupported(
-				"cics.readnext.missing-required-option",
-				"embedded-cics",
-				getLine(),
-				"EXEC CICS READNEXT requires FILE(...) or DATASET(...), plus INTO(...)");
-			return null;
-		}
-		DiagnosticSink.recordUnsupported("cics.readnext.runtime-backend-unavailable",
-			"embedded-cics", getLine(),
-			"EXEC CICS READNEXT requires a configured indexed-file backend");
-		return null;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (readType == null || fileName == null || dataInto == null)
+        {
+            DiagnosticSink.recordUnsupported(
+                "cics.readnext.missing-required-option",
+                "embedded-cics",
+                getLine(),
+                "EXEC CICS READNEXT requires FILE(...) or DATASET(...), plus INTO(...)");
+            return null;
+        }
+        DiagnosticSink.recordUnsupported("cics.readnext.runtime-backend-unavailable",
+            "embedded-cics", getLine(),
+            "EXEC CICS READNEXT requires a configured indexed-file backend");
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.READNEXT)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.READNEXT)
+        {
+            tok = GetNext();
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.FILE && readType == null)
-			{
-				readType = CCobolKeywordList.FILE ;
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					fileName = ReadTerminal();
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.DATASET && readType == null)
-			{
-				readType = CCobolKeywordList.DATASET ;
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					fileName = ReadTerminal();
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.INTO)
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					dataInto = ReadIdentifier() ;
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetValue().equals("RIDFLD"))
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					recIDField = ReadIdentifier() ;
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					length = ReadTerminal() ;
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext();
-					keyLength = ReadTerminal() ;
-					tok= GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext();
-					}
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.FILE && readType == null)
+            {
+                readType = CCobolKeywordList.FILE ;
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    fileName = ReadTerminal();
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.DATASET && readType == null)
+            {
+                readType = CCobolKeywordList.DATASET ;
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    fileName = ReadTerminal();
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.INTO)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    dataInto = ReadIdentifier() ;
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetValue().equals("RIDFLD"))
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    recIDField = ReadIdentifier() ;
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    length = ReadTerminal() ;
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.KEYLENGTH)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    keyLength = ReadTerminal() ;
+                    tok= GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS READ");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(tok.getLine(), "Error while parsing EXEC CICS READ");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eWr = root.createElement("ExecCICSReadNext") ;
-		Element e ;
-		if (readType == CCobolKeywordList.FILE)
-		{
-			e = root.createElement("File");
-		}
-		else if (readType == CCobolKeywordList.DATASET)
-		{
-			e = root.createElement("Dataset");
-		}
-		else
-		{
-			return null ;
-		}
-		eWr.appendChild(e);
-		fileName.ExportTo(e, root);
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eWr = root.createElement("ExecCICSReadNext") ;
+        Element e ;
+        if (readType == CCobolKeywordList.FILE)
+        {
+            e = root.createElement("File");
+        }
+        else if (readType == CCobolKeywordList.DATASET)
+        {
+            e = root.createElement("Dataset");
+        }
+        else
+        {
+            return null ;
+        }
+        eWr.appendChild(e);
+        fileName.ExportTo(e, root);
 
-		if (dataInto != null)
-		{
-			Element eFrom = root.createElement("Into");
-			dataInto.ExportTo(eFrom, root);
-			eWr.appendChild(eFrom);
-		}
-		if (recIDField != null)
-		{
-			Element eFrom = root.createElement("RecIDField");
-			recIDField.ExportTo(eFrom, root);
-			eWr.appendChild(eFrom);
-		}
-		return eWr;
-	}
+        if (dataInto != null)
+        {
+            Element eFrom = root.createElement("Into");
+            dataInto.ExportTo(eFrom, root);
+            eWr.appendChild(eFrom);
+        }
+        if (recIDField != null)
+        {
+            Element eFrom = root.createElement("RecIDField");
+            recIDField.ExportTo(eFrom, root);
+            eWr.appendChild(eFrom);
+        }
+        return eWr;
+    }
 
-	protected CReservedKeyword readType = null ;
-	protected CTerminal fileName = null ;
-	protected CIdentifier dataInto = null ;
-	protected CIdentifier recIDField = null ;
-	protected CTerminal dataLength = null ;
-	protected CTerminal length = null ;
-	protected CTerminal keyLength = null ;
+    protected CReservedKeyword readType = null ;
+    protected CTerminal fileName = null ;
+    protected CIdentifier dataInto = null ;
+    protected CIdentifier recIDField = null ;
+    protected CTerminal dataLength = null ;
+    protected CTerminal length = null ;
+    protected CTerminal keyLength = null ;
 
 }

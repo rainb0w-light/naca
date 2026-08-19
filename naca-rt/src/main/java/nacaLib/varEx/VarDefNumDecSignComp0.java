@@ -22,915 +22,915 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class VarDefNumDecSignComp0 extends VarDefNum
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	public VarDefNumDecSignComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
-	{
-		super(varDefParent, declareType9.varLevel);
-		nNbDigitInteger = numericValue.nNbDigitInteger;
-		nNbDigitDecimal = numericValue.nNbDigitDecimal;
-	}
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    public VarDefNumDecSignComp0(VarDefBase varDefParent, DeclareType9 declareType9, NumericValue numericValue)
+    {
+        super(varDefParent, declareType9.varLevel);
+        nNbDigitInteger = numericValue.nNbDigitInteger;
+        nNbDigitDecimal = numericValue.nNbDigitDecimal;
+    }
 
-	protected VarDefNumDecSignComp0()
-	{
-		super();
-	}
+    protected VarDefNumDecSignComp0()
+    {
+        super();
+    }
 
-//	VarDefNumDecSignComp0(VarDefNumDecSignComp0 varDefSource)
-//	{
-//		super(varDefSource);
-//		nNbDigitInteger = varDefSource.nNbDigitInteger;
-//		nNbDigitDecimal = varDefSource.nNbDigitDecimal;
-//	}
+//  VarDefNumDecSignComp0(VarDefNumDecSignComp0 varDefSource)
+//  {
+//      super(varDefSource);
+//      nNbDigitInteger = varDefSource.nNbDigitInteger;
+//      nNbDigitDecimal = varDefSource.nNbDigitDecimal;
+//  }
 //
-//	VarDefBuffer deepDuplicate()
-//	{
-//		return new VarDefNumDecSignComp0(this);
-//	}
+//  VarDefBuffer deepDuplicate()
+//  {
+//      return new VarDefNumDecSignComp0(this);
+//  }
 
 
 
-	void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
-	{
-		Dest.varDef.write(Dest.bufferPos, this, bufferSource);
-	}
+    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    {
+        Dest.varDef.write(Dest.bufferPos, this, bufferSource);
+    }
 
-	CSQLItemType getSQLType()
-	{
-		return getDecimalSQLType(nNbDigitInteger, nNbDigitDecimal);
-	}
+    CSQLItemType getSQLType()
+    {
+        return getDecimalSQLType(nNbDigitInteger, nNbDigitDecimal);
+    }
 
-	protected VarDefBuffer allocCopy()
-	{
-		VarDefNumDecSignComp0 v = new VarDefNumDecSignComp0();
-		v.nNbDigitInteger = nNbDigitInteger;
-		v.nNbDigitDecimal = nNbDigitDecimal;
-		return v;
-	}
+    protected VarDefBuffer allocCopy()
+    {
+        VarDefNumDecSignComp0 v = new VarDefNumDecSignComp0();
+        v.nNbDigitInteger = nNbDigitInteger;
+        v.nNbDigitDecimal = nNbDigitDecimal;
+        return v;
+    }
 
-	public int getBodyLength()
-	{
-		return nTotalSize;
-	}
+    public int getBodyLength()
+    {
+        return nTotalSize;
+    }
 
-	protected int getHeaderLength()
-	{
-		return 0;
-	}
-
-
+    protected int getHeaderLength()
+    {
+        return 0;
+    }
 
 
-	public int getSingleItemRequiredStorageSize()
-	{
-		return nNbDigitInteger + nNbDigitDecimal;
-	}
-
-	int getAsDecodedInt(VarBufferPos buffer)
-	{
-		return getAsDecodedDec(buffer).getSignedInt();
-	}
-
-	int getAsDecodedUnsignedInt(VarBufferPos buffer)
-	{
-		int n = internalReadSignedIntComp0(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-		if(n < 0)
-			return -n;
-		return n;
-	}
 
 
-	long getAsDecodedLong(VarBufferPos buffer)
-	{
-		return getAsDecodedDec(buffer).getSignedLong();
-	}
+    public int getSingleItemRequiredStorageSize()
+    {
+        return nNbDigitInteger + nNbDigitDecimal;
+    }
 
-	Dec getAsDecodedDec(VarBufferPos buffer)
-	{
-		if(nNbDigitDecimal == 0)
-		{
-			long lInt = internalReadSignedIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-			Dec dec = new Dec(lInt, "");
-			return dec;
-		}
-		else
-		{
-			long lInt = buffer.getAsUnsignedLong(buffer.nAbsolutePosition, nNbDigitInteger);
-			String csDec = internalReadSignedIntComp0AsString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
-			Dec dec;
-			if(csDec.length() >= 1 && csDec.charAt(0) == '-')
-			{
-				csDec = csDec.substring(1);
-				dec = new Dec(lInt, csDec);
-				dec.setPositive(false);
-			}
-			else
-			{
-				dec = new Dec(lInt, csDec);
-			}
+    int getAsDecodedInt(VarBufferPos buffer)
+    {
+        return getAsDecodedDec(buffer).getSignedInt();
+    }
 
-			return dec;
-		}
-	}
-
-	CStr getAsAlphaNumString(VarBufferPos buffer)
-	{
-		CStr csInt = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-		CStr csDec = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
-		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
-		cs.resetMinimalSize(csInt.length() + 1 + csDec.length());
-		cs.append(csInt);
-		cs.append('.');
-		cs.append(csDec);
-		return cs;
-	}
+    int getAsDecodedUnsignedInt(VarBufferPos buffer)
+    {
+        int n = internalReadSignedIntComp0(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+        if(n < 0)
+            return -n;
+        return n;
+    }
 
 
-	CStr getDottedSignedString(VarBufferPos buffer)
-	{
-		Dec dec = getAsDecodedDec(buffer);
-		boolean negative = dec.isNegative()
-			|| hasNegativeEmbeddedComp0Sign(buffer, nNbDigitInteger + nNbDigitDecimal);
-		return formatPicture(dec.getUnsignedLong(), dec.getDecPart(), negative,
-			nNbDigitInteger, nNbDigitDecimal, true, false);
-	}
+    long getAsDecodedLong(VarBufferPos buffer)
+    {
+        return getAsDecodedDec(buffer).getSignedLong();
+    }
 
-	CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
-	{
-		Dec dec = getAsDecodedDec(buffer);
-		CStr cs = dec.getAsCStr();
-		return cs;
-	}
+    Dec getAsDecodedDec(VarBufferPos buffer)
+    {
+        if(nNbDigitDecimal == 0)
+        {
+            long lInt = internalReadSignedIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+            Dec dec = new Dec(lInt, "");
+            return dec;
+        }
+        else
+        {
+            long lInt = buffer.getAsUnsignedLong(buffer.nAbsolutePosition, nNbDigitInteger);
+            String csDec = internalReadSignedIntComp0AsString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+            Dec dec;
+            if(csDec.length() >= 1 && csDec.charAt(0) == '-')
+            {
+                csDec = csDec.substring(1);
+                dec = new Dec(lInt, csDec);
+                dec.setPositive(false);
+            }
+            else
+            {
+                dec = new Dec(lInt, csDec);
+            }
 
-	void write(VarBufferPos buffer, char c)
-	{
-		int n = NumberParser.getAsUnsignedInt(c);
-		Dec dec = new Dec(n, "");
-		writeSignDecComp0(buffer, dec);
-	}
+            return dec;
+        }
+    }
 
-	public void write(VarBufferPos buffer, String cs)
-	{
-		Dec dec = NumberParserDec.getAsDec(cs);
-		writeSignDecComp0(buffer, dec);
-	}
+    CStr getAsAlphaNumString(VarBufferPos buffer)
+    {
+        CStr csInt = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+        CStr csDec = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+        CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
+        cs.resetMinimalSize(csInt.length() + 1 + csDec.length());
+        cs.append(csInt);
+        cs.append('.');
+        cs.append(csDec);
+        return cs;
+    }
 
-	public void inc(VarBufferPos buffer, int n)
-	{
-		CStr s1 = getDottedSignedString(buffer);
-		Dec dec = MathAdd.inc(s1, n);
-		write(buffer, dec);
-	}
 
-	public void inc(VarBufferPos buffer, BigDecimal bdStep)
-	{
-		CStr s1 = getDottedSignedString(buffer);
-		Dec dec = MathAdd.inc(s1, bdStep);
-		write(buffer, dec);
-	}
+    CStr getDottedSignedString(VarBufferPos buffer)
+    {
+        Dec dec = getAsDecodedDec(buffer);
+        boolean negative = dec.isNegative()
+            || hasNegativeEmbeddedComp0Sign(buffer, nNbDigitInteger + nNbDigitDecimal);
+        return formatPicture(dec.getUnsignedLong(), dec.getDecPart(), negative,
+            nNbDigitInteger, nNbDigitDecimal, true, false);
+    }
 
-	public void write(VarBufferPos buffer, int n)
-	{
-		Dec dec = new Dec(n, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    CStr getDottedSignedStringAsSQLCol(VarBufferPos buffer)
+    {
+        Dec dec = getAsDecodedDec(buffer);
+        CStr cs = dec.getAsCStr();
+        return cs;
+    }
 
-	public void write(VarBufferPos buffer, long l)
-	{
-		Dec dec = new Dec(l, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, char c)
+    {
+        int n = NumberParser.getAsUnsignedInt(c);
+        Dec dec = new Dec(n, "");
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, double d)
-	{
-		Dec dec = NumberParserDec.getAsDec(d);
-		writeSignDecComp0(buffer, dec);
-	}
+    public void write(VarBufferPos buffer, String cs)
+    {
+        Dec dec = NumberParserDec.getAsDec(cs);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, Dec dec)
-	{
-		writeSignDecComp0(buffer, dec);
-	}
+    public void inc(VarBufferPos buffer, int n)
+    {
+        CStr s1 = getDottedSignedString(buffer);
+        Dec dec = MathAdd.inc(s1, n);
+        write(buffer, dec);
+    }
 
-	public void write(VarBufferPos buffer, BigDecimal bigDecimal)
-	{
-		Dec dec = NumberParserDec.getAsDec(bigDecimal);
-		writeSignDecComp0(buffer, dec);
-	}
+    public void inc(VarBufferPos buffer, BigDecimal bdStep)
+    {
+        CStr s1 = getDottedSignedString(buffer);
+        Dec dec = MathAdd.inc(s1, bdStep);
+        write(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
-	{
-		// http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#alpha_elem_move_sec
+    public void write(VarBufferPos buffer, int n)
+    {
+        Dec dec = new Dec(n, "");
+        writeSignDecComp0(buffer, dec);
+    }
+
+    public void write(VarBufferPos buffer, long l)
+    {
+        Dec dec = new Dec(l, "");
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, double d)
+    {
+        Dec dec = NumberParserDec.getAsDec(d);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, Dec dec)
+    {
+        writeSignDecComp0(buffer, dec);
+    }
+
+    public void write(VarBufferPos buffer, BigDecimal bigDecimal)
+    {
+        Dec dec = NumberParserDec.getAsDec(bigDecimal);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource)
+    {
+        // http://h71000.www7.hp.com/DOC/73final/6297/6297_profile_010.html#alpha_elem_move_sec
         // If the sending item is a group item, and the receiving item is an elementary item, the compiler ignores the receiving item
         // description except for the size description, in bytes, and any JUSTIFIED clause. It conducts no conversion or editing on the
         // sending item's data
-		internalPhysicalWrite(buffer, varSource, bufferSource);
-	}
+        internalPhysicalWrite(buffer, varSource, bufferSource);
+    }
 
-	void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource)
-	{
-		long l = varSource.getUnsignedLong(bufferSource);
-		Dec dec = new Dec(l, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource)
+    {
+        long l = varSource.getUnsignedLong(bufferSource);
+        Dec dec = new Dec(l, "");
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource)
-	{
-		long l = varSource.getUnsignedLong(bufferSource);
-		Dec dec = new Dec(l, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefFPacAlphaNum varSource, VarBufferPos bufferSource)
+    {
+        long l = varSource.getUnsignedLong(bufferSource);
+        Dec dec = new Dec(l, "");
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource)
-	{
-		long l = varSource.getUnsignedLong(bufferSource);
-		Dec dec = new Dec(l, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefFPacRaw varSource, VarBufferPos bufferSource)
+    {
+        long l = varSource.getUnsignedLong(bufferSource);
+        Dec dec = new Dec(l, "");
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecComp3 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecComp4 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecSignComp4 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
-	{
-		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
-		{
-			VarDefNumDecSignComp0 varDefSourceSignComp0 = (VarDefNumDecSignComp0)varSource;
-			if(nNbDigitDecimal == varDefSourceSignComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignComp0.nNbDigitInteger)
-			{
-				int nPositionDest = buffer.nAbsolutePosition;
-				int nPositionSource = bufferSource.nAbsolutePosition;
-				for(int n=0; n<nTotalSize; n++)
-				{
-					buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
-				}
-				return ;
-			}
-		}
+    public void moveIntoSameType(VarBufferPos buffer, VarDefBuffer varSource, VarBufferPos bufferSource)
+    {
+        if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
+        {
+            VarDefNumDecSignComp0 varDefSourceSignComp0 = (VarDefNumDecSignComp0)varSource;
+            if(nNbDigitDecimal == varDefSourceSignComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignComp0.nNbDigitInteger)
+            {
+                int nPositionDest = buffer.nAbsolutePosition;
+                int nPositionSource = bufferSource.nAbsolutePosition;
+                for(int n=0; n<nTotalSize; n++)
+                {
+                    buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
+                }
+                return ;
+            }
+        }
 
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
-	{
-		if(nTotalSize == varSource.nTotalSize)	// Same type and same size: Directly copy bytes
-		{
-			int nPositionDest = buffer.nAbsolutePosition;
-			int nPositionSource = bufferSource.nAbsolutePosition;
-			for(int n=0; n<nTotalSize; n++)
-			{
-				buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
-			}
-			return ;
-		}
+    void write(VarBufferPos buffer, VarDefNumDecSignComp0 varSource, VarBufferPos bufferSource)
+    {
+        if(nTotalSize == varSource.nTotalSize)  // Same type and same size: Directly copy bytes
+        {
+            int nPositionDest = buffer.nAbsolutePosition;
+            int nPositionSource = bufferSource.nAbsolutePosition;
+            for(int n=0; n<nTotalSize; n++)
+            {
+                buffer.acBuffer[nPositionDest++] = bufferSource.acBuffer[nPositionSource++];
+            }
+            return ;
+        }
 
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecSignComp3 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecSignLeadingComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumDecSignTrailingComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-
-	void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp0Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
 
-	void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp3 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp3Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp4 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntComp4Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
 
-	void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntSignComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntSignComp0Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntSignComp3 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefFPacNumIntSignComp3 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getUnsignedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
-
-	void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getUnsignedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntSignComp3Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
 
+    void write(VarBufferPos buffer, VarDefNumIntSignComp4 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
+    void write(VarBufferPos buffer, VarDefNumIntSignComp4Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
-	{
-		Dec dec = varSource.getAsDecodedDec(bufferSource);
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefNumIntSignLeadingComp0Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0 varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefNumIntSignTrailingComp0Long varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefEditInMap varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefEditInMapRedefine varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefEditInMapRedefineNumEdited varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getUnsignedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
+
+    void write(VarBufferPos buffer, VarDefEditInMapRedefineNum varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getUnsignedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
 
 
-//	public void initialize(VarBufferPos buffer)
-//	{
-//		Dec dec = new Dec(0L, "");
-//		writeSignDecComp0(buffer, dec);
-//	}
 
-	public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
-	{
-		Dec dec = new Dec(0L, "");
-		writeSignDecComp0(buffer, nOffset, dec);
-		if(initializeCache != null)
-			initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
-	}
-
-	void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
-	{
-	}
-
-	void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, double dValue)
-	{
-	}
-
-
-//	void initialize(VarBufferPos buffer, String cs)
-//	{
-//	}
-
-	void initializeAtOffset(VarBufferPos buffer, int nOffset, String cs)
-	{
-	}
-
-//	void initialize(VarBufferPos buffer, int n)
-//	{
-//		Dec dec = new Dec(n, "");
-//		writeSignDecComp0(buffer, dec);
-//	}
-
-	void initializeAtOffset(VarBufferPos buffer, int nOffset, int n)
-	{
-		Dec dec = new Dec(n, "");
-		writeSignDecComp0(buffer, nOffset, dec);
-	}
-
-	void initializeEdited(VarBufferPos buffer, String cs)
-	{
-	}
-
-	void initializeEdited(VarBufferPos buffer, int n)
-	{
-	}
+    void write(VarBufferPos buffer, VarDefNumEdited varSource, VarBufferPos bufferSource)
+    {
+        Dec dec = varSource.getAsDecodedDec(bufferSource);
+        writeSignDecComp0(buffer, dec);
+    }
 
 
 
-	private int writeSignDecComp0(VarBufferPos buffer, Dec decValue)
-	{
-		return writeSignDecComp0(buffer, 0, decValue);
-	}
+//  public void initialize(VarBufferPos buffer)
+//  {
+//      Dec dec = new Dec(0L, "");
+//      writeSignDecComp0(buffer, dec);
+//  }
 
-	private int writeSignDecComp0(VarBufferPos buffer, int nOffset, Dec decValue)
-	{
-		int nPos = internalWriteDecComp0(buffer, nOffset, decValue, nNbDigitInteger, nNbDigitDecimal);
-		boolean ispositive = true;
-		if(decValue.isNegative())
-			ispositive = false;
-		internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
-		return nPos;
-	}
+    public void initializeAtOffset(VarBufferPos buffer, int nOffset, InitializeCache initializeCache)
+    {
+        Dec dec = new Dec(0L, "");
+        writeSignDecComp0(buffer, nOffset, dec);
+        if(initializeCache != null)
+            initializeCache.addItem(buffer, nOffset, getSingleItemRequiredStorageSize());
+    }
 
-//	private Dec readSignedDecComp0(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal)
-//	{
-//		if(nNbDigitDecimal == 0)
-//		{
-//			long lInt = internalReadSignedIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-//			Dec dec = new Dec(lInt, "");
-//			return dec;
-//		}
-//		else
-//		{
-//			long lInt = RWNumIntComp0.internalReadIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+    void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, int nValue)
+    {
+    }
+
+    void initializeEditedAtOffset(VarBufferPos buffer, int nOffset, double dValue)
+    {
+    }
+
+
+//  void initialize(VarBufferPos buffer, String cs)
+//  {
+//  }
+
+    void initializeAtOffset(VarBufferPos buffer, int nOffset, String cs)
+    {
+    }
+
+//  void initialize(VarBufferPos buffer, int n)
+//  {
+//      Dec dec = new Dec(n, "");
+//      writeSignDecComp0(buffer, dec);
+//  }
+
+    void initializeAtOffset(VarBufferPos buffer, int nOffset, int n)
+    {
+        Dec dec = new Dec(n, "");
+        writeSignDecComp0(buffer, nOffset, dec);
+    }
+
+    void initializeEdited(VarBufferPos buffer, String cs)
+    {
+    }
+
+    void initializeEdited(VarBufferPos buffer, int n)
+    {
+    }
+
+
+
+    private int writeSignDecComp0(VarBufferPos buffer, Dec decValue)
+    {
+        return writeSignDecComp0(buffer, 0, decValue);
+    }
+
+    private int writeSignDecComp0(VarBufferPos buffer, int nOffset, Dec decValue)
+    {
+        int nPos = internalWriteDecComp0(buffer, nOffset, decValue, nNbDigitInteger, nNbDigitDecimal);
+        boolean ispositive = true;
+        if(decValue.isNegative())
+            ispositive = false;
+        internalWriteEmbeddedComp0Sign(buffer, nOffset, ispositive);
+        return nPos;
+    }
+
+//  private Dec readSignedDecComp0(VarBufferPos buffer, int nNbDigitInteger, int nNbDigitDecimal)
+//  {
+//      if(nNbDigitDecimal == 0)
+//      {
+//          long lInt = internalReadSignedIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+//          Dec dec = new Dec(lInt, "");
+//          return dec;
+//      }
+//      else
+//      {
+//          long lInt = RWNumIntComp0.internalReadIntComp0AsLong(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
 // String csDec = internalReadSignedIntComp0AsString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
-//			if(csDec.length() >= 1 && csDec.charAt(0) == '-')
-//			{
-//				lInt = -lInt;
-//				csDec = csDec.substring(1);
-//			}
+//          if(csDec.length() >= 1 && csDec.charAt(0) == '-')
+//          {
+//              lInt = -lInt;
+//              csDec = csDec.substring(1);
+//          }
 //
-////			int nDec = internalReadSignedIntComp0(buffer, nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
-////			if(nDec < 0)
-////			{
-////				nInt = -nInt;
-////				nDec = -nDec;
-////			}
+////            int nDec = internalReadSignedIntComp0(buffer, nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+////            if(nDec < 0)
+////            {
+////                nInt = -nInt;
+////                nDec = -nDec;
+////            }
 //
-//			Dec dec = new Dec(lInt, csDec);
-//			return dec;
-//		}
-//	}
+//          Dec dec = new Dec(lInt, csDec);
+//          return dec;
+//      }
+//  }
 //
-	void write(VarBufferPos buffer, CobolConstantZero cst)
-	{
-		Dec dec = new Dec(0L, "");
-		writeSignDecComp0(buffer, dec);
-	}
+    void write(VarBufferPos buffer, CobolConstantZero cst)
+    {
+        Dec dec = new Dec(0L, "");
+        writeSignDecComp0(buffer, dec);
+    }
 
-	void write(VarBufferPos buffer, CobolConstantSpace cst)
-	{
-		// Do nothing into numeric vars
-	}
+    void write(VarBufferPos buffer, CobolConstantSpace cst)
+    {
+        // Do nothing into numeric vars
+    }
 
-	void write(VarBufferPos buffer, CobolConstantLowValue cst)
-	{
-		// Do nothing into numeric vars
-	}
+    void write(VarBufferPos buffer, CobolConstantLowValue cst)
+    {
+        // Do nothing into numeric vars
+    }
 
-	void write(VarBufferPos buffer, CobolConstantHighValue cst)
-	{
-		// Do nothing into numeric vars
-	}
+    void write(VarBufferPos buffer, CobolConstantHighValue cst)
+    {
+        // Do nothing into numeric vars
+    }
 
-	void write(VarBufferPos buffer, CobolConstantZero cst, int nOffsetPosition, int nNbChar)
-	{
-		writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
-	}
+    void write(VarBufferPos buffer, CobolConstantZero cst, int nOffsetPosition, int nNbChar)
+    {
+        writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
+    }
 
-	void write(VarBufferPos buffer, CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
-	{
-		writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
-	}
+    void write(VarBufferPos buffer, CobolConstantSpace cst, int nOffsetPosition, int nNbChar)
+    {
+        writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
+    }
 
-	void write(VarBufferPos buffer, CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
-	{
-		writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
-	}
+    void write(VarBufferPos buffer, CobolConstantLowValue cst, int nOffsetPosition, int nNbChar)
+    {
+        writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
+    }
 
-	void write(VarBufferPos buffer, CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
-	{
-		writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
-	}
+    void write(VarBufferPos buffer, CobolConstantHighValue cst, int nOffsetPosition, int nNbChar)
+    {
+        writeRepeatingCharUpToEnd(buffer, cst.getValue(), nOffsetPosition, nNbChar);
+    }
 
-	void write(VarBufferPos buffer, String csValue, int nOffsetPosition, int nNbChar)
-	{
-		internalWriteSubstringComp0(buffer, csValue, nOffsetPosition, nNbChar);
-	}
-
-
-	int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
-	{
-		return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp3 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp4 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp4 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
-	{
-		VarDefNumDecSignComp0 varDefSourceSignComp0 = (VarDefNumDecSignComp0)varDefBuffer2;
-		if(nNbDigitDecimal == varDefSourceSignComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignComp0.nNbDigitInteger)
-		{
-			// Same quantity of digits before and after dot
-			int nPosition1 = buffer1.nAbsolutePosition;
-			int nPosition2 = buffer2.nAbsolutePosition;
-			for(int n=0; n<nTotalSize; n++)
-			{
-				if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
-					return false;
-			}
-			return true;
-		}
-
-		Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
-		Dec dec1 = getAsDecodedDec(buffer1);
-		if(dec1.compare(dec2) == 0)
-			return true;
-		return false;
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp3 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(dec1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
+    void write(VarBufferPos buffer, String csValue, int nOffsetPosition, int nNbChar)
+    {
+        internalWriteSubstringComp0(buffer, csValue, nOffsetPosition, nNbChar);
+    }
 
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos bufferSource, VarAndEdit var2)
+    {
+        return var2.varDef.compare(mode, var2.bufferPos, this, bufferSource);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp3 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecComp4 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp4 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    public boolean isEqualWithSameTypeTo(VarBufferPos buffer1, VarDefBuffer varDefBuffer2, VarBufferPos buffer2)
+    {
+        VarDefNumDecSignComp0 varDefSourceSignComp0 = (VarDefNumDecSignComp0)varDefBuffer2;
+        if(nNbDigitDecimal == varDefSourceSignComp0.nNbDigitDecimal && nNbDigitInteger == varDefSourceSignComp0.nNbDigitInteger)
+        {
+            // Same quantity of digits before and after dot
+            int nPosition1 = buffer1.nAbsolutePosition;
+            int nPosition2 = buffer2.nAbsolutePosition;
+            for(int n=0; n<nTotalSize; n++)
+            {
+                if(buffer1.acBuffer[nPosition1++] != buffer2.acBuffer[nPosition2++])
+                    return false;
+            }
+            return true;
+        }
+
+        Dec dec2 = varDefBuffer2.getAsDecodedDec(buffer2);
+        Dec dec1 = getAsDecodedDec(buffer1);
+        if(dec1.compare(dec2) == 0)
+            return true;
+        return false;
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignComp3 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumDecSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        Dec dec1 = varDefNum1.getAsDecodedDec(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(dec1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp0Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedLong(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp3Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedLong(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
 
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0Long varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
-
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedLong(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntComp4Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedLong(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
 
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp0Long varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
-	{
-		int n1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0Long varDefNum1, VarBufferPos buffer1)
-	{
-		long l1 = varDefNum1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(l1, dec2);
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefX varDef1, VarBufferPos buffer1)
-	{
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacNumIntSignComp3 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp3Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedLong(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignComp4Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedLong(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
+
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignLeadingComp0Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0 varDefNum1, VarBufferPos buffer1)
+    {
+        int n1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumIntSignTrailingComp0Long varDefNum1, VarBufferPos buffer1)
+    {
+        long l1 = varDefNum1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(l1, dec2);
+    }
+
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefX varDef1, VarBufferPos buffer1)
+    {
         // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
         // these two items, you receive a diagnostic message at compile time.
-		// more relax here:
-		int n1 = varDef1.getUnsignedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+        // more relax here:
+        int n1 = varDef1.getUnsignedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacAlphaNum varDef1, VarBufferPos buffer1)
-	{
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacAlphaNum varDef1, VarBufferPos buffer1)
+    {
         // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
         // these two items, you receive a diagnostic message at compile time.
-		// more relax here:
-		int n1 = varDef1.getUnsignedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+        // more relax here:
+        int n1 = varDef1.getUnsignedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacRaw varDef1, VarBufferPos buffer1)
-	{
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefFPacRaw varDef1, VarBufferPos buffer1)
+    {
         // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
         // these two items, you receive a diagnostic message at compile time.
-		// more relax here:
-		int n1 = varDef1.getUnsignedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+        // more relax here:
+        int n1 = varDef1.getUnsignedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefG varDef1, VarBufferPos buffer1)
-	{
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefG varDef1, VarBufferPos buffer1)
+    {
         // The compiler does not accept a comparison between a noninteger numeric operand and a nonnumeric operand. If you try to compare
         // these two items, you receive a diagnostic message at compile time.
-		// more relax here:
-		int n1 = varDef1.getAsDecodedInt(buffer1);
-		Dec dec2 = getAsDecodedDec(buffer2);
-		return internalCompare(n1, dec2);
-	}
+        // more relax here:
+        int n1 = varDef1.getAsDecodedInt(buffer1);
+        Dec dec2 = getAsDecodedDec(buffer2);
+        return internalCompare(n1, dec2);
+    }
 
-	int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumEdited varDef1, VarBufferPos buffer1)
-	{
-		assertIfFalse(false);
-		// TODO how to compare with num edited ?
-		return 0;
-	}
+    int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumEdited varDef1, VarBufferPos buffer1)
+    {
+        assertIfFalse(false);
+        // TODO how to compare with num edited ?
+        return 0;
+    }
 
-	public String digits(VarBufferPos buffer)
-	{
-		CStr csInt = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
-		CStr csDec = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
+    public String digits(VarBufferPos buffer)
+    {
+        CStr csInt = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition, nNbDigitInteger);
+        CStr csDec = internalReadSignedIntComp0AsUnsignedString(buffer, buffer.nAbsolutePosition+nNbDigitInteger, nNbDigitDecimal);
 
-		CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
-		cs.resetMinimalSize(csInt.length() + csDec.length());
-		cs.append(csInt);
-		cs.append(csDec);
-		return cs.getAsString();
-	}
+        CStr cs = TempCacheLocator.getTLSTempCache().getReusableCStr();
+        cs.resetMinimalSize(csInt.length() + csDec.length());
+        cs.append(csInt);
+        cs.append(csDec);
+        return cs.getAsString();
+    }
 
-	public int getNbDigitDecimal()
-	{
-		return nNbDigitDecimal;
-	}
+    public int getNbDigitDecimal()
+    {
+        return nNbDigitDecimal;
+    }
 
-	boolean isConvertibleInEbcdic()
-	{
-		return true;
-	}
+    boolean isConvertibleInEbcdic()
+    {
+        return true;
+    }
 
-	public int getTypeId()
-	{
-		return VarTypeId.VarDefNumDecSignComp0;
-	}
+    public int getTypeId()
+    {
+        return VarTypeId.VarDefNumDecSignComp0;
+    }
 
-	public boolean isEbcdicAsciiConvertible()
-	{
-		return true;
-	}
+    public boolean isEbcdicAsciiConvertible()
+    {
+        return true;
+    }
 
-	public int getTrailingLengthToNotconvert()
-	{
-		return 1;	// Do not convert last char
-	}
+    public int getTrailingLengthToNotconvert()
+    {
+        return 1;   // Do not convert last char
+    }
 
-	public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
-	{
-		return VarTypeId.segmentKeyTypeFactoryComp0;
-	}
+    public BtreeSegmentKeyTypeFactory getSegmentKeyTypeFactory()
+    {
+        return VarTypeId.segmentKeyTypeFactoryComp0;
+    }
 
-	protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
-	{
-		VarDefNumDecSignComp0 varDefCopy = (VarDefNumDecSignComp0)varDefBufferCopySingleItem;
-		varDefCopy.nNbDigitInteger = nNbDigitInteger;
-		varDefCopy.nNbDigitDecimal = nNbDigitDecimal;
-	}
+    protected void adjustCustomProperty(VarDefBuffer varDefBufferCopySingleItem)
+    {
+        VarDefNumDecSignComp0 varDefCopy = (VarDefNumDecSignComp0)varDefBufferCopySingleItem;
+        varDefCopy.nNbDigitInteger = nNbDigitInteger;
+        varDefCopy.nNbDigitDecimal = nNbDigitDecimal;
+    }
 
-	protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
-	{
-		VarDefNumDecSignComp0 varDefCopy = (VarDefNumDecSignComp0)varDefBufferCopySingleItem;
-		varDefCopy.nNbDigitInteger = 1;
-		varDefCopy.nNbDigitDecimal = 0;
-	}
+    protected void adjustCustomPropertyForCharGetAt(VarDefBuffer varDefBufferCopySingleItem)
+    {
+        VarDefNumDecSignComp0 varDefCopy = (VarDefNumDecSignComp0)varDefBufferCopySingleItem;
+        varDefCopy.nNbDigitInteger = 1;
+        varDefCopy.nNbDigitDecimal = 0;
+    }
 
-	boolean isNumeric(VarBufferPos buffer)
-	{
-		CStr cs = buffer.getBodyCStr(this);
-		return cs.isOnlyNumericComp0(true, true);
-	}
+    boolean isNumeric(VarBufferPos buffer)
+    {
+        CStr cs = buffer.getBodyCStr(this);
+        return cs.isOnlyNumericComp0(true, true);
+    }
 
-	private int nNbDigitInteger;
-	private int nNbDigitDecimal;
+    private int nNbDigitInteger;
+    private int nNbDigitDecimal;
 }

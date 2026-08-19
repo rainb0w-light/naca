@@ -17,26 +17,26 @@ import nacaLib.varEx.*;
 
 public class Copy
 {
-	public Copy(BaseProgram program, CopyReplacing copyReplacing)
-	{
-		declare = new VarDeclaration(program, copyReplacing);
-		String csCopyName = toString();
-		int n = csCopyName.indexOf('@');
-		if(n > 0)
-			csCopyName = csCopyName.substring(0, n);
-		if(program != null)
-		{
-			String csProgramOwnerName = program.getSimpleName();
-			CopyManager.register(csCopyName, csProgramOwnerName);
-		}
-		JmxGeneralStat.incCopyClassLoaded(1);
-	}
+    public Copy(BaseProgram program, CopyReplacing copyReplacing)
+    {
+        declare = new VarDeclaration(program, copyReplacing);
+        String csCopyName = toString();
+        int n = csCopyName.indexOf('@');
+        if(n > 0)
+            csCopyName = csCopyName.substring(0, n);
+        if(program != null)
+        {
+            String csProgramOwnerName = program.getSimpleName();
+            CopyManager.register(csCopyName, csProgramOwnerName);
+        }
+        JmxGeneralStat.incCopyClassLoaded(1);
+    }
 
-	public void finalize()
-	{
-		//Log.logNormal("Copy finalized: " +toString());
-		JmxGeneralStat.incCopyClassLoaded(-1);
-	}
+    public void finalize()
+    {
+        //Log.logNormal("Copy finalized: " +toString());
+        JmxGeneralStat.incCopyClassLoaded(-1);
+    }
 
-	protected VarDeclaration declare = null;
+    protected VarDeclaration declare = null;
 }

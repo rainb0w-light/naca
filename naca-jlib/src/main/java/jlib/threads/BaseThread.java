@@ -12,14 +12,14 @@ package jlib.threads;
  */
 public abstract class BaseThread extends Thread
 {
-	public BaseThread()
-	{
-	}
+    public BaseThread()
+    {
+    }
 
-	public abstract void run();
+    public abstract void run();
 
-	public void requestStop()
-	{
-		interrupt();
-	}
+    public void requestStop()
+    {
+        interrupt();
+    }
 }

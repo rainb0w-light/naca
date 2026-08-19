@@ -16,39 +16,43 @@ import utils.CObjectCatalog;
  */
 public class CEntityString extends CDataEntity
 {
-	protected char[] carrValue = {} ;
-	public CEntityString(CObjectCatalog cat, char[] val)
-	{
-		super(0, "", cat);
-		carrValue= val ;
-	}
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.STRING;
-	}
-	public String getLiteralValue()
-	{
-		return new String(carrValue);
-	}
-	public boolean HasAccessors()
-	{
-		return false;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public boolean isValNeeded()
-	{
-		return false;
-	}
-	public String GetConstantValue()
-	{
-		return new String(carrValue);
-	}
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		return null ;
-	}
+    protected char[] carrValue = {} ;
+    public CEntityString(CObjectCatalog cat, char[] val)
+    {
+        super(0, "", cat);
+        carrValue= val ;
+    }
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.STRING;
+    }
+    public String getLiteralValue()
+    {
+        return new String(carrValue);
+    }
+    public boolean HasAccessors()
+    {
+        return false;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public boolean isValNeeded()
+    {
+        return false;
+    }
+    public String GetConstantValue()
+    {
+        return new String(carrValue);
+    }
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        return null ;
+    }
 
 }

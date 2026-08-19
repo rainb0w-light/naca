@@ -30,173 +30,173 @@ import utils.FPacTranscoder.notifs.NotifRegisterOutputFile;
 public class CFPacOutputFile extends CFPacElement
 {
 
-	public CFPacOutputFile(int line)
-	{
-		super(line);
-	}
+    public CFPacOutputFile(int line)
+    {
+        super(line);
+    }
 
-	protected String csFileId = "";
-	protected boolean isvariableFile = false;
-	private CTerminal r;
-	private boolean ispFFile = false ;
-	private boolean iscDFile = false ;
+    protected String csFileId = "";
+    protected boolean isvariableFile = false;
+    private CTerminal r;
+    private boolean ispFFile = false ;
+    private boolean iscDFile = false ;
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() == CFPacKeywordList.OPF)
-			csFileId = "" ;
-		else if (tok.GetKeyword().name.startsWith("OPF"))
-		{
-			csFileId = tok.GetKeyword().name.substring(3);
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
-			return false ;
-		}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() == CFPacKeywordList.OPF)
+            csFileId = "" ;
+        else if (tok.GetKeyword().name.startsWith("OPF"))
+        {
+            csFileId = tok.GetKeyword().name.substring(3);
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString()) ;
+            return false ;
+        }
 
-		tok = GetNext() ;
-		if  (tok.GetType() != CTokenType.EQUALS)
-		{
-			return false ;
-		}
+        tok = GetNext() ;
+        if  (tok.GetType() != CTokenType.EQUALS)
+        {
+            return false ;
+        }
 
-		tok = GetNext() ;
-		if (tok.GetKeyword() == CFPacKeywordList.SQ)
-		{
-			isvariableFile = false ;
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.MINUS)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() == CFPacKeywordList.VAR)
-				{
-					tok =GetNext() ;
-					isvariableFile = true ;
-				}
-				else
-				{
-					Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ-VAR") ;
-				}
-			}
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.PR)
-		{
-			ispFFile = true ;
-			tok = GetNext() ;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.CD)
-		{
-			iscDFile = true ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ[-VAR]") ;
-			return false ;
-		}
+        tok = GetNext() ;
+        if (tok.GetKeyword() == CFPacKeywordList.SQ)
+        {
+            isvariableFile = false ;
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.MINUS)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() == CFPacKeywordList.VAR)
+                {
+                    tok =GetNext() ;
+                    isvariableFile = true ;
+                }
+                else
+                {
+                    Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ-VAR") ;
+                }
+            }
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.PR)
+        {
+            ispFFile = true ;
+            tok = GetNext() ;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.CD)
+        {
+            iscDFile = true ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + ";Expecting : SQ[-VAR]") ;
+            return false ;
+        }
 
-		while (tok.GetType() == CTokenType.COMMA)
-		{
-			tok = GetNext() ;
-			if (tok.GetKeyword() == CFPacKeywordList.CLR)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.EQUALS)
-				{
-					tok = GetNext() ;
-					r = ReadTerminal() ;
-				}
-				else
-				{
-					Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + " after CLR") ;
-					return false ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.NUMBER)
-			{
-				numbers.add(tok.GetValue()) ;
-				tok = GetNext();
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + " after SQ") ;
-				return false ;
-			}
-		}
-		return true ;
+        while (tok.GetType() == CTokenType.COMMA)
+        {
+            tok = GetNext() ;
+            if (tok.GetKeyword() == CFPacKeywordList.CLR)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.EQUALS)
+                {
+                    tok = GetNext() ;
+                    r = ReadTerminal() ;
+                }
+                else
+                {
+                    Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + " after CLR") ;
+                    return false ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.NUMBER)
+            {
+                numbers.add(tok.GetValue()) ;
+                tok = GetNext();
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Unexpecting token : "+tok.toString() + " after SQ") ;
+                return false ;
+            }
+        }
+        return true ;
 
-	}
+    }
 
-	protected Vector<String> numbers = new Vector<String>() ;
+    protected Vector<String> numbers = new Vector<String>() ;
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (ispFFile)
-		{
-			throw new NacaTransAssertException(
-				"FPac PR output files have no defined runtime semantics") ;
-		}
-		if (iscDFile)
-		{
-			throw new NacaTransAssertException(
-				"FPac CD output files have no defined runtime semantics") ;
-		}
-		String csDescName = "OPF"+csFileId ;
-		String csDescAlias = "O"+csFileId ;
-		if (csFileId.equals(""))
-		{
-			csDescName = "OPF";
-			csDescAlias = "O0" ;
-		}
-		CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
-		factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
-		factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (ispFFile)
+        {
+            throw new NacaTransAssertException(
+                "FPac PR output files have no defined runtime semantics") ;
+        }
+        if (iscDFile)
+        {
+            throw new NacaTransAssertException(
+                "FPac CD output files have no defined runtime semantics") ;
+        }
+        String csDescName = "OPF"+csFileId ;
+        String csDescAlias = "O"+csFileId ;
+        if (csFileId.equals(""))
+        {
+            csDescName = "OPF";
+            csDescAlias = "O0" ;
+        }
+        CEntityFileDescriptor att = factory.NewEntityFileDescriptor(getLine(), csDescName) ;
+        factory.programCatalog.RegisterFileDescriptor(csDescAlias, att) ;
+        factory.programCatalog.RegisterFileDescriptor(csDescName, att) ;
 
-		att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
-		att.setRecordSizeVariable(isvariableFile) ;
+        att.setFileAccessType(CEntityOpenFile.OpenMode.OUTPUT) ;
+        att.setRecordSizeVariable(isvariableFile) ;
 
-		if (r != null)
-		{
-			CDataEntity e = r.GetDataEntity(getLine(), factory) ;
-			if (e != null)
-			{
-				att.setOutputBufferInitialValue(e) ;
-			}
-		}
+        if (r != null)
+        {
+            CDataEntity e = r.GetDataEntity(getLine(), factory) ;
+            if (e != null)
+            {
+                att.setOutputBufferInitialValue(e) ;
+            }
+        }
 
-		CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
-		NotifRegisterOutputFile notif = new NotifRegisterOutputFile() ;
-		notif.id = csDescAlias ;
-		notif.fileBuffer = buff ;
-		factory.programCatalog.SendNotifRequest(notif) ;
+        CEntityFileBuffer buff = factory.NewEntityFileBuffer(csDescAlias, att) ;
+        NotifRegisterOutputFile notif = new NotifRegisterOutputFile() ;
+        notif.id = csDescAlias ;
+        notif.fileBuffer = buff ;
+        factory.programCatalog.SendNotifRequest(notif) ;
 
-		parent.AddChild(att) ;
-		return att ;
-	}
+        parent.AddChild(att) ;
+        return att ;
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("OutputFile") ;
-		eAdd.setAttribute("FileId", csFileId) ;
-		eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
-		if (r != null)
-		{
-			Element eCLR = root.createElement("CLR") ;
-			r.ExportTo(eCLR, root) ;
-			eAdd.appendChild(eCLR) ;
-		}
-		for (String cs: numbers)
-		{
-			Element e = root.createElement("Number") ;
-			eAdd.appendChild(e) ;
-			e.setAttribute("Value", cs) ;
-		}
-		return eAdd ;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("OutputFile") ;
+        eAdd.setAttribute("FileId", csFileId) ;
+        eAdd.setAttribute("Var", String.valueOf(isvariableFile)) ;
+        if (r != null)
+        {
+            Element eCLR = root.createElement("CLR") ;
+            r.ExportTo(eCLR, root) ;
+            eAdd.appendChild(eCLR) ;
+        }
+        for (String cs: numbers)
+        {
+            Element e = root.createElement("Number") ;
+            eAdd.appendChild(e) ;
+            e.setAttribute("Value", cs) ;
+        }
+        return eAdd ;
+    }
 
 }

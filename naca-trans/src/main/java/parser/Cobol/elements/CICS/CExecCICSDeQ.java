@@ -30,105 +30,105 @@ import utils.Transcoder;
 public class CExecCICSDeQ extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSDeQ(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSDeQ(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (resource == null)
-		{
-			DiagnosticSink.recordUnsupported("cics.deq.missing-resource",
-				"embedded-cics", getLine(), "EXEC CICS DEQ requires RESOURCE");
-			return null;
-		}
-		CEntityCICSDeQ eCICS = factory.NewEntityCICSDeQ(getLine()) ;
-		parent.AddChild(eCICS);
-		CDataEntity eRes = resource.GetDataReference(getLine(), factory) ;
-		CDataEntity eLen = null ;
-		if (lengh != null)
-		{
-			eLen = lengh.GetDataEntity(getLine(), factory);
-		}
-		eCICS.SetResource(eRes, eLen);
-		return eCICS ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (resource == null)
+        {
+            DiagnosticSink.recordUnsupported("cics.deq.missing-resource",
+                "embedded-cics", getLine(), "EXEC CICS DEQ requires RESOURCE");
+            return null;
+        }
+        CEntityCICSDeQ eCICS = factory.NewEntityCICSDeQ(getLine()) ;
+        parent.AddChild(eCICS);
+        CDataEntity eRes = resource.GetDataReference(getLine(), factory) ;
+        CDataEntity eLen = null ;
+        if (lengh != null)
+        {
+            eLen = lengh.GetDataEntity(getLine(), factory);
+        }
+        eCICS.SetResource(eRes, eLen);
+        return eCICS ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.DEQ)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.DEQ)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.RESOURCE)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.LEFT_BRACKET)
-			{
-				tok = GetNext() ;
-				resource = ReadIdentifier() ;
-				tok = GetCurrentToken() ;
-				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-				{
-					tok = GetNext() ;
-				}
-			}
-		}
+        if (tok.GetKeyword() == CCobolKeywordList.RESOURCE)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.LEFT_BRACKET)
+            {
+                tok = GetNext() ;
+                resource = ReadIdentifier() ;
+                tok = GetCurrentToken() ;
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                {
+                    tok = GetNext() ;
+                }
+            }
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.LEFT_BRACKET)
-			{
-				tok = GetNext() ;
-				lengh = ReadTerminal() ;
-				tok = GetCurrentToken() ;
-				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-				{
-					tok = GetNext() ;
-				}
-			}
-		}
+        if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.LEFT_BRACKET)
+            {
+                tok = GetNext() ;
+                lengh = ReadTerminal() ;
+                tok = GetCurrentToken() ;
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                {
+                    tok = GetNext() ;
+                }
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS DEQ");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS DEQ");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("ExecCICSDeQ") ;
-		Element eRes = root.createElement("Resource") ;
-		e.appendChild(eRes);
-		resource.ExportTo(eRes, root);
-		if (lengh != null)
-		{
-			Element eLen = root.createElement("Length") ;
-			e.appendChild(eLen);
-			lengh.ExportTo(eLen, root);
-		}
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("ExecCICSDeQ") ;
+        Element eRes = root.createElement("Resource") ;
+        e.appendChild(eRes);
+        resource.ExportTo(eRes, root);
+        if (lengh != null)
+        {
+            Element eLen = root.createElement("Length") ;
+            e.appendChild(eLen);
+            lengh.ExportTo(eLen, root);
+        }
+        return e;
+    }
 
-	protected CIdentifier resource = null ;
-	protected CTerminal lengh = null ;
+    protected CIdentifier resource = null ;
+    protected CTerminal lengh = null ;
 }

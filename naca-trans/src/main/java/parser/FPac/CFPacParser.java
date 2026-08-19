@@ -13,13 +13,13 @@ import parser.FPac.elements.CFPacScript;
 public class CFPacParser extends CParser<CFPacScript>
 {
 
-	@Override
-	protected boolean DoParsing(CTokenList lstTokens)
-	{
-		CFPacScript p = new CFPacScript(0) ;
-		eRoot = p ;
-		boolean isparsed = p.Parse(lstTokens, commentContainer) ;
-		return isparsed;
-	}
+    @Override
+    protected boolean DoParsing(CTokenList lstTokens)
+    {
+        CFPacScript p = new CFPacScript(0) ;
+        eRoot = p ;
+        boolean isparsed = p.Parse(lstTokens, commentContainer) ;
+        return isparsed;
+    }
 
 }

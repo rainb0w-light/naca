@@ -20,9 +20,9 @@ public class LogCenterLoader
 /**
  * The default class constructor, to instantiate a new {@link LogCenterLoader}.
  */
-	public LogCenterLoader()
-	{
-	}
+    public LogCenterLoader()
+    {
+    }
 
 /**
  * Reads a <i>LogCenter</i> tag, and instantiates, initializes and registers
@@ -33,155 +33,155 @@ public class LogCenterLoader
  * @return <i>true</i> if the <i>LogCenter</i> tag has been successfully
  *     processed.
  */
-	boolean loadDefinition(Tag tagLogCenter)
-	{
-		csChannel = tagLogCenter.getVal("Channel");
-		isenable = tagLogCenter.getValAsBoolean("Enable");
+    boolean loadDefinition(Tag tagLogCenter)
+    {
+        csChannel = tagLogCenter.getVal("Channel");
+        isenable = tagLogCenter.getValAsBoolean("Enable");
 
-		nNbRequestBufferSize = tagLogCenter.getValAsInt("NbRequestBufferSize");
-		isasynchronous = tagLogCenter.getValAsBoolean("Asynchronous");
+        nNbRequestBufferSize = tagLogCenter.getValAsInt("NbRequestBufferSize");
+        isasynchronous = tagLogCenter.getValAsBoolean("Asynchronous");
 
-		String csLevel = tagLogCenter.getVal("Level");
-		String csFlow = tagLogCenter.getVal("Flow");
+        String csLevel = tagLogCenter.getVal("Level");
+        String csFlow = tagLogCenter.getVal("Flow");
 
-		logLevel  = LogLevel.getLevel(csLevel);
-		logFlow = LogFlow.getNamedFlow(csFlow);
+        logLevel  = LogLevel.getLevel(csLevel);
+        logFlow = LogFlow.getNamedFlow(csFlow);
 
-		LogCenter logCenter = createLogCenter(tagLogCenter);
-		if(logCenter != null)
-		{
-			Log.registerLogCenter(logCenter);
-			return true;
-		}
+        LogCenter logCenter = createLogCenter(tagLogCenter);
+        if(logCenter != null)
+        {
+            Log.registerLogCenter(logCenter);
+            return true;
+        }
 
-		return false;
-	}
-	boolean saveDefinition(Tag tagLogCenter)
-	{
-		tagLogCenter.addVal("Name", csName);
-		tagLogCenter.addVal("NbRequestBufferSize", nNbRequestBufferSize);
-		tagLogCenter.addVal("Asynchronous", isasynchronous);
-		tagLogCenter.addVal("Enable", isenable);
-		tagLogCenter.addVal("Mode", csMode);
-		tagLogCenter.addVal("Channel", csChannel);
-		tagLogCenter.addVal("Level", logLevel.getAsString());
-		tagLogCenter.addVal("Flow", LogFlow.getFlow(logFlow));
+        return false;
+    }
+    boolean saveDefinition(Tag tagLogCenter)
+    {
+        tagLogCenter.addVal("Name", csName);
+        tagLogCenter.addVal("NbRequestBufferSize", nNbRequestBufferSize);
+        tagLogCenter.addVal("Asynchronous", isasynchronous);
+        tagLogCenter.addVal("Enable", isenable);
+        tagLogCenter.addVal("Mode", csMode);
+        tagLogCenter.addVal("Channel", csChannel);
+        tagLogCenter.addVal("Level", logLevel.getAsString());
+        tagLogCenter.addVal("Flow", LogFlow.getFlow(logFlow));
 
-		return true;
-	}
+        return true;
+    }
 
 
-	private LogCenter createLogCenter(Tag tagLogCenter)
-	{
-		csName = tagLogCenter.getVal("Name");
-		csMode = tagLogCenter.getVal("Mode");
-		if(csMode.equalsIgnoreCase("FileST6"))
-		{
-			PatternLayoutST6 layout = new PatternLayoutST6();
-			LogCenterFile logCenter = new LogCenterFile(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("Console"))
-		{
-			LogCenterConsole logCenter = new LogCenterConsole(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			PatternLayoutConsole layout = new PatternLayoutConsole(logCenter.getFormat());
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("Db"))
-		{
-			PatternLayoutDb layout = new PatternLayoutDb();
-			LogCenterDb logCenter = new LogCenterDb(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("DbFlat"))
-		{
-			PatternLayoutDb layout = new PatternLayoutDb();
-			LogCenterDbFlat logCenter = new LogCenterDbFlat(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("FileRawLine"))
-		{
-			LogCenterFile logCenter = new LogCenterFile(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			PatternLayoutRawLine layout = new PatternLayoutRawLine(logCenter.getFormat());
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("FileSTCheck"))
-		{
-			PatternLayoutSTCheck layout = new PatternLayoutSTCheck();
-			LogCenterFile logCenter = new LogCenterFile(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("FileChunk"))
-		{
-			PatternLayoutFileChunk layout = new PatternLayoutFileChunk();
-			LogCenterFile logCenter = new LogCenterFile(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		else if(csMode.equalsIgnoreCase("PluginConsole"))
-		{
-			LogCenterPluginConsole logCenter = new LogCenterPluginConsole(this);
-			logCenter.loadSpecificsEntries(tagLogCenter);
-			PatternLayoutConsole layout = new PatternLayoutConsole(logCenter.getFormat());
-			logCenter.setPatternLayout(layout);
-			return logCenter;
-		}
-		return null;
-	}
+    private LogCenter createLogCenter(Tag tagLogCenter)
+    {
+        csName = tagLogCenter.getVal("Name");
+        csMode = tagLogCenter.getVal("Mode");
+        if(csMode.equalsIgnoreCase("FileST6"))
+        {
+            PatternLayoutST6 layout = new PatternLayoutST6();
+            LogCenterFile logCenter = new LogCenterFile(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("Console"))
+        {
+            LogCenterConsole logCenter = new LogCenterConsole(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            PatternLayoutConsole layout = new PatternLayoutConsole(logCenter.getFormat());
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("Db"))
+        {
+            PatternLayoutDb layout = new PatternLayoutDb();
+            LogCenterDb logCenter = new LogCenterDb(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("DbFlat"))
+        {
+            PatternLayoutDb layout = new PatternLayoutDb();
+            LogCenterDbFlat logCenter = new LogCenterDbFlat(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("FileRawLine"))
+        {
+            LogCenterFile logCenter = new LogCenterFile(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            PatternLayoutRawLine layout = new PatternLayoutRawLine(logCenter.getFormat());
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("FileSTCheck"))
+        {
+            PatternLayoutSTCheck layout = new PatternLayoutSTCheck();
+            LogCenterFile logCenter = new LogCenterFile(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("FileChunk"))
+        {
+            PatternLayoutFileChunk layout = new PatternLayoutFileChunk();
+            LogCenterFile logCenter = new LogCenterFile(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        else if(csMode.equalsIgnoreCase("PluginConsole"))
+        {
+            LogCenterPluginConsole logCenter = new LogCenterPluginConsole(this);
+            logCenter.loadSpecificsEntries(tagLogCenter);
+            PatternLayoutConsole layout = new PatternLayoutConsole(logCenter.getFormat());
+            logCenter.setPatternLayout(layout);
+            return logCenter;
+        }
+        return null;
+    }
 
-	public boolean isEnable()
-	{
-		return isenable;
-	}
+    public boolean isEnable()
+    {
+        return isenable;
+    }
 
-	public String getChannel()
-	{
-		return csChannel;
-	}
+    public String getChannel()
+    {
+        return csChannel;
+    }
 
-	public String getMode()
-	{
-		return csMode;
-	}
+    public String getMode()
+    {
+        return csMode;
+    }
 
-	public LogLevel getLogLevel()
-	{
-		return logLevel;
-	}
-	public LogFlow getFlow()
-	{
-		return logFlow;
-	}
+    public LogLevel getLogLevel()
+    {
+        return logLevel;
+    }
+    public LogFlow getFlow()
+    {
+        return logFlow;
+    }
 
-	public int getNbRequestBufferSize()
-	{
-		return nNbRequestBufferSize;
-	}
+    public int getNbRequestBufferSize()
+    {
+        return nNbRequestBufferSize;
+    }
 
-	public boolean getAsynchronous()
-	{
-		return isasynchronous;
-	}
+    public boolean getAsynchronous()
+    {
+        return isasynchronous;
+    }
 
-	protected boolean isenable = true;
-	protected int nNbRequestBufferSize = 0;
-	protected boolean isasynchronous = false;
-	protected String csChannel = null;
-	protected LogLevel logLevel = null;
-	protected String csName = "";
-	protected String csMode = "";
-	protected LogFlow logFlow = null;
+    protected boolean isenable = true;
+    protected int nNbRequestBufferSize = 0;
+    protected boolean isasynchronous = false;
+    protected String csChannel = null;
+    protected LogLevel logLevel = null;
+    protected String csName = "";
+    protected String csMode = "";
+    protected LogFlow logFlow = null;
 }

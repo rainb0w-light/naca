@@ -15,39 +15,39 @@ import java.util.regex.Pattern;
  */
 public class COriginalLisiting
 {
-	private static final Pattern nP = Pattern.compile("0x000A");
-	private static final Pattern rP = Pattern.compile("0x000D");
+    private static final Pattern nP = Pattern.compile("0x000A");
+    private static final Pattern rP = Pattern.compile("0x000D");
 
-	public void RegisterNewOriginalLine(String line)
-	{
-		lines.add(line) ;
-	}
-	public String GetOriginalLine(int n)
-	{
-		if (n>0 && n<= lines.size())
-		{
-			String cs = lines.get(n-1) ;
-			cs = nP.matcher(cs).replaceAll("\n");
-			cs = rP.matcher(cs).replaceAll("\r");
-			return cs ;
-		}
-		else
-		{
-			return null ;
-		}
-	}
-	protected Vector<String> lines = new Vector<String>();
+    public void RegisterNewOriginalLine(String line)
+    {
+        lines.add(line) ;
+    }
+    public String GetOriginalLine(int n)
+    {
+        if (n>0 && n<= lines.size())
+        {
+            String cs = lines.get(n-1) ;
+            cs = nP.matcher(cs).replaceAll("\n");
+            cs = rP.matcher(cs).replaceAll("\r");
+            return cs ;
+        }
+        else
+        {
+            return null ;
+        }
+    }
+    protected Vector<String> lines = new Vector<String>();
 
-	public void Clear()
-	{
-		lines.clear() ;
-	}
-	/**
-	 * @param csCurrentLine
-	 */
-	public void ReplaceCurrentOriginalLine(String csCurrentLine)
-	{
-		lines.set(lines.size()-1, csCurrentLine) ;
-	}
+    public void Clear()
+    {
+        lines.clear() ;
+    }
+    /**
+     * @param csCurrentLine
+     */
+    public void ReplaceCurrentOriginalLine(String csCurrentLine)
+    {
+        lines.set(lines.size()-1, csCurrentLine) ;
+    }
 
 }

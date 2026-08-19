@@ -17,97 +17,97 @@ import jlib.xml.*;
  */
 public class CRulesManager
 {
-	protected static CRulesManager ms_Instance = null ;
+    protected static CRulesManager ms_Instance = null ;
 
-	public CRulesManager()
-	{
-	}
-	public static CRulesManager getInstance()
-	{
-		if (ms_Instance == null)
-		{
-			ms_Instance = new CRulesManager() ;
-		}
-		return ms_Instance ;
-	}
+    public CRulesManager()
+    {
+    }
+    public static CRulesManager getInstance()
+    {
+        if (ms_Instance == null)
+        {
+            ms_Instance = new CRulesManager() ;
+        }
+        return ms_Instance ;
+    }
 
-	public void LoadRulesFile(String csFilePath)
-	{
-		LoadRulesFile(Tag.createFromFile(csFilePath));
-	}
+    public void LoadRulesFile(String csFilePath)
+    {
+        LoadRulesFile(Tag.createFromFile(csFilePath));
+    }
 
-	public void LoadRulesFile(Tag tag)
-	{
-		tagRules = tag;
-		LoadRules() ;
-	}
-	/**
-	 *
-	 */
-	private void LoadRules()
-	{
-		if (tagRules != null)
-		{
-			TagCursor cur = new TagCursor() ;
-			Tag tagCat = tagRules.getFirstChild(cur, "category") ;
-			while  (tagCat != null)
-			{
-				String id = tagCat.getVal("id");
-				if (id != null && !id.equals(""))
-				{
-					Vector<Tag> listrules = tagCat.getChilds("rule") ;
-					if (listrules.size()>0)
-					{
-						tabCategories.put(id, listrules);
-					}
-				}
-				tagCat = tagRules.getNextChild(cur) ;
-			}
+    public void LoadRulesFile(Tag tag)
+    {
+        tagRules = tag;
+        LoadRules() ;
+    }
+    /**
+     *
+     */
+    private void LoadRules()
+    {
+        if (tagRules != null)
+        {
+            TagCursor cur = new TagCursor() ;
+            Tag tagCat = tagRules.getFirstChild(cur, "category") ;
+            while  (tagCat != null)
+            {
+                String id = tagCat.getVal("id");
+                if (id != null && !id.equals(""))
+                {
+                    Vector<Tag> listrules = tagCat.getChilds("rule") ;
+                    if (listrules.size()>0)
+                    {
+                        tabCategories.put(id, listrules);
+                    }
+                }
+                tagCat = tagRules.getNextChild(cur) ;
+            }
 
-			cur = new TagCursor() ;
-			Tag tagRule = tagRules.getFirstChild(cur, "rule") ;
-			while  (tagRule != null)
-			{
-				String id = tagRule.getVal("id");
-				if (id != null && !id.equals(""))
-				{
-					Vector<Tag> listrules = new Vector<Tag>() ;
-					listrules.add(tagRule) ;
-					tabCategories.put(id, listrules);
-				}
-				tagRule = tagRules.getNextChild(cur) ;
-			}
-		}
+            cur = new TagCursor() ;
+            Tag tagRule = tagRules.getFirstChild(cur, "rule") ;
+            while  (tagRule != null)
+            {
+                String id = tagRule.getVal("id");
+                if (id != null && !id.equals(""))
+                {
+                    Vector<Tag> listrules = new Vector<Tag>() ;
+                    listrules.add(tagRule) ;
+                    tabCategories.put(id, listrules);
+                }
+                tagRule = tagRules.getNextChild(cur) ;
+            }
+        }
 
-	}
-	protected Tag tagRules = null ;
-	protected Hashtable<String, Vector<Tag>> tabCategories = new Hashtable<String, Vector<Tag>>() ;
+    }
+    protected Tag tagRules = null ;
+    protected Hashtable<String, Vector<Tag>> tabCategories = new Hashtable<String, Vector<Tag>>() ;
 
-	public int getNbRules(String category)
-	{
-		Vector<Tag> lst = tabCategories.get(category);
-		if (lst != null)
-		{
-			return lst.size() ;
-		}
-		return 0 ;
-	}
-	public Tag getRule(String category, int index)
-	{
-		Vector<Tag> lst = tabCategories.get(category);
-		if (lst != null && index < lst.size())
-		{
-			return lst.get(index) ;
-		}
-		return null ;
-	}
-	public Tag getRule(String category)
-	{
-		Vector<Tag> lst = tabCategories.get(category);
-		if (lst != null)
-		{
-			return lst.get(0) ;
-		}
-		return null ;
-	}
+    public int getNbRules(String category)
+    {
+        Vector<Tag> lst = tabCategories.get(category);
+        if (lst != null)
+        {
+            return lst.size() ;
+        }
+        return 0 ;
+    }
+    public Tag getRule(String category, int index)
+    {
+        Vector<Tag> lst = tabCategories.get(category);
+        if (lst != null && index < lst.size())
+        {
+            return lst.get(index) ;
+        }
+        return null ;
+    }
+    public Tag getRule(String category)
+    {
+        Vector<Tag> lst = tabCategories.get(category);
+        if (lst != null)
+        {
+            return lst.get(0) ;
+        }
+        return null ;
+    }
 }

@@ -14,79 +14,79 @@ import nacaLib.tempCache.*;
  */
 public class VarNumEdited extends Var
 {
-	VarNumEdited(DeclareTypeNumEdited declareTypeNumEdited)
-	{
-		super(declareTypeNumEdited);
-	}
+    VarNumEdited(DeclareTypeNumEdited declareTypeNumEdited)
+    {
+        super(declareTypeNumEdited);
+    }
 
-	protected VarNumEdited()
-	{
-		super();
-	}
+    protected VarNumEdited()
+    {
+        super();
+    }
 
-	protected String getAsLoggableString()
-	{
-		//return varDef.getRawStringIncludingHeader(bufferPos);
-		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
-		String cs = cstr.getAsString();
-		//cstr.resetManagerCache();
-		return cs;
-	}
+    protected String getAsLoggableString()
+    {
+        //return varDef.getRawStringIncludingHeader(bufferPos);
+        CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
+        String cs = cstr.getAsString();
+        //cstr.resetManagerCache();
+        return cs;
+    }
 
-	public boolean hasType(VarTypeEnum e)
-	{
-		if(e == VarTypeEnum.TypeEditedNum)
-			return true;
-		return false;
-	}
+    public boolean hasType(VarTypeEnum e)
+    {
+        if(e == VarTypeEnum.TypeEditedNum)
+            return true;
+        return false;
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarNumEdited v = new VarNumEdited();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumEdited v = new VarNumEdited();
+        return v;
+    }
 
-	String getDisplayableString()
-	{
-		return "tutu";
-	}
+    String getDisplayableString()
+    {
+        return "tutu";
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
 
-	protected byte[] convertUnicodeToEbcdic(char[] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
+    protected byte[] convertUnicodeToEbcdic(char[] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		char[] tChars = new char[tBytes.length];
-		for(int n=0; n<tBytes.length; n++)
-		{
-			tChars[n] = (char)tBytes[n];
-		}
-		return tChars;
-	}
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        char[] tChars = new char[tBytes.length];
+        for(int n=0; n<tBytes.length; n++)
+        {
+            tChars[n] = (char)tBytes[n];
+        }
+        return tChars;
+    }
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumEdited;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarNumEdited;
+    }
 
 }

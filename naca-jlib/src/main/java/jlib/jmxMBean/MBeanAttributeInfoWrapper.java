@@ -12,37 +12,37 @@ import javax.management.IntrospectionException;
 import javax.management.MBeanAttributeInfo;
 
 public class MBeanAttributeInfoWrapper
-{	
-	public MBeanAttributeInfoWrapper(String csName, String csDescription, Method getter, Method setter)
-	{
-		try
-		{
-			attribute = new MBeanAttributeInfo(csName, csDescription, getter, setter);
-		}
-		catch (IntrospectionException e)
-		{
-			e.printStackTrace();
-		}
-		this.getter = getter;
-		this.setter = setter;
-	}
-	
-	MBeanAttributeInfo getAttribute()
-	{
-		return attribute;
-	}
-	
-	Method getMethodGetter()
-	{
-		return getter;
-	}
-	
-	Method getMethodSetter()
-	{
-		return setter;
-	}
-	
-	private Method getter = null;
-	private Method setter = null;
-	private MBeanAttributeInfo attribute = null;
+{
+    public MBeanAttributeInfoWrapper(String csName, String csDescription, Method getter, Method setter)
+    {
+        try
+        {
+            attribute = new MBeanAttributeInfo(csName, csDescription, getter, setter);
+        }
+        catch (IntrospectionException e)
+        {
+            e.printStackTrace();
+        }
+        this.getter = getter;
+        this.setter = setter;
+    }
+
+    MBeanAttributeInfo getAttribute()
+    {
+        return attribute;
+    }
+
+    Method getMethodGetter()
+    {
+        return getter;
+    }
+
+    Method getMethodSetter()
+    {
+        return setter;
+    }
+
+    private Method getter = null;
+    private Method setter = null;
+    private MBeanAttributeInfo attribute = null;
 }

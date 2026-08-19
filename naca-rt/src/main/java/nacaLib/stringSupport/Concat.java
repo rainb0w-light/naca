@@ -18,172 +18,172 @@ import java.util.ArrayList;
 
 public class Concat
 {
-	public Concat()
-	{
-	}
+    public Concat()
+    {
+    }
 
-	public Concat concat(VarAndEdit var)
-	{
-		String cs = var.getString();
-		return concat(cs);
-	}
-	public Concat concat(KeyPressed key)
-	{
-		if (key != null)
-		{
-			String cs = key.getValue() ;
-			return concat(cs);
-		}
-		return this ;
-	}
+    public Concat concat(VarAndEdit var)
+    {
+        String cs = var.getString();
+        return concat(cs);
+    }
+    public Concat concat(KeyPressed key)
+    {
+        if (key != null)
+        {
+            String cs = key.getValue() ;
+            return concat(cs);
+        }
+        return this ;
+    }
 
-	public Concat concat(String cs)
-	{
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concat(String cs)
+    {
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat concatDelimitedDecimalPoint(Var var)
-	{
-		String cs = var.getString();
-		return concatDelimitedDecimalPoint(cs);
-	}
+    public Concat concatDelimitedDecimalPoint(Var var)
+    {
+        String cs = var.getString();
+        return concatDelimitedDecimalPoint(cs);
+    }
 
-	public Concat concatDelimitedDecimalPoint(String cs)
-	{
-		int nPos = cs.lastIndexOf('.');
-		if(nPos != -1)
-			cs = cs.substring(0, nPos);
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concatDelimitedDecimalPoint(String cs)
+    {
+        int nPos = cs.lastIndexOf('.');
+        if(nPos != -1)
+            cs = cs.substring(0, nPos);
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat concatDelimitedBySpaces(Var var)
-	{
-		String cs = var.getString();
-		return concatDelimitedBySpaces(cs);
-	}
+    public Concat concatDelimitedBySpaces(Var var)
+    {
+        String cs = var.getString();
+        return concatDelimitedBySpaces(cs);
+    }
 
-	public Concat concatDelimitedBySpaces(String cs)
-	{
-		int nSpacePos = cs.indexOf(' ');
-		if(nSpacePos != -1)
-		 	cs = cs.substring(0, nSpacePos);
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concatDelimitedBySpaces(String cs)
+    {
+        int nSpacePos = cs.indexOf(' ');
+        if(nSpacePos != -1)
+            cs = cs.substring(0, nSpacePos);
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat concatDelimitedBySize(Var var)
-	{
-		String cs = var.getString();
-		return concatDelimitedBySize(cs);
-	}
+    public Concat concatDelimitedBySize(Var var)
+    {
+        String cs = var.getString();
+        return concatDelimitedBySize(cs);
+    }
 
-	public Concat concatDelimitedBySize(String cs)
-	{
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concatDelimitedBySize(String cs)
+    {
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat concatDelimitedBy(Var var)
-	{
-		String cs = var.getString();
-		return concatDelimitedBy(cs);
-	}
+    public Concat concatDelimitedBy(Var var)
+    {
+        String cs = var.getString();
+        return concatDelimitedBy(cs);
+    }
 
-	public Concat concatDelimitedBy(String cs)
-	{
-		cs = cs.trim();
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concatDelimitedBy(String cs)
+    {
+        cs = cs.trim();
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat concatDelimitedBy(Var var, String csDelimiter)
-	{
-		String cs = var.getString();
-		return concatDelimitedBy(cs, csDelimiter);
-	}
+    public Concat concatDelimitedBy(Var var, String csDelimiter)
+    {
+        String cs = var.getString();
+        return concatDelimitedBy(cs, csDelimiter);
+    }
 
-	public Concat concatDelimitedBy(Var var, Var varDelimiter)
-	{
-		String cs = var.getString();
-		return concatDelimitedBy(cs, varDelimiter.getString());
-	}
+    public Concat concatDelimitedBy(Var var, Var varDelimiter)
+    {
+        String cs = var.getString();
+        return concatDelimitedBy(cs, varDelimiter.getString());
+    }
 
-	public Concat concatDelimitedBy(String cs, String csDelimiter)
-	{
-		int nPos = cs.indexOf(csDelimiter);
-		if(nPos != -1)
-		 	cs = cs.substring(0, nPos);
-		arrChunks.add(cs);
-		return this;
-	}
+    public Concat concatDelimitedBy(String cs, String csDelimiter)
+    {
+        int nPos = cs.indexOf(csDelimiter);
+        if(nPos != -1)
+            cs = cs.substring(0, nPos);
+        arrChunks.add(cs);
+        return this;
+    }
 
-	public Concat withPointer(Var varPointer)
-	{
-		this.varPointer = varPointer;
-		return this;
-	}
+    public Concat withPointer(Var varPointer)
+    {
+        this.varPointer = varPointer;
+        return this;
+    }
 
-	public ConcatTo into(VarAndEdit var)
-	{
-		String csOut = null;
+    public ConcatTo into(VarAndEdit var)
+    {
+        String csOut = null;
 
-		if(varPointer != null)
-		{
-			String csVar = var.getString();
-			int nInitPosition = varPointer.getInt() -1;
-			String csInitial = csVar.substring(0, nInitPosition);
-			csOut = csInitial + getString();
-		}
-		else
-			csOut = getString();
+        if(varPointer != null)
+        {
+            String csVar = var.getString();
+            int nInitPosition = varPointer.getInt() -1;
+            String csInitial = csVar.substring(0, nInitPosition);
+            csOut = csInitial + getString();
+        }
+        else
+            csOut = getString();
 
-//		int nNbItems = arrChunks.size();
-//		for(int n=0; n<nNbItems; n++)
-//		{
-//			String cs = arrChunks.get(n);
-//			csOut = csOut.concat(cs);
-//		}
+//      int nNbItems = arrChunks.size();
+//      for(int n=0; n<nNbItems; n++)
+//      {
+//          String cs = arrChunks.get(n);
+//          csOut = csOut.concat(cs);
+//      }
 
-		//var.set(csOut);
-		var.setStringAtPosition(csOut, 0, csOut.length());
-		if(varPointer != null)	// Set the pointer to the string length
-		{
-			int nOutLg = csOut.length();
-			int nVarLength = var.getBodySize();
-			int nLg = Math.min(nVarLength, nOutLg);
+        //var.set(csOut);
+        var.setStringAtPosition(csOut, 0, csOut.length());
+        if(varPointer != null)  // Set the pointer to the string length
+        {
+            int nOutLg = csOut.length();
+            int nVarLength = var.getBodySize();
+            int nLg = Math.min(nVarLength, nOutLg);
 
-			varPointer.set(nLg+1);
+            varPointer.set(nLg+1);
 
-			if (nOutLg > nVarLength)
-			{
-				isfailed = true;
-			}
-		}
+            if (nOutLg > nVarLength)
+            {
+                isfailed = true;
+            }
+        }
 
-		ConcatTo concatTo = new ConcatTo(this);
-		return concatTo;
-	}
+        ConcatTo concatTo = new ConcatTo(this);
+        return concatTo;
+    }
 
-	public String getString()
-	{
-		String csOut = new String();
-		int nNbItems = arrChunks.size();
-		for(int n=0; n<nNbItems; n++)
-		{
-			String cs = arrChunks.get(n);
-			csOut += cs;	// + csOut.concat(cs);
-		}
-		return csOut;
-	}
+    public String getString()
+    {
+        String csOut = new String();
+        int nNbItems = arrChunks.size();
+        for(int n=0; n<nNbItems; n++)
+        {
+            String cs = arrChunks.get(n);
+            csOut += cs;    // + csOut.concat(cs);
+        }
+        return csOut;
+    }
 
-	boolean failed()
-	{
-		return isfailed;
-	}
+    boolean failed()
+    {
+        return isfailed;
+    }
 
-	Var varPointer = null;
-	ArrayList<String> arrChunks = new ArrayList<String>();
-	boolean isfailed = false;
+    Var varPointer = null;
+    ArrayList<String> arrChunks = new ArrayList<String>();
+    boolean isfailed = false;
 }

@@ -63,119 +63,123 @@ import utils.CObjectCatalog;
 public class CEntityFieldData extends CBaseEntityFieldAttribute
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 * @param type
-	 * @param owner
-	 */
-	public CEntityFieldData(int l, String name, CObjectCatalog cat, CDataEntity owner)
-	{
-		super(l, name, cat, CEntityFieldAttributeType.DATA, owner);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     * @param type
+     * @param owner
+     */
+    public CEntityFieldData(int l, String name, CObjectCatalog cat, CDataEntity owner)
+    {
+        super(l, name, cat, CEntityFieldAttributeType.DATA, owner);
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD ;
+    }
 
-	public boolean HasAccessors()
-	{
-		return false ;
-	}
+    public boolean HasAccessors()
+    {
+        return false ;
+    }
 
-	public boolean isValNeeded()
-	{
-		return true ;
-	}
+    public boolean isValNeeded()
+    {
+        return true ;
+    }
 
-	public String getReferenceName()
-	{
-		return getReference() == null ? "[UNDEFINED]" : getReference().GetName() ;
-	}
+    public String getReferenceName()
+    {
+        return getReference() == null ? "[UNDEFINED]" : getReference().GetName() ;
+    }
 
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-		CDataEntity e = reference.GetArrayReference(v, factory) ;
-		return factory.NewEntityFieldData(getLine(), "", e);
-	};
-	public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
-	{
-		CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
-		ref.SetReference(this, start, length) ;
-		return ref ;
-	};
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
-		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
-		{
-			eCond.SetIsZero(reference);
-		}
-		else if (value.equals("SPACE") || value.equals("SPACES"))
-		{
-			eCond.SetIsSpace(reference);
-		}
-		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{
-			eCond.SetIsLowValue(reference);
-		}
-		else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
-		{
-			eCond.SetIsHighValue(reference);
-		}
-		else
-		{
-			return null ;
-		}
-		if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
-		{
-			eCond.SetOpposite();
-			return eCond ;
-		}
-		else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
-		{
-			return eCond ;
-		}
-		else
-		{
-			return null ;
-		}
-	}
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		CEntityAssign eAssign = factory.NewEntityAssign(l) ;
-		eAssign.SetValue(term);
-		eAssign.AddRefTo(reference) ;
-		reference.RegisterWritingAction(eAssign) ;
-		return eAssign ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		String value = term.GetValue() ;
-		CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
-		if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
-		{
-			eAssign.SetToZero(reference) ;
-		}
-		else if (value.equals("SPACE") || value.equals("SPACES"))
-		{
-			eAssign.SetToSpace(reference) ;
-		}
-		else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
-		{
-			eAssign.SetToLowValue(reference) ;
-		}
-		else
-		{
-			return null ;
-		}
-		reference.RegisterWritingAction(eAssign) ;
-		return eAssign ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+        CDataEntity e = reference.GetArrayReference(v, factory) ;
+        return factory.NewEntityFieldData(getLine(), "", e);
+    };
+    public CDataEntity GetSubStringReference(CBaseEntityExpression start, CBaseEntityExpression length, CBaseEntityFactory factory)
+    {
+        CSubStringAttributReference ref = factory.NewEntitySubString(getLine()) ;
+        ref.SetReference(this, start, length) ;
+        return ref ;
+    };
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        CEntityCondIsConstant eCond = factory.NewEntityCondIsConstant() ;
+        if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+        {
+            eCond.SetIsZero(reference);
+        }
+        else if (value.equals("SPACE") || value.equals("SPACES"))
+        {
+            eCond.SetIsSpace(reference);
+        }
+        else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
+        {
+            eCond.SetIsLowValue(reference);
+        }
+        else if (value.equals("HIGH-VALUE") || value.equals("HIGH-VALUES"))
+        {
+            eCond.SetIsHighValue(reference);
+        }
+        else
+        {
+            return null ;
+        }
+        if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
+        {
+            eCond.SetOpposite();
+            return eCond ;
+        }
+        else if (type == CBaseEntityCondition.EConditionType.IS_EQUAL)
+        {
+            return eCond ;
+        }
+        else
+        {
+            return null ;
+        }
+    }
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        CEntityAssign eAssign = factory.NewEntityAssign(l) ;
+        eAssign.SetValue(term);
+        eAssign.AddRefTo(reference) ;
+        reference.RegisterWritingAction(eAssign) ;
+        return eAssign ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        String value = term.GetValue() ;
+        CEntitySetConstant eAssign = factory.NewEntitySetConstant(l) ;
+        if (value.equals("ZERO") || value.equals("ZEROS") || value.equals("ZEROES"))
+        {
+            eAssign.SetToZero(reference) ;
+        }
+        else if (value.equals("SPACE") || value.equals("SPACES"))
+        {
+            eAssign.SetToSpace(reference) ;
+        }
+        else if (value.equals("LOW-VALUE") || value.equals("LOW-VALUES"))
+        {
+            eAssign.SetToLowValue(reference) ;
+        }
+        else
+        {
+            return null ;
+        }
+        reference.RegisterWritingAction(eAssign) ;
+        return eAssign ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.dbUtils;
 
@@ -22,19 +22,19 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLFileExecutor extends BaseSQLUtils
 {
-	public SQLFileExecutor(BaseSession session, DbConnectionBase dbConnection)
-	{
-		super(session, dbConnection);
-	}
-	
-	public boolean execute(FileDescriptor fileIn)
-	{
-		FileSysinReader fileSysinReader = new FileSysinReader(getSession());
-		return fileSysinReader.parse(this, fileIn);
-	}
-	
-	int executeStatement(String csClause)
-	{
-		return executeSQLClause(csClause);
-	}
+    public SQLFileExecutor(BaseSession session, DbConnectionBase dbConnection)
+    {
+        super(session, dbConnection);
+    }
+
+    public boolean execute(FileDescriptor fileIn)
+    {
+        FileSysinReader fileSysinReader = new FileSysinReader(getSession());
+        return fileSysinReader.parse(this, fileIn);
+    }
+
+    int executeStatement(String csClause)
+    {
+        return executeSQLClause(csClause);
+    }
 }

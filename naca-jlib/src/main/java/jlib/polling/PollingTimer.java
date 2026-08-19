@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.polling;
 
@@ -20,35 +20,35 @@ import jlib.threads.Timer;
  */
 public class PollingTimer extends Timer
 {
-	private ArrayList<BaseDirectoryPoller> dirsPollers = null;
-	
-	synchronized public void addDirectoryPoller(BaseDirectoryPoller dirPoller)
-	{
-		if(dirsPollers == null)
-			dirsPollers = new ArrayList<BaseDirectoryPoller>();
-		dirsPollers.add(dirPoller);
-	}
-	
-	public boolean PollAtLoadTime()
-	{
-		return doPulse();
-	}
-	
-	protected boolean pulse()
-	{
-		return doPulse();
-	}
-	
-	synchronized private boolean doPulse()
-	{
-		if(dirsPollers != null)
-		{
-			for(int n = 0; n< dirsPollers.size(); n++)
-			{
-				BaseDirectoryPoller dirPoller = dirsPollers.get(n);
-				dirPoller.poll();
-			}
-		}
-		return true;
-	}
+    private ArrayList<BaseDirectoryPoller> dirsPollers = null;
+
+    synchronized public void addDirectoryPoller(BaseDirectoryPoller dirPoller)
+    {
+        if(dirsPollers == null)
+            dirsPollers = new ArrayList<BaseDirectoryPoller>();
+        dirsPollers.add(dirPoller);
+    }
+
+    public boolean PollAtLoadTime()
+    {
+        return doPulse();
+    }
+
+    protected boolean pulse()
+    {
+        return doPulse();
+    }
+
+    synchronized private boolean doPulse()
+    {
+        if(dirsPollers != null)
+        {
+            for(int n = 0; n< dirsPollers.size(); n++)
+            {
+                BaseDirectoryPoller dirPoller = dirsPollers.get(n);
+                dirPoller.poll();
+            }
+        }
+        return true;
+    }
 }

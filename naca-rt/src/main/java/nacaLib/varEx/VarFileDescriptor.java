@@ -12,36 +12,36 @@ import nacaLib.basePrgEnv.FileManagerEntry;
 
 public class VarFileDescriptor extends FileDescriptor {
 
-	private final BaseEnvironment env;
-	private final Var var;
+    private final BaseEnvironment env;
+    private final Var var;
 
-	public VarFileDescriptor(BaseEnvironment env, Var var)
-	{
-		super(env, "");
-		this.env = env;
-		this.var = var;
-		fileManagerEntry = new VarFileManagerEntry();
-	}
+    public VarFileDescriptor(BaseEnvironment env, Var var)
+    {
+        super(env, "");
+        this.env = env;
+        this.var = var;
+        fileManagerEntry = new VarFileManagerEntry();
+    }
 
-	private String getVarName() {
-		return csLogicalName = var.getString().trim();
-	}
+    private String getVarName() {
+        return csLogicalName = var.getString().trim();
+    }
 
-	@Override
-	public String getLogicalName()
-	{
-		if("".equals(csLogicalName)) {
-			fileManagerEntry = env.getFileManagerEntry(getVarName());
-		}
-		return super.getLogicalName();
-	}
+    @Override
+    public String getLogicalName()
+    {
+        if("".equals(csLogicalName)) {
+            fileManagerEntry = env.getFileManagerEntry(getVarName());
+        }
+        return super.getLogicalName();
+    }
 
-	public class VarFileManagerEntry extends FileManagerEntry
-	{
-		@Override
-		public String getPhysicalName(String csLogicalName, BaseSession session)
-		{
-			return super.getPhysicalName(getVarName(), session);
-		}
-	}
+    public class VarFileManagerEntry extends FileManagerEntry
+    {
+        @Override
+        public String getPhysicalName(String csLogicalName, BaseSession session)
+        {
+            return super.getPhysicalName(getVarName(), session);
+        }
+    }
 }

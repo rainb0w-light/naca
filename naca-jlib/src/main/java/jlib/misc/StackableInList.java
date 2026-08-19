@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,5 +16,5 @@ package jlib.misc;
  */
 public abstract class StackableInList
 {
-	public abstract void setWith(StackableInList source);
+    public abstract void setWith(StackableInList source);
 }

@@ -21,20 +21,20 @@ import jlib.threads.PoolOfThreads;
  */
 public class PooledThreadDbTransferFactory extends BasePooledThreadFactory
 {
-	private DbTransferDesc dbTransferDesc = null;
-	private BaseEnvironment env = null;
+    private DbTransferDesc dbTransferDesc = null;
+    private BaseEnvironment env = null;
 
-	PooledThreadDbTransferFactory(DbTransferDesc dbTransferDesc, BaseEnvironment env)
-	{
-		this.dbTransferDesc = dbTransferDesc;
-		this.env = env;
-	}
+    PooledThreadDbTransferFactory(DbTransferDesc dbTransferDesc, BaseEnvironment env)
+    {
+        this.dbTransferDesc = dbTransferDesc;
+        this.env = env;
+    }
 
-	public PooledThreadDbTransfer make(PoolOfThreads owningPool)
-	{
-		DbConnectionBase dbConnectionSource = env.getNewSQLConnection();
-		DbConnectionBase dbConnectionDestination = dbTransferDesc.getNewDestinationConnection();
-		PooledThreadDbTransfer thread = new PooledThreadDbTransfer(owningPool, dbTransferDesc, dbConnectionSource, dbConnectionDestination);
-		return thread;
-	}
+    public PooledThreadDbTransfer make(PoolOfThreads owningPool)
+    {
+        DbConnectionBase dbConnectionSource = env.getNewSQLConnection();
+        DbConnectionBase dbConnectionDestination = dbTransferDesc.getNewDestinationConnection();
+        PooledThreadDbTransfer thread = new PooledThreadDbTransfer(owningPool, dbTransferDesc, dbConnectionSource, dbConnectionDestination);
+        return thread;
+    }
 }

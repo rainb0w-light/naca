@@ -13,15 +13,15 @@ package nacaLib.varEx;
  */
 public abstract class GenericValue
 {
-	GenericValue()
-	{
-	}
+    GenericValue()
+    {
+    }
 
-	abstract String getAsString();
-	abstract String getAsRawString();
-	abstract int getAsInt();
-	abstract int getAsUnsignedInt();
-	abstract Dec getAsDec();
-	abstract Dec getAsUnsignedDec();
-	abstract double getAsDouble();
+    abstract String getAsString();
+    abstract String getAsRawString();
+    abstract int getAsInt();
+    abstract int getAsUnsignedInt();
+    abstract Dec getAsDec();
+    abstract Dec getAsUnsignedDec();
+    abstract double getAsDouble();
 }

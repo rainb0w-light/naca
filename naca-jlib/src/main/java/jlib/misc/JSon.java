@@ -19,227 +19,227 @@ import jlib.log.Log;
  */
 public class JSon
 {
-	// Automatically exports a java object into a JSon structre.
-	// The following variables types are supported: int, double, String, StringBuffer, StringBuilder, Array, boolean, short, long
-	// See http://www.json.org/
+    // Automatically exports a java object into a JSon structre.
+    // The following variables types are supported: int, double, String, StringBuffer, StringBuilder, Array, boolean, short, long
+    // See http://www.json.org/
 
-	private StringBuilder sbOut = null;
-	private int nNbItemSet = 0;
-	private int nTabDepth = 0;
-	private boolean issetLines = true;
+    private StringBuilder sbOut = null;
+    private int nNbItemSet = 0;
+    private int nTabDepth = 0;
+    private boolean issetLines = true;
 
-	public void setLines(boolean b)
-	{
-		issetLines = b;
-	}
+    public void setLines(boolean b)
+    {
+        issetLines = b;
+    }
 
-	public boolean exportAsJSon(Object oSource)
-	{
-		nTabDepth = 0;
-		sbOut = new StringBuilder();
+    public boolean exportAsJSon(Object oSource)
+    {
+        nTabDepth = 0;
+        sbOut = new StringBuilder();
 
-		boolean b = export(oSource, null);
-		if(!b)
-			sbOut = null;
-		return b;
-	}
+        boolean b = export(oSource, null);
+        if(!b)
+            sbOut = null;
+        return b;
+    }
 
-	public String getResult()
-	{
-		if(sbOut != null)
-			return sbOut.toString();
-		return "";
-	}
+    public String getResult()
+    {
+        if(sbOut != null)
+            return sbOut.toString();
+        return "";
+    }
 
-	public static String exportAsJSon(Object oSource, String className)
-	{
-		JSon json = new JSon();
-		json.issetLines = false;
-		json.nTabDepth = 0;
-		json.sbOut = new StringBuilder();
-		boolean b = json.export(oSource, className);
-		if (b)
-			return json.sbOut.toString();
-		return null;
-	}
+    public static String exportAsJSon(Object oSource, String className)
+    {
+        JSon json = new JSon();
+        json.issetLines = false;
+        json.nTabDepth = 0;
+        json.sbOut = new StringBuilder();
+        boolean b = json.export(oSource, className);
+        if (b)
+            return json.sbOut.toString();
+        return null;
+    }
 
-	public static String concatJSon(String json1, String json2)
-	{
-		return json1.substring(0, json1.length() - 1) + "," + json2.substring(1);
-	}
+    public static String concatJSon(String json1, String json2)
+    {
+        return json1.substring(0, json1.length() - 1) + "," + json2.substring(1);
+    }
 
-	private boolean export(Object oSource, String className)
-	{
-		nNbItemSet = 0;
-		if(oSource != null)
-		{
-			beginNewLine(sbOut);
-			sbOut.append("{");
-			if(issetLines)
-				sbOut.append(EndOfLine.CR);
-			nTabDepth++;
+    private boolean export(Object oSource, String className)
+    {
+        nNbItemSet = 0;
+        if(oSource != null)
+        {
+            beginNewLine(sbOut);
+            sbOut.append("{");
+            if(issetLines)
+                sbOut.append(EndOfLine.CR);
+            nTabDepth++;
 
-			if (className == null)
-			{
-				// Dump current class and it's hierarchy
-				Class programClass = oSource.getClass();
-				String csClassName = programClass.getCanonicalName();
-				while(!csClassName.equals("java.lang.Object"))
-				{
-					dumpJSonClass(programClass, oSource);	// Dump current class
+            if (className == null)
+            {
+                // Dump current class and it's hierarchy
+                Class programClass = oSource.getClass();
+                String csClassName = programClass.getCanonicalName();
+                while(!csClassName.equals("java.lang.Object"))
+                {
+                    dumpJSonClass(programClass, oSource);   // Dump current class
 
-					programClass = programClass.getSuperclass();
-					csClassName = programClass.getCanonicalName();
-				}
-			}
-			else
-			{
-				sbOut.append("\"" + className + "\":");
-				exportItem(oSource);
-			}
+                    programClass = programClass.getSuperclass();
+                    csClassName = programClass.getCanonicalName();
+                }
+            }
+            else
+            {
+                sbOut.append("\"" + className + "\":");
+                exportItem(oSource);
+            }
 
-			if(issetLines)
-				sbOut.append(EndOfLine.CR);
-			beginNewLine(sbOut);
-			sbOut.append("}");
-			if(issetLines)
-				sbOut.append(EndOfLine.CR);
-		}
-		return true;
-	}
+            if(issetLines)
+                sbOut.append(EndOfLine.CR);
+            beginNewLine(sbOut);
+            sbOut.append("}");
+            if(issetLines)
+                sbOut.append(EndOfLine.CR);
+        }
+        return true;
+    }
 
-	private boolean dumpJSonClass(Class programClass, Object oSource)
-	{
-		Field fieldlist[] = programClass.getDeclaredFields();
-		for (int i=0; i < fieldlist.length; i++)
-		{
-			Field fld = fieldlist[i];
-			fld.setAccessible(true);
-			String csName = fld.getName();
-			Class type = fld.getType();
-			int mod =fld.getModifiers();
-			if (Modifier.isStatic(mod))
-				continue;
-			String csTypeName = type.getName();
-			try
-			{
-				if(nNbItemSet > 0) // Terminates previous line is there was one
-					endCurrentLine(sbOut);
-				beginNewLine(sbOut);
+    private boolean dumpJSonClass(Class programClass, Object oSource)
+    {
+        Field fieldlist[] = programClass.getDeclaredFields();
+        for (int i=0; i < fieldlist.length; i++)
+        {
+            Field fld = fieldlist[i];
+            fld.setAccessible(true);
+            String csName = fld.getName();
+            Class type = fld.getType();
+            int mod =fld.getModifiers();
+            if (Modifier.isStatic(mod))
+                continue;
+            String csTypeName = type.getName();
+            try
+            {
+                if(nNbItemSet > 0) // Terminates previous line is there was one
+                    endCurrentLine(sbOut);
+                beginNewLine(sbOut);
 
-				// remove prefix membership
-				if(csName.startsWith("m_"))
-					csName = csName.substring(2);
-				else if(csName.startsWith("_"))
-					csName = csName.substring(1);
+                // remove prefix membership
+                if(csName.startsWith("m_"))
+                    csName = csName.substring(2);
+                else if(csName.startsWith("_"))
+                    csName = csName.substring(1);
 
-				sbOut.append("\"" + csName + "\":");	// Write "<name>":
-				Object oMember = fld.get(oSource);
-				if(oMember != null)
-				{
-					boolean isexported = exportItem(oMember);
-					if(!isexported)
-					{
-						Log.logCritical("Unsupported JSon serialization format; JLib.JSon.exportItem must be completed");
-						return false;
-					}
-				}
-				else
-					sbOut.append("null");
-				nNbItemSet++;
-			}
-			catch (IllegalArgumentException e)
-			{
-				sbOut.append("null");
-				return false;
-			}
-			catch (IllegalAccessException e)
-			{
-				sbOut.append("null");
-				return false;
-			}
-		}
-		return true;
-	}
+                sbOut.append("\"" + csName + "\":");    // Write "<name>":
+                Object oMember = fld.get(oSource);
+                if(oMember != null)
+                {
+                    boolean isexported = exportItem(oMember);
+                    if(!isexported)
+                    {
+                        Log.logCritical("Unsupported JSon serialization format; JLib.JSon.exportItem must be completed");
+                        return false;
+                    }
+                }
+                else
+                    sbOut.append("null");
+                nNbItemSet++;
+            }
+            catch (IllegalArgumentException e)
+            {
+                sbOut.append("null");
+                return false;
+            }
+            catch (IllegalAccessException e)
+            {
+                sbOut.append("null");
+                return false;
+            }
+        }
+        return true;
+    }
 
-	private boolean exportItem(Object oMember)
-	{
-		if (oMember instanceof String)
-		{
-			String csValue = oMember.toString();
-			csValue = quoteAndReplaceSpecialChars(csValue);
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof Boolean)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof Integer)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof java.util.ArrayList)
-		{
-			return exportArrayAsJSon(oMember, sbOut);
-		}
-		else if (oMember instanceof Long)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof Double)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof Float)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof Short)
-		{
-			String csValue = oMember.toString();
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof java.util.Date)
-		{
-			String csValue = oMember.toString();
-			csValue = quoteAndReplaceSpecialChars(csValue);
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof StringBuffer)
-		{
-			String csValue = oMember.toString();
-			csValue = quoteAndReplaceSpecialChars(csValue);
-			sbOut.append(csValue);
-			return true;
-		}
-		else if (oMember instanceof StringBuilder)
-		{
-			String csValue = oMember.toString();
-			csValue = quoteAndReplaceSpecialChars(csValue);
-			sbOut.append(csValue);
-			return true;
-		}
+    private boolean exportItem(Object oMember)
+    {
+        if (oMember instanceof String)
+        {
+            String csValue = oMember.toString();
+            csValue = quoteAndReplaceSpecialChars(csValue);
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof Boolean)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof Integer)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof java.util.ArrayList)
+        {
+            return exportArrayAsJSon(oMember, sbOut);
+        }
+        else if (oMember instanceof Long)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof Double)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof Float)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof Short)
+        {
+            String csValue = oMember.toString();
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof java.util.Date)
+        {
+            String csValue = oMember.toString();
+            csValue = quoteAndReplaceSpecialChars(csValue);
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof StringBuffer)
+        {
+            String csValue = oMember.toString();
+            csValue = quoteAndReplaceSpecialChars(csValue);
+            sbOut.append(csValue);
+            return true;
+        }
+        else if (oMember instanceof StringBuilder)
+        {
+            String csValue = oMember.toString();
+            csValue = quoteAndReplaceSpecialChars(csValue);
+            sbOut.append(csValue);
+            return true;
+        }
 
-		// At last position !
-		else if (oMember instanceof Object)	// Applicative Object; must be last test
-		{
-			return export(oMember, null);
-		}
-		return false;
-	}
+        // At last position !
+        else if (oMember instanceof Object) // Applicative Object; must be last test
+        {
+            return export(oMember, null);
+        }
+        return false;
+    }
 
     /**
      * Produce a string in double quotes with backslash sequences in all the
@@ -249,8 +249,8 @@ public class JSon
      * @param string A String
      * @return  A String correctly formatted for insertion in a JSON text.
      */
-	private String quoteAndReplaceSpecialChars(String csValue)
-	{
+    private String quoteAndReplaceSpecialChars(String csValue)
+    {
         if (csValue == null || csValue.length() == 0)
         {
             return "\"\"";
@@ -271,11 +271,11 @@ public class JSon
             switch (c)
             {
             case '\u00E0':  // à
-            	sb.append('a');
-            	break;
+                sb.append('a');
+                break;
             case '\u00F2':  // ò
-            	sb.append('o');
-            	break;
+                sb.append('o');
+                break;
             case '\\':
                 sb.append('\\');
                 sb.append(c);
@@ -321,44 +321,44 @@ public class JSon
         return sb.toString();
     }
 
-	private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
-	{
-		sbOut.append("[ ");
-		if(issetLines)
-			sbOut.append(EndOfLine.CR);
-		nTabDepth++;
-		ArrayList<Object> arr = (ArrayList<Object>)oArray;
-		for(int n=0; n<arr.size(); n++)
-		{
-			if(n > 0)
-				endCurrentLine(sbOut);
-			beginNewLine(sbOut);
-			Object oArrItem = arr.get(n);
-			boolean isarrayItemsExported = exportItem(oArrItem);
-			if(!isarrayItemsExported)
-			{
-				return false;
-			}
-		}
-		sbOut.append(" ]");
-		nTabDepth--;
-		return true;
-	}
+    private boolean exportArrayAsJSon(Object oArray, StringBuilder sbOut)
+    {
+        sbOut.append("[ ");
+        if(issetLines)
+            sbOut.append(EndOfLine.CR);
+        nTabDepth++;
+        ArrayList<Object> arr = (ArrayList<Object>)oArray;
+        for(int n=0; n<arr.size(); n++)
+        {
+            if(n > 0)
+                endCurrentLine(sbOut);
+            beginNewLine(sbOut);
+            Object oArrItem = arr.get(n);
+            boolean isarrayItemsExported = exportItem(oArrItem);
+            if(!isarrayItemsExported)
+            {
+                return false;
+            }
+        }
+        sbOut.append(" ]");
+        nTabDepth--;
+        return true;
+    }
 
-	private void beginNewLine(StringBuilder sbOut)
-	{
-		if(issetLines)
-		{
-			for(int n=0; n<nTabDepth; n++)
-				sbOut.append(EndOfLine.TAB);
-		}
-	}
+    private void beginNewLine(StringBuilder sbOut)
+    {
+        if(issetLines)
+        {
+            for(int n=0; n<nTabDepth; n++)
+                sbOut.append(EndOfLine.TAB);
+        }
+    }
 
-	private void endCurrentLine(StringBuilder sbOut)
-	{
-		sbOut.append(",");
-		if(issetLines)
-			sbOut.append(EndOfLine.CR);
-	}
+    private void endCurrentLine(StringBuilder sbOut)
+    {
+        sbOut.append(",");
+        if(issetLines)
+            sbOut.append(EndOfLine.CR);
+    }
 
 }

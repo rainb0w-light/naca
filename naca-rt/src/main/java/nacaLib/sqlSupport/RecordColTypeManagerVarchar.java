@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -25,72 +25,72 @@ import jlib.sql.LogSQLException;
  */
 public class RecordColTypeManagerVarchar extends RecordColTypeManagerBase
 {
-	public RecordColTypeManagerVarchar(int nColSourceIndex)
-	{
-		super(nColSourceIndex);
-	}
-	
-	public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
-	{
-		try
-		{			
-			String csValue = resultSetSource.getString(nColSourceIndex);
-			if (!resultSetSource.wasNull())
-				insertStatementInsert.setString(nColSourceIndex, csValue);
-			else
-				insertStatementInsert.setNull(nColSourceIndex, Types.VARCHAR);
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return false;		
-	}
-	
-	boolean fillColValue(ResultSet rs, VarBase varInto)
-	{
-		boolean isLongVarCharVarStructure = varInto.getVarDef().isLongVarCharVarStructure();
-		try
-		{
-			String csValue = rs.getString(nColSourceIndex);
-			if(csValue != null)
-			{
-				if (isLongVarCharVarStructure)
-				{	
-					int nLen = csValue.length();
-					char high = (char)(nLen / 256);
-					char low = (char)(nLen % 256);
-					StringBuffer buf = new StringBuffer();
-					buf.append(high);	// big endian
-					buf.append(low);
-					buf.append(csValue);
-					csValue = buf.toString();
-				}	
-				varInto.varDef.write(varInto.bufferPos, csValue);
-				return false;				
-			}
-		}
-		catch (SQLException e)
-		{
-			LogSQLException.log(e);
-			// Maybe should I set bNull = true; ?
-		}
-		if (isLongVarCharVarStructure)
-		{	
-			int nLen = 0;
-			char high = (char)(nLen / 256);
-			char low = (char)(nLen % 256);
-			StringBuffer buf = new StringBuffer();
-			buf.append(high);	// big endian
-			buf.append(low);
-			buf.append("");
-			varInto.varDef.write(varInto.bufferPos, buf.toString());
-		}
-		else
-		{
-			varInto.varDef.write(varInto.bufferPos, "");
-		}
-		return true;
-	}
+    public RecordColTypeManagerVarchar(int nColSourceIndex)
+    {
+        super(nColSourceIndex);
+    }
+
+    public boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert)
+    {
+        try
+        {
+            String csValue = resultSetSource.getString(nColSourceIndex);
+            if (!resultSetSource.wasNull())
+                insertStatementInsert.setString(nColSourceIndex, csValue);
+            else
+                insertStatementInsert.setNull(nColSourceIndex, Types.VARCHAR);
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    boolean fillColValue(ResultSet rs, VarBase varInto)
+    {
+        boolean isLongVarCharVarStructure = varInto.getVarDef().isLongVarCharVarStructure();
+        try
+        {
+            String csValue = rs.getString(nColSourceIndex);
+            if(csValue != null)
+            {
+                if (isLongVarCharVarStructure)
+                {
+                    int nLen = csValue.length();
+                    char high = (char)(nLen / 256);
+                    char low = (char)(nLen % 256);
+                    StringBuffer buf = new StringBuffer();
+                    buf.append(high);   // big endian
+                    buf.append(low);
+                    buf.append(csValue);
+                    csValue = buf.toString();
+                }
+                varInto.varDef.write(varInto.bufferPos, csValue);
+                return false;
+            }
+        }
+        catch (SQLException e)
+        {
+            LogSQLException.log(e);
+            // Maybe should I set bNull = true; ?
+        }
+        if (isLongVarCharVarStructure)
+        {
+            int nLen = 0;
+            char high = (char)(nLen / 256);
+            char low = (char)(nLen % 256);
+            StringBuffer buf = new StringBuffer();
+            buf.append(high);   // big endian
+            buf.append(low);
+            buf.append("");
+            varInto.varDef.write(varInto.bufferPos, buf.toString());
+        }
+        else
+        {
+            varInto.varDef.write(varInto.bufferPos, "");
+        }
+        return true;
+    }
 }

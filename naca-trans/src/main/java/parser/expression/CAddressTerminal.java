@@ -16,41 +16,41 @@ import semantic.expression.CEntityAddress;
 public class CAddressTerminal extends CTerminal
 {
 
-	protected String csAddresse;
+    protected String csAddresse;
 
-	public CAddressTerminal(String add)
-	{
-		super();
-		csAddresse = add ;
-	}
+    public CAddressTerminal(String add)
+    {
+        super();
+        csAddresse = add ;
+    }
 
-	@Override
-	public String GetValue()
-	{
-		return csAddresse ;
-	}
+    @Override
+    public String GetValue()
+    {
+        return csAddresse ;
+    }
 
-	@Override
-	public boolean IsReference()
-	{
-		return false ;
-	}
+    @Override
+    public boolean IsReference()
+    {
+        return false ;
+    }
 
-	@Override
-	public void ExportTo(Element e, Document root)
-	{
-		e.setAttribute("Address", csAddresse) ;
-	}
+    @Override
+    public void ExportTo(Element e, Document root)
+    {
+        e.setAttribute("Address", csAddresse) ;
+    }
 
-	@Override
-	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
-	{
-		CEntityAddress ref = factory.NewEntityAddress(csAddresse) ;
-		return ref ;
-	}
+    @Override
+    public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
+    {
+        CEntityAddress ref = factory.NewEntityAddress(csAddresse) ;
+        return ref ;
+    }
 
-	public boolean IsNumber()
-	{
-		return false ;
-	}
+    public boolean IsNumber()
+    {
+        return false ;
+    }
 }

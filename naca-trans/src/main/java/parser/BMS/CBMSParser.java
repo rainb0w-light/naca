@@ -22,151 +22,151 @@ import lexer.BMS.CBMSKeywordList;
  */
 public class CBMSParser extends CParser<CMapSetElement>
 {
-	//protected Logger m_logger = Transcoder.ms_logger ;
+    //protected Logger m_logger = Transcoder.ms_logger ;
 
 
-	protected boolean DoParsing(CTokenList lstTokens)
-	{
-		commentContainer = new CGlobalCommentContainer();
-//		commentContainer.lstTokens = lstTokens ;
+    protected boolean DoParsing(CTokenList lstTokens)
+    {
+        commentContainer = new CGlobalCommentContainer();
+//      commentContainer.lstTokens = lstTokens ;
 
-		CBaseToken tokID = lstTokens.GetCurrentToken() ;
-		String name = "" ;
-		if (tokID.GetType() == CTokenType.END_OF_BLOCK)
-		{
-			tokID = lstTokens.GetNext();
-		}
-		if (tokID.GetType() == CTokenType.IDENTIFIER)
-		{
-			name = tokID.GetValue() ;
-			lstTokens.GetNext() ;
-		}
+        CBaseToken tokID = lstTokens.GetCurrentToken() ;
+        String name = "" ;
+        if (tokID.GetType() == CTokenType.END_OF_BLOCK)
+        {
+            tokID = lstTokens.GetNext();
+        }
+        if (tokID.GetType() == CTokenType.IDENTIFIER)
+        {
+            name = tokID.GetValue() ;
+            lstTokens.GetNext() ;
+        }
 
-		CBaseToken tokMS = lstTokens.GetCurrentToken() ;
-		if (tokMS.GetKeyword() != CBMSKeywordList.DFHMSD)
-		{
-			Transcoder.logError(tokMS.getLine(), "Missing DFHMSD for " + name) ;
-			return false ;
-		}
-		lstTokens.GetNext();
-		eRoot = new CMapSetElement(name, tokID.getLine()) ;
-		if (!eRoot.Parse(lstTokens, commentContainer))
-		{
-			Transcoder.logError("Error while parsing MAPSET") ;
-			return false ;
-		}
+        CBaseToken tokMS = lstTokens.GetCurrentToken() ;
+        if (tokMS.GetKeyword() != CBMSKeywordList.DFHMSD)
+        {
+            Transcoder.logError(tokMS.getLine(), "Missing DFHMSD for " + name) ;
+            return false ;
+        }
+        lstTokens.GetNext();
+        eRoot = new CMapSetElement(name, tokID.getLine()) ;
+        if (!eRoot.Parse(lstTokens, commentContainer))
+        {
+            Transcoder.logError("Error while parsing MAPSET") ;
+            return false ;
+        }
 
-		String csAlias = "" ;
-		Hashtable<String, CFieldGroup> tabGroups = new Hashtable<String, CFieldGroup>();
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tokID = lstTokens.GetCurrentToken() ;
-			String elName = "" ;
-			if (tokID.GetType() == CTokenType.IDENTIFIER)
-			{
-				elName = tokID.GetValue() ;
-				lstTokens.GetNext() ;
-			}
+        String csAlias = "" ;
+        Hashtable<String, CFieldGroup> tabGroups = new Hashtable<String, CFieldGroup>();
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tokID = lstTokens.GetCurrentToken() ;
+            String elName = "" ;
+            if (tokID.GetType() == CTokenType.IDENTIFIER)
+            {
+                elName = tokID.GetValue() ;
+                lstTokens.GetNext() ;
+            }
 
-			CBaseToken tokMap = lstTokens.GetCurrentToken();
-			if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDI)
-			{
-				lstTokens.GetNext() ;
-				curMap = new CMapElement(elName, tokMap.getLine()) ;
-				eRoot.AddElement(curMap) ;
-				if (!curMap.Parse(lstTokens, commentContainer))
-				{
-					Transcoder.logError("Error while parsing MAP") ;
-					return false ;
-				}
-			}
-			else if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDF)
-			{
-				lstTokens.GetNext();
-				CFieldElement eField = new CFieldElement(elName, tokMap.getLine()) ;
-				if (!eField.Parse(lstTokens, commentContainer))
-				{
-					Transcoder.logError("Error while parsing FIELD") ;
-					return false ;
-				}
-				String grp = eField.GetGroupName() ;
-				if (grp.equals(""))
-				{
-					if (!csAlias.equals(""))
-					{
-//						csAlias = csAlias.replace('(', '_') ;
-//						csAlias = csAlias.replace(')', '_') ;
-						eField.SetName(csAlias) ;
-						if (csAlias.indexOf('(')>0 && csAlias.indexOf(')')>0)
-						{
-							curMap.setFindArrays();
-						}
-						csAlias = "" ;
-					}
-					curMap.AddElement(eField) ;
-				}
-				else
-				{
-					String grpName = grp ;
-					if (!csAlias.equals(""))
-					{
-						grpName = csAlias ;
-						csAlias = "" ;
-					}
-					CFieldGroup grpField = tabGroups.get(grp) ;
-					if (grpField == null)
-					{
-						grpField = new CFieldGroup(grpName);
-						tabGroups.put(grp, grpField);
-						curMap.AddElement(grpField) ;
-						grpField.setPosition(eField);
-					}
-					grpField.AddChildField(eField) ;
-				}
-			}
-			else if (tokMap.GetType() == CTokenType.COMMENTS)
-			{
-				String comm = tokMap.GetValue().trim() ;
-				if (comm.startsWith("'") && comm.endsWith("'"))
-				{
-					csAlias = comm.substring(1, comm.length()-1) ;
-					lstTokens.GetNext() ;
-				}
-				else
-				{
-					commentContainer.ParseComment(lstTokens) ;
-				}
-			}
-			else if (tokMap.GetType() == CTokenType.END_OF_BLOCK)
-			{
-				lstTokens.GetNext();
-			}
-			else
-			{
-				isdone = true ;
-			}
+            CBaseToken tokMap = lstTokens.GetCurrentToken();
+            if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDI)
+            {
+                lstTokens.GetNext() ;
+                curMap = new CMapElement(elName, tokMap.getLine()) ;
+                eRoot.AddElement(curMap) ;
+                if (!curMap.Parse(lstTokens, commentContainer))
+                {
+                    Transcoder.logError("Error while parsing MAP") ;
+                    return false ;
+                }
+            }
+            else if (tokMap.GetKeyword() == CBMSKeywordList.DFHMDF)
+            {
+                lstTokens.GetNext();
+                CFieldElement eField = new CFieldElement(elName, tokMap.getLine()) ;
+                if (!eField.Parse(lstTokens, commentContainer))
+                {
+                    Transcoder.logError("Error while parsing FIELD") ;
+                    return false ;
+                }
+                String grp = eField.GetGroupName() ;
+                if (grp.equals(""))
+                {
+                    if (!csAlias.equals(""))
+                    {
+//                      csAlias = csAlias.replace('(', '_') ;
+//                      csAlias = csAlias.replace(')', '_') ;
+                        eField.SetName(csAlias) ;
+                        if (csAlias.indexOf('(')>0 && csAlias.indexOf(')')>0)
+                        {
+                            curMap.setFindArrays();
+                        }
+                        csAlias = "" ;
+                    }
+                    curMap.AddElement(eField) ;
+                }
+                else
+                {
+                    String grpName = grp ;
+                    if (!csAlias.equals(""))
+                    {
+                        grpName = csAlias ;
+                        csAlias = "" ;
+                    }
+                    CFieldGroup grpField = tabGroups.get(grp) ;
+                    if (grpField == null)
+                    {
+                        grpField = new CFieldGroup(grpName);
+                        tabGroups.put(grp, grpField);
+                        curMap.AddElement(grpField) ;
+                        grpField.setPosition(eField);
+                    }
+                    grpField.AddChildField(eField) ;
+                }
+            }
+            else if (tokMap.GetType() == CTokenType.COMMENTS)
+            {
+                String comm = tokMap.GetValue().trim() ;
+                if (comm.startsWith("'") && comm.endsWith("'"))
+                {
+                    csAlias = comm.substring(1, comm.length()-1) ;
+                    lstTokens.GetNext() ;
+                }
+                else
+                {
+                    commentContainer.ParseComment(lstTokens) ;
+                }
+            }
+            else if (tokMap.GetType() == CTokenType.END_OF_BLOCK)
+            {
+                lstTokens.GetNext();
+            }
+            else
+            {
+                isdone = true ;
+            }
 
-		}
-		return true ;
-	}
+        }
+        return true ;
+    }
 
-	protected CMapElement curMap = null ;
+    protected CMapElement curMap = null ;
 
-//	public class CBMSCommentContainer extends CCommentContainer
-//	{
-//		public CBMSCommentContainer(int line)
-//		{
-//			super(line);
-//		}
-//		protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-//		{
-//			return null;
-//		}
-//		protected Element ExportCustom(Document root)
-//		{
-//			return null;
-//		}
-//	}
-//	public CGlobalCommentContainer commentContainer = null ;
+//  public class CBMSCommentContainer extends CCommentContainer
+//  {
+//      public CBMSCommentContainer(int line)
+//      {
+//          super(line);
+//      }
+//      protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+//      {
+//          return null;
+//      }
+//      protected Element ExportCustom(Document root)
+//      {
+//          return null;
+//      }
+//  }
+//  public CGlobalCommentContainer commentContainer = null ;
 }

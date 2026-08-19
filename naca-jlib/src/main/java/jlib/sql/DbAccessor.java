@@ -32,151 +32,151 @@ import jlib.jmxMBean.BaseCloseMBean;
 public class DbAccessor extends BaseCloseMBean
 {
     // Gives the section name within the app.properties file. This section is used to provide DB parameters
-	private String key = null;
+    private String key = null;
 
-	public DbAccessor(String csKey)
-	{
-		super("DbAccessor_" + csKey, csKey);
-		this.key = csKey;
-	}
+    public DbAccessor(String csKey)
+    {
+        super("DbAccessor_" + csKey, csKey);
+        this.key = csKey;
+    }
 
-	public String getKey()	// Access to the app.properties section's key
-	{
-		return key;
-	}
+    public String getKey()  // Access to the app.properties section's key
+    {
+        return key;
+    }
 
-	/**
-	 * DbConnectionBase getConnection()
-	 * @return a database connection corresponding to the Db identified by DbId passed
-	 *     in the constructor.
-	 *     The connection is created if it is not establed yet; It's managed from the pool and
-	 *     cannot be accessed publicly
-	 **/
-	DbConnectionBase getConnection()
-	{
-		// Try to get the connection from the Thread Local Storage
-		DbConnectionBase dbConnectionBase = DbTLSConnectionStorage.get(this);
+    /**
+     * DbConnectionBase getConnection()
+     * @return a database connection corresponding to the Db identified by DbId passed
+     *     in the constructor.
+     *     The connection is created if it is not establed yet; It's managed from the pool and
+     *     cannot be accessed publicly
+     **/
+    DbConnectionBase getConnection()
+    {
+        // Try to get the connection from the Thread Local Storage
+        DbConnectionBase dbConnectionBase = DbTLSConnectionStorage.get(this);
         // The connection doesn't exist in the TLS: This is the 1st clause created within this thread since laste returnConnectionToPool
-		if(dbConnectionBase == null)
-		{
-			// Establish a connection: It can be either got form the pool (of one is available) or created.
-			dbConnectionBase = DbAccessorConnectionManager.getConnection(this);
-			if(dbConnectionBase != null)
-			{
-				// The connection has been obtained from pool; store it in the TLS for futher reference
-				DbTLSConnectionStorage.set(this, dbConnectionBase);
-			}
-		}
-		// Return current connection
-		return dbConnectionBase;
-	}
+        if(dbConnectionBase == null)
+        {
+            // Establish a connection: It can be either got form the pool (of one is available) or created.
+            dbConnectionBase = DbAccessorConnectionManager.getConnection(this);
+            if(dbConnectionBase != null)
+            {
+                // The connection has been obtained from pool; store it in the TLS for futher reference
+                DbTLSConnectionStorage.set(this, dbConnectionBase);
+            }
+        }
+        // Return current connection
+        return dbConnectionBase;
+    }
 
-	/**
-	 * DbConnectionBase getAlternateConnection()
-	 * @return a database connection NOT managed in the TLS
-	 *     It's taken from the pool
-	 **/
-	public DbConnectionBase getAlternateConnection()
-	{
-		// Establish a connection: It can be either got form the pool (of one is available) or created.
-		// Do not act on TLS !
-		DbConnectionBase dbConnectionBase = DbAccessorConnectionManager.getConnection(this);
-		return dbConnectionBase;	// Return current connection
-	}
+    /**
+     * DbConnectionBase getAlternateConnection()
+     * @return a database connection NOT managed in the TLS
+     *     It's taken from the pool
+     **/
+    public DbConnectionBase getAlternateConnection()
+    {
+        // Establish a connection: It can be either got form the pool (of one is available) or created.
+        // Do not act on TLS !
+        DbConnectionBase dbConnectionBase = DbAccessorConnectionManager.getConnection(this);
+        return dbConnectionBase;    // Return current connection
+    }
 
-	public boolean isOracle()
-	{
-		return DbAccessorConnectionManager.isOracle(this);
-	}
+    public boolean isOracle()
+    {
+        return DbAccessorConnectionManager.isOracle(this);
+    }
 
 
-	// JMX Bean management
-	protected void buildDynamicMBeanInfo()
-	{
-		addOperation("ShowRunningCon", getClass(), "setShowRunningCon");
-		addAttribute("NbMaxConnections", getClass(), "NbMaxConnections", int.class);
-		addAttribute("NbAllocConnections", getClass(), "NbAllocConnections", int.class);
-		addAttribute("NbUnusedConnections", getClass(), "NbUnusedConnections", int.class);
-		addAttribute("NbRunningConnections", getClass(), "NbRunningConnections", int.class);
-		addAttribute("NbUnusedCachedStmts", getClass(), "NbUnusedCachedStmts", int.class);
-		addAttribute("AreConnectionsShown", getClass(), "AreConnectionsShown", boolean.class);
-	}
+    // JMX Bean management
+    protected void buildDynamicMBeanInfo()
+    {
+        addOperation("ShowRunningCon", getClass(), "setShowRunningCon");
+        addAttribute("NbMaxConnections", getClass(), "NbMaxConnections", int.class);
+        addAttribute("NbAllocConnections", getClass(), "NbAllocConnections", int.class);
+        addAttribute("NbUnusedConnections", getClass(), "NbUnusedConnections", int.class);
+        addAttribute("NbRunningConnections", getClass(), "NbRunningConnections", int.class);
+        addAttribute("NbUnusedCachedStmts", getClass(), "NbUnusedCachedStmts", int.class);
+        addAttribute("AreConnectionsShown", getClass(), "AreConnectionsShown", boolean.class);
+    }
 
-	// Number of currently unused connections
-	public int getNbUnusedConnections()
-	{
-		int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnectionsForDbAccessor(this);
-		return nNbUnusedConnections;
-	}
+    // Number of currently unused connections
+    public int getNbUnusedConnections()
+    {
+        int nNbUnusedConnections = DbAccessorConnectionManager.getNbUnusedConnectionsForDbAccessor(this);
+        return nNbUnusedConnections;
+    }
 
-	// Number of currently allocated connections
-	public int getNbAllocConnections()
-	{
-		int nNbAllocConnections = DbAccessorConnectionManager.getNbAllocConnnectionsForAccessor(this);
-		return nNbAllocConnections;
-	}
+    // Number of currently allocated connections
+    public int getNbAllocConnections()
+    {
+        int nNbAllocConnections = DbAccessorConnectionManager.getNbAllocConnnectionsForAccessor(this);
+        return nNbAllocConnections;
+    }
 
-	public int getNbRunningConnections()
-	{
-		int n = DbAccessorConnectionManager.getNbRunningConnectionsForDbAccessor(this);
-		return n;
-	}
+    public int getNbRunningConnections()
+    {
+        int n = DbAccessorConnectionManager.getNbRunningConnectionsForDbAccessor(this);
+        return n;
+    }
 
-	// Max number of connections
-	public int getNbMaxConnections()
-	{
-		int nNbUnusedConnections = DbAccessorConnectionManager.getNbMaxConnectionForAccessor(this);
-		return nNbUnusedConnections;
-	}
+    // Max number of connections
+    public int getNbMaxConnections()
+    {
+        int nNbUnusedConnections = DbAccessorConnectionManager.getNbMaxConnectionForAccessor(this);
+        return nNbUnusedConnections;
+    }
 
-	public int getNbUnusedCachedStmts()
-	{
-		int n = DbAccessorConnectionManager.getNbCachedStatementsForAccessor(this);
-		return n;
-	}
+    public int getNbUnusedCachedStmts()
+    {
+        int n = DbAccessorConnectionManager.getNbCachedStatementsForAccessor(this);
+        return n;
+    }
 
-	private boolean isshowRunningCon = false;
+    private boolean isshowRunningCon = false;
 
-	// Operation
-	public void setShowRunningCon()
-	{
-		isshowRunningCon = !isshowRunningCon;
-		DbAccessorConnectionManager.showHideRunningConnections(this, isshowRunningCon);
-	}
+    // Operation
+    public void setShowRunningCon()
+    {
+        isshowRunningCon = !isshowRunningCon;
+        DbAccessorConnectionManager.showHideRunningConnections(this, isshowRunningCon);
+    }
 
-	public boolean getAreConnectionsShown()
-	{
-		return isshowRunningCon;
-	}
+    public boolean getAreConnectionsShown()
+    {
+        return isshowRunningCon;
+    }
 
-	public static String dumpConnectionsForAllAccessors()
-	{
-		StringBuilder sbText = new StringBuilder();
-		sbText.append("Currently running connections in the Thread Local Storage for all DB Accessors:\n");
-		DbTLSConnectionStorage.dumpConnectionsForAllAccessors(sbText);
-		return sbText.toString();
-	}
+    public static String dumpConnectionsForAllAccessors()
+    {
+        StringBuilder sbText = new StringBuilder();
+        sbText.append("Currently running connections in the Thread Local Storage for all DB Accessors:\n");
+        DbTLSConnectionStorage.dumpConnectionsForAllAccessors(sbText);
+        return sbText.toString();
+    }
 
-	public static String dumpConnections(DbAccessor accessor)
-	{
-		StringBuilder sbText = new StringBuilder();
-		accessor.dumpConnections(sbText);
-		return sbText.toString();
-	}
+    public static String dumpConnections(DbAccessor accessor)
+    {
+        StringBuilder sbText = new StringBuilder();
+        accessor.dumpConnections(sbText);
+        return sbText.toString();
+    }
 
-	public void dumpConnections(StringBuilder sbText)
-	{
-		sbText.append("DbAccessor: "+getKey()+"\n");
-		sbText.append("Number unused connections: "+getNbUnusedConnections() + "\n");
-		sbText.append("Number running connections: "+getNbRunningConnections() + "\n");
-		sbText.append("Number max connections: "+getNbMaxConnections() + "\n");
-		sbText.append("Number unused cached statements: "+getNbUnusedCachedStmts() + "\n");
+    public void dumpConnections(StringBuilder sbText)
+    {
+        sbText.append("DbAccessor: "+getKey()+"\n");
+        sbText.append("Number unused connections: "+getNbUnusedConnections() + "\n");
+        sbText.append("Number running connections: "+getNbRunningConnections() + "\n");
+        sbText.append("Number max connections: "+getNbMaxConnections() + "\n");
+        sbText.append("Number unused cached statements: "+getNbUnusedCachedStmts() + "\n");
 
-		DbAccessorConnectionManager.dumpConnections(this, sbText);
-	}
+        DbAccessorConnectionManager.dumpConnections(this, sbText);
+    }
 
-	public static void returnAllAccessorsConnectionsToPool()
-	{
-		DbTLSConnectionStorage.returnAllConnectionsToPool();
-	}
+    public static void returnAllAccessorsConnectionsToPool()
+    {
+        DbTLSConnectionStorage.returnAllConnectionsToPool();
+    }
 }

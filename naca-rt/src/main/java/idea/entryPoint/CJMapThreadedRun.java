@@ -20,44 +20,44 @@ import idea.onlinePrgEnv.OnlineSession;
 
 public class CJMapThreadedRun
 {
-	CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray path)
-	{
-		this.resourceManager = resourceManager;
-		this.nNbLoops = nNbLoops;
-		this.csPrgClassName = csPrgClassName;
-		this.path = path;
-	}
-	
-	void run()
-	{
-		OnlineSession session = new OnlineSession(false) ;
-		BaseProgramLoader loader = OnlineProgramLoader.GetProgramLoaderInstance() ;
-		BaseEnvironment env = loader.GetEnvironment(session, null, null) ;
-		try
-		{	
-			env.startRunTransaction();
-			
-			loader.setPaths(path);
-			env.setNextProgramToLoad(csPrgClassName);
-			
-			//StopWatch sw = new StopWatch(); 
-			for(int n =0; n<nNbLoops; n++)
-			{
-				env.setNextProgramToLoad(csPrgClassName);
-				loader.runTopProgram(env, null);
-			}
-			env.endRunTransaction(CriteriaEndRunMain.Normal);
-			
-			Log.logImportant("Finished; Waiting 10 minutes");
-		}
-		catch (CGotoException e)
-		{
-			env.endRunTransaction(CriteriaEndRunMain.GotoInAsyncStart);
-		}
-	}	
-	
-	OnlineResourceManager resourceManager = null;
-	int nNbLoops = 0;
-	String csPrgClassName = null;
-	StringArray path = null;
+    CJMapThreadedRun(OnlineResourceManager resourceManager, int nNbLoops, String csPrgClassName, StringArray path)
+    {
+        this.resourceManager = resourceManager;
+        this.nNbLoops = nNbLoops;
+        this.csPrgClassName = csPrgClassName;
+        this.path = path;
+    }
+
+    void run()
+    {
+        OnlineSession session = new OnlineSession(false) ;
+        BaseProgramLoader loader = OnlineProgramLoader.GetProgramLoaderInstance() ;
+        BaseEnvironment env = loader.GetEnvironment(session, null, null) ;
+        try
+        {
+            env.startRunTransaction();
+
+            loader.setPaths(path);
+            env.setNextProgramToLoad(csPrgClassName);
+
+            //StopWatch sw = new StopWatch();
+            for(int n =0; n<nNbLoops; n++)
+            {
+                env.setNextProgramToLoad(csPrgClassName);
+                loader.runTopProgram(env, null);
+            }
+            env.endRunTransaction(CriteriaEndRunMain.Normal);
+
+            Log.logImportant("Finished; Waiting 10 minutes");
+        }
+        catch (CGotoException e)
+        {
+            env.endRunTransaction(CriteriaEndRunMain.GotoInAsyncStart);
+        }
+    }
+
+    OnlineResourceManager resourceManager = null;
+    int nNbLoops = 0;
+    String csPrgClassName = null;
+    StringArray path = null;
 }

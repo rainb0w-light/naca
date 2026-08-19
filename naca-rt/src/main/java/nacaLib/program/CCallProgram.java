@@ -29,142 +29,142 @@ import nacaLib.varEx.VarAndEdit;
 public class CCallProgram extends CJMapObject
 {
 
-	/**
-	 * @param CESMEnv Runtime environnement
-	 * @param Class classPrgToCall: class to load dynamically and call
-	 *     Internal usage only
-	 */
-	public CCallProgram(BaseEnvironment env, Class classPrgToCall)
-	{
-		environment = env ;
-		csProgramClassName = classPrgToCall.getName();
-	}
+    /**
+     * @param CESMEnv Runtime environnement
+     * @param Class classPrgToCall: class to load dynamically and call
+     *     Internal usage only
+     */
+    public CCallProgram(BaseEnvironment env, Class classPrgToCall)
+    {
+        environment = env ;
+        csProgramClassName = classPrgToCall.getName();
+    }
 
-	/**
-	 * @param CESMEnv Runtime environnement
-	 * @param String csPrgClassName: class name to load dynamically and call
-	 *     Internal usage only
-	 */
-	public CCallProgram(BaseEnvironment env, String csPrgClassName)
-	{
-		environment = env ;
-		csProgramClassName = csPrgClassName ;
-	}
+    /**
+     * @param CESMEnv Runtime environnement
+     * @param String csPrgClassName: class name to load dynamically and call
+     *     Internal usage only
+     */
+    public CCallProgram(BaseEnvironment env, String csPrgClassName)
+    {
+        environment = env ;
+        csProgramClassName = csPrgClassName ;
+    }
 
 
-	/**
-	 * Must be called explicitly to terminate all arguments passing to a called program
-	 */
-	public void executeCall()
-	{
-		baseProgramLoader.runSubProgram(csProgramClassName, callParam, environment);
-	}
+    /**
+     * Must be called explicitly to terminate all arguments passing to a called program
+     */
+    public void executeCall()
+    {
+        baseProgramLoader.runSubProgram(csProgramClassName, callParam, environment);
+    }
 
-	public boolean executeCallSafe()
-	{
-		try
-		{
-			executeCall();
-			return false;
-		}
-		catch (AssertException t)
-		{
-			return true;
-		}
-	}
+    public boolean executeCallSafe()
+    {
+        try
+        {
+            executeCall();
+            return false;
+        }
+        catch (AssertException t)
+        {
+            return true;
+        }
+    }
 
-	/**
-	 * @param Var var: Variable to pass by value to the called program
-	 * @return this
+    /**
+     * @param Var var: Variable to pass by value to the called program
+     * @return this
      *     The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
-	 *     They do not share the same variable.
-	 */
-	public CCallProgram usingValue(Var var)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
-		CallParamByValue CallParam = new CallParamByValue(var);
+     *     They do not share the same variable.
+     */
+    public CCallProgram usingValue(Var var)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
+        CallParamByValue CallParam = new CallParamByValue(var);
 
-		callParam.add(CallParam);
-		return this;
-	}
+        callParam.add(CallParam);
+        return this;
+    }
 
-	/**
-	 * @param Var var: Variable to pass by value to the called program
-	 * @return this
+    /**
+     * @param Var var: Variable to pass by value to the called program
+     * @return this
      *     The variable var will be passed by value, so even if modified in called prog., it's value will stay unmodified in caller prog.
-	 *     They do not share the same variable.
-	 */
-	public CCallProgram usingContent(Var var)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
-		CallParamByValue CallParam = new CallParamByValue(var);
+     *     They do not share the same variable.
+     */
+    public CCallProgram usingContent(Var var)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
+        CallParamByValue CallParam = new CallParamByValue(var);
 
-		callParam.add(CallParam);
-		return this;
-	}
+        callParam.add(CallParam);
+        return this;
+    }
 
-	/**
-	 * @param Var var: Variable to pass by reference to the called program
-	 * @return this
+    /**
+     * @param Var var: Variable to pass by reference to the called program
+     * @return this
      *     The variable var will be passed by reference, so if it is modified in called prog., it's value will also be modified in caller
      *     prog.
-	 *     They both share the same variable.
-	 */
-	public CCallProgram using(Var var)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
-		CallParamByRef CallParam = new CallParamByRef(var);
+     *     They both share the same variable.
+     */
+    public CCallProgram using(Var var)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
+        CallParamByRef CallParam = new CallParamByRef(var);
 
-		callParam.add(CallParam);
-		return this;
-	}
+        callParam.add(CallParam);
+        return this;
+    }
 
-	public CCallProgram using(Edit edit)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
-		CallParamByRef CallParam = new CallParamByRef(edit);
+    public CCallProgram using(Edit edit)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
+        CallParamByRef CallParam = new CallParamByRef(edit);
 
-		callParam.add(CallParam);
-		return this;
-	}
+        callParam.add(CallParam);
+        return this;
+    }
 
-	public CCallProgram using(String string)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
-		CallParamByStringValue CallParam = new CallParamByStringValue(string);
-		callParam.add(CallParam);
-		return this;
-	}
+    public CCallProgram using(String string)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
+        CallParamByStringValue CallParam = new CallParamByStringValue(string);
+        callParam.add(CallParam);
+        return this;
+    }
 
-	/**
-	 * @param Var var: Variable to pass whose length if passed by value to the called program
-	 * @return this
-	 *     The variable's lengthvar will be passed by value to the called program
-	 */
-	public CCallProgram usingLengthOf(VarAndEdit var)
-	{
-		if(callParam == null)
-			callParam = new ArrayList<CCallParam>();
+    /**
+     * @param Var var: Variable to pass whose length if passed by value to the called program
+     * @return this
+     *     The variable's lengthvar will be passed by value to the called program
+     */
+    public CCallProgram usingLengthOf(VarAndEdit var)
+    {
+        if(callParam == null)
+            callParam = new ArrayList<CCallParam>();
 
-		CallParamByLength callParam = new CallParamByLength(var);
+        CallParamByLength callParam = new CallParamByLength(var);
 
-		this.callParam.add(callParam);
-		return this;
-	}
+        this.callParam.add(callParam);
+        return this;
+    }
 
-	public void setProgramLoader(BaseProgramLoader baseProgramLoader)
-	{
-		this.baseProgramLoader = baseProgramLoader;
-	}
+    public void setProgramLoader(BaseProgramLoader baseProgramLoader)
+    {
+        this.baseProgramLoader = baseProgramLoader;
+    }
 
-	protected BaseEnvironment environment = null ;
-	protected String csProgramClassName = "" ;
-	private ArrayList<CCallParam> callParam = null;	// Array of all call parameters
-	private BaseProgramLoader baseProgramLoader = null;
+    protected BaseEnvironment environment = null ;
+    protected String csProgramClassName = "" ;
+    private ArrayList<CCallParam> callParam = null; // Array of all call parameters
+    private BaseProgramLoader baseProgramLoader = null;
 
 }

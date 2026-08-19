@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -18,23 +18,23 @@ import nacaLib.basePrgEnv.BaseProgramManager;
  */
 public class MoveCorrespondingEntry
 {
-	MoveCorrespondingEntry(VarDefBase varDefSource, VarDefBase varDefDest)
-	{
-		this.varDefSource = varDefSource;
-		this.varDefDest = varDefDest;
-	}
-	
-	void doMove(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)
-	{
-		VarBase varSource = programManager.getVarFullName(varDefSource);
-		VarBase varDest = programManager.getVarFullName(varDefDest);
-		varSource.bufferPos.nAbsolutePosition += nSourceOffset;
-		varDest.bufferPos.nAbsolutePosition += nDestOffset;
-		varDest.set(varSource);
-		varSource.bufferPos.nAbsolutePosition -= nSourceOffset;
-		varDest.bufferPos.nAbsolutePosition -= nDestOffset;
-	}
-	
-	private VarDefBase varDefSource = null;
-	private VarDefBase varDefDest = null;
+    MoveCorrespondingEntry(VarDefBase varDefSource, VarDefBase varDefDest)
+    {
+        this.varDefSource = varDefSource;
+        this.varDefDest = varDefDest;
+    }
+
+    void doMove(BaseProgramManager programManager, int nSourceOffset, int nDestOffset)
+    {
+        VarBase varSource = programManager.getVarFullName(varDefSource);
+        VarBase varDest = programManager.getVarFullName(varDefDest);
+        varSource.bufferPos.nAbsolutePosition += nSourceOffset;
+        varDest.bufferPos.nAbsolutePosition += nDestOffset;
+        varDest.set(varSource);
+        varSource.bufferPos.nAbsolutePosition -= nSourceOffset;
+        varDest.bufferPos.nAbsolutePosition -= nDestOffset;
+    }
+
+    private VarDefBase varDefSource = null;
+    private VarDefBase varDefDest = null;
 }

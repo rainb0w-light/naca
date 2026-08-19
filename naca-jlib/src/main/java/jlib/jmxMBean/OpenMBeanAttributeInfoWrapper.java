@@ -13,29 +13,34 @@ import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
 
 public class OpenMBeanAttributeInfoWrapper
 {
-	public OpenMBeanAttributeInfoWrapper(String csName, String csDescription, OpenMBeanAttributeInfoSupport openType, Method getter, Method setter)
-	{
-		this.openType = openType;
-		this.getter = getter;
-		this.setter = setter;
-	}
-	
-	OpenMBeanAttributeInfo getAttribute()
-	{
-		return openType;
-	}
-	
-	Method getMethodGetter()
-	{
-		return getter;
-	}
-	
-	Method getMethodSetter()
-	{
-		return setter;
-	}
-	
-	private Method getter = null;
-	private Method setter = null;
-	private OpenMBeanAttributeInfoSupport openType = null;
+    public OpenMBeanAttributeInfoWrapper(
+        String csName,
+        String csDescription,
+        OpenMBeanAttributeInfoSupport openType,
+        Method getter,
+        Method setter)
+    {
+        this.openType = openType;
+        this.getter = getter;
+        this.setter = setter;
+    }
+
+    OpenMBeanAttributeInfo getAttribute()
+    {
+        return openType;
+    }
+
+    Method getMethodGetter()
+    {
+        return getter;
+    }
+
+    Method getMethodSetter()
+    {
+        return setter;
+    }
+
+    private Method getter = null;
+    private Method setter = null;
+    private OpenMBeanAttributeInfoSupport openType = null;
 }

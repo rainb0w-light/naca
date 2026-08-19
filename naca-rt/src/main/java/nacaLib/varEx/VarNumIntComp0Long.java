@@ -12,73 +12,73 @@ package nacaLib.varEx;
  */
 public class VarNumIntComp0Long extends VarNum
 {
-	VarNumIntComp0Long(DeclareType9 declareType9)
-	{
-		super(declareType9);
-	}
+    VarNumIntComp0Long(DeclareType9 declareType9)
+    {
+        super(declareType9);
+    }
 
-	protected VarNumIntComp0Long()
-	{
-		super();
-	}
+    protected VarNumIntComp0Long()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarNumIntComp0Long v = new VarNumIntComp0Long();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarNumIntComp0Long v = new VarNumIntComp0Long();
+        return v;
+    }
 
-	String getDisplayableString()
-	{
-		return "VarNumIntComp0Long";
-	}
+    String getDisplayableString()
+    {
+        return "VarNumIntComp0Long";
+    }
 
-	public int compareTo(ComparisonMode mode, String csValue)
-	{
-		double dValue = 0;
-		try
-		{
-			dValue = Double.valueOf(csValue).doubleValue();
-		}
-		catch (Exception ex)
-		{
-		}
-		return compareTo(dValue);
-	}
+    public int compareTo(ComparisonMode mode, String csValue)
+    {
+        double dValue = 0;
+        try
+        {
+            dValue = Double.valueOf(csValue).doubleValue();
+        }
+        catch (Exception ex)
+        {
+        }
+        return compareTo(dValue);
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		byte tByte[] = doConvertUnicodeToEbcdic(tChars);
-		return tByte;
-	}
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        byte tByte[] = doConvertUnicodeToEbcdic(tChars);
+        return tByte;
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
 
 
-	public VarType getVarType()
-	{
-		return VarType.VarNumIntComp0Long;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarNumIntComp0Long;
+    }
 
 
 }

@@ -12,27 +12,27 @@ package nacaLib.varEx;
  */
 public class NameManager
 {
-	static public String getUnprefixedName(String csName)
-	{
-		int nPosSep = csName.indexOf('.');
-		if(nPosSep != -1)
-			csName = csName.substring(nPosSep+1);
+    static public String getUnprefixedName(String csName)
+    {
+        int nPosSep = csName.indexOf('.');
+        if(nPosSep != -1)
+            csName = csName.substring(nPosSep+1);
 
-		nPosSep = csName.indexOf('$');
-		if(nPosSep != -1)
-			csName = csName.substring(0, nPosSep);		// 1st name that follows the dot (File$X.Y$Z$T -> returns Y)
+        nPosSep = csName.indexOf('$');
+        if(nPosSep != -1)
+            csName = csName.substring(0, nPosSep);      // 1st name that follows the dot (File$X.Y$Z$T -> returns Y)
 
-		return csName;
-	}
+        return csName;
+    }
 
-	static public String getUnprefixedUnindexedName(String csName)
-	{
-		String cs = getUnprefixedName(csName);
-		int n = cs.indexOf("[");
-		if(n != -1)
-		{
-			cs = cs.substring(0, n);
-		}
-		return cs;
-	}
+    static public String getUnprefixedUnindexedName(String csName)
+    {
+        String cs = getUnprefixedName(csName);
+        int n = cs.indexOf("[");
+        if(n != -1)
+        {
+            cs = cs.substring(0, n);
+        }
+        return cs;
+    }
 }

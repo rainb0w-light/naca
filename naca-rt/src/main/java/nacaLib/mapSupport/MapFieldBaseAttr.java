@@ -12,56 +12,60 @@ package nacaLib.mapSupport;
 
 public abstract class MapFieldBaseAttr
 {
-	protected MapFieldBaseAttr(int nValue, String text)
-	{
-		this.nValue = nValue;
-		csText = text ;
-	}
+    protected MapFieldBaseAttr(int nValue, String text)
+    {
+        this.nValue = nValue;
+        csText = text ;
+    }
 
-	int getBitEncoding()
-	{
-		return nValue;
-	}
+    int getBitEncoding()
+    {
+        return nValue;
+    }
 
-//	void setBitEncoding(int nValue)
-//	{
-//		nValue = nValue;
-//	}
+//  void setBitEncoding(int nValue)
+//  {
+//      nValue = nValue;
+//  }
 
 
-	private int nValue = 0;
-	private String csText = "" ;
-	protected int getInternalValue()
-	{
-		return nValue ;
-	}
-	public String toString()
-	{
-		return getText();
-	}
-	public String getText()
-	{
-		return csText ;
-	}
+    private int nValue = 0;
+    private String csText = "" ;
+    protected int getInternalValue()
+    {
+        return nValue ;
+    }
+    public String toString()
+    {
+        return getText();
+    }
+    public String getText()
+    {
+        return csText ;
+    }
 
-	public String getSTCheckValue()
-	{
-		return toString();
-	}
+    public String getSTCheckValue()
+    {
+        return toString();
+    }
 
-//	abstract static int getNbBitsEncoding();
-//	abstract static int getMask();
+//  abstract static int getNbBitsEncoding();
+//  abstract static int getMask();
 
-	/*
-	Caractéristique de chaque mapset, map ou champs, qui décrit précisément les environnements. par exemple pour un champ, les attributs indiqueront la position (ligna colonne), la longueur, le type d?information (alphanumérique,...), le cadrage (droite, gauche), la brillance, reverse vidée, protége ou non, etc
-	Pour les champs libellés, les attributs sont représentés par un suffixe, qui indique le type d?attribut que l?on est en train de traiter. Ce qui explique que la longueur du nom d?un champ est >= 7. Le nombre des attributs générés sera dépendant du type attribut standard ou étendu.
-	Les suffixes sont les suivants :
-		L 2 octets longueur du champ, si longueur = -1, alors curseur positionné. (PIC S9(4) comp)
-		F 1 octet zone flag indique protégé ou non.
-		C 1 octet couleur
-		H 1 octet brillance, soulignement, reverse vidéo.
-		V 1 octet validation
-		P 1 octet zone flag
-		I/O n octets zone de données
+    /*
+    Caractéristique de chaque mapset, map ou champs, qui décrit précisément les environnements. par exemple pour un champ, les attributs
+    indiqueront la position (ligna colonne), la longueur, le type d?information (alphanumérique,...), le cadrage (droite, gauche), la
+    brillance, reverse vidée, protége ou non, etc
+    Pour les champs libellés, les attributs sont représentés par un suffixe, qui indique le type d?attribut que l?on est en train de
+    traiter. Ce qui explique que la longueur du nom d?un champ est >= 7. Le nombre des attributs générés sera dépendant du type attribut
+    standard ou étendu.
+    Les suffixes sont les suivants :
+        L 2 octets longueur du champ, si longueur = -1, alors curseur positionné. (PIC S9(4) comp)
+        F 1 octet zone flag indique protégé ou non.
+        C 1 octet couleur
+        H 1 octet brillance, soulignement, reverse vidéo.
+        V 1 octet validation
+        P 1 octet zone flag
+        I/O n octets zone de données
 */
 }

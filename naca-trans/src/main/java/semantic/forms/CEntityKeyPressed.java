@@ -38,71 +38,71 @@ import utils.CObjectCatalog;
  */
 public class CEntityKeyPressed extends CDataEntity
 {
-	public void RegisterReadingAction(CBaseActionEntity act)
-	{
-		super.RegisterReadingAction(act);
-		programCatalog.addImportDeclaration("KEYPRESSED") ;
-	}
-	public void RegisterReadReference(CBaseDataReference ent)
-	{
-		programCatalog.addImportDeclaration("KEYPRESSED") ;
-		super.RegisterReadReference(ent);
-	}
-	public void RegisterValueAccess(CBaseEntityCondExpr cond)
-	{
-		programCatalog.addImportDeclaration("KEYPRESSED") ;
-		super.RegisterValueAccess(cond);
-	}
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 * @param publicName the {@code nacaLib.misc.KeyPressed} constant name (rule {@code keyName})
-	 */
-	public CEntityKeyPressed(int l, String name, CObjectCatalog cat, String publicName)
-	{
-		super(l, name, cat);
-		csPublicName = publicName ;
-	}
-	protected String csPublicName = "" ;
+    public void RegisterReadingAction(CBaseActionEntity act)
+    {
+        super.RegisterReadingAction(act);
+        programCatalog.addImportDeclaration("KEYPRESSED") ;
+    }
+    public void RegisterReadReference(CBaseDataReference ent)
+    {
+        programCatalog.addImportDeclaration("KEYPRESSED") ;
+        super.RegisterReadReference(ent);
+    }
+    public void RegisterValueAccess(CBaseEntityCondExpr cond)
+    {
+        programCatalog.addImportDeclaration("KEYPRESSED") ;
+        super.RegisterValueAccess(cond);
+    }
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     * @param publicName the {@code nacaLib.misc.KeyPressed} constant name (rule {@code keyName})
+     */
+    public CEntityKeyPressed(int l, String name, CObjectCatalog cat, String publicName)
+    {
+        super(l, name, cat);
+        csPublicName = publicName ;
+    }
+    protected String csPublicName = "" ;
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.CONSOLE_KEY ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.CONSOLE_KEY ;
+    }
 
-	public boolean HasAccessors()
-	{
-		// A console key is a pseudo-constant reference, never an accessor-bearing variable.
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        // A console key is a pseudo-constant reference, never an accessor-bearing variable.
+        return false;
+    }
 
-	public boolean isValNeeded()
-	{
-		// A console key is never declared as a val.
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        // A console key is never declared as a val.
+        return false;
+    }
 
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the recursive ST4 assembly contract
-	 * (semantic.forms.CEntityKeyPressed -> recursiveKeyPressedEntity), preserved from the
-	 * retired direct backend generate.java.forms.CJavaKeyPressed whose ExportReference
-	 * returned "KeyPressed." + csPublicName. Exposes only the precomputed
-	 * {@code nacaLib.misc.KeyPressed} constant name; the template prepends the
-	 * target-specific {@code KeyPressed.} qualifier. A pure field read — no
-	 * FormatIdentifier, no data-reference resolution, no lowering.
-	 */
-	public String getPublicName()
-	{
-		return csPublicName ;
-	}
+    /**
+     * Pure read-only getter consumed by the recursive ST4 assembly contract
+     * (semantic.forms.CEntityKeyPressed -> recursiveKeyPressedEntity), preserved from the
+     * retired direct backend generate.java.forms.CJavaKeyPressed whose ExportReference
+     * returned "KeyPressed." + csPublicName. Exposes only the precomputed
+     * {@code nacaLib.misc.KeyPressed} constant name; the template prepends the
+     * target-specific {@code KeyPressed.} qualifier. A pure field read — no
+     * FormatIdentifier, no data-reference resolution, no lowering.
+     */
+    public String getPublicName()
+    {
+        return csPublicName ;
+    }
 }

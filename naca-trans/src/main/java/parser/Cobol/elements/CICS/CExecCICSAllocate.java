@@ -23,49 +23,49 @@ import utils.Transcoder;
  */
 public class CExecCICSAllocate extends CCobolElement
 {
-	public CExecCICSAllocate(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(
-		CBaseLanguageEntity parent,
-		CBaseEntityFactory factory)
-	{
-		Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ALLOCATE") ;
-		return null;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		//if (tok.GetKeyword() == CCobolKeywordList.)
-		{
-			tok = GetNext();
-		}
+    public CExecCICSAllocate(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(
+        CBaseLanguageEntity parent,
+        CBaseEntityFactory factory)
+    {
+        Transcoder.logError(getLine(), "No Semantic Analysis for EXEC CICS ALLOCATE") ;
+        return null;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        //if (tok.GetKeyword() == CCobolKeywordList.)
+        {
+            tok = GetNext();
+        }
 
-		String cs = "" ;
-		tok = GetCurrentToken() ;
-		while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			cs += tok.GetDisplay() + " " ;
-			tok = GetNext() ;
-		}
+        String cs = "" ;
+        tok = GetCurrentToken() ;
+        while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            cs += tok.GetDisplay() + " " ;
+            tok = GetNext() ;
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ALLOCATE");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS ALLOCATE");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		//m_Logger.error("No Export for EXEC CICS ALLOCATE") ;
-		Element e = root.createElement("ExecCICSAllocate") ;
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        //m_Logger.error("No Export for EXEC CICS ALLOCATE") ;
+        Element e = root.createElement("ExecCICSAllocate") ;
+        return e;
+    }
 }

@@ -19,78 +19,78 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class VarDeclaration extends ParamDeclaration
 {
-	private VarLevel varLevel = null;
+    private VarLevel varLevel = null;
 
-	public VarDeclaration(BaseProgram prg)
-	{
-		super(prg);
-	}
+    public VarDeclaration(BaseProgram prg)
+    {
+        super(prg);
+    }
 
-	public VarDeclaration(BaseProgram prg, CopyReplacing copyReplacing)
-	{
-		super(prg);
-		this.copyReplacing = copyReplacing;
-	}
+    public VarDeclaration(BaseProgram prg, CopyReplacing copyReplacing)
+    {
+        super(prg);
+        this.copyReplacing = copyReplacing;
+    }
 
-	public VarLevel level(int nLevel)
-	{
-		short level = (short)nLevel;
-		if(level != 77)	// Level 77 is assimiled to a level 1, but cannot be a parent
-		{
-			if(copyReplacing != null)
-				level = (short)copyReplacing.getReplacedLevel(nLevel);
-		}
+    public VarLevel level(int nLevel)
+    {
+        short level = (short)nLevel;
+        if(level != 77) // Level 77 is assimiled to a level 1, but cannot be a parent
+        {
+            if(copyReplacing != null)
+                level = (short)copyReplacing.getReplacedLevel(nLevel);
+        }
 
-		if(level == 1)
-			program.getProgramManager().checkWorkingStorageSection();
+        if(level == 1)
+            program.getProgramManager().checkWorkingStorageSection();
 
-		if(level == 1 || level == 77)
-		{
-			program.getProgramManager().setCurrentMapRedefine(null);
-		}
+        if(level == 1 || level == 77)
+        {
+            program.getProgramManager().setCurrentMapRedefine(null);
+        }
 
-		return varLevel(level);
-	}
+        return varLevel(level);
+    }
 
-	public VarLevel variable()
-	{
-		return varLevel(77);
-	}
+    public VarLevel variable()
+    {
+        return varLevel(77);
+    }
 
-	private VarLevel varLevel(int nLevel)
-	{
-		TempCache tempCache = TempCacheLocator.getTLSTempCache();
-		VarLevel varLevel = tempCache.getVarLevel();
-		varLevel.set(program, nLevel);
-		return varLevel;
-	}
+    private VarLevel varLevel(int nLevel)
+    {
+        TempCache tempCache = TempCacheLocator.getTLSTempCache();
+        VarLevel varLevel = tempCache.getVarLevel();
+        varLevel.set(program, nLevel);
+        return varLevel;
+    }
 
-	public Var index()
-	{
-		return new VarInternalInt();
-	}
+    public Var index()
+    {
+        return new VarInternalInt();
+    }
 
-	public Var bool()
-	{
-		return new VarInternalBool();
-	}
-
-
-
-	public DeclareTypeCond condition()
-	{
-		DeclareTypeCond declareTypeCond = TempCacheLocator.getTLSTempCache().getDeclareTypeCond();
-		declareTypeCond.set(program);
-		return declareTypeCond;
-	}
+    public Var bool()
+    {
+        return new VarInternalBool();
+    }
 
 
 
-	public CopyReplacing replacing(int nOld, int nNew)
-	{
-		CopyReplacing copyReplacing = new CopyReplacing(nOld, nNew);
-		return copyReplacing;
-	}
+    public DeclareTypeCond condition()
+    {
+        DeclareTypeCond declareTypeCond = TempCacheLocator.getTLSTempCache().getDeclareTypeCond();
+        declareTypeCond.set(program);
+        return declareTypeCond;
+    }
 
-	private CopyReplacing copyReplacing = null;
+
+
+    public CopyReplacing replacing(int nOld, int nNew)
+    {
+        CopyReplacing copyReplacing = new CopyReplacing(nOld, nNew);
+        return copyReplacing;
+    }
+
+    private CopyReplacing copyReplacing = null;
 }

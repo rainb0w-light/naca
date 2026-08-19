@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,21 +16,21 @@ package jlib.misc;
  */
 public class RecordLengthDefinition
 {
-	private int nRecordLength = 0;
-	//private boolean bRecordLengthForced = false;
-	
-	public RecordLengthDefinition(int n)
-	{
-		nRecordLength = n;
-	}
-	
-	public int getRecordLength()
-	{
-		return nRecordLength;
-	}
-	
-	public String toString()
-	{
-		return String.valueOf(nRecordLength);
-	}
+    private int nRecordLength = 0;
+    //private boolean bRecordLengthForced = false;
+
+    public RecordLengthDefinition(int n)
+    {
+        nRecordLength = n;
+    }
+
+    public int getRecordLength()
+    {
+        return nRecordLength;
+    }
+
+    public String toString()
+    {
+        return String.valueOf(nRecordLength);
+    }
 }

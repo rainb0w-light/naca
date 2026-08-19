@@ -23,58 +23,58 @@ import org.w3c.dom.Document;
 
 public class CESMReceive extends CJMapObject
 {
-	CESMReceive(Document Loader, BaseEnvironment env)
-	{
-		this.xmlData = Loader;
-		this.env = env;
-	}
+    CESMReceive(Document Loader, BaseEnvironment env)
+    {
+        this.xmlData = Loader;
+        this.env = env;
+    }
 
-	CESMReceive setMap(String mapName)
-	{
-	//	mapName = mapName;
-		return this;
-	}
+    CESMReceive setMap(String mapName)
+    {
+    //  mapName = mapName;
+        return this;
+    }
 
 
-	public void into(Form var)
-	{
-		this.mapInto = var;
-		receiveData() ;
-		//return this;
-	}
-	public void into(Var var)
-	{
-		// if this function is called, that means a COPY is missing with the map defined in it
-		assertIfFalse(var == null) ;
-	}
+    public void into(Form var)
+    {
+        this.mapInto = var;
+        receiveData() ;
+        //return this;
+    }
+    public void into(Var var)
+    {
+        // if this function is called, that means a COPY is missing with the map defined in it
+        assertIfFalse(var == null) ;
+    }
 
-	void receiveData()
-	{
-		if(xmlData != null)
-		{
-//			for(int n=0; n<mapInto.arrForms.size(); n++)
-//			{
-//				Form f = (CForm) mapInto.arrForms.get(n);
-				mapInto.loadValues(xmlData);
-				String k = xmlData.getDocumentElement().getAttribute("keypressed") ;
-				env.setKeyPressed(KeyPressed.getKey(k));
-	//		}
-		}
-	}
+    void receiveData()
+    {
+        if(xmlData != null)
+        {
+//          for(int n=0; n<mapInto.arrForms.size(); n++)
+//          {
+//              Form f = (CForm) mapInto.arrForms.get(n);
+                mapInto.loadValues(xmlData);
+                String k = xmlData.getDocumentElement().getAttribute("keypressed") ;
+                env.setKeyPressed(KeyPressed.getKey(k));
+    //      }
+        }
+    }
 
-	private Form mapInto = null;
-	//private String mapName = "";
-	private Document xmlData = null;
-	private BaseEnvironment env = null ;
+    private Form mapInto = null;
+    //private String mapName = "";
+    private Document xmlData = null;
+    private BaseEnvironment env = null ;
 
-	public CESMReceive mapSet(String string)
-	{
-		// nothing to do with mapset...
-		return this ;
-	}
-	public CESMReceive mapSet(Var name)
-	{
-		// nothing to do with mapset...
-		return this ;
-	}
+    public CESMReceive mapSet(String string)
+    {
+        // nothing to do with mapset...
+        return this ;
+    }
+    public CESMReceive mapSet(Var name)
+    {
+        // nothing to do with mapset...
+        return this ;
+    }
 }

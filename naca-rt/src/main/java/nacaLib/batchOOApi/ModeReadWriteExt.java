@@ -13,7 +13,7 @@ package nacaLib.batchOOApi;
  */
 public class ModeReadWriteExt
 {
-	public final static ModeReadWriteExt Read = new ModeReadWriteExt();
-	public final static ModeReadWriteExt Write = new ModeReadWriteExt();
-	public final static ModeReadWriteExt Unknown = new ModeReadWriteExt();
+    public final static ModeReadWriteExt Read = new ModeReadWriteExt();
+    public final static ModeReadWriteExt Write = new ModeReadWriteExt();
+    public final static ModeReadWriteExt Unknown = new ModeReadWriteExt();
 }

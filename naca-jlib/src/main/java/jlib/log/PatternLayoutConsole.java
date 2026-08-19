@@ -14,34 +14,34 @@ import jlib.misc.StringUtil;
  */
 public class PatternLayoutConsole extends LogPatternLayout
 {
-	public PatternLayoutConsole(String csFormat)
-	{
-		super();
-		this.csFormat = csFormat;
-	}
+    public PatternLayoutConsole(String csFormat)
+    {
+        super();
+        this.csFormat = csFormat;
+    }
 
-	String getMessage(LogParams logParams)
-	{
-		return logParams.getMessage();
-	}
+    String getMessage(LogParams logParams)
+    {
+        return logParams.getMessage();
+    }
 
-	String format(LogParams logParams, int n)
-	{
-		String cs = csFormat;
-		cs = StringUtil.replace(cs, "%Message", logParams.toString(), true);
-		cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
-		cs = StringUtil.replace(cs, "%ThreadId", logParams.getThreadId(), true);
-		cs = StringUtil.replace(cs, "%StartTime", logParams.getStartTime(), true);
-		cs = StringUtil.replace(cs, "%Timestamp", logParams.getDisplayTimestamp(), true);
-		cs = StringUtil.replace(cs, "%CR", "\n", true);
-		cs = StringUtil.replace(cs, "%LF", "\r", true);
-		return cs;
-	}
+    String format(LogParams logParams, int n)
+    {
+        String cs = csFormat;
+        cs = StringUtil.replace(cs, "%Message", logParams.toString(), true);
+        cs = StringUtil.replace(cs, "%ThreadName", logParams.getThreadName(), true);
+        cs = StringUtil.replace(cs, "%ThreadId", logParams.getThreadId(), true);
+        cs = StringUtil.replace(cs, "%StartTime", logParams.getStartTime(), true);
+        cs = StringUtil.replace(cs, "%Timestamp", logParams.getDisplayTimestamp(), true);
+        cs = StringUtil.replace(cs, "%CR", "\n", true);
+        cs = StringUtil.replace(cs, "%LF", "\r", true);
+        return cs;
+    }
 
-	int getNbLoop(LogParams logParams)
-	{
-		return 1;
-	}
+    int getNbLoop(LogParams logParams)
+    {
+        return 1;
+    }
 
-	private String csFormat = null;
+    private String csFormat = null;
 }

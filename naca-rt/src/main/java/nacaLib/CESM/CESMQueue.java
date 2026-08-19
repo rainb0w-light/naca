@@ -18,31 +18,31 @@ import nacaLib.varEx.Var;
  */
 public class CESMQueue extends CJMapObject
 {
-	protected Queue queue = new SynchronousQueue();
-	protected int nbElements = 0;
-	protected int nbLastRead = 0 ;
+    protected Queue queue = new SynchronousQueue();
+    protected int nbElements = 0;
+    protected int nbLastRead = 0 ;
 
-	public int Add(Var data)
-	{
-		queue.add(data);
-		nbElements ++ ;
-		return nbElements ;
-	}
+    public int Add(Var data)
+    {
+        queue.add(data);
+        nbElements ++ ;
+        return nbElements ;
+    }
 
-	public int length()
-	{
-		return nbElements ;
-	}
+    public int length()
+    {
+        return nbElements ;
+    }
 
-	public int read(Var data)
-	{
-		if (nbLastRead < nbElements)
-		{
-			Var e = (Var)queue.remove() ;
-			data.set(e) ;
-			nbLastRead ++ ;
-			return nbLastRead ;
-		}
-		return 0;
-	}
+    public int read(Var data)
+    {
+        if (nbLastRead < nbElements)
+        {
+            Var e = (Var)queue.remove() ;
+            data.set(e) ;
+            nbLastRead ++ ;
+            return nbLastRead ;
+        }
+        return 0;
+    }
 }

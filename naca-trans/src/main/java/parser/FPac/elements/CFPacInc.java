@@ -20,45 +20,45 @@ import semantic.Verbs.CEntityInc;
 public class CFPacInc extends CLanguageElement
 {
 
-	private CIdentifier id;
-	private CTerminal term;
+    private CIdentifier id;
+    private CTerminal term;
 
-	public CFPacInc(int line)
-	{
-		super(line);
-	}
+    public CFPacInc(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityInc add = factory.NewEntityInc(getLine()) ;
-		parent.AddChild(add) ;
-		CDataEntity dest = id.GetDataReference(getLine(), factory) ;
-		CDataEntity val = term.GetDataEntity(getLine(), factory) ;
-		add.SetAddDest(dest) ;
-		add.SetAddValue(val) ;
-		return add ;
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityInc add = factory.NewEntityInc(getLine()) ;
+        parent.AddChild(add) ;
+        CDataEntity dest = id.GetDataReference(getLine(), factory) ;
+        CDataEntity val = term.GetDataEntity(getLine(), factory) ;
+        add.SetAddDest(dest) ;
+        add.SetAddValue(val) ;
+        return add ;
 
-	}
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("Increment") ;
-		Element eid = root.createElement("Var") ;
-		e.appendChild(eid) ;
-		id.ExportTo(eid, root) ;
-		Element eval = root.createElement("Val") ;
-		e.appendChild(eval) ;
-		term.ExportTo(eval, root) ;
-		return e;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("Increment") ;
+        Element eid = root.createElement("Var") ;
+        e.appendChild(eid) ;
+        id.ExportTo(eid, root) ;
+        Element eval = root.createElement("Val") ;
+        e.appendChild(eval) ;
+        term.ExportTo(eval, root) ;
+        return e;
+    }
 
-	public void Increments(CIdentifier id, CTerminal term)
-	{
-		this.id = id ;
-		this.term = term ;
-	}
+    public void Increments(CIdentifier id, CTerminal term)
+    {
+        this.id = id ;
+        this.term = term ;
+    }
 
 
 }

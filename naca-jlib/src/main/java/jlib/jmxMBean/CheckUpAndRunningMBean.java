@@ -8,11 +8,11 @@ package jlib.jmxMBean;
 
 public interface CheckUpAndRunningMBean
 {
-	boolean isUp();
-	
-	int getNbCheckUp();
-	
-	public boolean getInc();
-	public void setInc(boolean b);
+    boolean isUp();
+
+    int getNbCheckUp();
+
+    public boolean getInc();
+    public void setInc(boolean b);
 }
 

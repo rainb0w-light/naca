@@ -10,46 +10,46 @@ import jlib.log.Asserter;
 
 public class SortItemKeySegment
 {
-	SortItemKeySegment(boolean bAscending)
-	{
-		isascending = bAscending;
-	}
+    SortItemKeySegment(boolean bAscending)
+    {
+        isascending = bAscending;
+    }
 
-	void copyChars(char [] tChars, int nStart, int nLength)
-	{
-		tcKeyValue = new char [nLength];
-		for(int n=0; n<nLength; n++)
-		{
-			tcKeyValue[n] = tChars[n + nStart];
-		}
-	}
+    void copyChars(char [] tChars, int nStart, int nLength)
+    {
+        tcKeyValue = new char [nLength];
+        for(int n=0; n<nLength; n++)
+        {
+            tcKeyValue[n] = tChars[n + nStart];
+        }
+    }
 
-	int compare(SortItemKeySegment sortItemKeySegment2)
-	{
-		Asserter.assertIfFalse(isascending == sortItemKeySegment2.isascending);
-		Asserter.assertIfFalse(tcKeyValue.length == sortItemKeySegment2.tcKeyValue.length);
+    int compare(SortItemKeySegment sortItemKeySegment2)
+    {
+        Asserter.assertIfFalse(isascending == sortItemKeySegment2.isascending);
+        Asserter.assertIfFalse(tcKeyValue.length == sortItemKeySegment2.tcKeyValue.length);
 
-		int nLength = tcKeyValue.length;
-		for(int n=0; n<nLength; n++)
-		{
-			if(tcKeyValue[n] < sortItemKeySegment2.tcKeyValue[n])
-			{
-				if(isascending)
-					return -1;
-				else
-					return 1;
-			}
-			if(tcKeyValue[n] > sortItemKeySegment2.tcKeyValue[n])
-			{
-				if(isascending)
-					return 1;
-				else
-					return -1;
-			}
-		}
-		return 0;
-	}
+        int nLength = tcKeyValue.length;
+        for(int n=0; n<nLength; n++)
+        {
+            if(tcKeyValue[n] < sortItemKeySegment2.tcKeyValue[n])
+            {
+                if(isascending)
+                    return -1;
+                else
+                    return 1;
+            }
+            if(tcKeyValue[n] > sortItemKeySegment2.tcKeyValue[n])
+            {
+                if(isascending)
+                    return 1;
+                else
+                    return -1;
+            }
+        }
+        return 0;
+    }
 
-	boolean isascending = true;
-	char tcKeyValue[] = null;
+    boolean isascending = true;
+    char tcKeyValue[] = null;
 }

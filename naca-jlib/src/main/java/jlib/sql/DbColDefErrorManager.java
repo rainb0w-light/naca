@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -17,40 +17,42 @@ package jlib.sql;
  */
 public class DbColDefErrorManager
 {
-	private StringBuilder sb = null;
-	private int nLine = 0;
-	private int nErrors = 0;
-	
-	public void setLine(int nLine)
-	{
-		this.nLine = nLine;
-	}
+    private StringBuilder sb = null;
+    private int nLine = 0;
+    private int nErrors = 0;
 
-	void reportTruncationError(long lOriginalValue, long lValue, String csColName)
-	{
-		nErrors++;
-		if(sb == null)
-			sb = new StringBuilder();
-		int nLineNum = nLine + 1;
-		sb.append("Truncation error at file line " + nLineNum + " For column="+csColName + " : Original Value="+lOriginalValue + " Truncated to="+lValue + "\r\n");
-	}
+    public void setLine(int nLine)
+    {
+        this.nLine = nLine;
+    }
 
-	void reportTruncationError(String csOriginalValue, String csValue, String csColName)
-	{
-		nErrors++;
-		if(sb == null)
-			sb = new StringBuilder();
-		int nLineNum = nLine + 1;
-		sb.append("Truncation error at file line " + nLineNum + " For column="+csColName + " : Original Value="+csOriginalValue + " Truncated to="+csValue + "\r\n");
-	}
-	
-	public int getNbErrors()
-	{
-		return nErrors;
-	}
-	
-	public String getErrorsText()
-	{
-		return sb.toString();
-	}
+    void reportTruncationError(long lOriginalValue, long lValue, String csColName)
+    {
+        nErrors++;
+        if(sb == null)
+            sb = new StringBuilder();
+        int nLineNum = nLine + 1;
+        sb.append("Truncation error at file line " + nLineNum + " For column=" + csColName + " : Original Value=" + lOriginalValue
+            + " Truncated to=" + lValue + "\r\n");
+    }
+
+    void reportTruncationError(String csOriginalValue, String csValue, String csColName)
+    {
+        nErrors++;
+        if(sb == null)
+            sb = new StringBuilder();
+        int nLineNum = nLine + 1;
+        sb.append("Truncation error at file line " + nLineNum + " For column=" + csColName + " : Original Value=" + csOriginalValue
+            + " Truncated to=" + csValue + "\r\n");
+    }
+
+    public int getNbErrors()
+    {
+        return nErrors;
+    }
+
+    public String getErrorsText()
+    {
+        return sb.toString();
+    }
 }

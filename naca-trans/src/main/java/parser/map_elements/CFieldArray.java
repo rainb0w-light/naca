@@ -28,186 +28,186 @@ import utils.NacaTransAssertException;
  */
 public class CFieldArray extends CFieldElement
 {
-	/**
-	 * @param name
-	 * @param line
-	 */
-	public CFieldArray()
-	{
-		super("", 0);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#GetType()
-	 */
-	public EBMSElementType GetType()
-	{
-		return EBMSElementType.ARRAY ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#DoExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element DoExportCustom(Document root)
-	{
-		Element eArray = root.createElement("FieldArray");
-		eArray.setAttribute("Line", ""+posLine);
-		eArray.setAttribute("Col", ""+posCol);
-		eArray.setAttribute("NbCol", ""+nbCol);
-		eArray.setAttribute("NbITems", ""+nbItems);
-		eArray.setAttribute("VerticalFilling", ""+ isverticalFilling);
-		return eArray;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#InterpretKeyword(lexer.CReservedKeyword, lexer.CTokenList)
-	 */
-	protected boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens)
-	{
-		return false;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#GetResourceStrings()
-	 */
-	public CResourceStrings GetResourceStrings()
-	{
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#SetResourceStrings(semantic.forms.CResourceStrings)
-	 */
-	public void SetResourceStrings(CResourceStrings res)
-	{
-	}
-	protected boolean isregisterMotif = false ;
-	protected boolean isvalidateMotif = false ;
-	protected int nbCol = 1 ;
-	protected boolean isverticalFilling = false ;
-	protected int nLastColIndexStart = 0 ;
-	protected int nbItems = 0 ;
+    /**
+     * @param name
+     * @param line
+     */
+    public CFieldArray()
+    {
+        super("", 0);
+    }
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#GetType()
+     */
+    public EBMSElementType GetType()
+    {
+        return EBMSElementType.ARRAY ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#DoExportCustom(org.w3c.dom.Document)
+     */
+    protected Element DoExportCustom(Document root)
+    {
+        Element eArray = root.createElement("FieldArray");
+        eArray.setAttribute("Line", ""+posLine);
+        eArray.setAttribute("Col", ""+posCol);
+        eArray.setAttribute("NbCol", ""+nbCol);
+        eArray.setAttribute("NbITems", ""+nbItems);
+        eArray.setAttribute("VerticalFilling", ""+ isverticalFilling);
+        return eArray;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#InterpretKeyword(lexer.CReservedKeyword, lexer.CTokenList)
+     */
+    protected boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens)
+    {
+        return false;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#GetResourceStrings()
+     */
+    public CResourceStrings GetResourceStrings()
+    {
+        return null;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#SetResourceStrings(semantic.forms.CResourceStrings)
+     */
+    public void SetResourceStrings(CResourceStrings res)
+    {
+    }
+    protected boolean isregisterMotif = false ;
+    protected boolean isvalidateMotif = false ;
+    protected int nbCol = 1 ;
+    protected boolean isverticalFilling = false ;
+    protected int nLastColIndexStart = 0 ;
+    protected int nbItems = 0 ;
 
-	public boolean ReadField(CFieldElement field)
-	{
-		String fullName = field.getName() ;
-		String name = "" ;
-		String index = "" ;
-		int n = 0 ;
-		if (!fullName.equals(""))
-		{
-			name = fullName.substring(0, fullName.indexOf('(')) ;
-			index = fullName.substring(fullName.indexOf('(')+1, fullName.length()-1) ;
-			if (!index.equals(""))
-			{
-				n = Integer.parseInt(index) ;
-			}
-		}
-		if (!isregisterMotif && !isvalidateMotif)
-		{ // first step : initialisation
-			if (n != 1)
-			{
-				throw new NacaTransAssertException("ASSERT ReadField 1") ;
-			}
-			posCol = field.posCol ;
-			posLine = field.posLine ;
-			nLastColIndexStart = 1 ;
-			nbCol = 1 ;
-			field.SetName(name);
-			children.add(field) ;
-			isregisterMotif = true ;
-			nbItems = 1 ;
-			return true ;
-		}
-		else if (isregisterMotif)
-		{
-			if (fullName.equals(""))
-			{ // label
-				children.add(field) ;
-				return true ;
-			}
-			else if (index.equals(""))
-			{ // edit not in array
-				throw new NacaTransAssertException("ASSERT ReadField 2") ;
-			}
-			else if (n == 1)
-			{ // still registering motif : another field
-				field.SetName(name);
-				children.add(field) ;
-				return true ;
-			}
-			else
-			{
-				isregisterMotif = false ;
-				isvalidateMotif = true ;
-			}
-		}
-		if (isvalidateMotif)
-		{ // check if current field is in the motif
-			CFieldElement cur = GetNextFieldInMotif() ;
-			if (!cur.getName().equals(name) || cur.length != field.length)
-			{
-				return false ;
-			}
-			if (!name.equals("") && index.equals(""))
-			{
-				return false ;
-			}
-			if (field.posLine == posLine)
-			{
-				if (n == nLastColIndexStart+1)
-				{
-					nbCol ++ ;
-					nLastColIndexStart = n ;
-					isverticalFilling = false ;
-				}
-				else if (n>0 && nLastColIndexStart != n)
-				{
-					nbCol ++ ;
-					nLastColIndexStart = n ;
-					isverticalFilling = true ;
-				}
-			}
-			return true ;
-		}
-		return false;
-	}
-	private CFieldElement GetNextFieldInMotif()
-	{
-		if (curFieldInMotif == null)
-		{
-			curFieldInMotif = children.listIterator() ;
-			nbItems ++ ;
-		}
-		try
-		{
-			return (CFieldElement)curFieldInMotif.next() ;
-		}
-		catch (NoSuchElementException e)
-		{
-			curFieldInMotif = children.listIterator() ;
-			nbItems ++ ;
-			return (CFieldElement)curFieldInMotif.next() ;
-		}
-	}
-	private ListIterator curFieldInMotif ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityResourceFieldArray eArray = factory.NewEntityFieldArray() ;
-		eArray.SetArray(nbItems, nbCol, isverticalFilling) ;
-		eArray.SetPosition(posLine, posCol) ;
+    public boolean ReadField(CFieldElement field)
+    {
+        String fullName = field.getName() ;
+        String name = "" ;
+        String index = "" ;
+        int n = 0 ;
+        if (!fullName.equals(""))
+        {
+            name = fullName.substring(0, fullName.indexOf('(')) ;
+            index = fullName.substring(fullName.indexOf('(')+1, fullName.length()-1) ;
+            if (!index.equals(""))
+            {
+                n = Integer.parseInt(index) ;
+            }
+        }
+        if (!isregisterMotif && !isvalidateMotif)
+        { // first step : initialisation
+            if (n != 1)
+            {
+                throw new NacaTransAssertException("ASSERT ReadField 1") ;
+            }
+            posCol = field.posCol ;
+            posLine = field.posLine ;
+            nLastColIndexStart = 1 ;
+            nbCol = 1 ;
+            field.SetName(name);
+            children.add(field) ;
+            isregisterMotif = true ;
+            nbItems = 1 ;
+            return true ;
+        }
+        else if (isregisterMotif)
+        {
+            if (fullName.equals(""))
+            { // label
+                children.add(field) ;
+                return true ;
+            }
+            else if (index.equals(""))
+            { // edit not in array
+                throw new NacaTransAssertException("ASSERT ReadField 2") ;
+            }
+            else if (n == 1)
+            { // still registering motif : another field
+                field.SetName(name);
+                children.add(field) ;
+                return true ;
+            }
+            else
+            {
+                isregisterMotif = false ;
+                isvalidateMotif = true ;
+            }
+        }
+        if (isvalidateMotif)
+        { // check if current field is in the motif
+            CFieldElement cur = GetNextFieldInMotif() ;
+            if (!cur.getName().equals(name) || cur.length != field.length)
+            {
+                return false ;
+            }
+            if (!name.equals("") && index.equals(""))
+            {
+                return false ;
+            }
+            if (field.posLine == posLine)
+            {
+                if (n == nLastColIndexStart+1)
+                {
+                    nbCol ++ ;
+                    nLastColIndexStart = n ;
+                    isverticalFilling = false ;
+                }
+                else if (n>0 && nLastColIndexStart != n)
+                {
+                    nbCol ++ ;
+                    nLastColIndexStart = n ;
+                    isverticalFilling = true ;
+                }
+            }
+            return true ;
+        }
+        return false;
+    }
+    private CFieldElement GetNextFieldInMotif()
+    {
+        if (curFieldInMotif == null)
+        {
+            curFieldInMotif = children.listIterator() ;
+            nbItems ++ ;
+        }
+        try
+        {
+            return (CFieldElement)curFieldInMotif.next() ;
+        }
+        catch (NoSuchElementException e)
+        {
+            curFieldInMotif = children.listIterator() ;
+            nbItems ++ ;
+            return (CFieldElement)curFieldInMotif.next() ;
+        }
+    }
+    private ListIterator curFieldInMotif ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    public CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityResourceFieldArray eArray = factory.NewEntityFieldArray() ;
+        eArray.SetArray(nbItems, nbCol, isverticalFilling) ;
+        eArray.SetPosition(posLine, posCol) ;
 
-		CFieldElement[] fields = new CFieldElement[children.size()] ;
-		children.toArray(fields) ;
-		for (int i = 0; i< fields.length; i++)
-		{
-			CFieldElement el = fields[i] ;
-			CEntityResourceField rf = (CEntityResourceField)el.DoSemanticAnalysis(eArray, factory) ;
-			if (rf != null)
-			{
-				eArray.AddChild(rf) ;
-				rf.nOccurs = nbItems ;
-			}
-		}
-		return eArray ;
-	}
+        CFieldElement[] fields = new CFieldElement[children.size()] ;
+        children.toArray(fields) ;
+        for (int i = 0; i< fields.length; i++)
+        {
+            CFieldElement el = fields[i] ;
+            CEntityResourceField rf = (CEntityResourceField)el.DoSemanticAnalysis(eArray, factory) ;
+            if (rf != null)
+            {
+                eArray.AddChild(rf) ;
+                rf.nOccurs = nbItems ;
+            }
+        }
+        return eArray ;
+    }
 
 }

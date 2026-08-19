@@ -19,60 +19,60 @@ import jlib.xml.Tag;
 public abstract class BaseEngine<T_Entity extends CBaseLanguageEntity>
 {
 
-	//protected Logger m_logger = Transcoder.ms_logger ;
+    //protected Logger m_logger = Transcoder.ms_logger ;
 
-	/**
-	 * @param tagTrans
-	 */
-	public abstract boolean MainInit(Tag tagTrans) ;
+    /**
+     * @param tagTrans
+     */
+    public abstract boolean MainInit(Tag tagTrans) ;
 
-	public abstract void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
+    public abstract void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
 
-	protected CRulesManager rulesManager = null ;
-	
-	protected Transcoder transcoder = null ;
+    protected CRulesManager rulesManager = null ;
+
+    protected Transcoder transcoder = null ;
 
 
-	/**
-	 * @return Returns the ruleManager.
-	 */
-	public CRulesManager getRulesManager()
-	{
-		return rulesManager;
-	}
+    /**
+     * @return Returns the ruleManager.
+     */
+    public CRulesManager getRulesManager()
+    {
+        return rulesManager;
+    }
 
-	/**
-	 * @param ruleManager The ruleManager to set.
-	 */
-	public void setRulesManager(CRulesManager ruleManager)
-	{
-		rulesManager = ruleManager;
-	}
+    /**
+     * @param ruleManager The ruleManager to set.
+     */
+    public void setRulesManager(CRulesManager ruleManager)
+    {
+        rulesManager = ruleManager;
+    }
 
-	/**
-	 * @return Returns the transcoder.
-	 */
-	public Transcoder getTranscoder()
-	{
-		return transcoder;
-	}
+    /**
+     * @return Returns the transcoder.
+     */
+    public Transcoder getTranscoder()
+    {
+        return transcoder;
+    }
 
-	/**
-	 * @param transcoder The transcoder to set.
-	 */
-	public void setTranscoder(Transcoder transcoder)
-	{
-		this.transcoder = transcoder;
-	}
+    /**
+     * @param transcoder The transcoder to set.
+     */
+    public void setTranscoder(Transcoder transcoder)
+    {
+        this.transcoder = transcoder;
+    }
 
-	/**
-	 * @param name
-	 * @param grp 
-	 * @return
-	 */
-	public abstract T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
+    /**
+     * @param name
+     * @param grp
+     * @return
+     */
+    public abstract T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources);
 
-	public abstract CGlobalCatalog getGlobalCatalog();
+    public abstract CGlobalCatalog getGlobalCatalog();
 
 
 

@@ -14,62 +14,62 @@ package nacaLib.varEx;
 
 public class CondValue
 {
-	CondValue(String min, String max)
-	{
-		this.min = min;
-		this.max = max;
-		isinterval = true;
-		constant = null;
-	}
+    CondValue(String min, String max)
+    {
+        this.min = min;
+        this.max = max;
+        isinterval = true;
+        constant = null;
+    }
 
-	CondValue(String sValue)
-	{
-		this.min = sValue;
-		isinterval = false;
-		constant = null;
-	}
+    CondValue(String sValue)
+    {
+        this.min = sValue;
+        isinterval = false;
+        constant = null;
+    }
 
-	CondValue(CobolConstantBase constant)
-	{
-		this.constant = constant;
-		isinterval = false;
-	}
+    CondValue(CobolConstantBase constant)
+    {
+        this.constant = constant;
+        isinterval = false;
+    }
 
-	public boolean is(Var v)
-	{
-		if(constant != null)
-			return v.is(constant);
-		else
-		{
-			if(isinterval)
-			{
-				if(v.compareTo(ComparisonMode.Unicode, min) >= 0 && v.compareTo(ComparisonMode.Unicode, max) <= 0)
-					return true;
-			}
-			if(v.equals(min))
-				return true;
-		}
-		return false;
-	}
+    public boolean is(Var v)
+    {
+        if(constant != null)
+            return v.is(constant);
+        else
+        {
+            if(isinterval)
+            {
+                if(v.compareTo(ComparisonMode.Unicode, min) >= 0 && v.compareTo(ComparisonMode.Unicode, max) <= 0)
+                    return true;
+            }
+            if(v.equals(min))
+                return true;
+        }
+        return false;
+    }
 
-	public String getMin()
-	{
-		if(constant == null)
-			return min;
-		return null;
-	}
+    public String getMin()
+    {
+        if(constant == null)
+            return min;
+        return null;
+    }
 
-	public String toString()
-	{
-		if(constant != null)
-			return constant.getSTCheckValue();
-		if(isinterval)
-			return "[" + min + "," + max + "]";
-		return min;
-	}
+    public String toString()
+    {
+        if(constant != null)
+            return constant.getSTCheckValue();
+        if(isinterval)
+            return "[" + min + "," + max + "]";
+        return min;
+    }
 
-	private CobolConstantBase constant = null;
-	private String min = null;
-	private String max = null;
-	private boolean isinterval = false;
+    private CobolConstantBase constant = null;
+    private String min = null;
+    private String max = null;
+    private boolean isinterval = false;
 }

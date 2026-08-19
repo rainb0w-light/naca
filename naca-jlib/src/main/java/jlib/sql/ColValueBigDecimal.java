@@ -21,62 +21,62 @@ import java.sql.Types;
  */
 public class ColValueBigDecimal extends ColValue
 {
-	public ColValueBigDecimal(String csName, BigDecimal bdValue)
-	{
-		super(csName);
-		this.bdValue = bdValue;
-	}
+    public ColValueBigDecimal(String csName, BigDecimal bdValue)
+    {
+        super(csName);
+        this.bdValue = bdValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueBigDecimal(csName, bdValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueBigDecimal(csName, bdValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(bdValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(bdValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		bdValue = resultSet.getBigDecimal(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        bdValue = resultSet.getBigDecimal(nCol);
+    }
 
-	public String getValueAsString()
-	{
-		return String.valueOf(bdValue);
-	}
+    public String getValueAsString()
+    {
+        return String.valueOf(bdValue);
+    }
 
-	public int getValueAsInt()
-	{
-		return bdValue.intValue();
-	}
+    public int getValueAsInt()
+    {
+        return bdValue.intValue();
+    }
 
-	double getValueAsDouble()
-	{
-		return bdValue.doubleValue();
-	}
+    double getValueAsDouble()
+    {
+        return bdValue.doubleValue();
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(BigDecimal):'"+String.valueOf(bdValue)+"'";
-	}
+    String getDumpValueAsString()
+    {
+        return "(BigDecimal):'"+String.valueOf(bdValue)+"'";
+    }
 
-	String getType()
-	{
-		return "BigDecimal";
-	}
+    String getType()
+    {
+        return "BigDecimal";
+    }
 
-	int getSQLType()
-	{
-		return Types.DECIMAL;
-	}
+    int getSQLType()
+    {
+        return Types.DECIMAL;
+    }
 
-	Object getValue()
-	{
-		return bdValue;
-	}
+    Object getValue()
+    {
+        return bdValue;
+    }
 
-	BigDecimal bdValue = null;
+    BigDecimal bdValue = null;
 }

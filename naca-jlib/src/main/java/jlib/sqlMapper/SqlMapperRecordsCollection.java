@@ -23,123 +23,123 @@ import jlib.sql.SQLClause;
  */
 public class SqlMapperRecordsCollection
 {
-	ArrayList<SqlMapperManagedRecord> arr = null;
+    ArrayList<SqlMapperManagedRecord> arr = null;
 
-	SqlMapperRecordsCollection()
-	{
-		arr = new ArrayList<SqlMapperManagedRecord>();
-	}
+    SqlMapperRecordsCollection()
+    {
+        arr = new ArrayList<SqlMapperManagedRecord>();
+    }
 
-	void add(SqlMapperManagedRecord recordCols)
-	{
-		arr.add(recordCols);
-	}
+    void add(SqlMapperManagedRecord recordCols)
+    {
+        arr.add(recordCols);
+    }
 
-	public SqlMapperManagedRecord getFirstRecord()
-	{
-		if(arr.size() > 0)
-			return arr.get(0);
-		return null;
-	}
+    public SqlMapperManagedRecord getFirstRecord()
+    {
+        if(arr.size() > 0)
+            return arr.get(0);
+        return null;
+    }
 
-	public SqlMapperManagedRecord getRecordAt(int nIndex)
-	{
-		return arr.get(nIndex);
-	}
+    public SqlMapperManagedRecord getRecordAt(int nIndex)
+    {
+        return arr.get(nIndex);
+    }
 
-	public int getNbRecords()
-	{
-		return arr.size();
-	}
+    public int getNbRecords()
+    {
+        return arr.size();
+    }
 
-	public void clearValues()
-	{
-		int nNbRecords = getNbRecords();
-		for(int n=0; n<nNbRecords; n++)
-		{
-			SqlMapperManagedRecord record = getRecordAt(n);
-			record.clearValues();
-		}
-	}
+    public void clearValues()
+    {
+        int nNbRecords = getNbRecords();
+        for(int n=0; n<nNbRecords; n++)
+        {
+            SqlMapperManagedRecord record = getRecordAt(n);
+            record.clearValues();
+        }
+    }
 
-	boolean executeSelect(DbAccessor dbAccessor, String csTableName, RecordId recordId)
-		throws TechnicalException
-	{
-		SQLClause clause = new SQLClause(dbAccessor);
-		try
-		{
-			// Execute a select statement with the where parameter defined by recordId
+    boolean executeSelect(DbAccessor dbAccessor, String csTableName, RecordId recordId)
+        throws TechnicalException
+    {
+        SQLClause clause = new SQLClause(dbAccessor);
+        try
+        {
+            // Execute a select statement with the where parameter defined by recordId
 
-			// Create the select statement
-//			StringBuilder sbClause = new StringBuilder("Select * from ");
-//			sbClause.append(csTableName);
-//			String csWhere = recordId.buildClause(csTableName, clause);
-//			sbClause.append(csWhere);
-//			clause.set(sbClause.toString());
+            // Create the select statement
+//          StringBuilder sbClause = new StringBuilder("Select * from ");
+//          sbClause.append(csTableName);
+//          String csWhere = recordId.buildClause(csTableName, clause);
+//          sbClause.append(csWhere);
+//          clause.set(sbClause.toString());
 
-			StringBuilder sbClause = new StringBuilder("Select * from ");
-			sbClause.append(csTableName);
+            StringBuilder sbClause = new StringBuilder("Select * from ");
+            sbClause.append(csTableName);
 
 
-			recordId.buildWhereClauseAndMapParams(sbClause, clause);
+            recordId.buildWhereClauseAndMapParams(sbClause, clause);
 
-//			// Set the where parameters
-//			for(int nCol=0; nCol<recordId.getNbColValues(); nCol++)	// Enum all cols of the record
-//			{
-//				ColValue colValue = recordId.getColValueAtIndex(nCol);
-//				clause.param(colValue);
-//			}
+//          // Set the where parameters
+//          for(int nCol=0; nCol<recordId.getNbColValues(); nCol++) // Enum all cols of the record
+//          {
+//              ColValue colValue = recordId.getColValueAtIndex(nCol);
+//              clause.param(colValue);
+//          }
 
-			clause.prepareAndExecute();	// Execute the statement
+            clause.prepareAndExecute(); // Execute the statement
 
             // Just to identify the types of all columns; It's done only for the 1st record of the result set.
-			SqlMapperManagedRecord recordColsTypeMaster = null;
+            SqlMapperManagedRecord recordColsTypeMaster = null;
             // A performance enhancement would be to have this recordColsTypeMaster created for only the 1st record of all select sharing
             // the same statement
-			while(clause.next())	// Enum all records
-			{
-				ResultSet resultSet = clause.getResultSet();
-				SqlMapperManagedRecord record = new SqlMapperManagedRecord();	// Record to fill
+            while(clause.next())    // Enum all records
+            {
+                ResultSet resultSet = clause.getResultSet();
+                SqlMapperManagedRecord record = new SqlMapperManagedRecord();   // Record to fill
 
-				if(recordColsTypeMaster == null)	// We have not yet discovered the type of the columns
-				{
-					recordColsTypeMaster = new SqlMapperManagedRecord();
-					recordColsTypeMaster.handleColsType(clause, resultSet);
-				}
+                if(recordColsTypeMaster == null)    // We have not yet discovered the type of the columns
+                {
+                    recordColsTypeMaster = new SqlMapperManagedRecord();
+                    recordColsTypeMaster.handleColsType(clause, resultSet);
+                }
                 // Fill the recordCols with the column's value, with typing management
-				if(record.fillColValues(clause, resultSet, recordColsTypeMaster))
-					arr.add(record);
-			}
+                if(record.fillColValues(clause, resultSet, recordColsTypeMaster))
+                    arr.add(record);
+            }
 
-			// Callback to call to inform application code of the records read; it can filter; It must return only 1 record
-	//		RecordsCollection arrRecordsSelected = sqlMapperSelectFilterIntf.filterRecordsSelected(arrRecordsRead);
-	//		if(arrRecordsSelected != null)
+            // Callback to call to inform application code of the records read; it can filter; It must return only 1 record
+    //      RecordsCollection arrRecordsSelected = sqlMapperSelectFilterIntf.filterRecordsSelected(arrRecordsRead);
+    //      if(arrRecordsSelected != null)
     // replaceInternalContainer(arrRecordsSelected); // "this" contains now only the selected record; it can be null if the filter decided
     // so
 
-			return true;
-		}
-		catch (TechnicalException e)
-		{
-			if(clause != null)
-				clause.forceCloseOnExceptionCatched();
-			throw e;
-		}
-	}
+            return true;
+        }
+        catch (TechnicalException e)
+        {
+            if(clause != null)
+                clause.forceCloseOnExceptionCatched();
+            throw e;
+        }
+    }
 
-	public String toString()
-	{
-		StringBuilder sb = new StringBuilder();
-		int nNbRecords = getNbRecords();
-		for(int n=0; n<nNbRecords; n++)
-		{
-			SqlMapperManagedRecord record = getRecordAt(n);
-			String cs = record.toString();
-			sb.append(cs);
-			sb.append("\r");
-		}
-		sb.append("\r");
-		return sb.toString();
-	}
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        int nNbRecords = getNbRecords();
+        for(int n=0; n<nNbRecords; n++)
+        {
+            SqlMapperManagedRecord record = getRecordAt(n);
+            String cs = record.toString();
+            sb.append(cs);
+            sb.append("\r");
+        }
+        sb.append("\r");
+        return sb.toString();
+    }
 
 }

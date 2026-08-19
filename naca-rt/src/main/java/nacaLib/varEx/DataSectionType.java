@@ -8,11 +8,11 @@ package nacaLib.varEx;
 
 public class DataSectionType
 {
-	public static DataSectionType Working = new DataSectionType();
-	public static DataSectionType Linkage = new DataSectionType();
-	public static DataSectionType File = new DataSectionType();
-	
-	private DataSectionType()
-	{
-	}
+    public static DataSectionType Working = new DataSectionType();
+    public static DataSectionType Linkage = new DataSectionType();
+    public static DataSectionType File = new DataSectionType();
+
+    private DataSectionType()
+    {
+    }
 }

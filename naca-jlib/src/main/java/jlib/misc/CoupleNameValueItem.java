@@ -16,27 +16,27 @@ package jlib.misc;
  */
 public class CoupleNameValueItem
 {
-	private String csName = null;
-	private String csValue = null;
+    private String csName = null;
+    private String csValue = null;
 
-	public CoupleNameValueItem(String csName, String csValue)
-	{
-		this.csName = csName;
-		this.csValue = csValue;
-	}
+    public CoupleNameValueItem(String csName, String csValue)
+    {
+        this.csName = csName;
+        this.csValue = csValue;
+    }
 
-	public String getName()
-	{
-		return csName;
-	}
+    public String getName()
+    {
+        return csName;
+    }
 
-	public int getNameAsInt()
-	{
-		return NumberParser.getAsInt(csName);
-	}
+    public int getNameAsInt()
+    {
+        return NumberParser.getAsInt(csName);
+    }
 
-	public String getValue()
-	{
-		return csValue;
-	}
+    public String getValue()
+    {
+        return csValue;
+    }
 }

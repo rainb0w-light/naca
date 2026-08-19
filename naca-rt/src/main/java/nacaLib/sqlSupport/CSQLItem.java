@@ -16,132 +16,132 @@ import nacaLib.varEx.VarEnumerator;
  */
 public class CSQLItem
 {
-	protected VarAndEdit var = null;
-	protected String csValue = null;
+    protected VarAndEdit var = null;
+    protected String csValue = null;
 
-	public CSQLItem(VarAndEdit var)
-	{
-		this.var = var;
-	}
-	public void set(VarAndEdit var)
-	{
-		this.var = var;
-		csValue = null;
-	}
+    public CSQLItem(VarAndEdit var)
+    {
+        this.var = var;
+    }
+    public void set(VarAndEdit var)
+    {
+        this.var = var;
+        csValue = null;
+    }
 
 
-	public CSQLItem(int nValue)
-	{
-		csValue = String.valueOf(nValue);
-	}
-	public void set(int nValue)
-	{
-		var = null;
-		csValue = String.valueOf(nValue);
-	}
+    public CSQLItem(int nValue)
+    {
+        csValue = String.valueOf(nValue);
+    }
+    public void set(int nValue)
+    {
+        var = null;
+        csValue = String.valueOf(nValue);
+    }
 
-	public CSQLItem(double dValue)
-	{
-		csValue = String.valueOf(dValue);
-	}
-	public void set(double dValue)
-	{
-		var = null;
-		csValue = String.valueOf(dValue);
-	}
+    public CSQLItem(double dValue)
+    {
+        csValue = String.valueOf(dValue);
+    }
+    public void set(double dValue)
+    {
+        var = null;
+        csValue = String.valueOf(dValue);
+    }
 
-	public CSQLItem(String cs)
-	{
-		csValue = cs;
-	}
-	public void set(String cs)
-	{
-		var = null;
-		csValue = cs;
-	}
+    public CSQLItem(String cs)
+    {
+        csValue = cs;
+    }
+    public void set(String cs)
+    {
+        var = null;
+        csValue = cs;
+    }
 
-	public String getValue()
-	{
-		if(var != null)
-		{
-			if(isLongVarCharVarHolder())
-			{
-				VarEnumerator e = new VarEnumerator(var.getProgramManager(), var);
-				VarBase varChildLength = e.getFirstVarChild();
-				VarBase varChildText = e.getNextVarChild();
+    public String getValue()
+    {
+        if(var != null)
+        {
+            if(isLongVarCharVarHolder())
+            {
+                VarEnumerator e = new VarEnumerator(var.getProgramManager(), var);
+                VarBase varChildLength = e.getFirstVarChild();
+                VarBase varChildText = e.getNextVarChild();
 
-				//int nLength = varChildLength.
-				int nLength = varChildLength.getInt();
-				//String csValue = varChildText.getDottedSignedString();
-				String csValue = varChildText.getDottedSignedStringAsSQLCol();
-				if(nLength < csValue.length())
-					csValue = csValue.substring(0, nLength);
-				return csValue;
-			}
-			return var.getDottedSignedStringAsSQLCol();
-		}
-		return csValue;
-	}
+                //int nLength = varChildLength.
+                int nLength = varChildLength.getInt();
+                //String csValue = varChildText.getDottedSignedString();
+                String csValue = varChildText.getDottedSignedStringAsSQLCol();
+                if(nLength < csValue.length())
+                    csValue = csValue.substring(0, nLength);
+                return csValue;
+            }
+            return var.getDottedSignedStringAsSQLCol();
+        }
+        return csValue;
+    }
 
-	public String getDebugValue()
-	{
-		String cs = getValue();
-		byte t[] = cs.getBytes();
-		for(int n=0; n<t.length; n++)
-		{
-			byte b = t[n];
-			if(b == 0)
-				t[n] = '$';
-		}
-		cs = new String(t);
-		return cs;
-	}
+    public String getDebugValue()
+    {
+        String cs = getValue();
+        byte t[] = cs.getBytes();
+        for(int n=0; n<t.length; n++)
+        {
+            byte b = t[n];
+            if(b == 0)
+                t[n] = '$';
+        }
+        cs = new String(t);
+        return cs;
+    }
 
-	private boolean isLongVarCharVarHolder()	// Indicates if the var contains a long varchar structure
-	{
-		return var.getVarDef().isLongVarCharVarStructure();
-	}
+    private boolean isLongVarCharVarHolder()    // Indicates if the var contains a long varchar structure
+    {
+        return var.getVarDef().isLongVarCharVarStructure();
+    }
 
-	public CSQLItemType getType()
-	{
-		if(var != null)
-		{
-			return var.getSQLType();
+    public CSQLItemType getType()
+    {
+        if(var != null)
+        {
+            return var.getSQLType();
 //
-//			if (var.hasType(VarTypeEnum.Type9))
-//			{
-//				return CSQLItemType.SQL_TYPE_INTEGER;
-//			}
-//			else if (var.hasType(VarTypeEnum.TypeX)
-//				|| var.hasType(VarTypeEnum.TypeEditedAlphaNum)
-//				|| var.hasType(VarTypeEnum.TypeEditedNum)
-//				|| var.hasType(VarTypeEnum.TypeFieldEdit)
-//				|| var.hasType(VarTypeEnum.TypeGroup))
-//			{
-//				return CSQLItemType.SQL_TYPE_STRING ;
-//			}
-//			else
-//			{
-//				return CSQLItemType.SQL_TYPE_NONE;
-//			}
-		}
-		return null;
-	}
+//          if (var.hasType(VarTypeEnum.Type9))
+//          {
+//              return CSQLItemType.SQL_TYPE_INTEGER;
+//          }
+//          else if (var.hasType(VarTypeEnum.TypeX)
+//              || var.hasType(VarTypeEnum.TypeEditedAlphaNum)
+//              || var.hasType(VarTypeEnum.TypeEditedNum)
+//              || var.hasType(VarTypeEnum.TypeFieldEdit)
+//              || var.hasType(VarTypeEnum.TypeGroup))
+//          {
+//              return CSQLItemType.SQL_TYPE_STRING ;
+//          }
+//          else
+//          {
+//              return CSQLItemType.SQL_TYPE_NONE;
+//          }
+        }
+        return null;
+    }
 
-	/**
-	 * @return
-	 */
-	public int getIntValue()
-	{
-		if(var != null)
-			return var.getInt() ;
-		return 0;
-	}
+    /**
+     * @return
+     */
+    public int getIntValue()
+    {
+        if(var != null)
+            return var.getInt() ;
+        return 0;
+    }
 
-	public long getLongValue()
-	{
-		if(var != null)
-			return var.getLong() ;
-		return 0L;
-	}
+    public long getLongValue()
+    {
+        if(var != null)
+            return var.getLong() ;
+        return 0L;
+    }
 }

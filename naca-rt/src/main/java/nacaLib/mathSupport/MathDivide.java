@@ -18,294 +18,294 @@ import nacaLib.varEx.VarAndEdit;
 
 public class MathDivide extends MathBase
 {
-	private static int PRECISION = 10;
+    private static int PRECISION = 10;
 
-	/**
-	 * @param Var var1
-	 * @param Var var2
-	 *     Set current object to var1/var2 (var are treated as numeric optionnaly decimals / signed)
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(VarAndEdit var1, VarAndEdit var2)
-	{
-		try
-		{
-			String s1 = var1.getDottedSignedString();
-			d = new BigDecimal(s1);
+    /**
+     * @param Var var1
+     * @param Var var2
+     *     Set current object to var1/var2 (var are treated as numeric optionnaly decimals / signed)
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(VarAndEdit var1, VarAndEdit var2)
+    {
+        try
+        {
+            String s1 = var1.getDottedSignedString();
+            d = new BigDecimal(s1);
 
-			String s2 = var2.getDottedSignedString();
-			BigDecimal val2 = new BigDecimal(s2);
+            String s2 = var2.getDottedSignedString();
+            BigDecimal val2 = new BigDecimal(s2);
 
-			decimalDivide(val2);
+            decimalDivide(val2);
 
-			// d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            // d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param Var var1
-	 * @param int n
-	 *     Set current object to var1/n (var are treated as numeric optionnaly decimals / signed)
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(int var1, int n)
-	{
-		try
-		{
-			d = new BigDecimal(String.valueOf(var1));
+    /**
+     * @param Var var1
+     * @param int n
+     *     Set current object to var1/n (var are treated as numeric optionnaly decimals / signed)
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(int var1, int n)
+    {
+        try
+        {
+            d = new BigDecimal(String.valueOf(var1));
 
-			BigDecimal val2 = new BigDecimal(String.valueOf(n));
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(String.valueOf(n));
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	public MathDivide(int n, VarAndEdit var1)
-	{
-		try
-		{
-			d = new BigDecimal(String.valueOf(n));
+    public MathDivide(int n, VarAndEdit var1)
+    {
+        try
+        {
+            d = new BigDecimal(String.valueOf(n));
 
-			String s1 = var1.getDottedSignedString();
-			BigDecimal val2 = new BigDecimal(s1);
+            String s1 = var1.getDottedSignedString();
+            BigDecimal val2 = new BigDecimal(s1);
 
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param Var var1
-	 * @param double d
-	 *     Set current object to var1/d (var are treated as numeric optionnaly decimals / signed)
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(VarAndEdit var1, double d)
-	{
-		try
-		{
-			String s1 = var1.getDottedSignedString();
-			this.d = new BigDecimal(s1);
+    /**
+     * @param Var var1
+     * @param double d
+     *     Set current object to var1/d (var are treated as numeric optionnaly decimals / signed)
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(VarAndEdit var1, double d)
+    {
+        try
+        {
+            String s1 = var1.getDottedSignedString();
+            this.d = new BigDecimal(s1);
 
-			BigDecimal val2 = new BigDecimal(d);
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(d);
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param Var var1
-	 * @param String cs; treated as a number
-	 *     Set current object to var1/cs
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(VarAndEdit var1, String cs)
-	{
-		try
-		{
-			String s1 = var1.getDottedSignedString();
-			d = new BigDecimal(s1);
+    /**
+     * @param Var var1
+     * @param String cs; treated as a number
+     *     Set current object to var1/cs
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(VarAndEdit var1, String cs)
+    {
+        try
+        {
+            String s1 = var1.getDottedSignedString();
+            d = new BigDecimal(s1);
 
-			BigDecimal val2 = new BigDecimal(cs);
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(cs);
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param Var var1
-	 * @param MathBase mathBase
-	 *     Set current object to var1/mathBase
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(VarAndEdit var1, MathBase mathBase)
-	{
-		try
-		{
-			String s1 = var1.getDottedSignedString();
-			d = new BigDecimal(s1);
+    /**
+     * @param Var var1
+     * @param MathBase mathBase
+     *     Set current object to var1/mathBase
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(VarAndEdit var1, MathBase mathBase)
+    {
+        try
+        {
+            String s1 = var1.getDottedSignedString();
+            d = new BigDecimal(s1);
 
-			decimalDivide(mathBase.d);
-			//d = d.divide(mathBase.d, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            decimalDivide(mathBase.d);
+            //d = d.divide(mathBase.d, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param Var var2
-	 *     Set current object to mathBase/var2
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(MathBase mathBase, VarAndEdit var2)
-	{
-		try
-		{
-			setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param Var var2
+     *     Set current object to mathBase/var2
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(MathBase mathBase, VarAndEdit var2)
+    {
+        try
+        {
+            setWithMathBase(mathBase);
 
-			String s2 = var2.getDottedSignedString();
-			BigDecimal val2 = new BigDecimal(s2);
+            String s2 = var2.getDottedSignedString();
+            BigDecimal val2 = new BigDecimal(s2);
 
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param int n
-	 *     Set current object to mathBase/n
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(MathBase mathBase, int n)
-	{
-		try
-		{
-			setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param int n
+     *     Set current object to mathBase/n
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(MathBase mathBase, int n)
+    {
+        try
+        {
+            setWithMathBase(mathBase);
 
-			BigDecimal val2 = new BigDecimal(String.valueOf(n));
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(String.valueOf(n));
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param double d
-	 *     Set current object to mathBase/d
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(MathBase mathBase, double d)
-	{
-		try
-		{
-			setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param double d
+     *     Set current object to mathBase/d
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(MathBase mathBase, double d)
+    {
+        try
+        {
+            setWithMathBase(mathBase);
 
-			BigDecimal val2 = new BigDecimal(d);
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(d);
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param String cs, treated as a number
-	 *     Set current object to mathBase/cs
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(MathBase mathBase, String cs)
-	{
-		try
-		{
-			setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param String cs, treated as a number
+     *     Set current object to mathBase/cs
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(MathBase mathBase, String cs)
+    {
+        try
+        {
+            setWithMathBase(mathBase);
 
-			BigDecimal val2 = new BigDecimal(cs);
-			decimalDivide(val2);
-			//d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            BigDecimal val2 = new BigDecimal(cs);
+            decimalDivide(val2);
+            //d = d.divide(val2, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
-	/**
-	 * @param MathBase mathBase1
-	 * @param MathBase mathBase2
-	 *     Set current object to mathBase1/mathBase2
-	 *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
-	 */
-	public MathDivide(MathBase mathBase1, MathBase mathBase2)
-	{
-		try
-		{
-			setWithMathBase(mathBase1);
+    /**
+     * @param MathBase mathBase1
+     * @param MathBase mathBase2
+     *     Set current object to mathBase1/mathBase2
+     *     if var2 = 0, then an error is set; it can be tested by chaining .isError() (member of base class MathBase)
+     */
+    public MathDivide(MathBase mathBase1, MathBase mathBase2)
+    {
+        try
+        {
+            setWithMathBase(mathBase1);
 
-			decimalDivide(mathBase2.d);
-			//d = d.divide(mathBase2.d, PRECISION, BigDecimal.ROUND_HALF_UP);
-		}
-		catch (ArithmeticException e)
-		{
-			setError(true);
-		}
-	}
+            decimalDivide(mathBase2.d);
+            //d = d.divide(mathBase2.d, PRECISION, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (ArithmeticException e)
+        {
+            setError(true);
+        }
+    }
 
 
-	private void decimalDivide(BigDecimal val)
-	{
-		a = d;
-		is = val;
-		d = d.divide(val, PRECISION, BigDecimal.ROUND_HALF_UP);
-	}
+    private void decimalDivide(BigDecimal val)
+    {
+        a = d;
+        is = val;
+        d = d.divide(val, PRECISION, BigDecimal.ROUND_HALF_UP);
+    }
 
-	public MathBase toRounded(Var varDest, VarAndEdit varRest) {
-		round(varDest);
-		return to(varDest, varRest);
-	}
+    public MathBase toRounded(Var varDest, VarAndEdit varRest) {
+        round(varDest);
+        return to(varDest, varRest);
+    }
 
-	/**
+    /**
      * @param Var varQuotient: destination variable that will receive the quotient of the last divide operation, recomputed as an integer
      *     divide
-	 * @param Var varRest: destination variable that will receive the rest of the last divide operation, recomputed as an integer divide
-	 * @return
-	 *     The last division is done again, as an integer one. This to method must follow immediatly the division to do.
-	 */
-	public MathDivide to(VarAndEdit varQuotient, VarAndEdit varRest)
-	{
-		if(a != null && is != null)
-		{
-			// Do the integer division
-			BigInteger nA = a.toBigInteger();
-			BigInteger nB = is.toBigInteger();
-			BigInteger[] t = nA.divideAndRemainder(nB);
+     * @param Var varRest: destination variable that will receive the rest of the last divide operation, recomputed as an integer divide
+     * @return
+     *     The last division is done again, as an integer one. This to method must follow immediatly the division to do.
+     */
+    public MathDivide to(VarAndEdit varQuotient, VarAndEdit varRest)
+    {
+        if(a != null && is != null)
+        {
+            // Do the integer division
+            BigInteger nA = a.toBigInteger();
+            BigInteger nB = is.toBigInteger();
+            BigInteger[] t = nA.divideAndRemainder(nB);
 
-			int n = t[0].intValue();
-			varQuotient.set(n);
+            int n = t[0].intValue();
+            varQuotient.set(n);
 
-			if (varRest != null)
-			{
-				n = t[1].intValue();
-				varRest.set(n);
-			}
-		}
-		return this ;
-	}
+            if (varRest != null)
+            {
+                n = t[1].intValue();
+                varRest.set(n);
+            }
+        }
+        return this ;
+    }
 
-	private BigDecimal a = null;
-	private BigDecimal is = null;
+    private BigDecimal a = null;
+    private BigDecimal is = null;
 }

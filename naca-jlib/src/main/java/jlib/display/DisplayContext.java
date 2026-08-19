@@ -16,89 +16,89 @@ import jlib.xml.Tag;
  */
 public class DisplayContext
 {
-	protected class DisplayedElement
-	{
-		public BaseDialog dialog = null ;
-		public String display = "" ;
-	}
-	protected DisplayConfig config ;
-	protected Stack<DisplayedElement> stackDisplayedElements = new Stack<DisplayedElement>() ;
+    protected class DisplayedElement
+    {
+        public BaseDialog dialog = null ;
+        public String display = "" ;
+    }
+    protected DisplayConfig config ;
+    protected Stack<DisplayedElement> stackDisplayedElements = new Stack<DisplayedElement>() ;
 
-	public DisplayContext()
-	{
-		config = DisplayConfig.getInstance() ;
-	}
+    public DisplayContext()
+    {
+        config = DisplayConfig.getInstance() ;
+    }
 
-	/**
-	 * @param reqLoader
-	 * @param output
-	 * @return
-	 */
-	public boolean OnRequest(HTTPMapFieldLoader reqLoader, DisplayOutput output)
-	{
-		if(stackDisplayedElements.isEmpty())
-		{
-			BaseDialogFactory factory = config.getDialogFactory() ;
-			BaseDialog dialog = factory.getInitialDialog(this) ;
-			if (dialog == null)
-			{
-				return false ;
-			}
-			return OpenDialog(dialog, output) ;
-		}
+    /**
+     * @param reqLoader
+     * @param output
+     * @return
+     */
+    public boolean OnRequest(HTTPMapFieldLoader reqLoader, DisplayOutput output)
+    {
+        if(stackDisplayedElements.isEmpty())
+        {
+            BaseDialogFactory factory = config.getDialogFactory() ;
+            BaseDialog dialog = factory.getInitialDialog(this) ;
+            if (dialog == null)
+            {
+                return false ;
+            }
+            return OpenDialog(dialog, output) ;
+        }
 
-		DisplayedElement dialog = stackDisplayedElements.lastElement() ;
-		if (!dialog.dialog.HandleRequest(reqLoader))
-		{
-			return false ;
-		}
-		return ShowFrontDialog(output) ;
-	}
+        DisplayedElement dialog = stackDisplayedElements.lastElement() ;
+        if (!dialog.dialog.HandleRequest(reqLoader))
+        {
+            return false ;
+        }
+        return ShowFrontDialog(output) ;
+    }
 
-	/**
-	 * @param dlg
-	 * @param output
-	 */
-	private boolean ShowFrontDialog(DisplayOutput output)
-	{
-		DisplayedElement element = stackDisplayedElements.lastElement() ;
-		if (element == null || element.dialog == null)
-			return false ;
+    /**
+     * @param dlg
+     * @param output
+     */
+    private boolean ShowFrontDialog(DisplayOutput output)
+    {
+        DisplayedElement element = stackDisplayedElements.lastElement() ;
+        if (element == null || element.dialog == null)
+            return false ;
 
-		Tag tagOutput = element.dialog.getXMLDisplay(element.display) ;
-		if (tagOutput == null)
-			return false  ;
+        Tag tagOutput = element.dialog.getXMLDisplay(element.display) ;
+        if (tagOutput == null)
+            return false  ;
 
-		output.setXMLDisplay(tagOutput) ;
-		return true;
-	}
+        output.setXMLDisplay(tagOutput) ;
+        return true;
+    }
 
-	private boolean OpenDialog(BaseDialog dlg, DisplayOutput output)
-	{
-		if (!dlg.BeforeDisplay())
-			return false ;
+    private boolean OpenDialog(BaseDialog dlg, DisplayOutput output)
+    {
+        if (!dlg.BeforeDisplay())
+            return false ;
 
-		return ShowFrontDialog(output) ;
-	}
+        return ShowFrontDialog(output) ;
+    }
 
-	/**
-	 * @return
-	 */
-	public String getRootPath()
-	{
-		String path = config.getRootPath() ;
-		return path;
-	}
+    /**
+     * @return
+     */
+    public String getRootPath()
+    {
+        String path = config.getRootPath() ;
+        return path;
+    }
 
-	/**
-	 * @param dialog
-	 * @param form
-	 */
-	public void AddDisplay(BaseDialog dialog, String form)
-	{
-		DisplayedElement el = new DisplayedElement() ;
-		el.dialog = dialog ;
-		el.display = form ;
-		stackDisplayedElements.add(el) ;
-	}
+    /**
+     * @param dialog
+     * @param form
+     */
+    public void AddDisplay(BaseDialog dialog, String form)
+    {
+        DisplayedElement el = new DisplayedElement() ;
+        el.dialog = dialog ;
+        el.display = form ;
+        stackDisplayedElements.add(el) ;
+    }
 }

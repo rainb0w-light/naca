@@ -15,21 +15,21 @@ import nacaLib.exceptions.AbortSessionException;
 
 public class BatchProgramLoader extends BaseProgramLoader
 {
-	public BatchProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
-	{
-		super(connectionManager, tagSequencerConfig, true);
-	}
+    public BatchProgramLoader(DbConnectionManagerBase connectionManager, Tag tagSequencerConfig)
+    {
+        super(connectionManager, tagSequencerConfig, true);
+    }
 
-	public void RunProgram(BaseSession appSession) throws AbortSessionException
-	{
-	}
-	
-	public static BatchProgramLoader GetProgramLoaderInstance() 
-	{
-		return (BatchProgramLoader)ms_Instance ;
-	}
-	
-	public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
-	{
-	}
+    public void RunProgram(BaseSession appSession) throws AbortSessionException
+    {
+    }
+
+    public static BatchProgramLoader GetProgramLoaderInstance()
+    {
+        return (BatchProgramLoader)ms_Instance ;
+    }
+
+    public void doHelp(CBaseMapFieldLoader fieldLoader, BaseSession session)
+    {
+    }
 }

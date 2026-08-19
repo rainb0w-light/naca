@@ -48,10 +48,12 @@ abstract class DumpClassScope
      *     in this JRE
      */
     @SuppressWarnings("unchecked")
-	public static Class [] getLoadedClasses (final ClassLoader loader)
+    public static Class [] getLoadedClasses (final ClassLoader loader)
     {
         if (loader == null) throw new IllegalArgumentException ("null input: loader");
-        if (CLASSES_VECTOR_FIELD == null) throw new RuntimeException ("ClassScope::getLoadedClasses() cannot be used in this JRE", CVF_FAILURE);
+        if (CLASSES_VECTOR_FIELD == null) throw new RuntimeException (
+            "ClassScope::getLoadedClasses() cannot be used in this JRE",
+            CVF_FAILURE);
 
         try
         {
@@ -125,7 +127,9 @@ abstract class DumpClassScope
      */
     public static ClassLoader [] getCallerClassLoaderTree ()
     {
-        if (CALLER_RESOLVER == null) throw new RuntimeException ("ClassScope::getCallerClassLoaderTree() cannot be used in this JRE", CR_FAILURE);
+        if (CALLER_RESOLVER == null) throw new RuntimeException (
+            "ClassScope::getCallerClassLoaderTree() cannot be used in this JRE",
+            CR_FAILURE);
 
         final Class [] callContext = CALLER_RESOLVER.getClassContext();
 

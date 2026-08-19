@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -15,28 +15,28 @@ package nacaLib.varEx;
  * @version $Id: OccursDefVar.java,v 1.1 2006/04/19 09:53:09 cvsadmin Exp $
  */
 public class OccursDefVar extends OccursDefBase
-{	
-	public OccursDefVar(Var var)
-	{
-		this.var = var;
-	}
-		
-	public int getNbOccurs()
-	{
-		if(var != null)
-			return var.getInt();
-		return -1; 
-	}
-	
-	public void prepareAutoRemoval()
-	{
-		var = null;
-	}
-	
-	public Var getRecordDependingVar()
-	{
-		return null;
-	}
+{
+    public OccursDefVar(Var var)
+    {
+        this.var = var;
+    }
 
-	Var var = null;
+    public int getNbOccurs()
+    {
+        if(var != null)
+            return var.getInt();
+        return -1;
+    }
+
+    public void prepareAutoRemoval()
+    {
+        var = null;
+    }
+
+    public Var getRecordDependingVar()
+    {
+        return null;
+    }
+
+    Var var = null;
 }

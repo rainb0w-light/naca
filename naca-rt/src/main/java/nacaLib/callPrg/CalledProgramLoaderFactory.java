@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -14,11 +14,11 @@ import nacaLib.basePrgEnv.ProgramSequencer;
 
 public class CalledProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
-	public ProgramSequencer NewSequencer()
-	{
-		CalledProgramLoader prog = new CalledProgramLoader(connectionManager, tagSequencerConfig);
-		if (tagSequencerConfig != null)
-			prog.initMailService(tagSequencerConfig);
-		return prog ;
-	}
+    public ProgramSequencer NewSequencer()
+    {
+        CalledProgramLoader prog = new CalledProgramLoader(connectionManager, tagSequencerConfig);
+        if (tagSequencerConfig != null)
+            prog.initMailService(tagSequencerConfig);
+        return prog ;
+    }
 }

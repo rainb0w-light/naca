@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -19,28 +19,28 @@ import java.util.Stack;
  */
 public class MultiThreadedSortAddItemCache
 {
-	MultiThreadedSortAddItemCache()
-	{
-		stk = new Stack<MultiThreadedSortAddItem>(); 
-	}
-	
-	MultiThreadedSortAddItem getUsusedItem()
-	{	
-		try
-		{
-			MultiThreadedSortAddItem item = stk.pop();
-			return item;			
-		}
-		catch (EmptyStackException e) 
-		{
-		}
-		return null;
-	}
-	
-	void disposeItemForReuse(MultiThreadedSortAddItem item)
-	{
-		stk.push(item);
-	}
-	
-	private Stack<MultiThreadedSortAddItem> stk = null;
+    MultiThreadedSortAddItemCache()
+    {
+        stk = new Stack<MultiThreadedSortAddItem>();
+    }
+
+    MultiThreadedSortAddItem getUsusedItem()
+    {
+        try
+        {
+            MultiThreadedSortAddItem item = stk.pop();
+            return item;
+        }
+        catch (EmptyStackException e)
+        {
+        }
+        return null;
+    }
+
+    void disposeItemForReuse(MultiThreadedSortAddItem item)
+    {
+        stk.push(item);
+    }
+
+    private Stack<MultiThreadedSortAddItem> stk = null;
 }

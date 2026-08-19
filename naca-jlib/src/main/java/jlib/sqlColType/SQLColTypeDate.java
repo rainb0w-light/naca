@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sqlColType;
 
@@ -20,43 +20,43 @@ import jlib.misc.NumberParser;
  */
 public class SQLColTypeDate
 {
-	private Timestamp ts = null;
-	private boolean isvalid = false;
-	
-	public SQLColTypeDate(String csYYYYMMDD)
-	{
-		int nYYYY = NumberParser.getAsInt(csYYYYMMDD.substring(0, 4));
-		int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
-		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
-		
-		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		isvalid = true;
-	}
-	
-	public SQLColTypeDate(int nYYYYMMDD)
-	{
-		String csYYYYMMDD = "" + nYYYYMMDD;
-		int nYYYY = NumberParser.getAsInt(csYYYYMMDD.substring(0, 4));
-		int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
-		int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
-		
-		ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
-		isvalid = true;
-	}
-	
-	public void setInfinite()
-	{
-		ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);
-		isvalid = true;
-	}
-	
-	public boolean isValid()
-	{
-		return isvalid;
-	}
-	
-	public Timestamp getTimeStamp()
-	{
-		return ts;
-	}
+    private Timestamp ts = null;
+    private boolean isvalid = false;
+
+    public SQLColTypeDate(String csYYYYMMDD)
+    {
+        int nYYYY = NumberParser.getAsInt(csYYYYMMDD.substring(0, 4));
+        int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
+        int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
+
+        ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
+        isvalid = true;
+    }
+
+    public SQLColTypeDate(int nYYYYMMDD)
+    {
+        String csYYYYMMDD = "" + nYYYYMMDD;
+        int nYYYY = NumberParser.getAsInt(csYYYYMMDD.substring(0, 4));
+        int nMM = NumberParser.getAsInt(csYYYYMMDD.substring(4, 6));
+        int nDD = NumberParser.getAsInt(csYYYYMMDD.substring(6, 8));
+
+        ts = new Timestamp(nYYYY, nMM, nDD, 0, 0, 0, 0);
+        isvalid = true;
+    }
+
+    public void setInfinite()
+    {
+        ts = new Timestamp(2038, 12, 31, 0, 0, 0, 0);
+        isvalid = true;
+    }
+
+    public boolean isValid()
+    {
+        return isvalid;
+    }
+
+    public Timestamp getTimeStamp()
+    {
+        return ts;
+    }
 }

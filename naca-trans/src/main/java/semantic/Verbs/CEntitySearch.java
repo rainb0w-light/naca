@@ -18,49 +18,49 @@ import utils.CObjectCatalog;
 public class CEntitySearch extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySearch(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySearch(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	/**
-	 * @param var
-	 * @param index
-	 */
-	public void setVariable(CDataEntity var, CDataEntity index)
-	{
-		eVariable = var ;
-		eIndex = index ;
-	}
-	protected CDataEntity eVariable = null ;
-	protected CDataEntity eIndex = null ;
-	protected CEntityBloc blocElse = null;
-	/**
-	 * @param bloc
-	 */
-	public void setElseBloc(CEntityBloc bloc)
-	{
-		blocElse = bloc ;
-	}
+    /**
+     * @param var
+     * @param index
+     */
+    public void setVariable(CDataEntity var, CDataEntity index)
+    {
+        eVariable = var ;
+        eIndex = index ;
+    }
+    protected CDataEntity eVariable = null ;
+    protected CDataEntity eIndex = null ;
+    protected CEntityBloc blocElse = null;
+    /**
+     * @param bloc
+     */
+    public void setElseBloc(CEntityBloc bloc)
+    {
+        blocElse = bloc ;
+    }
 
-	public CDataEntity getVariable()
-	{
-		return eVariable;
-	}
+    public CDataEntity getVariable()
+    {
+        return eVariable;
+    }
 
-	public CDataEntity getIndex()
-	{
-		return eIndex;
-	}
+    public CDataEntity getIndex()
+    {
+        return eIndex;
+    }
 
-	public CEntityBloc getElseBloc()
-	{
-		return blocElse;
-	}
+    public CEntityBloc getElseBloc()
+    {
+        return blocElse;
+    }
 
 
 }

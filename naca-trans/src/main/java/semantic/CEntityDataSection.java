@@ -14,59 +14,59 @@ import utils.CObjectCatalog;
  */
 public class CEntityDataSection extends CBaseLanguageEntity
 {
-	/**
-	 * @param line
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityDataSection(int line, String name, CObjectCatalog cat)
-	{
-		super(line, name, cat);
-		if (name.equals("LinkageSection"))
-		{
-			cat.RegisterLinkageSection(this) ;
-		}
-		else if (name.equals("WorkingStorageSection"))
-		{
-			cat.RegisterWorkingSection(this) ;
-		}
-	}
-	protected void RegisterMySelfToCatalog()
-	{
-		// nothing
-	}
+    /**
+     * @param line
+     * @param name
+     * @param cat
+     */
+    public CEntityDataSection(int line, String name, CObjectCatalog cat)
+    {
+        super(line, name, cat);
+        if (name.equals("LinkageSection"))
+        {
+            cat.RegisterLinkageSection(this) ;
+        }
+        else if (name.equals("WorkingStorageSection"))
+        {
+            cat.RegisterWorkingSection(this) ;
+        }
+    }
+    protected void RegisterMySelfToCatalog()
+    {
+        // nothing
+    }
 
-	public int GetInternalLevel()
-	{
-		return 0 ;
-	}
-	public CEntityProcedureSection getSectionContainer()
-	{
-		return null ;
-	}
-	public boolean ignore()
-	{
-		return lstChildren.isEmpty() ;
-	}
+    public int GetInternalLevel()
+    {
+        return 0 ;
+    }
+    public CEntityProcedureSection getSectionContainer()
+    {
+        return null ;
+    }
+    public boolean ignore()
+    {
+        return lstChildren.isEmpty() ;
+    }
 
-	public boolean isWorkingStorageSection()
-	{
-		return "WorkingStorageSection".equals(GetName());
-	}
+    public boolean isWorkingStorageSection()
+    {
+        return "WorkingStorageSection".equals(GetName());
+    }
 
-	public boolean isLinkageSection()
-	{
-		return "LinkageSection".equals(GetName());
-	}
+    public boolean isLinkageSection()
+    {
+        return "LinkageSection".equals(GetName());
+    }
 
-	public boolean isFileSection()
-	{
-		return "FileSection".equals(GetName());
-	}
+    public boolean isFileSection()
+    {
+        return "FileSection".equals(GetName());
+    }
 
-	public boolean isVariableSection()
-	{
-		return "VariableSection".equals(GetName());
-	}
+    public boolean isVariableSection()
+    {
+        return "VariableSection".equals(GetName());
+    }
 
 }

@@ -20,54 +20,54 @@ import semantic.CDataEntity;
 public class CFPacNumEditedConstant extends CTerminal
 {
 
-	protected String csFormat = "" ;
-	/**
-	 *
-	 */
-	public CFPacNumEditedConstant(String cs)
-	{
-		csFormat = cs ;
-	}
+    protected String csFormat = "" ;
+    /**
+     *
+     */
+    public CFPacNumEditedConstant(String cs)
+    {
+        csFormat = cs ;
+    }
 
-	/**
-	 * @see parser.expression.CTerminal#GetValue()
-	 */
-	@Override
-	public String GetValue()
-	{
-		return csFormat;
-	}
+    /**
+     * @see parser.expression.CTerminal#GetValue()
+     */
+    @Override
+    public String GetValue()
+    {
+        return csFormat;
+    }
 
-	/**
-	 * @see parser.expression.CTerminal#IsReference()
-	 */
-	@Override
-	public boolean IsReference()
-	{
-		return false;
-	}
+    /**
+     * @see parser.expression.CTerminal#IsReference()
+     */
+    @Override
+    public boolean IsReference()
+    {
+        return false;
+    }
 
-	/**
-	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
-	 */
-	@Override
-	public void ExportTo(Element e, Document root)
-	{
+    /**
+     * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
+     */
+    @Override
+    public void ExportTo(Element e, Document root)
+    {
 
-	}
+    }
 
-	/**
-	 * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
-	 */
-	@Override
-	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
-	{
-		return factory.NewEntityString(csFormat) ;
-	}
+    /**
+     * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
+     */
+    @Override
+    public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
+    {
+        return factory.NewEntityString(csFormat) ;
+    }
 
 
-	public boolean IsNumber()
-	{
-		return false ;
-	}
+    public boolean IsNumber()
+    {
+        return false ;
+    }
 }

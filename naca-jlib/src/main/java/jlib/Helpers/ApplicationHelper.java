@@ -10,7 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 public class ApplicationHelper {
-	
+
 //***********************************************************************************
 //**                Shows a text file in the console.                              **
 //***********************************************************************************
@@ -19,21 +19,21 @@ public class ApplicationHelper {
  * This method is typically used from <i>main</i> methods of pre-import modules
  * to show readme files, or help files.
  * <pre>
- *	 	
+ *
  * </pre>
  */
-	public static void showStreamOnConsole(InputStream is) throws Exception {
-		try {
-			if (is==null)
-				throw new Exception("No text specified.");
-			else {
-				int c;
-				BufferedInputStream bis=new BufferedInputStream(is);
-				while((c=bis.read())>=0)
-					System.out.print((char)c);
-			}
-		} catch (Exception e) {
-			throw new Exception(e);
-		}
-	}
+    public static void showStreamOnConsole(InputStream is) throws Exception {
+        try {
+            if (is==null)
+                throw new Exception("No text specified.");
+            else {
+                int c;
+                BufferedInputStream bis=new BufferedInputStream(is);
+                while((c=bis.read())>=0)
+                    System.out.print((char)c);
+            }
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+    }
 }

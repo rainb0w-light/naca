@@ -16,56 +16,58 @@ import jlib.misc.*;
  */
 public class PatternLayoutST6 extends LogPatternLayout
 {
-	public PatternLayoutST6()
-	{
-		super();
-	}
+    public PatternLayoutST6()
+    {
+        super();
+    }
 
-	String getMessage(LogParams logParams)
-	{
-		return format(logParams, 0);
-	}
+    String getMessage(LogParams logParams)
+    {
+        return format(logParams, 0);
+    }
 
-	String format(LogParams logParams, int n)
-	{
-		if(n == 0)
-		{
-			String csType = "4";	// Rem
-			LogEventType logEventType = logParams.getLogEventType();
-			if(logEventType == LogEventType.Error)
-				csType = "0";	// Error
-			else if(logEventType == LogEventType.Warning)
-				csType = "1";	// Waring
+    String format(LogParams logParams, int n)
+    {
+        if(n == 0)
+        {
+            String csType = "4";    // Rem
+            LogEventType logEventType = logParams.getLogEventType();
+            if(logEventType == LogEventType.Error)
+                csType = "0";   // Error
+            else if(logEventType == LogEventType.Warning)
+                csType = "1";   // Waring
 
-			String csMessage = "";
-			String csFile = "";
-			String csClass = "";
-			String csLine = "";
-			String csMethodName = "";
-			int nCode = 0;
+            String csMessage = "";
+            String csFile = "";
+            String csClass = "";
+            String csLine = "";
+            String csMethodName = "";
+            int nCode = 0;
 
-			csMessage = logParams.toString();
+            csMessage = logParams.toString();
 
-			StackTraceElement stackElem = logParams.caller;
-			if(stackElem != null)
-			{
-				csFile = stackElem.getFileName();
-				csClass = stackElem.getClassName();
-				int nLine = stackElem.getLineNumber();
-				csLine = Integer.toString(nLine);
-				csMethodName = stackElem.getMethodName();
-			}
+            StackTraceElement stackElem = logParams.caller;
+            if(stackElem != null)
+            {
+                csFile = stackElem.getFileName();
+                csClass = stackElem.getClassName();
+                int nLine = stackElem.getLineNumber();
+                csLine = Integer.toString(nLine);
+                csMethodName = stackElem.getMethodName();
+            }
 
-			String csDate = DateUtil.getCurrentDisplayableDateTime();
+            String csDate = DateUtil.getCurrentDisplayableDateTime();
 
-			String csOut = csType+","+nCode+",þ"+logParams.getThreadName()+"þ,"+(int)logParams.getStartTime()+",þ"+csDate+"þ,þ"+csFile+"þ,"+csLine+",þ"+csClass+"::"+csMethodName+"þ,þ"+"Log Session"+"þ,þ"+csMessage+"þ,þ"+csMessage+"þ\n";
-			return csOut;
-		}
-		return null;
-	}
+            String csOut = csType + "," + nCode + ",þ" + logParams.getThreadName() + "þ," + (int)logParams.getStartTime() + ",þ" + csDate
+                + "þ,þ" + csFile + "þ," + csLine + ",þ" + csClass + "::" + csMethodName + "þ,þ" + "Log Session" + "þ,þ" + csMessage + "þ,þ"
+                + csMessage + "þ\n";
+            return csOut;
+        }
+        return null;
+    }
 
-	int getNbLoop(LogParams logParams)
-	{
-		return 1;
-	}
+    int getNbLoop(LogParams logParams)
+    {
+        return 1;
+    }
 }

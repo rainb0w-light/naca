@@ -22,208 +22,208 @@ import semantic.expression.CEntityCondCompare;
  */
 public class CCondLessStatement extends CExpression
 {
-	public CCondLessStatement(int line, CExpression term1,CExpression term2)
-	{
-		super(line) ;
-		this.term1 = term1 ;
-		this.term2 = term2 ;
-	}
-	public CCondLessStatement(int line, CExpression term1,CExpression term2, boolean bOrEquals)
-	{
-		super(line) ;
-		this.term1 = term1 ;
-		this.term2 = term2 ;
-		this.isorEquals = bOrEquals ;
-	}
-	protected boolean isorEquals = false ;
-	protected CExpression term1 = null ;
-	protected CExpression term2 = null ;
+    public CCondLessStatement(int line, CExpression term1,CExpression term2)
+    {
+        super(line) ;
+        this.term1 = term1 ;
+        this.term2 = term2 ;
+    }
+    public CCondLessStatement(int line, CExpression term1,CExpression term2, boolean bOrEquals)
+    {
+        super(line) ;
+        this.term1 = term1 ;
+        this.term2 = term2 ;
+        this.isorEquals = bOrEquals ;
+    }
+    protected boolean isorEquals = false ;
+    protected CExpression term1 = null ;
+    protected CExpression term2 = null ;
 
-	protected boolean CheckMembersBeforeExport()
-	{
-		boolean b = CheckMemberNotNull(term1);
-		b &= CheckMemberNotNull(term2);
-		return b;
-	}
+    protected boolean CheckMembersBeforeExport()
+    {
+        boolean b = CheckMemberNotNull(term1);
+        b &= CheckMemberNotNull(term2);
+        return b;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
-	 */
-	public Element DoExport(Document root)
-	{
-		Element e ;
-		if (isorEquals)
-		{
-			e = root.createElement("LessThanOrEqual") ;
-		}
-		else
-		{
-			e = root.createElement("LessThan") ;
-		}
-		Element e1 = term1.Export(root) ;
-		if (e1 == null)
-		{
-			int n = 0 ;
-		}
-		e.appendChild(e1) ;
-		Element e2 = term2.Export(root) ;
-		if (e2 == null)
-		{
-			int n = 0 ;
-		}
-		e.appendChild(e2) ;
-		return e;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
-	 */
-	public boolean IsOrEquals()
-	{
-		return isorEquals;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetPriorityLEvel()
-	 */
-	public int GetPriorityLevel()
-	{
-		return 3;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetOppositeCondition()
-	 */
-	public CExpression GetOppositeCondition()
-	{
-		return new CCondGreaterStatement(getLine(), term1, term2, !isorEquals) ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
-	{
-		return null;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
-	 */
-	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
-	{
-		masterCond.SetMasterCondition(this) ;
-		String value = term2.GetConstantValue() ;
-		if (!value.equals("") && term1.IsReference())
-		{
-			CDataEntity ref = term1.GetReference(factory);
-			if (ref == null)
-			{
-				return null ;
-			}
-			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_LESS_THAN ;
-			if (isorEquals)
-			{
-				type = CBaseEntityCondition.EConditionType.IS_LESS_THAN_OR_EQUAL ;
-			}
-			CBaseEntityCondition eCond = ref.GetSpecialCondition(getLine(), value, type, factory) ;
-			if (eCond != null)
-			{
-				return eCond ;
-			}
-		}
+    /* (non-Javadoc)
+     * @see parser.condition.CConditionalStatement#Export(org.w3c.dom.Document)
+     */
+    public Element DoExport(Document root)
+    {
+        Element e ;
+        if (isorEquals)
+        {
+            e = root.createElement("LessThanOrEqual") ;
+        }
+        else
+        {
+            e = root.createElement("LessThan") ;
+        }
+        Element e1 = term1.Export(root) ;
+        if (e1 == null)
+        {
+            int n = 0 ;
+        }
+        e.appendChild(e1) ;
+        Element e2 = term2.Export(root) ;
+        if (e2 == null)
+        {
+            int n = 0 ;
+        }
+        e.appendChild(e2) ;
+        return e;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#WriteTo(parser.expression.CBaseExpressionExporter)
+     */
+    public boolean IsOrEquals()
+    {
+        return isorEquals;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetPriorityLEvel()
+     */
+    public int GetPriorityLevel()
+    {
+        return 3;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetOppositeCondition()
+     */
+    public CExpression GetOppositeCondition()
+    {
+        return new CCondGreaterStatement(getLine(), term1, term2, !isorEquals) ;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseExpression(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory)
+    {
+        return null;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#AnalyseCondition(semantic.CBaseEntityFactory)
+     */
+    public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond)
+    {
+        masterCond.SetMasterCondition(this) ;
+        String value = term2.GetConstantValue() ;
+        if (!value.equals("") && term1.IsReference())
+        {
+            CDataEntity ref = term1.GetReference(factory);
+            if (ref == null)
+            {
+                return null ;
+            }
+            CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_LESS_THAN ;
+            if (isorEquals)
+            {
+                type = CBaseEntityCondition.EConditionType.IS_LESS_THAN_OR_EQUAL ;
+            }
+            CBaseEntityCondition eCond = ref.GetSpecialCondition(getLine(), value, type, factory) ;
+            if (eCond != null)
+            {
+                return eCond ;
+            }
+        }
 
-		value = term1.GetConstantValue() ;
-		if (!value.equals("") && term2.IsReference())
-		{
-			CDataEntity ref = term2.GetReference(factory);
-			CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN_OR_EQUAL ;
-			if (isorEquals)
-			{
-				type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN ;
-			}
-			CBaseEntityCondition eCond = ref.GetSpecialCondition(getLine(), value, type, factory) ;
-			if (eCond != null)
-			{
-				return eCond ;
-			}
-		}
+        value = term1.GetConstantValue() ;
+        if (!value.equals("") && term2.IsReference())
+        {
+            CDataEntity ref = term2.GetReference(factory);
+            CBaseEntityCondition.EConditionType type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN_OR_EQUAL ;
+            if (isorEquals)
+            {
+                type = CBaseEntityCondition.EConditionType.IS_GREATER_THAN ;
+            }
+            CBaseEntityCondition eCond = ref.GetSpecialCondition(getLine(), value, type, factory) ;
+            if (eCond != null)
+            {
+                return eCond ;
+            }
+        }
 
-		CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
-		CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
-		if (op2 == null)
-		{ // maybe the op2 is a structure like 'A < (B OR C)'
-//			if (op1 != null || masterCond == null)
-//			{
-//				masterCond = new CDefaultConditionManager(this) ;
-//			}
-			masterCond.SetMasterCondition(this) ;
-			CBaseEntityCondition eCond = term2.AnalyseCondition(factory, masterCond);
-			ASSERT(eCond, term2) ;
-			return eCond ;
-		}
-		CEntityCondCompare eCond = factory.NewEntityCondCompare() ;
-		if (isorEquals)
-		{
-			eCond.SetLessOrEqualThan(op1, op2) ;
-		}
-		else
-		{
-			eCond.SetLessThan(op1, op2);
-		}
-		if (op1.GetSingleOperator() != null)
-		{
-			op1.GetSingleOperator().RegisterVarTesting(eCond) ;
-		}
-		if (op2.GetSingleOperator() != null)
-		{
-			op2.GetSingleOperator().RegisterValueAccess(eCond) ;
-		}
-		return eCond;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
-	 */
-	public CExpression GetSimilarExpression(CExpression operand)
-	{
-		CCondLessStatement lt = new CCondLessStatement(getLine(), term1, operand) ;
-		lt.isorEquals = isorEquals;
-		return lt;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#IsBinaryCondition()
-	 */
-	public boolean IsBinaryCondition()
-	{
-		return true;
-	}
-	/* (non-Javadoc)
-	 * @see parser.expression.CExpression#NewCopy(parser.expression.CExpression, parser.expression.CExpression)
-	 */
-//	public CExpression NewCopy(CExpression term1, CExpression term2)
-//	{
-//		return new CCondLessStatement(term1, term2);
-//	}
-//	/* (non-Javadoc)
-//	 * @see parser.expression.CExpression#GetFirstOperand()
-//	 */
-	public CExpression GetFirstConditionOperand()
-	{
-		return term1;
-	}
-	public String toString()
-	{
-		if (isorEquals)
-		{
-			return "LESS_OR_EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
-		}
-		else
-		{
-			return "LESS(" + term1.toString() + ", " + term2.toString() + ")" ;
-		}
-	}
-	public CExpression getMasterBinaryCondition()
-	{
-		return this ;
-	}
-	@Override
-	public CExpression GetFirstCalculOperand()
-	{
-		return term1.GetFirstCalculOperand() ;
-	}
+        CBaseEntityExpression op1 = term1.AnalyseExpression(factory);
+        CBaseEntityExpression op2 = term2.AnalyseExpression(factory);
+        if (op2 == null)
+        { // maybe the op2 is a structure like 'A < (B OR C)'
+//          if (op1 != null || masterCond == null)
+//          {
+//              masterCond = new CDefaultConditionManager(this) ;
+//          }
+            masterCond.SetMasterCondition(this) ;
+            CBaseEntityCondition eCond = term2.AnalyseCondition(factory, masterCond);
+            ASSERT(eCond, term2) ;
+            return eCond ;
+        }
+        CEntityCondCompare eCond = factory.NewEntityCondCompare() ;
+        if (isorEquals)
+        {
+            eCond.SetLessOrEqualThan(op1, op2) ;
+        }
+        else
+        {
+            eCond.SetLessThan(op1, op2);
+        }
+        if (op1.GetSingleOperator() != null)
+        {
+            op1.GetSingleOperator().RegisterVarTesting(eCond) ;
+        }
+        if (op2.GetSingleOperator() != null)
+        {
+            op2.GetSingleOperator().RegisterValueAccess(eCond) ;
+        }
+        return eCond;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#GetSimilarExpression(parser.expression.CExpression)
+     */
+    public CExpression GetSimilarExpression(CExpression operand)
+    {
+        CCondLessStatement lt = new CCondLessStatement(getLine(), term1, operand) ;
+        lt.isorEquals = isorEquals;
+        return lt;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#IsBinaryCondition()
+     */
+    public boolean IsBinaryCondition()
+    {
+        return true;
+    }
+    /* (non-Javadoc)
+     * @see parser.expression.CExpression#NewCopy(parser.expression.CExpression, parser.expression.CExpression)
+     */
+//  public CExpression NewCopy(CExpression term1, CExpression term2)
+//  {
+//      return new CCondLessStatement(term1, term2);
+//  }
+//  /* (non-Javadoc)
+//   * @see parser.expression.CExpression#GetFirstOperand()
+//   */
+    public CExpression GetFirstConditionOperand()
+    {
+        return term1;
+    }
+    public String toString()
+    {
+        if (isorEquals)
+        {
+            return "LESS_OR_EQUAL(" + term1.toString() + ", " + term2.toString() + ")" ;
+        }
+        else
+        {
+            return "LESS(" + term1.toString() + ", " + term2.toString() + ")" ;
+        }
+    }
+    public CExpression getMasterBinaryCondition()
+    {
+        return this ;
+    }
+    @Override
+    public CExpression GetFirstCalculOperand()
+    {
+        return term1.GetFirstCalculOperand() ;
+    }
 }

@@ -12,8 +12,8 @@ package nacaLib.stringSupport;
  */
 public class InspectReplacingType
 {
-	InspectReplacingType()
-	{
-	}
+    InspectReplacingType()
+    {
+    }
 
 }

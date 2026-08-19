@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package idea.onlinePrgEnv;
 
@@ -21,21 +21,25 @@ import java.util.ArrayList;
  */
 public class AsynchronousProgramPreloaderThread extends Thread
 {
-	private OnlineResourceManager onlineResourceManager = null;
-	private ProgramPreloader programPreloader = null;
-	private ArrayList<PreloadProgramSettings> programToPreload = null;
-	private String csProgramListToKeep = null;
-	
-	public AsynchronousProgramPreloaderThread(OnlineResourceManager onlineResourceManager, ProgramPreloader programPreloader, ArrayList<PreloadProgramSettings> arrProgramToPreload, String csProgramListToKeep)
-	{
-		this.onlineResourceManager = onlineResourceManager;
-		this.programPreloader = programPreloader;
-		this.programToPreload = arrProgramToPreload;
-		this.csProgramListToKeep = csProgramListToKeep;
-	}
-	
-	public void run()
-	{
-		onlineResourceManager.AsynchronouslyPreloadPrograms(programToPreload, programPreloader, csProgramListToKeep);
-	}
+    private OnlineResourceManager onlineResourceManager = null;
+    private ProgramPreloader programPreloader = null;
+    private ArrayList<PreloadProgramSettings> programToPreload = null;
+    private String csProgramListToKeep = null;
+
+    public AsynchronousProgramPreloaderThread(
+        OnlineResourceManager onlineResourceManager,
+        ProgramPreloader programPreloader,
+        ArrayList<PreloadProgramSettings> arrProgramToPreload,
+        String csProgramListToKeep)
+    {
+        this.onlineResourceManager = onlineResourceManager;
+        this.programPreloader = programPreloader;
+        this.programToPreload = arrProgramToPreload;
+        this.csProgramListToKeep = csProgramListToKeep;
+    }
+
+    public void run()
+    {
+        onlineResourceManager.AsynchronouslyPreloadPrograms(programToPreload, programPreloader, csProgramListToKeep);
+    }
 }

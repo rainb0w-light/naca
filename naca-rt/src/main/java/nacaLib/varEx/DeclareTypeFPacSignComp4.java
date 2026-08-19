@@ -8,13 +8,13 @@ package nacaLib.varEx;
 
 public class DeclareTypeFPacSignComp4 extends DeclareType9
 {
-	public DeclareTypeFPacSignComp4()
-	{
-	}
-	
-	public void set(VarLevel varLevel, int nNbDigitIntegerPart)
-	{		
-		set(varLevel, true, nNbDigitIntegerPart, 0);
-		comp();
-	}
+    public DeclareTypeFPacSignComp4()
+    {
+    }
+
+    public void set(VarLevel varLevel, int nNbDigitIntegerPart)
+    {
+        set(varLevel, true, nNbDigitIntegerPart, 0);
+        comp();
+    }
 }

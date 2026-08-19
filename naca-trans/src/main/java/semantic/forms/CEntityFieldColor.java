@@ -21,141 +21,150 @@ import utils.NacaTransAssertException;
  */
 public class CEntityFieldColor extends CBaseEntityFieldAttribute
 {
-	public static class CFieldColor
-	{
-		protected CFieldColor(String s)	{
-			text = s ;
-		}
-		public String text="" ;
-		public static CFieldColor RED = new CFieldColor("RED") ;
-		public static CFieldColor YELLOW = new CFieldColor("YELLOW") ;
-		public static CFieldColor GREEN = new CFieldColor("GREEN") ;
-		public static CFieldColor BLUE = new CFieldColor("BLUE") ;
-		public static CFieldColor PINK = new CFieldColor("PINK") ;
-		public static CFieldColor TURQUOISE = new CFieldColor("TURQUOISE") ;
-		public static CFieldColor NEUTRAL = new CFieldColor("NEUTRAL") ;
-		public static CFieldColor WhichColor(String col)
-		{
-			if (col.equals(""))
-			{
-				return null ; //default color
-			}
-			else if (col.equals("1"))
-			{
-				return CFieldColor.BLUE ;
-			}
-			else if (col.equals("2"))
-			{
-				return CFieldColor.RED ;
-			}
-			else if (col.equals("3"))
-			{
-				return CFieldColor.PINK ;
-			}
-			else if (col.equals("4"))
-			{
-				return CFieldColor.GREEN ;
-			}
-			else if (col.equals("5"))
-			{
-				return CFieldColor.TURQUOISE ;
-			}
-			else if (col.equals("6"))
-			{
-				return CFieldColor.YELLOW ;
-			}
-			else if (col.equals("7"))
-			{
-				return CFieldColor.NEUTRAL;
-			}
-			else
-			{
-				return null ;
-			}
-		}
-	}
+    public static class CFieldColor
+    {
+        protected CFieldColor(String s) {
+            text = s ;
+        }
+        public String text="" ;
+        public static CFieldColor RED = new CFieldColor("RED") ;
+        public static CFieldColor YELLOW = new CFieldColor("YELLOW") ;
+        public static CFieldColor GREEN = new CFieldColor("GREEN") ;
+        public static CFieldColor BLUE = new CFieldColor("BLUE") ;
+        public static CFieldColor PINK = new CFieldColor("PINK") ;
+        public static CFieldColor TURQUOISE = new CFieldColor("TURQUOISE") ;
+        public static CFieldColor NEUTRAL = new CFieldColor("NEUTRAL") ;
+        public static CFieldColor WhichColor(String col)
+        {
+            if (col.equals(""))
+            {
+                return null ; //default color
+            }
+            else if (col.equals("1"))
+            {
+                return CFieldColor.BLUE ;
+            }
+            else if (col.equals("2"))
+            {
+                return CFieldColor.RED ;
+            }
+            else if (col.equals("3"))
+            {
+                return CFieldColor.PINK ;
+            }
+            else if (col.equals("4"))
+            {
+                return CFieldColor.GREEN ;
+            }
+            else if (col.equals("5"))
+            {
+                return CFieldColor.TURQUOISE ;
+            }
+            else if (col.equals("6"))
+            {
+                return CFieldColor.YELLOW ;
+            }
+            else if (col.equals("7"))
+            {
+                return CFieldColor.NEUTRAL;
+            }
+            else
+            {
+                return null ;
+            }
+        }
+    }
 
-	public CEntityFieldColor(int l, String name, CObjectCatalog cat, CDataEntity owner)
-	{
-		super(l, name, cat, CEntityFieldAttributeType.COLOR, owner) ;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD_ATTRIBUTE ;
-	}
-	public boolean HasAccessors()
-	{
-		return true ;
-	}
-	public boolean isValNeeded()
-	{
-		return true ;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
-	{
-		String col = term.GetValue() ;
-		CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
-		CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
-		color = CFieldColor.WhichColor(col) ;
-		eSet.SetColor(color) ;
-		ref.RegisterWritingAction(eSet) ;
-		return eSet;
-	}
-	public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
-	{
-		if (term.GetDataType() == CDataEntity.CDataEntityType.FIELD_ATTRIBUTE)
-		{
-			CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
-			CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
-			eSet.SetColor(term) ;
-			ref.RegisterWritingAction(eSet) ;
-			term.RegisterReadingAction(eSet) ;
-			return eSet;
-		}
-		else
-		{
-			return null ;
-		}
-	}
+    public CEntityFieldColor(int l, String name, CObjectCatalog cat, CDataEntity owner)
+    {
+        super(l, name, cat, CEntityFieldAttributeType.COLOR, owner) ;
+    }
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD_ATTRIBUTE ;
+    }
+    public boolean HasAccessors()
+    {
+        return true ;
+    }
+    public boolean isValNeeded()
+    {
+        return true ;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CTerminal term, CBaseEntityFactory factory, int l)
+    {
+        String col = term.GetValue() ;
+        CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
+        CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
+        color = CFieldColor.WhichColor(col) ;
+        eSet.SetColor(color) ;
+        ref.RegisterWritingAction(eSet) ;
+        return eSet;
+    }
+    public CBaseActionEntity GetSpecialAssignment(CDataEntity term, CBaseEntityFactory factory, int l)
+    {
+        if (term.GetDataType() == CDataEntity.CDataEntityType.FIELD_ATTRIBUTE)
+        {
+            CEntityFieldAttributeReference ref = factory.NewEntityFieldAttributeReference(reference) ;
+            CEntitySetColor eSet = factory.NewEntitySetColor(l, ref);
+            eSet.SetColor(term) ;
+            ref.RegisterWritingAction(eSet) ;
+            term.RegisterReadingAction(eSet) ;
+            return eSet;
+        }
+        else
+        {
+            return null ;
+        }
+    }
 
-	protected CFieldColor color = null ;
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-		CDataEntity e = reference.GetArrayReference(v, factory) ;
-		return factory.NewEntityFieldColor(getLine(), "", e);
-	};
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		return CEntityFieldColor.GetSpecialCondition(nLine, value, reference, factory, type) ;
-	}
-	static CUnitaryEntityCondition GetSpecialCondition(int nLine, String value, CDataEntity ref, CBaseEntityFactory factory, CBaseEntityCondition.EConditionType type)
-	{
-		CFieldColor col = CFieldColor.WhichColor(value);
-		if (col == null)
-		{
-			return null ;
-		}
-		else
-		{
-			CEntityIsFieldColor eCond = factory.NewEntityIsFieldColor() ;
-			eCond.IsColor(col, ref);
-			ref.RegisterVarTesting(eCond) ;
-			if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
-			{
-				eCond.SetOpposite();
-			}
-			else if (type != CBaseEntityCondition.EConditionType.IS_EQUAL)
-			{
-				throw new NacaTransAssertException("Unexpecting condition type in CEntityFieldColor") ;
-			}
-			return eCond ;
-		}
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
+    protected CFieldColor color = null ;
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+        CDataEntity e = reference.GetArrayReference(v, factory) ;
+        return factory.NewEntityFieldColor(getLine(), "", e);
+    };
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        return CEntityFieldColor.GetSpecialCondition(nLine, value, reference, factory, type) ;
+    }
+    static CUnitaryEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CDataEntity ref,
+        CBaseEntityFactory factory,
+        CBaseEntityCondition.EConditionType type)
+    {
+        CFieldColor col = CFieldColor.WhichColor(value);
+        if (col == null)
+        {
+            return null ;
+        }
+        else
+        {
+            CEntityIsFieldColor eCond = factory.NewEntityIsFieldColor() ;
+            eCond.IsColor(col, ref);
+            ref.RegisterVarTesting(eCond) ;
+            if (type == CBaseEntityCondition.EConditionType.IS_DIFFERENT)
+            {
+                eCond.SetOpposite();
+            }
+            else if (type != CBaseEntityCondition.EConditionType.IS_EQUAL)
+            {
+                throw new NacaTransAssertException("Unexpecting condition type in CEntityFieldColor") ;
+            }
+            return eCond ;
+        }
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
 }

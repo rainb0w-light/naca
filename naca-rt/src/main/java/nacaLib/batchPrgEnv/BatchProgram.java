@@ -12,35 +12,35 @@ import nacaLib.fpacPrgEnv.FPacProgram;
 
 public class BatchProgram extends FPacProgram
 {
-	public BatchProgram()
-	{
-		super();
-	}
-	
-	public BaseCESMManager CESM = null;
-	
-	void prepareRunMain(BaseEnvironment e)
-	{
-		CESM = e.createCESMManager();
-	}
-	
-	protected BaseCESMManager getCESM()
-	{
-		return CESM;
-	}
+    public BatchProgram()
+    {
+        super();
+    }
 
-	protected int first()
-	{
-		return NEXT;
-	}
+    public BaseCESMManager CESM = null;
 
-	protected int normal()
-	{
-		return NEXT;
-	}
+    void prepareRunMain(BaseEnvironment e)
+    {
+        CESM = e.createCESMManager();
+    }
 
-	protected int last()
-	{
-		return NEXT;
-	}
+    protected BaseCESMManager getCESM()
+    {
+        return CESM;
+    }
+
+    protected int first()
+    {
+        return NEXT;
+    }
+
+    protected int normal()
+    {
+        return NEXT;
+    }
+
+    protected int last()
+    {
+        return NEXT;
+    }
 }

@@ -138,7 +138,8 @@ class IsFieldHighlightRenderTest
     }
 
     @Test
-    @DisplayName("IF <FIELD>H <> 1 renders !isFieldBlink(field): the legacy isNotFieldBlink call has no naca-rt signature, so the negation rides Java's ! operator on the contracted isFieldBlink call")
+    @DisplayName("IF <FIELD>H <> 1 renders !isFieldBlink(field): the legacy isNotFieldBlink call has no naca-rt signature, so the " +
+        "negation rides Java's ! operator on the contracted isFieldBlink call")
     void fieldHighlightDifferentOneRendersNegatedIsFieldBlink()
     {
         CJavaEntityFactory factory =
@@ -196,7 +197,8 @@ class IsFieldHighlightRenderTest
     }
 
     @Test
-    @DisplayName("IF <FIELD>H = HIGH-VALUE / <> HIGH-VALUE renders is[Not]FieldHighlightNormal(field); HIGH-VALUES and the HIGH literal byte lower identically")
+    @DisplayName("IF <FIELD>H = HIGH-VALUE / <> HIGH-VALUE renders is[Not]FieldHighlightNormal(field); HIGH-VALUES and the HIGH literal " +
+        "byte lower identically")
     void fieldHighlightHighValueRendersIsFieldHighlightNormal()
     {
         CJavaEntityFactory factory =

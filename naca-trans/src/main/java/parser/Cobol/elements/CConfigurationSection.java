@@ -26,144 +26,144 @@ import utils.Transcoder;
  */
 public class CConfigurationSection extends CCommentContainer
 {
-	protected String csSourceComputer = "" ;
-	protected String csObjectComputer = "" ;
-	/**
-	 * @param line
-	 */
-	public CConfigurationSection(int line)
-	{
-		super(line);
-	}
+    protected String csSourceComputer = "" ;
+    protected String csObjectComputer = "" ;
+    /**
+     * @param line
+     */
+    public CConfigurationSection(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		return parent ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        return parent ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-//			if (tok.GetType() == CTokenType.COMMENT)
-//			{
-//				ParseComment() ;
-//			}
-			if (tok.GetKeyword() == CCobolKeywordList.SOURCE_COMPUTER)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				tok = GetNext() ;
-				if (tok.GetType() != CTokenType.IDENTIFIER)
-				{
-					Transcoder.logError(getLine(), "Expecting IDENTIFIER");
-					return false ;
-				}
-				csSourceComputer = tok.GetValue();
-				tok = GetNext();
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				GetNext() ;
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.OBJECT_COMPUTER)
-			{
-				tok = GetNext() ;
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				tok = GetNext() ;
-				if (tok.GetType() != CTokenType.IDENTIFIER)
-				{
-					Transcoder.logError(getLine(), "Expecting IDENTIFIER");
-					return false ;
-				}
-				csObjectComputer = tok.GetValue();
-				tok = GetNext();
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				GetNext() ;
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.SPECIAL_NAMES)
-			{
-				tok = GetNext();
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				tok = GetNext() ;
-				if (tok.GetType() == CTokenType.IDENTIFIER)
-				{
-					CIdentifier id = ReadIdentifier() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetKeyword() == CCobolKeywordList.IS)
-					{
-						GetNext();
-						CIdentifier id2 = ReadIdentifier();
-						tok = GetCurrentToken() ;
-						if (tok.GetType() == CTokenType.DOT)
-						{
-							GetNext();
-						}
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.DECIMAL_POINT)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() == CCobolKeywordList.IS)
-				{
-					tok = GetNext();
-					if (tok.GetKeyword() == CCobolKeywordList.COMMA)
-					{
-						tok = GetNext() ;
-						CCobolParser.ms_bCommaIsDecimalPoint = true ;
-					}
-				}
-				if (tok.GetType() != CTokenType.DOT)
-				{
-					Transcoder.logError(getLine(), "Expecting DOT");
-					return false ;
-				}
-				GetNext() ;
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+//          if (tok.GetType() == CTokenType.COMMENT)
+//          {
+//              ParseComment() ;
+//          }
+            if (tok.GetKeyword() == CCobolKeywordList.SOURCE_COMPUTER)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                tok = GetNext() ;
+                if (tok.GetType() != CTokenType.IDENTIFIER)
+                {
+                    Transcoder.logError(getLine(), "Expecting IDENTIFIER");
+                    return false ;
+                }
+                csSourceComputer = tok.GetValue();
+                tok = GetNext();
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                GetNext() ;
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.OBJECT_COMPUTER)
+            {
+                tok = GetNext() ;
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                tok = GetNext() ;
+                if (tok.GetType() != CTokenType.IDENTIFIER)
+                {
+                    Transcoder.logError(getLine(), "Expecting IDENTIFIER");
+                    return false ;
+                }
+                csObjectComputer = tok.GetValue();
+                tok = GetNext();
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                GetNext() ;
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.SPECIAL_NAMES)
+            {
+                tok = GetNext();
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                tok = GetNext() ;
+                if (tok.GetType() == CTokenType.IDENTIFIER)
+                {
+                    CIdentifier id = ReadIdentifier() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetKeyword() == CCobolKeywordList.IS)
+                    {
+                        GetNext();
+                        CIdentifier id2 = ReadIdentifier();
+                        tok = GetCurrentToken() ;
+                        if (tok.GetType() == CTokenType.DOT)
+                        {
+                            GetNext();
+                        }
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.DECIMAL_POINT)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() == CCobolKeywordList.IS)
+                {
+                    tok = GetNext();
+                    if (tok.GetKeyword() == CCobolKeywordList.COMMA)
+                    {
+                        tok = GetNext() ;
+                        CCobolParser.ms_bCommaIsDecimalPoint = true ;
+                    }
+                }
+                if (tok.GetType() != CTokenType.DOT)
+                {
+                    Transcoder.logError(getLine(), "Expecting DOT");
+                    return false ;
+                }
+                GetNext() ;
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eConfig = root.createElement("Configuration") ;
-		eConfig.setAttribute("SourceComputer", csSourceComputer) ;
-		eConfig.setAttribute("ObjectComputer", csObjectComputer) ;
-		return eConfig ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eConfig = root.createElement("Configuration") ;
+        eConfig.setAttribute("SourceComputer", csSourceComputer) ;
+        eConfig.setAttribute("ObjectComputer", csObjectComputer) ;
+        return eConfig ;
+    }
 
 }

@@ -30,91 +30,91 @@ import utils.FPacTranscoder.OperandDescription;
 public class CFPacAt extends CFPacElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CFPacAt(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CFPacAt(int line)
+    {
+        super(line);
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.AT)
-		{
-			tok=GetNext() ;
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting '-' after AT") ;
-			return false  ;
-		}
-		
-		if (tok.GetKeyword() == CFPacKeywordList.EOF) 
-		{
-			tok = GetNext() ;
-			atEofBloc = new CFPacCodeBloc(getLine(), "") ;
-			if (!Parse(atEofBloc))
-			{
-				return false ;
-			}
-			tok  = GetCurrentToken() ;
-			if (tok.GetKeyword() == CFPacKeywordList.ATEND)
-			{
-				tok = GetNext() ;
-			}
-		}
-		return true ;
-	}
-	
-	private CFPacCodeBloc atEofBloc = null ; 
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.AT)
+        {
+            tok=GetNext() ;
+        }
 
-	
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityCondition cond = factory.NewEntityCondition(getLine()) ;
-		
-		if (atEofBloc != null)
-		{
-			CEntityFileBuffer fb = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
-			parent.AddChild(cond) ;
-			
-			CEntityIsFileEOF eof = factory.NewEntityIsFileEOF(fb.GetFileDescriptor()) ;
-			CEntityBloc le = (CEntityBloc)atEofBloc.DoSemanticAnalysis(cond, factory) ;
-			
-			cond.SetCondition(eof, le, null) ;
-		}
-		parent.AddChild(cond) ;
-		return cond;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting '-' after AT") ;
+            return false  ;
+        }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("AtEnd") ;
-		if (atEofBloc != null)
-		{
-			Element bloc = atEofBloc.Export(root) ;
-			e.appendChild(bloc) ;			
-		}
-		return e; 
-	}
+        if (tok.GetKeyword() == CFPacKeywordList.EOF)
+        {
+            tok = GetNext() ;
+            atEofBloc = new CFPacCodeBloc(getLine(), "") ;
+            if (!Parse(atEofBloc))
+            {
+                return false ;
+            }
+            tok  = GetCurrentToken() ;
+            if (tok.GetKeyword() == CFPacKeywordList.ATEND)
+            {
+                tok = GetNext() ;
+            }
+        }
+        return true ;
+    }
+
+    private CFPacCodeBloc atEofBloc = null ;
+
+
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityCondition cond = factory.NewEntityCondition(getLine()) ;
+
+        if (atEofBloc != null)
+        {
+            CEntityFileBuffer fb = OperandDescription.getDefaultInputFileBuffer(factory.programCatalog) ;
+            parent.AddChild(cond) ;
+
+            CEntityIsFileEOF eof = factory.NewEntityIsFileEOF(fb.GetFileDescriptor()) ;
+            CEntityBloc le = (CEntityBloc)atEofBloc.DoSemanticAnalysis(cond, factory) ;
+
+            cond.SetCondition(eof, le, null) ;
+        }
+        parent.AddChild(cond) ;
+        return cond;
+    }
+
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("AtEnd") ;
+        if (atEofBloc != null)
+        {
+            Element bloc = atEofBloc.Export(root) ;
+            e.appendChild(bloc) ;
+        }
+        return e;
+    }
 
 }

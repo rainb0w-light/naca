@@ -41,9 +41,9 @@ package jlib.exception;
  *     public boolean isValid()
  *     {
  *     if(nSomePositiveValue > 0)
- *  			if(!StringUtil.isEmtpy(csUpperCaseOnlyValue))
- *  				return true;		// The internal state of Item is valid
- *     return false;		// Item'state is invalid
+ *              if(!StringUtil.isEmtpy(csUpperCaseOnlyValue))
+ *                  return true;        // The internal state of Item is valid
+ *     return false;        // Item'state is invalid
  *     }
  *     ...
  *     }
@@ -64,13 +64,13 @@ package jlib.exception;
  *     private void handleItem(Item item)
  *     throws CustomApplicativeException
  *     {
- *     item.dec();	// item.nSomePositiveValue is set to 0 !
+ *     item.dec();  // item.nSomePositiveValue is set to 0 !
  *
  *     // An exception will be thrown in this sample, as item.nSomePositiveValue == 0 !
  *     CustomApplicativeException.throwIfNullOrInvalid(
- * 				item,
- * 				CustomApplicativeException.INVALID_ITEM,
- * 				"The item has an invalid state: Item="+StringUtil.toString(item));
+ *              item,
+ *              CustomApplicativeException.INVALID_ITEM,
+ *              "The item has an invalid state: Item="+StringUtil.toString(item));
  *     ...
  *     }
  *     ...
@@ -81,5 +81,5 @@ package jlib.exception;
  */
 public interface IValidable
 {
-	public boolean isValid();
+    public boolean isValid();
 }

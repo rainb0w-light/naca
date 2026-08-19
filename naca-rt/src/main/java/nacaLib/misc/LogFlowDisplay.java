@@ -10,13 +10,13 @@ import jlib.log.*;
 
 public class LogFlowDisplay extends LogFlow
 {
-	protected LogFlowDisplay()
-	{
-		super("LogFlowDisplay");
-	}
-	
-	public boolean isAcceptable(LogFlow logFlow)
-	{
-		return this == logFlow || logFlow == LogFlowStd.Any;
-	}	
+    protected LogFlowDisplay()
+    {
+        super("LogFlowDisplay");
+    }
+
+    public boolean isAcceptable(LogFlow logFlow)
+    {
+        return this == logFlow || logFlow == LogFlowStd.Any;
+    }
 }

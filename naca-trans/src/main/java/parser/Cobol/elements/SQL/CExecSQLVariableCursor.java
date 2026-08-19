@@ -23,66 +23,66 @@ import utils.Transcoder;
  */
 public class CExecSQLVariableCursor extends CBaseExecSQLAction
 {
-	protected String csStatementName ;
-	protected String csCursorName ;
-	/**
-	 * @see parser.CBaseElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			csStatementName = tok.GetValue()  ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting identifier for DECLARE CURSOR") ;
-			return false ;
-		}
-		return true ;
-	}
+    protected String csStatementName ;
+    protected String csCursorName ;
+    /**
+     * @see parser.CBaseElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            csStatementName = tok.GetValue()  ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting identifier for DECLARE CURSOR") ;
+            return false ;
+        }
+        return true ;
+    }
 
-	/**
-	 * @param l
-	 */
-	public CExecSQLVariableCursor(int l, String curName)
-	{
-		super(l);
-		csCursorName = curName ;
-	}
+    /**
+     * @param l
+     */
+    public CExecSQLVariableCursor(int l, String curName)
+    {
+        super(l);
+        csCursorName = curName ;
+    }
 
-	/**
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
-		if (cur == null)
-		{
-			cur = factory.NewEntitySQLCursor(csCursorName);
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Cursor already defined : " + csCursorName);
-		}
-		factory.programCatalog.RegisterSQLCursor(csStatementName, cur) ;
-		return null ;
-		
-	}
+    /**
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
+        if (cur == null)
+        {
+            cur = factory.NewEntitySQLCursor(csCursorName);
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Cursor already defined : " + csCursorName);
+        }
+        factory.programCatalog.RegisterSQLCursor(csStatementName, cur) ;
+        return null ;
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("DeclareVariableCursor") ;
-		e.setAttribute("Name", csStatementName) ;
-		return e ;
-	}
+    }
+
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("DeclareVariableCursor") ;
+        e.setAttribute("Name", csStatementName) ;
+        return e ;
+    }
 
 }

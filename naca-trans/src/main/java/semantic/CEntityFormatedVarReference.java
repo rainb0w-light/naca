@@ -22,60 +22,60 @@ import utils.CObjectCatalog;
  */
 public class CEntityFormatedVarReference extends CBaseDataReference
 {
-	
-	protected String csFormat = "" ;
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityFormatedVarReference(CDataEntity object, CObjectCatalog cat, String format)
-	{
-		super(0, "", cat);
-		csFormat = format ;
-		reference = object ;
-	}
+    protected String csFormat = "" ;
 
-	/** Read-only edit format captured by semantic analysis. */
-	public String getFormat()
-	{
-		return csFormat ;
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityFormatedVarReference(CDataEntity object, CObjectCatalog cat, String format)
+    {
+        super(0, "", cat);
+        csFormat = format ;
+        reference = object ;
+    }
 
-	/** Mirrors the retired FPac backend's accessor classification. */
-	@Override
-	public boolean HasAccessors()
-	{
-		return true ;
-	}
+    /** Read-only edit format captured by semantic analysis. */
+    public String getFormat()
+    {
+        return csFormat ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return reference.GetDataType() ;
-	}
+    /** Mirrors the retired FPac backend's accessor classification. */
+    @Override
+    public boolean HasAccessors()
+    {
+        return true ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#isValNeeded()
-	 */
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    /**
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return reference.GetDataType() ;
+    }
 
-	/**
-	 * @see semantic.CDataEntity#GetConstantValue()
-	 */
-	@Override
-	public String GetConstantValue()
-	{
-		return null;
-	}
+    /**
+     * @see semantic.CDataEntity#isValNeeded()
+     */
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
+
+    /**
+     * @see semantic.CDataEntity#GetConstantValue()
+     */
+    @Override
+    public String GetConstantValue()
+    {
+        return null;
+    }
 
 
 }

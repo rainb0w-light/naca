@@ -17,182 +17,182 @@ import jlib.misc.LineRead;
  */
 public class VarBuffer extends InternalCharBuffer
 {
-	public VarBuffer()
-	{
-	}
+    public VarBuffer()
+    {
+    }
 
-	VarBuffer(VarBuffer varBufferMaster)
-	{
-		super();
-		shareDataBufferFrom(varBufferMaster);
-	}
+    VarBuffer(VarBuffer varBufferMaster)
+    {
+        super();
+        shareDataBufferFrom(varBufferMaster);
+    }
 
-	public VarBuffer(char [] acBuffer)
-	{
-		super(acBuffer);
-	}
+    public VarBuffer(char [] acBuffer)
+    {
+        super(acBuffer);
+    }
 
-	public VarBuffer(int nSize)
-	{
-		super(nSize);
-	}
+    public VarBuffer(int nSize)
+    {
+        super(nSize);
+    }
 
-//	public VarBase getVarFullName(int nId)
-//	{
-//		return getProgramManager().getVarFullName(nId);
-//	}
+//  public VarBase getVarFullName(int nId)
+//  {
+//      return getProgramManager().getVarFullName(nId);
+//  }
 
-//	public VarBase  getVarFullName(VarDefBuffer varDef)
-//	{
-//		String csName = varDef.getFullName(getProgramManager().getSharedProgramInstanceData());
-//		return getProgramManager().getVarFullName(csName);
+//  public VarBase  getVarFullName(VarDefBuffer varDef)
+//  {
+//      String csName = varDef.getFullName(getProgramManager().getSharedProgramInstanceData());
+//      return getProgramManager().getVarFullName(csName);
 
-//		int nId = varDef.getId();
-//		return getProgramManager().getVarFullName(nId);
-//	}
+//      int nId = varDef.getId();
+//      return getProgramManager().getVarFullName(nId);
+//  }
 
-//	public VarBase getVarFullNameUpperCase(String csName)
-//	{
-//		String csNameUpperCase = csName.toUpperCase();
-//		return getProgramManager().getVarFullNameUpperCase(csNameUpperCase);
-//	}
+//  public VarBase getVarFullNameUpperCase(String csName)
+//  {
+//      String csNameUpperCase = csName.toUpperCase();
+//      return getProgramManager().getVarFullNameUpperCase(csNameUpperCase);
+//  }
 
-//	public VarBase getVarFullNameUpperCase(VarDefBuffer varDef)
-//	{
-//		String csNameUpperCase = varDef.getFullNameUpperCase();
-//		return getProgramManager().getVarFullNameUpperCase(csNameUpperCase);
-//	}
-
-
-//	public void addMapAssociatedSemanticContext(Edit edit, String csSemanticContext)
-//	{
-//		if(arrMapAssociatedSemanticContext == null)
-//			arrMapAssociatedSemanticContext = new ArrayList();
-//		CEditSemanticContextMapAssoc EditSemanticContextMapAssoc = new CEditSemanticContextMapAssoc(edit, csSemanticContext);
-//		arrMapAssociatedSemanticContext.add(EditSemanticContextMapAssoc);
-//	}
-
-	public String toString()
-	{
-		return acBuffer.toString();
-	}
+//  public VarBase getVarFullNameUpperCase(VarDefBuffer varDef)
+//  {
+//      String csNameUpperCase = varDef.getFullNameUpperCase();
+//      return getProgramManager().getVarFullNameUpperCase(csNameUpperCase);
+//  }
 
 
-//	public int writeCopy(int nPositionDest, int nPositionSource, int nNbCharsToCopy)
-//	{
-//		for(int n=0; n<nNbCharsToCopy; n++, nPositionSource++, nPositionDest++)
-//		{
-//			acBuffer[nPositionDest] = acBuffer[nPositionSource];
-//		}
-//		return nPositionDest;
-//	}
+//  public void addMapAssociatedSemanticContext(Edit edit, String csSemanticContext)
+//  {
+//      if(arrMapAssociatedSemanticContext == null)
+//          arrMapAssociatedSemanticContext = new ArrayList();
+//      CEditSemanticContextMapAssoc EditSemanticContextMapAssoc = new CEditSemanticContextMapAssoc(edit, csSemanticContext);
+//      arrMapAssociatedSemanticContext.add(EditSemanticContextMapAssoc);
+//  }
+
+    public String toString()
+    {
+        return acBuffer.toString();
+    }
+
+
+//  public int writeCopy(int nPositionDest, int nPositionSource, int nNbCharsToCopy)
+//  {
+//      for(int n=0; n<nNbCharsToCopy; n++, nPositionSource++, nPositionDest++)
+//      {
+//          acBuffer[nPositionDest] = acBuffer[nPositionSource];
+//      }
+//      return nPositionDest;
+//  }
 //
-	public int copyBytesFromSource(int nPositionDest, InternalCharBuffer Source, int nPositionSource, int nNbCharsToCopy)
-	{
-		for(int n=0; n<nNbCharsToCopy; n++)
-		{
-			acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
-		}
-		return nPositionDest;
-	}
+    public int copyBytesFromSource(int nPositionDest, InternalCharBuffer Source, int nPositionSource, int nNbCharsToCopy)
+    {
+        for(int n=0; n<nNbCharsToCopy; n++)
+        {
+            acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
+        }
+        return nPositionDest;
+    }
 
-//	public void copyInternalData(int nPositionDest, VarBufferPos Source, int nNbCharsToCopy)
-//	{
-//		int nPositionSource = Source.nAbsolutePosition;
-//		for(int n=0; n<nNbCharsToCopy; n++)
-//		{
-//			acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
-//		}
-//	}
+//  public void copyInternalData(int nPositionDest, VarBufferPos Source, int nNbCharsToCopy)
+//  {
+//      int nPositionSource = Source.nAbsolutePosition;
+//      for(int n=0; n<nNbCharsToCopy; n++)
+//      {
+//          acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
+//      }
+//  }
 
-	public void copyBytesFromSource(int nPositionDest, InternalCharBuffer sourceCharBuffer)
-	{
-		int nNbCharsToCopy = sourceCharBuffer.acBuffer.length;
-		for(int nSource=0; nSource<nNbCharsToCopy; nSource++, nPositionDest++)
-		{
-			acBuffer[nPositionDest] = sourceCharBuffer.acBuffer[nSource];
-		}
-	}
+    public void copyBytesFromSource(int nPositionDest, InternalCharBuffer sourceCharBuffer)
+    {
+        int nNbCharsToCopy = sourceCharBuffer.acBuffer.length;
+        for(int nSource=0; nSource<nNbCharsToCopy; nSource++, nPositionDest++)
+        {
+            acBuffer[nPositionDest] = sourceCharBuffer.acBuffer[nSource];
+        }
+    }
 //
-//	public void setWithNoConvertEbcdicToUnicode(byte tBytesSource[], int nLength)
-//	{
-//		for(int n=0; n<nLength; n++)
-//		{
-//			int nByte = tBytesSource[n];
-//			if(nByte < 0)
-//				nByte += 256;
-//			acBuffer[n] = (char)nByte;
-//		}
-//	}
+//  public void setWithNoConvertEbcdicToUnicode(byte tBytesSource[], int nLength)
+//  {
+//      for(int n=0; n<nLength; n++)
+//      {
+//          int nByte = tBytesSource[n];
+//          if(nByte < 0)
+//              nByte += 256;
+//          acBuffer[n] = (char)nByte;
+//      }
+//  }
 
-//	public void setWithNoConvertEbcdicToUnicodeAtOffsetDest(byte tBytesSource[], int nOffsetDest, int nLength)
-//	{
-//		for(int n=0; n<nLength; n++)
-//		{
-//			int nByte = tBytesSource[n];
-//			if(nByte < 0)
-//				nByte += 256;
-//			acBuffer[nOffsetDest+n] = (char)nByte;
-//		}
-//	}
+//  public void setWithNoConvertEbcdicToUnicodeAtOffsetDest(byte tBytesSource[], int nOffsetDest, int nLength)
+//  {
+//      for(int n=0; n<nLength; n++)
+//      {
+//          int nByte = tBytesSource[n];
+//          if(nByte < 0)
+//              nByte += 256;
+//          acBuffer[nOffsetDest+n] = (char)nByte;
+//      }
+//  }
 
-	public int setFromLineRead(LineRead lineRead, int nOffsetDest)
-	{
-		int nSourceOffset = lineRead.getOffset();
-		int nSourceLength = lineRead.getTotalLength();
-		byte bufSource[] = lineRead.getBuffer();
+    public int setFromLineRead(LineRead lineRead, int nOffsetDest)
+    {
+        int nSourceOffset = lineRead.getOffset();
+        int nSourceLength = lineRead.getTotalLength();
+        byte bufSource[] = lineRead.getBuffer();
 
-		for(int n=0; n<nSourceLength; n++)
-		{
-			int nByte = bufSource[nSourceOffset + n];
-			if(nByte < 0)
-				nByte += 256;
-			acBuffer[nOffsetDest + n] = (char) nByte;
-		}
-		if(nSourceLength > 0)
-		{
-			if(acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF)
-				return nSourceLength-1;	// Return length excluding ending LF
-		}
-		return nSourceLength;
-	}
+        for(int n=0; n<nSourceLength; n++)
+        {
+            int nByte = bufSource[nSourceOffset + n];
+            if(nByte < 0)
+                nByte += 256;
+            acBuffer[nOffsetDest + n] = (char) nByte;
+        }
+        if(nSourceLength > 0)
+        {
+            if(acBuffer[nOffsetDest + nSourceLength - 1] == FileEndOfLine.LF)
+                return nSourceLength-1; // Return length excluding ending LF
+        }
+        return nSourceLength;
+    }
 
-	public int getFirstEndOfLinePosition(byte byEOL)
-	{
-		for(int n=0; n<acBuffer.length; n++)
-		{
-			byte b = (byte)acBuffer[n];
-			if(b == byEOL)
-				return n;
-		}
-		return acBuffer.length-1;
-	}
+    public int getFirstEndOfLinePosition(byte byEOL)
+    {
+        for(int n=0; n<acBuffer.length; n++)
+        {
+            byte b = (byte)acBuffer[n];
+            if(b == byEOL)
+                return n;
+        }
+        return acBuffer.length-1;
+    }
 
-//	public char [] getCharArray()
-//	{
-//		return acBuffer;
-//	}
+//  public char [] getCharArray()
+//  {
+//      return acBuffer;
+//  }
 
 
-	public void dumpHexa(int nPosition, int nLength)
-	{
-		System.out.println("dumpHexa from position=" + nPosition + ", length="+nLength);
-		String cs = "" + nPosition + ": ";
-		int n=0;
-		while(n<nLength)
-		{
-			char c = acBuffer[n+nPosition];
-			String csHexa = AsciiEbcdicConverter.getHexaValue(c);
-			cs += "0x" + csHexa + " ";
-			n++;
-			if((n % 8) == 0)
-			{
-				System.out.println(cs);
-				cs = "" + n + nPosition + ": ";
-			}
-		}
-		if((n % 8) != 0)
-			System.out.println(cs);
-	}
+    public void dumpHexa(int nPosition, int nLength)
+    {
+        System.out.println("dumpHexa from position=" + nPosition + ", length="+nLength);
+        String cs = "" + nPosition + ": ";
+        int n=0;
+        while(n<nLength)
+        {
+            char c = acBuffer[n+nPosition];
+            String csHexa = AsciiEbcdicConverter.getHexaValue(c);
+            cs += "0x" + csHexa + " ";
+            n++;
+            if((n % 8) == 0)
+            {
+                System.out.println(cs);
+                cs = "" + n + nPosition + ": ";
+            }
+        }
+        if((n % 8) != 0)
+            System.out.println(cs);
+    }
 
 }

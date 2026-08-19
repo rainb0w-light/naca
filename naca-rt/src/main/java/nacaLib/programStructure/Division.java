@@ -14,16 +14,16 @@ import nacaLib.basePrgEnv.BaseProgram;
 
 public class Division extends CJMapObject
 {
-	Division(BaseProgram Program)
-	{
-		this.program = Program;
-	}
+    Division(BaseProgram Program)
+    {
+        this.program = Program;
+    }
 
-	public BaseProgram getProgram()
-	{
-		return program;
-	}
+    public BaseProgram getProgram()
+    {
+        return program;
+    }
 
 
-	protected BaseProgram program = null;
+    protected BaseProgram program = null;
 }

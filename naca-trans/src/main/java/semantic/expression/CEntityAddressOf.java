@@ -15,16 +15,16 @@ import utils.CObjectCatalog;
  */
 public class CEntityAddressOf extends CBaseEntityFunction
 {
-	/**
-	 * @param cat
-	 */
-	public CEntityAddressOf(CObjectCatalog cat, CDataEntity data)
-	{
-		super(cat, data);
-	}
+    /**
+     * @param cat
+     */
+    public CEntityAddressOf(CObjectCatalog cat, CDataEntity data)
+    {
+        super(cat, data);
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 }

@@ -19,63 +19,63 @@ import java.util.List;
  */
 public class PatternLayoutSTCheck extends LogPatternLayout
 {
-	public PatternLayoutSTCheck()
-	{
-		super();
-	}
+    public PatternLayoutSTCheck()
+    {
+        super();
+    }
 
-	String getMessage(LogParams logParams)
-	{
-		String csMessage = logParams.getMessage();
-		return csMessage;
-	}
+    String getMessage(LogParams logParams)
+    {
+        String csMessage = logParams.getMessage();
+        return csMessage;
+    }
 
-	private long mem[] = new long[3];
+    private long mem[] = new long[3];
 
-	String format(LogParams logParams, int n)
-	{
+    String format(LogParams logParams, int n)
+    {
 
-		if(n == 0)
-		{
-			String csMessage = logParams.toString();
-			csMessage = logParams.toString();
-			StackTraceElement stackElem = logParams.caller;
-			String csOut;
-			if(stackElem != null)
-			{
-				String csFile = stackElem.getFileName();
-				int nLine = stackElem.getLineNumber();
-				csOut = csFile+"("+nLine+"):"+csMessage;
-			}
-			else
-			{
-				csOut = "():"+csMessage;
-			}
-			csOut += "\r\n******** Mem:";
-			int nMem = 0;
-			List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
-			for (MemoryPoolMXBean p: pools)
-			{
-				if(p.getType().compareTo(MemoryType.HEAP) == 0)
-				{
-					String cs = p.getName();
-					MemoryUsage memoryUsage = p.getUsage();
-					long l = memoryUsage.getUsed();
-					long oldMem = mem[nMem];
-					long offset = l - oldMem;
-					csOut += cs+"="+l+"["+ offset +"];";
-					mem[nMem] = l;
-					nMem++;
-				}
-			}
-			csOut += "\r\n";
-			return csOut;
-		}
-		return null;
-	}
+        if(n == 0)
+        {
+            String csMessage = logParams.toString();
+            csMessage = logParams.toString();
+            StackTraceElement stackElem = logParams.caller;
+            String csOut;
+            if(stackElem != null)
+            {
+                String csFile = stackElem.getFileName();
+                int nLine = stackElem.getLineNumber();
+                csOut = csFile+"("+nLine+"):"+csMessage;
+            }
+            else
+            {
+                csOut = "():"+csMessage;
+            }
+            csOut += "\r\n******** Mem:";
+            int nMem = 0;
+            List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
+            for (MemoryPoolMXBean p: pools)
+            {
+                if(p.getType().compareTo(MemoryType.HEAP) == 0)
+                {
+                    String cs = p.getName();
+                    MemoryUsage memoryUsage = p.getUsage();
+                    long l = memoryUsage.getUsed();
+                    long oldMem = mem[nMem];
+                    long offset = l - oldMem;
+                    csOut += cs+"="+l+"["+ offset +"];";
+                    mem[nMem] = l;
+                    nMem++;
+                }
+            }
+            csOut += "\r\n";
+            return csOut;
+        }
+        return null;
+    }
 
-	int getNbLoop(LogParams logParams)
-	{
-		return 1;
-	}
+    int getNbLoop(LogParams logParams)
+    {
+        return 1;
+    }
 }

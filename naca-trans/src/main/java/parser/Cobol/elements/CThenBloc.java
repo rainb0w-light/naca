@@ -19,45 +19,45 @@ import org.w3c.dom.Element;
  */
 public class CThenBloc extends CBlocElement
 {
-	/**
-	 * @param line
-	 */
-	public CThenBloc(int line) {
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CThenBloc(int line) {
+        super(line);
+    }
 
-	protected boolean DoParsing(CFlag fCheckForNextSentence)
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.THEN)
-		{
-			GetNext();
-		}
-		if (!super.DoParsing())
-		{
-			return false ;
-		}
-		if (fCheckForNextSentence != null)
-		{
-			fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
-		}
-		return true ;
-	}
+    protected boolean DoParsing(CFlag fCheckForNextSentence)
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetType()== CTokenType.KEYWORD && tok.GetKeyword() == CCobolKeywordList.THEN)
+        {
+            GetNext();
+        }
+        if (!super.DoParsing())
+        {
+            return false ;
+        }
+        if (fCheckForNextSentence != null)
+        {
+            fCheckForNextSentence.Set(fCheckForNextSentence.ISSet()) ;
+        }
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eThen = root.createElement("Then") ;
-		return eThen ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eThen = root.createElement("Then") ;
+        return eThen ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.elements.CBlocElement#isTopLevelBloc()
-	 */
-	protected boolean isTopLevelBloc()
-	{
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see parser.elements.CBlocElement#isTopLevelBloc()
+     */
+    protected boolean isTopLevelBloc()
+    {
+        return false;
+    }
 }

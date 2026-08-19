@@ -19,31 +19,31 @@ import jlib.threads.PooledThread;
  */
 public class BtreePooledReaderThread extends PooledThread
 {
-	private BtreeFile btreeFile = null;
+    private BtreeFile btreeFile = null;
 
-	public BtreePooledReaderThread(PoolOfThreads owningPool)
-	{
-		super(owningPool);
-	}
+    public BtreePooledReaderThread(PoolOfThreads owningPool)
+    {
+        super(owningPool);
+    }
 
-	void setBtreeFile(BtreeFile btreeFile)
-	{
-		this.btreeFile = btreeFile;
-	}
+    void setBtreeFile(BtreeFile btreeFile)
+    {
+        this.btreeFile = btreeFile;
+    }
 
-	public void run()
-	{
-		// fill the queue; act as a producer; Only 1 background thread can enqueue sorted records
-		byte tbyDataWithHeader[] = btreeFile.syncGetFirst();
-		while(tbyDataWithHeader != null)
-		{
-			SortedRecordReq sortedRecordReq = new SortedRecordReq(tbyDataWithHeader);
-			owningPool.enqueue(sortedRecordReq);
+    public void run()
+    {
+        // fill the queue; act as a producer; Only 1 background thread can enqueue sorted records
+        byte tbyDataWithHeader[] = btreeFile.syncGetFirst();
+        while(tbyDataWithHeader != null)
+        {
+            SortedRecordReq sortedRecordReq = new SortedRecordReq(tbyDataWithHeader);
+            owningPool.enqueue(sortedRecordReq);
 
-			tbyDataWithHeader = btreeFile.syncGetNext();
-		}
-		owningPool.enqueueFinalRequests();	// So that the main thread knows that no more records are pending in the queue
+            tbyDataWithHeader = btreeFile.syncGetNext();
+        }
+        owningPool.enqueueFinalRequests();  // So that the main thread knows that no more records are pending in the queue
 
-		// This backgroubd thread finishes here; no need to join
-	}
+        // This backgroubd thread finishes here; no need to join
+    }
 }

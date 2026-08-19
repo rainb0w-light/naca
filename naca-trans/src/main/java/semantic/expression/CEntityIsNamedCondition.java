@@ -16,45 +16,45 @@ import semantic.CEntityNamedCondition;
  */
 public class CEntityIsNamedCondition extends CUnitaryEntityCondition
 {
-	public void SetCondition(CEntityNamedCondition cond)
-	{
-		reference = cond ;
-	}
-	protected boolean isopposite = false ;
+    public void SetCondition(CEntityNamedCondition cond)
+    {
+        reference = cond ;
+    }
+    protected boolean isopposite = false ;
 
-	public boolean isOpposite()
-	{
-		return isopposite;
-	}
+    public boolean isOpposite()
+    {
+        return isopposite;
+    }
 
-	public boolean ignore()
-	{
-		return reference.ignore();
-	}
-	public boolean isBinaryCondition()
-	{
-		return false;
-	}
+    public boolean ignore()
+    {
+        return reference.ignore();
+    }
+    public boolean isBinaryCondition()
+    {
+        return false;
+    }
 
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityIsNamedCondition opposite = new CEntityIsNamedCondition();
-		opposite.isopposite = !isopposite;
-		opposite.reference = reference;
-		return opposite;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityIsNamedCondition opposite = new CEntityIsNamedCondition();
+        opposite.isopposite = !isopposite;
+        opposite.reference = reference;
+        return opposite;
+    }
 
-	public CBaseEntityCondition GetSpecialConditionReplacing(
-		String value,
-		CBaseEntityFactory factory,
-		CDataEntity replacement)
-	{
-		return null;
-	}
+    public CBaseEntityCondition GetSpecialConditionReplacing(
+        String value,
+        CBaseEntityFactory factory,
+        CDataEntity replacement)
+    {
+        return null;
+    }
 
 }

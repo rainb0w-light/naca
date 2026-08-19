@@ -13,37 +13,37 @@ import jlib.log.*;
  * Generates an event to signal that an application has just started.
  * During execution, applications should log the following event types:
  * <ul>
- * 	<li>One (and only one) {@link EventStart} when the application starts.</li>
- * 	<li>Any number of {@link EventRemark} events, to log various informations the
- * 	developers found worthwhile to log.</li>
- * 	<li>During processing, regularly log {@link EventProgress} events, to log
- * 	the process progressing.</li>
- * 	<li>When finished processing, log a {@link EventReport} event, to summarize all
- * 	previous <i>EventProgress</i>.</li>
- * 	<li>One (and only one) {@link EventFinish} when the application finishes.</li>
- * 	<li>If the application encounters an irrecoverable exception, it should log
- * 	one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
- * 	<li>If the application encounters an error that will not force it to abort,
- * 	it should log a {@link EventWarning} event.</li>
+ *  <li>One (and only one) {@link EventStart} when the application starts.</li>
+ *  <li>Any number of {@link EventRemark} events, to log various informations the
+ *  developers found worthwhile to log.</li>
+ *  <li>During processing, regularly log {@link EventProgress} events, to log
+ *  the process progressing.</li>
+ *  <li>When finished processing, log a {@link EventReport} event, to summarize all
+ *  previous <i>EventProgress</i>.</li>
+ *  <li>One (and only one) {@link EventFinish} when the application finishes.</li>
+ *  <li>If the application encounters an irrecoverable exception, it should log
+ *  one {@link EventError} event, and shortly after a {@link EventAbort} event.</li>
+ *  <li>If the application encounters an error that will not force it to abort,
+ *  it should log a {@link EventWarning} event.</li>
  * </ul>
  * This class allows to log the simplest "Finish" event. If you need to join additional
  * parameters to the event you can extend the class:
  * <pre>
- * 	class EventFinishMyApplication extends EventFinish
- * 	{
- * 		public static log(String csChannel, String csProcess, String csProduct, String csParam1, int iParam2, String csMessage)
- * 		{
- * 			EventFinish e=new EventFinish(csProcess, csProduct, csParam1, iParam2);
- * 			Log.log(csChannel,e,csMessage);
- * 		}
+ *  class EventFinishMyApplication extends EventFinish
+ *  {
+ *      public static log(String csChannel, String csProcess, String csProduct, String csParam1, int iParam2, String csMessage)
+ *      {
+ *          EventFinish e=new EventFinish(csProcess, csProduct, csParam1, iParam2);
+ *          Log.log(csChannel,e,csMessage);
+ *      }
  *
- * 		public EventFinishMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
- * 		{
- * 			super(csProcess, csProduct);
- * 			fillMember("param1",csParam1);
- * 			fillMember("param2",iParam2);
- * 		}
- * 	}
+ *      public EventFinishMyApplication(String csProcess, String csProduct, String csParam1, int iParam2)
+ *      {
+ *          super(csProcess, csProduct);
+ *          fillMember("param1",csParam1);
+ *          fillMember("param2",iParam2);
+ *      }
+ *  }
  * </pre>
  * @author jmgonet
  */
@@ -71,11 +71,11 @@ public class EventFinish extends LogEvent {
  *     use {@link Log#setRuntimeId}.
  * @param csMessage An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csRunId, String csRuntimeId, String csMessage)
-	{
-		EventFinish e=new EventFinish(csProcess, csProduct);
-		Log.log(csChannel, e, csMessage, csRunId, csRuntimeId);
-	}
+    public static void log(String csChannel, String csProcess, String csProduct, String csRunId, String csRuntimeId, String csMessage)
+    {
+        EventFinish e=new EventFinish(csProcess, csProduct);
+        Log.log(csChannel, e, csMessage, csRunId, csRuntimeId);
+    }
 
 /**
  * Logs a "Finish" event.
@@ -92,11 +92,11 @@ public class EventFinish extends LogEvent {
  *     product of a channel use {@link Log#setProduct}.
  * @param csMessage An additional free text message.
  */
-	public static void log(String csChannel, String csProcess, String csProduct, String csMessage)
-	{
-		EventFinish e=new EventFinish(csProcess, csProduct);
-		Log.log(csChannel, e, csMessage);
-	}
+    public static void log(String csChannel, String csProcess, String csProduct, String csMessage)
+    {
+        EventFinish e=new EventFinish(csProcess, csProduct);
+        Log.log(csChannel, e, csMessage);
+    }
 
 /**
  * Creates a "Finish" event.
@@ -104,8 +104,8 @@ public class EventFinish extends LogEvent {
  * @param csProduct The name of the product (brand, client, source, etc.) that was
  *     processed by the finishing process.
  */
-	public EventFinish(String csProcess, String csProduct)
-	{
-		super(LogEventType.Finish, LogFlowStd.Monitoring, LogLevel.Important, csProduct, csProcess);
-	}
+    public EventFinish(String csProcess, String csProduct)
+    {
+        super(LogEventType.Finish, LogFlowStd.Monitoring, LogLevel.Important, csProduct, csProcess);
+    }
 }

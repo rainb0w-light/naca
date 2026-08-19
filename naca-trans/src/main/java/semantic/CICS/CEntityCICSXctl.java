@@ -17,83 +17,83 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSXctl extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSXctl(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSXctl(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetProgramName(CDataEntity prgm, boolean bChecked)
-	{
-		refProgram = prgm ;
-		ischecked = bChecked ;
-	}
+    public void SetProgramName(CDataEntity prgm, boolean bChecked)
+    {
+        refProgram = prgm ;
+        ischecked = bChecked ;
+    }
 
-	protected boolean ischecked = false ;
-	protected CDataEntity refProgram = null ;
-	protected CDataEntity refCommArea = null ;
-	protected CDataEntity commAreaLength = null ;
-	public void Clear()
-	{
-		super.Clear();
-		refCommArea = null ;
-		refProgram = null ;
-		commAreaLength = null ;
-	}
-	//protected CBaseDataEntity commAreaDataLength = null ;
+    protected boolean ischecked = false ;
+    protected CDataEntity refProgram = null ;
+    protected CDataEntity refCommArea = null ;
+    protected CDataEntity commAreaLength = null ;
+    public void Clear()
+    {
+        super.Clear();
+        refCommArea = null ;
+        refProgram = null ;
+        commAreaLength = null ;
+    }
+    //protected CBaseDataEntity commAreaDataLength = null ;
 
-	public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength)
-	{
-		refCommArea = eCommArea ;
-		commAreaLength = eCALength ;
-		//commAreaDataLength = eCADataLength ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	public boolean hasExplicitGetOut()
-	{
-		return true ;
-	}
+    public void SetCommArea(CDataEntity eCommArea, CDataEntity eCALength)
+    {
+        refCommArea = eCommArea ;
+        commAreaLength = eCALength ;
+        //commAreaDataLength = eCADataLength ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    public boolean hasExplicitGetOut()
+    {
+        return true ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSXctlEntity). They expose the already-resolved semantic
-	// sub-entities; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveCICSXctlEntity). They expose the already-resolved semantic
+    // sub-entities; rendering is done by the template, never here.
 
-	public CDataEntity getProgram()
-	{
-		return refProgram;
-	}
+    public CDataEntity getProgram()
+    {
+        return refProgram;
+    }
 
-	public CDataEntity getCommArea()
-	{
-		return refCommArea;
-	}
+    public CDataEntity getCommArea()
+    {
+        return refCommArea;
+    }
 
-	public CDataEntity getCommLength()
-	{
-		return commAreaLength;
-	}
+    public CDataEntity getCommLength()
+    {
+        return commAreaLength;
+    }
 
-	public boolean isChecked()
-	{
-		return ischecked;
-	}
+    public boolean isChecked()
+    {
+        return ischecked;
+    }
 
-	public String getProgramConstantValue()
-	{
-		return refProgram == null ? null : refProgram.GetConstantValue();
-	}
+    public String getProgramConstantValue()
+    {
+        return refProgram == null ? null : refProgram.GetConstantValue();
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -20,39 +20,39 @@ import jlib.misc.ArrayFixDyn;
  */
 public class RecordSetCacheColTypeType
 {
-	RecordSetCacheColTypeType()
-	{
-		arrColsType = new ArrayDynDiscontinuous<RecordColTypeManagerBase>();	
-	}
-	
-	RecordColTypeManagerBase getRecordColTypeManager(int nIndex)
-	{
-		return arrColsType.get(nIndex);
-	}
-	
-//	void add(RecordColTypeManagerBase recordColTypeManagerBase)
-//	{
-//		arrColsType.add(recordColTypeManagerBase);
-//	}
-	
-	void set(int nIndex, RecordColTypeManagerBase recordColTypeManagerBase)
-	{
-		arrColsType.set(nIndex, recordColTypeManagerBase);
-	}
-	
-	void compress()
-	{
-		// Swap the type inside arrColsType
-		if(arrColsType.isDyn())
-		{
-			int nSize = arrColsType.size();
-			RecordColTypeManagerBase arr[] = new RecordColTypeManagerBase[nSize];
-			arrColsType.transferInto(arr);
-			
-			ArrayFix<RecordColTypeManagerBase> fix = new ArrayFix<RecordColTypeManagerBase>(arr);
-			arrColsType = fix;	// replace by a fix one (uning less memory)
-		}
-	}
-	
-	private ArrayFixDyn<RecordColTypeManagerBase> arrColsType = null;	// hash table of boolean, indexed by col id, indexed based 0
+    RecordSetCacheColTypeType()
+    {
+        arrColsType = new ArrayDynDiscontinuous<RecordColTypeManagerBase>();
+    }
+
+    RecordColTypeManagerBase getRecordColTypeManager(int nIndex)
+    {
+        return arrColsType.get(nIndex);
+    }
+
+//  void add(RecordColTypeManagerBase recordColTypeManagerBase)
+//  {
+//      arrColsType.add(recordColTypeManagerBase);
+//  }
+
+    void set(int nIndex, RecordColTypeManagerBase recordColTypeManagerBase)
+    {
+        arrColsType.set(nIndex, recordColTypeManagerBase);
+    }
+
+    void compress()
+    {
+        // Swap the type inside arrColsType
+        if(arrColsType.isDyn())
+        {
+            int nSize = arrColsType.size();
+            RecordColTypeManagerBase arr[] = new RecordColTypeManagerBase[nSize];
+            arrColsType.transferInto(arr);
+
+            ArrayFix<RecordColTypeManagerBase> fix = new ArrayFix<RecordColTypeManagerBase>(arr);
+            arrColsType = fix;  // replace by a fix one (uning less memory)
+        }
+    }
+
+    private ArrayFixDyn<RecordColTypeManagerBase> arrColsType = null;   // hash table of boolean, indexed by col id, indexed based 0
 }

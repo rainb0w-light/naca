@@ -25,314 +25,314 @@ import utils.*;
 public class CEntityStructure extends CEntityAttribute
 {
 
-	/**
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityStructure(int l, String name, CObjectCatalog cat, String level)
-	{
-		// FILLER detection and default naming happen in the CEntityAttribute
-		// constructor (semantic construction phase), so no backend mutates the
-		// tree during generation.
-		super(l, name, cat);
-		csLevel = level ;
-	}
-	public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
-	{
-		CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
-		e.SetReference(this) ;
-		for (int i=0; i<v.size(); i++)
-		{
-			CExpression expr = (CExpression)v.get(i);
-			CBaseEntityExpression exp = expr.AnalyseExpression(factory);
-			e.AddIndex(exp);
-		}
-		return e ;
-	};
-	public void SetTableSize(CDataEntity term)
-	{
-		tableSize = term ;
-	}
-	public void SetTableSizeDepending(CDataEntity term, CDataEntity dep)
-	{
-		tableSize = term ;
-		tableSizeDepending = dep ;
-		isisVariableLenght = true ;
-	}
-	public void SetRedefine(CDataEntity e)
-	{
-		refRedefine = e ;
-		if (refRedefine != null)
-		{
-			refRedefine.RegisterReadReference(this);
-		}
-	}
-	public String csLevel = "" ;
-	protected CDataEntity tableSize = null ;
-	protected CDataEntity tableSizeDepending = null ;
-	protected boolean isisVariableLenght = false ;
-	protected CDataEntity refRedefine = null ;
-	public void AddChild(CBaseLanguageEntity e)
-	{
-		super.AddChild(e) ;
-		int n = e.GetInternalLevel() ;
-		if (n>0)
-		{
-			if (nActualSubLevel == 0)
-			{
-				nActualSubLevel = n ;
-			}
-			else if (nActualSubLevel != n)
-			{
-				Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+nActualSubLevel+" ; found "+n) ;
-			}
-		}
-	}
-	protected int nActualSubLevel = 0 ;
-	public int GetInternalLevel()
-	{
-		return Integer.parseInt(csLevel) ;
-	}
-	public CEntityProcedureSection getSectionContainer()
-	{
-		return null ;
-	}
-	public boolean IsRedefine()
-	{
-		return refRedefine != null ;
-	}
-	public boolean ignore()
-	{
-//		boolean ignore = arrActionsReading.size()== 0 ;
-//		ignore &= arrActionsWriting.size() == 0 ;
-//		ignore &= arrTestsAsValue.size() == 0 ;
-//		ignore &= arrTestsAsVar.size() == 0 ;
-//		ignore &= (lstChildren.size() == 0 || isChildrenIgnored()) ;
-//		if (ignore)
-//		{
-//			int n=0;
-//		}
-//		return ignore ;
-		return isignore;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		if (refRedefine != null)
-		{
-			//refRedefine.Clear() ;
-			refRedefine = null ;
-		}
-		if (tableSize != null)
-		{
-			tableSize.Clear() ;
-		}
-		tableSize = null ;
-	}
-	protected void RegisterMySelfToCatalog()
-	{
-		if (parent != null)
-		{
-			programCatalog.RegisterDataEntity(GetName(), this) ;
-		}
-	}
-	public void SetParent(CBaseLanguageEntity e)
-	{
-		super.SetParent(e) ;
-		RegisterMySelfToCatalog() ;
-	}
-	public int getActualSubLevel()
-	{
-		return nActualSubLevel ;
-	}
-	/**
-	 * @return
-	 */
-	public CEntityIndex getOccursIndex()
-	{
-		return occursIndex;
-	}
-	/**
-	 * @param index
-	 */
-	public void setOccursIndex(CEntityIndex index)
-	{
-		occursIndex = index ;
-	}
-	protected CEntityIndex occursIndex = null ;
+    /**
+     * @param name
+     * @param cat
+     */
+    public CEntityStructure(int l, String name, CObjectCatalog cat, String level)
+    {
+        // FILLER detection and default naming happen in the CEntityAttribute
+        // constructor (semantic construction phase), so no backend mutates the
+        // tree during generation.
+        super(l, name, cat);
+        csLevel = level ;
+    }
+    public CDataEntity GetArrayReference(Vector v, CBaseEntityFactory factory)
+    {
+        CEntityArrayReference e = factory.NewEntityArrayReference(getLine()) ;
+        e.SetReference(this) ;
+        for (int i=0; i<v.size(); i++)
+        {
+            CExpression expr = (CExpression)v.get(i);
+            CBaseEntityExpression exp = expr.AnalyseExpression(factory);
+            e.AddIndex(exp);
+        }
+        return e ;
+    };
+    public void SetTableSize(CDataEntity term)
+    {
+        tableSize = term ;
+    }
+    public void SetTableSizeDepending(CDataEntity term, CDataEntity dep)
+    {
+        tableSize = term ;
+        tableSizeDepending = dep ;
+        isisVariableLenght = true ;
+    }
+    public void SetRedefine(CDataEntity e)
+    {
+        refRedefine = e ;
+        if (refRedefine != null)
+        {
+            refRedefine.RegisterReadReference(this);
+        }
+    }
+    public String csLevel = "" ;
+    protected CDataEntity tableSize = null ;
+    protected CDataEntity tableSizeDepending = null ;
+    protected boolean isisVariableLenght = false ;
+    protected CDataEntity refRedefine = null ;
+    public void AddChild(CBaseLanguageEntity e)
+    {
+        super.AddChild(e) ;
+        int n = e.GetInternalLevel() ;
+        if (n>0)
+        {
+            if (nActualSubLevel == 0)
+            {
+                nActualSubLevel = n ;
+            }
+            else if (nActualSubLevel != n)
+            {
+                Transcoder.logWarn(e.getLine(), "WARNING : bad sub-level for structure : expecting "+nActualSubLevel+" ; found "+n) ;
+            }
+        }
+    }
+    protected int nActualSubLevel = 0 ;
+    public int GetInternalLevel()
+    {
+        return Integer.parseInt(csLevel) ;
+    }
+    public CEntityProcedureSection getSectionContainer()
+    {
+        return null ;
+    }
+    public boolean IsRedefine()
+    {
+        return refRedefine != null ;
+    }
+    public boolean ignore()
+    {
+//      boolean ignore = arrActionsReading.size()== 0 ;
+//      ignore &= arrActionsWriting.size() == 0 ;
+//      ignore &= arrTestsAsValue.size() == 0 ;
+//      ignore &= arrTestsAsVar.size() == 0 ;
+//      ignore &= (lstChildren.size() == 0 || isChildrenIgnored()) ;
+//      if (ignore)
+//      {
+//          int n=0;
+//      }
+//      return ignore ;
+        return isignore;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        if (refRedefine != null)
+        {
+            //refRedefine.Clear() ;
+            refRedefine = null ;
+        }
+        if (tableSize != null)
+        {
+            tableSize.Clear() ;
+        }
+        tableSize = null ;
+    }
+    protected void RegisterMySelfToCatalog()
+    {
+        if (parent != null)
+        {
+            programCatalog.RegisterDataEntity(GetName(), this) ;
+        }
+    }
+    public void SetParent(CBaseLanguageEntity e)
+    {
+        super.SetParent(e) ;
+        RegisterMySelfToCatalog() ;
+    }
+    public int getActualSubLevel()
+    {
+        return nActualSubLevel ;
+    }
+    /**
+     * @return
+     */
+    public CEntityIndex getOccursIndex()
+    {
+        return occursIndex;
+    }
+    /**
+     * @param index
+     */
+    public void setOccursIndex(CEntityIndex index)
+    {
+        occursIndex = index ;
+    }
+    protected CEntityIndex occursIndex = null ;
 
-	@Override
-	public CDataEntity FindFirstDataEntityAtLevel(int level)
-	{
-		if (NumberParser.getAsInt(csLevel) == level)
-		{
-			return this ;
-		}
-		return super.FindFirstDataEntityAtLevel(level) ;
-	}
-	public int getTableSizeAsInt()
-	{
-		return NumberParser.getAsInt(tableSize.GetConstantValue()) ;
-	}
-	public CDataEntity getTableSize()
-	{
-		return tableSize ;
-	}
-	public boolean canOwnTableSize()
-	{
-		return true;
-	}
+    @Override
+    public CDataEntity FindFirstDataEntityAtLevel(int level)
+    {
+        if (NumberParser.getAsInt(csLevel) == level)
+        {
+            return this ;
+        }
+        return super.FindFirstDataEntityAtLevel(level) ;
+    }
+    public int getTableSizeAsInt()
+    {
+        return NumberParser.getAsInt(tableSize.GetConstantValue()) ;
+    }
+    public CDataEntity getTableSize()
+    {
+        return tableSize ;
+    }
+    public boolean canOwnTableSize()
+    {
+        return true;
+    }
 
-	@Override
-	public boolean isDeclarationRequired()
-	{
-		if (super.isDeclarationRequired())
-		{
-			return true;
-		}
-		for (CBaseLanguageEntity child : getChildren())
-		{
-			if (child.isDeclarationRequired())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean isDeclarationRequired()
+    {
+        if (super.isDeclarationRequired())
+        {
+            return true;
+        }
+        for (CBaseLanguageEntity child : getChildren())
+        {
+            if (child.isDeclarationRequired())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * A referenced group carries its complete storage layout.  Filtering the
-	 * children by reachability here would drop unreferenced fields and change
-	 * the offsets and length of the group at runtime.
-	 */
-	@Override
-	public List<CBaseLanguageEntity> getDeclarationChildren()
-	{
-		if (!isDeclarationRequired())
-		{
-			return Collections.emptyList();
-		}
-		return Collections.unmodifiableList(
-				new ArrayList<CBaseLanguageEntity>(getChildren()));
-	}
+    /**
+     * A referenced group carries its complete storage layout.  Filtering the
+     * children by reachability here would drop unreferenced fields and change
+     * the offsets and length of the group at runtime.
+     */
+    @Override
+    public List<CBaseLanguageEntity> getDeclarationChildren()
+    {
+        if (!isDeclarationRequired())
+        {
+            return Collections.emptyList();
+        }
+        return Collections.unmodifiableList(
+                new ArrayList<CBaseLanguageEntity>(getChildren()));
+    }
 
-	/**
-	 * Number of OCCURS dimensions contributed by this structure and its
-	 * enclosing structures. This is semantic shape information used while
-	 * resolving indexed references; it is independent of any output language.
-	 */
-	@Override
-	public int getNbDimOccurs()
-	{
-		int dimensions = tableSize == null ? 0 : 1;
-		CBaseLanguageEntity entity = parent;
-		while (entity != null)
-		{
-			if (entity instanceof CEntityStructure structure
-				&& structure.getTableSize() != null)
-			{
-				dimensions++;
-			}
-			entity = entity.GetParent();
-		}
-		return dimensions;
-	}
-	public int getVariableSize()
-	{
-		return length ;
-	}
-	public CDataEntity getTableSizeDepending()
-	{
-		return tableSizeDepending;
-	}
+    /**
+     * Number of OCCURS dimensions contributed by this structure and its
+     * enclosing structures. This is semantic shape information used while
+     * resolving indexed references; it is independent of any output language.
+     */
+    @Override
+    public int getNbDimOccurs()
+    {
+        int dimensions = tableSize == null ? 0 : 1;
+        CBaseLanguageEntity entity = parent;
+        while (entity != null)
+        {
+            if (entity instanceof CEntityStructure structure
+                && structure.getTableSize() != null)
+            {
+                dimensions++;
+            }
+            entity = entity.GetParent();
+        }
+        return dimensions;
+    }
+    public int getVariableSize()
+    {
+        return length ;
+    }
+    public CDataEntity getTableSizeDepending()
+    {
+        return tableSizeDepending;
+    }
 
-	public String getLevel()
-	{
-		return csLevel;
-	}
+    public String getLevel()
+    {
+        return csLevel;
+    }
 
-	@Override
-	public CDataEntity getRedefines()
-	{
-		return refRedefine;
-	}
+    @Override
+    public CDataEntity getRedefines()
+    {
+        return refRedefine;
+    }
 
-	@Override
-	public CDataEntity getOccurs()
-	{
-		return tableSize;
-	}
+    @Override
+    public CDataEntity getOccurs()
+    {
+        return tableSize;
+    }
 
-	public int getNumericLevel()
-	{
-		return NumberParser.getAsInt(csLevel);
-	}
+    public int getNumericLevel()
+    {
+        return NumberParser.getAsInt(csLevel);
+    }
 
-	public boolean isTyped()
-	{
-		return !type.isEmpty();
-	}
+    public boolean isTyped()
+    {
+        return !type.isEmpty();
+    }
 
-	public boolean isVariableLength()
-	{
-		return isisVariableLenght;
-	}
+    public boolean isVariableLength()
+    {
+        return isisVariableLenght;
+    }
 
-	/**
-	 * Effective declared length for a variable-length (OCCURS DEPENDING) table:
-	 * the element length scaled by the maximum table size. Read-only; never
-	 * mutates the semantic tree (the old direct generator multiplied
-	 * {@code length} in place during export).
-	 */
-	@Override
-	public int getDeclaredLength()
-	{
-		if (tableSize != null && tableSizeDepending == null && isisVariableLenght)
-		{
-			return length * getTableSizeAsInt();
-		}
-		return length;
-	}
+    /**
+     * Effective declared length for a variable-length (OCCURS DEPENDING) table:
+     * the element length scaled by the maximum table size. Read-only; never
+     * mutates the semantic tree (the old direct generator multiplied
+     * {@code length} in place during export).
+     */
+    @Override
+    public int getDeclaredLength()
+    {
+        if (tableSize != null && tableSizeDepending == null && isisVariableLenght)
+        {
+            return length * getTableSizeAsInt();
+        }
+        return length;
+    }
 
-	public boolean isSignLeadingSeparated()
-	{
-		return issignSeparateType ==
-			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.LEADING;
-	}
+    public boolean isSignLeadingSeparated()
+    {
+        return issignSeparateType ==
+            parser.Cobol.elements.CWorkingEntry.CWorkingSignType.LEADING;
+    }
 
-	public boolean isSignTrailingSeparated()
-	{
-		return issignSeparateType ==
-			parser.Cobol.elements.CWorkingEntry.CWorkingSignType.TRAILING;
-	}
+    public boolean isSignTrailingSeparated()
+    {
+        return issignSeparateType ==
+            parser.Cobol.elements.CWorkingEntry.CWorkingSignType.TRAILING;
+    }
 
-	public boolean isInsideExternalDataStructure()
-	{
-		CBaseLanguageEntity entity = GetParent();
-		while (entity != null)
-		{
-			if (entity instanceof CBaseExternalEntity)
-			{
-				return true;
-			}
-			entity = entity.GetParent();
-		}
-		return false;
-	}
+    public boolean isInsideExternalDataStructure()
+    {
+        CBaseLanguageEntity entity = GetParent();
+        while (entity != null)
+        {
+            if (entity instanceof CBaseExternalEntity)
+            {
+                return true;
+            }
+            entity = entity.GetParent();
+        }
+        return false;
+    }
 
-	public boolean isInsideFileSection()
-	{
-		CBaseLanguageEntity entity = GetParent();
-		while (entity != null)
-		{
-			if (entity instanceof CEntityDataSection
-				&& "FileSection".equals(entity.GetName()))
-			{
-				return true;
-			}
-			entity = entity.GetParent();
-		}
-		return false;
-	}
+    public boolean isInsideFileSection()
+    {
+        CBaseLanguageEntity entity = GetParent();
+        while (entity != null)
+        {
+            if (entity instanceof CEntityDataSection
+                && "FileSection".equals(entity.GetName()))
+            {
+                return true;
+            }
+            entity = entity.GetParent();
+        }
+        return false;
+    }
 
 }

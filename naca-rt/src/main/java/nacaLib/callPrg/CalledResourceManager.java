@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -21,50 +21,50 @@ import nacaLib.misc.LogFlowCustomNacaRT;
  */
 public class CalledResourceManager extends BaseResourceManager
 {
-	public CalledResourceManager()
-	{
-		super(true);
-	}
-	
-	public void initialize(String csINIFilePath)
-	{
-		setXMLConfigFilePath(csINIFilePath) ;
-	}
-	
-	public void initialize(String csINIFilePath, String csDBParameterPrefix)
-	{
-		initialize(csINIFilePath);
-		initSequenceur(csDBParameterPrefix);
-	}
-	
-	protected void LoadConfigFromFile(Tag tagRoot)
-	{
-		if(tagRoot != null)
-		{
-			String csLogCfg = tagRoot.getVal("LogSettingsPathFile");
-			
-			LogFlowCustomNacaRT.declare();
-			Tag tagLogSettings = Log.open("NacaRT", csLogCfg);
-			if (tagLogSettings != null)
-			{
-				Tag tagSettings = tagLogSettings.getChild("Settings");
-				if(tagSettings != null)
-				{
-//					isLogCESM = tagSettings.getValAsBoolean("CESM"); 
-//					isLogFlow = tagSettings.getValAsBoolean("Flow");
-//					isLogSql = tagSettings.getValAsBoolean("Sql");
-//					IsSTCheck = tagSettings.getValAsBoolean("STCheck");
-				}
-			}
-		}
-	}
-	
-	protected void initSequenceur(String csDBParameterPrefix)
-	{
-		baseInitSequenceur(csDBParameterPrefix);
-	}
-	
-	public void doRemoveResourceCache(String csForm)
-	{
-	}
+    public CalledResourceManager()
+    {
+        super(true);
+    }
+
+    public void initialize(String csINIFilePath)
+    {
+        setXMLConfigFilePath(csINIFilePath) ;
+    }
+
+    public void initialize(String csINIFilePath, String csDBParameterPrefix)
+    {
+        initialize(csINIFilePath);
+        initSequenceur(csDBParameterPrefix);
+    }
+
+    protected void LoadConfigFromFile(Tag tagRoot)
+    {
+        if(tagRoot != null)
+        {
+            String csLogCfg = tagRoot.getVal("LogSettingsPathFile");
+
+            LogFlowCustomNacaRT.declare();
+            Tag tagLogSettings = Log.open("NacaRT", csLogCfg);
+            if (tagLogSettings != null)
+            {
+                Tag tagSettings = tagLogSettings.getChild("Settings");
+                if(tagSettings != null)
+                {
+//                  isLogCESM = tagSettings.getValAsBoolean("CESM");
+//                  isLogFlow = tagSettings.getValAsBoolean("Flow");
+//                  isLogSql = tagSettings.getValAsBoolean("Sql");
+//                  IsSTCheck = tagSettings.getValAsBoolean("STCheck");
+                }
+            }
+        }
+    }
+
+    protected void initSequenceur(String csDBParameterPrefix)
+    {
+        baseInitSequenceur(csDBParameterPrefix);
+    }
+
+    public void doRemoveResourceCache(String csForm)
+    {
+    }
 }

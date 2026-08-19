@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.sqlSupport;
 
@@ -22,13 +22,13 @@ import nacaLib.varEx.VarBase;
  */
 public abstract class RecordColTypeManagerBase
 {
-	RecordColTypeManagerBase(int nColSourceIndex)
-	{
-		this.nColSourceIndex = nColSourceIndex;
-	}
-	
-	abstract boolean fillColValue(ResultSet rs, VarBase varInto);
-	public abstract boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert);
-	
-	protected int nColSourceIndex;
+    RecordColTypeManagerBase(int nColSourceIndex)
+    {
+        this.nColSourceIndex = nColSourceIndex;
+    }
+
+    abstract boolean fillColValue(ResultSet rs, VarBase varInto);
+    public abstract boolean transfer(int nColumnNumber1Based, ResultSet resultSetSource, PreparedStatement insertStatementInsert);
+
+    protected int nColSourceIndex;
 }

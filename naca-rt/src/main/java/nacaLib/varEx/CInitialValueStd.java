@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,8 +16,8 @@ package nacaLib.varEx;
  */
 public class CInitialValueStd
 {
-	public static CInitialValue Spaces = new CInitialValue(CobolConstant.Space.getValue(), true);
-	public static CInitialValue Zero = new CInitialValue(CobolConstant.Zero.getValue(), true);
-	public static CInitialValue HighValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
-	public static CInitialValue LowValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
+    public static CInitialValue Spaces = new CInitialValue(CobolConstant.Space.getValue(), true);
+    public static CInitialValue Zero = new CInitialValue(CobolConstant.Zero.getValue(), true);
+    public static CInitialValue HighValue = new CInitialValue(CobolConstant.HighValue.getValue(), true);
+    public static CInitialValue LowValue = new CInitialValue(CobolConstant.LowValue.getValue(), true);
 }

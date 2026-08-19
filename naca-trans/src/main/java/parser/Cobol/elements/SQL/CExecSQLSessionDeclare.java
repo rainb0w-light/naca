@@ -19,64 +19,64 @@ import semantic.SQL.CEntitySQLSessionDeclare;
 
 public class CExecSQLSessionDeclare extends CBaseExecSQLAction
 {
-	public CExecSQLSessionDeclare(int line)
-	{
-		super(line);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element eExe = root.createElement("SQLSessionDeclare");
-		eExe.setAttribute("sql", csSql);
-		return eExe;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLSessionDeclare session = factory.NewEntitySQLSessionDeclare(getLine()) ;
-		session.setSql(csSql);
-		parent.AddChild(session);
-		return session;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok;
-		
-		csSql = "DECLARE GLOBAL";
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetNext() ;
-			if (tok.GetType()==CTokenType.DOT)
-			{
-				csSql += tok.GetType().GetSourceValue();
-				tok = GetNext();
-				csSql += tok.GetValue();
-				csSql += " ";
-			}
-			else if (tok.GetType()==CTokenType.LEFT_BRACKET)
-			{
-				csSql += tok.GetType().GetSourceValue();
-				tok = GetNext();
-				csSql += tok.GetValue();
-			}
-			else if (tok.GetType()==CTokenType.RIGHT_BRACKET)
-			{
-				csSql += tok.GetType().GetSourceValue();				
-			}
-			else if (tok.GetType()==CTokenType.COMMA)
-			{
-				csSql += tok.GetType().GetSourceValue();
-			}
-			else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-			}
-			else
-			{
-				csSql += " " + tok.GetValue();
-			}
-		}
-		return true ;
-	}
-	
-	protected String csSql = null ;
+    public CExecSQLSessionDeclare(int line)
+    {
+        super(line);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element eExe = root.createElement("SQLSessionDeclare");
+        eExe.setAttribute("sql", csSql);
+        return eExe;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLSessionDeclare session = factory.NewEntitySQLSessionDeclare(getLine()) ;
+        session.setSql(csSql);
+        parent.AddChild(session);
+        return session;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok;
+
+        csSql = "DECLARE GLOBAL";
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetNext() ;
+            if (tok.GetType()==CTokenType.DOT)
+            {
+                csSql += tok.GetType().GetSourceValue();
+                tok = GetNext();
+                csSql += tok.GetValue();
+                csSql += " ";
+            }
+            else if (tok.GetType()==CTokenType.LEFT_BRACKET)
+            {
+                csSql += tok.GetType().GetSourceValue();
+                tok = GetNext();
+                csSql += tok.GetValue();
+            }
+            else if (tok.GetType()==CTokenType.RIGHT_BRACKET)
+            {
+                csSql += tok.GetType().GetSourceValue();
+            }
+            else if (tok.GetType()==CTokenType.COMMA)
+            {
+                csSql += tok.GetType().GetSourceValue();
+            }
+            else if (tok.GetType()==CTokenType.KEYWORD && tok.GetKeyword()==CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+            }
+            else
+            {
+                csSql += " " + tok.GetValue();
+            }
+        }
+        return true ;
+    }
+
+    protected String csSql = null ;
 }

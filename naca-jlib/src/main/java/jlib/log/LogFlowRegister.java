@@ -22,30 +22,30 @@ public class LogFlowRegister
  * @return A reference to the registered flow corresponding to the specified name.
  *     <i>null</i> if none of the registered flows correspond to the specified name.
  */
-	public static LogFlow getFlow(String csFlow)
-	{
-		if(ms_arrFlows != null)
-		{
-			for(int n=0; n<ms_arrFlows.size(); n++)
-			{
-				LogFlow flow = ms_arrFlows.get(n);
-				if(flow.hasName(csFlow))
-					return flow;
-			}
-		}
-		return null;
-	}
+    public static LogFlow getFlow(String csFlow)
+    {
+        if(ms_arrFlows != null)
+        {
+            for(int n=0; n<ms_arrFlows.size(); n++)
+            {
+                LogFlow flow = ms_arrFlows.get(n);
+                if(flow.hasName(csFlow))
+                    return flow;
+            }
+        }
+        return null;
+    }
 /**
  * Registers a new flow.
  * Registered flows can be accessed later using {@link #getFlow}.
  * @param flow The flow to register.
  */
-	public static void register(LogFlow flow)
-	{
-		if(ms_arrFlows == null)
-			ms_arrFlows = new ArrayList<LogFlow>();
-		ms_arrFlows.add(flow);
-	}
+    public static void register(LogFlow flow)
+    {
+        if(ms_arrFlows == null)
+            ms_arrFlows = new ArrayList<LogFlow>();
+        ms_arrFlows.add(flow);
+    }
 
-	private static ArrayList<LogFlow> ms_arrFlows = null;
+    private static ArrayList<LogFlow> ms_arrFlows = null;
 }

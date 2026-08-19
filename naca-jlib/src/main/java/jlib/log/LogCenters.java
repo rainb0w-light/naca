@@ -27,9 +27,9 @@ import jlib.xml.Tag;
  */
 public class LogCenters
 {
-	public LogCenters()
-	{
-	}
+    public LogCenters()
+    {
+    }
 /**
  * Reads the [Organisation] tag of a JLib.log configuration file and instantiates
  * one {@link LogCenterLoader} for each [LogCenter] tag in it. The <i>LogCenterLoader</i>
@@ -49,47 +49,47 @@ public class LogCenters
  *     in the list of path specified in <b>arrIncludePath</b>.
  * @return <i>true</i> if the [Organisation] tag has been correctly read.
  */
-	public boolean loadDefinition(String csChannelRestriction, Tag tagOrganisation, ArrayList<String> arrIncludePath)
-	{
-		Tag tagLogCenters = tagOrganisation.getEnumChild("LogCenters");
-		if(tagLogCenters != null)
-		{
-			Tag tagLogCenter = tagLogCenters.getEnumChild("LogCenter");
-			while(tagLogCenter != null)
-			{
-				String csChannel = tagLogCenter.getVal("Channel");
-				if(csChannelRestriction == null || csChannel.equalsIgnoreCase(csChannelRestriction))
-				{
-					LogCenterLoader logCenterloader = new LogCenterLoader();
-					logCenterloader.loadDefinition(tagLogCenter);
+    public boolean loadDefinition(String csChannelRestriction, Tag tagOrganisation, ArrayList<String> arrIncludePath)
+    {
+        Tag tagLogCenters = tagOrganisation.getEnumChild("LogCenters");
+        if(tagLogCenters != null)
+        {
+            Tag tagLogCenter = tagLogCenters.getEnumChild("LogCenter");
+            while(tagLogCenter != null)
+            {
+                String csChannel = tagLogCenter.getVal("Channel");
+                if(csChannelRestriction == null || csChannel.equalsIgnoreCase(csChannelRestriction))
+                {
+                    LogCenterLoader logCenterloader = new LogCenterLoader();
+                    logCenterloader.loadDefinition(tagLogCenter);
 
-					if(this.logCenterloader == null)
-						this.logCenterloader = new ArrayList<LogCenterLoader>();
-					this.logCenterloader.add(logCenterloader);
-				}
+                    if(this.logCenterloader == null)
+                        this.logCenterloader = new ArrayList<LogCenterLoader>();
+                    this.logCenterloader.add(logCenterloader);
+                }
 
-				tagLogCenter = tagLogCenters.getEnumChild();
-			}
+                tagLogCenter = tagLogCenters.getEnumChild();
+            }
 
-			// Maybe a file is indicated
-			String csFileLogIni = tagLogCenters.getVal("File");
-			if(csFileLogIni != null && csFileLogIni.length() != 0)
-			{
-				Tag tagLogIni = Tag.createFromFile(csFileLogIni, arrIncludePath);
-				if(tagLogIni != null)
-				{
-					loadDefinition(csChannelRestriction, tagLogIni, arrIncludePath);
-				}
-			}
+            // Maybe a file is indicated
+            String csFileLogIni = tagLogCenters.getVal("File");
+            if(csFileLogIni != null && csFileLogIni.length() != 0)
+            {
+                Tag tagLogIni = Tag.createFromFile(csFileLogIni, arrIncludePath);
+                if(tagLogIni != null)
+                {
+                    loadDefinition(csChannelRestriction, tagLogIni, arrIncludePath);
+                }
+            }
 
-		}
-		return true;
-	}
+        }
+        return true;
+    }
 
-	void openLogCenters()
-	{
+    void openLogCenters()
+    {
 
-	}
+    }
 /**
  * Saves the configuration of all {@link LogCenterLoader} instances into
  * the provided {@link Tag} object.
@@ -97,21 +97,21 @@ public class LogCenters
  *     configuration.
  * @return <i>true</i> if the operation terminated correctly.
  */
-	public boolean saveDefinition(Tag tagOrganisation)
-	{
-		Tag tagLogCenters = tagOrganisation.addTag("LogCenters");
-		if(logCenterloader != null)
-		{
-			for(int n = 0; n< logCenterloader.size(); n++)
-			{
-				LogCenterLoader logCenterloader = getLogCenterloader(n);
+    public boolean saveDefinition(Tag tagOrganisation)
+    {
+        Tag tagLogCenters = tagOrganisation.addTag("LogCenters");
+        if(logCenterloader != null)
+        {
+            for(int n = 0; n< logCenterloader.size(); n++)
+            {
+                LogCenterLoader logCenterloader = getLogCenterloader(n);
 
-				Tag tagLogCenter = tagLogCenters.addTag("LogCenter");
-				logCenterloader.saveDefinition(tagLogCenter);
-			}
-		}
-		return true;
-	}
+                Tag tagLogCenter = tagLogCenters.addTag("LogCenter");
+                logCenterloader.saveDefinition(tagLogCenter);
+            }
+        }
+        return true;
+    }
 
 /**
  * Returns a reference to the specified <i>LogCenterLoader</i>.
@@ -119,19 +119,19 @@ public class LogCenters
  *     maximum number of items (see {@link #getNbLogCenterloader}).
  * @return A reference to the specified <i>LogCenterLoader</i>.
  */
-	public LogCenterLoader getLogCenterloader(int n)
-	{
-		return logCenterloader.get(n);
-	}
+    public LogCenterLoader getLogCenterloader(int n)
+    {
+        return logCenterloader.get(n);
+    }
 
 /**
  * Returns the number of {@link LogCenterLoader} instances currently loaded.
  * @return The number of {@link LogCenterLoader} instances currently loaded.
  */
-	public int getNbLogCenterloader()
-	{
-		return logCenterloader.size();
-	}
+    public int getNbLogCenterloader()
+    {
+        return logCenterloader.size();
+    }
 
-	private ArrayList<LogCenterLoader> logCenterloader = null;
+    private ArrayList<LogCenterLoader> logCenterloader = null;
 }

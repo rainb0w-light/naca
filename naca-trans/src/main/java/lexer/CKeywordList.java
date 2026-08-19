@@ -14,21 +14,21 @@ import java.util.Hashtable;
  */
 public class CKeywordList
 {
-	protected CKeywordList()
-	{
-	}
+    protected CKeywordList()
+    {
+    }
 
-	public void Register(CReservedKeyword kw)
-	{
-		tabKeyWords.put(kw.name, kw) ;
-	}
+    public void Register(CReservedKeyword kw)
+    {
+        tabKeyWords.put(kw.name, kw) ;
+    }
 
-	public CReservedKeyword GetKeyword(String name)
-	{
-		CReservedKeyword kw = tabKeyWords.get(name);
-		return kw ;
-	}
-	private Hashtable<String, CReservedKeyword> tabKeyWords = new Hashtable<String, CReservedKeyword>() ;
+    public CReservedKeyword GetKeyword(String name)
+    {
+        CReservedKeyword kw = tabKeyWords.get(name);
+        return kw ;
+    }
+    private Hashtable<String, CReservedKeyword> tabKeyWords = new Hashtable<String, CReservedKeyword>() ;
 
 
 }

@@ -10,10 +10,10 @@ import jlib.misc.LogicalFileDescriptor;
 
 public class InputFileNotFoundException extends NacaBatchFileException
 {
-	private static final long serialVersionUID = 1L;
-	
-	public InputFileNotFoundException(String csFileName, LogicalFileDescriptor logicalFileDescriptor)
-	{
-		super("InputFileNotFoundException", csFileName, logicalFileDescriptor);
-	}
+    private static final long serialVersionUID = 1L;
+
+    public InputFileNotFoundException(String csFileName, LogicalFileDescriptor logicalFileDescriptor)
+    {
+        super("InputFileNotFoundException", csFileName, logicalFileDescriptor);
+    }
 }

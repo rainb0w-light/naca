@@ -18,80 +18,80 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSReadQ extends CBaseActionEntity
 {
 
-	public CEntityCICSReadQ(int line, CObjectCatalog cat, boolean bPersistant)
-	{
-		super(line, cat);
-		ispesistant = bPersistant ;
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    public CEntityCICSReadQ(int line, CObjectCatalog cat, boolean bPersistant)
+    {
+        super(line, cat);
+        ispesistant = bPersistant ;
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	protected boolean ispesistant = false ;
-	protected CDataEntity queueName = null ;
-	protected CDataEntity dataRef = null ;
-	protected CDataEntity dataLength = null ;
-	protected boolean bReadNext = false ;
-	protected CDataEntity numItem = null ;
-	protected CDataEntity item = null ;
+    protected boolean ispesistant = false ;
+    protected CDataEntity queueName = null ;
+    protected CDataEntity dataRef = null ;
+    protected CDataEntity dataLength = null ;
+    protected boolean bReadNext = false ;
+    protected CDataEntity numItem = null ;
+    protected CDataEntity item = null ;
 
-	public void Clear()
-	{
-		super.Clear();
-		queueName = null ;
-		dataRef = null ;
-		dataLength = null ;
-		numItem = null;
-		item = null;
-		bReadNext = false;
-	}
+    public void Clear()
+    {
+        super.Clear();
+        queueName = null ;
+        dataRef = null ;
+        dataLength = null ;
+        numItem = null;
+        item = null;
+        bReadNext = false;
+    }
 
-	public void SetName(CDataEntity entity)
-	{
-		queueName = entity ;
-	}
-	public void SetDataRef(CDataEntity entity, CDataEntity len)
-	{
-		dataRef = entity ;
-		dataLength = len ;
-	}
+    public void SetName(CDataEntity entity)
+    {
+        queueName = entity ;
+    }
+    public void SetDataRef(CDataEntity entity, CDataEntity len)
+    {
+        dataRef = entity ;
+        dataLength = len ;
+    }
 
-	public void ReadNext()
-	{
-		bReadNext = true ;
-	}
+    public void ReadNext()
+    {
+        bReadNext = true ;
+    }
 
-	public void ReadNumItem(CDataEntity entity)
-	{
-		numItem = entity ;
-	}
+    public void ReadNumItem(CDataEntity entity)
+    {
+        numItem = entity ;
+    }
 
-	public void ReadItem(CDataEntity entity)
-	{
-		item = entity ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		if (dataRef == field)
-		{
-			dataRef = var ;
-			field.UnRegisterReadingAction(this) ;
-			var.RegisterReadingAction(this) ;
-			return true ;
-		}
-		return false ;
-	}
+    public void ReadItem(CDataEntity entity)
+    {
+        item = entity ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        if (dataRef == field)
+        {
+            dataRef = var ;
+            field.UnRegisterReadingAction(this) ;
+            var.RegisterReadingAction(this) ;
+            return true ;
+        }
+        return false ;
+    }
 
-	public boolean isPersistent() { return ispesistant; }
-	public CDataEntity getQueueName() { return queueName; }
-	public CDataEntity getDataRef() { return dataRef; }
-	public CDataEntity getDataLength() { return dataLength; }
-	public boolean isReadNext() { return bReadNext; }
-	public CDataEntity getNumItem() { return numItem; }
-	public CDataEntity getItem() { return item; }
+    public boolean isPersistent() { return ispesistant; }
+    public CDataEntity getQueueName() { return queueName; }
+    public CDataEntity getDataRef() { return dataRef; }
+    public CDataEntity getDataLength() { return dataLength; }
+    public boolean isReadNext() { return bReadNext; }
+    public CDataEntity getNumItem() { return numItem; }
+    public CDataEntity getItem() { return item; }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -20,30 +20,30 @@ import java.sql.SQLException;
  */
 public class SQLClauseSPInfo
 {
-	public String csCatalog = null;
-	public String csName = null;
-	public String csRemarks = null;
-	public String csSchem = null;
-	public short type = 0;
-	
-	SQLClauseSPInfo()
-	{
-	}
-	
-	boolean fill(ResultSet rsProc)
-	{
-		try
-		{
-			csCatalog = rsProc.getString("PROCEDURE_CAT");
-			csName = rsProc.getString("PROCEDURE_NAME");
-			csRemarks = rsProc.getString("REMARKS");
-			type = rsProc.getShort("PROCEDURE_TYPE");
-			csSchem = rsProc.getString("PROCEDURE_SCHEM");
-			return true;
-		}
-		catch(SQLException e)
-		{
-		}
-		return false;
-	}
+    public String csCatalog = null;
+    public String csName = null;
+    public String csRemarks = null;
+    public String csSchem = null;
+    public short type = 0;
+
+    SQLClauseSPInfo()
+    {
+    }
+
+    boolean fill(ResultSet rsProc)
+    {
+        try
+        {
+            csCatalog = rsProc.getString("PROCEDURE_CAT");
+            csName = rsProc.getString("PROCEDURE_NAME");
+            csRemarks = rsProc.getString("REMARKS");
+            type = rsProc.getShort("PROCEDURE_TYPE");
+            csSchem = rsProc.getString("PROCEDURE_SCHEM");
+            return true;
+        }
+        catch(SQLException e)
+        {
+        }
+        return false;
+    }
 }

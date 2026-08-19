@@ -12,12 +12,12 @@ package idea.semanticContext;
  */
 public class CSemanticItem
 {
-	CSemanticItem(String csScreenId, CMenuDef MenuDef)
-	{
-		this.csScreenId = csScreenId;
-		this.menuDef = MenuDef;
-	}
+    CSemanticItem(String csScreenId, CMenuDef MenuDef)
+    {
+        this.csScreenId = csScreenId;
+        this.menuDef = MenuDef;
+    }
 
-	String csScreenId = null;
-	CMenuDef menuDef = null;
+    String csScreenId = null;
+    CMenuDef menuDef = null;
 }

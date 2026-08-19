@@ -61,7 +61,10 @@ public class SequencerConfig {
         public String getDbPassword() { return dbPassword; }
         public void setDbPassword(String dbPassword) { this.dbPassword = dbPassword; }
         public String getDbConnectionUrlOptionalParams() { return dbConnectionUrlOptionalParams; }
-        public void setDbConnectionUrlOptionalParams(String dbConnectionUrlOptionalParams) { this.dbConnectionUrlOptionalParams = dbConnectionUrlOptionalParams; }
+        public void setDbConnectionUrlOptionalParams(String dbConnectionUrlOptionalParams)
+        {
+            this.dbConnectionUrlOptionalParams = dbConnectionUrlOptionalParams;
+        }
         public String getDbEnvironment() { return dbEnvironment; }
         public void setDbEnvironment(String dbEnvironment) { this.dbEnvironment = dbEnvironment; }
         public String getDriverClass() { return driverClass; }
@@ -91,7 +94,10 @@ public class SequencerConfig {
         public int getMaxConnection() { return maxConnection; }
         public void setMaxConnection(int maxConnection) { this.maxConnection = maxConnection; }
         public long getTimeBeforeRemoveConnectionMs() { return timeBeforeRemoveConnectionMs; }
-        public void setTimeBeforeRemoveConnectionMs(long timeBeforeRemoveConnectionMs) { this.timeBeforeRemoveConnectionMs = timeBeforeRemoveConnectionMs; }
+        public void setTimeBeforeRemoveConnectionMs(long timeBeforeRemoveConnectionMs)
+        {
+            this.timeBeforeRemoveConnectionMs = timeBeforeRemoveConnectionMs;
+        }
         public long getMaxStatementLiveTimeMs() { return maxStatementLiveTimeMs; }
         public void setMaxStatementLiveTimeMs(long maxStatementLiveTimeMs) { this.maxStatementLiveTimeMs = maxStatementLiveTimeMs; }
         public boolean isUseExplain() { return useExplain; }

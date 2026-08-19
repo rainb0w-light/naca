@@ -31,240 +31,243 @@ import utils.Transcoder;
  */
 public class CExecSQLDelete extends CBaseExecSQLAction
 {
-	public CExecSQLDelete(int nLine)
-	{
-		super(nLine);
-	}
+    public CExecSQLDelete(int nLine)
+    {
+        super(nLine);
+    }
 
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-				break;
-			}
-			else if (tok.GetType() == CTokenType.STRING)
-			{
-				String cs = new String("'" + tok.GetValue() + "'");
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.LESS_THAN)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace() ;
-				clause += cs;
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.GREATER_THAN)
-				{
-					cs = new String(tok.GetType().GetSourceValue());
-					clause += cs ;
-					GetNext() ;
-				}
-				else
-				{
-					continue ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.COLON)
-			{
-				tok = GetNext() ;
-				String cs = tok.GetValue();
-				tok = GetNext() ;
-				CIdentifier id ;
-				if (tok.GetType() == CTokenType.DOT)
-				{
-					tok = GetNext();
-					String cs2 = tok.GetValue() ;
-					tok = GetNext();
-					id = new CIdentifier(cs2, cs) ;
-				}
-				else
-				{
-					id = new CIdentifier(cs) ;
-				}
-				parameters.add(id);
-				AppendRequiredSpace();
-				clause += "#"+ parameters.size() ;
-			}
-			else if (tok.GetType() == CTokenType.CIRCUMFLEX)
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace() ;
-				clause += cs;
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.EQUALS)
-				{
-					cs = new String(tok.GetType().GetSourceValue());
-					clause += cs ;
-					GetNext() ;
-				}
-			}
-			else if (tok.GetType().HasSourceValue())
-			{
-				String cs = new String(tok.GetType().GetSourceValue());
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else if (tok.GetType() == CTokenType.STRING)
-			{
-				String cs = new String("'" + tok.GetValue() + "'");
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
-			else
-			{
-				String cs = new String(tok.GetValue());
-				if (tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
-				{
-					csViewName = cs ;
-				}
-				AppendRequiredSpace();
-				clause += cs;
-				GetNext();
-			}
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+                break;
+            }
+            else if (tok.GetType() == CTokenType.STRING)
+            {
+                String cs = new String("'" + tok.GetValue() + "'");
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.DOT || tok.GetType() == CTokenType.COMMA)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.LESS_THAN)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace() ;
+                clause += cs;
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.GREATER_THAN)
+                {
+                    cs = new String(tok.GetType().GetSourceValue());
+                    clause += cs ;
+                    GetNext() ;
+                }
+                else
+                {
+                    continue ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.COLON)
+            {
+                tok = GetNext() ;
+                String cs = tok.GetValue();
+                tok = GetNext() ;
+                CIdentifier id ;
+                if (tok.GetType() == CTokenType.DOT)
+                {
+                    tok = GetNext();
+                    String cs2 = tok.GetValue() ;
+                    tok = GetNext();
+                    id = new CIdentifier(cs2, cs) ;
+                }
+                else
+                {
+                    id = new CIdentifier(cs) ;
+                }
+                parameters.add(id);
+                AppendRequiredSpace();
+                clause += "#"+ parameters.size() ;
+            }
+            else if (tok.GetType() == CTokenType.CIRCUMFLEX)
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace() ;
+                clause += cs;
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.EQUALS)
+                {
+                    cs = new String(tok.GetType().GetSourceValue());
+                    clause += cs ;
+                    GetNext() ;
+                }
+            }
+            else if (tok.GetType().HasSourceValue())
+            {
+                String cs = new String(tok.GetType().GetSourceValue());
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else if (tok.GetType() == CTokenType.STRING)
+            {
+                String cs = new String("'" + tok.GetValue() + "'");
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
+            else
+            {
+                String cs = new String(tok.GetValue());
+                if (tok.GetType() == CTokenType.IDENTIFIER && csViewName.equals(""))
+                {
+                    csViewName = cs ;
+                }
+                AppendRequiredSpace();
+                clause += cs;
+                GetNext();
+            }
 
-		}
-		return true ;
-	}
+        }
+        return true ;
+    }
 
-	public void AppendRequiredSpace()
-	{
-		if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
-			clause += " ";
-	}
+    public void AppendRequiredSpace()
+    {
+        if(clause.endsWith(" ") == false && clause.endsWith(":") == false && clause.endsWith(".") == false)
+            clause += " ";
+    }
 
 
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLDelete") ;
-		e.setAttribute("Clause", clause) ;
-		//ExportParameters(root, e);
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLDelete") ;
+        e.setAttribute("Clause", clause) ;
+        //ExportParameters(root, e);
 
-		return e;
-	}
+        return e;
+    }
 
-	private void ExportParameters(Document root, Element parent)
-	{
-		try
-		{
-			Element e = root.createElement("Parameters") ;
-			parent.appendChild(e);
+    private void ExportParameters(Document root, Element parent)
+    {
+        try
+        {
+            Element e = root.createElement("Parameters") ;
+            parent.appendChild(e);
 
-			int nNbItems = parameters.size();
-			for(int n=0; n<nNbItems; n++)
-			{
-				Element eParam = root.createElement("Parameter") ;
-				e.appendChild(eParam);
+            int nNbItems = parameters.size();
+            for(int n=0; n<nNbItems; n++)
+            {
+                Element eParam = root.createElement("Parameter") ;
+                e.appendChild(eParam);
 
-				CIdentifier s = parameters.get(n);
-				s.ExportTo(eParam, root) ;
-			}
-		}
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			//System.out.println(e.toString());
-		}
+                CIdentifier s = parameters.get(n);
+                s.ExportTo(eParam, root) ;
+            }
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            //System.out.println(e.toString());
+        }
 
-	}
+    }
 
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Vector<CDataEntity> v = new Vector<CDataEntity>();
-		for (int i = 0; i< parameters.size(); i++)
-		{
-			CIdentifier id = parameters.get(i);
-			CDataEntity e = id.GetDataReference(getLine(), factory);
-			v.add(e);
-		}
-		clause = CExecSQL.CheckConcat(clause, v , factory);
-		String tablename = "" ;
-		CEntitySQLDeclareTable table = factory.programCatalog.GetSQLTable(csViewName);
-		if (table == null)
-		{
-			CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(parent.GetProgramName(), getLine(), "Missing table declaration : "+csViewName);
-			if (csViewName.startsWith("V") && csViewName.length() > 6)
-			{
-				tablename = csViewName.substring(1, csViewName.length()-1) ;
-			}
-			else
-			{
-				tablename = csViewName ;
-			}
-		}
-		else
-		{
-			tablename = table.GetTableName();
-		}
-		CGlobalEntityCounter.GetInstance().CountSQLTableAccess("DELETE", tablename, parent.GetProgramName());
-		clause = clause.replaceAll(csViewName, tablename);
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Vector<CDataEntity> v = new Vector<CDataEntity>();
+        for (int i = 0; i< parameters.size(); i++)
+        {
+            CIdentifier id = parameters.get(i);
+            CDataEntity e = id.GetDataReference(getLine(), factory);
+            v.add(e);
+        }
+        clause = CExecSQL.CheckConcat(clause, v , factory);
+        String tablename = "" ;
+        CEntitySQLDeclareTable table = factory.programCatalog.GetSQLTable(csViewName);
+        if (table == null)
+        {
+            CGlobalEntityCounter.GetInstance().RegisterProgramToRewrite(
+                parent.GetProgramName(),
+                getLine(),
+                "Missing table declaration : "+csViewName);
+            if (csViewName.startsWith("V") && csViewName.length() > 6)
+            {
+                tablename = csViewName.substring(1, csViewName.length()-1) ;
+            }
+            else
+            {
+                tablename = csViewName ;
+            }
+        }
+        else
+        {
+            tablename = table.GetTableName();
+        }
+        CGlobalEntityCounter.GetInstance().CountSQLTableAccess("DELETE", tablename, parent.GetProgramName());
+        clause = clause.replaceAll(csViewName, tablename);
 
-		CEntitySQLCursor cursor = null ;
-		int n = clause.indexOf("WHERE CURRENT OF") ;
-		if (n>0)
-		{
-			String cur = clause.substring(n + 17) ;
-			cursor = factory.programCatalog.GetSQLCursor(cur) ;
-			if (cursor == null)
-			{
-				throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
-			}
-			clause = clause.substring(0, n);
-		}
-		else
-		{
-			n = clause.indexOf("SELECT") ;
-			if (n>0)
-			{
-				int nFrom = clause.indexOf("FROM", n) ;
-				while (nFrom > 0)
-				{
-					int nWhere = clause.indexOf("WHERE", nFrom) ;
-					String from = "" ;
-					String where = "" ;
-					if (nWhere > 0)
-					{
-						where = clause.substring(nWhere) ;
-						from = clause.substring(nFrom+5, nWhere) ;
-					}
-					else
-					{
-						from = clause.substring(nFrom+5);
-					}
-					from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
-					clause = clause.substring(0, nFrom+5) + from + where ;
+        CEntitySQLCursor cursor = null ;
+        int n = clause.indexOf("WHERE CURRENT OF") ;
+        if (n>0)
+        {
+            String cur = clause.substring(n + 17) ;
+            cursor = factory.programCatalog.GetSQLCursor(cur) ;
+            if (cursor == null)
+            {
+                throw new NacaTransAssertException("Cursor not found : "+cur) ; // ASSERT
+            }
+            clause = clause.substring(0, n);
+        }
+        else
+        {
+            n = clause.indexOf("SELECT") ;
+            if (n>0)
+            {
+                int nFrom = clause.indexOf("FROM", n) ;
+                while (nFrom > 0)
+                {
+                    int nWhere = clause.indexOf("WHERE", nFrom) ;
+                    String from = "" ;
+                    String where = "" ;
+                    if (nWhere > 0)
+                    {
+                        where = clause.substring(nWhere) ;
+                        from = clause.substring(nFrom+5, nWhere) ;
+                    }
+                    else
+                    {
+                        from = clause.substring(nFrom+5);
+                    }
+                    from = CExecSQLSelect.ManageFrom(parent, from, factory, false) ;
+                    clause = clause.substring(0, nFrom+5) + from + where ;
 
-					nFrom = clause.indexOf("FROM", nFrom + 1);
-				}
-			}
-		}
+                    nFrom = clause.indexOf("FROM", nFrom + 1);
+                }
+            }
+        }
 
-		CEntitySQLDeleteStatement eSQL = factory.NewEntitySQLDeleteStatement(getLine(), clause, v);
-		Transcoder.checkSQL(getLine(), clause);
-		parent.AddChild(eSQL) ;
-		eSQL.setCursor(cursor) ;
-		for (int i=0; i<v.size(); i++)
-		{
-			CDataEntity e = v.get(i);
-			e.RegisterReadingAction(eSQL) ;
-		}
-		return eSQL;
-	}
+        CEntitySQLDeleteStatement eSQL = factory.NewEntitySQLDeleteStatement(getLine(), clause, v);
+        Transcoder.checkSQL(getLine(), clause);
+        parent.AddChild(eSQL) ;
+        eSQL.setCursor(cursor) ;
+        for (int i=0; i<v.size(); i++)
+        {
+            CDataEntity e = v.get(i);
+            e.RegisterReadingAction(eSQL) ;
+        }
+        return eSQL;
+    }
 
-	public String clause = "" ;
-	public String csViewName = "" ;
-	public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
+    public String clause = "" ;
+    public String csViewName = "" ;
+    public Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 }

@@ -13,12 +13,12 @@ import nacaLib.varEx.FileDescriptor;
  * @author Pierre-Jean Ditscheid, Consultas SA
  * @version $Id$
  */
-public abstract class BaseVariableLengthRecord extends BaseRecord  
+public abstract class BaseVariableLengthRecord extends BaseRecord
 {
-	protected BaseVariableLengthRecord(FileDescriptor file)
-	{
-		super(file);
-	}
-	
-	public abstract void fillRW();
+    protected BaseVariableLengthRecord(FileDescriptor file)
+    {
+        super(file);
+    }
+
+    public abstract void fillRW();
 }

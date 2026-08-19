@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,12 +16,12 @@ package jlib.misc;
  */
 public class JSonCoupleItemType
 {
-	public static JSonCoupleItemType TypeString = new JSonCoupleItemType();
-	public static JSonCoupleItemType TypeInteger = new JSonCoupleItemType();
-	public static JSonCoupleItemType TypeDouble = new JSonCoupleItemType();
-	public static JSonCoupleItemType TypeBoolean = new JSonCoupleItemType();
-	
-	public JSonCoupleItemType()
-	{
-	}
+    public static JSonCoupleItemType TypeString = new JSonCoupleItemType();
+    public static JSonCoupleItemType TypeInteger = new JSonCoupleItemType();
+    public static JSonCoupleItemType TypeDouble = new JSonCoupleItemType();
+    public static JSonCoupleItemType TypeBoolean = new JSonCoupleItemType();
+
+    public JSonCoupleItemType()
+    {
+    }
 }

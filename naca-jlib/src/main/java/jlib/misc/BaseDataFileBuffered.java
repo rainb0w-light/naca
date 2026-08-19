@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,20 +16,20 @@ package jlib.misc;
  */
 public abstract class BaseDataFileBuffered extends BaseDataFile
 {
-	private PreallocatedFileBufferManager buffer = null;
-	//private PreallocatedFileBufferManager m_alternateBuffer = null;
-		
-	public byte[] getByteBuffer(int nSize)
-	{
-		if(buffer == null)
-			buffer = new PreallocatedFileBufferManager();
-		return buffer.checkBuffer(nSize);
-	}
-	
-//	public byte[] getAlternateByteBuffer(int nSize)
-//	{
-//		if(m_alternateBuffer == null)
-//			m_alternateBuffer = new PreallocatedFileBufferManager();
-//		return m_alternateBuffer.checkBuffer(nSize);
-//	}
+    private PreallocatedFileBufferManager buffer = null;
+    //private PreallocatedFileBufferManager m_alternateBuffer = null;
+
+    public byte[] getByteBuffer(int nSize)
+    {
+        if(buffer == null)
+            buffer = new PreallocatedFileBufferManager();
+        return buffer.checkBuffer(nSize);
+    }
+
+//  public byte[] getAlternateByteBuffer(int nSize)
+//  {
+//      if(m_alternateBuffer == null)
+//          m_alternateBuffer = new PreallocatedFileBufferManager();
+//      return m_alternateBuffer.checkBuffer(nSize);
+//  }
 }

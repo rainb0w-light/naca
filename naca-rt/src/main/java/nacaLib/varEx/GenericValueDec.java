@@ -14,59 +14,59 @@ package nacaLib.varEx;
  */
 public class GenericValueDec extends GenericValue
 {
-	GenericValueDec(Dec dec)
-	{
-		this.dec = dec;
-	}
+    GenericValueDec(Dec dec)
+    {
+        this.dec = dec;
+    }
 
-	GenericValueDec(int nInt, String csDec)
-	{
-		dec = new Dec(nInt, csDec);
-	}
+    GenericValueDec(int nInt, String csDec)
+    {
+        dec = new Dec(nInt, csDec);
+    }
 
-	String getAsRawString()
-	{
-		String cs = dec.getAsString();
-		return cs;
-	}
+    String getAsRawString()
+    {
+        String cs = dec.getAsString();
+        return cs;
+    }
 
-	String getAsString()
-	{
-		return getAsRawString();
-	}
+    String getAsString()
+    {
+        return getAsRawString();
+    }
 
-	int getAsInt()
-	{
-		return dec.getSignedInt();
-	}
+    int getAsInt()
+    {
+        return dec.getSignedInt();
+    }
 
-	int getAsUnsignedInt()
-	{
-		return dec.getUnsignedInt();
-	}
+    int getAsUnsignedInt()
+    {
+        return dec.getUnsignedInt();
+    }
 
-	Dec getAsDec()
-	{
-		return dec;
-	}
+    Dec getAsDec()
+    {
+        return dec;
+    }
 
-	Dec getAsUnsignedDec()
-	{
-		if(dec.isNegative())
-		{
-			Dec dec = new Dec(this.dec);
-			dec.setPositive(true);
-			return dec;
-		}
-		return dec;
-	}
-
-
-	double getAsDouble()
-	{
-		return dec.getAsDouble();
-	}
+    Dec getAsUnsignedDec()
+    {
+        if(dec.isNegative())
+        {
+            Dec dec = new Dec(this.dec);
+            dec.setPositive(true);
+            return dec;
+        }
+        return dec;
+    }
 
 
-	private Dec dec = null;
+    double getAsDouble()
+    {
+        return dec.getAsDouble();
+    }
+
+
+    private Dec dec = null;
 }

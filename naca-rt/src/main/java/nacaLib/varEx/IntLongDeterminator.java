@@ -12,10 +12,10 @@ package nacaLib.varEx;
  */
 public class IntLongDeterminator
 {
-	static boolean isIntEnough(int nNbDigitInteger)
-	{
-		if(nNbDigitInteger <= 9)
-			return true;
-		return false;
-	}
+    static boolean isIntEnough(int nNbDigitInteger)
+    {
+        if(nNbDigitInteger <= 9)
+            return true;
+        return false;
+    }
 }

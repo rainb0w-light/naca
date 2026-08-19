@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -18,72 +18,72 @@ import nacaLib.varEx.Pic9Comp3BufferSupport;
  */
 public class BtreeKeySegmentComp3 extends BtreeKeySegment
 {
-	private int nNbDigitInteger = 0;
-	public BtreeKeySegmentComp3(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
-	{
-		super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
-		nNbDigitInteger = (nKeyLength-1) * 2;
-	}
-	
-	int compare(byte tby1[], byte tby2[])
-	{
-    	int nPos = nKeyPosition + nKeyLength -1;
-    	// Compare Sign
-    	
-    	boolean b1 = Pic9Comp3BufferSupport.isNegative(tby1[nPos]);
-    	boolean b2 = Pic9Comp3BufferSupport.isNegative(tby2[nPos]);
-    	if(b1 != b2)
-    	{
-    		if(b1)	// tb1 is <0 ; tb2 is then > 0
-    			return (bAscending) ? -1 : 1;
-    		return (bAscending) ? 1 : -1;	// tb1 is > 0, tb2 is < 0
-    	}
-    	// They have the same sign
-    	// byte per byte comparison
-    	nPos = nKeyPosition;
-    	byte by1, by2;
-    	for(int n=0; n<nKeyLength; n++, nPos++)
-    	{
-    		by1 = tby1[nPos];
-    		by2 = tby2[nPos];
-    		if(by1 == by2)
-    			continue;
+    private int nNbDigitInteger = 0;
+    public BtreeKeySegmentComp3(int nKeyPositionInData, int nKeyPositionInKey, int nKeyLength, boolean bAscending)
+    {
+        super(nKeyPositionInData, nKeyPositionInKey, nKeyLength, bAscending);
+        nNbDigitInteger = (nKeyLength-1) * 2;
+    }
 
-    		int n1 = by1;
-    		if(n1 < 0)
-    			n1 += 256;
-    		
-    		int n2 = by2;
-    		if(n2 < 0)
-    			n2 += 256;
-    		
-    		if(n1 < n2)
-    			return (bAscending) ? -1 : 1;
-    		return (bAscending) ? 1 : -1;
-    	}
-    	return 0;
+    int compare(byte tby1[], byte tby2[])
+    {
+        int nPos = nKeyPosition + nKeyLength -1;
+        // Compare Sign
 
-//    	int n = 0;
-//		long l1 = Pic9Comp3BufferSupport.getAsLong(tby1, nKeyPosition, nNbDigitInteger, nKeyLength);
-//		long l2 = Pic9Comp3BufferSupport.getAsLong(tby2, nKeyPosition, nNbDigitInteger, nKeyLength);
+        boolean b1 = Pic9Comp3BufferSupport.isNegative(tby1[nPos]);
+        boolean b2 = Pic9Comp3BufferSupport.isNegative(tby2[nPos]);
+        if(b1 != b2)
+        {
+            if(b1)  // tb1 is <0 ; tb2 is then > 0
+                return (bAscending) ? -1 : 1;
+            return (bAscending) ? 1 : -1;   // tb1 is > 0, tb2 is < 0
+        }
+        // They have the same sign
+        // byte per byte comparison
+        nPos = nKeyPosition;
+        byte by1, by2;
+        for(int n=0; n<nKeyLength; n++, nPos++)
+        {
+            by1 = tby1[nPos];
+            by2 = tby2[nPos];
+            if(by1 == by2)
+                continue;
+
+            int n1 = by1;
+            if(n1 < 0)
+                n1 += 256;
+
+            int n2 = by2;
+            if(n2 < 0)
+                n2 += 256;
+
+            if(n1 < n2)
+                return (bAscending) ? -1 : 1;
+            return (bAscending) ? 1 : -1;
+        }
+        return 0;
+
+//      int n = 0;
+//      long l1 = Pic9Comp3BufferSupport.getAsLong(tby1, nKeyPosition, nNbDigitInteger, nKeyLength);
+//      long l2 = Pic9Comp3BufferSupport.getAsLong(tby2, nKeyPosition, nNbDigitInteger, nKeyLength);
 //
-//		if(l1 == l2)
-//			n = 0;
-//		else if(l1 < l2)
-//		{
-//	    	if(bAscending)
-//	    		n = -1;
-//	    	else
-//	    		n = 1;
-//		}
-//		else // if(l1 > l2)
-//		{
-//			if(bAscending)
-//	    		n = 1;
-//	    	else
-//	    		n = -1;
-//		}
+//      if(l1 == l2)
+//          n = 0;
+//      else if(l1 < l2)
+//      {
+//          if(bAscending)
+//              n = -1;
+//          else
+//              n = 1;
+//      }
+//      else // if(l1 > l2)
+//      {
+//          if(bAscending)
+//              n = 1;
+//          else
+//              n = -1;
+//      }
 //
-//    	return n;
-	}
+//      return n;
+    }
 }

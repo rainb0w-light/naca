@@ -22,33 +22,33 @@ import semantic.SQL.CEntitySqlOnErrorGoto;
  */
 public class CExecSQLOnWarningGoto extends CBaseExecSQLAction
 {
-	public CExecSQLOnWarningGoto(int l, String reference)
-	{
-		super(l);
-		ref = reference;
-	}
-	public String ref = "" ;
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLOnWarningGoto") ;
-		e.setAttribute("Reference", ref) ;
-		return e ;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnWarningGoto(getLine(), ref) ;
-		CEntityProcedureSection sec = parent.getSectionContainer();
-		String secName = "" ;
-		if (sec != null)
-			secName = sec.GetName() ;
-		CProcedureReference refNew = new CProcedureReference(this.ref, secName, factory.programCatalog) ;
-		factory.programCatalog.getCallTree().RegisterGlobalGoto(refNew) ;
-		parent.AddChild(eGoto) ;
-		return eGoto ;
-	}
-	protected boolean DoParsing()
-	{
-		// nothing
-		return true;
-	}
+    public CExecSQLOnWarningGoto(int l, String reference)
+    {
+        super(l);
+        ref = reference;
+    }
+    public String ref = "" ;
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLOnWarningGoto") ;
+        e.setAttribute("Reference", ref) ;
+        return e ;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySqlOnErrorGoto eGoto = factory.NewEntitySQLOnWarningGoto(getLine(), ref) ;
+        CEntityProcedureSection sec = parent.getSectionContainer();
+        String secName = "" ;
+        if (sec != null)
+            secName = sec.GetName() ;
+        CProcedureReference refNew = new CProcedureReference(this.ref, secName, factory.programCatalog) ;
+        factory.programCatalog.getCallTree().RegisterGlobalGoto(refNew) ;
+        parent.AddChild(eGoto) ;
+        return eGoto ;
+    }
+    protected boolean DoParsing()
+    {
+        // nothing
+        return true;
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.misc;
 
@@ -16,23 +16,23 @@ package nacaLib.misc;
  */
 public class IntelUnsignBinaryBufferStorage
 {
-//	byte b[] = new byte[4];
-//	IntelBinaryBufferStorage.writeShort(b, 65535, 0);
-//	int n = IntelBinaryBufferStorage.readShort(b, 0);
+//  byte b[] = new byte[4];
+//  IntelBinaryBufferStorage.writeShort(b, 65535, 0);
+//  int n = IntelBinaryBufferStorage.readShort(b, 0);
 //
-//	IntelBinaryBufferStorage.writeInt(b, -1, 0);
-//	long l = IntelBinaryBufferStorage.readInt(b, 0);
+//  IntelBinaryBufferStorage.writeInt(b, -1, 0);
+//  long l = IntelBinaryBufferStorage.readInt(b, 0);
 
     public final static int readShort(byte buf[], int i)
     {
-    	int n = buf[i];
-    	if(n < 0)
-    		n += 256;
-    	int m = buf[i+1];
-    	if(m < 0)
-    		m += 256;
-    	int v = n + (m << 8);
-    	return v;
+        int n = buf[i];
+        if(n < 0)
+            n += 256;
+        int m = buf[i+1];
+        if(m < 0)
+            m += 256;
+        int v = n + (m << 8);
+        return v;
     }
 
     public final static void writeShort(byte buf[], int sValue, int nPos)
@@ -43,7 +43,7 @@ public class IntelUnsignBinaryBufferStorage
 
     public final static long readInt(byte buf[], int i)
     {
-    	long j = buf[i] >= 0 ? ((int) (buf[i])) : buf[i] + 256;
+        long j = buf[i] >= 0 ? ((int) (buf[i])) : buf[i] + 256;
         i++;
         long k = buf[i] >= 0 ? ((int) (buf[i])) : buf[i] + 256;
         i++;
@@ -61,15 +61,15 @@ public class IntelUnsignBinaryBufferStorage
         buf[nPos+3] = (byte)(nValue >>> 24 & 0xff);
     }
 
-    // The values are signed, as we don't have a larger type than long, to avoid sign bit 
+    // The values are signed, as we don't have a larger type than long, to avoid sign bit
     public final static long readLong(byte buf[], int i)
     {
-    	return IntelSignBinaryBufferStorage.readLong(buf, i);
+        return IntelSignBinaryBufferStorage.readLong(buf, i);
     }
 
     public final static void writeLong(byte buf[], long l, int i)
     {
-    	IntelSignBinaryBufferStorage.writeLong(buf, l, i);
+        IntelSignBinaryBufferStorage.writeLong(buf, l, i);
     }
 
 }

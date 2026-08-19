@@ -14,33 +14,33 @@ import java.util.HashMap;
  */
 public class SemanticContextDef
 {
-	public SemanticContextDef()
-	{
-	}
+    public SemanticContextDef()
+    {
+    }
 
-	public String getSemanticContextValueDefinition(String csTable, String csCol)
-	{
-		String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
-		return getSemanticContextValueDefinition(csTableColName);
-	}
+    public String getSemanticContextValueDefinition(String csTable, String csCol)
+    {
+        String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
+        return getSemanticContextValueDefinition(csTableColName);
+    }
 
-	public String getSemanticContextValueDefinition(String csTableColName)
-	{
-		String csSemanticContext = hashDBSemanticContext.get(csTableColName);
-		return csSemanticContext;
-	}
+    public String getSemanticContextValueDefinition(String csTableColName)
+    {
+        String csSemanticContext = hashDBSemanticContext.get(csTableColName);
+        return csSemanticContext;
+    }
 
-	public void setSemanticContextValueDefinition(String csTable, String csCol, String csSemanticContext)
-	{
-		String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
-		hashDBSemanticContext.put(csTableColName, csSemanticContext);
-	}
+    public void setSemanticContextValueDefinition(String csTable, String csCol, String csSemanticContext)
+    {
+        String csTableColName = SemanticContextDef.getTableColName(csTable, csCol);
+        hashDBSemanticContext.put(csTableColName, csSemanticContext);
+    }
 
 
-	static public String getTableColName(String csTable, String csCol)
-	{
-		return csTable + "/" + csCol;
-	}
+    static public String getTableColName(String csTable, String csCol)
+    {
+        return csTable + "/" + csCol;
+    }
 
-	private HashMap<String, String> hashDBSemanticContext = new HashMap<String, String>();
+    private HashMap<String, String> hashDBSemanticContext = new HashMap<String, String>();
 }

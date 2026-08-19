@@ -13,62 +13,62 @@ import java.sql.Types;
 
 public class ColValueLong extends ColValue
 {
-	public ColValueLong(String csName, long lValue)
-	{
-		super(csName);
-		this.lValue = lValue;
-	}
+    public ColValueLong(String csName, long lValue)
+    {
+        super(csName);
+        this.lValue = lValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueLong(csName, lValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueLong(csName, lValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(lValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(lValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		lValue = resultSet.getLong(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        lValue = resultSet.getLong(nCol);
+    }
 
-	public String getValueAsString()
-	{
-		return String.valueOf(lValue);
-	}
+    public String getValueAsString()
+    {
+        return String.valueOf(lValue);
+    }
 
-	public int getValueAsInt()
-	{
-		return (int)lValue;
-	}
+    public int getValueAsInt()
+    {
+        return (int)lValue;
+    }
 
-	double getValueAsDouble()
-	{
-		return (double)lValue;
-	}
+    double getValueAsDouble()
+    {
+        return (double)lValue;
+    }
 
-	String getDumpValueAsString()
-	{
-		return "(long):'"+String.valueOf(lValue)+"'";
-	}
+    String getDumpValueAsString()
+    {
+        return "(long):'"+String.valueOf(lValue)+"'";
+    }
 
-	String getType()
-	{
-		return "long";
-	}
+    String getType()
+    {
+        return "long";
+    }
 
-	int getSQLType()
-	{
-		return Types.INTEGER;
-	}
+    int getSQLType()
+    {
+        return Types.INTEGER;
+    }
 
-	Object getValue()
-	{
-		return String.valueOf(Long.valueOf(lValue));
-	}
+    Object getValue()
+    {
+        return String.valueOf(Long.valueOf(lValue));
+    }
 
-	long lValue = 0L;
+    long lValue = 0L;
 }

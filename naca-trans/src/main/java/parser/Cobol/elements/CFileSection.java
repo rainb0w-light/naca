@@ -24,62 +24,62 @@ import semantic.CEntityDataSection;
 public class CFileSection extends CCommentContainer
 {
 
-	/**
-	 * @param line
-	 */
-	public CFileSection(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CFileSection(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityDataSection eFSection = factory.NewEntityDataSection(getLine(), "FileSection") ;
-		parent.AddChild(eFSection) ;
-		return eFSection;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityDataSection eFSection = factory.NewEntityDataSection(getLine(), "FileSection") ;
+        parent.AddChild(eFSection) ;
+        return eFSection;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetKeyword() == CCobolKeywordList.SKIP2)
-			{
-				GetNext();
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.FD || tok.GetKeyword() == CCobolKeywordList.SD)
-			{
-				CFileDescriptor fd = new CFileDescriptor(tok.getLine());
-				AddChild(fd);
-				if (!Parse(fd))
-				{
-					return false ;
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetKeyword() == CCobolKeywordList.SKIP2)
+            {
+                GetNext();
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.FD || tok.GetKeyword() == CCobolKeywordList.SD)
+            {
+                CFileDescriptor fd = new CFileDescriptor(tok.getLine());
+                AddChild(fd);
+                if (!Parse(fd))
+                {
+                    return false ;
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("FileSection") ;
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("FileSection") ;
+        return e;
+    }
 
 }

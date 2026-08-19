@@ -25,64 +25,64 @@ import utils.CObjectCatalog;
  */
 public class CEntityAssignSpecial extends CBaseActionEntity
 {
-	protected CDataEntity source = null ;
-	protected CDataEntity destination = null ;
-	protected boolean arithmeticAssign = false ;
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityAssignSpecial(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
-	/**
-	 * @param source The source to set.
-	 */
-	public void setSource(CDataEntity source)
-	{
-		this.source = source;
-	}
-	/**
-	 * @param destination The destination to set.
-	 */
-	public void setDestination(CDataEntity destination)
-	{
-		this.destination = destination;
-	}
-	/**
-	 * @param arithmeticAssign The arithmeticAssign to set.
-	 */
-	public void setArithmeticAssign(boolean arithmeticAssign)
-	{
-		this.arithmeticAssign = arithmeticAssign;
-	}
+    protected CDataEntity source = null ;
+    protected CDataEntity destination = null ;
+    protected boolean arithmeticAssign = false ;
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityAssignSpecial(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
+    /**
+     * @param source The source to set.
+     */
+    public void setSource(CDataEntity source)
+    {
+        this.source = source;
+    }
+    /**
+     * @param destination The destination to set.
+     */
+    public void setDestination(CDataEntity destination)
+    {
+        this.destination = destination;
+    }
+    /**
+     * @param arithmeticAssign The arithmeticAssign to set.
+     */
+    public void setArithmeticAssign(boolean arithmeticAssign)
+    {
+        this.arithmeticAssign = arithmeticAssign;
+    }
 
-	/**
-	 * Pure property read for the recursive ST4 binding: the packed source the
-	 * parser resolved during semantic analysis. Never lowers or formats.
-	 */
-	public CDataEntity getSource()
-	{
-		return source;
-	}
+    /**
+     * Pure property read for the recursive ST4 binding: the packed source the
+     * parser resolved during semantic analysis. Never lowers or formats.
+     */
+    public CDataEntity getSource()
+    {
+        return source;
+    }
 
-	/**
-	 * Pure property read for the recursive ST4 binding: the packed destination
-	 * the parser resolved during semantic analysis. Never lowers or formats.
-	 */
-	public CDataEntity getDestination()
-	{
-		return destination;
-	}
+    /**
+     * Pure property read for the recursive ST4 binding: the packed destination
+     * the parser resolved during semantic analysis. Never lowers or formats.
+     */
+    public CDataEntity getDestination()
+    {
+        return destination;
+    }
 
-	/**
-	 * Pure property read: whether this special assignment is an arithmetic
-	 * (packed) assignment, as set by the parser.
-	 */
-	public boolean isArithmeticAssign()
-	{
-		return arithmeticAssign;
-	}
+    /**
+     * Pure property read: whether this special assignment is an arithmetic
+     * (packed) assignment, as set by the parser.
+     */
+    public boolean isArithmeticAssign()
+    {
+        return arithmeticAssign;
+    }
 
 }

@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,6 +16,6 @@ package nacaLib.varEx;
  */
 public class FileDescriptorOpenStatus
 {
-	public static final FileDescriptorOpenStatus CLOSE = new FileDescriptorOpenStatus();
-	public static final FileDescriptorOpenStatus OPEN = new FileDescriptorOpenStatus();
+    public static final FileDescriptorOpenStatus CLOSE = new FileDescriptorOpenStatus();
+    public static final FileDescriptorOpenStatus OPEN = new FileDescriptorOpenStatus();
 }

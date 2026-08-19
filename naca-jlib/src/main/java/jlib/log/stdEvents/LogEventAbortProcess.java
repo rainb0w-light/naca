@@ -16,26 +16,26 @@ import jlib.log.LogLevel;
  */
 public class LogEventAbortProcess extends LogEvent
 {
-	public LogEventAbortProcess(String csProduct)
-	{
-		super(LogEventType.Abort, LogFlowStd.Any, LogLevel.Critical, csProduct);
-	}
+    public LogEventAbortProcess(String csProduct)
+    {
+        super(LogEventType.Abort, LogFlowStd.Any, LogLevel.Critical, csProduct);
+    }
 
-	public static LogEvent log(String csChannel)
-	{
-		return LogEventAbortProcess.log(csChannel);
-	}
+    public static LogEvent log(String csChannel)
+    {
+        return LogEventAbortProcess.log(csChannel);
+    }
 
-	public static LogEvent log(String csChannel, String csProduct)
-	{
-		LogEventAbortProcess event = new LogEventAbortProcess(csProduct);
-		Log.log(csChannel, event, "");
-		return event;
-	}
-	public static LogEvent log(String csChannel, String csProduct, String csRunId, String csRuntimeId)
-	{
-		LogEventAbortProcess event = new LogEventAbortProcess(csProduct);
-		Log.log(csChannel, event, "", csRunId, csRuntimeId);
-		return event;
-	}
+    public static LogEvent log(String csChannel, String csProduct)
+    {
+        LogEventAbortProcess event = new LogEventAbortProcess(csProduct);
+        Log.log(csChannel, event, "");
+        return event;
+    }
+    public static LogEvent log(String csChannel, String csProduct, String csRunId, String csRuntimeId)
+    {
+        LogEventAbortProcess event = new LogEventAbortProcess(csProduct);
+        Log.log(csChannel, event, "", csRunId, csRuntimeId);
+        return event;
+    }
 }

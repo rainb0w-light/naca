@@ -24,53 +24,53 @@ import semantic.SQL.CEntitySQLCursor;
  */
 public class CExecSQLClose extends CBaseExecSQLAction
 {
-	public CExecSQLClose(int l)
-	{
-		super(l);
-	}
+    public CExecSQLClose(int l)
+    {
+        super(l);
+    }
 
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLCloseCursor") ;
-		e.setAttribute("Name", csCursorName);
-		return e;
-	}
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLCloseCursor") ;
+        e.setAttribute("Name", csCursorName);
+        return e;
+    }
 
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
-		if (cur != null)
-		{
-			CEntitySQLCloseStatement eSQL = factory.NewEntitySQLCloseStatement(getLine(), cur) ;
-			parent.AddChild(eSQL) ;
-			return eSQL;
-		}
-		return null ;
-	}
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLCursor cur = factory.programCatalog.GetSQLCursor(csCursorName) ;
+        if (cur != null)
+        {
+            CEntitySQLCloseStatement eSQL = factory.NewEntitySQLCloseStatement(getLine(), cur) ;
+            parent.AddChild(eSQL) ;
+            return eSQL;
+        }
+        return null ;
+    }
 
-	protected boolean DoParsing()
-	{
-		// Parse until reaching END-EXEC.
-		boolean isdone = false ;
+    protected boolean DoParsing()
+    {
+        // Parse until reaching END-EXEC.
+        boolean isdone = false ;
 
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				csCursorName = new String(tok.GetValue());
-			}
-			if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
-			{
-				isdone = true ;
-				break;
-			}
-			GetNext();
-		}
-		return true ;
-	}
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                csCursorName = new String(tok.GetValue());
+            }
+            if (tok.GetKeyword() == CCobolKeywordList.END_EXEC)
+            {
+                isdone = true ;
+                break;
+            }
+            GetNext();
+        }
+        return true ;
+    }
 
-	private String csCursorName = null;
+    private String csCursorName = null;
 
 
 }

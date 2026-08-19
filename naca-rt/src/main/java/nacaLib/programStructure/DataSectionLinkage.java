@@ -16,24 +16,24 @@ import nacaLib.varEx.DataSectionType;
 
 public class DataSectionLinkage extends DataSection
 {
-	public DataSectionLinkage(BaseProgram prg)
-	{
-		super(prg, DataSectionType.Linkage);
-	}
+    public DataSectionLinkage(BaseProgram prg)
+    {
+        super(prg, DataSectionType.Linkage);
+    }
 
-//	public void registerVar(Var var)
-//	{
-//		int nLevel = var.varManager.getLevel();
-//		if(nLevel == 1 || nLevel == 77)
-//		{
-//			arrMappableVars.add(var);
-//		}
-//	}
+//  public void registerVar(Var var)
+//  {
+//      int nLevel = var.varManager.getLevel();
+//      if(nLevel == 1 || nLevel == 77)
+//      {
+//          arrMappableVars.add(var);
+//      }
+//  }
 
-//	public void unregisterVar(Var var)
-//	{
-//		arrMappableVars.remove(var);
-//	}
+//  public void unregisterVar(Var var)
+//  {
+//      arrMappableVars.remove(var);
+//  }
 
-//	private ArrayList arrMappableVars = new ArrayList();	// Array of all var that can be mapped on call
+//  private ArrayList arrMappableVars = new ArrayList();    // Array of all var that can be mapped on call
 }

@@ -13,14 +13,14 @@ package parser.Cobol.elements;
  */
 public class CLinkageSection extends CWorking
 {
-	/**
-	 * @param line
-	 */
-	public CLinkageSection(int line) {
-		super(line);
-	}
-	protected String GetType()
-	{
-		return "LinkageSection" ;
-	}
+    /**
+     * @param line
+     */
+    public CLinkageSection(int line) {
+        super(line);
+    }
+    protected String GetType()
+    {
+        return "LinkageSection" ;
+    }
 }

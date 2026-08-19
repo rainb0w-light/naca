@@ -15,41 +15,45 @@ import utils.CObjectCatalog;
  */
 public class CEntityIndex extends CDataEntity
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityIndex(String name, CObjectCatalog cat)
-	{
-		super(0, name, cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityIndex(String name, CObjectCatalog cat)
+    {
+        super(0, name, cat);
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.VAR ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.VAR ;
+    }
 
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public CBaseEntityCondition GetSpecialCondition(int nLine, String value, CBaseEntityCondition.EConditionType type, CBaseEntityFactory factory)
-	{
-		return null ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public CBaseEntityCondition GetSpecialCondition(
+        int nLine,
+        String value,
+        CBaseEntityCondition.EConditionType type,
+        CBaseEntityFactory factory)
+    {
+        return null ;
+    }
 }

@@ -33,110 +33,110 @@ import utils.Transcoder;
  */
 public class CExecSQLInclude extends CBaseExecSQLAction
 {
-	public CExecSQLInclude(int l, String reference)
-	{
-		super(l);
-		ref = reference;
-	}
-	public String ref = "" ;
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLInclude") ;
-		e.setAttribute("Reference", ref) ;
-		return e ;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), ref) ;
-		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(ref, factory) ;
-		if (e == null)
-		{
-			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), ref) ;
-			return null ;
-		}
-		CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
-		if (ent == null)
-		{
-			ent = parent ;
-		}
-		e.InitDependences(factory) ;
-		CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
-		ent.AddChild(eil) ;
-		e.SetParent(eil);
+    public CExecSQLInclude(int l, String reference)
+    {
+        super(l);
+        ref = reference;
+    }
+    public String ref = "" ;
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLInclude") ;
+        e.setAttribute("Reference", ref) ;
+        return e ;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), ref) ;
+        CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(ref, factory) ;
+        if (e == null)
+        {
+            CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), ref) ;
+            return null ;
+        }
+        CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
+        if (ent == null)
+        {
+            ent = parent ;
+        }
+        e.InitDependences(factory) ;
+        CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
+        ent.AddChild(eil) ;
+        e.SetParent(eil);
 
-		ListIterator i = children.listIterator() ;
-		CCobolElement le = null ;
-		try
-		{
-			le = (CCobolElement)i.next() ;
-		}
-		catch (NoSuchElementException ex)
-		{
-		}
-		while (le != null)
-		{
-			CBaseLanguageEntity eSub = le.DoSemanticAnalysis(null, factory) ;
-			int level = eSub.GetInternalLevel() ;
-			CBaseLanguageEntity newParent = parent.FindLastEntityAvailableForLevel(level);
-			if (newParent != null)
-			{
-				//eil.ReplaceParentForChild(eSub, newParent);
-				newParent.AddChild(eSub) ;
-			}
-			else
-			{
-				eil.AddChild(eSub) ;
-			}
-			try
-			{
-				le = (CCobolElement)i.next() ;
-			}
-			catch (NoSuchElementException exp)
-			{
-				le = null ;
-			}
-		}
-		bAnalysisDoneForChildren = true ;
-		return eil ;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			tok = GetNext() ;
-		}
-		return true;
-	}
-	public boolean ParseContent()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tokEntry = GetCurrentToken();
-			if (tokEntry.GetType()==CTokenType.NUMBER)
-			{
-				int level = tokEntry.GetIntValue();
-				if (level > 1)
-				{
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-					if (!Parse(eEntry))
-					{
-						Transcoder.logError(getLine(), "Error while parsing working entry") ;
-						return false ;
-					}
-					AddChild(eEntry) ;
-				}
-				else
-				{
-					isdone = true ; // this entry is a top-level entry
-				}
-			}
-			else
-			{
-				isdone = true ;	// this token is not parsed by this function, go back to caller
-			}
-		}
-		return true ;
-	}
+        ListIterator i = children.listIterator() ;
+        CCobolElement le = null ;
+        try
+        {
+            le = (CCobolElement)i.next() ;
+        }
+        catch (NoSuchElementException ex)
+        {
+        }
+        while (le != null)
+        {
+            CBaseLanguageEntity eSub = le.DoSemanticAnalysis(null, factory) ;
+            int level = eSub.GetInternalLevel() ;
+            CBaseLanguageEntity newParent = parent.FindLastEntityAvailableForLevel(level);
+            if (newParent != null)
+            {
+                //eil.ReplaceParentForChild(eSub, newParent);
+                newParent.AddChild(eSub) ;
+            }
+            else
+            {
+                eil.AddChild(eSub) ;
+            }
+            try
+            {
+                le = (CCobolElement)i.next() ;
+            }
+            catch (NoSuchElementException exp)
+            {
+                le = null ;
+            }
+        }
+        bAnalysisDoneForChildren = true ;
+        return eil ;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            tok = GetNext() ;
+        }
+        return true;
+    }
+    public boolean ParseContent()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tokEntry = GetCurrentToken();
+            if (tokEntry.GetType()==CTokenType.NUMBER)
+            {
+                int level = tokEntry.GetIntValue();
+                if (level > 1)
+                {
+                    CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
+                    if (!Parse(eEntry))
+                    {
+                        Transcoder.logError(getLine(), "Error while parsing working entry") ;
+                        return false ;
+                    }
+                    AddChild(eEntry) ;
+                }
+                else
+                {
+                    isdone = true ; // this entry is a top-level entry
+                }
+            }
+            else
+            {
+                isdone = true ; // this token is not parsed by this function, go back to caller
+            }
+        }
+        return true ;
+    }
 }

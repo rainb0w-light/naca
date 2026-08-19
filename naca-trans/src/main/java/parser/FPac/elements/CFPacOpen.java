@@ -25,95 +25,95 @@ import utils.FPacTranscoder.notifs.NotifRegisterFileOpen;
 public class CFPacOpen extends CFPacElement
 {
 
-	public CFPacOpen(int line)
-	{
-		super(line);
-	}
+    public CFPacOpen(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.OPEN)
-		{
-			tok = GetNext();
-		}
-		
-		if (tok.GetType() == CTokenType.MINUS)
-		{
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting '-' after OPEN") ;
-			return false  ;
-		}
-		
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			openFile = ReadIdentifier() ;
-			if (openFile == null)
-			{
-				Transcoder.logError(getLine(), "Expecting identifier after 'OPEN-'") ;
-				return false  ;
-			}
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
-						tok.GetKeyword() == CFPacKeywordList.OPF1 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF2 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF3 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF4 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF5 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF6 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF7 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF8 ||
-						tok.GetKeyword() == CFPacKeywordList.OPF9 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF ||
-						tok.GetKeyword() == CFPacKeywordList.IPF1 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF2 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF3 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF4 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF5 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF6 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF7 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF8 ||
-						tok.GetKeyword() == CFPacKeywordList.IPF9 )
-		{
-			openFile = new CIdentifier(tok.GetValue()) ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting identifier after 'OPEN-'") ;
-			return false  ;
-		}
-		return true;
-	}
-	
-	protected CIdentifier openFile = null ;
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.OPEN)
+        {
+            tok = GetNext();
+        }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(openFile.GetName()) ;
-		CEntityOpenFile openfile = factory.NewEntityOpenFile(getLine()) ;
-		openfile.setFileDescriptor(desc, desc.getAccessMode()) ;
-		parent.AddChild(openfile) ;
-		
-		NotifRegisterFileOpen notif = new NotifRegisterFileOpen() ;
-		notif.fileDesc = desc ;
-		factory.programCatalog.SendNotifRequest(notif) ;
-		return null;
-	}
+        if (tok.GetType() == CTokenType.MINUS)
+        {
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting '-' after OPEN") ;
+            return false  ;
+        }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("Open") ;
-		Element e = root.createElement("File") ;
-		openFile.ExportTo(e, root) ;
-		eAdd.appendChild(e) ;
-		return eAdd ;
-	}
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            openFile = ReadIdentifier() ;
+            if (openFile == null)
+            {
+                Transcoder.logError(getLine(), "Expecting identifier after 'OPEN-'") ;
+                return false  ;
+            }
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.OPF ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF1 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF2 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF3 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF4 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF5 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF6 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF7 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF8 ||
+                        tok.GetKeyword() == CFPacKeywordList.OPF9 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF1 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF2 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF3 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF4 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF5 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF6 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF7 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF8 ||
+                        tok.GetKeyword() == CFPacKeywordList.IPF9 )
+        {
+            openFile = new CIdentifier(tok.GetValue()) ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting identifier after 'OPEN-'") ;
+            return false  ;
+        }
+        return true;
+    }
+
+    protected CIdentifier openFile = null ;
+
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityFileDescriptor desc = factory.programCatalog.getFileDescriptor(openFile.GetName()) ;
+        CEntityOpenFile openfile = factory.NewEntityOpenFile(getLine()) ;
+        openfile.setFileDescriptor(desc, desc.getAccessMode()) ;
+        parent.AddChild(openfile) ;
+
+        NotifRegisterFileOpen notif = new NotifRegisterFileOpen() ;
+        notif.fileDesc = desc ;
+        factory.programCatalog.SendNotifRequest(notif) ;
+        return null;
+    }
+
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("Open") ;
+        Element e = root.createElement("File") ;
+        openFile.ExportTo(e, root) ;
+        eAdd.appendChild(e) ;
+        return eAdd ;
+    }
 
 }

@@ -22,189 +22,189 @@ import lexer.*;
  */
 public abstract class CBaseElement
 {
-	private int line = 0 ;
+    private int line = 0 ;
 
-	public int getLine()
-	{
-		return line;
-	}
+    public int getLine()
+    {
+        return line;
+    }
 
-	public void setLine(int n)
-	{
-		line = n;
-		Transcoder.setLine(line);
-	}
+    public void setLine(int n)
+    {
+        line = n;
+        Transcoder.setLine(line);
+    }
 
-	protected CTokenList lstTokens = null ;
-	protected boolean DoParsing()
-	{
-		return false ;
-	};
-	protected boolean DoParsing(CFlag f)
-	{
-		return false ;
-	};
-	protected CBaseToken GetNext()
-	{
-		CBaseToken tok = lstTokens.GetNext() ;
-		while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
-		{
-			if (tok.GetType() == CTokenType.COMMENTS)
-			{
-				ParseComment() ; // ParseComment already calls GetNext()
-				tok = lstTokens.GetCurrentToken() ;
-			}
-			else
-			{
-				tok = lstTokens.GetNext() ;
-			}
-		}
-		return tok ;
-	}
-	protected void StepNext()
-	{
-		lstTokens.GetNext() ;
-	}
-	protected CBaseToken GetCurrentToken()
-	{
-		CBaseToken tok = lstTokens.GetCurrentToken() ;
-		while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
-		{
-			if (tok.GetType() == CTokenType.COMMENTS)
-			{
-				ParseComment() ; // ParseComment already calls GetNext()
-			}
-			else
-			{
-				lstTokens.GetNext() ;
-			}
-			tok = lstTokens.GetCurrentToken() ;
-		}
-		return tok ;
-	}
-	public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
-	{
-		lstTokens = lst;
-		this.container = container;
-		return DoParsing();
-	}
-	public boolean Parse(CTokenList lst, CGlobalCommentContainer container, CFlag f)
-	{
-		lstTokens = lst;
-		this.container = container;
-		return DoParsing(f);
-	}
-	protected boolean Parse(CBaseElement e, CFlag f)
-	{
-		return e.Parse(lstTokens, container, f) ;
-	}
-	protected boolean Parse(CBaseElement e)
-	{
-		return e.Parse(lstTokens, container) ;
-	}
-	protected boolean ParseComment()
-	{
-		return container.ParseComment(lstTokens);
-	}
+    protected CTokenList lstTokens = null ;
+    protected boolean DoParsing()
+    {
+        return false ;
+    };
+    protected boolean DoParsing(CFlag f)
+    {
+        return false ;
+    };
+    protected CBaseToken GetNext()
+    {
+        CBaseToken tok = lstTokens.GetNext() ;
+        while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
+        {
+            if (tok.GetType() == CTokenType.COMMENTS)
+            {
+                ParseComment() ; // ParseComment already calls GetNext()
+                tok = lstTokens.GetCurrentToken() ;
+            }
+            else
+            {
+                tok = lstTokens.GetNext() ;
+            }
+        }
+        return tok ;
+    }
+    protected void StepNext()
+    {
+        lstTokens.GetNext() ;
+    }
+    protected CBaseToken GetCurrentToken()
+    {
+        CBaseToken tok = lstTokens.GetCurrentToken() ;
+        while (tok != null && (tok.GetType() == CTokenType.COMMENTS || tok.GetType() == CTokenType.WHITESPACE))
+        {
+            if (tok.GetType() == CTokenType.COMMENTS)
+            {
+                ParseComment() ; // ParseComment already calls GetNext()
+            }
+            else
+            {
+                lstTokens.GetNext() ;
+            }
+            tok = lstTokens.GetCurrentToken() ;
+        }
+        return tok ;
+    }
+    public boolean Parse(CTokenList lst, CGlobalCommentContainer container)
+    {
+        lstTokens = lst;
+        this.container = container;
+        return DoParsing();
+    }
+    public boolean Parse(CTokenList lst, CGlobalCommentContainer container, CFlag f)
+    {
+        lstTokens = lst;
+        this.container = container;
+        return DoParsing(f);
+    }
+    protected boolean Parse(CBaseElement e, CFlag f)
+    {
+        return e.Parse(lstTokens, container, f) ;
+    }
+    protected boolean Parse(CBaseElement e)
+    {
+        return e.Parse(lstTokens, container) ;
+    }
+    protected boolean ParseComment()
+    {
+        return container.ParseComment(lstTokens);
+    }
 
-	private CGlobalCommentContainer container = null ;
+    private CGlobalCommentContainer container = null ;
 
-	//protected Logger m_Logger = Transcoder.ms_logger ;
+    //protected Logger m_Logger = Transcoder.ms_logger ;
 
-	public abstract CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
+    public abstract CBaseLanguageEntity DoSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory) ;
 
-	public CBaseElement(int line)
-	{
-		setLine(line);
-	};
+    public CBaseElement(int line)
+    {
+        setLine(line);
+    };
 
-	protected void AddChild(CBaseElement el)
-	{
-		children.add(el) ;
-	}
-	protected LinkedList<CBaseElement> children = new LinkedList<CBaseElement>() ;
+    protected void AddChild(CBaseElement el)
+    {
+        children.add(el) ;
+    }
+    protected LinkedList<CBaseElement> children = new LinkedList<CBaseElement>() ;
 
 
-	protected abstract Element ExportCustom(Document root);
-	private boolean isexportDoneForChildren = false ;
-	public final Element Export(Document rootdoc)
-	{
-		Element e = ExportCustom(rootdoc) ;
-		if (e == null)
-		{
-			e = rootdoc.createElement("UnknownElement") ;
-		}
-		e.setAttribute("Line", String.valueOf(getLine()));
-		ExportChildren(rootdoc, e) ;
-		return e ;
-	}
-	protected void ExportChildren(Document root, Element parent)
-	{
-		if (!isexportDoneForChildren)
-		{
-			ListIterator<CBaseElement> i = children.listIterator() ;
-			try
-			{
-				CBaseElement le = i.next() ;
-				while (le != null)
-				{
-					Element e = le.Export(root);
-					if (e != null)
-					{
-						parent.appendChild(e);
-					}
-					le = i.next() ;
-				}
-			}
-			catch (NoSuchElementException e)
-			{
-				//System.out.println(e.toString());
-			}
-			isexportDoneForChildren = true;
-		}
-	}
+    protected abstract Element ExportCustom(Document root);
+    private boolean isexportDoneForChildren = false ;
+    public final Element Export(Document rootdoc)
+    {
+        Element e = ExportCustom(rootdoc) ;
+        if (e == null)
+        {
+            e = rootdoc.createElement("UnknownElement") ;
+        }
+        e.setAttribute("Line", String.valueOf(getLine()));
+        ExportChildren(rootdoc, e) ;
+        return e ;
+    }
+    protected void ExportChildren(Document root, Element parent)
+    {
+        if (!isexportDoneForChildren)
+        {
+            ListIterator<CBaseElement> i = children.listIterator() ;
+            try
+            {
+                CBaseElement le = i.next() ;
+                while (le != null)
+                {
+                    Element e = le.Export(root);
+                    if (e != null)
+                    {
+                        parent.appendChild(e);
+                    }
+                    le = i.next() ;
+                }
+            }
+            catch (NoSuchElementException e)
+            {
+                //System.out.println(e.toString());
+            }
+            isexportDoneForChildren = true;
+        }
+    }
 
-	protected class CFlag
-	{
-		public CFlag()
-		{
-		}
-		public void Set()
-		{
-			isflag = true ;
-		}
-		public void UnSet()
-		{
-			isflag = false ;
-		}
-		public void Set(boolean b)
-		{
-			isflag = b ;
-		}
-		public boolean ISSet()
-		{
-			return isflag;
-		}
-		protected boolean isflag = false ;
-	}
-	public void Clear()
-	{
-		lstTokens = null ;
-		container = null ;
+    protected class CFlag
+    {
+        public CFlag()
+        {
+        }
+        public void Set()
+        {
+            isflag = true ;
+        }
+        public void UnSet()
+        {
+            isflag = false ;
+        }
+        public void Set(boolean b)
+        {
+            isflag = b ;
+        }
+        public boolean ISSet()
+        {
+            return isflag;
+        }
+        protected boolean isflag = false ;
+    }
+    public void Clear()
+    {
+        lstTokens = null ;
+        container = null ;
 
-		ListIterator<CBaseElement> i = children.listIterator() ;
-		try
-		{
-			CBaseElement le = i.next() ;
-			while (le != null)
-			{
-				le.Clear();
-				le = i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//System.out.println(e.toString());
-		}
-	}
+        ListIterator<CBaseElement> i = children.listIterator() ;
+        try
+        {
+            CBaseElement le = i.next() ;
+            while (le != null)
+            {
+                le.Clear();
+                le = i.next() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            //System.out.println(e.toString());
+        }
+    }
 }

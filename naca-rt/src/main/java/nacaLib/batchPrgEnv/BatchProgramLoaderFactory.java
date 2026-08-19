@@ -11,10 +11,10 @@ import nacaLib.basePrgEnv.ProgramSequencer;
 
 public class BatchProgramLoaderFactory extends CBaseProgramLoaderFactory
 {
-	public ProgramSequencer NewSequencer()
-	{
-		BatchProgramLoader prog = new BatchProgramLoader(connectionManager, tagSequencerConfig);
-		prog.initMailService(tagSequencerConfig);
-		return prog ;
-	}
+    public ProgramSequencer NewSequencer()
+    {
+        BatchProgramLoader prog = new BatchProgramLoader(connectionManager, tagSequencerConfig);
+        prog.initMailService(tagSequencerConfig);
+        return prog ;
+    }
 }

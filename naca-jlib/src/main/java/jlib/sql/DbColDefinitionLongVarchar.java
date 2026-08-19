@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -17,8 +17,8 @@ package jlib.sql;
  */
 public class DbColDefinitionLongVarchar extends DbColDefinitionVarchar
 {
-	DbColDefinitionLongVarchar(ColDescriptionInfo colDescription)
-	{
-		super(colDescription);
-	}
+    DbColDefinitionLongVarchar(ColDescriptionInfo colDescription)
+    {
+        super(colDescription);
+    }
 }

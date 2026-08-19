@@ -1,0 +1,10 @@
+{
+  "applied": true,
+  "eligible": 1,
+  "filesChanged": 0,
+  "maximum": 140,
+  "observed": 1,
+  "rule": "LineLengthTrailingComment",
+  "skipped": 1,
+  "split": 0
+}

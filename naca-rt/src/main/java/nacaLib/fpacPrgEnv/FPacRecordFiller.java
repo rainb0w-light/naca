@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.fpacPrgEnv;
 
@@ -16,33 +16,33 @@ package nacaLib.fpacPrgEnv;
  */
 public class FPacRecordFiller
 {
-	private byte filler = 0;
-	
-	FPacRecordFiller(byte by)
-	{
-		setFiller(by);
-	}
-	
-	FPacRecordFiller(char c)
-	{
-		setFiller(c);
-	}	
-	
-	void setFiller(byte by)
-	{
-		this.filler = by;
-	}
-	
-	void setFiller(char c)
-	{
-		filler = (byte)c;
-	}
-	
-	void fillBuffer(char tChars[])
-	{
-		for(int n=0; n<tChars.length; n++)
-		{
-			tChars[n] = (char) filler;
-		}
-	}
+    private byte filler = 0;
+
+    FPacRecordFiller(byte by)
+    {
+        setFiller(by);
+    }
+
+    FPacRecordFiller(char c)
+    {
+        setFiller(c);
+    }
+
+    void setFiller(byte by)
+    {
+        this.filler = by;
+    }
+
+    void setFiller(char c)
+    {
+        filler = (byte)c;
+    }
+
+    void fillBuffer(char tChars[])
+    {
+        for(int n=0; n<tChars.length; n++)
+        {
+            tChars[n] = (char) filler;
+        }
+    }
 }

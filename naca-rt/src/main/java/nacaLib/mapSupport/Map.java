@@ -19,31 +19,31 @@ import nacaLib.varEx.VarDefForm;
 
 public class Map extends CJMapObject
 {
-	public Map(BaseProgram program)
-	{
-		declare = new VarDeclarationInMap(program, this);
-		defForms = new ArrayList<VarDefForm>();
-	}
+    public Map(BaseProgram program)
+    {
+        declare = new VarDeclarationInMap(program, this);
+        defForms = new ArrayList<VarDefForm>();
+    }
 
-	public void registerForm(VarDefForm varDefForm)
-	{
-		if(varDefForm != null)
-			defForms.add(varDefForm);
-	}
+    public void registerForm(VarDefForm varDefForm)
+    {
+        if(varDefForm != null)
+            defForms.add(varDefForm);
+    }
 
-//	public void move(CobolConstant constant)
-//	{
-//		char cValue = constant.getValue();
-//		Form form = null;
+//  public void move(CobolConstant constant)
+//  {
+//      char cValue = constant.getValue();
+//      Form form = null;
 //
-//		// All form's edit and labels are init at low value, including all children
-//		for(int nForm=0; nForm<arrForms.size(); nForm++)
-//		{
-//			form = (Form) arrForms.get(nForm);
-//			//form.set(cValue);
-//		}
-//	}
+//      // All form's edit and labels are init at low value, including all children
+//      for(int nForm=0; nForm<arrForms.size(); nForm++)
+//      {
+//          form = (Form) arrForms.get(nForm);
+//          //form.set(cValue);
+//      }
+//  }
 
-	private ArrayList<VarDefForm> defForms = null;		// Array of VarDefForm
-	public VarDeclarationInMap declare = null;
+    private ArrayList<VarDefForm> defForms = null;      // Array of VarDefForm
+    public VarDeclarationInMap declare = null;
 }

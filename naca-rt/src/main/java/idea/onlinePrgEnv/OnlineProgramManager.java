@@ -15,61 +15,64 @@ import nacaLib.tempCache.TempCacheLocator;
 import nacaLib.varEx.*;
 
 public class OnlineProgramManager extends BaseProgramManager
-{		
-	public OnlineProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
-	{
-		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-		
-		BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
-		setEnv(env);
-	}
-	
-	
-	public void setCurrentMapRedefine(MapRedefine mapRedefined)
-	{
-		this.currentMapRedefined = mapRedefined;
-	}
+{
+    public OnlineProgramManager(
+        BaseProgram program,
+        SharedProgramInstanceData sharedProgramInstanceData,
+        boolean bInheritedSharedProgramInstanceData)
+    {
+        super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
 
-	public MapRedefine getCurrentMapRedefine()
-	{
-		return currentMapRedefined;
-	}
-	
-	private MapRedefine currentMapRedefined = null;
-	private MapRedefine currentRedefineMap = null;
+        BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
+        setEnv(env);
+    }
 
-	protected MapRedefine getCurrentRedefineMap()
-	{
-		return currentRedefineMap;
-	}
-	
-	
-	public void prepareRunMain(BaseProgram prg)
-	{
-		((OnlineProgram)prg).prepareRunMain(eSMEnv);
-	}
-	
-	public String getTerminalID()
-	{
-		return eSMEnv.getTerminalID();
-	}
-	
-	public void setEnv(BaseEnvironment env)
-	{
-		eSMEnv = (OnlineEnvironment)env;
-	}
-	
-	public void detachFromEnv()
-	{
-		eSMEnv = null;
-	}
-	
-	public BaseEnvironment getEnv()
-	{
-		return eSMEnv;
-	}
-	
-	private OnlineEnvironment eSMEnv = null;
+
+    public void setCurrentMapRedefine(MapRedefine mapRedefined)
+    {
+        this.currentMapRedefined = mapRedefined;
+    }
+
+    public MapRedefine getCurrentMapRedefine()
+    {
+        return currentMapRedefined;
+    }
+
+    private MapRedefine currentMapRedefined = null;
+    private MapRedefine currentRedefineMap = null;
+
+    protected MapRedefine getCurrentRedefineMap()
+    {
+        return currentRedefineMap;
+    }
+
+
+    public void prepareRunMain(BaseProgram prg)
+    {
+        ((OnlineProgram)prg).prepareRunMain(eSMEnv);
+    }
+
+    public String getTerminalID()
+    {
+        return eSMEnv.getTerminalID();
+    }
+
+    public void setEnv(BaseEnvironment env)
+    {
+        eSMEnv = (OnlineEnvironment)env;
+    }
+
+    public void detachFromEnv()
+    {
+        eSMEnv = null;
+    }
+
+    public BaseEnvironment getEnv()
+    {
+        return eSMEnv;
+    }
+
+    private OnlineEnvironment eSMEnv = null;
 }
 
 

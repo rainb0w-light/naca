@@ -6,7 +6,7 @@
  */
 package utils;
 /**
- * 
+ *
  */
 
 /**
@@ -16,35 +16,35 @@ package utils;
  */
 public class TranscoderAction
 {
-	public static TranscoderAction SyntaxCheck = new TranscoderAction(true, false);
-	public static TranscoderAction All = new TranscoderAction(true, true);
-	
-	private boolean issyntaxCheck = false;
-	private boolean isgeneration = false;
-	
-	private TranscoderAction(boolean bSyntax, boolean bGeneration)
-	{
-		this.issyntaxCheck = bSyntax;
-		this.isgeneration = bGeneration;
-	}
-	
-	public boolean isSyntaxCheck()
-	{
-		return issyntaxCheck;
-	}
-	
-	public boolean isGeneration()
-	{
-		return isgeneration;
-	}
-	
-	public String getAsString()
-	{
-		String cs = "";
-		if(issyntaxCheck)
-			cs = "SyntaxCheck";
-		if(isgeneration)
-			cs = " Semantic Generation";
-		return cs;			
-	}
+    public static TranscoderAction SyntaxCheck = new TranscoderAction(true, false);
+    public static TranscoderAction All = new TranscoderAction(true, true);
+
+    private boolean issyntaxCheck = false;
+    private boolean isgeneration = false;
+
+    private TranscoderAction(boolean bSyntax, boolean bGeneration)
+    {
+        this.issyntaxCheck = bSyntax;
+        this.isgeneration = bGeneration;
+    }
+
+    public boolean isSyntaxCheck()
+    {
+        return issyntaxCheck;
+    }
+
+    public boolean isGeneration()
+    {
+        return isgeneration;
+    }
+
+    public String getAsString()
+    {
+        String cs = "";
+        if(issyntaxCheck)
+            cs = "SyntaxCheck";
+        if(isgeneration)
+            cs = " Semantic Generation";
+        return cs;
+    }
 }

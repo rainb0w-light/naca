@@ -10,24 +10,24 @@ import jlib.misc.LogicalFileDescriptor;
 
 public class NacaBatchFileException extends NacaRTException
  {
-	private static final long serialVersionUID = 1L;
- 	private String csFileName = null;
- 	private String csLogicalFileDescriptor = null;
- 	private String csExceptionName = null;
- 	
- 	public NacaBatchFileException(String csExceptionName, String csFileName, LogicalFileDescriptor logicalFileDescriptor)
- 	{
- 		this.csExceptionName = csExceptionName;
- 		this.csFileName = csFileName;
- 		if(logicalFileDescriptor != null)
- 			csLogicalFileDescriptor = logicalFileDescriptor.toString();
- 		else
- 			csLogicalFileDescriptor = "<EMPTY>";
- 	}
- 	
- 	public String getMessage()
- 	{
- 		String cs = csExceptionName + "; LogicalName=" + csFileName + "; PhysicalDescription=" + csLogicalFileDescriptor;
- 		return cs;
- 	}
+    private static final long serialVersionUID = 1L;
+    private String csFileName = null;
+    private String csLogicalFileDescriptor = null;
+    private String csExceptionName = null;
+
+    public NacaBatchFileException(String csExceptionName, String csFileName, LogicalFileDescriptor logicalFileDescriptor)
+    {
+        this.csExceptionName = csExceptionName;
+        this.csFileName = csFileName;
+        if(logicalFileDescriptor != null)
+            csLogicalFileDescriptor = logicalFileDescriptor.toString();
+        else
+            csLogicalFileDescriptor = "<EMPTY>";
+    }
+
+    public String getMessage()
+    {
+        String cs = csExceptionName + "; LogicalName=" + csFileName + "; PhysicalDescription=" + csLogicalFileDescriptor;
+        return cs;
+    }
 }

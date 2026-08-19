@@ -15,27 +15,27 @@ import semantic.CBaseEntityFactory;
 public class CEntityRoutineEmulation
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 * @param out
-	 */
-	public CEntityRoutineEmulation(String alias, String display)
-	{
-		csAlias = alias ;
-		csDisplay = display ;
-	}
+    /**
+     * @param line
+     * @param cat
+     * @param out
+     */
+    public CEntityRoutineEmulation(String alias, String display)
+    {
+        csAlias = alias ;
+        csDisplay = display ;
+    }
 
-	protected String csDisplay = "" ;
-	protected String csAlias = "" ;
-	/**
-	 * @param line
-	 * @return
-	 */
-	public CEntityRoutineEmulationCall NewCall(int line, CBaseEntityFactory factory)
-	{
-		CEntityRoutineEmulationCall call = factory.NewEntityRoutineEmulationCall(line) ;
-		call.SetDisplay(csDisplay) ;
-		return call;
-	}
+    protected String csDisplay = "" ;
+    protected String csAlias = "" ;
+    /**
+     * @param line
+     * @return
+     */
+    public CEntityRoutineEmulationCall NewCall(int line, CBaseEntityFactory factory)
+    {
+        CEntityRoutineEmulationCall call = factory.NewEntityRoutineEmulationCall(line) ;
+        call.SetDisplay(csDisplay) ;
+        return call;
+    }
 }

@@ -18,44 +18,44 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSSetTDQueue extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSSetTDQueue(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSSetTDQueue(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetQueue(CDataEntity e)
-	{
-		queueName = e ;
-	}
-	public void SetOpen(boolean bOpen)
-	{
-		isopen = bOpen ;
-		isclosed = !bOpen ;
-	}
+    public void SetQueue(CDataEntity e)
+    {
+        queueName = e ;
+    }
+    public void SetOpen(boolean bOpen)
+    {
+        isopen = bOpen ;
+        isclosed = !bOpen ;
+    }
 
-	protected CDataEntity queueName = null ;
-	protected boolean isopen = false ;
-	protected boolean isclosed = false ;
-	public void Clear()
-	{
-		super.Clear();
-		queueName = null ;
-		isopen = false ;
-		isclosed = false ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	public CDataEntity getQueueName() { return queueName; }
-	public boolean isOpen() { return isopen; }
-	public boolean isClosed() { return isclosed; }
+    protected CDataEntity queueName = null ;
+    protected boolean isopen = false ;
+    protected boolean isclosed = false ;
+    public void Clear()
+    {
+        super.Clear();
+        queueName = null ;
+        isopen = false ;
+        isclosed = false ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    public CDataEntity getQueueName() { return queueName; }
+    public boolean isOpen() { return isopen; }
+    public boolean isClosed() { return isclosed; }
 }

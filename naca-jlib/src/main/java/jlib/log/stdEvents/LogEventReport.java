@@ -16,22 +16,22 @@ import jlib.log.LogLevel;
  */
 public class LogEventReport extends LogEvent
 {
-	public LogEventReport(String csProduct)
-	{
-		super(LogEventType.Report, LogFlowStd.Any, LogLevel.Normal, csProduct);
-	}
+    public LogEventReport(String csProduct)
+    {
+        super(LogEventType.Report, LogFlowStd.Any, LogLevel.Normal, csProduct);
+    }
 
-	public static LogEvent log(String csChannel, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
-	{
-		return LogEventReport.log(csChannel, nNbItemsProcessed, nNbItemsSucessfullyProcess, csMessage);
-	}
-	
-	public static LogEvent log(String csChannel, String csProduct, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
-	{
-		LogEventReport event = new LogEventReport(csProduct);
-		event.fillMember("processedItems", nNbItemsProcessed);
-		event.fillMember("sucessfullyProcessItems", nNbItemsSucessfullyProcess);
-		Log.log(csChannel, event, csMessage);
-		return event;
-	}
+    public static LogEvent log(String csChannel, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
+    {
+        return LogEventReport.log(csChannel, nNbItemsProcessed, nNbItemsSucessfullyProcess, csMessage);
+    }
+
+    public static LogEvent log(String csChannel, String csProduct, int nNbItemsProcessed, int nNbItemsSucessfullyProcess, String csMessage)
+    {
+        LogEventReport event = new LogEventReport(csProduct);
+        event.fillMember("processedItems", nNbItemsProcessed);
+        event.fillMember("sucessfullyProcessItems", nNbItemsSucessfullyProcess);
+        Log.log(csChannel, event, csMessage);
+        return event;
+    }
 }

@@ -12,25 +12,25 @@ package nacaLib.varEx;
  */
 public class CallParamByValue extends CCallParam
 {
-	public CallParamByValue(Var var)
-	{
-		this.var = var;
-	}
+    public CallParamByValue(Var var)
+    {
+        this.var = var;
+    }
 
-	public int getParamLength()
-	{
-		if(var != null)
-			return var.getLength();
-		return 0;
-	}
+    public int getParamLength()
+    {
+        if(var != null)
+            return var.getLength();
+        return 0;
+    }
 
-	public void MapOn(Var varLinkageSection)
-	{
-		if(var != null)
-			var.transferTo(varLinkageSection);
-	}
+    public void MapOn(Var varLinkageSection)
+    {
+        if(var != null)
+            var.transferTo(varLinkageSection);
+    }
 
 
 
-	private Var var;
+    private Var var;
 }

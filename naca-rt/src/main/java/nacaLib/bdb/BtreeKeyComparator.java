@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -20,26 +20,26 @@ import nacaLib.tempCache.TempCacheLocator;
  */
 public class BtreeKeyComparator implements Comparator<byte[]>
 {
-	private BtreeKeyDescription keyDescription = null;	
-    
-	public BtreeKeyComparator() 
+    private BtreeKeyDescription keyDescription = null;
+
+    public BtreeKeyComparator()
     {
     }
 
     @Override
-    public int compare(byte[] d1, byte[] d2) 
+    public int compare(byte[] d1, byte[] d2)
     {
-    	int n = doCompare(d1, d2);
-    	return n;
+        int n = doCompare(d1, d2);
+        return n;
     }
-    
+
     @SuppressWarnings("deprecation")
     private synchronized int doCompare(Object d1, Object d2)
     {
-    	if(keyDescription == null)
-    		keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
-		
-    	int n = keyDescription.compare(d1, d2);
-		return n;
+        if(keyDescription == null)
+            keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
+
+        int n = keyDescription.compare(d1, d2);
+        return n;
     }
 }

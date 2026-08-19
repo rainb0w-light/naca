@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -16,32 +16,32 @@ import jlib.xml.Tag;
 
 public class CTransApplicationGroup
 {
-	public CTransApplicationGroup(BaseEngine engine)
-	{
-		this.engine = engine;
-	}
-	
-	public enum EProgramType
-	{
-		TYPE_ONLINE,
-		TYPE_BATCH,
-		TYPE_CALLED,
-		TYPE_INCLUDED,
-		TYPE_MAP
-	};
-	
-	public String csName ;
-	public Hashtable<String, Tag> tabApplication = new Hashtable<String, Tag>() ;
-	public Vector<String> applications = new Vector<String>() ;
-	public EProgramType eType ;
-	public String csInputPath = "" ;
-	public String csOutputPath = "" ;
-	public String csInterPath = "" ;
-	
-	private BaseEngine engine = null ;
-	
-	public BaseEngine getEngine()
-	{
-		return engine ;
-	}
+    public CTransApplicationGroup(BaseEngine engine)
+    {
+        this.engine = engine;
+    }
+
+    public enum EProgramType
+    {
+        TYPE_ONLINE,
+        TYPE_BATCH,
+        TYPE_CALLED,
+        TYPE_INCLUDED,
+        TYPE_MAP
+    };
+
+    public String csName ;
+    public Hashtable<String, Tag> tabApplication = new Hashtable<String, Tag>() ;
+    public Vector<String> applications = new Vector<String>() ;
+    public EProgramType eType ;
+    public String csInputPath = "" ;
+    public String csOutputPath = "" ;
+    public String csInterPath = "" ;
+
+    private BaseEngine engine = null ;
+
+    public BaseEngine getEngine()
+    {
+        return engine ;
+    }
 }

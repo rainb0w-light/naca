@@ -12,39 +12,39 @@ package nacaLib.varEx;
  */
 public class DeclareTypeEditInMapRedefineNumEdited extends DeclareTypeBase
 {
-	private String csNumEditedFormat = null;
-	private boolean isblankWhenZero = false;
+    private String csNumEditedFormat = null;
+    private boolean isblankWhenZero = false;
 
-	public DeclareTypeEditInMapRedefineNumEdited()
-	{
-	}
+    public DeclareTypeEditInMapRedefineNumEdited()
+    {
+    }
 
-	public void set(VarLevel varLevel, String csFormat, boolean bBlankWhenZero)
-	{
-		super.set(varLevel);
-		this.csNumEditedFormat = csFormat;
-		this.isblankWhenZero = bBlankWhenZero;
-	}
+    public void set(VarLevel varLevel, String csFormat, boolean bBlankWhenZero)
+    {
+        super.set(varLevel);
+        this.csNumEditedFormat = csFormat;
+        this.isblankWhenZero = bBlankWhenZero;
+    }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = new VarDefEditInMapRedefineNumEdited(varDefParent, this);
-		return varDef;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = new VarDefEditInMapRedefineNumEdited(varDefParent, this);
+        return varDef;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 
-	String getNumEditedFormat()
-	{
-		return csNumEditedFormat;
-	}
+    String getNumEditedFormat()
+    {
+        return csNumEditedFormat;
+    }
 
-	boolean getBlankWhenZero()
-	{
-		return isblankWhenZero;
-	}
+    boolean getBlankWhenZero()
+    {
+        return isblankWhenZero;
+    }
 
 }

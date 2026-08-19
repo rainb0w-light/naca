@@ -14,39 +14,42 @@ import nacaLib.tempCache.TempCacheLocator;
 
 public class BatchProgramManager extends BaseProgramManager
 {
-	public BatchProgramManager(BaseProgram program, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
-	{
-		super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-		
-		BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
-		setEnv(env);
-	}
-	
-	public String getTerminalID()
-	{
-		return "";
-	}
-		
-	public void setEnv(BaseEnvironment env)
-	{
-		this.env = env;
-	}
-	
-	public void detachFromEnv()
-	{
-		env = null;
-	}
-	
-	public BaseEnvironment getEnv()
-	{
-		return env;
-	}
-	
-	public void prepareRunMain(BaseProgram prg)
-	{
-		if (prg instanceof BatchProgram)
-			((BatchProgram)prg).prepareRunMain(env);
-	}
-	
-	private BaseEnvironment env = null; 
+    public BatchProgramManager(
+        BaseProgram program,
+        SharedProgramInstanceData sharedProgramInstanceData,
+        boolean bInheritedSharedProgramInstanceData)
+    {
+        super(program, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+
+        BaseEnvironment env = TempCacheLocator.getTLSTempCache().getCurrentEnv();
+        setEnv(env);
+    }
+
+    public String getTerminalID()
+    {
+        return "";
+    }
+
+    public void setEnv(BaseEnvironment env)
+    {
+        this.env = env;
+    }
+
+    public void detachFromEnv()
+    {
+        env = null;
+    }
+
+    public BaseEnvironment getEnv()
+    {
+        return env;
+    }
+
+    public void prepareRunMain(BaseProgram prg)
+    {
+        if (prg instanceof BatchProgram)
+            ((BatchProgram)prg).prepareRunMain(env);
+    }
+
+    private BaseEnvironment env = null;
 }

@@ -10,88 +10,88 @@ import parser.CGlobalCommentContainer;
  */
 public class CStringExporter extends CBaseLanguageExporter
 {
-	private StringBuilder buffer = new StringBuilder();
+    private StringBuilder buffer = new StringBuilder();
 
-	public CStringExporter()
-	{
-		super(null, null);
-	}
+    public CStringExporter()
+    {
+        super(null, null);
+    }
 
-	public String getCapturedString()
-	{
-		return buffer.toString();
-	}
+    public String getCapturedString()
+    {
+        return buffer.toString();
+    }
 
-	@Override
-	public void WriteWord(String word, int n)
-	{
-		buffer.append(word);
-	}
+    @Override
+    public void WriteWord(String word, int n)
+    {
+        buffer.append(word);
+    }
 
-	@Override
-	public void WriteEOL(int n)
-	{
-		buffer.append("\n");
-	}
+    @Override
+    public void WriteEOL(int n)
+    {
+        buffer.append("\n");
+    }
 
-	@Override
-	public void WriteLine(String line, int n)
-	{
-		buffer.append(indent).append(line).append("\n");
-	}
+    @Override
+    public void WriteLine(String line, int n)
+    {
+        buffer.append(indent).append(line).append("\n");
+    }
 
-	@Override
-	public void DoWriteLine(String line)
-	{
-		buffer.append(indent).append(line).append("\n");
-	}
+    @Override
+    public void DoWriteLine(String line)
+    {
+        buffer.append(indent).append(line).append("\n");
+    }
 
-	@Override
-	public void WriteComment(String line, int n)
-	{
-		buffer.append(indent).append(line).append("\n");
-	}
+    @Override
+    public void WriteComment(String line, int n)
+    {
+        buffer.append(indent).append(line).append("\n");
+    }
 
-	@Override
-	public void WriteLongString(String text, int n)
-	{
-		buffer.append(text);
-	}
+    @Override
+    public void WriteLongString(String text, int n)
+    {
+        buffer.append(text);
+    }
 
-	@Override
-	public void CloseBracket()
-	{
-		buffer.append(")");
-	}
+    @Override
+    public void CloseBracket()
+    {
+        buffer.append(")");
+    }
 
-	@Override
-	public void OpenBracket()
-	{
-		buffer.append("(");
-	}
+    @Override
+    public void OpenBracket()
+    {
+        buffer.append("(");
+    }
 
-	@Override
-	protected void doCloseOutput()
-	{
-		// no-op: we don't write to files
-	}
+    @Override
+    protected void doCloseOutput()
+    {
+        // no-op: we don't write to files
+    }
 
-	@Override
-	public void closeOutput()
-	{
-		// Skip comment container processing (commentContainer is null in string mode)
-		doCloseOutput();
-	}
+    @Override
+    public void closeOutput()
+    {
+        // Skip comment container processing (commentContainer is null in string mode)
+        doCloseOutput();
+    }
 
-	@Override
-	public String getOutputDir()
-	{
-		return "";
-	}
+    @Override
+    public String getOutputDir()
+    {
+        return "";
+    }
 
-	@Override
-	public boolean isResources()
-	{
-		return false;
-	}
+    @Override
+    public boolean isResources()
+    {
+        return false;
+    }
 }

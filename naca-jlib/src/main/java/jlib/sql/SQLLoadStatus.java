@@ -16,50 +16,50 @@ package jlib.sql;
  */
 public class SQLLoadStatus
 {
-	public static final SQLLoadStatus loadSuccess = new SQLLoadStatus(true, false);
-	public static final SQLLoadStatus loadFailure = new SQLLoadStatus(false, false);
-	public static final SQLLoadStatus loadSuccessWithDuplicates = new SQLLoadStatus(true, true);
+    public static final SQLLoadStatus loadSuccess = new SQLLoadStatus(true, false);
+    public static final SQLLoadStatus loadFailure = new SQLLoadStatus(false, false);
+    public static final SQLLoadStatus loadSuccessWithDuplicates = new SQLLoadStatus(true, true);
 
-	private boolean issuccess;
-	private boolean isduplicates;
+    private boolean issuccess;
+    private boolean isduplicates;
 
-	private SQLLoadStatus(boolean issuccess, boolean isduplicates)
-	{
-		this.issuccess = issuccess;
-		this.isduplicates = isduplicates;
-	}
+    private SQLLoadStatus(boolean issuccess, boolean isduplicates)
+    {
+        this.issuccess = issuccess;
+        this.isduplicates = isduplicates;
+    }
 
-	public boolean isSuccess()
-	{
-		return issuccess;
-	}
+    public boolean isSuccess()
+    {
+        return issuccess;
+    }
 
-	public boolean hadDuplicates()
-	{
-		return isduplicates;
-	}
+    public boolean hadDuplicates()
+    {
+        return isduplicates;
+    }
 
-	public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
-	{
-		if(!status.issuccess)
-			return loadFailure;
-		if(globalStatus.isduplicates || status.isduplicates)
-			return loadSuccessWithDuplicates;
-		return loadSuccess;
-	}
+    public static SQLLoadStatus updateWithLocalStatus(SQLLoadStatus globalStatus, SQLLoadStatus status)
+    {
+        if(!status.issuccess)
+            return loadFailure;
+        if(globalStatus.isduplicates || status.isduplicates)
+            return loadSuccessWithDuplicates;
+        return loadSuccess;
+    }
 
-	public String toString()
-	{
-		String cs;
-		if(issuccess)
-			cs = "Success";
-		else
-			cs = "Failure";
+    public String toString()
+    {
+        String cs;
+        if(issuccess)
+            cs = "Success";
+        else
+            cs = "Failure";
 
-		if(isduplicates)
-			cs += " with duplicate keys";
-		else
-			cs += " without duplicate keys";
-		return cs;
-	}
+        if(isduplicates)
+            cs += " with duplicate keys";
+        else
+            cs += " without duplicate keys";
+        return cs;
+    }
 }

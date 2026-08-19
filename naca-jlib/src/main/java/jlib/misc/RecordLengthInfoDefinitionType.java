@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,11 +16,11 @@ package jlib.misc;
  */
 public class RecordLengthInfoDefinitionType
 {
-	public final static RecordLengthInfoDefinitionType FileDescriptorDef = new RecordLengthInfoDefinitionType(); 
-	public final static RecordLengthInfoDefinitionType FileHeaderDef = new RecordLengthInfoDefinitionType();
-	public final static RecordLengthInfoDefinitionType AutoDetermination = new RecordLengthInfoDefinitionType();
-	
-	private RecordLengthInfoDefinitionType()
-	{	
-	}
+    public final static RecordLengthInfoDefinitionType FileDescriptorDef = new RecordLengthInfoDefinitionType();
+    public final static RecordLengthInfoDefinitionType FileHeaderDef = new RecordLengthInfoDefinitionType();
+    public final static RecordLengthInfoDefinitionType AutoDetermination = new RecordLengthInfoDefinitionType();
+
+    private RecordLengthInfoDefinitionType()
+    {
+    }
 }

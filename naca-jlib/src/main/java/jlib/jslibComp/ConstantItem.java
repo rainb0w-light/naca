@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.jslibComp;
 
@@ -18,22 +18,22 @@ import java.io.Serializable;
  */
 public class ConstantItem implements Serializable
 {
-	public String codeId;
-	public String value;
-	
-	public ConstantItem(String csId, String csValue)
-	{
-		codeId = csId;
-		value = csValue;
-	}
-	
-	public String getCodeId()
-	{
-		return codeId;
-	}
-	
-	public String getValue()
-	{
-		return value;
-	}
+    public String codeId;
+    public String value;
+
+    public ConstantItem(String csId, String csValue)
+    {
+        codeId = csId;
+        value = csValue;
+    }
+
+    public String getCodeId()
+    {
+        return codeId;
+    }
+
+    public String getValue()
+    {
+        return value;
+    }
 }

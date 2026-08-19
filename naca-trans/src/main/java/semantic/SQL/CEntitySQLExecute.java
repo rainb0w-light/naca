@@ -28,50 +28,50 @@ import utils.CObjectCatalog;
 public class CEntitySQLExecute extends CBaseActionEntity
 {
 
-	protected CDataEntity eVariable = null  ;
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntitySQLExecute(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    protected CDataEntity eVariable = null  ;
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntitySQLExecute(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	/**
-	 * @param var
-	 */
-	public void setVar(CDataEntity var)
-	{
-		eVariable = var ;
-	}
+    /**
+     * @param var
+     */
+    public void setVar(CDataEntity var)
+    {
+        eVariable = var ;
+    }
 
-	public boolean ignore()
-	{
-		return false ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveSQLExecuteEntity). No formatting/output happens here: the adaptor
-	// recursively renders the host-variable child through its reference binding
-	// and the template concatenates the sql("EXECUTE IMMEDIATE #1").param(1, ...)
-	// runtime call.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveSQLExecuteEntity). No formatting/output happens here: the adaptor
+    // recursively renders the host-variable child through its reference binding
+    // and the template concatenates the sql("EXECUTE IMMEDIATE #1").param(1, ...)
+    // runtime call.
 
-	/** The host-variable semantic child, read by {@code <entity.variable>}. */
-	public CDataEntity getVariable()
-	{
-		return eVariable ;
-	}
+    /** The host-variable semantic child, read by {@code <entity.variable>}. */
+    public CDataEntity getVariable()
+    {
+        return eVariable ;
+    }
 
-	/**
-	 * The SQLWARNING/SQLERROR clause to chain onto the {@code sql(...)} runtime
-	 * call (e.g. {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER
-	 * policy is in effect. Read from the catalog where the WHENEVER statement
-	 * registered it.
-	 */
-	public String getSqlWarningErrorStatement()
-	{
-		return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
-	}
+    /**
+     * The SQLWARNING/SQLERROR clause to chain onto the {@code sql(...)} runtime
+     * call (e.g. {@code .onErrorGoto(LABEL)}), or {@code null} when no WHENEVER
+     * policy is in effect. Read from the catalog where the WHENEVER statement
+     * registered it.
+     */
+    public String getSqlWarningErrorStatement()
+    {
+        return programCatalog == null ? null : programCatalog.getSQLWarningErrorStatement() ;
+    }
 }

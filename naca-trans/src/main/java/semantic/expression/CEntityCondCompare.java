@@ -17,150 +17,150 @@ import semantic.CDataEntity;
  */
 public class CEntityCondCompare extends CBinaryEntityCondition
 {
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityCondCompare newCond = new CEntityCondCompare();
-		newCond.isisGreater = !isisGreater;
-		newCond.isisOrEquals = !isisOrEquals;
-		newCond.op1 = op1;
-		newCond.op2 = op2;
-		return newCond;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityCondCompare newCond = new CEntityCondCompare();
+        newCond.isisGreater = !isisGreater;
+        newCond.isisOrEquals = !isisOrEquals;
+        newCond.op1 = op1;
+        newCond.op2 = op2;
+        return newCond;
+    }
 
 
-	public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
-	{
-		this.op1 = op1 ;
-		this.op2 = op2 ;
-		isisOrEquals = false ;
-		isisGreater = false ;
-	}
-	public void SetLessOrEqualThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
-	{
-		this.op1 = op1 ;
-		this.op2 = op2 ;
-		isisOrEquals = true ;
-		isisGreater = false ;
-	}
-	public void SetGreaterThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
-	{
-		this.op1 = op1 ;
-		this.op2 = op2 ;
-		isisOrEquals = false ;
-		isisGreater = true ;
-	}
-	public void SetGreaterOrEqualsThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
-	{
-		this.op1 = op1 ;
-		this.op2 = op2 ;
-		isisOrEquals = true ;
-		isisGreater = true ;
-	}
+    public void SetLessThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
+    {
+        this.op1 = op1 ;
+        this.op2 = op2 ;
+        isisOrEquals = false ;
+        isisGreater = false ;
+    }
+    public void SetLessOrEqualThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
+    {
+        this.op1 = op1 ;
+        this.op2 = op2 ;
+        isisOrEquals = true ;
+        isisGreater = false ;
+    }
+    public void SetGreaterThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
+    {
+        this.op1 = op1 ;
+        this.op2 = op2 ;
+        isisOrEquals = false ;
+        isisGreater = true ;
+    }
+    public void SetGreaterOrEqualsThan(CBaseEntityExpression op1, CBaseEntityExpression op2)
+    {
+        this.op1 = op1 ;
+        this.op2 = op2 ;
+        isisOrEquals = true ;
+        isisGreater = true ;
+    }
 
-	protected CBaseEntityExpression op1 ;
-	protected CBaseEntityExpression op2 ;
-	protected boolean isisGreater = false ; // true : >/>=, false : </<=
-	protected boolean isisOrEquals = false ;// true : <=/>=, false : </>
+    protected CBaseEntityExpression op1 ;
+    protected CBaseEntityExpression op2 ;
+    protected boolean isisGreater = false ; // true : >/>=, false : </<=
+    protected boolean isisOrEquals = false ;// true : <=/>=, false : </>
 
-	public CBaseEntityExpression getLeft()
-	{
-		return op1;
-	}
+    public CBaseEntityExpression getLeft()
+    {
+        return op1;
+    }
 
-	public CBaseEntityExpression getRight()
-	{
-		return op2;
-	}
+    public CBaseEntityExpression getRight()
+    {
+        return op2;
+    }
 
-	public boolean isGreater()
-	{
-		return isisGreater;
-	}
+    public boolean isGreater()
+    {
+        return isisGreater;
+    }
 
-	public boolean isOrEqual()
-	{
-		return isisOrEquals;
-	}
+    public boolean isOrEqual()
+    {
+        return isisOrEquals;
+    }
 
-	public void Clear()
-	{
-		super.Clear() ;
-		op1.Clear() ;
-		op1 = null ;
-		op2.Clear() ;
-		op2 = null ;
-	}
+    public void Clear()
+    {
+        super.Clear() ;
+        op1.Clear() ;
+        op1 = null ;
+        op2.Clear() ;
+        op2 = null ;
+    }
 
-	public boolean ignore()
-	{
-		return (op1 != null && op1.ignore()) || (op2 != null && op2.ignore());
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		//CBaseEntityCondition cond = op1.GetSpecialCondition(val, type, fact) ;
-		CDataEntity op = op1.GetSingleOperator() ;
-		if (op != null)
-		{
-			EConditionType type = GetType() ;
-			CBaseEntityCondition cond = op.GetSpecialCondition(getLine(), val, type, fact) ;
-			if (cond != null)
-			{
-				return cond ;
-			}
-		}
-		return null;
-	}
-	public CBaseEntityCondition.EConditionType GetType()
-	{
-		EConditionType type = null ;
-		if (isisGreater && isisOrEquals)
-		{
-			type = EConditionType.IS_GREATER_THAN_OR_EQUAL ;
-		}
-		else if (isisGreater && !isisOrEquals)
-		{
-			type = EConditionType.IS_GREATER_THAN ;
-		}
-		else if (!isisGreater && isisOrEquals)
-		{
-			type = EConditionType.IS_LESS_THAN_OR_EQUAL ;
-		}
-		else if (!isisGreater && !isisOrEquals)
-		{
-			type = EConditionType.IS_LESS_THAN ;
-		}
-		return type ;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		boolean b1 = op1.ReplaceVariable(field, var) ;
-		boolean b2 = op2.ReplaceVariable(field, var) ;
-		return b1 || b2 ;
-	}
+    public boolean ignore()
+    {
+        return (op1 != null && op1.ignore()) || (op2 != null && op2.ignore());
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        //CBaseEntityCondition cond = op1.GetSpecialCondition(val, type, fact) ;
+        CDataEntity op = op1.GetSingleOperator() ;
+        if (op != null)
+        {
+            EConditionType type = GetType() ;
+            CBaseEntityCondition cond = op.GetSpecialCondition(getLine(), val, type, fact) ;
+            if (cond != null)
+            {
+                return cond ;
+            }
+        }
+        return null;
+    }
+    public CBaseEntityCondition.EConditionType GetType()
+    {
+        EConditionType type = null ;
+        if (isisGreater && isisOrEquals)
+        {
+            type = EConditionType.IS_GREATER_THAN_OR_EQUAL ;
+        }
+        else if (isisGreater && !isisOrEquals)
+        {
+            type = EConditionType.IS_GREATER_THAN ;
+        }
+        else if (!isisGreater && isisOrEquals)
+        {
+            type = EConditionType.IS_LESS_THAN_OR_EQUAL ;
+        }
+        else if (!isisGreater && !isisOrEquals)
+        {
+            type = EConditionType.IS_LESS_THAN ;
+        }
+        return type ;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        boolean b1 = op1.ReplaceVariable(field, var) ;
+        boolean b2 = op2.ReplaceVariable(field, var) ;
+        return b1 || b2 ;
+    }
 
-	public String getOperator()
-	{
-		if (isisGreater && isisOrEquals)
-		{
-			return ">=";
-		}
-		else if (isisGreater && !isisOrEquals)
-		{
-			return ">";
-		}
-		else if (!isisGreater && isisOrEquals)
-		{
-			return "<=";
-		}
-		else
-		{
-			return "<";
-		}
-	}
+    public String getOperator()
+    {
+        if (isisGreater && isisOrEquals)
+        {
+            return ">=";
+        }
+        else if (isisGreater && !isisOrEquals)
+        {
+            return ">";
+        }
+        else if (!isisGreater && isisOrEquals)
+        {
+            return "<=";
+        }
+        else
+        {
+            return "<";
+        }
+    }
 
 }

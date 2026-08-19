@@ -12,36 +12,36 @@ package nacaLib.varEx;
  */
 public class DeclareTypeForm extends DeclareTypeBase
 {
-	public DeclareTypeForm()
-	{
-	}
+    public DeclareTypeForm()
+    {
+    }
 
-	public void set(VarLevel varLevel)
-	{
-		super.set(varLevel);
-	}
+    public void set(VarLevel varLevel)
+    {
+        super.set(varLevel);
+    }
 
-//	public Var2Edit var()
-//	{
-//		Var2G var2G = new Var2G(this);
-//		return var2G;
-//	}
+//  public Var2Edit var()
+//  {
+//      Var2G var2G = new Var2G(this);
+//      return var2G;
+//  }
 //
-//	public Var2G filler()
-//	{
-//		Var2G var2G = new Var2G(this);
-//		var2G.declareAsFiller();
-//		return null;
-//	}
+//  public Var2G filler()
+//  {
+//      Var2G var2G = new Var2G(this);
+//      var2G.declareAsFiller();
+//      return null;
+//  }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = new VarDefForm(varDefParent, this);
-		return varDef;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = new VarDefForm(varDefParent, this);
+        return varDef;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 }

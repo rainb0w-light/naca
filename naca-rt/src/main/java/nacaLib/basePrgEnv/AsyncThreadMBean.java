@@ -18,119 +18,119 @@ import nacaLib.base.JmxGeneralStat;
  */
 public class AsyncThreadMBean extends BaseCloseMBean
 {
-	private String csThreadName = null;
-	private String csThreadId = null;
-	private boolean iswaiting = false;
-	private String csLastWaitEvent = ""; 
-	private String csProgram = "";
-	private String csProgramParent = "";
-	private int nDelaySeconds = 0;
-	private StopWatch sw = null;
+    private String csThreadName = null;
+    private String csThreadId = null;
+    private boolean iswaiting = false;
+    private String csLastWaitEvent = "";
+    private String csProgram = "";
+    private String csProgramParent = "";
+    private int nDelaySeconds = 0;
+    private StopWatch sw = null;
 
-	AsyncThreadMBean(String csThreadId, String csThreadName)
-	{
-		super();
+    AsyncThreadMBean(String csThreadId, String csThreadName)
+    {
+        super();
 
-		this.csThreadName = csThreadName;
-		this.csThreadId = csThreadId;
-		sw = new StopWatch();
-		if(JmxGeneralStat.showAsyncThreadBeans())
-		{
-			create();
-		}
-	}
-	
-	void setAsyncThreadClosed()
-	{
-		unregisterMBean();
-	}
-	
-	void showBean(boolean bToShow)
-	{
-		if(bToShow && !isBeanCreated())
-			create();
-		else if(!bToShow && isBeanCreated())
-			unregisterMBean();
-	}
-	
-	private void create()
-	{
-		String cs = getAsyncThreadMBeanId(csThreadName, csThreadId);
-		createMBean(cs, cs);
-	}
-	
-	void setWait(boolean bWaiting)
-	{
-		if(bWaiting != this.iswaiting)	// Changing state
-			sw.Reset();
-		this.iswaiting = bWaiting;
-		csLastWaitEvent = DateUtil.getDisplayTimeStamp();
-	}
-	
-	void setProgram(String csProgram)
-	{
-		this.csProgram = csProgram;
-	}
+        this.csThreadName = csThreadName;
+        this.csThreadId = csThreadId;
+        sw = new StopWatch();
+        if(JmxGeneralStat.showAsyncThreadBeans())
+        {
+            create();
+        }
+    }
 
-	void setProgramParent(String csProgramParent)
-	{
-		this.csProgramParent = csProgramParent;
-	}
+    void setAsyncThreadClosed()
+    {
+        unregisterMBean();
+    }
 
-	void setDelaySeconds(int nDelaySeconds)
-	{
-		this.nDelaySeconds = nDelaySeconds;
-	}
-	
-	private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)
-	{
-		return "AsyncThread." + csThreadName + "." + csThreadId;
-	}
-	
-	protected void buildDynamicMBeanInfo()
-	{
-		addAttribute("ThreadName", getClass(), "A_ThreadName", String.class);
-		addAttribute("ThreadId", getClass(), "B_ThreadId", String.class);
-		addAttribute("Program", getClass(), "C_Program", String.class);
-		addAttribute("ProgramParent", getClass(), "D_ProgramParent", String.class);
-		addAttribute("WaitStatus", getClass(), "E_WaitStatus", String.class);
-		addAttribute("DelaySecond", getClass(), "F_DelaySeconds", int.class);
-	}
+    void showBean(boolean bToShow)
+    {
+        if(bToShow && !isBeanCreated())
+            create();
+        else if(!bToShow && isBeanCreated())
+            unregisterMBean();
+    }
 
-	public String getA_ThreadName()
-	{
-		return csThreadName;
-	}
-	
-	public String getB_ThreadId()
-	{
-		return csThreadId;
-	}
-	
-	public String getC_Program()
-	{
-		return csProgram;
-	}
-	
-	public String getD_ProgramParent()
-	{
-		return csProgramParent;
-	}
-	
-	public String getE_WaitStatus()
-	{
-		String cs;
-		if(iswaiting)
-			cs = "Waiting since " + csLastWaitEvent;
-		else
-			cs = "Running since " + csLastWaitEvent;
-		long elapsedTime_s = sw.getElapsedTime() / 1000;
-		cs = cs + " (" + elapsedTime_s + " s)";
-		return cs;
-	}
-	
-	public int getF_DelaySeconds()
-	{
-		return nDelaySeconds;
-	}
+    private void create()
+    {
+        String cs = getAsyncThreadMBeanId(csThreadName, csThreadId);
+        createMBean(cs, cs);
+    }
+
+    void setWait(boolean bWaiting)
+    {
+        if(bWaiting != this.iswaiting)  // Changing state
+            sw.Reset();
+        this.iswaiting = bWaiting;
+        csLastWaitEvent = DateUtil.getDisplayTimeStamp();
+    }
+
+    void setProgram(String csProgram)
+    {
+        this.csProgram = csProgram;
+    }
+
+    void setProgramParent(String csProgramParent)
+    {
+        this.csProgramParent = csProgramParent;
+    }
+
+    void setDelaySeconds(int nDelaySeconds)
+    {
+        this.nDelaySeconds = nDelaySeconds;
+    }
+
+    private static String getAsyncThreadMBeanId(String csThreadId, String csThreadName)
+    {
+        return "AsyncThread." + csThreadName + "." + csThreadId;
+    }
+
+    protected void buildDynamicMBeanInfo()
+    {
+        addAttribute("ThreadName", getClass(), "A_ThreadName", String.class);
+        addAttribute("ThreadId", getClass(), "B_ThreadId", String.class);
+        addAttribute("Program", getClass(), "C_Program", String.class);
+        addAttribute("ProgramParent", getClass(), "D_ProgramParent", String.class);
+        addAttribute("WaitStatus", getClass(), "E_WaitStatus", String.class);
+        addAttribute("DelaySecond", getClass(), "F_DelaySeconds", int.class);
+    }
+
+    public String getA_ThreadName()
+    {
+        return csThreadName;
+    }
+
+    public String getB_ThreadId()
+    {
+        return csThreadId;
+    }
+
+    public String getC_Program()
+    {
+        return csProgram;
+    }
+
+    public String getD_ProgramParent()
+    {
+        return csProgramParent;
+    }
+
+    public String getE_WaitStatus()
+    {
+        String cs;
+        if(iswaiting)
+            cs = "Waiting since " + csLastWaitEvent;
+        else
+            cs = "Running since " + csLastWaitEvent;
+        long elapsedTime_s = sw.getElapsedTime() / 1000;
+        cs = cs + " (" + elapsedTime_s + " s)";
+        return cs;
+    }
+
+    public int getF_DelaySeconds()
+    {
+        return nDelaySeconds;
+    }
 }

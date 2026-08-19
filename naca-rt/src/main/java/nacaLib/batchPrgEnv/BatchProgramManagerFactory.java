@@ -13,8 +13,11 @@ import nacaLib.programPool.SharedProgramInstanceData;
 
 public class BatchProgramManagerFactory extends BaseProgramManagerFactory
 {
-	public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData)
-	{
-		return new BatchProgramManager(prg, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-	}
+    public BaseProgramManager createProgramManager(
+        BaseProgram prg,
+        SharedProgramInstanceData sharedProgramInstanceData,
+        boolean bInheritedSharedProgramInstanceData)
+    {
+        return new BatchProgramManager(prg, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+    }
 }

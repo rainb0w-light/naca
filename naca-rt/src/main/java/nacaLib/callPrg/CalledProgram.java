@@ -13,24 +13,24 @@ import nacaLib.varEx.VarSectionDeclaration;
 
 public class CalledProgram extends BaseProgram
 {
-	private static CalledProgramManagerFactory ms_callProgramManagerFactory = new CalledProgramManagerFactory();
-	
-	public CalledProgram()
-	{
-		super(ms_callProgramManagerFactory);
-		declare = new VarSectionDeclaration(this);
-	}	
+    private static CalledProgramManagerFactory ms_callProgramManagerFactory = new CalledProgramManagerFactory();
 
-	void prepareRunMain(BaseEnvironment e)
-	{
-		CESM = e.createCESMManager();
-	}
-	
-	protected BaseCESMManager getCESM()
-	{
-		return CESM;
-	}
+    public CalledProgram()
+    {
+        super(ms_callProgramManagerFactory);
+        declare = new VarSectionDeclaration(this);
+    }
 
-	public BaseCESMManager CESM = null; 
-	protected VarSectionDeclaration declare = null; 
+    void prepareRunMain(BaseEnvironment e)
+    {
+        CESM = e.createCESMManager();
+    }
+
+    protected BaseCESMManager getCESM()
+    {
+        return CESM;
+    }
+
+    public BaseCESMManager CESM = null;
+    protected VarSectionDeclaration declare = null;
 }

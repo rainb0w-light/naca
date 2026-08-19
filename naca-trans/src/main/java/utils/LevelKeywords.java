@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -20,33 +20,33 @@ import lexer.CReservedKeyword;
  * @version $Id: LevelKeywords.java,v 1.1 2007/06/28 06:19:46 u930bm Exp $
  */
 public class LevelKeywords
-{	
-	protected void resetManagedKeyword()
-	{
-		managedKeywords = new ArrayList<CReservedKeyword>();
-	}
-	
-	public void registerManagedKeyword(CReservedKeyword keyword)
-	{
-		managedKeywords.add(keyword);
-	}
-	
-	public boolean isManaging(CBaseToken tok)
-	{
-		if(tok == null)
-			return true;
-		CReservedKeyword keyTok = tok.GetKeyword();
-		if(keyTok != null)
-		{
-			String csTokName = keyTok.name;
-			for(int n = 0; n< managedKeywords.size(); n++)
-			{
-				if(managedKeywords.get(n).name.equalsIgnoreCase(csTokName))
-					return true;
-			}
-		}
-		return false;
-	}
-	
-	private ArrayList<CReservedKeyword> managedKeywords = new ArrayList<CReservedKeyword>();
+{
+    protected void resetManagedKeyword()
+    {
+        managedKeywords = new ArrayList<CReservedKeyword>();
+    }
+
+    public void registerManagedKeyword(CReservedKeyword keyword)
+    {
+        managedKeywords.add(keyword);
+    }
+
+    public boolean isManaging(CBaseToken tok)
+    {
+        if(tok == null)
+            return true;
+        CReservedKeyword keyTok = tok.GetKeyword();
+        if(keyTok != null)
+        {
+            String csTokName = keyTok.name;
+            for(int n = 0; n< managedKeywords.size(); n++)
+            {
+                if(managedKeywords.get(n).name.equalsIgnoreCase(csTokName))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private ArrayList<CReservedKeyword> managedKeywords = new ArrayList<CReservedKeyword>();
 }

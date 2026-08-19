@@ -24,102 +24,111 @@ import jlib.misc.LittleEndingUnsignBinaryBufferStorage;
  */
 public class DbColDefinitionVarchar extends BaseDbColDefinition
 {
-	private int nLength = 0;
+    private int nLength = 0;
 
-	DbColDefinitionVarchar(ColDescriptionInfo colDescription)
-	{
-		super(colDescription);
-		nLength = colDescription.getPrecision();
-	}
+    DbColDefinitionVarchar(ColDescriptionInfo colDescription)
+    {
+        super(colDescription);
+        nLength = colDescription.getPrecision();
+    }
 
-	public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			String value = resultSet.getString(nCol1Based);
+    public byte[] getByteValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            String value = resultSet.getString(nCol1Based);
 
-			ResultSetMetaData resultSetmetaData = resultSet.getMetaData();
+            ResultSetMetaData resultSetmetaData = resultSet.getMetaData();
 
-			int nColWidth = resultSetmetaData.getPrecision(nCol1Based);
-			int nValueLength = value.length();
+            int nColWidth = resultSetmetaData.getPrecision(nCol1Based);
+            int nValueLength = value.length();
 
-			byte[] aBytes = new byte[2 + nColWidth];
-			Asserter.assertIfFalse(nColWidth == nLength);
+            byte[] aBytes = new byte[2 + nColWidth];
+            Asserter.assertIfFalse(nColWidth == nLength);
 
-			LittleEndingUnsignBinaryBufferStorage.writeUnsignedShort(aBytes, nValueLength, 0);
+            LittleEndingUnsignBinaryBufferStorage.writeUnsignedShort(aBytes, nValueLength, 0);
 
-			byte[] aBytesValue = value.getBytes();
-			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytesValue, 0, nValueLength);
+            byte[] aBytesValue = value.getBytes();
+            if(bEbcdicOutput)   // Must outout in ebcdic
+                AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytesValue, 0, nValueLength);
 
-			int n=0, nDest=2;
-			for(; n<aBytesValue.length; n++, nDest++)
-			{
-				aBytes[nDest] = aBytesValue[n];
-			}
+            int n=0, nDest=2;
+            for(; n<aBytesValue.length; n++, nDest++)
+            {
+                aBytes[nDest] = aBytesValue[n];
+            }
 
-			while(n < nColWidth)
-			{
-				aBytes[nDest++] = 0;
-				n++;
-			}
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+            while(n < nColWidth)
+            {
+                aBytes[nDest++] = 0;
+                n++;
+            }
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 
-//	public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
-//	{
-//		int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
+//  public int setByteValue(byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput, ColValueGeneric colValueGenericDest)
+//  {
+//      int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
 //
-//		if(bEbcdicInput)	// Must outout in ebcdic
-//			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
+//      if(bEbcdicInput)    // Must outout in ebcdic
+//          AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 //
-//		String cs = new String(arrByteValue, nSourceOffset+2, nLength);
-//		colValueGenericDest.setValue(cs);
+//      String cs = new String(arrByteValue, nSourceOffset+2, nLength);
+//      colValueGenericDest.setValue(cs);
 //
-//		return 2+nLength;
-//	}
+//      return 2+nLength;
+//  }
 
-	public int setByteValueInStmtCol(DbColDefErrorManager dbColDefErrorManager, DbPreparedStatement stmt, int nCol, byte arrByteValue[], int nSourceOffset, boolean bEbcdicInput)
-	{
-		int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
+    public int setByteValueInStmtCol(
+        DbColDefErrorManager dbColDefErrorManager,
+        DbPreparedStatement stmt,
+        int nCol,
+        byte arrByteValue[],
+        int nSourceOffset,
+        boolean bEbcdicInput)
+    {
+        int nLength = LittleEndingUnsignBinaryBufferStorage.readShort(arrByteValue, nSourceOffset);
 
-		if(bEbcdicInput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
+        if(bEbcdicInput)    // Must outout in ebcdic
+            AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);
 
-		String cs = new String(arrByteValue, nSourceOffset+2, nLength);
-		stmt.setColParam(nCol, cs);
+        String cs = new String(arrByteValue, nSourceOffset+2, nLength);
+        stmt.setColParam(nCol, cs);
 
-		return 2+nLength;
-	}
+        return 2+nLength;
+    }
 
-	public boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement)
-	{
-		String cs = storedProcParamDescBase.getInValueAsString();
-		return callableStatement.setInValue(nParamId, cs);
-	}
+    public boolean fillCallableStatementParam(
+        int nParamId,
+        StoredProcParamDescBase storedProcParamDescBase,
+        DbPreparedCallableStatement callableStatement)
+    {
+        String cs = storedProcParamDescBase.getInValueAsString();
+        return callableStatement.setInValue(nParamId, cs);
+    }
 
-	public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
-	{
-		try
-		{
-			String value = resultSet.getString(nCol1Based);
-			value = value.trim().replace("\"", "'");
-			if (value.length() == 0)
-				value = " ";
-			value = "\"" + value + "\"";
-			byte[] aBytes = value.getBytes();
-			if(bEbcdicOutput)	// Must outout in ebcdic
-				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
-			return aBytes;
-		}
-		catch (SQLException e)
-		{
-			return null;
-		}
-	}
+    public byte[] getExcelValue(ResultSet resultSet, int nCol1Based, boolean bEbcdicOutput)
+    {
+        try
+        {
+            String value = resultSet.getString(nCol1Based);
+            value = value.trim().replace("\"", "'");
+            if (value.length() == 0)
+                value = " ";
+            value = "\"" + value + "\"";
+            byte[] aBytes = value.getBytes();
+            if(bEbcdicOutput)   // Must outout in ebcdic
+                AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
+            return aBytes;
+        }
+        catch (SQLException e)
+        {
+            return null;
+        }
+    }
 }

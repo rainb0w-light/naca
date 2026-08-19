@@ -13,43 +13,43 @@ package jlib.misc;
 
 public class StopWatch
 {
-	public StopWatch()
-	{
-		start = System.currentTimeMillis();
-	}
+    public StopWatch()
+    {
+        start = System.currentTimeMillis();
+    }
 
-	public long getElapsedTime()
-	{
-		long stop = System.currentTimeMillis();
-		return stop - start;
-	}
+    public long getElapsedTime()
+    {
+        long stop = System.currentTimeMillis();
+        return stop - start;
+    }
 
-	public long getElapsedTimeReset()
-	{
-		long stop = System.currentTimeMillis();
-		long l = stop - start;
-		start = stop;
-		return l;
-	}
+    public long getElapsedTimeReset()
+    {
+        long stop = System.currentTimeMillis();
+        long l = stop - start;
+        start = stop;
+        return l;
+    }
 
-	public void Reset()
-	{
-		start = System.currentTimeMillis();
-	}
+    public void Reset()
+    {
+        start = System.currentTimeMillis();
+    }
 
-	public boolean isTimeElapsed(long lTimeOut)
-	{
-		long now = System.currentTimeMillis();
-		long elapsed = now - start;
-		if(elapsed >= lTimeOut)
-			return true;
-		return false;
-	}
+    public boolean isTimeElapsed(long lTimeOut)
+    {
+        long now = System.currentTimeMillis();
+        long elapsed = now - start;
+        if(elapsed >= lTimeOut)
+            return true;
+        return false;
+    }
 
-	public long getStartValue()
-	{
-		return start;
-	}
+    public long getStartValue()
+    {
+        return start;
+    }
 
-	private long start = 0;
+    private long start = 0;
 }

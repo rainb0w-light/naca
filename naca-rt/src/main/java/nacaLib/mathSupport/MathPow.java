@@ -11,15 +11,15 @@ import java.math.BigDecimal;
 
 public class MathPow extends MathBase
 {
-	/**
-	 * @param Var var1
-	 * @param String s, treated as a number
-	 *     Set current object to var1^s (var is treated as numeric optionally decimals / signed)
-	 */
-	public MathPow(String var1, String s)
-	{
-		d = new BigDecimal(Math.pow(Double.parseDouble(var1), Double
-				.parseDouble(s)));
-	}
+    /**
+     * @param Var var1
+     * @param String s, treated as a number
+     *     Set current object to var1^s (var is treated as numeric optionally decimals / signed)
+     */
+    public MathPow(String var1, String s)
+    {
+        d = new BigDecimal(Math.pow(Double.parseDouble(var1), Double
+                .parseDouble(s)));
+    }
 
 }

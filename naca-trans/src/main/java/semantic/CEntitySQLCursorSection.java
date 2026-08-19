@@ -20,64 +20,64 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLCursorSection extends CEntityDataSection
 {
-	/**
-	 * @param line
-	 * @param name
-	 * @param cat
-	 */
-	public CEntitySQLCursorSection(CObjectCatalog cat)
-	{
-		super(0, "SQLCursorSection", cat);
-	}
+    /**
+     * @param line
+     * @param name
+     * @param cat
+     */
+    public CEntitySQLCursorSection(CObjectCatalog cat)
+    {
+        super(0, "SQLCursorSection", cat);
+    }
 
-	protected Vector cursors = null ;
-	public void SetCursors(Vector v)
-	{
-		cursors = v ;
-	}
-	public CEntityProcedureSection getSectionContainer()
-	{
-		return null ;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		for (int i = 0; i< cursors.size(); i++)
-		{
-			CEntitySQLCursor cur = (CEntitySQLCursor) cursors.get(i);
-			cur.Clear() ;
-		}
-		cursors.clear() ;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CEntityDataSection#ignore()
-	 */
-	@Override
-	public boolean ignore()
-	{
-		return cursors.isEmpty() ;
-	}
+    protected Vector cursors = null ;
+    public void SetCursors(Vector v)
+    {
+        cursors = v ;
+    }
+    public CEntityProcedureSection getSectionContainer()
+    {
+        return null ;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        for (int i = 0; i< cursors.size(); i++)
+        {
+            CEntitySQLCursor cur = (CEntitySQLCursor) cursors.get(i);
+            cur.Clear() ;
+        }
+        cursors.clear() ;
+    }
+    /* (non-Javadoc)
+     * @see semantic.CEntityDataSection#ignore()
+     */
+    @Override
+    public boolean ignore()
+    {
+        return cursors.isEmpty() ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveSQLCursorSectionEntity). They expose the already-resolved semantic
-	// values; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveSQLCursorSectionEntity). They expose the already-resolved semantic
+    // values; rendering is done by the template, never here.
 
-	/**
-	 * The semantic cursor entities in declaration order. The template renders each
-	 * child through the recursive assembler; this getter deliberately returns no
-	 * generated strings and invokes no export method.
-	 */
-	public List<CDataEntity> getCursorEntities()
-	{
-		List<CDataEntity> entities = new ArrayList<>();
-		if (cursors != null)
-		{
-			for (int i = 0; i < cursors.size(); i++)
-			{
-				entities.add((CDataEntity) cursors.get(i));
-			}
-		}
-		return entities;
-	}
+    /**
+     * The semantic cursor entities in declaration order. The template renders each
+     * child through the recursive assembler; this getter deliberately returns no
+     * generated strings and invokes no export method.
+     */
+    public List<CDataEntity> getCursorEntities()
+    {
+        List<CDataEntity> entities = new ArrayList<>();
+        if (cursors != null)
+        {
+            for (int i = 0; i < cursors.size(); i++)
+            {
+                entities.add((CDataEntity) cursors.get(i));
+            }
+        }
+        return entities;
+    }
 }

@@ -17,10 +17,10 @@ import nacaLib.varEx.VarAndEdit;
 
 public class Pointer extends CJMapObject
 {
-	public Pointer(VarAndEdit v)
-	{
-		addressOf = v ;
-	}
+    public Pointer(VarAndEdit v)
+    {
+        addressOf = v ;
+    }
 
-	public VarAndEdit addressOf = null ;
+    public VarAndEdit addressOf = null ;
 }

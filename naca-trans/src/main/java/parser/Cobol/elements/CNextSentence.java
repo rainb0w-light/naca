@@ -24,48 +24,48 @@ import utils.Transcoder;
  */
 public class CNextSentence extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CNextSentence(int line) {
-		super(line);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing(CFlag fFlag)
-	{
-		CBaseToken tokNext = GetCurrentToken() ;
-		if (tokNext.GetKeyword() != CCobolKeywordList.NEXT)
-		{
-			Transcoder.logError(getLine(), "Expecting 'NEXT' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb("NEXT_SENTENCE") ;
-		CBaseToken tokSentence =GetNext();
-		if (tokSentence.GetKeyword() != CCobolKeywordList.SENTENCE)
-		{
-			Transcoder.logError(getLine(), "Expecting 'SENTENCE' keyword") ;
-			return false ;
-		}
-		GetNext() ;
-		fFlag.Set();
-		return true ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("NextSentence") ;
-		return e ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		//m_Logger.warn("WARNING line "+getLine()+" : usage of NEXT SENTENCE is dangerous : check this code");
-		return null ; // the NEXT SENTENCE statement does nothing else than telling the IF to go forward...
-	}
+    /**
+     * @param line
+     */
+    public CNextSentence(int line) {
+        super(line);
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing(CFlag fFlag)
+    {
+        CBaseToken tokNext = GetCurrentToken() ;
+        if (tokNext.GetKeyword() != CCobolKeywordList.NEXT)
+        {
+            Transcoder.logError(getLine(), "Expecting 'NEXT' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb("NEXT_SENTENCE") ;
+        CBaseToken tokSentence =GetNext();
+        if (tokSentence.GetKeyword() != CCobolKeywordList.SENTENCE)
+        {
+            Transcoder.logError(getLine(), "Expecting 'SENTENCE' keyword") ;
+            return false ;
+        }
+        GetNext() ;
+        fFlag.Set();
+        return true ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("NextSentence") ;
+        return e ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        //m_Logger.warn("WARNING line "+getLine()+" : usage of NEXT SENTENCE is dangerous : check this code");
+        return null ; // the NEXT SENTENCE statement does nothing else than telling the IF to go forward...
+    }
 }

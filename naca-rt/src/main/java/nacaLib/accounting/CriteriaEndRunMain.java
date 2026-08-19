@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.accounting;
 
@@ -17,35 +17,35 @@ package nacaLib.accounting;
  */
 public class CriteriaEndRunMain
 {
-	public static final CriteriaEndRunMain Normal = new CriteriaEndRunMain(0, "Normal");
-	public static final CriteriaEndRunMain Return = new CriteriaEndRunMain(1, "Return");
-	public static final CriteriaEndRunMain Exit = new CriteriaEndRunMain(2, "Exit");
-	public static final CriteriaEndRunMain StopRun = new CriteriaEndRunMain(3, "StopRun");
-	public static final CriteriaEndRunMain XCtl = new CriteriaEndRunMain(4, "XCtl");
-	public static final CriteriaEndRunMain Abort = new CriteriaEndRunMain(5, "Abort");
-	public static final CriteriaEndRunMain Dump = new CriteriaEndRunMain(6, "Dump");
-	public static final CriteriaEndRunMain GotoInAsyncStart = new CriteriaEndRunMain(7, "GotoInAsyncStart");
-	private int nIndex = 0;
-	private String csName = null;
+    public static final CriteriaEndRunMain Normal = new CriteriaEndRunMain(0, "Normal");
+    public static final CriteriaEndRunMain Return = new CriteriaEndRunMain(1, "Return");
+    public static final CriteriaEndRunMain Exit = new CriteriaEndRunMain(2, "Exit");
+    public static final CriteriaEndRunMain StopRun = new CriteriaEndRunMain(3, "StopRun");
+    public static final CriteriaEndRunMain XCtl = new CriteriaEndRunMain(4, "XCtl");
+    public static final CriteriaEndRunMain Abort = new CriteriaEndRunMain(5, "Abort");
+    public static final CriteriaEndRunMain Dump = new CriteriaEndRunMain(6, "Dump");
+    public static final CriteriaEndRunMain GotoInAsyncStart = new CriteriaEndRunMain(7, "GotoInAsyncStart");
+    private int nIndex = 0;
+    private String csName = null;
 
-	public static final int getNbIndex()
-	{
-		return 7;
-	}
+    public static final int getNbIndex()
+    {
+        return 7;
+    }
 
-	private CriteriaEndRunMain(int n, String csName)
-	{
-		this.csName = csName;
-		this.nIndex = n;
-	}
-	
-	public String getName()
-	{
-		return csName;
-	}
+    private CriteriaEndRunMain(int n, String csName)
+    {
+        this.csName = csName;
+        this.nIndex = n;
+    }
 
-	public int getIndex()
-	{
-		return nIndex;
-	}
+    public String getName()
+    {
+        return csName;
+    }
+
+    public int getIndex()
+    {
+        return nIndex;
+    }
 }

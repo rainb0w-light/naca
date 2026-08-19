@@ -27,150 +27,150 @@ import utils.Transcoder;
 public class CFPacDeclarationZone extends CFPacElement
 {
 
-	public CFPacDeclarationZone(int line)
-	{
-		super(line);
-	}
+    public CFPacDeclarationZone(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityDataSection data = factory.NewEntityDataSection(getLine(), "DeclarationSection") ;
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityDataSection data = factory.NewEntityDataSection(getLine(), "DeclarationSection") ;
 
-		if (!arrParams.isEmpty())
-		{
-			throw new NacaTransAssertException(
-				"FPac PARM declarations are parsed but have no defined runtime binding");
-		}
-		for (CFPacInputFile f : inputFiles)
-		{
-			f.DoSemanticAnalysis(data, factory) ;
-		}
-		for (CFPacOutputFile f : outputFiles)
-		{
-			f.DoSemanticAnalysis(data, factory) ;
-		}
-		for (CFPacUpdateFile f : updateFiles)
-		{
-			f.DoSemanticAnalysis(data, factory) ;
-		}
+        if (!arrParams.isEmpty())
+        {
+            throw new NacaTransAssertException(
+                "FPac PARM declarations are parsed but have no defined runtime binding");
+        }
+        for (CFPacInputFile f : inputFiles)
+        {
+            f.DoSemanticAnalysis(data, factory) ;
+        }
+        for (CFPacOutputFile f : outputFiles)
+        {
+            f.DoSemanticAnalysis(data, factory) ;
+        }
+        for (CFPacUpdateFile f : updateFiles)
+        {
+            f.DoSemanticAnalysis(data, factory) ;
+        }
 
-		parent.AddChild(data) ;
-		return data ;
-	}
+        parent.AddChild(data) ;
+        return data ;
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element eAdd = root.createElement("Declarations") ;
-		for (CConstantTerminal c : arrParams)
-		{
-			Element e = root.createElement("Param") ;
-			c.ExportTo(e, root) ;
-			eAdd.appendChild(e) ;
-		}
-		for (CFPacInputFile f : inputFiles)
-		{
-			Element e = f.Export(root) ;
-			eAdd.appendChild(e) ;
-		}
-		for (CFPacOutputFile f : outputFiles)
-		{
-			Element e = f.Export(root) ;
-			eAdd.appendChild(e) ;
-		}
-		for (CFPacUpdateFile f : updateFiles)
-		{
-			Element e = f.Export(root) ;
-			eAdd.appendChild(e) ;
-		}
-		return eAdd ;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element eAdd = root.createElement("Declarations") ;
+        for (CConstantTerminal c : arrParams)
+        {
+            Element e = root.createElement("Param") ;
+            c.ExportTo(e, root) ;
+            eAdd.appendChild(e) ;
+        }
+        for (CFPacInputFile f : inputFiles)
+        {
+            Element e = f.Export(root) ;
+            eAdd.appendChild(e) ;
+        }
+        for (CFPacOutputFile f : outputFiles)
+        {
+            Element e = f.Export(root) ;
+            eAdd.appendChild(e) ;
+        }
+        for (CFPacUpdateFile f : updateFiles)
+        {
+            Element e = f.Export(root) ;
+            eAdd.appendChild(e) ;
+        }
+        return eAdd ;
+    }
 
-	protected boolean DoParsing()
-	{
-		boolean isparsed = true ;
-		while (isparsed)
-		{
-			isparsed = CustomParsing() ;
-		}
-		return true ;
-	}
+    protected boolean DoParsing()
+    {
+        boolean isparsed = true ;
+        while (isparsed)
+        {
+            isparsed = CustomParsing() ;
+        }
+        return true ;
+    }
 
-	private boolean CustomParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == null)
-			return false ;
-		CFPacElement el = null ;
-		if (tok.GetKeyword().name.startsWith("IPF"))
-		{
-			CFPacInputFile file = new CFPacInputFile(tok.getLine());
-			el = file ;
-			inputFiles.add(file) ;
-		}
-		else if (tok.GetKeyword().name.startsWith("OPF"))
-		{
-			CFPacOutputFile file = new CFPacOutputFile(tok.getLine());
-			outputFiles.add(file) ;
-			el = file ;
-		}
-		else if (tok.GetKeyword().name.startsWith("UPF"))
-		{
-			CFPacUpdateFile file = new CFPacUpdateFile(tok.getLine());
-			updateFiles.add(file) ;
-			el = file ;
-		}
-		else if(tok.GetKeyword() == CFPacKeywordList.PARM)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.EQUALS)
-			{
-				tok= GetNext() ;
-				boolean isdone = false ;
-				while (!isdone)
-				{
-					if (tok.GetType() == CTokenType.CONSTANT)
-					{
-						CConstantTerminal term = new CConstantTerminal(tok.GetValue()) ;
-						arrParams.add(term) ;
-					}
-					else
-					{
-						Transcoder.logError(tok.getLine(), "Expecting CONSTANT after PARM") ;
-						return false ;
-					}
+    private boolean CustomParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == null)
+            return false ;
+        CFPacElement el = null ;
+        if (tok.GetKeyword().name.startsWith("IPF"))
+        {
+            CFPacInputFile file = new CFPacInputFile(tok.getLine());
+            el = file ;
+            inputFiles.add(file) ;
+        }
+        else if (tok.GetKeyword().name.startsWith("OPF"))
+        {
+            CFPacOutputFile file = new CFPacOutputFile(tok.getLine());
+            outputFiles.add(file) ;
+            el = file ;
+        }
+        else if (tok.GetKeyword().name.startsWith("UPF"))
+        {
+            CFPacUpdateFile file = new CFPacUpdateFile(tok.getLine());
+            updateFiles.add(file) ;
+            el = file ;
+        }
+        else if(tok.GetKeyword() == CFPacKeywordList.PARM)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.EQUALS)
+            {
+                tok= GetNext() ;
+                boolean isdone = false ;
+                while (!isdone)
+                {
+                    if (tok.GetType() == CTokenType.CONSTANT)
+                    {
+                        CConstantTerminal term = new CConstantTerminal(tok.GetValue()) ;
+                        arrParams.add(term) ;
+                    }
+                    else
+                    {
+                        Transcoder.logError(tok.getLine(), "Expecting CONSTANT after PARM") ;
+                        return false ;
+                    }
 
-					tok = GetNext() ;
-					if (tok.GetType() == CTokenType.COMMA)
-					{
-						tok = GetNext() ;
-					}
-					else
-					{
-						isdone = true ;
-					}
-				}
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Expecting '=' after PARM") ;
-				return false ;
-			}
-		}
-		else
-			return false ;
+                    tok = GetNext() ;
+                    if (tok.GetType() == CTokenType.COMMA)
+                    {
+                        tok = GetNext() ;
+                    }
+                    else
+                    {
+                        isdone = true ;
+                    }
+                }
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Expecting '=' after PARM") ;
+                return false ;
+            }
+        }
+        else
+            return false ;
 
-		if (el != null)
-		{
-			if (!Parse(el))
-				return false ;
-		}
-		return true ;
-	}
+        if (el != null)
+        {
+            if (!Parse(el))
+                return false ;
+        }
+        return true ;
+    }
 
-	protected Collection<CFPacInputFile> inputFiles = new LinkedList<CFPacInputFile>() ;
-	protected Collection<CFPacOutputFile> outputFiles = new LinkedList<CFPacOutputFile>() ;
-	protected Collection<CFPacUpdateFile> updateFiles = new LinkedList<CFPacUpdateFile>() ;
-	protected Collection<CConstantTerminal> arrParams = new LinkedList<CConstantTerminal>() ;
+    protected Collection<CFPacInputFile> inputFiles = new LinkedList<CFPacInputFile>() ;
+    protected Collection<CFPacOutputFile> outputFiles = new LinkedList<CFPacOutputFile>() ;
+    protected Collection<CFPacUpdateFile> updateFiles = new LinkedList<CFPacUpdateFile>() ;
+    protected Collection<CConstantTerminal> arrParams = new LinkedList<CConstantTerminal>() ;
 }

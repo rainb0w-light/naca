@@ -19,32 +19,32 @@ import java.io.UnsupportedEncodingException;
 
 //TODO replace this class with a JLIB implementation !!!!
 public class StreamUtil {
-	
-	//private static Logger _logger = Logger.getLogger(StreamUtil.class.getName());
-	
+
+    //private static Logger _logger = Logger.getLogger(StreamUtil.class.getName());
+
   /**
    * Creates a new StreamUtil object.
    */
   public StreamUtil() {
   }
-  
- //---------------------------------------------------------- 
 
-  	/**
-  	 * Check if a folder path exists in the file system
-  	 * If not, create it
-  	 * @param String folderPath 
-  	 */
-	public static void mkDir(final String folderPath) {
-		final File file = new File(folderPath);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-	}
+ //----------------------------------------------------------
+
+    /**
+     * Check if a folder path exists in the file system
+     * If not, create it
+     * @param String folderPath
+     */
+    public static void mkDir(final String folderPath) {
+        final File file = new File(folderPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
 
 // ----------------------------------------------------------------
-  
-  
+
+
   /**
    * Get a BufferedInputStream from an InputStream
    *
@@ -63,7 +63,7 @@ public class StreamUtil {
 
     return bin;
   }
-  
+
 //------------------------------------------------------------
 
   /**
@@ -72,28 +72,28 @@ public class StreamUtil {
    * @throws IOException
    */
   public static String readInputStream(BufferedInputStream bin) throws IOException {
-  	if (bin == null) {
-  		return null;
-  	}
-  	byte data[] = null;
-  	int s = bin.read();
-  	if (s == -1) {
-  		return null; //Connection lost
-  	}
-  	int alength = bin.available();
-  	if (alength > 0) {
-  		data = new byte[alength + 1];
-  
-  		bin.read(data, 1, alength);
-  	} else {
-  		data = new byte[1];
-  	}
-  	data[0] = (byte) s;
-  	return new String(data);
+    if (bin == null) {
+        return null;
+    }
+    byte data[] = null;
+    int s = bin.read();
+    if (s == -1) {
+        return null; //Connection lost
+    }
+    int alength = bin.available();
+    if (alength > 0) {
+        data = new byte[alength + 1];
+
+        bin.read(data, 1, alength);
+    } else {
+        data = new byte[1];
+    }
+    data[0] = (byte) s;
+    return new String(data);
   }
-  
+
   //----------------------------------------------------------
-  
+
   /**
    * Get a BufferedOutputStream from an OutputStream
    *
@@ -112,7 +112,7 @@ public class StreamUtil {
 
     return bout;
   }
-  
+
 //----------------------------------------------------------
 
   /**
@@ -126,8 +126,8 @@ public class StreamUtil {
    * @throws IOException
    */
   public static String getStringFromInputStream(InputStream inputStream) throws UnsupportedEncodingException, IOException {
-    
-	  InputStreamReader inputTxtStream = new InputStreamReader(inputStream, "ISO-8859-1");
+
+      InputStreamReader inputTxtStream = new InputStreamReader(inputStream, "ISO-8859-1");
 
     String StrTemp = "";
 
@@ -159,16 +159,16 @@ public class StreamUtil {
    *
    */
   public static InputStream getBlobFromByteArray(byte[] byteArray) {
-      
-	  ByteArrayInputStream stream = new ByteArrayInputStream(byteArray);
-		  
-	  //blob = new Blob(byteArray);
-	  
-	  return stream;
+
+      ByteArrayInputStream stream = new ByteArrayInputStream(byteArray);
+
+      //blob = new Blob(byteArray);
+
+      return stream;
   }
-  
+
 //----------------------------------------------------------
-  
+
   /**
    * Close an InputStream
    *
@@ -184,7 +184,7 @@ public class StreamUtil {
   }
 
 //----------------------------------------------------------
-  
+
   /**
    * Close an OutputStream
    *
@@ -213,8 +213,8 @@ public class StreamUtil {
   public static ByteArrayInputStream getByteArrayInputStreamFromFile(String filePath) throws IOException {
 
     return new ByteArrayInputStream(StreamUtil.getByteArrayFromFile(filePath));
-  }  
-  
+  }
+
 //----------------------------------------------------------
 
   /**
@@ -227,8 +227,8 @@ public class StreamUtil {
   public static InputStream getByteArrayInputStreamFromByteArray(byte[] byteArray){
 
     return new ByteArrayInputStream(byteArray);
-  }  
-  
+  }
+
 //----------------------------------------------------------
 
   /**
@@ -241,8 +241,8 @@ public class StreamUtil {
    * @throws UnsupportedEncodingException
    */
   public static ByteArrayInputStream getByteArrayInputStreamFromString(String inData, String charset) throws UnsupportedEncodingException {
-    
-	byte[] byteArray = inData.getBytes(charset);
+
+    byte[] byteArray = inData.getBytes(charset);
 
     return new ByteArrayInputStream(byteArray);
   }
@@ -259,51 +259,51 @@ public class StreamUtil {
    * @throws UnsupportedEncodingException
    */
   public static byte[] getByteArrayFromString(String inData, String charset) throws UnsupportedEncodingException {
-    
+
     byte[] byteArray = inData.getBytes(charset);
 
     return byteArray;
   }
-  
+
 //---------------------------------------------------------
-	
+
   /**
    * Convert a byte[] to a String using specified encoding ("UTF-8", "UTF-16", "latin1", ...)
-   * 
+   *
    * @param byte[] byteArray, String charset
-   * 
+   *
    * @return String
-   * 
+   *
    * @throws UnsupportedEncodingException
    */
   public static String getStringFromByteArray(byte[] byteArray, String charset) throws UnsupportedEncodingException {
-  	  	
-	 String str = new String(byteArray, charset);
-	  
-  	 return str; 
+
+     String str = new String(byteArray, charset);
+
+     return str;
   }
 
 
-//	---------------------------------------------------------
+//  ---------------------------------------------------------
 
-	
+
   /**
    * Convert a file to a String using specified encoding ("UTF-8", "UTF-16", "latin1", ...)
-   * 
+   *
    * @param String filePath, String charset
-   * 
+   *
    * @return String
-   * 
+   *
    * @throws UnsupportedEncodingException, IOException
    */
 public static String getStringFromFile(String filePath, String charset) throws Exception {
 
-	File file = new File(filePath);
-	String str = null;
-	int numRead = 0;
-	final int DATA_BLOCK_SIZE = 2048;
-	
-	InputStreamReader isr = new InputStreamReader(new FileInputStream(file), charset);
+    File file = new File(filePath);
+    String str = null;
+    int numRead = 0;
+    final int DATA_BLOCK_SIZE = 2048;
+
+    InputStreamReader isr = new InputStreamReader(new FileInputStream(file), charset);
 
     if (isr != null) {
 
@@ -317,63 +317,63 @@ public static String getStringFromFile(String filePath, String charset) throws E
     }
 
     return str;
-}	
-  
-//	---------------------------------------------------------
-	
+}
+
+//  ---------------------------------------------------------
+
 /**
  * Convert a file to a byte[]
- * 
+ *
  * @param String filePath
- * 
+ *
  * @return byte[]
- * 
+ *
  * @throws IOException
  */
   public static byte[] getByteArrayFromFile(String filePath) throws IOException {
-	  
-  	File file = new File(filePath);
-  	byte[] byteArray = null;
-  	
-  	BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-  	
-  	if (bis != null) {
-  	
-	  	byteArray = new byte[(int)file.length()];
-    	bis.read(byteArray);
-	  	bis.close();
-  	}
-  	
-  	return byteArray;
-  }	
-  
-  
-//	---------------------------------------------------------
-	
+
+    File file = new File(filePath);
+    byte[] byteArray = null;
+
+    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+
+    if (bis != null) {
+
+        byteArray = new byte[(int)file.length()];
+        bis.read(byteArray);
+        bis.close();
+    }
+
+    return byteArray;
+  }
+
+
+//  ---------------------------------------------------------
+
   /**
    * Convert an InputStream to a byte[]
-   * 
+   *
    * @param InputStream is
-   * 
+   *
    * @return byte[]
-   * 
+   *
    * @throws IOException
    */
-    public static byte[] getByteArrayFromInputStream(InputStream is) throws IOException { 
-    	byte[] byteArray = null;
-    	
-    	BufferedInputStream bis = new BufferedInputStream(is);
-    	
-    	if (bis != null) {
-    	
-    		//!!! To be implemented
-  	  		
-  	  		bis.close();
-    	}
-    	
-    	return byteArray;
-    }	
-  
-//--------------------------------------------------------------------------	
-	
+    public static byte[] getByteArrayFromInputStream(InputStream is) throws IOException {
+        byte[] byteArray = null;
+
+        BufferedInputStream bis = new BufferedInputStream(is);
+
+        if (bis != null) {
+
+            //!!! To be implemented
+
+            bis.close();
+        }
+
+        return byteArray;
+    }
+
+//--------------------------------------------------------------------------
+
 } // end of class

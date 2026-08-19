@@ -16,36 +16,36 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSSyncPoint extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSSyncPoint(int line, CObjectCatalog cat, boolean bRollback)
-	{
-		super(line, cat);
-		isrollback = bRollback ;
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSSyncPoint(int line, CObjectCatalog cat, boolean bRollback)
+    {
+        super(line, cat);
+        isrollback = bRollback ;
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // and CICS RETURN exemplars), so guard it instead of dereferencing unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	protected boolean isrollback = false ;
-	public boolean ignore()
-	{
-		return false;
-	}
+    protected boolean isrollback = false ;
+    public boolean ignore()
+    {
+        return false;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getter for the recursive ST4 assembler (template
-	// recursiveCICSSyncPointEntity). It exposes the already-resolved semantic
-	// state; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getter for the recursive ST4 assembler (template
+    // recursiveCICSSyncPointEntity). It exposes the already-resolved semantic
+    // state; rendering is done by the template, never here.
 
-	public boolean isRollback()
-	{
-		return isrollback;
-	}
+    public boolean isRollback()
+    {
+        return isrollback;
+    }
 }

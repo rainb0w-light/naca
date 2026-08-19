@@ -10,38 +10,38 @@ import jlib.xml.Tag;
 
 public class JMXDumperGui extends BaseCloseMBean
 {
-	public JMXDumperGui(String csOutputFile)
-	{
-		super("# JMX Dump","# JMX Dump");
-		setOutputFile(csOutputFile);
-	}
-
-	protected void buildDynamicMBeanInfo()
+    public JMXDumperGui(String csOutputFile)
     {
-		addOperation("Dump", getClass(), "setDump");
-		addAttribute("OutputFile", getClass(), "OutputFile", String.class);
+        super("# JMX Dump","# JMX Dump");
+        setOutputFile(csOutputFile);
     }
 
-	public void setDump()
-	{
-		JMXDumper dumper = new JMXDumper(JmxRegistration.getMBeanServer());
-		Tag tag = new Tag("root");
-		if(tag != null)
-		{
-			dumper.dumpAllMBeans(tag);
-			tag.exportToFile(getOutputFile());
-		}
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addOperation("Dump", getClass(), "setDump");
+        addAttribute("OutputFile", getClass(), "OutputFile", String.class);
+    }
 
-	public String getOutputFile()
-	{
-		return csOutputFile;
-	}
+    public void setDump()
+    {
+        JMXDumper dumper = new JMXDumper(JmxRegistration.getMBeanServer());
+        Tag tag = new Tag("root");
+        if(tag != null)
+        {
+            dumper.dumpAllMBeans(tag);
+            tag.exportToFile(getOutputFile());
+        }
+    }
 
-	public void setOutputFile(String csOutputFile)
-	{
-		this.csOutputFile = csOutputFile;
-	}
+    public String getOutputFile()
+    {
+        return csOutputFile;
+    }
 
-	private String csOutputFile = "./JMXOutput.txt";
+    public void setOutputFile(String csOutputFile)
+    {
+        this.csOutputFile = csOutputFile;
+    }
+
+    private String csOutputFile = "./JMXOutput.txt";
 }

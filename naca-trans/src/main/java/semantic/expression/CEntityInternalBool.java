@@ -16,43 +16,43 @@ import utils.CObjectCatalog;
 public class CEntityInternalBool extends CDataEntity
 {
 
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityInternalBool(String name, CObjectCatalog cat)
-	{
-		super(0, name, cat);
-	}
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityInternalBool(String name, CObjectCatalog cat)
+    {
+        super(0, name, cat);
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetDataType()
-	 */
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.VAR ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetDataType()
+     */
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.VAR ;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#HasAccessors()
-	 */
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#HasAccessors()
+     */
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CDataEntity#GetConstantValue()
-	 */
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CDataEntity#GetConstantValue()
+     */
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
-	public boolean isValNeeded()
-	{
-		return true;
-	}
+    public boolean isValNeeded()
+    {
+        return true;
+    }
 
 }

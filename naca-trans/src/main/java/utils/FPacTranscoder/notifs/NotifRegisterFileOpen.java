@@ -15,5 +15,5 @@ import jlib.engine.BaseNotification;
  */
 public class NotifRegisterFileOpen extends BaseNotification
 {
-	public CEntityFileDescriptor fileDesc = null ;
+    public CEntityFileDescriptor fileDesc = null ;
 }

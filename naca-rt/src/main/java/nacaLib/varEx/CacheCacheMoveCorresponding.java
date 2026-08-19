@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -18,20 +18,20 @@ import java.util.Hashtable;
  */
 public class CacheCacheMoveCorresponding
 {
-	public CacheCacheMoveCorresponding()
-	{
-		h = new Hashtable<Integer, MoveCorrespondingEntryManager>();
-	}
-	
-	public MoveCorrespondingEntryManager get(int nId)
-	{
-		return h.get(nId);
-	}
+    public CacheCacheMoveCorresponding()
+    {
+        h = new Hashtable<Integer, MoveCorrespondingEntryManager>();
+    }
 
-	public void add(int nId, MoveCorrespondingEntryManager c)
-	{
-		h.put(nId, c);
-	}
+    public MoveCorrespondingEntryManager get(int nId)
+    {
+        return h.get(nId);
+    }
 
-	private Hashtable<Integer, MoveCorrespondingEntryManager> h = null;
+    public void add(int nId, MoveCorrespondingEntryManager c)
+    {
+        h.put(nId, c);
+    }
+
+    private Hashtable<Integer, MoveCorrespondingEntryManager> h = null;
 }

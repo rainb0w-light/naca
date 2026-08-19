@@ -20,32 +20,32 @@ import org.w3c.dom.Element;
 public class CGenericBloc extends CBlocElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CGenericBloc(String type, int line)
-	{
-		super(line);
-		this.type = type ;
-	}
+    /**
+     * @param line
+     */
+    public CGenericBloc(String type, int line)
+    {
+        super(line);
+        this.type = type ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement(type) ;
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement(type) ;
+        return e;
+    }
 
-	protected String type = "" ;
+    protected String type = "" ;
 
-	/* (non-Javadoc)
-	 * @see parser.elements.CBlocElement#isTopLevelBloc()
-	 */
-	protected boolean isTopLevelBloc()
-	{
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see parser.elements.CBlocElement#isTopLevelBloc()
+     */
+    protected boolean isTopLevelBloc()
+    {
+        return false;
+    }
 
 }

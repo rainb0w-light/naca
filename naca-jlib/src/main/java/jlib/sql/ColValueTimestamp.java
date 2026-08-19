@@ -17,81 +17,81 @@ import java.util.Date;
 
 public class ColValueTimestamp extends ColValue
 {
-	public ColValueTimestamp(String csName,  Timestamp timestampValue)
-	{
-		super(csName);
-		this.timestampValue = timestampValue;
-	}
+    public ColValueTimestamp(String csName,  Timestamp timestampValue)
+    {
+        super(csName);
+        this.timestampValue = timestampValue;
+    }
 
-	public ColValue duplicate()
-	{
-		return new ColValueTimestamp(csName, timestampValue);
-	}
+    public ColValue duplicate()
+    {
+        return new ColValueTimestamp(csName, timestampValue);
+    }
 
-	public void setParamSQLClause(SQLClause clause)
-	{
-		clause.param(timestampValue);
-	}
+    public void setParamSQLClause(SQLClause clause)
+    {
+        clause.param(timestampValue);
+    }
 
-	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
-		throws SQLException
-	{
-		timestampValue = resultSet.getTimestamp(nCol);
-	}
+    public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
+        throws SQLException
+    {
+        timestampValue = resultSet.getTimestamp(nCol);
+    }
 
-	public String getValueAsString()
-	{
-		if(timestampValue == null)	// Now
-		{
-			Date date = new Date();
-			Time time = new Time(date.getTime());
-			return String.valueOf(time);
-		}
-		return String.valueOf(timestampValue);
-	}
+    public String getValueAsString()
+    {
+        if(timestampValue == null)  // Now
+        {
+            Date date = new Date();
+            Time time = new Time(date.getTime());
+            return String.valueOf(time);
+        }
+        return String.valueOf(timestampValue);
+    }
 
-	String getDumpValueAsString()
-	{
-		if(timestampValue == null)	// Now
-		{
-			Date date = new Date();
-			Time time = new Time(date.getTime());
-			return "(Timestamp now):'"+String.valueOf(time)+"'";
-		}
-		return "(Timestamp):'"+String.valueOf(timestampValue)+"'";
-	}
+    String getDumpValueAsString()
+    {
+        if(timestampValue == null)  // Now
+        {
+            Date date = new Date();
+            Time time = new Time(date.getTime());
+            return "(Timestamp now):'"+String.valueOf(time)+"'";
+        }
+        return "(Timestamp):'"+String.valueOf(timestampValue)+"'";
+    }
 
-	public int getValueAsInt()
-	{
-		return 0;
-	}
+    public int getValueAsInt()
+    {
+        return 0;
+    }
 
-	double getValueAsDouble()
-	{
-		return 0.0;
-	}
+    double getValueAsDouble()
+    {
+        return 0.0;
+    }
 
-	String getType()
-	{
-		return "Timestamp";
-	}
+    String getType()
+    {
+        return "Timestamp";
+    }
 
-	int getSQLType()
-	{
-		return Types.TIMESTAMP;
-	}
+    int getSQLType()
+    {
+        return Types.TIMESTAMP;
+    }
 
-	Object getValue()
-	{
-		if(timestampValue == null)	// Now
-		{
-			Date date = new Date();
-			Timestamp ts = new Timestamp(date.getTime());
-			return ts;
-		}
-		return timestampValue;
-	}
+    Object getValue()
+    {
+        if(timestampValue == null)  // Now
+        {
+            Date date = new Date();
+            Timestamp ts = new Timestamp(date.getTime());
+            return ts;
+        }
+        return timestampValue;
+    }
 
 
-	Timestamp timestampValue = null;
+    Timestamp timestampValue = null;
 }

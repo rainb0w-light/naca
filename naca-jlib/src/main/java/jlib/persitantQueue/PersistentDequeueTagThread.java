@@ -11,31 +11,31 @@ import jlib.xml.Tag;
 
 public abstract class PersistentDequeueTagThread extends BaseThread
 {
-	private PersistantQueue persistantQueue = null;
-	private int nLoopWait_ms = 0;
+    private PersistantQueue persistantQueue = null;
+    private int nLoopWait_ms = 0;
 
-	protected PersistentDequeueTagThread(PersistantQueue persistantQueue, int nLoopWait_ms)
-	{
-		this.persistantQueue = persistantQueue;
-		this.nLoopWait_ms = nLoopWait_ms;
-	}
+    protected PersistentDequeueTagThread(PersistantQueue persistantQueue, int nLoopWait_ms)
+    {
+        this.persistantQueue = persistantQueue;
+        this.nLoopWait_ms = nLoopWait_ms;
+    }
 
-	public void run()
-	{
-		boolean iscontinue = true;
-		while(iscontinue)
-		{   
-			Tag tagItem = persistantQueue.getFirstAsTag();
-			if(tagItem == null)
-			{
-				iscontinue = Threadutil.wait(nLoopWait_ms);
-			}
-			else
-			{
-				iscontinue = handleObject(tagItem);
-			}
-		}
-	}
-	
-	protected abstract boolean handleObject(Tag tagItem);
+    public void run()
+    {
+        boolean iscontinue = true;
+        while(iscontinue)
+        {
+            Tag tagItem = persistantQueue.getFirstAsTag();
+            if(tagItem == null)
+            {
+                iscontinue = Threadutil.wait(nLoopWait_ms);
+            }
+            else
+            {
+                iscontinue = handleObject(tagItem);
+            }
+        }
+    }
+
+    protected abstract boolean handleObject(Tag tagItem);
 }

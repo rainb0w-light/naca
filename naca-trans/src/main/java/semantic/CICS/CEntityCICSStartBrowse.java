@@ -17,55 +17,55 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
  */
 public class CEntityCICSStartBrowse extends CBaseActionEntity
 {
-	protected boolean isgTEQ = false ;
-	protected CDataEntity dataSet = null ;
-	protected CDataEntity recIDField = null ;
-	protected CDataEntity keyLength = null ;
-	public void Clear()
-	{
-		super.Clear();
-		dataSet = null ;
-		recIDField = null ;
-		keyLength = null ;
-	}
+    protected boolean isgTEQ = false ;
+    protected CDataEntity dataSet = null ;
+    protected CDataEntity recIDField = null ;
+    protected CDataEntity keyLength = null ;
+    public void Clear()
+    {
+        super.Clear();
+        dataSet = null ;
+        recIDField = null ;
+        keyLength = null ;
+    }
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSStartBrowse(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
-	public void SetGTEQ()
-	{
-		isgTEQ = true ;
-	}
-	public void BrowseDataSet(CDataEntity entity)
-	{
-		dataSet = entity ;
-	}
-	public void SetRecIDField(CDataEntity entity)
-	{
-		recIDField = entity ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
-	/**
-	 * @param entity
-	 */
-	public void SetKeyLength(CDataEntity entity)
-	{
-		keyLength = entity ;
-	}
-	public boolean isGTEQ() { return isgTEQ; }
-	public CDataEntity getDataSet() { return dataSet; }
-	public CDataEntity getRecIDField() { return recIDField; }
-	public CDataEntity getKeyLength() { return keyLength; }
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSStartBrowse(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
+    public void SetGTEQ()
+    {
+        isgTEQ = true ;
+    }
+    public void BrowseDataSet(CDataEntity entity)
+    {
+        dataSet = entity ;
+    }
+    public void SetRecIDField(CDataEntity entity)
+    {
+        recIDField = entity ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
+    /**
+     * @param entity
+     */
+    public void SetKeyLength(CDataEntity entity)
+    {
+        keyLength = entity ;
+    }
+    public boolean isGTEQ() { return isgTEQ; }
+    public CDataEntity getDataSet() { return dataSet; }
+    public CDataEntity getRecIDField() { return recIDField; }
+    public CDataEntity getKeyLength() { return keyLength; }
 }

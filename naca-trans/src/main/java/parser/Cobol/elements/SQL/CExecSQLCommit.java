@@ -23,37 +23,37 @@ import semantic.SQL.CEntitySQLCommit;
 public class CExecSQLCommit extends CBaseExecSQLAction
 {
 
-	/**
-	 * @param l
-	 */
-	public CExecSQLCommit(int l)
-	{
-		super(l);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("SQLCommit") ;
-		return e ;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLCommit eRB = factory.NewEntitySQLCommit(getLine());
-		parent.AddChild(eRB) ;
-		return eRB;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.COMMIT)
-		{
-			tok = GetNext();
-		}
+    /**
+     * @param l
+     */
+    public CExecSQLCommit(int l)
+    {
+        super(l);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("SQLCommit") ;
+        return e ;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLCommit eRB = factory.NewEntitySQLCommit(getLine());
+        parent.AddChild(eRB) ;
+        return eRB;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.COMMIT)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.WORK)
-		{
-			tok = GetNext();
-		}
-		return true ;
-	}
+        if (tok.GetKeyword() == CCobolKeywordList.WORK)
+        {
+            tok = GetNext();
+        }
+        return true ;
+    }
 
 }

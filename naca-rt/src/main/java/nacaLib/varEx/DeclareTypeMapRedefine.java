@@ -12,34 +12,34 @@ package nacaLib.varEx;
  */
 public class DeclareTypeMapRedefine extends DeclareTypeBase
 {
-	private int nLength = 0;
-	Form formRedefineOrigin = null;
+    private int nLength = 0;
+    Form formRedefineOrigin = null;
 
-	public DeclareTypeMapRedefine()
-	{
-	}
+    public DeclareTypeMapRedefine()
+    {
+    }
 
-	public void set(VarLevel varLevel, Form formRedefineOrigin)
-	{
-		super.set(varLevel);
-		this.formRedefineOrigin = formRedefineOrigin;
-		this.nLength = 0;
-	}
+    public void set(VarLevel varLevel, Form formRedefineOrigin)
+    {
+        super.set(varLevel);
+        this.formRedefineOrigin = formRedefineOrigin;
+        this.nLength = 0;
+    }
 
-	int getLength()
-	{
-		return nLength;
-	}
+    int getLength()
+    {
+        return nLength;
+    }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefMapRedefine varDef = new VarDefMapRedefine(varDefParent, this);
-		varDef.varDefFormRedefineOrigin = formRedefineOrigin.getDefForm();
-		return varDef;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefMapRedefine varDef = new VarDefMapRedefine(varDefParent, this);
+        varDef.varDefFormRedefineOrigin = formRedefineOrigin.getDefForm();
+        return varDef;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 }

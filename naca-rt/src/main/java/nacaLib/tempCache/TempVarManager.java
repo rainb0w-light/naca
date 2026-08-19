@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
@@ -18,64 +18,64 @@ import nacaLib.varEx.*;
  */
 //public class TempVarManager<T>
 //{
-//	private TempVarTypeManager<T> tarrTemp[] = null;
+//  private TempVarTypeManager<T> tarrTemp[] = null;
 //
-//	public TempVarManager(int nNbTypes)
-//	{
-//		tarrTemp = new TempVarTypeManager[nNbTypes];
-//		for(int n=0; n<nNbTypes; n++)
-//		{
-//			tarrTemp[n] = new TempVarTypeManager();
-//		}
-//	}
-//	
-//	public CoupleVar<T> getTempCouple(int nVarDefTypeId)
-//	{
-//		return tarrTemp[nVarDefTypeId].getTempCoupleVar();
-//	}
-//	
-//	public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, T var)
-//	{
-//		return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
-//	}
-//	
-//	public void resetTempIndex(int nVarDefTypeId)
-//	{
-//		tarrTemp[nVarDefTypeId].reset();
-//	}
+//  public TempVarManager(int nNbTypes)
+//  {
+//      tarrTemp = new TempVarTypeManager[nNbTypes];
+//      for(int n=0; n<nNbTypes; n++)
+//      {
+//          tarrTemp[n] = new TempVarTypeManager();
+//      }
+//  }
+//
+//  public CoupleVar<T> getTempCouple(int nVarDefTypeId)
+//  {
+//      return tarrTemp[nVarDefTypeId].getTempCoupleVar();
+//  }
+//
+//  public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, T var)
+//  {
+//      return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
+//  }
+//
+//  public void resetTempIndex(int nVarDefTypeId)
+//  {
+//      tarrTemp[nVarDefTypeId].reset();
+//  }
 //}
 
 public class TempVarManager
 {
-	private TempVarTypeManager tarrTemp[] = null;
+    private TempVarTypeManager tarrTemp[] = null;
 
-	public TempVarManager(int nNbTypes)
-	{
-		tarrTemp = new TempVarTypeManager[nNbTypes];
-		for(int n=0; n<nNbTypes; n++)
-		{
-			tarrTemp[n] = new TempVarTypeManager();
-		}
-	}
-	
-	public CoupleVar getTempCouple(int nVarDefTypeId)
-	{
-		return tarrTemp[nVarDefTypeId].getTempCoupleVar();
-	}
-	
-	public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, VarBase var)
-	{
-		return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
-	}
-	
-	public void resetTempIndex(int nVarDefTypeId)
-	{
-		tarrTemp[nVarDefTypeId].reset();
-	}
-	
-	public void resetTempIndexAndForbidReuse(int nVarDefTypeId)
-	{
-		tarrTemp[nVarDefTypeId].resetAndForbidReuse();
-	}
+    public TempVarManager(int nNbTypes)
+    {
+        tarrTemp = new TempVarTypeManager[nNbTypes];
+        for(int n=0; n<nNbTypes; n++)
+        {
+            tarrTemp[n] = new TempVarTypeManager();
+        }
+    }
+
+    public CoupleVar getTempCouple(int nVarDefTypeId)
+    {
+        return tarrTemp[nVarDefTypeId].getTempCoupleVar();
+    }
+
+    public CoupleVar addTemp(int nVarDefTypeId, VarDefBuffer varDefItem, VarBase var)
+    {
+        return tarrTemp[nVarDefTypeId].addTempVar(varDefItem, var);
+    }
+
+    public void resetTempIndex(int nVarDefTypeId)
+    {
+        tarrTemp[nVarDefTypeId].reset();
+    }
+
+    public void resetTempIndexAndForbidReuse(int nVarDefTypeId)
+    {
+        tarrTemp[nVarDefTypeId].resetAndForbidReuse();
+    }
 
 }

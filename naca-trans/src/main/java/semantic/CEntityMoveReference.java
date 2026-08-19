@@ -14,42 +14,42 @@ import utils.CObjectCatalog;
  */
 public class CEntityMoveReference extends CBaseActionEntity
 {
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityMoveReference(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityMoveReference(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void SetMoveReference(CEntityAddressReference from, CEntityAddressReference to)
-	{
-		this.from = from ;
-		this.to = to;
-	}
-	protected CEntityAddressReference from = null ;
-	protected CEntityAddressReference to = null ;
+    public void SetMoveReference(CEntityAddressReference from, CEntityAddressReference to)
+    {
+        this.from = from ;
+        this.to = to;
+    }
+    protected CEntityAddressReference from = null ;
+    protected CEntityAddressReference to = null ;
 
-	public CEntityAddressReference getFrom()
-	{
-		return from ;
-	}
+    public CEntityAddressReference getFrom()
+    {
+        return from ;
+    }
 
-	public CEntityAddressReference getTo()
-	{
-		return to ;
-	}
-	public boolean ignore()
-	{
-		return from.ignore() || to.ignore();
-	}
-	public void Clear()
-	{
-		super.Clear();
-		from.Clear() ;
-		to.Clear() ;
-		from = null ;
-		to = null ;
-	}
+    public CEntityAddressReference getTo()
+    {
+        return to ;
+    }
+    public boolean ignore()
+    {
+        return from.ignore() || to.ignore();
+    }
+    public void Clear()
+    {
+        super.Clear();
+        from.Clear() ;
+        to.Clear() ;
+        from = null ;
+        to = null ;
+    }
 }

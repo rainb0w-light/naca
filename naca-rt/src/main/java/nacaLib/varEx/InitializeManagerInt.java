@@ -12,22 +12,22 @@ package nacaLib.varEx;
  */
 public class InitializeManagerInt extends InitializeManager
 {
-	public InitializeManagerInt(int n)
-	{
-		this.n = n;
-	}
+    public InitializeManagerInt(int n)
+    {
+        this.n = n;
+    }
 
-	public void set(int n)
-	{
-		this.n = n;
-	}
+    public void set(int n)
+    {
+        this.n = n;
+    }
 
-	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
-	{
-		varDef.initializeAtOffset(buffer, nOffset, n);
-		if(initializeCache != null)
-			initializeCache.setNotManaged();
-	}
+    public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
+    {
+        varDef.initializeAtOffset(buffer, nOffset, n);
+        if(initializeCache != null)
+            initializeCache.setNotManaged();
+    }
 
-	private int n;
+    private int n;
 }

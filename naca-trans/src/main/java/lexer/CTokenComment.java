@@ -12,26 +12,26 @@ package lexer;
  */
 public class CTokenComment extends CBaseToken
 {
-	public CTokenComment(String Comm, int line, boolean newline)
-	{
-		super(line, newline);
-		value = Comm ;
-	}
+    public CTokenComment(String Comm, int line, boolean newline)
+    {
+        super(line, newline);
+        value = Comm ;
+    }
 
-	public CTokenType GetType()
-	{
-		return CTokenType.COMMENTS;
-	}
-	public String toString()
-	{
-		return "[COMMENT: " + value + "]" ;
-	}
+    public CTokenType GetType()
+    {
+        return CTokenType.COMMENTS;
+    }
+    public String toString()
+    {
+        return "[COMMENT: " + value + "]" ;
+    }
 
-	/* (non-Javadoc)
-	 * @see lexer.CBaseToken#GetDisplay()
-	 */
-	public String GetDisplay()
-	{
-		return "";
-	}
+    /* (non-Javadoc)
+     * @see lexer.CBaseToken#GetDisplay()
+     */
+    public String GetDisplay()
+    {
+        return "";
+    }
 }

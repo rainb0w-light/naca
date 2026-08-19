@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -21,18 +21,18 @@ import jlib.threads.BasePooledThreadFactory;
  */
 public class BtreePooledThreadWriterFactory extends BasePooledThreadFactory
 {
-	public BtreePooledThreadWriterFactory()
-	{
-	}
-	
-	public BtreePooledWriterThread make(PoolOfThreads owningPool)
-	{
-		// Key description is stored in the TLS of the current thread (which creates the pool of threads) 
-		BtreeKeyDescription keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
-		
-		//setBtreeKeyDescription(keyDescription);
-		BtreePooledWriterThread thread = new BtreePooledWriterThread(owningPool);
-		thread.setBtreeKeyDescription(keyDescription);
-		return thread;
-	}
+    public BtreePooledThreadWriterFactory()
+    {
+    }
+
+    public BtreePooledWriterThread make(PoolOfThreads owningPool)
+    {
+        // Key description is stored in the TLS of the current thread (which creates the pool of threads)
+        BtreeKeyDescription keyDescription = TempCacheLocator.getTLSTempCache().getBtreeKeyDescription();
+
+        //setBtreeKeyDescription(keyDescription);
+        BtreePooledWriterThread thread = new BtreePooledWriterThread(owningPool);
+        thread.setBtreeKeyDescription(keyDescription);
+        return thread;
+    }
 }

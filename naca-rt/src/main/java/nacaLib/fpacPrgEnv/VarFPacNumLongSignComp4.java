@@ -13,10 +13,10 @@ import nacaLib.varEx.VarNumIntSignComp4Long;
 
 public class VarFPacNumLongSignComp4 extends VarNumIntSignComp4Long
 {
-	public VarFPacNumLongSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
-	{
-		super(type);		
-		bufferPos = new VarBufferPos(varBuffer, nPosition);
-		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
-	}
+    public VarFPacNumLongSignComp4(DeclareTypeFPacSignComp4 type, VarBuffer varBuffer, int nPosition)
+    {
+        super(type);
+        bufferPos = new VarBufferPos(varBuffer, nPosition);
+        varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
+    }
 }

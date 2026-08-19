@@ -8,19 +8,19 @@ package nacaLib.varEx;
 
 public class DeclareTypeFPacSignIntComp3 extends DeclareType9
 {
-	public DeclareTypeFPacSignIntComp3()
-	{
-	}
-	
-	public void set(VarLevel varLevel, int nNbDigitIntegerPart)
-	{
-		set(varLevel, true, nNbDigitIntegerPart, 0);
-		comp3();
-	}
-	
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-		VarDefBuffer varDef = numericValue.createVarDefFPacNum(varDefParent, this);
-		return varDef;		
-	}
+    public DeclareTypeFPacSignIntComp3()
+    {
+    }
+
+    public void set(VarLevel varLevel, int nNbDigitIntegerPart)
+    {
+        set(varLevel, true, nNbDigitIntegerPart, 0);
+        comp3();
+    }
+
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+        VarDefBuffer varDef = numericValue.createVarDefFPacNum(varDefParent, this);
+        return varDef;
+    }
 }

@@ -35,326 +35,326 @@ te for this generated type comment go to
 public class CUnstring extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CUnstring(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CUnstring(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityParseString eParse = factory.NewEntityParseString(getLine()) ;
-		parent.AddChild(eParse);
-		CDataEntity eVar = variable.GetDataReference(getLine(), factory);
-		eVar.RegisterReadingAction(eParse) ;
-		eParse.ParseString(eVar);
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityParseString eParse = factory.NewEntityParseString(getLine()) ;
+        parent.AddChild(eParse);
+        CDataEntity eVar = variable.GetDataReference(getLine(), factory);
+        eVar.RegisterReadingAction(eParse) ;
+        eParse.ParseString(eVar);
 
-		for (int i = 0; i< delimitersSingle.size(); i++)
-		{
-			CTerminal term = delimitersSingle.get(i);
-			CDataEntity e = term.GetDataEntity(getLine(), factory);
-			if (e == null)
-			{
-				if (!term.IsReference() && (term.GetValue().equals("SPACES") || term.GetValue().equals("SPACE")))
-				{
-					char [] arr = {' '} ;
-					e = factory.NewEntityString(arr);
-				}
-				else if (!term.IsReference() && (term.GetValue().equals("LOW-VALUE") || term.GetValue().equals("LOW-VALUES")))
-				{
-					char [] arr = {'\0'} ;
-					e = factory.NewEntityString(arr);
-				}
-			}
-			eParse.AddDelimiterSingle(e);
-		}
-		for (int i = 0; i< delimitersMulti.size(); i++)
-		{
-			CTerminal term = delimitersMulti.get(i);
-			CDataEntity e = term.GetDataEntity(getLine(), factory);
-			if (e == null)
-			{
-				if (!term.IsReference() && (term.GetValue().equals("SPACES") || term.GetValue().equals("SPACE")))
-				{
-					char [] arr = {' '} ;
-					e = factory.NewEntityString(arr);
-				}
-			}
-			eParse.AddDelimiterMulti(e);
-		}
-		for (int i = 0; i< targets.size(); i++)
-		{
-			CIdentifier[] ids = targets.get(i);
-			CDataEntity[] entities = new CDataEntity[3];
-			for (int j=0; j < ids.length; j++)
-			{
-				CIdentifier id = ids[j];
-				CDataEntity entity = null;
-				if (id != null)
-				{
-					entity = id.GetDataReference(getLine(), factory);
-					entity.RegisterWritingAction(eParse);
-				}
-				entities[j] = entity;
-			}
-			eParse.AddDestination(entities);
-		}
-		if (tallying != null)
-		{
-			CDataEntity entity = tallying.GetDataReference(getLine(), factory);
-			entity.RegisterWritingAction(eParse);
-			eParse.setTallying(entity);
-		}
-		if (withPointer != null)
-		{
-			CDataEntity entity = withPointer.GetDataReference(getLine(), factory);
-			entity.RegisterWritingAction(eParse);
-			eParse.setWithPointer(entity);
-		}
+        for (int i = 0; i< delimitersSingle.size(); i++)
+        {
+            CTerminal term = delimitersSingle.get(i);
+            CDataEntity e = term.GetDataEntity(getLine(), factory);
+            if (e == null)
+            {
+                if (!term.IsReference() && (term.GetValue().equals("SPACES") || term.GetValue().equals("SPACE")))
+                {
+                    char [] arr = {' '} ;
+                    e = factory.NewEntityString(arr);
+                }
+                else if (!term.IsReference() && (term.GetValue().equals("LOW-VALUE") || term.GetValue().equals("LOW-VALUES")))
+                {
+                    char [] arr = {'\0'} ;
+                    e = factory.NewEntityString(arr);
+                }
+            }
+            eParse.AddDelimiterSingle(e);
+        }
+        for (int i = 0; i< delimitersMulti.size(); i++)
+        {
+            CTerminal term = delimitersMulti.get(i);
+            CDataEntity e = term.GetDataEntity(getLine(), factory);
+            if (e == null)
+            {
+                if (!term.IsReference() && (term.GetValue().equals("SPACES") || term.GetValue().equals("SPACE")))
+                {
+                    char [] arr = {' '} ;
+                    e = factory.NewEntityString(arr);
+                }
+            }
+            eParse.AddDelimiterMulti(e);
+        }
+        for (int i = 0; i< targets.size(); i++)
+        {
+            CIdentifier[] ids = targets.get(i);
+            CDataEntity[] entities = new CDataEntity[3];
+            for (int j=0; j < ids.length; j++)
+            {
+                CIdentifier id = ids[j];
+                CDataEntity entity = null;
+                if (id != null)
+                {
+                    entity = id.GetDataReference(getLine(), factory);
+                    entity.RegisterWritingAction(eParse);
+                }
+                entities[j] = entity;
+            }
+            eParse.AddDestination(entities);
+        }
+        if (tallying != null)
+        {
+            CDataEntity entity = tallying.GetDataReference(getLine(), factory);
+            entity.RegisterWritingAction(eParse);
+            eParse.setTallying(entity);
+        }
+        if (withPointer != null)
+        {
+            CDataEntity entity = withPointer.GetDataReference(getLine(), factory);
+            entity.RegisterWritingAction(eParse);
+            eParse.setWithPointer(entity);
+        }
 
-		if (onOverflowBloc != null)
-		{
-			eParse.AddChildSpecial(onOverflowBloc.DoSemanticAnalysis(eParse, factory)) ;
-		}
-		return eParse;
-	}
+        if (onOverflowBloc != null)
+        {
+            eParse.AddChildSpecial(onOverflowBloc.DoSemanticAnalysis(eParse, factory)) ;
+        }
+        return eParse;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.UNSTRING)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
-		GetNext();
-		variable = ReadIdentifier();
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.DELIMITED)
-		{
-			if (tok.GetKeyword() != CCobolKeywordList.INTO)
-			{
-				return false ;
-			}
-		}
-		else
-		{
-			tok = GetNext();
-			if (tok.GetKeyword() == CCobolKeywordList.BY)
-			{
-				tok = GetNext();
-			}
-			if (tok.GetKeyword() == CCobolKeywordList.ALL)
-			{
-				tok = GetNext() ;
-				CTerminal t = ReadTerminal();
-				delimitersMulti.add(t) ;
-			}
-			else
-			{
-				CTerminal t = ReadTerminal();
-				delimitersSingle.add(t) ;
-			}
-		}
-		tok = GetCurrentToken();
-		if (tok.GetType()  == CTokenType.COMMA)
-			tok = GetNext() ;
-		while (tok.GetKeyword() == CCobolKeywordList.OR)
-		{
-			tok = GetNext();
-			if (tok.GetKeyword() == CCobolKeywordList.ALL)
-			{
-				tok = GetNext() ;
-				CTerminal t = ReadTerminal();
-				delimitersMulti.add(t) ;
-			}
-			else
-			{
-				CTerminal t = ReadTerminal();
-				delimitersSingle.add(t) ;
-			}
-			tok = GetCurrentToken();
-			if (tok.GetType()  == CTokenType.COMMA)
-				tok = GetNext() ;
-		}
-		if (tok.GetKeyword() == CCobolKeywordList.INTO)
-		{
-			GetNext() ;
-			CIdentifier id = ReadIdentifier() ;
-			while (id != null)
-			{
-				CIdentifier[] ids = new CIdentifier[3];
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.UNSTRING)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        GetNext();
+        variable = ReadIdentifier();
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.DELIMITED)
+        {
+            if (tok.GetKeyword() != CCobolKeywordList.INTO)
+            {
+                return false ;
+            }
+        }
+        else
+        {
+            tok = GetNext();
+            if (tok.GetKeyword() == CCobolKeywordList.BY)
+            {
+                tok = GetNext();
+            }
+            if (tok.GetKeyword() == CCobolKeywordList.ALL)
+            {
+                tok = GetNext() ;
+                CTerminal t = ReadTerminal();
+                delimitersMulti.add(t) ;
+            }
+            else
+            {
+                CTerminal t = ReadTerminal();
+                delimitersSingle.add(t) ;
+            }
+        }
+        tok = GetCurrentToken();
+        if (tok.GetType()  == CTokenType.COMMA)
+            tok = GetNext() ;
+        while (tok.GetKeyword() == CCobolKeywordList.OR)
+        {
+            tok = GetNext();
+            if (tok.GetKeyword() == CCobolKeywordList.ALL)
+            {
+                tok = GetNext() ;
+                CTerminal t = ReadTerminal();
+                delimitersMulti.add(t) ;
+            }
+            else
+            {
+                CTerminal t = ReadTerminal();
+                delimitersSingle.add(t) ;
+            }
+            tok = GetCurrentToken();
+            if (tok.GetType()  == CTokenType.COMMA)
+                tok = GetNext() ;
+        }
+        if (tok.GetKeyword() == CCobolKeywordList.INTO)
+        {
+            GetNext() ;
+            CIdentifier id = ReadIdentifier() ;
+            while (id != null)
+            {
+                CIdentifier[] ids = new CIdentifier[3];
 
-				ids[0] = id;
-				tok = GetCurrentToken();
-				if (tok.GetType() == CTokenType.COMMA)
-				{
-					tok = GetNext();
-				}
-				CIdentifier delimiterIn = null;
-				if (tok.GetKeyword() == CCobolKeywordList.DELIMITER)
-				{
-					tok = GetNext();
-					if (tok.GetKeyword() == CCobolKeywordList.IN)
-					{
-						tok = GetNext() ;
-					}
-					delimiterIn = ReadIdentifier();
-					ids[1] = delimiterIn;
-					tok =GetCurrentToken();
-				}
-				ids[1] = delimiterIn;
-				if (tok.GetType() == CTokenType.COMMA)
-				{
-					tok = GetNext();
-				}
-				CIdentifier countIn = null;
-				if (tok.GetKeyword() == CCobolKeywordList.COUNT)
-				{
-					tok = GetNext();
-					if (tok.GetKeyword() == CCobolKeywordList.IN)
-					{
-						tok = GetNext() ;
-					}
-					countIn = ReadIdentifier();
+                ids[0] = id;
+                tok = GetCurrentToken();
+                if (tok.GetType() == CTokenType.COMMA)
+                {
+                    tok = GetNext();
+                }
+                CIdentifier delimiterIn = null;
+                if (tok.GetKeyword() == CCobolKeywordList.DELIMITER)
+                {
+                    tok = GetNext();
+                    if (tok.GetKeyword() == CCobolKeywordList.IN)
+                    {
+                        tok = GetNext() ;
+                    }
+                    delimiterIn = ReadIdentifier();
+                    ids[1] = delimiterIn;
+                    tok =GetCurrentToken();
+                }
+                ids[1] = delimiterIn;
+                if (tok.GetType() == CTokenType.COMMA)
+                {
+                    tok = GetNext();
+                }
+                CIdentifier countIn = null;
+                if (tok.GetKeyword() == CCobolKeywordList.COUNT)
+                {
+                    tok = GetNext();
+                    if (tok.GetKeyword() == CCobolKeywordList.IN)
+                    {
+                        tok = GetNext() ;
+                    }
+                    countIn = ReadIdentifier();
 
-					tok =GetCurrentToken();
-				}
-				ids[2] = countIn;
-				targets.add(ids);
+                    tok =GetCurrentToken();
+                }
+                ids[2] = countIn;
+                targets.add(ids);
 
-				if (tok.GetType()== CTokenType.COMMA)
-				{
-					GetNext();
-				}
-				id = ReadIdentifier() ;
-			}
-		}
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetCurrentToken();
-			if (tok.GetKeyword() == CCobolKeywordList.ON)
-			{
-				tok = GetNext();
-				if (tok.GetKeyword() == CCobolKeywordList.OVERFLOW)
-				{
-					GetNext();
-					onOverflowBloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
-					if (!Parse(onOverflowBloc))
-					{
-						Transcoder.logError(getLine(), "Failure while parsing bloc") ;
-						return false ;
-					}
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.TALLYING)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() == CCobolKeywordList.IN)
-				{
-					tok = GetNext();
-				}
-				tallying = ReadIdentifier();
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.WITH || tok.GetKeyword() == CCobolKeywordList.POINTER)
-			{
-				if (tok.GetKeyword() == CCobolKeywordList.WITH )
-				{
-					tok = GetNext();
-				}
-				tok = GetNext();
-				withPointer = ReadIdentifier();
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.END_UNSTRING)
-			{
-				GetNext();
-				isdone = true ;
-			}
-			else if (tok.GetType() == CTokenType.DOT)
-			{
-				isdone = true ;
-			}
-			else if (tok.GetType() == CTokenType.KEYWORD)
-			{
-				isdone = true ;
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Unexpecting situation");
-				return false ;
-			}
-		}
-		return true;
-	}
+                if (tok.GetType()== CTokenType.COMMA)
+                {
+                    GetNext();
+                }
+                id = ReadIdentifier() ;
+            }
+        }
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetCurrentToken();
+            if (tok.GetKeyword() == CCobolKeywordList.ON)
+            {
+                tok = GetNext();
+                if (tok.GetKeyword() == CCobolKeywordList.OVERFLOW)
+                {
+                    GetNext();
+                    onOverflowBloc = new CGenericBloc("OnOverflow", GetCurrentToken().getLine()) ;
+                    if (!Parse(onOverflowBloc))
+                    {
+                        Transcoder.logError(getLine(), "Failure while parsing bloc") ;
+                        return false ;
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.TALLYING)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() == CCobolKeywordList.IN)
+                {
+                    tok = GetNext();
+                }
+                tallying = ReadIdentifier();
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.WITH || tok.GetKeyword() == CCobolKeywordList.POINTER)
+            {
+                if (tok.GetKeyword() == CCobolKeywordList.WITH )
+                {
+                    tok = GetNext();
+                }
+                tok = GetNext();
+                withPointer = ReadIdentifier();
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.END_UNSTRING)
+            {
+                GetNext();
+                isdone = true ;
+            }
+            else if (tok.GetType() == CTokenType.DOT)
+            {
+                isdone = true ;
+            }
+            else if (tok.GetType() == CTokenType.KEYWORD)
+            {
+                isdone = true ;
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Unexpecting situation");
+                return false ;
+            }
+        }
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eUS = root.createElement("UnString");
-		Element eVar = root.createElement("Variable");
-		variable.ExportTo(eVar, root) ;
-		eUS.appendChild(eVar) ;
-		for (int i = 0; i< delimitersSingle.size(); i++)
-		{
-			CTerminal t = delimitersSingle.get(i);
-			Element eT = root.createElement("SingleDelimiter");
-			eUS.appendChild(eT);
-			t.ExportTo(eT, root);
-		}
-		for (int i = 0; i< delimitersMulti.size(); i++)
-		{
-			CTerminal t = delimitersMulti.get(i);
-			Element eT = root.createElement("MultiDelimiter");
-			eUS.appendChild(eT);
-			t.ExportTo(eT, root);
-		}
-		for (int i = 0; i< targets.size(); i++)
-		{
-			CIdentifier id = targets.get(i)[0];
-			Element eT = root.createElement("Target");
-			eUS.appendChild(eT);
-			id.ExportTo(eT, root);
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eUS = root.createElement("UnString");
+        Element eVar = root.createElement("Variable");
+        variable.ExportTo(eVar, root) ;
+        eUS.appendChild(eVar) ;
+        for (int i = 0; i< delimitersSingle.size(); i++)
+        {
+            CTerminal t = delimitersSingle.get(i);
+            Element eT = root.createElement("SingleDelimiter");
+            eUS.appendChild(eT);
+            t.ExportTo(eT, root);
+        }
+        for (int i = 0; i< delimitersMulti.size(); i++)
+        {
+            CTerminal t = delimitersMulti.get(i);
+            Element eT = root.createElement("MultiDelimiter");
+            eUS.appendChild(eT);
+            t.ExportTo(eT, root);
+        }
+        for (int i = 0; i< targets.size(); i++)
+        {
+            CIdentifier id = targets.get(i)[0];
+            Element eT = root.createElement("Target");
+            eUS.appendChild(eT);
+            id.ExportTo(eT, root);
 
-			id = targets.get(i)[1];
-			if (id != null)
-			{
-				Element eTDelimiterIn = root.createElement("DelimiterIn");
-				eUS.appendChild(eTDelimiterIn);
-				id.ExportTo(eTDelimiterIn, root);
-			}
-			id = targets.get(i)[2];
-			if (id != null)
-			{
-				Element eTCountIn = root.createElement("CountIn");
-				eUS.appendChild(eTCountIn);
-				id.ExportTo(eTCountIn, root);
-			}
-		}
-		if (onOverflowBloc != null)
-		{
-			Element eBloc = root.createElement("OnOverflow");
-			eBloc.appendChild(onOverflowBloc.Export(root));
-			eUS.appendChild(eBloc);
-		}
-		return eUS ;
-	}
+            id = targets.get(i)[1];
+            if (id != null)
+            {
+                Element eTDelimiterIn = root.createElement("DelimiterIn");
+                eUS.appendChild(eTDelimiterIn);
+                id.ExportTo(eTDelimiterIn, root);
+            }
+            id = targets.get(i)[2];
+            if (id != null)
+            {
+                Element eTCountIn = root.createElement("CountIn");
+                eUS.appendChild(eTCountIn);
+                id.ExportTo(eTCountIn, root);
+            }
+        }
+        if (onOverflowBloc != null)
+        {
+            Element eBloc = root.createElement("OnOverflow");
+            eBloc.appendChild(onOverflowBloc.Export(root));
+            eUS.appendChild(eBloc);
+        }
+        return eUS ;
+    }
 
-	protected CIdentifier variable = null ;
-	protected Vector<CTerminal> delimitersSingle = new Vector<CTerminal>() ;
-	protected Vector<CTerminal> delimitersMulti = new Vector<CTerminal>() ;
-	protected Vector<CIdentifier[]> targets = new Vector<CIdentifier[]>();
-	protected CBlocElement onOverflowBloc = null ;
-	protected CIdentifier withPointer = null ;
-	protected CIdentifier tallying = null ;
+    protected CIdentifier variable = null ;
+    protected Vector<CTerminal> delimitersSingle = new Vector<CTerminal>() ;
+    protected Vector<CTerminal> delimitersMulti = new Vector<CTerminal>() ;
+    protected Vector<CIdentifier[]> targets = new Vector<CIdentifier[]>();
+    protected CBlocElement onOverflowBloc = null ;
+    protected CIdentifier withPointer = null ;
+    protected CIdentifier tallying = null ;
 }

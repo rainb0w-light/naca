@@ -13,43 +13,43 @@ package nacaLib.varEx;
  */
 public class EditSupport extends DeclareTypeBase
 {
-	public EditSupport(VarLevel varLevel)
-	{
-		super(varLevel);
-	}
+    public EditSupport(VarLevel varLevel)
+    {
+        super(varLevel);
+    }
 
-	public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
-	{
-//		VarDef varDef = new VarDefG(nId, varDefParent, this);
-//		return varDef;
-		return null;
-	}
+    public VarDefBuffer createVarDef(VarDefBuffer varDefParent)
+    {
+//      VarDef varDef = new VarDefG(nId, varDefParent, this);
+//      return varDef;
+        return null;
+    }
 
-	public CInitialValue getInitialValue()
-	{
-		return null;
-	}
+    public CInitialValue getInitialValue()
+    {
+        return null;
+    }
 
-//	public Edit edit()	// Edit in a map redefine
-//	{
-//		Edit edt = varLevelManager.createEdit();
-//		return edt;
-//	}
+//  public Edit edit()  // Edit in a map redefine
+//  {
+//      Edit edt = varLevelManager.createEdit();
+//      return edt;
+//  }
 //
-//	public Edit editSkip()
-//	{
-//		return editSkip(1);
-//	}
+//  public Edit editSkip()
+//  {
+//      return editSkip(1);
+//  }
 //
-//	public Edit editSkip(int nNbItemToSkip)
-//	{
-//		varLevelManager.editSkip(nNbItemToSkip);
-//		return null;
-//	}
+//  public Edit editSkip(int nNbItemToSkip)
+//  {
+//      varLevelManager.editSkip(nNbItemToSkip);
+//      return null;
+//  }
 //
-//	public Edit editOccurs(int nNbOccurs, String csName)
-//	{
-//		Edit edt = varLevelManager.editOccurs(nNbOccurs, csName);
-//		return edt;
-//	}
+//  public Edit editOccurs(int nNbOccurs, String csName)
+//  {
+//      Edit edt = varLevelManager.editOccurs(nNbOccurs, csName);
+//      return edt;
+//  }
 }

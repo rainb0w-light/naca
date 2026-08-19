@@ -20,58 +20,58 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class HTTPMapFieldLoader
 {
-	protected HttpServletRequest httpRequest = null ;
-	public HTTPMapFieldLoader(HttpServletRequest req)
-	{
-		httpRequest = req ;
-	}
+    protected HttpServletRequest httpRequest = null ;
+    public HTTPMapFieldLoader(HttpServletRequest req)
+    {
+        httpRequest = req ;
+    }
 
 
-	public Enumeration getFieldNames()
-	{
-		return httpRequest.getParameterNames() ;
-	}
+    public Enumeration getFieldNames()
+    {
+        return httpRequest.getParameterNames() ;
+    }
 
-	public String getAction()
-	{
-		return getFieldValue("DisplayContextAction") ;
-	}
-	/* (non-Javadoc)
-	 * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
-	 */
-	public String getFieldValue(String fieldName)
-	{
-		if (httpRequest != null)
-		{
-			String cs = httpRequest.getParameter(fieldName);
-			if (cs == null)
-			{
-				return "" ;
-			}
-			else if (cs.indexOf(195) > 0)
-			{
-				String charsetname = Charset.defaultCharset().displayName() ;
-				if (charsetname.equalsIgnoreCase("UTF-8"))
-				{
-					Charset charset = Charset.forName("ISO-8859-1") ;
-					//ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
-					ByteBuffer buf = charset.encode(cs) ;
-					String cs2 = new String(buf.array()) ;
-					cs2 = cs2.trim() ;
-					return cs2;
-				}
-				else
-				{
-					Charset charset = Charset.forName("UTF-8") ;
-					ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
-					CharBuffer cbuf = charset.decode(buf) ;
-					String cs2 = new String(cbuf.array()) ;
-					cs2 = cs2.trim() ;
-					return cs2;
-				}
-			}
-			return cs ;
-		}
-		return "" ;
-	}
+    public String getAction()
+    {
+        return getFieldValue("DisplayContextAction") ;
+    }
+    /* (non-Javadoc)
+     * @see CJMap.CBaseMapFieldLoader#GetFieldValue(java.lang.String)
+     */
+    public String getFieldValue(String fieldName)
+    {
+        if (httpRequest != null)
+        {
+            String cs = httpRequest.getParameter(fieldName);
+            if (cs == null)
+            {
+                return "" ;
+            }
+            else if (cs.indexOf(195) > 0)
+            {
+                String charsetname = Charset.defaultCharset().displayName() ;
+                if (charsetname.equalsIgnoreCase("UTF-8"))
+                {
+                    Charset charset = Charset.forName("ISO-8859-1") ;
+                    //ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
+                    ByteBuffer buf = charset.encode(cs) ;
+                    String cs2 = new String(buf.array()) ;
+                    cs2 = cs2.trim() ;
+                    return cs2;
+                }
+                else
+                {
+                    Charset charset = Charset.forName("UTF-8") ;
+                    ByteBuffer buf = ByteBuffer.wrap(cs.getBytes()) ;
+                    CharBuffer cbuf = charset.decode(buf) ;
+                    String cs2 = new String(cbuf.array()) ;
+                    cs2 = cs2.trim() ;
+                    return cs2;
+                }
+            }
+            return cs ;
+        }
+        return "" ;
+    }
 }

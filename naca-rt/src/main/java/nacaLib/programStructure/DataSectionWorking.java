@@ -16,8 +16,8 @@ import nacaLib.varEx.DataSectionType;
 
 public class DataSectionWorking extends DataSection
 {
-	public DataSectionWorking(BaseProgram prg)
-	{
-		super(prg, DataSectionType.Working);
-	}
+    public DataSectionWorking(BaseProgram prg)
+    {
+        super(prg, DataSectionType.Working);
+    }
 }

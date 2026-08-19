@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.callPrg;
 
@@ -24,23 +24,26 @@ import nacaLib.basePrgEnv.BaseSession;
 
 public class CalledEnvironment extends BaseEnvironment
 {
-	public CalledEnvironment(CalledSession calledSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
-	{	
-		super(calledSession, connectionManager, baseResourceManager);
-	}
-	
-	public BaseCESMManager createCESMManager()
-	{
-		return new CESMManager(this);
-	}
-	
-	public BaseSession getSession()
-	{
-		return null;
-	}
-	
-	public void breakCurrentSessionIfTimeout()
-	{
-	}
-	
+    public CalledEnvironment(
+        CalledSession calledSession,
+        DbConnectionManagerBase connectionManager,
+        BaseResourceManager baseResourceManager)
+    {
+        super(calledSession, connectionManager, baseResourceManager);
+    }
+
+    public BaseCESMManager createCESMManager()
+    {
+        return new CESMManager(this);
+    }
+
+    public BaseSession getSession()
+    {
+        return null;
+    }
+
+    public void breakCurrentSessionIfTimeout()
+    {
+    }
+
 }

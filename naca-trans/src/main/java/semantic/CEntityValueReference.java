@@ -13,55 +13,55 @@ public class CEntityValueReference extends CBaseDataReference
 {
 
 
-	public CEntityValueReference(CObjectCatalog cat, CDataEntity ref)
-	{
-		super(0, "", cat);
-		reference = ref ;
-	}
+    public CEntityValueReference(CObjectCatalog cat, CDataEntity ref)
+    {
+        super(0, "", cat);
+        reference = ref ;
+    }
 
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return reference.GetDataType();
-	}
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return reference.GetDataType();
+    }
 
-	@Override
-	public boolean HasAccessors()
-	{
-		return reference.HasAccessors();
-	}
+    @Override
+    public boolean HasAccessors()
+    {
+        return reference.HasAccessors();
+    }
 
-	@Override
-	public boolean isValNeeded()
-	{
-		return reference.isValNeeded() ;
-	}
+    @Override
+    public boolean isValNeeded()
+    {
+        return reference.isValNeeded() ;
+    }
 
-	@Override
-	public String GetConstantValue()
-	{
-		return reference.GetConstantValue() ;
-	}
+    @Override
+    public String GetConstantValue()
+    {
+        return reference.GetConstantValue() ;
+    }
 
-	public String GetName()
-	{
-		return reference.GetName() ;
-	}
+    public String GetName()
+    {
+        return reference.GetName() ;
+    }
 
-	public String getSemanticReferenceName()
-	{
-		return reference.GetName();
-	}
-	
-	@Override
-	public CBaseLanguageEntity GetParent()
-	{
-		return reference.GetParent() ;
-	}
-	
-	@Override
-	public CEntityHierarchy GetHierarchy()
-	{
-		return reference.GetHierarchy() ;
-	}
+    public String getSemanticReferenceName()
+    {
+        return reference.GetName();
+    }
+
+    @Override
+    public CBaseLanguageEntity GetParent()
+    {
+        return reference.GetParent() ;
+    }
+
+    @Override
+    public CEntityHierarchy GetHierarchy()
+    {
+        return reference.GetHierarchy() ;
+    }
 }

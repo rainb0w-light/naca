@@ -12,9 +12,9 @@ package idea.emulweb;
  */
 public class IDEAEmulWeb
 {
-	public static void main(String[] args)
-	{
-		EmulWebRunner emulWebRunner  = new EmulWebRunner();
-		emulWebRunner.run(args);
-	}
+    public static void main(String[] args)
+    {
+        EmulWebRunner emulWebRunner  = new EmulWebRunner();
+        emulWebRunner.run(args);
+    }
 }

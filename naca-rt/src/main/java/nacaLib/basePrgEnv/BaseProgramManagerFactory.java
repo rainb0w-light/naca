@@ -10,5 +10,8 @@ import nacaLib.programPool.SharedProgramInstanceData;
 
 public abstract class BaseProgramManagerFactory
 {
-	abstract public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean bInheritedSharedProgramInstanceData);
+    abstract public BaseProgramManager createProgramManager(
+        BaseProgram prg,
+        SharedProgramInstanceData sharedProgramInstanceData,
+        boolean bInheritedSharedProgramInstanceData);
 }

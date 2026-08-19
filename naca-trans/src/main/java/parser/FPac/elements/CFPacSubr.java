@@ -22,64 +22,64 @@ import utils.Transcoder;
 public class CFPacSubr extends CFPacCodeBloc
 {
 
-	/**
-	 * @param line
-	 */
-	public CFPacSubr(int line)
-	{
-		super(line, null);
-	}
+    /**
+     * @param line
+     */
+    public CFPacSubr(int line)
+    {
+        super(line, null);
+    }
 
-	/**
-	 * @see parser.FPac.CFPacElement#DoParsing()
-	 */
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() == CFPacKeywordList.SUBR)
-		{
-			tok = GetNext() ;
-			if (tok.GetType() == CTokenType.MINUS)
-			{
-				tok = GetNext() ;
-			}
-			else
-			{
-				return false ;
-			}
-		}
+    /**
+     * @see parser.FPac.CFPacElement#DoParsing()
+     */
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() == CFPacKeywordList.SUBR)
+        {
+            tok = GetNext() ;
+            if (tok.GetType() == CTokenType.MINUS)
+            {
+                tok = GetNext() ;
+            }
+            else
+            {
+                return false ;
+            }
+        }
 
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			super.csName = tok.GetValue() ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting IDENTIFIER") ;
-			return false ;
-		}
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            super.csName = tok.GetValue() ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting IDENTIFIER") ;
+            return false ;
+        }
 
-		if (!super.DoParsing())
-			return false ;
+        if (!super.DoParsing())
+            return false ;
 
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.SUBREND)
-		{
-			nEndLine= tok.getLine() ;
-			tok = GetNext() ;
-		}
-		return true ;
-	}
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.SUBREND)
+        {
+            nEndLine= tok.getLine() ;
+            tok = GetNext() ;
+        }
+        return true ;
+    }
 
-	/**
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		return null;
-	}
+    /**
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        return null;
+    }
 
 }

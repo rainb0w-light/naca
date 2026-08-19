@@ -15,51 +15,51 @@ import java.util.Map;
  */
 public class ProcessExecutionTask
 {
-	protected Map<String, String> env ;
-	protected String csCommand = "" ;
-	protected File dirRuntimeDir = null ;
-	protected StringArray parameters = new StringArray() ;
-	protected StringArray arrClassPath = new StringArray() ;
+    protected Map<String, String> env ;
+    protected String csCommand = "" ;
+    protected File dirRuntimeDir = null ;
+    protected StringArray parameters = new StringArray() ;
+    protected StringArray arrClassPath = new StringArray() ;
 
-	public void setCommand(String cmd)
-	{
-		if (cmd != null  && !cmd.equals(""))
-		{
-			csCommand = cmd ;
-		}
-	}
-	public void addParameter(String p)
-	{
-		if (p!= null && !p.equals(""))
-		{
-			parameters.add(p) ;
-		}
-	}
-	public boolean setRuntimeDirectory(String dir)
-	{
-		if (dir != null && !dir.equals(""))
-		{
-			dirRuntimeDir = new File(dir) ;
-			return dirRuntimeDir.isDirectory() ;
-		}
-		return false ;
-	}
-	public boolean setRuntimeDirectory(File dir)
-	{
-		if (dir != null)
-		{
-			dirRuntimeDir = dir ;
-			return dirRuntimeDir.isDirectory() ;
-		}
-		return false ;
-	}
-//	public void addClassPath(String path)
-//	{
-//		arrClassPath.addElement(path) ;
-//	}
-	public void addEnvironmentVariable(String var, String val)
-	{
-		env.put(var, val) ;
-	}
+    public void setCommand(String cmd)
+    {
+        if (cmd != null  && !cmd.equals(""))
+        {
+            csCommand = cmd ;
+        }
+    }
+    public void addParameter(String p)
+    {
+        if (p!= null && !p.equals(""))
+        {
+            parameters.add(p) ;
+        }
+    }
+    public boolean setRuntimeDirectory(String dir)
+    {
+        if (dir != null && !dir.equals(""))
+        {
+            dirRuntimeDir = new File(dir) ;
+            return dirRuntimeDir.isDirectory() ;
+        }
+        return false ;
+    }
+    public boolean setRuntimeDirectory(File dir)
+    {
+        if (dir != null)
+        {
+            dirRuntimeDir = dir ;
+            return dirRuntimeDir.isDirectory() ;
+        }
+        return false ;
+    }
+//  public void addClassPath(String path)
+//  {
+//      arrClassPath.addElement(path) ;
+//  }
+    public void addEnvironmentVariable(String var, String val)
+    {
+        env.put(var, val) ;
+    }
 
 }

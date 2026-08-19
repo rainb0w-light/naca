@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.basePrgEnv;
 
@@ -16,27 +16,27 @@ package nacaLib.basePrgEnv;
  */
 public class EnvironmentStatus
 {
-	private String csStatus = null;
-	private boolean isrunning = false;
-	
-	public static final EnvironmentStatus UNKNOWN = new EnvironmentStatus("Unknown", false);
-	public static final EnvironmentStatus RUNNING = new EnvironmentStatus("Running", true);
-	public static final EnvironmentStatus STOPPED = new EnvironmentStatus("Stopped", false);
-	public static final EnvironmentStatus STOP_REQUESTED = new EnvironmentStatus("StopRequested", true);
-	
-	private EnvironmentStatus(String csStatus, boolean bRunning)
-	{
-		this.csStatus = csStatus;
-		this.isrunning = bRunning;
-	}
-	
-	public String getString()
-	{
-		return csStatus;
-	}
-	
-	public boolean isRunning()
-	{
-		return isrunning;
-	}
+    private String csStatus = null;
+    private boolean isrunning = false;
+
+    public static final EnvironmentStatus UNKNOWN = new EnvironmentStatus("Unknown", false);
+    public static final EnvironmentStatus RUNNING = new EnvironmentStatus("Running", true);
+    public static final EnvironmentStatus STOPPED = new EnvironmentStatus("Stopped", false);
+    public static final EnvironmentStatus STOP_REQUESTED = new EnvironmentStatus("StopRequested", true);
+
+    private EnvironmentStatus(String csStatus, boolean bRunning)
+    {
+        this.csStatus = csStatus;
+        this.isrunning = bRunning;
+    }
+
+    public String getString()
+    {
+        return csStatus;
+    }
+
+    public boolean isRunning()
+    {
+        return isrunning;
+    }
 }

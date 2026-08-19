@@ -16,19 +16,19 @@ package jlib.sqlMapper;
  */
 public class OrderSegment
 {
-	private String csColName = null;
-	boolean isascending = true;
+    private String csColName = null;
+    boolean isascending = true;
 
-	protected OrderSegment(String csColName, boolean isascending)
-	{
-		this.csColName = csColName;
-		this.isascending = isascending;
-	}
+    protected OrderSegment(String csColName, boolean isascending)
+    {
+        this.csColName = csColName;
+        this.isascending = isascending;
+    }
 
-	String getAsString()
-	{
-		if(isascending)
-			return csColName;
-		return csColName + " desc";
-	}
+    String getAsString()
+    {
+        if(isascending)
+            return csColName;
+        return csColName + " desc";
+    }
 }

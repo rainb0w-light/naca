@@ -16,37 +16,37 @@ import utils.*;
 public class CEntityReturn extends CBaseActionEntity
 {
 
-	/**
-	 * @param cat
-	 */
-	public CEntityReturn(int l, CObjectCatalog cat)
-	{
-		super(l, cat);
-	}
+    /**
+     * @param cat
+     */
+    public CEntityReturn(int l, CObjectCatalog cat)
+    {
+        super(l, cat);
+    }
 
-	public void SetStopProgram(int returning)
-	{
-		isstopAllStackCalls = returning;
-	}
+    public void SetStopProgram(int returning)
+    {
+        isstopAllStackCalls = returning;
+    }
 
-	public void SetOnlyReturnFromProcedure()
-	{
-		bonlyLeaveParagraph = true;
-	}
+    public void SetOnlyReturnFromProcedure()
+    {
+        bonlyLeaveParagraph = true;
+    }
 
-	protected int isstopAllStackCalls = -1 ;
-	protected boolean bonlyLeaveParagraph = false ;
+    protected int isstopAllStackCalls = -1 ;
+    protected boolean bonlyLeaveParagraph = false ;
 
-	public int getStopAllStackCalls() { return isstopAllStackCalls; }
-	public boolean getBonlyLeaveParagraph() { return bonlyLeaveParagraph; }
-	/** Target-neutral semantic flag: true when this is a STOP RUN (return-code >= 0). */
-	public boolean isStopProgram() { return isstopAllStackCalls >= 0; }
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public boolean hasExplicitGetOut()
-	{
-		return true ;
-	}
+    public int getStopAllStackCalls() { return isstopAllStackCalls; }
+    public boolean getBonlyLeaveParagraph() { return bonlyLeaveParagraph; }
+    /** Target-neutral semantic flag: true when this is a STOP RUN (return-code >= 0). */
+    public boolean isStopProgram() { return isstopAllStackCalls >= 0; }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public boolean hasExplicitGetOut()
+    {
+        return true ;
+    }
 }

@@ -29,150 +29,150 @@ import utils.Transcoder;
 public class CReturn extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CReturn(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySortReturn eRet = factory.NewEntitySortReturn(getLine()) ;
-		parent.AddChild(eRet) ;
+    /**
+     * @param line
+     */
+    public CReturn(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySortReturn eRet = factory.NewEntitySortReturn(getLine()) ;
+        parent.AddChild(eRet) ;
 
-		CEntityFileDescriptor eRef = factory.programCatalog.getFileDescriptor(sortFile.GetName()) ;
-		if (dataRef != null)
-		{
-			CDataEntity into = dataRef.GetDataReference(getLine(), factory) ;
-			eRet.setDataReference(eRef, into) ;
-		}
-		else
-		{
-			eRet.setDataReference(eRef) ;
-		}
+        CEntityFileDescriptor eRef = factory.programCatalog.getFileDescriptor(sortFile.GetName()) ;
+        if (dataRef != null)
+        {
+            CDataEntity into = dataRef.GetDataReference(getLine(), factory) ;
+            eRet.setDataReference(eRef, into) ;
+        }
+        else
+        {
+            eRet.setDataReference(eRef) ;
+        }
 
-		if (atEndBloc != null)
-		{
-			CBaseLanguageEntity le = atEndBloc.DoSemanticAnalysis(eRet, factory) ;
-			eRet.SetAtEndBloc(le) ;
-		}
-		if (notAtEndBloc != null)
-		{
-			CBaseLanguageEntity le = notAtEndBloc.DoSemanticAnalysis(eRet, factory) ;
-			eRet.SetNotAtEndBloc(le) ;
-		}
+        if (atEndBloc != null)
+        {
+            CBaseLanguageEntity le = atEndBloc.DoSemanticAnalysis(eRet, factory) ;
+            eRet.SetAtEndBloc(le) ;
+        }
+        if (notAtEndBloc != null)
+        {
+            CBaseLanguageEntity le = notAtEndBloc.DoSemanticAnalysis(eRet, factory) ;
+            eRet.SetNotAtEndBloc(le) ;
+        }
 
-		return eRet ;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.RETURN)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+        return eRet ;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.RETURN)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext() ;
-		sortFile = ReadIdentifier();
+        tok = GetNext() ;
+        sortFile = ReadIdentifier();
 
-		tok = GetCurrentToken();
-		if (tok.GetKeyword() == CCobolKeywordList.RECORD)
-		{
-			tok = GetNext();
-		}
-		if (tok.GetKeyword() == CCobolKeywordList.INTO)
-		{
-			tok = GetNext();
-			dataRef = ReadIdentifier();
-		}
+        tok = GetCurrentToken();
+        if (tok.GetKeyword() == CCobolKeywordList.RECORD)
+        {
+            tok = GetNext();
+        }
+        if (tok.GetKeyword() == CCobolKeywordList.INTO)
+        {
+            tok = GetNext();
+            dataRef = ReadIdentifier();
+        }
 
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.AT)
-		{
-			tok = GetNext() ;
-			if (tok.GetKeyword() == CCobolKeywordList.END)
-			{
-				tok = GetNext() ;
-				atEndBloc = new CGenericBloc("AtEnd", getLine()) ;
-				if (!Parse(atEndBloc))
-				{
-					return false ;
-				}
-				tok = GetCurrentToken();
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Unexpecting situation");
-				return false ;
-			}
-		}
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.AT)
+        {
+            tok = GetNext() ;
+            if (tok.GetKeyword() == CCobolKeywordList.END)
+            {
+                tok = GetNext() ;
+                atEndBloc = new CGenericBloc("AtEnd", getLine()) ;
+                if (!Parse(atEndBloc))
+                {
+                    return false ;
+                }
+                tok = GetCurrentToken();
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Unexpecting situation");
+                return false ;
+            }
+        }
 
-		if (tok.GetKeyword() == CCobolKeywordList.NOT)
-		{
-			if (tok.GetKeyword() == CCobolKeywordList.AT)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() == CCobolKeywordList.END)
-				{
-					tok = GetNext() ;
-					notAtEndBloc = new CGenericBloc("NotAtEnd", getLine()) ;
-					if (!Parse(notAtEndBloc))
-					{
-						return false ;
-					}
-					tok = GetCurrentToken();
-				}
-				else
-				{
-					Transcoder.logError(tok.getLine(), "Unexpecting situation");
-					return false ;
-				}
-			}
-			else
-			{
-				Transcoder.logError(tok.getLine(), "Unexpecting situation");
-				return false ;
-			}
-		}
+        if (tok.GetKeyword() == CCobolKeywordList.NOT)
+        {
+            if (tok.GetKeyword() == CCobolKeywordList.AT)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() == CCobolKeywordList.END)
+                {
+                    tok = GetNext() ;
+                    notAtEndBloc = new CGenericBloc("NotAtEnd", getLine()) ;
+                    if (!Parse(notAtEndBloc))
+                    {
+                        return false ;
+                    }
+                    tok = GetCurrentToken();
+                }
+                else
+                {
+                    Transcoder.logError(tok.getLine(), "Unexpecting situation");
+                    return false ;
+                }
+            }
+            else
+            {
+                Transcoder.logError(tok.getLine(), "Unexpecting situation");
+                return false ;
+            }
+        }
 
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.END_RETURN)
-		{
-			tok = GetNext() ;
-		}
-		return true;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eReturn = root.createElement("Return") ;
-		Element eRecord = root.createElement("Record");
-		eReturn.appendChild(eRecord);
-		sortFile.ExportTo(eRecord, root);
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.END_RETURN)
+        {
+            tok = GetNext() ;
+        }
+        return true;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eReturn = root.createElement("Return") ;
+        Element eRecord = root.createElement("Record");
+        eReturn.appendChild(eRecord);
+        sortFile.ExportTo(eRecord, root);
 
-		if (dataRef != null)
-		{
-			Element e = root.createElement("Into");
-			dataRef.ExportTo(e, root);
-			eReturn.appendChild(e);
-		}
+        if (dataRef != null)
+        {
+            Element e = root.createElement("Into");
+            dataRef.ExportTo(e, root);
+            eReturn.appendChild(e);
+        }
 
-		if (atEndBloc != null)
-		{
-			Element e = atEndBloc.Export(root);
-			eReturn.appendChild(e);
-		}
-		if (notAtEndBloc != null)
-		{
-			Element e = notAtEndBloc.Export(root);
-			eReturn.appendChild(e);
-		}
-		return eReturn;
-	}
+        if (atEndBloc != null)
+        {
+            Element e = atEndBloc.Export(root);
+            eReturn.appendChild(e);
+        }
+        if (notAtEndBloc != null)
+        {
+            Element e = notAtEndBloc.Export(root);
+            eReturn.appendChild(e);
+        }
+        return eReturn;
+    }
 
-	protected CIdentifier sortFile = null ;
-	protected CIdentifier dataRef = null ;
-	protected CGenericBloc atEndBloc = null ;
-	protected CGenericBloc notAtEndBloc = null ;
+    protected CIdentifier sortFile = null ;
+    protected CIdentifier dataRef = null ;
+    protected CGenericBloc atEndBloc = null ;
+    protected CGenericBloc notAtEndBloc = null ;
 }

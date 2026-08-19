@@ -17,47 +17,47 @@ import nacaLib.varEx.Var;
  */
 public abstract class CalledPrgPublicArgBeanPositioned extends BaseCalledPrgPublicArgPositioned
 {
-	private FillerReadWriteExt filler = new FillerReadWriteExt();
-	private String csValue = null;
-	
-	public CalledPrgPublicArgBeanPositioned()
-	{
-		super();
-	}
-	
-	public CalledPrgPublicArgBeanPositioned(boolean bInOut)
-	{
-		super(bInOut);
-	}
-	
-	public FillerReadWriteExt getFiller()
-	{
-		return filler;
-	}
-	
-	public void MapOn(Var varLinkageSection)
-	{
-		getFiller().setMode(ModeReadWriteExt.Write);
-		getFiller().allocOrResetBufferExt();
-		fillRW();
-		varLinkageSection.set(getFiller().getBuffer().getString());
-		getFiller().setMode(ModeReadWriteExt.Unknown);
-	}
-	
-	public void doFillWithVar(Var varSource)
-	{
-		csValue = varSource.getString();
-		getFiller().setMode(ModeReadWriteExt.Read);
-		getFiller().allocOrResetBufferExt();
-		getFiller().getBuffer().setStringAt(0, csValue, csValue.length());
-		fillRW();
-		getFiller().setMode(ModeReadWriteExt.Unknown);
-	}
-	
-	public int getParamLength()
-	{
-		return csValue.length();
-	}
-	
-	public abstract void fillRW();
+    private FillerReadWriteExt filler = new FillerReadWriteExt();
+    private String csValue = null;
+
+    public CalledPrgPublicArgBeanPositioned()
+    {
+        super();
+    }
+
+    public CalledPrgPublicArgBeanPositioned(boolean bInOut)
+    {
+        super(bInOut);
+    }
+
+    public FillerReadWriteExt getFiller()
+    {
+        return filler;
+    }
+
+    public void MapOn(Var varLinkageSection)
+    {
+        getFiller().setMode(ModeReadWriteExt.Write);
+        getFiller().allocOrResetBufferExt();
+        fillRW();
+        varLinkageSection.set(getFiller().getBuffer().getString());
+        getFiller().setMode(ModeReadWriteExt.Unknown);
+    }
+
+    public void doFillWithVar(Var varSource)
+    {
+        csValue = varSource.getString();
+        getFiller().setMode(ModeReadWriteExt.Read);
+        getFiller().allocOrResetBufferExt();
+        getFiller().getBuffer().setStringAt(0, csValue, csValue.length());
+        fillRW();
+        getFiller().setMode(ModeReadWriteExt.Unknown);
+    }
+
+    public int getParamLength()
+    {
+        return csValue.length();
+    }
+
+    public abstract void fillRW();
 }

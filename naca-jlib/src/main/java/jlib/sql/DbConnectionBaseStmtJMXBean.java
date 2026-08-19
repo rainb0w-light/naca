@@ -21,35 +21,35 @@ import jlib.misc.DateUtil;
  */
 public class DbConnectionBaseStmtJMXBean extends BaseCloseMBean
 {
-	private String stmt = null;
-	private long lastUsageTimeValue = 0;
+    private String stmt = null;
+    private long lastUsageTimeValue = 0;
 
-	DbConnectionBaseStmtJMXBean(String csStmt, long lastUsageTimeValue)
-	{
-		 this.stmt = csStmt;
-		 this.lastUsageTimeValue = lastUsageTimeValue;
-	}
+    DbConnectionBaseStmtJMXBean(String csStmt, long lastUsageTimeValue)
+    {
+         this.stmt = csStmt;
+         this.lastUsageTimeValue = lastUsageTimeValue;
+    }
 
-	void cleanup()
-	{
-	}
+    void cleanup()
+    {
+    }
 
-	protected void buildDynamicMBeanInfo()
-	{
-		addAttribute("Stmt", getClass(), "Stmt", String.class);
-		addAttribute("LastTimeStamp", getClass(), "LastTimeStamp", String.class);
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addAttribute("Stmt", getClass(), "Stmt", String.class);
+        addAttribute("LastTimeStamp", getClass(), "LastTimeStamp", String.class);
+    }
 
-	public String getStmt()
-	{
-		return stmt;
-	}
+    public String getStmt()
+    {
+        return stmt;
+    }
 
-	public String getLastTimeStamp()
-	{
-		Date date = new Date(lastUsageTimeValue);
-		String cs = DateUtil.getDisplayTimeStamp(date);
-		return cs;
-	}
+    public String getLastTimeStamp()
+    {
+        Date date = new Date(lastUsageTimeValue);
+        String cs = DateUtil.getDisplayTimeStamp(date);
+        return cs;
+    }
 
 }

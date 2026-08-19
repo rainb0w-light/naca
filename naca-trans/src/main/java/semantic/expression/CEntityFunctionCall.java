@@ -16,34 +16,34 @@ import utils.CObjectCatalog;
 
 public class CEntityFunctionCall extends CBaseEntityFunction
 {
-	public CEntityFunctionCall(CObjectCatalog cat, CDataEntity data)
-	{
-		super(cat, data);
-	}
-	protected String csFunction = "" ;
-	protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
+    public CEntityFunctionCall(CObjectCatalog cat, CDataEntity data)
+    {
+        super(cat, data);
+    }
+    protected String csFunction = "" ;
+    protected Vector<CDataEntity> parameters = new Vector<CDataEntity>() ;
 
-	public void CallFunction(String function)
-	{
-		csFunction = function ;
-	}
-	public String getFunctionName()
-	{
-		return csFunction ;
-	}
-	@Override
-	public boolean isValNeeded()
-	{
-		return false ;
-	}
-	public void AddParameter(CDataEntity e)
-	{
-		parameters.add(e) ;
-	}
+    public void CallFunction(String function)
+    {
+        csFunction = function ;
+    }
+    public String getFunctionName()
+    {
+        return csFunction ;
+    }
+    @Override
+    public boolean isValNeeded()
+    {
+        return false ;
+    }
+    public void AddParameter(CDataEntity e)
+    {
+        parameters.add(e) ;
+    }
 
-	public boolean ignore()
-	{
-		return reference.ignore() ;
-	}
+    public boolean ignore()
+    {
+        return reference.ignore() ;
+    }
 
 }

@@ -18,167 +18,167 @@ import jakarta.mail.internet.*;
  * @version 1.0
  */
 
-public class Mail 
+public class Mail
 {
-	private MimeMessage mimeMessage = null;
+    private MimeMessage mimeMessage = null;
 
-	private String csFrom = "";
-	private Vector<String> toList = new Vector<String>(0);
-	private Vector<String> cList = new Vector<String>(0);
-	private Vector<String> iscCList = new Vector<String>(0);
-	
-	/**
-	 * Contructeur du message � envoyer
-	 */
-	public Mail(MailService mailService) 
-	{
-	    Properties props = new Properties();
-	    props.put("mail.smtp.host", mailService.getSMTPServer());
-	    Session session = Session.getInstance(props);
-	
-	    mimeMessage = new MimeMessage(session);
-	}
+    private String csFrom = "";
+    private Vector<String> toList = new Vector<String>(0);
+    private Vector<String> cList = new Vector<String>(0);
+    private Vector<String> iscCList = new Vector<String>(0);
 
-	/**
-	 * Retourne le message
-	 */
-	public MimeMessage getMessage() 
-	{
-		return mimeMessage;
-	}
+    /**
+     * Contructeur du message � envoyer
+     */
+    public Mail(MailService mailService)
+    {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", mailService.getSMTPServer());
+        Session session = Session.getInstance(props);
 
-	/**
-	 * Initialise le sujet du mail
-	 */
-	public void setSubject(String subject)
-	{
-		try
-		{
-			mimeMessage.setSubject(subject);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-  	}
+        mimeMessage = new MimeMessage(session);
+    }
 
-	/**
-	 * Initialise l'exp�diteur du mail
-	 */
-	public void setFrom(String from) 
-	{	
-		csFrom = from;
-  	}
+    /**
+     * Retourne le message
+     */
+    public MimeMessage getMessage()
+    {
+        return mimeMessage;
+    }
 
-	/**
-	 * Initialise le texte du mail
-	 */
-	public void setText(String text) 
-	{
-		try
-		{
-			mimeMessage.setText(text);
-		}
-		catch (Exception ex)
-		{
-			throw new RuntimeException(ex);
-		}
-	}
+    /**
+     * Initialise le sujet du mail
+     */
+    public void setSubject(String subject)
+    {
+        try
+        {
+            mimeMessage.setSubject(subject);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
 
-	/**
-	 * Ajoute un destinataire
-	 */
-	public void addTo(String to) 
-	{
-	    add(toList, to);
-	}
+    /**
+     * Initialise l'exp�diteur du mail
+     */
+    public void setFrom(String from)
+    {
+        csFrom = from;
+    }
+
+    /**
+     * Initialise le texte du mail
+     */
+    public void setText(String text)
+    {
+        try
+        {
+            mimeMessage.setText(text);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Ajoute un destinataire
+     */
+    public void addTo(String to)
+    {
+        add(toList, to);
+    }
 
   /**
    * Ajoute un destinataire en copie
    */
-	public void addCc(String cc) 
-	{
-		add(cList, cc);
-	}
+    public void addCc(String cc)
+    {
+        add(cList, cc);
+    }
 
   /**
    * Ajoute un destinataire en copie cach�e
    */
-	public void addBcc(String bcc) 
-	{
-    	add(iscCList, bcc);
-	}
+    public void addBcc(String bcc)
+    {
+        add(iscCList, bcc);
+    }
 
-	private void add(Vector<String> from, String mail) 
-	{
-		String  mailList[] = null;
-	
-	    mailList = mail.split(";");
-	    for(int i=0; i < mailList.length; i++) 
-	    {
-	    	from.add(mailList[i]);
-	    }
-	}
+    private void add(Vector<String> from, String mail)
+    {
+        String  mailList[] = null;
 
-	/**
-	 * Vide les destinataires
-	 */
-	public void clearTo() 
-	{
-    	toList.clear();
-	}
+        mailList = mail.split(";");
+        for(int i=0; i < mailList.length; i++)
+        {
+            from.add(mailList[i]);
+        }
+    }
 
-	/**
-	 * Vide les destinataires en copie
-	 */
-	public void clearCc() 
-	{
-    	cList.clear();
-  	}
+    /**
+     * Vide les destinataires
+     */
+    public void clearTo()
+    {
+        toList.clear();
+    }
 
-  	/**
-  	 * Vide les destinataires en copie cach�e
-  	 */
-  	public void clearBcc() 
-  	{
-    	iscCList.clear();
-  	}
+    /**
+     * Vide les destinataires en copie
+     */
+    public void clearCc()
+    {
+        cList.clear();
+    }
 
-  	/**
-   	 * Envoie le mail
-  	 */
-  	public void send() 
-  	{
-	    try 
-		{
-	    	mimeMessage.setFrom(new InternetAddress(csFrom));
-	
-			Enumeration entriesMail = toList.elements();
-		    while (entriesMail.hasMoreElements()) 
-		    {
-		        mimeMessage.addRecipient(Message.RecipientType.TO,
-		                                 new InternetAddress((String)entriesMail.nextElement()));
-		    }
-	
-		    entriesMail = cList.elements();
-		    while (entriesMail.hasMoreElements()) 
-		    {
-		        mimeMessage.addRecipient(Message.RecipientType.CC,
-		                                 new InternetAddress((String)entriesMail.nextElement()));
-		    }
-	
-			entriesMail = iscCList.elements();
-			while (entriesMail.hasMoreElements()) 
-			{
-				mimeMessage.addRecipient(Message.RecipientType.BCC,
-	                                 new InternetAddress((String)entriesMail.nextElement()));
-			}
-	
-			Transport.send(mimeMessage);
-	    }
-	    catch (Exception ex)
-		{
-	    	throw new RuntimeException(ex);
-	    }
-  	}
+    /**
+     * Vide les destinataires en copie cach�e
+     */
+    public void clearBcc()
+    {
+        iscCList.clear();
+    }
+
+    /**
+     * Envoie le mail
+     */
+    public void send()
+    {
+        try
+        {
+            mimeMessage.setFrom(new InternetAddress(csFrom));
+
+            Enumeration entriesMail = toList.elements();
+            while (entriesMail.hasMoreElements())
+            {
+                mimeMessage.addRecipient(Message.RecipientType.TO,
+                                         new InternetAddress((String)entriesMail.nextElement()));
+            }
+
+            entriesMail = cList.elements();
+            while (entriesMail.hasMoreElements())
+            {
+                mimeMessage.addRecipient(Message.RecipientType.CC,
+                                         new InternetAddress((String)entriesMail.nextElement()));
+            }
+
+            entriesMail = iscCList.elements();
+            while (entriesMail.hasMoreElements())
+            {
+                mimeMessage.addRecipient(Message.RecipientType.BCC,
+                                     new InternetAddress((String)entriesMail.nextElement()));
+            }
+
+            Transport.send(mimeMessage);
+        }
+        catch (Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
 }

@@ -16,105 +16,105 @@ import semantic.CDataEntity;
  */
 public class CEntityCondIsKindOf extends CUnitaryEntityCondition
 {
-	public int GetPriorityLevel()
-	{
-		return 7;
-	}
+    public int GetPriorityLevel()
+    {
+        return 7;
+    }
 
-	public CBaseEntityCondition GetOppositeCondition()
-	{
-		CEntityCondIsKindOf opposite = new CEntityCondIsKindOf();
-		opposite.isisAlphabetic = isisAlphabetic;
-		opposite.isisLower = isisLower;
-		opposite.isisNumeric = isisNumeric;
-		opposite.isisUpper = isisUpper;
-		opposite.isopposite = !isopposite;
-		opposite.reference = reference;
-		return opposite;
-	}
-	public void SetIsNumeric(CDataEntity data)
-	{
-		SetConditonReference(data) ;
-		isisNumeric = true ;
-		isisAlphabetic = false ;
-		isisLower = false ;
-		isisUpper = false ;
-	}
-	public void SetIsAlphabetic(CDataEntity data)
-	{
-		SetConditonReference(data) ;
-		isisNumeric = false ;
-		isisAlphabetic = true ;
-		isisLower = false ;
-		isisUpper = false ;
-	}
-	public void SetIsLower(CDataEntity data)
-	{
-		SetConditonReference(data) ;
-		isisNumeric = false ;
-		isisAlphabetic = false ;
-		isisLower = true ;
-		isisUpper = false ;
-	}
-	public void SetIsUpper(CDataEntity data)
-	{
-		SetConditonReference(data) ;
-		isisNumeric = false ;
-		isisAlphabetic = false ;
-		isisLower = false ;
-		isisUpper = true ;
-	}
+    public CBaseEntityCondition GetOppositeCondition()
+    {
+        CEntityCondIsKindOf opposite = new CEntityCondIsKindOf();
+        opposite.isisAlphabetic = isisAlphabetic;
+        opposite.isisLower = isisLower;
+        opposite.isisNumeric = isisNumeric;
+        opposite.isisUpper = isisUpper;
+        opposite.isopposite = !isopposite;
+        opposite.reference = reference;
+        return opposite;
+    }
+    public void SetIsNumeric(CDataEntity data)
+    {
+        SetConditonReference(data) ;
+        isisNumeric = true ;
+        isisAlphabetic = false ;
+        isisLower = false ;
+        isisUpper = false ;
+    }
+    public void SetIsAlphabetic(CDataEntity data)
+    {
+        SetConditonReference(data) ;
+        isisNumeric = false ;
+        isisAlphabetic = true ;
+        isisLower = false ;
+        isisUpper = false ;
+    }
+    public void SetIsLower(CDataEntity data)
+    {
+        SetConditonReference(data) ;
+        isisNumeric = false ;
+        isisAlphabetic = false ;
+        isisLower = true ;
+        isisUpper = false ;
+    }
+    public void SetIsUpper(CDataEntity data)
+    {
+        SetConditonReference(data) ;
+        isisNumeric = false ;
+        isisAlphabetic = false ;
+        isisLower = false ;
+        isisUpper = true ;
+    }
 
-	protected boolean isisNumeric = false ;
-	protected boolean isisLower = false ;
-	protected boolean isisUpper = false ;
-	protected boolean isisAlphabetic = false ;
-	protected boolean isopposite = false ;
-	public boolean ignore()
-	{
-		return reference.ignore();
-	}
-	public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
-	{
-		return null;
-	}
-	public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
-	{
-		if (reference == field)
-		{
-			field.UnRegisterVarTesting(this) ;
-			var.RegisterVarTesting(this) ;
-			reference = var ;
-			return true ;
-		}
-		return false ;
-	}
-	public void setOpposite()
-	{
-		isopposite = !isopposite;
-	}
-	public boolean isNumeric()
-	{
-		return isisNumeric;
-	}
-	public boolean isAlphabetic()
-	{
-		return isisAlphabetic;
-	}
-	public boolean isLower()
-	{
-		return isisLower;
-	}
-	public boolean isUpper()
-	{
-		return isisUpper;
-	}
-	public boolean isOpposite()
-	{
-		return isopposite;
-	}
-	public boolean isBinaryCondition()
-	{
-		return false;
-	}
+    protected boolean isisNumeric = false ;
+    protected boolean isisLower = false ;
+    protected boolean isisUpper = false ;
+    protected boolean isisAlphabetic = false ;
+    protected boolean isopposite = false ;
+    public boolean ignore()
+    {
+        return reference.ignore();
+    }
+    public CBaseEntityCondition GetSpecialConditionReplacing(String val, CBaseEntityFactory fact, CDataEntity replace)
+    {
+        return null;
+    }
+    public boolean ReplaceVariable(CDataEntity field, CDataEntity var)
+    {
+        if (reference == field)
+        {
+            field.UnRegisterVarTesting(this) ;
+            var.RegisterVarTesting(this) ;
+            reference = var ;
+            return true ;
+        }
+        return false ;
+    }
+    public void setOpposite()
+    {
+        isopposite = !isopposite;
+    }
+    public boolean isNumeric()
+    {
+        return isisNumeric;
+    }
+    public boolean isAlphabetic()
+    {
+        return isisAlphabetic;
+    }
+    public boolean isLower()
+    {
+        return isisLower;
+    }
+    public boolean isUpper()
+    {
+        return isisUpper;
+    }
+    public boolean isOpposite()
+    {
+        return isopposite;
+    }
+    public boolean isBinaryCondition()
+    {
+        return false;
+    }
 }

@@ -23,43 +23,43 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class FileExporter
 {
-	private BaseSession session = null;
+    private BaseSession session = null;
 
-	public FileExporter(BaseSession session)
-	{
-		this.session = session;
-	}
+    public FileExporter(BaseSession session)
+    {
+        this.session = session;
+    }
 
-	public boolean execute(FileDescriptor exportFileIn, FileDescriptor exportFileOut)
-	{
-		String csFileIn = exportFileIn.getPhysicalName();
-		LogicalFileDescriptor logicalFileDescriptor = exportFileIn.getLogicalFileDescriptor();
-		DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
-		boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
-		if(isinOpened)
-		{
-			exportFileOut.setSession(session);
-			String csFileOut = exportFileOut.getPhysicalName();
+    public boolean execute(FileDescriptor exportFileIn, FileDescriptor exportFileOut)
+    {
+        String csFileIn = exportFileIn.getPhysicalName();
+        LogicalFileDescriptor logicalFileDescriptor = exportFileIn.getLogicalFileDescriptor();
+        DataFileLineReader dataFileIn = new DataFileLineReader(csFileIn, 65536, 0);
+        boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+        if(isinOpened)
+        {
+            exportFileOut.setSession(session);
+            String csFileOut = exportFileOut.getPhysicalName();
 
-			exportFileOut.openOutputNoFileHeaderWrite();
-			boolean isvariableLength = exportFileIn.isVariableLength();
+            exportFileOut.openOutputNoFileHeaderWrite();
+            boolean isvariableLength = exportFileIn.isVariableLength();
 
-			int nNbLines = 0;
-			LineRead lineRead = exportFileIn.readALine(dataFileIn, null);
-			while(lineRead != null)
-			{
-				if(isvariableLength)
-					lineRead.shiftOffset(4);	// Skip record header
-				exportFileOut.writeFrom(lineRead);
-				lineRead = exportFileIn.readALine(dataFileIn, lineRead);
-				nNbLines++;
-			}
-			dataFileIn.close();
-			exportFileOut.close();
-			Log.logImportant("Exported " + nNbLines + " from " + csFileIn + " to " + csFileOut);
-			return true;
-		}
-		Log.logCritical("Could not open export file in " + csFileIn);
-		return false;
-	}
+            int nNbLines = 0;
+            LineRead lineRead = exportFileIn.readALine(dataFileIn, null);
+            while(lineRead != null)
+            {
+                if(isvariableLength)
+                    lineRead.shiftOffset(4);    // Skip record header
+                exportFileOut.writeFrom(lineRead);
+                lineRead = exportFileIn.readALine(dataFileIn, lineRead);
+                nNbLines++;
+            }
+            dataFileIn.close();
+            exportFileOut.close();
+            Log.logImportant("Exported " + nNbLines + " from " + csFileIn + " to " + csFileOut);
+            return true;
+        }
+        Log.logCritical("Could not open export file in " + csFileIn);
+        return false;
+    }
 }

@@ -12,42 +12,42 @@ package jlib.xml;
  */
 public class TagCursor
 {
-	public TagCursor()
-	{
-	}
+    public TagCursor()
+    {
+    }
 
-	void setCurrentTag(Tag tag)
-	{
-		this.tag = tag;
-	}
+    void setCurrentTag(Tag tag)
+    {
+        this.tag = tag;
+    }
 
-	Tag getCurrentTag()
-	{
-		return tag;
-	}
+    Tag getCurrentTag()
+    {
+        return tag;
+    }
 
-	void setInvalid()
-	{
-		tag = null;
-	}
+    void setInvalid()
+    {
+        tag = null;
+    }
 
-	public boolean isValid()
-	{
-		return tag != null;
-	}
+    public boolean isValid()
+    {
+        return tag != null;
+    }
 
-	void setNameEnumeration(String csName)
-	{
-		this.csName = csName;
-	}
+    void setNameEnumeration(String csName)
+    {
+        this.csName = csName;
+    }
 
-	String getNameEnumeration()
-	{
-		return csName;
-	}
+    String getNameEnumeration()
+    {
+        return csName;
+    }
 
 
-	Tag tag = null;
-	String csName = null;
+    Tag tag = null;
+    String csName = null;
 
 }

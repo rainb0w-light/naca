@@ -12,18 +12,18 @@ package nacaLib.varEx;
  */
 public class InitializeManagerNone extends InitializeManager
 {
-	public InitializeManagerNone()
-	{
-	}
+    public InitializeManagerNone()
+    {
+    }
 
-//	public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer)
-//	{
-//		varDefBuffer.initialize(buffer);
-//	}
+//  public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer)
+//  {
+//      varDefBuffer.initialize(buffer);
+//  }
 
 
-	public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache)
-	{
-		varDefBuffer.initializeAtOffset(buffer, nOffset, initializeCache);
-	}
+    public void initialize(VarBufferPos buffer, VarDefBuffer varDefBuffer, int nOffset, InitializeCache initializeCache)
+    {
+        varDefBuffer.initializeAtOffset(buffer, nOffset, initializeCache);
+    }
 }

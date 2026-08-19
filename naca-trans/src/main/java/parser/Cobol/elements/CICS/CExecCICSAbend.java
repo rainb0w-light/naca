@@ -28,78 +28,78 @@ import utils.Transcoder;
 public class CExecCICSAbend extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSAbend(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSAbend(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityCICSAbend abend = factory.NewEntityCICSAbend(getLine());
-		parent.AddChild(abend) ;
-		if (aBCode != null)
-		{
-			CDataEntity e = aBCode.GetDataEntity(getLine(), factory) ;
-			e.RegisterReadingAction(abend) ;
-			abend.SetABCode(e);
-		}
-		return abend ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityCICSAbend abend = factory.NewEntityCICSAbend(getLine());
+        parent.AddChild(abend) ;
+        if (aBCode != null)
+        {
+            CDataEntity e = aBCode.GetDataEntity(getLine(), factory) ;
+            e.RegisterReadingAction(abend) ;
+            abend.SetABCode(e);
+        }
+        return abend ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetValue().equals("ABEND"))
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetValue().equals("ABEND"))
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetValue().equals("ABCODE"))
-		{
-			tok = GetNext();
-			if (tok.GetType() == CTokenType.LEFT_BRACKET)
-			{
-				tok = GetNext() ;
-				aBCode = ReadTerminal();
-				tok = GetCurrentToken() ;
-				if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-				{
-					tok = GetNext();
-				}
-			}
-		}
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ABEND");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetValue().equals("ABCODE"))
+        {
+            tok = GetNext();
+            if (tok.GetType() == CTokenType.LEFT_BRACKET)
+            {
+                tok = GetNext() ;
+                aBCode = ReadTerminal();
+                tok = GetCurrentToken() ;
+                if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                {
+                    tok = GetNext();
+                }
+            }
+        }
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS ABEND");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("ExecCICSAbend") ;
-		if (aBCode != null)
-		{
-			Element eAB = root.createElement("ABCode");
-			e.appendChild(eAB);
-			aBCode.ExportTo(eAB, root);
-		}
-		return e;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("ExecCICSAbend") ;
+        if (aBCode != null)
+        {
+            Element eAB = root.createElement("ABCode");
+            e.appendChild(eAB);
+            aBCode.ExportTo(eAB, root);
+        }
+        return e;
+    }
 
-	protected CTerminal aBCode = null ;
+    protected CTerminal aBCode = null ;
 }

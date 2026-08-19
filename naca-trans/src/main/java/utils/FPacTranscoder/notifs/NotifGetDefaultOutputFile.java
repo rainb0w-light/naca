@@ -11,6 +11,6 @@ import jlib.engine.BaseNotification;
 
 public class NotifGetDefaultOutputFile extends BaseNotification
 {
-	public CEntityFileBuffer fileBuffer = null ;
+    public CEntityFileBuffer fileBuffer = null ;
 
 }

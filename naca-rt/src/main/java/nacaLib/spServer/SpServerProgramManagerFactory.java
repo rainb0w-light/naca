@@ -17,14 +17,14 @@ package nacaLib.spServer;
  */
 public class SpServerProgramManagerFactory //extends BaseProgramManagerFactory
 {
-//	public SpServerProgramManagerFactory()
-//	{
-//		BasicLogger.log("SpServerProgramManagerFactory::SpServerProgramManagerFactory()");
-//	}
+//  public SpServerProgramManagerFactory()
+//  {
+//      BasicLogger.log("SpServerProgramManagerFactory::SpServerProgramManagerFactory()");
+//  }
 //
 // public BaseProgramManager createProgramManager(BaseProgram prg, SharedProgramInstanceData sharedProgramInstanceData, boolean
 // bInheritedSharedProgramInstanceData)
-//	{
-//		return new SpServerProgramManager(prg, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
-//	}
+//  {
+//      return new SpServerProgramManager(prg, sharedProgramInstanceData, bInheritedSharedProgramInstanceData);
+//  }
 }

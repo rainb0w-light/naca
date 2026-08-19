@@ -33,179 +33,193 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLLoad extends BaseSQLUtils
 {
-	public SQLLoad(BaseSession session, DbConnectionBase dbConnection)
-	{
-		super(session, dbConnection);
-		BasePic9Comp3BufferSupport.init();
-	}
+    public SQLLoad(BaseSession session, DbConnectionBase dbConnection)
+    {
+        super(session, dbConnection);
+        BasePic9Comp3BufferSupport.init();
+    }
 
-	public SQLLoadStatus execute(FileDescriptor fileSysin)
-	{
-		FileSQLLoadScriptReader fileSQLLoadScriptReader = new FileSQLLoadScriptReader(getSession());
-		SQLLoadStatus sqlLoadStatus = fileSQLLoadScriptReader.parse(this, fileSysin);
-		return sqlLoadStatus;
-	}
+    public SQLLoadStatus execute(FileDescriptor fileSysin)
+    {
+        FileSQLLoadScriptReader fileSQLLoadScriptReader = new FileSQLLoadScriptReader(getSession());
+        SQLLoadStatus sqlLoadStatus = fileSQLLoadScriptReader.parse(this, fileSysin);
+        return sqlLoadStatus;
+    }
 
-	int executeStatement(String csScriptLine)
-	{
-		return -1;
-	}
+    int executeStatement(String csScriptLine)
+    {
+        return -1;
+    }
 
-	SQLLoadStatus executeStatement(IntegerRef rnNbRecord, LoadScriptLineInfo loadInfo)
-	{
-		String csDefaultTablePrefix = dbConnection.getEnvironmentPrefix();
-		String csTableFullName = loadInfo.getFullTableName(csDefaultTablePrefix);
+    SQLLoadStatus executeStatement(IntegerRef rnNbRecord, LoadScriptLineInfo loadInfo)
+    {
+        String csDefaultTablePrefix = dbConnection.getEnvironmentPrefix();
+        String csTableFullName = loadInfo.getFullTableName(csDefaultTablePrefix);
 
-		BaseDbColDefinitionFactory dbColDefinitionFactory = new BaseDbColDefinitionFactory();
-		ArrayList<BaseDbColDefinition> dbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(dbConnection, loadInfo.getTablePrefix(), loadInfo.getUnprefixedTableName());
-		if (dbColDef != null)
-		{
-			String csFileDataIn = loadInfo.getInddnValue();
-			return insertData(rnNbRecord, csFileDataIn, csTableFullName, dbColDef, loadInfo.isReplace());
-		}
-		return SQLLoadStatus.loadFailure;
-	}
+        BaseDbColDefinitionFactory dbColDefinitionFactory = new BaseDbColDefinitionFactory();
+        ArrayList<BaseDbColDefinition> dbColDef = dbColDefinitionFactory.makeArrayDbColDefinitions(
+            dbConnection,
+            loadInfo.getTablePrefix(),
+            loadInfo.getUnprefixedTableName());
+        if (dbColDef != null)
+        {
+            String csFileDataIn = loadInfo.getInddnValue();
+            return insertData(rnNbRecord, csFileDataIn, csTableFullName, dbColDef, loadInfo.isReplace());
+        }
+        return SQLLoadStatus.loadFailure;
+    }
 
-	private int lockTable(String csTableName)
-	{
-		String csSqlLock = "LOCK TABLE " + csTableName + " IN EXCLUSIVE MODE";
-		return executeSQLClause(csSqlLock);
-	}
+    private int lockTable(String csTableName)
+    {
+        String csSqlLock = "LOCK TABLE " + csTableName + " IN EXCLUSIVE MODE";
+        return executeSQLClause(csSqlLock);
+    }
 
-	private int deleteTable(String csTableName)
-	{
-		String csSqlDelete = "DELETE FROM " + csTableName;
-		return executeSQLClause(csSqlDelete);
-	}
+    private int deleteTable(String csTableName)
+    {
+        String csSqlDelete = "DELETE FROM " + csTableName;
+        return executeSQLClause(csSqlDelete);
+    }
 
-	private SQLLoadStatus insertData(IntegerRef rnNbRecordInserted, String csLogicalFileDataIn, String csTableFullName, ArrayList<BaseDbColDefinition> arrDbColDef, boolean bLoadReplace)
-	{
-		int nBatchSize = BaseResourceManager.getSQLInsertStatementBatchSize();
-		int nBatchCommitSize = BaseResourceManager.getSQLInsertStatementBatchCommitSize();
-		int nBatchDone = 0;
+    private SQLLoadStatus insertData(
+        IntegerRef rnNbRecordInserted,
+        String csLogicalFileDataIn,
+        String csTableFullName,
+        ArrayList<BaseDbColDefinition> arrDbColDef,
+        boolean bLoadReplace)
+    {
+        int nBatchSize = BaseResourceManager.getSQLInsertStatementBatchSize();
+        int nBatchCommitSize = BaseResourceManager.getSQLInsertStatementBatchCommitSize();
+        int nBatchDone = 0;
 
-		if (bLoadReplace)
-		{
-			lockTable(csTableFullName);
-			deleteTable(csTableFullName);
-			if (nBatchCommitSize > 0)
-				dbConnection.commit();
-		}
+        if (bLoadReplace)
+        {
+            lockTable(csTableFullName);
+            deleteTable(csTableFullName);
+            if (nBatchCommitSize > 0)
+                dbConnection.commit();
+        }
 
-		FileDescriptor fileDescriptorIn = new FileDescriptor(csLogicalFileDataIn);
-		fileDescriptorIn.setSession(getSession());
-		String csPhysicalFileIn = fileDescriptorIn.getPhysicalName();
+        FileDescriptor fileDescriptorIn = new FileDescriptor(csLogicalFileDataIn);
+        fileDescriptorIn.setSession(getSession());
+        String csPhysicalFileIn = fileDescriptorIn.getPhysicalName();
 
-		if (BaseDataFile.isNullFile(csPhysicalFileIn))	// file giving record to insert is nullfile: simulate a correct working
-			return SQLLoadStatus.loadSuccess;
+        if (BaseDataFile.isNullFile(csPhysicalFileIn))  // file giving record to insert is nullfile: simulate a correct working
+            return SQLLoadStatus.loadSuccess;
 
-		LogicalFileDescriptor logicalFileDescriptor = fileDescriptorIn.getLogicalFileDescriptor();
+        LogicalFileDescriptor logicalFileDescriptor = fileDescriptorIn.getLogicalFileDescriptor();
 
-		DataFileLineReader dataFileIn = new DataFileLineReader(csPhysicalFileIn, 65536, 0);
-		boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
-		if (!isinOpened)
-			return SQLLoadStatus.loadFailure;
+        DataFileLineReader dataFileIn = new DataFileLineReader(csPhysicalFileIn, 65536, 0);
+        boolean isinOpened = dataFileIn.open(logicalFileDescriptor);
+        if (!isinOpened)
+            return SQLLoadStatus.loadFailure;
 
-		boolean isebcdicInput = fileDescriptorIn.isEbcdic();
+        boolean isebcdicInput = fileDescriptorIn.isEbcdic();
 
-		fileDescriptorIn.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
+        fileDescriptorIn.tryAutoDetermineRecordLengthIfRequired(dataFileIn);
 
-		// Prepare the array of the col values to insert
-		int nNbCols = arrDbColDef.size();
-		String csInsertClause = BaseDbColDefinitionFactory.makeInsertString(csTableFullName, arrDbColDef);
+        // Prepare the array of the col values to insert
+        int nNbCols = arrDbColDef.size();
+        String csInsertClause = BaseDbColDefinitionFactory.makeInsertString(csTableFullName, arrDbColDef);
         // cursor clause not supported
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csInsertClause, false);
+        SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csInsertClause, false);
 
-		// Remove ending ';' as it is not supported by UDB
-		if(csInsertClause.endsWith(";"))
-			csInsertClause = csInsertClause.substring(0, csInsertClause.length()-1);
+        // Remove ending ';' as it is not supported by UDB
+        if(csInsertClause.endsWith(";"))
+            csInsertClause = csInsertClause.substring(0, csInsertClause.length()-1);
 
-		csInsertClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csInsertClause, typeOperation, "");
-		DbPreparedStatement stmt = dbConnection.prepareStatement(csInsertClause, 0, false);
-		if(stmt == null)
-		{
-			Log.logCritical("Could not prepare statement; SQL load aborted" + csInsertClause);
-			dataFileIn.close();
-			return SQLLoadStatus.loadFailure;
-		}
+        csInsertClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csInsertClause, typeOperation, "");
+        DbPreparedStatement stmt = dbConnection.prepareStatement(csInsertClause, 0, false);
+        if(stmt == null)
+        {
+            Log.logCritical("Could not prepare statement; SQL load aborted" + csInsertClause);
+            dataFileIn.close();
+            return SQLLoadStatus.loadFailure;
+        }
 
-		int nOffsetHeaderVariableLength = 0;
-		if(fileDescriptorIn.isVariableLength())
-			nOffsetHeaderVariableLength = 4;
+        int nOffsetHeaderVariableLength = 0;
+        if(fileDescriptorIn.isVariableLength())
+            nOffsetHeaderVariableLength = 4;
 
-		SQLLoadStatus globalStatus = SQLLoadStatus.loadSuccess;
+        SQLLoadStatus globalStatus = SQLLoadStatus.loadSuccess;
 
-		boolean islockReplace = false;
-		int nNbRecordInserted = 0;
-		DbColDefErrorManager dbColDefErrorManager = new DbColDefErrorManager();
-		LineRead lineRead = fileDescriptorIn.readALine(dataFileIn, null);
-		while (lineRead != null && globalStatus != SQLLoadStatus.loadFailure)
-		{
-			if (bLoadReplace && !islockReplace)
-			{
-				lockTable(csTableFullName);
-				islockReplace = true;
-			}
-			dbColDefErrorManager.setLine(nNbRecordInserted);
+        boolean islockReplace = false;
+        int nNbRecordInserted = 0;
+        DbColDefErrorManager dbColDefErrorManager = new DbColDefErrorManager();
+        LineRead lineRead = fileDescriptorIn.readALine(dataFileIn, null);
+        while (lineRead != null && globalStatus != SQLLoadStatus.loadFailure)
+        {
+            if (bLoadReplace && !islockReplace)
+            {
+                lockTable(csTableFullName);
+                islockReplace = true;
+            }
+            dbColDefErrorManager.setLine(nNbRecordInserted);
 
-			byte byteValue[] = lineRead.getBuffer();
-			int nSourceOffset = lineRead.getOffset();
-			nSourceOffset += nOffsetHeaderVariableLength;	// Skip variable length 4 bytes header
+            byte byteValue[] = lineRead.getBuffer();
+            int nSourceOffset = lineRead.getOffset();
+            nSourceOffset += nOffsetHeaderVariableLength;   // Skip variable length 4 bytes header
 
-			for (int nCol = 0; nCol < nNbCols; nCol++)
-			{
-				BaseDbColDefinition dbColDef = arrDbColDef.get(nCol);
-				int nColLengthInFile = dbColDef.setByteValueInStmtCol(dbColDefErrorManager, stmt, nCol, byteValue, nSourceOffset, isebcdicInput);
-				nSourceOffset += nColLengthInFile;
-			}
+            for (int nCol = 0; nCol < nNbCols; nCol++)
+            {
+                BaseDbColDefinition dbColDef = arrDbColDef.get(nCol);
+                int nColLengthInFile = dbColDef.setByteValueInStmtCol(
+                    dbColDefErrorManager,
+                    stmt,
+                    nCol,
+                    byteValue,
+                    nSourceOffset,
+                    isebcdicInput);
+                nSourceOffset += nColLengthInFile;
+            }
 
-			stmt.addBatch();
-			if (stmt.getBatchSize() >= nBatchSize)
-			{
-				nBatchDone++;
-				SQLLoadStatus status = stmt.executeBatch(nNbRecordInserted-nBatchSize);
-				globalStatus = SQLLoadStatus.updateWithLocalStatus(globalStatus, status);
-				if (bLoadReplace && nBatchCommitSize > 0)
-				{
-					if (nBatchDone >= nBatchCommitSize)
-					{
-						dbConnection.commit();
-						islockReplace = false;
-						nBatchDone = 0;
-					}
-				}
-			}
+            stmt.addBatch();
+            if (stmt.getBatchSize() >= nBatchSize)
+            {
+                nBatchDone++;
+                SQLLoadStatus status = stmt.executeBatch(nNbRecordInserted-nBatchSize);
+                globalStatus = SQLLoadStatus.updateWithLocalStatus(globalStatus, status);
+                if (bLoadReplace && nBatchCommitSize > 0)
+                {
+                    if (nBatchDone >= nBatchCommitSize)
+                    {
+                        dbConnection.commit();
+                        islockReplace = false;
+                        nBatchDone = 0;
+                    }
+                }
+            }
 
-			lineRead = fileDescriptorIn.readALine(dataFileIn, lineRead);
-			nNbRecordInserted++;
-		}
+            lineRead = fileDescriptorIn.readALine(dataFileIn, lineRead);
+            nNbRecordInserted++;
+        }
 
-		if (globalStatus != SQLLoadStatus.loadFailure && stmt.getBatchSize() > 0)
-		{
-			nBatchDone++;
-			SQLLoadStatus status = stmt.executeBatch(nNbRecordInserted);
-			globalStatus = SQLLoadStatus.updateWithLocalStatus(globalStatus, status);
-		}
-		if (globalStatus != SQLLoadStatus.loadFailure && bLoadReplace && nBatchCommitSize > 0 && nBatchDone > 0)
-		{
-			dbConnection.commit();
-		}
-		dataFileIn.close();
+        if (globalStatus != SQLLoadStatus.loadFailure && stmt.getBatchSize() > 0)
+        {
+            nBatchDone++;
+            SQLLoadStatus status = stmt.executeBatch(nNbRecordInserted);
+            globalStatus = SQLLoadStatus.updateWithLocalStatus(globalStatus, status);
+        }
+        if (globalStatus != SQLLoadStatus.loadFailure && bLoadReplace && nBatchCommitSize > 0 && nBatchDone > 0)
+        {
+            dbConnection.commit();
+        }
+        dataFileIn.close();
 
-		rnNbRecordInserted.set(nNbRecordInserted);
-		if (globalStatus == SQLLoadStatus.loadFailure || dbColDefErrorManager.getNbErrors() != 0)
-		{
-			String csErrorsText = dbColDefErrorManager.getErrorsText();
-			manageLoadLogError(csInsertClause, csErrorsText, nNbRecordInserted);
-		}
+        rnNbRecordInserted.set(nNbRecordInserted);
+        if (globalStatus == SQLLoadStatus.loadFailure || dbColDefErrorManager.getNbErrors() != 0)
+        {
+            String csErrorsText = dbColDefErrorManager.getErrorsText();
+            manageLoadLogError(csInsertClause, csErrorsText, nNbRecordInserted);
+        }
 
-		return globalStatus;
-	}
+        return globalStatus;
+    }
 
-	private void manageLoadLogError(String csInsertClause, String csErrorsText, int nNbRecordInserted)
-	{
-		String cs = makeLogText(csInsertClause, csErrorsText, nNbRecordInserted);
-		Log.logCritical("SQL Load Errors: " + cs);
-		BaseProgramLoader.logMail("SQLLoad Errors", cs);
-	}
+    private void manageLoadLogError(String csInsertClause, String csErrorsText, int nNbRecordInserted)
+    {
+        String cs = makeLogText(csInsertClause, csErrorsText, nNbRecordInserted);
+        Log.logCritical("SQL Load Errors: " + cs);
+        BaseProgramLoader.logMail("SQLLoad Errors", cs);
+    }
 }

@@ -5,7 +5,7 @@
  * Licensed under GPL (GPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package utils;
 
@@ -20,41 +20,41 @@ import lexer.CBaseToken;
  */
 public class LevelKeywordStackManager
 {
-	private LevelKeywordStackManager levelKeywordStackManager = null;
-	private static Stack<LevelKeywords> ms_stack = new Stack<LevelKeywords>(); 
-	
-	private LevelKeywordStackManager()
-	{
-	}
-	
-	LevelKeywordStackManager getLevelKeywordStackManager()
-	{
-		if(levelKeywordStackManager == null)
-			levelKeywordStackManager = new LevelKeywordStackManager();
-		return levelKeywordStackManager;
-	}
-	
-	public static LevelKeywords getAndPushNewLevelKeywords()
-	{
-		LevelKeywords l = new LevelKeywords();
-		ms_stack.push(l);
-		return l;
-	}
-	
-	public static void popLevelKeywords()
-	{
-		ms_stack.pop();
-	}
-	
-	public static boolean isTokenManagedByAnyParents(CBaseToken tok)
-	{
-		int nNbParents = ms_stack.size();
-		for(int n=0; n<nNbParents; n++)
-		{
-			LevelKeywords l = ms_stack.get(n);
-			if(l.isManaging(tok))
-				return true;
-		}
-		return false;
-	}
+    private LevelKeywordStackManager levelKeywordStackManager = null;
+    private static Stack<LevelKeywords> ms_stack = new Stack<LevelKeywords>();
+
+    private LevelKeywordStackManager()
+    {
+    }
+
+    LevelKeywordStackManager getLevelKeywordStackManager()
+    {
+        if(levelKeywordStackManager == null)
+            levelKeywordStackManager = new LevelKeywordStackManager();
+        return levelKeywordStackManager;
+    }
+
+    public static LevelKeywords getAndPushNewLevelKeywords()
+    {
+        LevelKeywords l = new LevelKeywords();
+        ms_stack.push(l);
+        return l;
+    }
+
+    public static void popLevelKeywords()
+    {
+        ms_stack.pop();
+    }
+
+    public static boolean isTokenManagedByAnyParents(CBaseToken tok)
+    {
+        int nNbParents = ms_stack.size();
+        for(int n=0; n<nNbParents; n++)
+        {
+            LevelKeywords l = ms_stack.get(n);
+            if(l.isManaging(tok))
+                return true;
+        }
+        return false;
+    }
 }

@@ -32,93 +32,93 @@ import utils.Transcoder;
 public class CDisplay extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CDisplay(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityDisplay eDisp = factory.NewEntityDisplay(getLine(), upon);
-		parent.AddChild(eDisp) ;
-		for (int i = 0; i< toDisplay.size(); i++)
-		{
-			CTerminal term = toDisplay.get(i);
-			CDataEntity e = term.GetDataEntity(getLine(), factory);
-			e.RegisterReadingAction(eDisp) ;
-			eDisp.AddItemToDisplay(e) ;
-		}
-		return eDisp ;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.DISPLAY)
-		{
-			Transcoder.logError(getLine(), "Expecting DISPLAY keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+    /**
+     * @param line
+     */
+    public CDisplay(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityDisplay eDisp = factory.NewEntityDisplay(getLine(), upon);
+        parent.AddChild(eDisp) ;
+        for (int i = 0; i< toDisplay.size(); i++)
+        {
+            CTerminal term = toDisplay.get(i);
+            CDataEntity e = term.GetDataEntity(getLine(), factory);
+            e.RegisterReadingAction(eDisp) ;
+            eDisp.AddItemToDisplay(e) ;
+        }
+        return eDisp ;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.DISPLAY)
+        {
+            Transcoder.logError(getLine(), "Expecting DISPLAY keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext() ;
-		CTerminal term = ReadTerminal();
-		while (term != null)
-		{
-			toDisplay.add(term);
-			tok = GetCurrentToken() ;
-			if (tok.GetType() == CTokenType.COMMA)
-			{
-				GetNext() ;
-			}
-			term = ReadTerminal();
-		}
+        tok = GetNext() ;
+        CTerminal term = ReadTerminal();
+        while (term != null)
+        {
+            toDisplay.add(term);
+            tok = GetCurrentToken() ;
+            if (tok.GetType() == CTokenType.COMMA)
+            {
+                GetNext() ;
+            }
+            term = ReadTerminal();
+        }
 
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.UPON)
-		{
-			tok = GetNext() ;
-			if (tok.GetKeyword()== CCobolKeywordList.CONSOLE)
-			{
-				GetNext() ;
-				upon = Upon.CONSOLE ;
-			}
-			else if (tok.GetKeyword()== CCobolKeywordList.ENVIRONMENT_NAME)
-			{
-				GetNext() ;
-				upon = Upon.ENVINONMENT ;
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Unexpecting token : "+tok.GetValue()) ;
-				return false ;
-			}
-		}
-		return toDisplay.size() > 0 ;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		String name = "" ;
-		if (upon == Upon.CONSOLE)
-		{
-			name = "DisplayUponConsole" ;
-		}
-		else
-		{
-			name = "Display" ;
-		}
-		Element eDisp = root.createElement(name);
-		for (int i = 0; i< toDisplay.size(); i++)
-		{
-			Element e = root.createElement("Data");
-			eDisp.appendChild(e) ;
-			CTerminal term = toDisplay.get(i);
-			term.ExportTo(e, root) ;
-		}
-		return eDisp;
-	}
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.UPON)
+        {
+            tok = GetNext() ;
+            if (tok.GetKeyword()== CCobolKeywordList.CONSOLE)
+            {
+                GetNext() ;
+                upon = Upon.CONSOLE ;
+            }
+            else if (tok.GetKeyword()== CCobolKeywordList.ENVIRONMENT_NAME)
+            {
+                GetNext() ;
+                upon = Upon.ENVINONMENT ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Unexpecting token : "+tok.GetValue()) ;
+                return false ;
+            }
+        }
+        return toDisplay.size() > 0 ;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        String name = "" ;
+        if (upon == Upon.CONSOLE)
+        {
+            name = "DisplayUponConsole" ;
+        }
+        else
+        {
+            name = "Display" ;
+        }
+        Element eDisp = root.createElement(name);
+        for (int i = 0; i< toDisplay.size(); i++)
+        {
+            Element e = root.createElement("Data");
+            eDisp.appendChild(e) ;
+            CTerminal term = toDisplay.get(i);
+            term.ExportTo(e, root) ;
+        }
+        return eDisp;
+    }
 
-	protected Vector<CTerminal> toDisplay = new Vector<CTerminal>() ;
-	protected Upon upon = Upon.DEFAULT ;
+    protected Vector<CTerminal> toDisplay = new Vector<CTerminal>() ;
+    protected Upon upon = Upon.DEFAULT ;
 }

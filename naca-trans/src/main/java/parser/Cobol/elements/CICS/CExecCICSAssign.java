@@ -33,115 +33,115 @@ import utils.Transcoder;
 public class CExecCICSAssign extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSAssign(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSAssign(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityCICSAssign eAss = factory.NewEntityCICSAssign(getLine()) ;
-		parent.AddChild(eAss);
-		Enumeration iter = tabRequests.keys() ;
-		try
-		{
-			String cs = (String)iter.nextElement();
-			while (!cs.equals(""))
-			{
-				CIdentifier id = tabRequests.get(cs);
-				CDataEntity e = id.GetDataReference(getLine(), factory);
-				eAss.AddRequest(cs, e) ;
-				cs = (String)iter.nextElement() ;
-			}
-		}
-		catch (NoSuchElementException e){}
-		return eAss ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityCICSAssign eAss = factory.NewEntityCICSAssign(getLine()) ;
+        parent.AddChild(eAss);
+        Enumeration iter = tabRequests.keys() ;
+        try
+        {
+            String cs = (String)iter.nextElement();
+            while (!cs.equals(""))
+            {
+                CIdentifier id = tabRequests.get(cs);
+                CDataEntity e = id.GetDataReference(getLine(), factory);
+                eAss.AddRequest(cs, e) ;
+                cs = (String)iter.nextElement() ;
+            }
+        }
+        catch (NoSuchElementException e){}
+        return eAss ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.ASSIGN)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.ASSIGN)
+        {
+            tok = GetNext();
+        }
 
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			tok = GetCurrentToken() ;
-			String cs = tok.GetValue() ;
-			if (cs.equals("APPLID"))
-			{
-				CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "APPLID") ;
-			}
-			else if (cs.equals("TCTUALENG"))
-			{
-				CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "TCTUALENG") ;
-			}
-			else
-			{
-				isdone = true ;
-			}
-			if (!isdone)
-			{
-				tok = GetNext();
-				if (tok.GetType() == CTokenType.LEFT_BRACKET)
-				{
-					tok = GetNext() ;
-					CIdentifier id = ReadIdentifier() ;
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-					{
-						tok = GetNext() ;
-					}
-					tabRequests.put(cs, id) ;
-				}
-			}
-		}
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            tok = GetCurrentToken() ;
+            String cs = tok.GetValue() ;
+            if (cs.equals("APPLID"))
+            {
+                CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "APPLID") ;
+            }
+            else if (cs.equals("TCTUALENG"))
+            {
+                CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("ASSIGN", "TCTUALENG") ;
+            }
+            else
+            {
+                isdone = true ;
+            }
+            if (!isdone)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext() ;
+                    CIdentifier id = ReadIdentifier() ;
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext() ;
+                    }
+                    tabRequests.put(cs, id) ;
+                }
+            }
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error while parsing EXEC CICS ASSIGN");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error while parsing EXEC CICS ASSIGN");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eass = root.createElement("ExecCICSAssign") ;
-		Enumeration enumere = tabRequests.keys() ;
-		try
-		{
-			String cs = (String)enumere.nextElement() ;
-			while (cs != null)
-			{
-				CIdentifier id = tabRequests.get(cs) ;
-				Element e = root.createElement(cs);
-				eass.appendChild(e) ;
-				id.ExportTo(e, root) ;
-				cs = (String)enumere.nextElement() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-		}
-		return eass;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eass = root.createElement("ExecCICSAssign") ;
+        Enumeration enumere = tabRequests.keys() ;
+        try
+        {
+            String cs = (String)enumere.nextElement() ;
+            while (cs != null)
+            {
+                CIdentifier id = tabRequests.get(cs) ;
+                Element e = root.createElement(cs);
+                eass.appendChild(e) ;
+                id.ExportTo(e, root) ;
+                cs = (String)enumere.nextElement() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+        }
+        return eass;
+    }
 
-	protected Hashtable<String, CIdentifier> tabRequests = new Hashtable<String, CIdentifier>() ;
+    protected Hashtable<String, CIdentifier> tabRequests = new Hashtable<String, CIdentifier>() ;
 }

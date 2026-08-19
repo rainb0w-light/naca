@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -18,18 +18,18 @@ package nacaLib.spServer;
  */
 public class SpServerProgram //extends BaseProgram // BatchProgram
 {
-//	public SpServerProgram()
-//	{
-//		super(new SpServerProgramManagerFactory(), false);
-//		//super();
-//		BasicLogger.log("SpServerProgram::SpServerProgram");
-//		declare = new VarSectionDeclaration(this);
-//	}
-//	
-//	protected BaseCESMManager getCESM()
-//	{
-//		return null;
-//	}
-//	
-//	protected VarSectionDeclaration declare = null; 
+//  public SpServerProgram()
+//  {
+//      super(new SpServerProgramManagerFactory(), false);
+//      //super();
+//      BasicLogger.log("SpServerProgram::SpServerProgram");
+//      declare = new VarSectionDeclaration(this);
+//  }
+//
+//  protected BaseCESMManager getCESM()
+//  {
+//      return null;
+//  }
+//
+//  protected VarSectionDeclaration declare = null;
 }

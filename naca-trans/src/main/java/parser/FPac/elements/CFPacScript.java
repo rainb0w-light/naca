@@ -21,131 +21,131 @@ import semantic.CBaseLanguageEntity;
 import semantic.CEntityClass;
 import utils.Transcoder;
 
-public class CFPacScript extends CFPacElement 
+public class CFPacScript extends CFPacElement
 {
 
-	private String csName = "" ;
-	private Vector<CFPacSubr> subr;
+    private String csName = "" ;
+    private Vector<CFPacSubr> subr;
 
-	public CFPacScript(int line)
-	{
-		super(line);
-	}
-	
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("Script");
-		return e ;
-	}
+    public CFPacScript(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityClass cl = factory.NewEntityClass(getLine(), csName) ;
-		
-		return cl ;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("Script");
+        return e ;
+    }
 
-	protected boolean DoParsing() 
-	{
-		CBaseToken tok = GetCurrentToken() ; // read comments before parsing declaration zone
-		CFPacDeclarationZone zone = new CFPacDeclarationZone(0) ;
-		if (!Parse(zone))
-		{
-			return false;
-		}
-		AddChild(zone) ;
-		
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.FIRST)
-		{
-			CFPacCodeBloc firstBloc = new CFPacCodeBloc(tok.getLine(), "First") ;
-			tok = GetNext() ;
-			if (!Parse(firstBloc))
-			{
-				return false ;
-			}
-			AddChild(firstBloc) ;
-		}
-		else
-		{
-			CFPacCodeBloc firstBloc = new CFPacCodeBloc(0, "First") ;
-			AddChild(firstBloc) ;
-		}
-		
-		tok = GetCurrentToken() ;
-		int nNormalLine = 0;
-		if (tok.GetKeyword() == CFPacKeywordList.NORMAL)
-		{
-			nNormalLine = tok.getLine() ;
-			tok = GetNext() ;
-		}
-		CFPacCoreCodeBloc normBloc = new CFPacCoreCodeBloc(nNormalLine, "Normal") ;
-		if (!Parse(normBloc))
-		{
-			return false ;
-		}
-		AddChild(normBloc) ;
-	
-		tok = GetCurrentToken() ;
-		CFPacCodeBloc lastBloc ;
-		if (tok.GetKeyword() == CFPacKeywordList.LAST)
-		{
-			lastBloc = new CFPacCodeBloc(tok.getLine(), "Last") ;
-			tok = GetNext() ;
-			if (!Parse(lastBloc))
-			{
-				return false ;
-			}
-			AddChild(lastBloc) ;
-		}		
-		else
-		{
-			lastBloc = new CFPacCodeBloc(0, "Last") ;
-			AddChild(lastBloc) ;
-		}
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityClass cl = factory.NewEntityClass(getLine(), csName) ;
 
-		tok = GetCurrentToken() ;
-		while (tok != null && tok.GetKeyword() == CFPacKeywordList.SUBR)
-		{
-			if (subr == null)
-				subr = new Vector<CFPacSubr>() ;
-			CFPacSubr subr = new  CFPacSubr(tok.getLine()) ;
-			if (!Parse(subr))
-			{
-				return false ;
-			}
-			AddChild(subr) ;
-			tok = GetCurrentToken() ;
-		}
+        return cl ;
+    }
 
-		tok = GetCurrentToken() ;
-		if (tok == null)
-		{
-			return true ;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.END)
-		{
-			lastBloc.SetEndLine(tok.getLine()) ;
-			StepNext() ;
-			return true ;
-		}
-		else
-		{
-			Transcoder.logError(tok.getLine(), "Token not parsed : "+tok.toString()) ;
-			return false ;
-		}
-	}
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ; // read comments before parsing declaration zone
+        CFPacDeclarationZone zone = new CFPacDeclarationZone(0) ;
+        if (!Parse(zone))
+        {
+            return false;
+        }
+        AddChild(zone) ;
 
-	public CEntityClass DoSemanticAnalysis(CJavaFPacEntityFactory factory)
-	{
-		return (CEntityClass)DoSemanticAnalysis(null, factory) ;
-	}
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.FIRST)
+        {
+            CFPacCodeBloc firstBloc = new CFPacCodeBloc(tok.getLine(), "First") ;
+            tok = GetNext() ;
+            if (!Parse(firstBloc))
+            {
+                return false ;
+            }
+            AddChild(firstBloc) ;
+        }
+        else
+        {
+            CFPacCodeBloc firstBloc = new CFPacCodeBloc(0, "First") ;
+            AddChild(firstBloc) ;
+        }
 
-	public void setName(String name)
-	{
-		csName = name ;
-	};
-	
+        tok = GetCurrentToken() ;
+        int nNormalLine = 0;
+        if (tok.GetKeyword() == CFPacKeywordList.NORMAL)
+        {
+            nNormalLine = tok.getLine() ;
+            tok = GetNext() ;
+        }
+        CFPacCoreCodeBloc normBloc = new CFPacCoreCodeBloc(nNormalLine, "Normal") ;
+        if (!Parse(normBloc))
+        {
+            return false ;
+        }
+        AddChild(normBloc) ;
+
+        tok = GetCurrentToken() ;
+        CFPacCodeBloc lastBloc ;
+        if (tok.GetKeyword() == CFPacKeywordList.LAST)
+        {
+            lastBloc = new CFPacCodeBloc(tok.getLine(), "Last") ;
+            tok = GetNext() ;
+            if (!Parse(lastBloc))
+            {
+                return false ;
+            }
+            AddChild(lastBloc) ;
+        }
+        else
+        {
+            lastBloc = new CFPacCodeBloc(0, "Last") ;
+            AddChild(lastBloc) ;
+        }
+
+        tok = GetCurrentToken() ;
+        while (tok != null && tok.GetKeyword() == CFPacKeywordList.SUBR)
+        {
+            if (subr == null)
+                subr = new Vector<CFPacSubr>() ;
+            CFPacSubr subr = new  CFPacSubr(tok.getLine()) ;
+            if (!Parse(subr))
+            {
+                return false ;
+            }
+            AddChild(subr) ;
+            tok = GetCurrentToken() ;
+        }
+
+        tok = GetCurrentToken() ;
+        if (tok == null)
+        {
+            return true ;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.END)
+        {
+            lastBloc.SetEndLine(tok.getLine()) ;
+            StepNext() ;
+            return true ;
+        }
+        else
+        {
+            Transcoder.logError(tok.getLine(), "Token not parsed : "+tok.toString()) ;
+            return false ;
+        }
+    }
+
+    public CEntityClass DoSemanticAnalysis(CJavaFPacEntityFactory factory)
+    {
+        return (CEntityClass)DoSemanticAnalysis(null, factory) ;
+    }
+
+    public void setName(String name)
+    {
+        csName = name ;
+    };
+
 }

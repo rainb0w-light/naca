@@ -15,26 +15,26 @@ import utils.CObjectCatalog;
 public class CProcedureReference
 {
 
-	public CProcedureReference(String csProcedureName, String csSectionName, CObjectCatalog programCatalog)
-	{
-		this.csProcedureName = csProcedureName ;
-		this.csSectionName = csSectionName ;
-		this.programCatalog = programCatalog ;
-	}
-	public CEntityProcedure getProcedure()
-	{
-		return programCatalog.GetProcedure(csProcedureName, csSectionName) ;
-	}
-	protected String csProcedureName = "" ;
-	protected String csSectionName = "" ;
-	protected CObjectCatalog programCatalog = null ;
-	public void Clear()
-	{
-		programCatalog = null ;
-	}
-	public String getProcedureName()
-	{
-		return csProcedureName;
-	}
+    public CProcedureReference(String csProcedureName, String csSectionName, CObjectCatalog programCatalog)
+    {
+        this.csProcedureName = csProcedureName ;
+        this.csSectionName = csSectionName ;
+        this.programCatalog = programCatalog ;
+    }
+    public CEntityProcedure getProcedure()
+    {
+        return programCatalog.GetProcedure(csProcedureName, csSectionName) ;
+    }
+    protected String csProcedureName = "" ;
+    protected String csSectionName = "" ;
+    protected CObjectCatalog programCatalog = null ;
+    public void Clear()
+    {
+        programCatalog = null ;
+    }
+    public String getProcedureName()
+    {
+        return csProcedureName;
+    }
 
 }

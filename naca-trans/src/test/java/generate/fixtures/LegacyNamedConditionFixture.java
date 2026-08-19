@@ -22,7 +22,9 @@ public final class LegacyNamedConditionFixture extends CEntityNamedCondition
     }
     protected void DoExport()
     {
-        generate.LegacyLanguageRenderer.writeWord(this, "Cond " + generate.LegacyLanguageRenderer.formatIdentifier(this, GetName()) + " = declare.condition()");
+        generate.LegacyLanguageRenderer.writeWord(this, "Cond " + generate.LegacyLanguageRenderer.formatIdentifier(
+            this,
+            GetName()) + " = declare.condition()");
         for (CDataEntity value : values)
         {
             generate.LegacyLanguageRenderer.writeWord(this, value == null

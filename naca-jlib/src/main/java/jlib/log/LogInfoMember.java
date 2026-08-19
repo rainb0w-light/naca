@@ -12,43 +12,43 @@ package jlib.log;
  */
 public class LogInfoMember
 {
-	LogInfoMember(String csName, String csValue)
-	{
-		this.csName = csName;
-		this.csValue = csValue;
-	}
+    LogInfoMember(String csName, String csValue)
+    {
+        this.csName = csName;
+        this.csValue = csValue;
+    }
 
-	LogInfoMember(String csName, int nValue)
-	{
-		this.csName = csName;
-		value = Integer.valueOf(nValue);
-	}
+    LogInfoMember(String csName, int nValue)
+    {
+        this.csName = csName;
+        value = Integer.valueOf(nValue);
+    }
 
-	String getAsString()
-	{
-		if(csValue != null)
-			return csName + "=" + csValue;
-		if(value != null)
-			return csName + "=" + value.toString();
-		return csName + "=?";
-	}
+    String getAsString()
+    {
+        if(csValue != null)
+            return csName + "=" + csValue;
+        if(value != null)
+            return csName + "=" + value.toString();
+        return csName + "=?";
+    }
 
-	String getName()
-	{
-		return csName;
-	}
+    String getName()
+    {
+        return csName;
+    }
 
-	String getValue()
-	{
-		if(csValue != null)
-			return csValue;
-		else if(value != null)
-			return value.toString();
-		return "";
-	}
+    String getValue()
+    {
+        if(csValue != null)
+            return csValue;
+        else if(value != null)
+            return value.toString();
+        return "";
+    }
 
 
-	String csName = null;
-	String csValue = null;
-	Integer value = null;
+    String csName = null;
+    String csValue = null;
+    Integer value = null;
 }

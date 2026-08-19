@@ -16,85 +16,85 @@ import nacaLib.varEx.VarTypeEnum;
 
 public class VarFPacNumEdited extends Var
 {
-	public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited, VarBuffer varBuffer, int nPosition)
-	{
-		super(declareTypeFPacNumEdited);
-		bufferPos = new VarBufferPos(varBuffer, nPosition);
-		varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
-	}
-	
-	public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited)
-	{
-		super(declareTypeFPacNumEdited);
-	}
-		
-	protected VarFPacNumEdited()
-	{
-		super();
-	}
-	
-	protected VarBase allocCopy()
-	{
-		VarFPacAlphaNum v = new VarFPacAlphaNum();
-		return v;
-	}
-	
+    public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited, VarBuffer varBuffer, int nPosition)
+    {
+        super(declareTypeFPacNumEdited);
+        bufferPos = new VarBufferPos(varBuffer, nPosition);
+        varDef.setTotalSize(varDef.getSingleItemRequiredStorageSize());
+    }
 
-	protected String getAsLoggableString()
-	{
-		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
-		String cs = cstr.getAsString();
-		//cstr.resetManagerCache();
-		return cs;
-	}	
-	
-	public boolean hasType(VarTypeEnum e)
-	{
-		if(e == VarTypeEnum.TypeX)
-			return true;
-		return false;
-	}
-	
-	public int compareTo(int nValue)
-	{
-		int nVarValue = getInt();
-		return nVarValue - nValue;
-	}
-		
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5 
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;			
-	} 
+    public VarFPacNumEdited(DeclareTypeFPacNumEdited declareTypeFPacNumEdited)
+    {
+        super(declareTypeFPacNumEdited);
+    }
 
-	protected byte[] convertUnicodeToEbcdic(char[] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
-	
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
-		
-	public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
-	{
-		return new VarFPacAlphaNumLengthUndef(fpacVarManager, varBuffer, nAbsolutePosition);
-	}
-	
-	public VarType getVarType()
-	{
-		return VarType.VarFPacNumEdited;
-	}
-//	
-//	VarFPacUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
-//	{
-//		return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition);
-//	}
+    protected VarFPacNumEdited()
+    {
+        super();
+    }
+
+    protected VarBase allocCopy()
+    {
+        VarFPacAlphaNum v = new VarFPacAlphaNum();
+        return v;
+    }
+
+
+    protected String getAsLoggableString()
+    {
+        CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
+        String cs = cstr.getAsString();
+        //cstr.resetManagerCache();
+        return cs;
+    }
+
+    public boolean hasType(VarTypeEnum e)
+    {
+        if(e == VarTypeEnum.TypeX)
+            return true;
+        return false;
+    }
+
+    public int compareTo(int nValue)
+    {
+        int nVarValue = getInt();
+        return nVarValue - nValue;
+    }
+
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
+
+    protected byte[] convertUnicodeToEbcdic(char[] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
+
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
+
+    public VarFPacLengthUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
+    {
+        return new VarFPacAlphaNumLengthUndef(fpacVarManager, varBuffer, nAbsolutePosition);
+    }
+
+    public VarType getVarType()
+    {
+        return VarType.VarFPacNumEdited;
+    }
+//
+//  VarFPacUndef createVarFPacUndef(FPacVarManager fpacVarManager, VarBuffer varBuffer, int nAbsolutePosition)
+//  {
+//      return fpacVarManager.createFPacVarAlphaNum(varBuffer, nAbsolutePosition);
+//  }
 }
 

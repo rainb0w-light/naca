@@ -28,81 +28,81 @@ import utils.Transcoder;
 public class CStop extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CStop(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CStop(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		if (ref == null)
-		{
-			CEntityReturn eStop = factory.NewEntityReturn(getLine());
-			int returningValue = this.returning == null ? 0 : Integer.parseInt(this.returning.GetValue());
-			eStop.SetStopProgram(returningValue);
-			parent.AddChild(eStop);
-			return eStop ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "No semantic analysis for STOP ID");
-			return null;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        if (ref == null)
+        {
+            CEntityReturn eStop = factory.NewEntityReturn(getLine());
+            int returningValue = this.returning == null ? 0 : Integer.parseInt(this.returning.GetValue());
+            eStop.SetStopProgram(returningValue);
+            parent.AddChild(eStop);
+            return eStop ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "No semantic analysis for STOP ID");
+            return null;
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken();
-		if (tok.GetKeyword() != CCobolKeywordList.STOP)
-		{
-			return false ;
-		}
-		tok = GetNext();
-		if (tok.GetKeyword() == CCobolKeywordList.RUN)
-		{
-			tok = GetNext();
-			CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_RUN") ;
-			ref = null;
-			if (tok.GetKeyword() == CCobolKeywordList.RETURNING)
-			{
-				GetNext();
-				returning = ReadTerminal();
-			}
-		}
-		else
-		{
-			ref = ReadIdentifier();
-			CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_INPUT") ;
-		}
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetKeyword() != CCobolKeywordList.STOP)
+        {
+            return false ;
+        }
+        tok = GetNext();
+        if (tok.GetKeyword() == CCobolKeywordList.RUN)
+        {
+            tok = GetNext();
+            CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_RUN") ;
+            ref = null;
+            if (tok.GetKeyword() == CCobolKeywordList.RETURNING)
+            {
+                GetNext();
+                returning = ReadTerminal();
+            }
+        }
+        else
+        {
+            ref = ReadIdentifier();
+            CGlobalEntityCounter.GetInstance().CountCobolVerb("STOP_INPUT") ;
+        }
+        return true;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		if (ref == null)
-		{
-			return root.createElement("StopRun");
-		}
-		else
-		{
-			Element e = root.createElement("StopInput");
-			ref.ExportTo(e, root);
-			return e ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        if (ref == null)
+        {
+            return root.createElement("StopRun");
+        }
+        else
+        {
+            Element e = root.createElement("StopInput");
+            ref.ExportTo(e, root);
+            return e ;
+        }
+    }
 
-	protected CIdentifier ref = null ; // if NULL => STOP RUN ;
-	protected CTerminal returning = null ;
+    protected CIdentifier ref = null ; // if NULL => STOP RUN ;
+    protected CTerminal returning = null ;
 }

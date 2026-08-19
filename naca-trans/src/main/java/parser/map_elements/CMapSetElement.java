@@ -37,241 +37,241 @@ import utils.Transcoder;
 public class CMapSetElement extends CBMSElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CMapSetElement(String name, int line)
-	{
-		super(name, line);
-	}
+    /**
+     * @param line
+     */
+    public CMapSetElement(String name, int line)
+    {
+        super(name, line);
+    }
 
-	public CBaseResourceEntity DoSemanticAnalysis(CDataEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityResourceFormContainer eFC = factory.NewEntityFormContainer(getLine(), getName(), false) ;
-		ListIterator i = children.listIterator() ;
-		try
-		{
-			CBMSElement le = (CBMSElement)i.next() ;
-			while (le != null)
-			{
-				if (le.GetType()==EBMSElementType.MAP)
-				{
-					if (resStrings != null)
-					{
-						le.SetResourceStrings(resStrings) ;
-					}
-					CEntityResourceForm form = (CEntityResourceForm)le.DoSemanticAnalysis(eFC, factory) ;
-					if (resStrings == null)
-					{
-						resStrings = le.GetResourceStrings();
-					}
-					if (form != null)
-					{
-						form.of = eFC ;
-						eFC.AddForm(form) ;
-						form.setResourceName(getName()) ;
-						if (form.GetName().endsWith("F"))
-						{
-//							arrAccessors.add(le.GetName()) ;
-							form.SetReferences(arrAccessors) ;
-						}
-					}
-					else if (form == null)
-					{
-						arrAccessors.add(le.getName());
-					}
-				}
-				le = (CBMSElement)i.next() ;
-			}
-		}
-		catch (NoSuchElementException e)
-		{
-			//System.out.println(e.toString());
-		}
-		eFC.resStrings = resStrings ;
-		return eFC ;
-	}
-	protected ArrayList<String> arrAccessors = new ArrayList<String>() ;
+    public CBaseResourceEntity DoSemanticAnalysis(CDataEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityResourceFormContainer eFC = factory.NewEntityFormContainer(getLine(), getName(), false) ;
+        ListIterator i = children.listIterator() ;
+        try
+        {
+            CBMSElement le = (CBMSElement)i.next() ;
+            while (le != null)
+            {
+                if (le.GetType()==EBMSElementType.MAP)
+                {
+                    if (resStrings != null)
+                    {
+                        le.SetResourceStrings(resStrings) ;
+                    }
+                    CEntityResourceForm form = (CEntityResourceForm)le.DoSemanticAnalysis(eFC, factory) ;
+                    if (resStrings == null)
+                    {
+                        resStrings = le.GetResourceStrings();
+                    }
+                    if (form != null)
+                    {
+                        form.of = eFC ;
+                        eFC.AddForm(form) ;
+                        form.setResourceName(getName()) ;
+                        if (form.GetName().endsWith("F"))
+                        {
+//                          arrAccessors.add(le.GetName()) ;
+                            form.SetReferences(arrAccessors) ;
+                        }
+                    }
+                    else if (form == null)
+                    {
+                        arrAccessors.add(le.getName());
+                    }
+                }
+                le = (CBMSElement)i.next() ;
+            }
+        }
+        catch (NoSuchElementException e)
+        {
+            //System.out.println(e.toString());
+        }
+        eFC.resStrings = resStrings ;
+        return eFC ;
+    }
+    protected ArrayList<String> arrAccessors = new ArrayList<String>() ;
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element DoExportCustom(Document root)
-	{
-		Element eMS = root.createElement("MapSet") ;
-		eMS.setAttribute("Mode", mode) ;
-		eMS.setAttribute("Language", language) ;
-		return eMS ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element DoExportCustom(Document root)
+    {
+        Element eMS = root.createElement("MapSet") ;
+        eMS.setAttribute("Mode", mode) ;
+        eMS.setAttribute("Language", language) ;
+        return eMS ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#InterpretKeyword(lexer.CReservedKeyword, lexer.CTokenList)
-	 */
-	protected boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens)
-	{
-		if (kw == CBMSKeywordList.TYPE )
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetConstant() != CBMSConstantList.MAP)
-			{
-				Transcoder.logError(getLine(), "Expecting MAP") ;
-				return false ;
-			}
-			GetNext() ;
-		}
-		else if (kw == CBMSKeywordList.MODE)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetConstant() == CBMSConstantList.INOUT)
-			{
-				mode = tok.GetValue() ;
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Expecting INOUT") ;
-				return false ;
-			}
-			GetNext() ;
-		}
-		else if (kw == CBMSKeywordList.LANG)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetConstant() == CBMSConstantList.COBOL)
-			{
-				language = tok.GetValue() ;
-			}
-			else
-			{
-				Transcoder.logError(getLine(), "Expecting COBOL") ;
-				return false ;
-			}
-			GetNext() ;
-		}
-//		else if (kw == CBMSKeywordList.)
-//		{
-//			CBaseToken tok = GetCurrentToken() ;
-//			if (tok.GetConstant() == CBMSConstantList.)
-//			{
-//				m_ = tok.GetValue() ;
-//			}
-//			else
-//			{
-//				return false ;
-//			}
-//			GetNext() ;
-//		}
-//		else if (kw == CBMSKeywordList.)
-//		{
-//			CBaseToken tok = GetCurrentToken() ;
-//			if (tok.GetConstant() == CBMSConstantList.)
-//			{
-//				m_ = tok.GetValue() ;
-//			}
-//			else
-//			{
-//				return false ;
-//			}
-//			GetNext() ;
-//		}
-//		else if (kw == CBMSKeywordList.)
-//		{
-//			CBaseToken tok = GetCurrentToken() ;
-//			if (tok.GetConstant() == CBMSConstantList.)
-//			{
-//				m_ = tok.GetValue() ;
-//			}
-//			else
-//			{
-//				return false ;
-//			}
-//			GetNext() ;
-//		}
-//		else if (kw == CBMSKeywordList.)
-//		{
-//			CBaseToken tok = GetCurrentToken() ;
-//			if (tok.GetConstant() == CBMSConstantList.)
-//			{
-//				m_ = tok.GetValue() ;
-//			}
-//			else
-//			{
-//				return false ;
-//			}
-//			GetNext() ;
-//		}
-		else
-		{
-			Transcoder.logError(getLine(), "Unexpecting keyword : "+kw.name) ;
-			return false ;
-		}
-		return true ;
-	}
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#InterpretKeyword(lexer.CReservedKeyword, lexer.CTokenList)
+     */
+    protected boolean InterpretKeyword(CReservedKeyword kw, CTokenList lstTokens)
+    {
+        if (kw == CBMSKeywordList.TYPE )
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetConstant() != CBMSConstantList.MAP)
+            {
+                Transcoder.logError(getLine(), "Expecting MAP") ;
+                return false ;
+            }
+            GetNext() ;
+        }
+        else if (kw == CBMSKeywordList.MODE)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetConstant() == CBMSConstantList.INOUT)
+            {
+                mode = tok.GetValue() ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Expecting INOUT") ;
+                return false ;
+            }
+            GetNext() ;
+        }
+        else if (kw == CBMSKeywordList.LANG)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetConstant() == CBMSConstantList.COBOL)
+            {
+                language = tok.GetValue() ;
+            }
+            else
+            {
+                Transcoder.logError(getLine(), "Expecting COBOL") ;
+                return false ;
+            }
+            GetNext() ;
+        }
+//      else if (kw == CBMSKeywordList.)
+//      {
+//          CBaseToken tok = GetCurrentToken() ;
+//          if (tok.GetConstant() == CBMSConstantList.)
+//          {
+//              m_ = tok.GetValue() ;
+//          }
+//          else
+//          {
+//              return false ;
+//          }
+//          GetNext() ;
+//      }
+//      else if (kw == CBMSKeywordList.)
+//      {
+//          CBaseToken tok = GetCurrentToken() ;
+//          if (tok.GetConstant() == CBMSConstantList.)
+//          {
+//              m_ = tok.GetValue() ;
+//          }
+//          else
+//          {
+//              return false ;
+//          }
+//          GetNext() ;
+//      }
+//      else if (kw == CBMSKeywordList.)
+//      {
+//          CBaseToken tok = GetCurrentToken() ;
+//          if (tok.GetConstant() == CBMSConstantList.)
+//          {
+//              m_ = tok.GetValue() ;
+//          }
+//          else
+//          {
+//              return false ;
+//          }
+//          GetNext() ;
+//      }
+//      else if (kw == CBMSKeywordList.)
+//      {
+//          CBaseToken tok = GetCurrentToken() ;
+//          if (tok.GetConstant() == CBMSConstantList.)
+//          {
+//              m_ = tok.GetValue() ;
+//          }
+//          else
+//          {
+//              return false ;
+//          }
+//          GetNext() ;
+//      }
+        else
+        {
+            Transcoder.logError(getLine(), "Unexpecting keyword : "+kw.name) ;
+            return false ;
+        }
+        return true ;
+    }
 
-	String mode = "" ;
-	String language = "" ;
-	/* (non-Javadoc)
-	 * @see parser.CBMSElement#GetType()
-	 */
-	public EBMSElementType GetType()
-	{
-		return EBMSElementType.MAPSET ;
-	}
+    String mode = "" ;
+    String language = "" ;
+    /* (non-Javadoc)
+     * @see parser.CBMSElement#GetType()
+     */
+    public EBMSElementType GetType()
+    {
+        return EBMSElementType.MAPSET ;
+    }
 
-	protected CResourceStrings resStrings = null ;
-	public CResourceStrings GetResourceStrings()
-	{
-		return resStrings ;
-	}
-	public void SetResourceStrings(CResourceStrings res)
-	{
-		resStrings = res ;
-	}
+    protected CResourceStrings resStrings = null ;
+    public CResourceStrings GetResourceStrings()
+    {
+        return resStrings ;
+    }
+    public void SetResourceStrings(CResourceStrings res)
+    {
+        resStrings = res ;
+    }
 
-	public CBMSElement loadTagParameters(Tag tagCurrent)
-	{
-		language = tagCurrent.getVal("Language");
-		int nLine = tagCurrent.getValAsInt("Line");
-		setLine(nLine);
-		mode = tagCurrent.getVal("Mode");
-		setName(tagCurrent.getVal("Name"));
+    public CBMSElement loadTagParameters(Tag tagCurrent)
+    {
+        language = tagCurrent.getVal("Language");
+        int nLine = tagCurrent.getValAsInt("Line");
+        setLine(nLine);
+        mode = tagCurrent.getVal("Mode");
+        setName(tagCurrent.getVal("Name"));
 
-		return loadInternalTags(tagCurrent);
-	}
+        return loadInternalTags(tagCurrent);
+    }
 
-	public CBMSElement parseXMLResource(Tag tag)
-	{
-		String csName = tag.getName();
-		CBMSElement elem = null;
-		if(csName.equalsIgnoreCase("Map"))
-		{
-			elem = new CMapElement("", 0);
-			elem.loadTagParameters(tag);
-		}
-		return elem;
-	}
-
-
-	private CBMSElement loadInternalTags(Tag tagCurrent)
-	{
-		TagCursor curChild = new TagCursor();
-		Tag tagChild = tagCurrent.getFirstChild(curChild);
-		while(tagChild != null)
-		{
-			CBMSElement elem = parseXMLResource(tagChild);
-			if(elem != null)
-				AddElement(elem);
-			tagChild = tagCurrent.getNextChild(curChild);
-		}
-		return this;
-	}
+    public CBMSElement parseXMLResource(Tag tag)
+    {
+        String csName = tag.getName();
+        CBMSElement elem = null;
+        if(csName.equalsIgnoreCase("Map"))
+        {
+            elem = new CMapElement("", 0);
+            elem.loadTagParameters(tag);
+        }
+        return elem;
+    }
 
 
-	public CBMSElement loadFromRES(String csName)
-	{
-		language = "COBOL";
-		mode = "INOUT";
-		setName(csName);
-		setLine(1);
-		return this;
-	}
+    private CBMSElement loadInternalTags(Tag tagCurrent)
+    {
+        TagCursor curChild = new TagCursor();
+        Tag tagChild = tagCurrent.getFirstChild(curChild);
+        while(tagChild != null)
+        {
+            CBMSElement elem = parseXMLResource(tagChild);
+            if(elem != null)
+                AddElement(elem);
+            tagChild = tagCurrent.getNextChild(curChild);
+        }
+        return this;
+    }
+
+
+    public CBMSElement loadFromRES(String csName)
+    {
+        language = "COBOL";
+        mode = "INOUT";
+        setName(csName);
+        setLine(1);
+        return this;
+    }
 }

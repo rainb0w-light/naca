@@ -12,34 +12,34 @@ package nacaLib.varEx;
  */
 public class InitializeManagerString extends InitializeManager
 {
-	public InitializeManagerString(String cs)
-	{
-		this.cs = cs;
-	}
+    public InitializeManagerString(String cs)
+    {
+        this.cs = cs;
+    }
 
-	public void set(String cs)
-	{
-		this.cs = cs;
-	}
+    public void set(String cs)
+    {
+        this.cs = cs;
+    }
 
-//	public void initialize(VarBufferPos buffer, VarDefBuffer varDef)
-//	{
-//		varDef.initialize(buffer, cs);
-//	}
+//  public void initialize(VarBufferPos buffer, VarDefBuffer varDef)
+//  {
+//      varDef.initialize(buffer, cs);
+//  }
 
-	public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
-	{
-		varDef.initializeAtOffset(buffer, nOffset, cs);
-		if(initializeCache != null)
-			initializeCache.setNotManaged();
-	}
+    public void initialize(VarBufferPos buffer, VarDefBuffer varDef, int nOffset, InitializeCache initializeCache)
+    {
+        varDef.initializeAtOffset(buffer, nOffset, cs);
+        if(initializeCache != null)
+            initializeCache.setNotManaged();
+    }
 
 
 
-	String getString()
-	{
-		return cs;
-	}
+    String getString()
+    {
+        return cs;
+    }
 
-	private String cs;
+    private String cs;
 }

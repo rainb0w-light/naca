@@ -12,13 +12,13 @@ import java.util.List;
 
 public class DumpMemories
 {
-	DumpMemories()
-	{
-		List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
-		for (MemoryPoolMXBean p: pools)
-		{
-			System.out.println("Memory type="+p.getType()+" Memory usage="+p.getUsage());
-		}
-	}
+    DumpMemories()
+    {
+        List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
+        for (MemoryPoolMXBean p: pools)
+        {
+            System.out.println("Memory type="+p.getType()+" Memory usage="+p.getUsage());
+        }
+    }
 
 }

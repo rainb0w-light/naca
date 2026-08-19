@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.misc;
 
@@ -16,5 +16,5 @@ package jlib.misc;
  */
 public abstract class BaseQuickSortComparer<Item>
 {
-	public abstract int compare(Item i1, Item i2);
+    public abstract int compare(Item i1, Item i2);
 }

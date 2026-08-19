@@ -16,14 +16,14 @@ package nacaLib.varEx;
  */
 public class OccursOwnerLocation
 {
-	public OccursOwnerLocation(int nDistanceFromOccursOwner, int nAbsolutePositionOccursOwner, int nSizeOccursOwnerOf1Entry)
-	{
-		this.nDistanceFromOccursOwner = nDistanceFromOccursOwner;
-		this.nAbsolutePositionOccursOwner = nAbsolutePositionOccursOwner;
-		this.nSizeOccursOwnerOf1Entry = nSizeOccursOwnerOf1Entry;
-	}
+    public OccursOwnerLocation(int nDistanceFromOccursOwner, int nAbsolutePositionOccursOwner, int nSizeOccursOwnerOf1Entry)
+    {
+        this.nDistanceFromOccursOwner = nDistanceFromOccursOwner;
+        this.nAbsolutePositionOccursOwner = nAbsolutePositionOccursOwner;
+        this.nSizeOccursOwnerOf1Entry = nSizeOccursOwnerOf1Entry;
+    }
 
-	int nDistanceFromOccursOwner;
-	int nAbsolutePositionOccursOwner;
-	int nSizeOccursOwnerOf1Entry;
+    int nDistanceFromOccursOwner;
+    int nAbsolutePositionOccursOwner;
+    int nSizeOccursOwnerOf1Entry;
 }

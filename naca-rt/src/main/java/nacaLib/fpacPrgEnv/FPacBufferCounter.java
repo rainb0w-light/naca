@@ -10,10 +10,10 @@ import jlib.misc.ThreadSafeCounter;
 
 public class FPacBufferCounter
 {
-	private static ThreadSafeCounter ms_counter = new ThreadSafeCounter();
-	
-	static int getBufferId()
-	{
-		return ms_counter.inc();		
-	}	
+    private static ThreadSafeCounter ms_counter = new ThreadSafeCounter();
+
+    static int getBufferId()
+    {
+        return ms_counter.inc();
+    }
 }

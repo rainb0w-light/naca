@@ -33,98 +33,98 @@ import utils.CObjectCatalog;
 
 public class CEntitySQLDeclareTable extends CBaseActionEntity
 {
-	public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
-	{
-		super(line, cat);
-		this.csViewName = csViewName ;
-		this.csTableName = csTableName;
-		this.arrTableColDescription = arrTableColDescription;
-		programCatalog.RegisterSQLTable(csViewName, this);
-	}
-	protected String csTableName = "";
-	protected String csViewName = "" ;
-	protected ArrayList arrTableColDescription = null;
-	public void Clear()
-	{
-		super.Clear();
-		arrTableColDescription.clear() ;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
-	 */
+    public CEntitySQLDeclareTable(int line, CObjectCatalog cat, String csTableName, String csViewName, ArrayList arrTableColDescription)
+    {
+        super(line, cat);
+        this.csViewName = csViewName ;
+        this.csTableName = csTableName;
+        this.arrTableColDescription = arrTableColDescription;
+        programCatalog.RegisterSQLTable(csViewName, this);
+    }
+    protected String csTableName = "";
+    protected String csViewName = "" ;
+    protected ArrayList arrTableColDescription = null;
+    public void Clear()
+    {
+        super.Clear();
+        arrTableColDescription.clear() ;
+    }
+    /* (non-Javadoc)
+     * @see semantic.CBaseLanguageEntity#RegisterMySelfToCatalog()
+     */
 
-	public String getColumnReferences()
-	{
-		String out = "" ;
-		for (int i=0; i<arrTableColDescription.size();i++)
-		{
-			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
-			if (!out.equals(""))
-			{
-				out += ", " ;
-			}
-			out += desc.GetName();
-		}
-		return out;
-	}
-	public String getColumnReferences(String alias)
-	{
-		String out = "" ;
-		for (int i=0; i<arrTableColDescription.size();i++)
-		{
-			CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
-			if (!out.equals(""))
-			{
-				out += ", " ;
-			}
-			out += alias+"."+desc.GetName();
-		}
-		return out;
-	}
+    public String getColumnReferences()
+    {
+        String out = "" ;
+        for (int i=0; i<arrTableColDescription.size();i++)
+        {
+            CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
+            if (!out.equals(""))
+            {
+                out += ", " ;
+            }
+            out += desc.GetName();
+        }
+        return out;
+    }
+    public String getColumnReferences(String alias)
+    {
+        String out = "" ;
+        for (int i=0; i<arrTableColDescription.size();i++)
+        {
+            CSQLTableColDescriptor desc = (CSQLTableColDescriptor)arrTableColDescription.get(i);
+            if (!out.equals(""))
+            {
+                out += ", " ;
+            }
+            out += alias+"."+desc.GetName();
+        }
+        return out;
+    }
 
-	/* (non-Javadoc)
-	 * @see semantic.CBaseLanguageEntity#GetName()
-	 */
-	public String GetTableName()
-	{
-		return csTableName ;
-	}
+    /* (non-Javadoc)
+     * @see semantic.CBaseLanguageEntity#GetName()
+     */
+    public String GetTableName()
+    {
+        return csTableName ;
+    }
 
-	public int GetNbCols()
-	{
-		return arrTableColDescription.size();
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	/**
-	 * @return
-	 */
-	public String GetViewName()
-	{
-		return csViewName ;
-	}
-	public String GetName()
-	{
-		return csViewName ;
-	}
+    public int GetNbCols()
+    {
+        return arrTableColDescription.size();
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    /**
+     * @return
+     */
+    public String GetViewName()
+    {
+        return csViewName ;
+    }
+    public String GetName()
+    {
+        return csViewName ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler. The DECLARE TABLE
-	// statement emits no code, so the bound template (recursiveSQLDeclareTableEntity)
-	// renders empty; these accessors expose the parsed declaration for completeness
-	// and for the render test, and never perform formatting/output here (the
-	// RegisterSQLTable catalog side effect is a Stage-1 constructor concern). They
-	// mirror the existing GetTableName()/GetViewName() accessors exactly.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler. The DECLARE TABLE
+    // statement emits no code, so the bound template (recursiveSQLDeclareTableEntity)
+    // renders empty; these accessors expose the parsed declaration for completeness
+    // and for the render test, and never perform formatting/output here (the
+    // RegisterSQLTable catalog side effect is a Stage-1 constructor concern). They
+    // mirror the existing GetTableName()/GetViewName() accessors exactly.
 
-	public String getTableName()
-	{
-		return csTableName ;
-	}
+    public String getTableName()
+    {
+        return csTableName ;
+    }
 
-	public String getViewName()
-	{
-		return csViewName ;
-	}
+    public String getViewName()
+    {
+        return csViewName ;
+    }
 }

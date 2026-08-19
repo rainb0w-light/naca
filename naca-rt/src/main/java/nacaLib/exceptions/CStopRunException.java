@@ -10,19 +10,19 @@ import nacaLib.basePrgEnv.BaseProgramManager;
 
 public class CStopRunException extends NacaRTException
 {
-	private static final long serialVersionUID = 1L;
-	private BaseProgramManager programManager = null;
-	private final int returning;
-	
-	public CStopRunException(BaseProgramManager programManager, int returning)
-	{
-		this.programManager = programManager;
-		this.returning = returning;
-	}
-	
-	public String getMessage()
-	{
-		String cs = "CStopRunException: Program:"+ programManager.getProgramName();
-		return cs;
-	}
+    private static final long serialVersionUID = 1L;
+    private BaseProgramManager programManager = null;
+    private final int returning;
+
+    public CStopRunException(BaseProgramManager programManager, int returning)
+    {
+        this.programManager = programManager;
+        this.returning = returning;
+    }
+
+    public String getMessage()
+    {
+        String cs = "CStopRunException: Program:"+ programManager.getProgramName();
+        return cs;
+    }
 }

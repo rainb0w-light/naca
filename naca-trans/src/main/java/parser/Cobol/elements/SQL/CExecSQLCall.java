@@ -29,92 +29,92 @@ import semantic.SQL.CEntitySQLCall;
 public class CExecSQLCall extends CBaseExecSQLAction
 {
 
-	/**
-	 * @param l
-	 */
-	public CExecSQLCall(int l)
-	{
-		super(l);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element eCall = root.createElement("SQLCall");
-		eCall.setAttribute("Reference", reference.GetName());
-		for (int i = 0; i< parameters.size(); i++)
-		{
-			CIdentifier id = parameters.get(i);
-			Element e = root.createElement("Parameter");
-			eCall.appendChild(e);
-			id.ExportTo(e, root);
-		}
-		return eCall;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLCall eCall = factory.NewEntitySQLCall(getLine()) ;
-		CDataEntity prgRef = reference.GetDataReference(getLine(), factory) ;
-		eCall.setReference(prgRef) ;
+    /**
+     * @param l
+     */
+    public CExecSQLCall(int l)
+    {
+        super(l);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element eCall = root.createElement("SQLCall");
+        eCall.setAttribute("Reference", reference.GetName());
+        for (int i = 0; i< parameters.size(); i++)
+        {
+            CIdentifier id = parameters.get(i);
+            Element e = root.createElement("Parameter");
+            eCall.appendChild(e);
+            id.ExportTo(e, root);
+        }
+        return eCall;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLCall eCall = factory.NewEntitySQLCall(getLine()) ;
+        CDataEntity prgRef = reference.GetDataReference(getLine(), factory) ;
+        eCall.setReference(prgRef) ;
 
-		for (CIdentifier term : parameters)
-		{
-			CDataEntity param = term.GetDataReference(getLine(), factory) ;
-			eCall.addParameter(param) ;
-		}
+        for (CIdentifier term : parameters)
+        {
+            CDataEntity param = term.GetDataReference(getLine(), factory) ;
+            eCall.addParameter(param) ;
+        }
 
-		parent.AddChild(eCall) ;
-		return eCall;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.CALL)
-		{
-			return false ;
-		}
-		tok = GetNext() ;
-		if (tok.GetType() == CTokenType.COLON)
-		{
-			tok = GetNext() ;
-		}
-		reference = new CIdentifier(tok.GetValue()) ;
+        parent.AddChild(eCall) ;
+        return eCall;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.CALL)
+        {
+            return false ;
+        }
+        tok = GetNext() ;
+        if (tok.GetType() == CTokenType.COLON)
+        {
+            tok = GetNext() ;
+        }
+        reference = new CIdentifier(tok.GetValue()) ;
 
-		tok = GetNext() ;
-		if (tok.GetType() == CTokenType.LEFT_BRACKET)
-		{
-			GetNext();
-			boolean isdone = false ;
-			while (!isdone)
-			{
-				tok = GetCurrentToken() ;
-				if (tok.GetType()== CTokenType.COLON)
-				{
-					tok = GetNext() ;
-					CIdentifier id = ReadIdentifier();
-					parameters.add(id);
-					tok = GetCurrentToken() ;
-					if (tok.GetType() == CTokenType.COMMA)
-					{
-						GetNext();
-					}
-					else
-					{
-					}
-				}
-				else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
-				{
-					GetNext();
-					isdone = true ;
-				}
-				else
-				{
-					isdone = true ;
-				}
-			}
-		}
-		return true ;
-	}
+        tok = GetNext() ;
+        if (tok.GetType() == CTokenType.LEFT_BRACKET)
+        {
+            GetNext();
+            boolean isdone = false ;
+            while (!isdone)
+            {
+                tok = GetCurrentToken() ;
+                if (tok.GetType()== CTokenType.COLON)
+                {
+                    tok = GetNext() ;
+                    CIdentifier id = ReadIdentifier();
+                    parameters.add(id);
+                    tok = GetCurrentToken() ;
+                    if (tok.GetType() == CTokenType.COMMA)
+                    {
+                        GetNext();
+                    }
+                    else
+                    {
+                    }
+                }
+                else if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                {
+                    GetNext();
+                    isdone = true ;
+                }
+                else
+                {
+                    isdone = true ;
+                }
+            }
+        }
+        return true ;
+    }
 
-	protected CIdentifier reference = null ;
-	protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
+    protected CIdentifier reference = null ;
+    protected Vector<CIdentifier> parameters = new Vector<CIdentifier>() ;
 
 }

@@ -18,79 +18,79 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSReWrite extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSReWrite(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSReWrite(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void WriteFile(CDataEntity filename)
-	{
-		iswriteToFile = true ;
-		iswritetoDataSet = false ;
-		name = filename;
-	}
+    public void WriteFile(CDataEntity filename)
+    {
+        iswriteToFile = true ;
+        iswritetoDataSet = false ;
+        name = filename;
+    }
 
-	public void WriteDataSet(CDataEntity filename)
-	{
-		iswritetoDataSet = true ;
-		iswriteToFile = false ;
-		name = filename;
-	}
+    public void WriteDataSet(CDataEntity filename)
+    {
+        iswritetoDataSet = true ;
+        iswriteToFile = false ;
+        name = filename;
+    }
 
-	public void SetDataFrom(CDataEntity edata, CDataEntity eLen)
-	{
-		dataFrom = edata ;
-		dataLength = eLen ;
-	}
+    public void SetDataFrom(CDataEntity edata, CDataEntity eLen)
+    {
+        dataFrom = edata ;
+        dataLength = eLen ;
+    }
 
-	protected CDataEntity dataLength = null ;
-	protected CDataEntity dataFrom = null ;
-	protected CDataEntity name ;
-	protected boolean iswriteToFile = false ;
-	protected boolean iswritetoDataSet = false ;
-	public void Clear()
-	{
-		super.Clear();
-		dataLength = null ;
-		dataFrom = null;
-		name = null ;
-	}
-	public boolean ignore()
-	{
-		return false;
-	}
+    protected CDataEntity dataLength = null ;
+    protected CDataEntity dataFrom = null ;
+    protected CDataEntity name ;
+    protected boolean iswriteToFile = false ;
+    protected boolean iswritetoDataSet = false ;
+    public void Clear()
+    {
+        super.Clear();
+        dataLength = null ;
+        dataFrom = null;
+        name = null ;
+    }
+    public boolean ignore()
+    {
+        return false;
+    }
 
-	public CDataEntity getDataLength()
-	{
-		return dataLength;
-	}
+    public CDataEntity getDataLength()
+    {
+        return dataLength;
+    }
 
-	public CDataEntity getDataFrom()
-	{
-		return dataFrom;
-	}
+    public CDataEntity getDataFrom()
+    {
+        return dataFrom;
+    }
 
-	public CDataEntity getName()
-	{
-		return name;
-	}
+    public CDataEntity getName()
+    {
+        return name;
+    }
 
-	public boolean isWriteToFile()
-	{
-		return iswriteToFile;
-	}
+    public boolean isWriteToFile()
+    {
+        return iswriteToFile;
+    }
 
-	public boolean isWriteToDataSet()
-	{
-		return iswritetoDataSet;
-	}
+    public boolean isWriteToDataSet()
+    {
+        return iswritetoDataSet;
+    }
 
 }

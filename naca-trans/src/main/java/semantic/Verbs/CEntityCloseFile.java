@@ -13,19 +13,19 @@ import utils.CObjectCatalog;
 public class CEntityCloseFile extends CBaseActionEntity
 {
 
-	public CEntityCloseFile(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-	}
+    public CEntityCloseFile(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+    }
 
-	public void setFileDescriptor(CEntityFileDescriptor fd)
-	{
-		eFileDescriptor = fd ;
-	}
-	protected CEntityFileDescriptor eFileDescriptor = null ;
+    public void setFileDescriptor(CEntityFileDescriptor fd)
+    {
+        eFileDescriptor = fd ;
+    }
+    protected CEntityFileDescriptor eFileDescriptor = null ;
 
-	public CEntityFileDescriptor getFileDescriptor()
-	{
-		return eFileDescriptor;
-	}
+    public CEntityFileDescriptor getFileDescriptor()
+    {
+        return eFileDescriptor;
+    }
 }

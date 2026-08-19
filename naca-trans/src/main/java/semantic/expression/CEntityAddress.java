@@ -13,47 +13,47 @@ import utils.CObjectCatalog;
 public class CEntityAddress extends CDataEntity
 {
 
-	public CEntityAddress(CObjectCatalog cat, String address)
-	{
-		super(0, "", cat);
-		csAddress = address ;
-	}
+    public CEntityAddress(CObjectCatalog cat, String address)
+    {
+        super(0, "", cat);
+        csAddress = address ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the recursive ST4 assembler binding
-	 * {@code addressExpressionEntity}. The address literal is fully resolved while
-	 * the FPac factory/parser populates this entity; the template only reads this
-	 * value and never triggers semantic analysis or identifier formatting.
-	 */
-	public String getAddress()
-	{
-		return csAddress ;
-	}
+    /**
+     * Pure read-only getter consumed by the recursive ST4 assembler binding
+     * {@code addressExpressionEntity}. The address literal is fully resolved while
+     * the FPac factory/parser populates this entity; the template only reads this
+     * value and never triggers semantic analysis or identifier formatting.
+     */
+    public String getAddress()
+    {
+        return csAddress ;
+    }
 
-	@Override
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.ADDRESS ;
-	}
+    @Override
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.ADDRESS ;
+    }
 
-	protected String csAddress ="" ;
+    protected String csAddress ="" ;
 
-	@Override
-	public boolean HasAccessors()
-	{
-		return false;
-	}
+    @Override
+    public boolean HasAccessors()
+    {
+        return false;
+    }
 
-	@Override
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    @Override
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 
-	@Override
-	public String GetConstantValue()
-	{
-		return csAddress;
-	}
+    @Override
+    public String GetConstantValue()
+    {
+        return csAddress;
+    }
 
 }

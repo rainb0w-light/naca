@@ -8,10 +8,10 @@ package nacaLib.exceptions;
 
 public class ProgramCallerException extends NacaRTException
 {
-	private static final long serialVersionUID = 1L;
-	
-	public ProgramCallerException(String message)
-	{
-		super("Program caller exception : " + message);
-	}
+    private static final long serialVersionUID = 1L;
+
+    public ProgramCallerException(String message)
+    {
+        super("Program caller exception : " + message);
+    }
 }

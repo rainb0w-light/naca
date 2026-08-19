@@ -14,36 +14,36 @@ import utils.CObjectCatalog;
  */
 public class CEntityAddressReference extends CBaseDataReference
 {
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntityAddressReference(CObjectCatalog cat, CDataEntity ref)
-	{
-		super(0, "", cat);
-		reference = ref ;
-	}
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.ADDRESS ;
-	}
-//	protected CDataEntity reference = null ;
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntityAddressReference(CObjectCatalog cat, CDataEntity ref)
+    {
+        super(0, "", cat);
+        reference = ref ;
+    }
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.ADDRESS ;
+    }
+//  protected CDataEntity reference = null ;
 
-	public boolean ignore()
-	{
-		return reference.ignore() ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
-	public boolean HasAccessors()
-	{
-		return false;
-	}
-	public boolean isValNeeded()
-	{
-		return false;
-	}
+    public boolean ignore()
+    {
+        return reference.ignore() ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
+    public boolean HasAccessors()
+    {
+        return false;
+    }
+    public boolean isValNeeded()
+    {
+        return false;
+    }
 }

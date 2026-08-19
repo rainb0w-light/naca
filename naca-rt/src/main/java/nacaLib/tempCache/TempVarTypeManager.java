@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.tempCache;
 
@@ -21,75 +21,75 @@ import nacaLib.varEx.VarDefBuffer;
  */
 //public class TempVarTypeManager<T>
 //{
-//	private ArrayList<CoupleVar<T> > arrCoupleVar = null;
-//	private int nIndex = 0;
-//	
-//	TempVarTypeManager()
-//	{
-//		arrCoupleVar = new ArrayList<CoupleVar<T> >();
-//	}
-//	
-//	public CoupleVar addTempVar(VarDefBuffer varDefItem, T var)
-//	{
-//		CoupleVar coupleVar = new CoupleVar<T>(varDefItem, var);
-//		arrCoupleVar.add(coupleVar);
-//		nIndex = arrCoupleVar.size();
-//		return coupleVar;
-//	}
-//	
-//	CoupleVar<T> getTempCoupleVar()
-//	{
-//		if(nIndex < arrCoupleVar.size())
-//		{
-//			CoupleVar v = arrCoupleVar.get(nIndex);
-//			nIndex++;
-//			return v;
-//		}
-//		return null;
-//	}
-//	
-//	void reset()
-//	{
-//		nIndex = 0;
-//	}
+//  private ArrayList<CoupleVar<T> > arrCoupleVar = null;
+//  private int nIndex = 0;
+//
+//  TempVarTypeManager()
+//  {
+//      arrCoupleVar = new ArrayList<CoupleVar<T> >();
+//  }
+//
+//  public CoupleVar addTempVar(VarDefBuffer varDefItem, T var)
+//  {
+//      CoupleVar coupleVar = new CoupleVar<T>(varDefItem, var);
+//      arrCoupleVar.add(coupleVar);
+//      nIndex = arrCoupleVar.size();
+//      return coupleVar;
+//  }
+//
+//  CoupleVar<T> getTempCoupleVar()
+//  {
+//      if(nIndex < arrCoupleVar.size())
+//      {
+//          CoupleVar v = arrCoupleVar.get(nIndex);
+//          nIndex++;
+//          return v;
+//      }
+//      return null;
+//  }
+//
+//  void reset()
+//  {
+//      nIndex = 0;
+//  }
 //}
 public class TempVarTypeManager
 {
-	private ArrayList<CoupleVar> arrCoupleVar = null;
-	private int nIndex = 0;
-	
-	TempVarTypeManager()
-	{
-		arrCoupleVar = new ArrayList<CoupleVar>();
-	}
-	
-	public CoupleVar addTempVar(VarDefBuffer varDefItem, VarBase var)
-	{
-		CoupleVar coupleVar = new CoupleVar(varDefItem, var);
-		arrCoupleVar.add(coupleVar);
-		nIndex = arrCoupleVar.size();
-		return coupleVar;
-	}
-	
-	CoupleVar getTempCoupleVar()
-	{
-		if(nIndex < arrCoupleVar.size())
-		{
-			CoupleVar v = arrCoupleVar.get(nIndex);
-			nIndex++;
-			return v;
-		}
-		return null;
-	}
-	
-	void reset()
-	{
-		nIndex = 0;
-	}
-	
-	void resetAndForbidReuse()
-	{
-		arrCoupleVar.clear();	// Forbid reuse by clearing all entries
-		nIndex = 0;
-	}
+    private ArrayList<CoupleVar> arrCoupleVar = null;
+    private int nIndex = 0;
+
+    TempVarTypeManager()
+    {
+        arrCoupleVar = new ArrayList<CoupleVar>();
+    }
+
+    public CoupleVar addTempVar(VarDefBuffer varDefItem, VarBase var)
+    {
+        CoupleVar coupleVar = new CoupleVar(varDefItem, var);
+        arrCoupleVar.add(coupleVar);
+        nIndex = arrCoupleVar.size();
+        return coupleVar;
+    }
+
+    CoupleVar getTempCoupleVar()
+    {
+        if(nIndex < arrCoupleVar.size())
+        {
+            CoupleVar v = arrCoupleVar.get(nIndex);
+            nIndex++;
+            return v;
+        }
+        return null;
+    }
+
+    void reset()
+    {
+        nIndex = 0;
+    }
+
+    void resetAndForbidReuse()
+    {
+        arrCoupleVar.clear();   // Forbid reuse by clearing all entries
+        nIndex = 0;
+    }
 }

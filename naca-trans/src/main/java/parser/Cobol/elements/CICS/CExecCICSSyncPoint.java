@@ -25,66 +25,66 @@ import utils.Transcoder;
 public class CExecCICSSyncPoint extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CExecCICSSyncPoint(int line)
-	{
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CExecCICSSyncPoint(int line)
+    {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityCICSSyncPoint esp = factory.NewEntityCICSSyncPoint(getLine(), isrollBack) ;
-		parent.AddChild(esp);
-		return esp;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#DoCustomSemanticAnalysis(semantic.CBaseLanguageEntity, semantic.CBaseEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityCICSSyncPoint esp = factory.NewEntityCICSSyncPoint(getLine(), isrollBack) ;
+        parent.AddChild(esp);
+        return esp;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.SYNCPOINT)
-		{
-			tok = GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.SYNCPOINT)
+        {
+            tok = GetNext();
+        }
 
-		if (tok.GetValue().equals("ROLLBACK"))
-		{
-			isrollBack = true ;
-			tok = GetNext();
-		}
+        if (tok.GetValue().equals("ROLLBACK"))
+        {
+            isrollBack = true ;
+            tok = GetNext();
+        }
 
-		if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
-		{
-			Transcoder.logError(getLine(), "Error whle parsing EXEC CICS SYNCPOINT");
-			return false ;
-		}
-		StepNext();
-		return true ;
-	}
+        if (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
+        {
+            Transcoder.logError(getLine(), "Error whle parsing EXEC CICS SYNCPOINT");
+            return false ;
+        }
+        StepNext();
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		if (isrollBack)
-		{
-			Element e = root.createElement("ExecCICSSyncPointRollback") ;
-			return e;
-		}
-		else
-		{
-			Element e = root.createElement("ExecCICSSyncPointCommit") ;
-			return e;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        if (isrollBack)
+        {
+            Element e = root.createElement("ExecCICSSyncPointRollback") ;
+            return e;
+        }
+        else
+        {
+            Element e = root.createElement("ExecCICSSyncPointCommit") ;
+            return e;
+        }
+    }
 
-	protected boolean isrollBack = false ;
+    protected boolean isrollBack = false ;
 }

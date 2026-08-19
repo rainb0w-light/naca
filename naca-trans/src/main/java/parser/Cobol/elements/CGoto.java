@@ -31,103 +31,103 @@ import utils.Transcoder;
  */
 public class CGoto extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CGoto(int line) {
-		super(line);
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tokGoto = GetCurrentToken() ;
-		if (tokGoto.GetKeyword() == CCobolKeywordList.GOTO)
-		{
-			GetNext() ;
-		}
-		else if (tokGoto.GetKeyword() == CCobolKeywordList.GO)
-		{
-			CBaseToken tokTo = GetNext();
-			if (tokTo.GetKeyword() == CCobolKeywordList.TO)
-			{
-				GetNext() ;
-			}
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting 'GOTO' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb("GOTO") ;
+    /**
+     * @param line
+     */
+    public CGoto(int line) {
+        super(line);
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tokGoto = GetCurrentToken() ;
+        if (tokGoto.GetKeyword() == CCobolKeywordList.GOTO)
+        {
+            GetNext() ;
+        }
+        else if (tokGoto.GetKeyword() == CCobolKeywordList.GO)
+        {
+            CBaseToken tokTo = GetNext();
+            if (tokTo.GetKeyword() == CCobolKeywordList.TO)
+            {
+                GetNext() ;
+            }
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting 'GOTO' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb("GOTO") ;
 
-		CBaseToken tokRef = GetCurrentToken() ;
-		String csReference = "" ;
-		while (tokRef.GetType() == CTokenType.IDENTIFIER || tokRef.GetType() == CTokenType.NUMBER)
-		{
-			csReference = tokRef.GetValue();
-			reference.add(csReference);
-			tokRef = GetNext() ;
-		}
+        CBaseToken tokRef = GetCurrentToken() ;
+        String csReference = "" ;
+        while (tokRef.GetType() == CTokenType.IDENTIFIER || tokRef.GetType() == CTokenType.NUMBER)
+        {
+            csReference = tokRef.GetValue();
+            reference.add(csReference);
+            tokRef = GetNext() ;
+        }
 
-		CBaseToken tok = GetCurrentToken();
-		while (tok.GetKeyword() == CCobolKeywordList.DEPENDING)
-		{
-			tok = GetNext() ;
-			if (tok.GetKeyword() == CCobolKeywordList.ON)
-			{
-				tok = GetNext() ;
-			}
-			dependence = ReadIdentifier();
-		}
-		return true ;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		if (reference.size() == 1)
-		{
-			Element eGoto = root.createElement("Goto") ;
-			eGoto.setAttribute("Reference", reference.get(0)) ;
-			return eGoto;
-		}
-		else
-		{
-			Element eGoto = root.createElement("Goto") ;
-			for (int i = 0; i< reference.size(); i++)
-			{
-				String cs = reference.get(i);
-				Element e = root.createElement("Ref"+i);
-				eGoto.appendChild(e);
-				e.setAttribute("Reference", cs);
-			}
-			Element e = root.createElement("DependingOn") ;
-			eGoto.appendChild(e);
-			dependence.ExportTo(e, root);
-			return eGoto;
-		}
-	}
-	protected List<String> reference = new ArrayList<String>() ;
-	protected CIdentifier dependence = null ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CBaseActionEntity e;
-		if (dependence == null)
-		{
-			e = factory.NewEntityGoto(getLine(), reference.get(0), parent.getSectionContainer()) ;
-		}
-		else
-		{
-			CDataEntity dep = dependence.GetDataReference(getLine(), factory);
-			e = factory.NewEntityGotoDepending(getLine(), reference, dep, parent.getSectionContainer());
-		}
-		parent.AddChild(e) ;
-		return e;
-	}
+        CBaseToken tok = GetCurrentToken();
+        while (tok.GetKeyword() == CCobolKeywordList.DEPENDING)
+        {
+            tok = GetNext() ;
+            if (tok.GetKeyword() == CCobolKeywordList.ON)
+            {
+                tok = GetNext() ;
+            }
+            dependence = ReadIdentifier();
+        }
+        return true ;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        if (reference.size() == 1)
+        {
+            Element eGoto = root.createElement("Goto") ;
+            eGoto.setAttribute("Reference", reference.get(0)) ;
+            return eGoto;
+        }
+        else
+        {
+            Element eGoto = root.createElement("Goto") ;
+            for (int i = 0; i< reference.size(); i++)
+            {
+                String cs = reference.get(i);
+                Element e = root.createElement("Ref"+i);
+                eGoto.appendChild(e);
+                e.setAttribute("Reference", cs);
+            }
+            Element e = root.createElement("DependingOn") ;
+            eGoto.appendChild(e);
+            dependence.ExportTo(e, root);
+            return eGoto;
+        }
+    }
+    protected List<String> reference = new ArrayList<String>() ;
+    protected CIdentifier dependence = null ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CBaseActionEntity e;
+        if (dependence == null)
+        {
+            e = factory.NewEntityGoto(getLine(), reference.get(0), parent.getSectionContainer()) ;
+        }
+        else
+        {
+            CDataEntity dep = dependence.GetDataReference(getLine(), factory);
+            e = factory.NewEntityGotoDepending(getLine(), reference, dep, parent.getSectionContainer());
+        }
+        parent.AddChild(e) ;
+        return e;
+    }
 }

@@ -10,6 +10,6 @@ import jlib.engine.BaseNotification;
 
 public class NotifSetDefaultOutputFile extends BaseNotification
 {
-	public String fileRef = "" ;
+    public String fileRef = "" ;
 
 }

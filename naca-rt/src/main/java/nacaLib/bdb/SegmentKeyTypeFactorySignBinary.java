@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -16,8 +16,8 @@ package nacaLib.bdb;
  */
 public class SegmentKeyTypeFactorySignBinary extends BtreeSegmentKeyTypeFactory
 {
-	BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending)
-	{
-		return new BtreeKeySegmentSignBinary(nKeyPositionInData, nKeyPositionInKey, nBufferLength, bAscending);
-	}
+    BtreeKeySegment make(int nKeyPositionInData, int nKeyPositionInKey, int nBufferLength, boolean bAscending)
+    {
+        return new BtreeKeySegmentSignBinary(nKeyPositionInData, nKeyPositionInKey, nBufferLength, bAscending);
+    }
 }

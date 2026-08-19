@@ -20,7 +20,7 @@ public class LogEventType
  * information useful to the developer.
  * To rise a Remark event, use the {@link jlib.log.stdEvents.EventRemark} class.
  */
-	public static LogEventType Remark = new LogEventType("R");
+    public static LogEventType Remark = new LogEventType("R");
 
 /**
  * Events of this type should be used for signaling serious application errors.
@@ -29,7 +29,7 @@ public class LogEventType
  * probably not the next element, use the {@link #Warning} type.
  * To rise an Error event, use the {@link jlib.log.stdEvents.EventError} class.
  */
-	public static LogEventType Error = new LogEventType("E");
+    public static LogEventType Error = new LogEventType("E");
 
 /**
  * Events of this type should be used for signaling errors that prevent
@@ -38,20 +38,20 @@ public class LogEventType
  * use the {@link #Error} type.
  * To rise an Warning event, use the {@link jlib.log.stdEvents.EventWarning} class.
  */
-	public static LogEventType Warning = new LogEventType("W");
+    public static LogEventType Warning = new LogEventType("W");
 
 /**
  * Applications should signal <i>Start</i> event during start up.
  * To rise an <i>Start</i> event, use the {@link jlib.log.stdEvents.EventStart} class.
  */
-	public static LogEventType Start = new LogEventType("S");
+    public static LogEventType Start = new LogEventType("S");
 
 /**
  * Applications should signal an <i>Abort</i> event if it is closing
  * prematurely after an event of type {@link #Error}.
  * To rise an <i>Abort</i> event, use the {@link jlib.log.stdEvents.EventAbort} class.
  */
-	public static LogEventType Abort = new LogEventType("A");
+    public static LogEventType Abort = new LogEventType("A");
 
 /**
  * Applications should signal a <i>Finish</i> event when they are finishing
@@ -60,7 +60,7 @@ public class LogEventType
  * To rise an <i>Finish</i> event, use the {@link jlib.log.stdEvents.EventFinish} class.
  * @deprecated Use {@link #Finish} instead.
  */
-	public static LogEventType Stop = new LogEventType("F");
+    public static LogEventType Stop = new LogEventType("F");
 
 /**
  * Applications should signal a <i>Finish</i> event when they are finishing
@@ -68,27 +68,27 @@ public class LogEventType
  * of type {@link #Abort}.
  * To rise an <i>Finish</i> event, use the {@link jlib.log.stdEvents.EventFinish} class.
  */
-	public static LogEventType Finish = new LogEventType("F");
+    public static LogEventType Finish = new LogEventType("F");
 
 /**
  * An application should signal a <i>Launch</i> event just before starting
  * another application.
  * To rise a <i>Launch</i> event, use the {@link jlib.log.stdEvents.EventLaunch} class.
  */
-	public static LogEventType Launch = new LogEventType("L");
+    public static LogEventType Launch = new LogEventType("L");
 
 /**
  * Applications should signal <i>Progress</i> events each time they process
  * a certain amount of elements.
  * To rise a <i>Progress</i> event, use the {@link jlib.log.stdEvents.EventProgress} class.
  */
-	public static LogEventType Progress = new LogEventType("p");
+    public static LogEventType Progress = new LogEventType("p");
 /**
  * <i>Report</i> events are meant to summarize all previous {@link #Progress}
  * events.
  * To rise a <i>Report</i> event, use the {@link jlib.log.stdEvents.EventReport} class.
  */
-	public static LogEventType Report = new LogEventType("r");
+    public static LogEventType Report = new LogEventType("r");
 
 /**
  * Applications should signal a <i>Finish</i> event when they are finishing
@@ -99,7 +99,7 @@ public class LogEventType
  *     (which reads the events reported with a {@link LogCenterDbFlat}
  *     log center) wont be able to read events of type <i>Completed</i>.
  */
-	public static LogEventType Completed = new LogEventType("C");
+    public static LogEventType Completed = new LogEventType("C");
 
 /**
  * Class constructor
@@ -108,30 +108,30 @@ public class LogEventType
  *     {@link #Error}, {@link #Warning}, {@link #Remark},
  *     {@link #Progress}, {@link #Report}.
  */
-	LogEventType(String csType)
-	{
-		this.csType = csType;
-	}
+    LogEventType(String csType)
+    {
+        this.csType = csType;
+    }
 
 /**
  * Returns the event type as a string.
  * Types are:
  * <ul>
- * 	<li><i>S</i>: event of type {@link #Start}.</li>
- * 	<li><i>F</i>: event of type {@link #Finish}.</li>
- * 	<li><i>A</i>: event of type {@link #Abort}.</li>
- * 	<li><i>W</i>: event of type {@link #Warning}.</li>
- * 	<li><i>E</i>: event of type {@link #Error}.</li>
- * 	<li><i>R</i>: event of type {@link #Remark}.</li>
- * 	<li><i>p</i>: event of type {@link #Progress}.</li>
- * 	<li><i>r</i>: event of type {@link #Report}.</li>
+ *  <li><i>S</i>: event of type {@link #Start}.</li>
+ *  <li><i>F</i>: event of type {@link #Finish}.</li>
+ *  <li><i>A</i>: event of type {@link #Abort}.</li>
+ *  <li><i>W</i>: event of type {@link #Warning}.</li>
+ *  <li><i>E</i>: event of type {@link #Error}.</li>
+ *  <li><i>R</i>: event of type {@link #Remark}.</li>
+ *  <li><i>p</i>: event of type {@link #Progress}.</li>
+ *  <li><i>r</i>: event of type {@link #Report}.</li>
  * </ul>
  * @return The event type as a string.
  */
-	public String getType()
-	{
-		return csType;
-	}
+    public String getType()
+    {
+        return csType;
+    }
 
-	private String csType = null;
+    private String csType = null;
 }

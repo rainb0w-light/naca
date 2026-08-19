@@ -18,21 +18,21 @@ import semantic.CEntityExternalDataStructure;
 public class CStandAloneWorking extends CWorking
 {
 
-	/**
-	 * @param line
-	 */
-	public CStandAloneWorking(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityExternalDataStructure e = factory.NewEntityExternalDataStructure(getLine(), "") ;
-		return e ;
-	}
-	public CEntityExternalDataStructure DoSemanticAnalysis(CJavaEntityFactory factory)
-	{
-		return (CEntityExternalDataStructure)DoSemanticAnalysis(null, factory);
-	}
+    /**
+     * @param line
+     */
+    public CStandAloneWorking(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityExternalDataStructure e = factory.NewEntityExternalDataStructure(getLine(), "") ;
+        return e ;
+    }
+    public CEntityExternalDataStructure DoSemanticAnalysis(CJavaEntityFactory factory)
+    {
+        return (CEntityExternalDataStructure)DoSemanticAnalysis(null, factory);
+    }
 
 }

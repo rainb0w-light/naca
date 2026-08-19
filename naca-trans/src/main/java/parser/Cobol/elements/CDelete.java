@@ -26,43 +26,43 @@ import utils.Transcoder;
 public class CDelete extends CCobolElement
 {
 
-	/**
-	 * @param line
-	 */
-	public CDelete(int line)
-	{
-		super(line);
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		Transcoder.logError(getLine(), "No Semantic Analysis for DELETE");
-		return null;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() != CCobolKeywordList.DELETE)
-		{
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
+    /**
+     * @param line
+     */
+    public CDelete(int line)
+    {
+        super(line);
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        Transcoder.logError(getLine(), "No Semantic Analysis for DELETE");
+        return null;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() != CCobolKeywordList.DELETE)
+        {
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tok.GetKeyword().name) ;
 
-		tok = GetNext();
-		fileDesc = ReadIdentifier();
+        tok = GetNext();
+        fileDesc = ReadIdentifier();
 
-		tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CCobolKeywordList.RECORD)
-		{
-			tok = GetNext();
-		}
-		return true;
-	}
-	protected Element ExportCustom(Document root)
-	{
-		Element eDelete = root.createElement("Delete");
-		fileDesc.ExportTo(eDelete, root);
-		return eDelete ;
-	}
+        tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CCobolKeywordList.RECORD)
+        {
+            tok = GetNext();
+        }
+        return true;
+    }
+    protected Element ExportCustom(Document root)
+    {
+        Element eDelete = root.createElement("Delete");
+        fileDesc.ExportTo(eDelete, root);
+        return eDelete ;
+    }
 
-	protected CIdentifier fileDesc = null ;
+    protected CIdentifier fileDesc = null ;
 }

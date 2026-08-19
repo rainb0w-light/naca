@@ -14,60 +14,60 @@ package nacaLib.varEx;
 
 public abstract class VarDefVariable extends VarDefBuffer
 {
-	protected VarDefVariable()
-	{
-		super();
-	}
+    protected VarDefVariable()
+    {
+        super();
+    }
 
-	public VarDefVariable(VarDefBase varDefParent, VarLevel varLevel)
-	{
-		super(varDefParent, varLevel);
-	}
+    public VarDefVariable(VarDefBase varDefParent, VarLevel varLevel)
+    {
+        super(varDefParent, varLevel);
+    }
 
-//	VarDefVariable(VarDefVariable varDefSource)
-//	{
-//		super(varDefSource);
-//	}
-
-
-//	protected void assignOnOriginEdit()
-//	{
-//	}
-
-	protected boolean isVarInMapRedefine()
-	{
-		if(varDefFormRedefineOrigin != null)
-			return true;
-		return false;
-	}
-
-	protected boolean isAVarDefMapRedefine()
-	{
-		return false;
-	}
-
-	protected boolean isEditInMapRedefine()
-	{
-		return false;
-	}
-
-	protected boolean isEditInMapOrigin()
-	{
-		return false;
-	}
-
-	protected boolean isVarDefForm()
-	{
-		return false;
-	}
-
-	void assignForm(VarDefForm varDefForm)
-	{
-	}
+//  VarDefVariable(VarDefVariable varDefSource)
+//  {
+//      super(varDefSource);
+//  }
 
 
-//	protected void inheritOriginEditSizes(VarBase varRoot)
-//	{
-//	}
+//  protected void assignOnOriginEdit()
+//  {
+//  }
+
+    protected boolean isVarInMapRedefine()
+    {
+        if(varDefFormRedefineOrigin != null)
+            return true;
+        return false;
+    }
+
+    protected boolean isAVarDefMapRedefine()
+    {
+        return false;
+    }
+
+    protected boolean isEditInMapRedefine()
+    {
+        return false;
+    }
+
+    protected boolean isEditInMapOrigin()
+    {
+        return false;
+    }
+
+    protected boolean isVarDefForm()
+    {
+        return false;
+    }
+
+    void assignForm(VarDefForm varDefForm)
+    {
+    }
+
+
+//  protected void inheritOriginEditSizes(VarBase varRoot)
+//  {
+//  }
 
 }

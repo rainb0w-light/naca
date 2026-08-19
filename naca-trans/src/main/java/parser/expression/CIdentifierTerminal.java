@@ -20,91 +20,91 @@ import utils.Transcoder;
  */
 public class CIdentifierTerminal extends CTerminal
 {
-	/* (non-Javadoc)
-	 * @see parser.condition.CConditionalTerminal#Export()
-	 */
-	public CIdentifierTerminal(CIdentifier Id)
-	{
-		identifier = Id;
-	}
+    /* (non-Javadoc)
+     * @see parser.condition.CConditionalTerminal#Export()
+     */
+    public CIdentifierTerminal(CIdentifier Id)
+    {
+        identifier = Id;
+    }
 
-//	public String GetType()
-//	{
-//		return "Identifier" ;
-//	}
-//	public String GetValue()
-//	{
-//		return identifier.Export() ;
-//	}
-	CIdentifier identifier = null ;
+//  public String GetType()
+//  {
+//      return "Identifier" ;
+//  }
+//  public String GetValue()
+//  {
+//      return identifier.Export() ;
+//  }
+    CIdentifier identifier = null ;
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
-	 */
-	public void ExportTo(Element e, Document root)
-	{
-		if (identifier != null)
-		{
-			identifier.ExportTo(e, root) ;
-		}
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CTerminal#ExportTo(org.w3c.dom.Element, org.w3c.dom.Document)
+     */
+    public void ExportTo(Element e, Document root)
+    {
+        if (identifier != null)
+        {
+            identifier.ExportTo(e, root) ;
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CTerminal#IsReference()
-	 */
-	public boolean IsReference()
-	{
-		return true;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CTerminal#IsReference()
+     */
+    public boolean IsReference()
+    {
+        return true;
+    }
 
-	public boolean IsOne()
-	{
-		return false;
-	}
+    public boolean IsOne()
+    {
+        return false;
+    }
 
-	public boolean IsMinusOne()
-	{
-		return false;
-	}
+    public boolean IsMinusOne()
+    {
+        return false;
+    }
 
-	public CIdentifier GetIdentifier()
-	{
-		return identifier ;
-	}
+    public CIdentifier GetIdentifier()
+    {
+        return identifier ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CTerminal#GetValue()
-	 */
-	public String GetValue()
-	{
-		return "" ;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CTerminal#GetValue()
+     */
+    public String GetValue()
+    {
+        return "" ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
-	 */
-	public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
-	{
-		CDataEntity e = identifier.GetDataReference(nLine, factory);
-		if (e == null)
-		{
-			Transcoder.logError(nLine, "ERROR : identifier not found : "+identifier.GetName());
-			int n = 0 ;
-		}
-		return e ;
-	}
-	public String toString()
-	{
-		return identifier.toString() ;
-	}
+    /* (non-Javadoc)
+     * @see parser.expression.CTerminal#GetDataEntity(semantic.CBaseEntityFactory)
+     */
+    public CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory)
+    {
+        CDataEntity e = identifier.GetDataReference(nLine, factory);
+        if (e == null)
+        {
+            Transcoder.logError(nLine, "ERROR : identifier not found : "+identifier.GetName());
+            int n = 0 ;
+        }
+        return e ;
+    }
+    public String toString()
+    {
+        return identifier.toString() ;
+    }
 
-	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
-	{
-		return identifier.GetDataReference(nLine, factory);
-	}
+    public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
+    {
+        return identifier.GetDataReference(nLine, factory);
+    }
 
-	public boolean IsNumber()
-	{
-		return false ;
-	}
+    public boolean IsNumber()
+    {
+        return false ;
+    }
 }

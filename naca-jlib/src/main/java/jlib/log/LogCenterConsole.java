@@ -17,54 +17,54 @@ import org.w3c.dom.Element;
  */
 public class LogCenterConsole extends LogCenter
 {
-	public LogCenterConsole(LogCenterLoader logCenterLoader)
-	{
-		super(logCenterLoader);
-	}
+    public LogCenterConsole(LogCenterLoader logCenterLoader)
+    {
+        super(logCenterLoader);
+    }
 
-	public void loadSpecificsEntries(Element el)
-	{
-	}
+    public void loadSpecificsEntries(Element el)
+    {
+    }
 
-	public void loadSpecificsEntries(Tag tagLogCenter)
-	{
-		csFormat = tagLogCenter.getVal("Format");
-	}
+    public void loadSpecificsEntries(Tag tagLogCenter)
+    {
+        csFormat = tagLogCenter.getVal("Format");
+    }
 
-	boolean open()
-	{
-		return true;
-	}
+    boolean open()
+    {
+        return true;
+    }
 
-	boolean closeLogCenter()
-	{
-		return true;
-	}
+    boolean closeLogCenter()
+    {
+        return true;
+    }
 
-	void preSendOutput()
-	{
-	}
+    void preSendOutput()
+    {
+    }
 
-	protected void sendOutput(LogParams logParam)
-	{
-		String csOut = patternLayout.format(logParam, 0);
-		System.out.println(csOut);
-	}
+    protected void sendOutput(LogParams logParam)
+    {
+        String csOut = patternLayout.format(logParam, 0);
+        System.out.println(csOut);
+    }
 
-	void postSendOutput()
-	{
-	}
+    void postSendOutput()
+    {
+    }
 
 
-	String getFormat()
-	{
-		return csFormat;
-	}
+    String getFormat()
+    {
+        return csFormat;
+    }
 
-	private String csFormat = null;
+    private String csFormat = null;
 
-	public String getType()
-	{
-		return "LogCenterConsole";
-	}
+    public String getType()
+    {
+        return "LogCenterConsole";
+    }
 }

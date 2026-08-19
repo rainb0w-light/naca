@@ -33,158 +33,158 @@ import nacaLib.varEx.FileDescriptor;
  */
 public class SQLUnload extends BaseSQLUtils
 {
-	private int nNbSelectProcessed = 0;
-	private boolean isconnectionValid = false;
-	private boolean isexcel = false;
+    private int nNbSelectProcessed = 0;
+    private boolean isconnectionValid = false;
+    private boolean isexcel = false;
 
-	public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean isexcel)
-	{
-		super(session, dbConnection);
-		this.isexcel = isexcel;
-	}
+    public SQLUnload(BaseSession session, DbConnectionBase dbConnection, boolean isexcel)
+    {
+        super(session, dbConnection);
+        this.isexcel = isexcel;
+    }
 
-	public boolean execute(FileDescriptor fileIn)
-	{
-		FileSysinReader fileSysinReader = new FileSysinReader(getSession());
+    public boolean execute(FileDescriptor fileIn)
+    {
+        FileSysinReader fileSysinReader = new FileSysinReader(getSession());
 
-		boolean isexecuted = fileSysinReader.parse(this, fileIn);
-		return isexecuted;
-	}
+        boolean isexecuted = fileSysinReader.parse(this, fileIn);
+        return isexecuted;
+    }
 
-	int executeStatement(String csClause)
-	{
-		isconnectionValid = true;
-		int nNbRecords = -1;
+    int executeStatement(String csClause)
+    {
+        isconnectionValid = true;
+        int nNbRecords = -1;
 
         // cursor clause not supported
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
-		if(typeOperation == null)
-			return -1;	// Do not manage this order
+        SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csClause, false);
+        if(typeOperation == null)
+            return -1;  // Do not manage this order
 
-		if(typeOperation.equals(SQLTypeOperation.Commit))
-		{
-			if(dbConnection.commit() == 0)	// success
-				return 0;
-			return -1;	// failure
-		}
+        if(typeOperation.equals(SQLTypeOperation.Commit))
+        {
+            if(dbConnection.commit() == 0)  // success
+                return 0;
+            return -1;  // failure
+        }
 
-		if(!typeOperation.equals(SQLTypeOperation.Select))
-			return -1;	// Do not manage this order
+        if(!typeOperation.equals(SQLTypeOperation.Select))
+            return -1;  // Do not manage this order
 
-		String csSysrecName;
-		if (isexcel)
-			csSysrecName = "UNLOAD";
-		else
-			csSysrecName = getSysrecName(nNbSelectProcessed);
+        String csSysrecName;
+        if (isexcel)
+            csSysrecName = "UNLOAD";
+        else
+            csSysrecName = getSysrecName(nNbSelectProcessed);
 
-		FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
-		fileDescOuput.setSession(getSession());
-		fileDescOuput.openOutput();
-		boolean isebcdicOutput = fileDescOuput.isEbcdic();
-		BaseDataFile fileOuput = fileDescOuput.getDataFile();
+        FileDescriptor fileDescOuput = new FileDescriptor(csSysrecName);
+        fileDescOuput.setSession(getSession());
+        fileDescOuput.openOutput();
+        boolean isebcdicOutput = fileDescOuput.isEbcdic();
+        BaseDataFile fileOuput = fileDescOuput.getDataFile();
 
-		// Remove ending ';' as it is not supported by UDB
-		if(csClause.endsWith(";"))
-			csClause = csClause.substring(0, csClause.length()-1);
+        // Remove ending ';' as it is not supported by UDB
+        if(csClause.endsWith(";"))
+            csClause = csClause.substring(0, csClause.length()-1);
 
-		csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
-		DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
-		if(stmt != null)
-		{
-			if(typeOperation == SQLTypeOperation.Select)
-			{
-				ResultSet rs = stmt.executeSelect();
-				if(rs != null)
-				{
-					nNbRecords = unloadRecords(rs, csClause, isebcdicOutput, fileOuput);
-				}
-			}
-		}
+        csClause = SQLTypeOperation.addEnvironmentPrefix(dbConnection.getEnvironmentPrefix(), csClause, typeOperation, "");
+        DbPreparedStatement stmt = dbConnection.prepareStatement(csClause, 0, false);
+        if(stmt != null)
+        {
+            if(typeOperation == SQLTypeOperation.Select)
+            {
+                ResultSet rs = stmt.executeSelect();
+                if(rs != null)
+                {
+                    nNbRecords = unloadRecords(rs, csClause, isebcdicOutput, fileOuput);
+                }
+            }
+        }
 
-		if(fileOuput != null)
-		{
-			fileOuput.close();
-		}
+        if(fileOuput != null)
+        {
+            fileOuput.close();
+        }
 
-		nNbSelectProcessed++;
+        nNbSelectProcessed++;
 
-		if(isconnectionValid)
-			return nNbRecords;
-		return -1;
-	}
+        if(isconnectionValid)
+            return nNbRecords;
+        return -1;
+    }
 
-	private int unloadRecords(ResultSet resultSet, String csClause, boolean bEbcdicOutput, BaseDataFile fileOuput)
-	{
-		int nNbRecordRead = 0;
-		ArrayList<BaseDbColDefinition> dbColDef = null;
+    private int unloadRecords(ResultSet resultSet, String csClause, boolean bEbcdicOutput, BaseDataFile fileOuput)
+    {
+        int nNbRecordRead = 0;
+        ArrayList<BaseDbColDefinition> dbColDef = null;
 
-		byte aSeparatorComma[] = new String(",").getBytes();
-		if(bEbcdicOutput)	// Must outout in ebcdic
-			AsciiEbcdicConverter.swapByteAsciiToEbcdic(aSeparatorComma, 0, aSeparatorComma.length);
+        byte aSeparatorComma[] = new String(",").getBytes();
+        if(bEbcdicOutput)   // Must outout in ebcdic
+            AsciiEbcdicConverter.swapByteAsciiToEbcdic(aSeparatorComma, 0, aSeparatorComma.length);
 
-		while(next(resultSet))
-		{
-			if(fileOuput != null)
-			{
-				if(nNbRecordRead == 0)
-				{
-					BaseDbColDefinitionFactory dbColDefinitionItemFactory = new BaseDbColDefinitionFactory();
-					dbColDef = dbColDefinitionItemFactory.makeArrayDbColDefinitions(resultSet);
-				}
-				if(dbColDef != null)
-				{
-					for(int nCol = 0; nCol< dbColDef.size(); nCol++)
-					{
-						BaseDbColDefinition dbColDefinition = dbColDef.get(nCol);
-						byte aBytes[];
-						if (isexcel)
-						{
-							if (nCol > 0)
-								fileOuput.write(aSeparatorComma);
-							aBytes = dbColDefinition.getExcelValue(resultSet, nCol+1, bEbcdicOutput);
-						}
-						else
-						{
-							aBytes = dbColDefinition.getByteValue(resultSet, nCol+1, bEbcdicOutput);
-						}
-						if(aBytes != null)
-						{
-							fileOuput.write(aBytes);
-						}
-						else
-						{
-							Log.logCritical("Unload aborted");
-							return -1;
-						}
-					}
-					fileOuput.writeEndOfRecordMarker();
-				}
-			}
-			nNbRecordRead++;
-		}
-		return nNbRecordRead;
-	}
+        while(next(resultSet))
+        {
+            if(fileOuput != null)
+            {
+                if(nNbRecordRead == 0)
+                {
+                    BaseDbColDefinitionFactory dbColDefinitionItemFactory = new BaseDbColDefinitionFactory();
+                    dbColDef = dbColDefinitionItemFactory.makeArrayDbColDefinitions(resultSet);
+                }
+                if(dbColDef != null)
+                {
+                    for(int nCol = 0; nCol< dbColDef.size(); nCol++)
+                    {
+                        BaseDbColDefinition dbColDefinition = dbColDef.get(nCol);
+                        byte aBytes[];
+                        if (isexcel)
+                        {
+                            if (nCol > 0)
+                                fileOuput.write(aSeparatorComma);
+                            aBytes = dbColDefinition.getExcelValue(resultSet, nCol+1, bEbcdicOutput);
+                        }
+                        else
+                        {
+                            aBytes = dbColDefinition.getByteValue(resultSet, nCol+1, bEbcdicOutput);
+                        }
+                        if(aBytes != null)
+                        {
+                            fileOuput.write(aBytes);
+                        }
+                        else
+                        {
+                            Log.logCritical("Unload aborted");
+                            return -1;
+                        }
+                    }
+                    fileOuput.writeEndOfRecordMarker();
+                }
+            }
+            nNbRecordRead++;
+        }
+        return nNbRecordRead;
+    }
 
-	private boolean next(ResultSet resultSet)
-	{
-		if(resultSet != null)
-		{
-			try
-			{
-				return resultSet.next();
-			}
-			catch (SQLException e)
-			{
-				LogSQLException.log(e);
-				isconnectionValid = false;
-				return false;
-			}
-		}
-		return false;
-	}
+    private boolean next(ResultSet resultSet)
+    {
+        if(resultSet != null)
+        {
+            try
+            {
+                return resultSet.next();
+            }
+            catch (SQLException e)
+            {
+                LogSQLException.log(e);
+                isconnectionValid = false;
+                return false;
+            }
+        }
+        return false;
+    }
 
-	private String getSysrecName(int nNbSelectProcessed)
-	{
-		return "SYSREC" + StringUtil.FormatWithFill2LeftZero(nNbSelectProcessed);
-	}
+    private String getSysrecName(int nNbSelectProcessed)
+    {
+        return "SYSREC" + StringUtil.FormatWithFill2LeftZero(nNbSelectProcessed);
+    }
 }

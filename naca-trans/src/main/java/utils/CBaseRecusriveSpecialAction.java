@@ -10,13 +10,13 @@ import semantic.CBaseEntityFactory;
 
 public abstract class CBaseRecusriveSpecialAction
 {
-	protected CObjectCatalog programCatalog = null ;
-	protected CBaseEntityFactory factory = null ;
+    protected CObjectCatalog programCatalog = null ;
+    protected CBaseEntityFactory factory = null ;
 
-	public CBaseRecusriveSpecialAction(CObjectCatalog programCatalog, CBaseEntityFactory factory)
-	{
-		this.programCatalog = programCatalog ;
-		this.factory = factory ;
-	}
+    public CBaseRecusriveSpecialAction(CObjectCatalog programCatalog, CBaseEntityFactory factory)
+    {
+        this.programCatalog = programCatalog ;
+        this.factory = factory ;
+    }
 
 }

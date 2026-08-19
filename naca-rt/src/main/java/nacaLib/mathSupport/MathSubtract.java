@@ -16,248 +16,248 @@ import nacaLib.varEx.VarAndEdit;
 
 public class MathSubtract extends MathBase
 {
-	/**
-	 * @param VarAndEdit var1
-	 * @param VarAndEdit var2
-	 *     Set current object to var1-var2 (var are treated as numeric optionnaly decimals / signed)
-	 */
-	public MathSubtract(VarAndEdit var1, VarAndEdit var2)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit var1
+     * @param VarAndEdit var2
+     *     Set current object to var1-var2 (var are treated as numeric optionnaly decimals / signed)
+     */
+    public MathSubtract(VarAndEdit var1, VarAndEdit var2)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		String s2 = var2.getDottedSignedString();
-		BigDecimal val2 = new BigDecimal(s2);
+        String s2 = var2.getDottedSignedString();
+        BigDecimal val2 = new BigDecimal(s2);
 
-		d = d.subtract(val2);
-	}
+        d = d.subtract(val2);
+    }
 
-	public MathSubtract(int a, int n)
-	{
-		String s1 = String.valueOf(a);
-		d = new BigDecimal(s1);
+    public MathSubtract(int a, int n)
+    {
+        String s1 = String.valueOf(a);
+        d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(String.valueOf(n));
+        d = d.subtract(val2);
+    }
 
-	public MathSubtract(int n, MathBase mathBase)
-	{
-		String s1 = String.valueOf(n) ;
-		d = new BigDecimal(s1);
+    public MathSubtract(int n, MathBase mathBase)
+    {
+        String s1 = String.valueOf(n) ;
+        d = new BigDecimal(s1);
 
-		d = d.subtract(mathBase.d);
-	}
+        d = d.subtract(mathBase.d);
+    }
 
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param int n
-	 *     Set current object to var1-n
-	 */
-	public MathSubtract(VarAndEdit var1, int n)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit var1
+     * @param int n
+     *     Set current object to var1-n
+     */
+    public MathSubtract(VarAndEdit var1, int n)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(String.valueOf(n));
+        d = d.subtract(val2);
+    }
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param int n
-	 *     Set current object to var1-n
-	 */
-	public MathSubtract(VarAndEdit var1)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s1);
-	}
+    /**
+     * @param VarAndEdit var1
+     * @param int n
+     *     Set current object to var1-n
+     */
+    public MathSubtract(VarAndEdit var1)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s1);
+    }
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param int n
-	 *     Set current object to var1-n
-	 */
-	public MathSubtract(int n)
-	{
-		d = new BigDecimal(String.valueOf(n));
-	}
+    /**
+     * @param VarAndEdit var1
+     * @param int n
+     *     Set current object to var1-n
+     */
+    public MathSubtract(int n)
+    {
+        d = new BigDecimal(String.valueOf(n));
+    }
 
-	/**
-	 * @param int n
-	 * @param VarAndEdit var1
-	 *     Set current object to n-var1
-	 */
-	public MathSubtract(int n, VarAndEdit var1)
-	{
-		d = new BigDecimal(String.valueOf(n));
+    /**
+     * @param int n
+     * @param VarAndEdit var1
+     *     Set current object to n-var1
+     */
+    public MathSubtract(int n, VarAndEdit var1)
+    {
+        d = new BigDecimal(String.valueOf(n));
 
-		String s1 = var1.getDottedSignedString();
-		BigDecimal val2 = new BigDecimal(s1);
+        String s1 = var1.getDottedSignedString();
+        BigDecimal val2 = new BigDecimal(s1);
 
-		d = d.subtract(val2);
-	}
+        d = d.subtract(val2);
+    }
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param double d
-	 *     Set current object to var1-d
-	 */
-	public MathSubtract(VarAndEdit var1, double d)
-	{
-		String s1 = var1.getDottedSignedString();
-		this.d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit var1
+     * @param double d
+     *     Set current object to var1-d
+     */
+    public MathSubtract(VarAndEdit var1, double d)
+    {
+        String s1 = var1.getDottedSignedString();
+        this.d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(d);
-		this.d = this.d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(d);
+        this.d = this.d.subtract(val2);
+    }
 
-	/**
-	 * @param double d
-	 * @param VarAndEdit var1
-	 *     Set current object to d-var1
-	 */
-	public MathSubtract(double d, VarAndEdit var1)
-	{
-		String s1 = var1.getDottedSignedString();
-		this.d = new BigDecimal(d);
+    /**
+     * @param double d
+     * @param VarAndEdit var1
+     *     Set current object to d-var1
+     */
+    public MathSubtract(double d, VarAndEdit var1)
+    {
+        String s1 = var1.getDottedSignedString();
+        this.d = new BigDecimal(d);
 
-		BigDecimal val2 = new BigDecimal(s1);
-		this.d = this.d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(s1);
+        this.d = this.d.subtract(val2);
+    }
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param String s, treated as a number
-	 *     Set current object to var1-s
-	 */
-	public MathSubtract(VarAndEdit var1, String s)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit var1
+     * @param String s, treated as a number
+     *     Set current object to var1-s
+     */
+    public MathSubtract(VarAndEdit var1, String s)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(s);
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(s);
+        d = d.subtract(val2);
+    }
 
-	/**
-	 * @param String s, treated as a number
-	 * @param VarAndEdit var1
-	 *     Set current object to s-var1
-	 */
-	public MathSubtract(String s, VarAndEdit var1)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s);
+    /**
+     * @param String s, treated as a number
+     * @param VarAndEdit var1
+     *     Set current object to s-var1
+     */
+    public MathSubtract(String s, VarAndEdit var1)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s);
 
-		BigDecimal val2 = new BigDecimal(s1);
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(s1);
+        d = d.subtract(val2);
+    }
 
-	/**
-	 * @param VarAndEdit var1
-	 * @param MathBase mathBase
-	 *     Set current object to var1-mathBase
-	 */
-	public MathSubtract(VarAndEdit var1, MathBase mathBase)
-	{
-		String s1 = var1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit var1
+     * @param MathBase mathBase
+     *     Set current object to var1-mathBase
+     */
+    public MathSubtract(VarAndEdit var1, MathBase mathBase)
+    {
+        String s1 = var1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		d = d.subtract(mathBase.d);
-	}
+        d = d.subtract(mathBase.d);
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param VarAndEdit var1
-	 *     Set current object to mathBase-var1
-	*/
-	public MathSubtract(MathBase mathBase, VarAndEdit var1)
-	{
-		//d = mathBase.d;
-		setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param VarAndEdit var1
+     *     Set current object to mathBase-var1
+    */
+    public MathSubtract(MathBase mathBase, VarAndEdit var1)
+    {
+        //d = mathBase.d;
+        setWithMathBase(mathBase);
 
-		String s1 = var1.getDottedSignedString();
-		BigDecimal val1 = new BigDecimal(s1);
+        String s1 = var1.getDottedSignedString();
+        BigDecimal val1 = new BigDecimal(s1);
 
-		d = d.subtract(val1);
-	}
+        d = d.subtract(val1);
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param int n
-	 *     Set current object to mathBase-n
-	*/
-	public MathSubtract(MathBase mathBase, int n)
-	{
-		//d = mathBase.d;
-		setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param int n
+     *     Set current object to mathBase-n
+    */
+    public MathSubtract(MathBase mathBase, int n)
+    {
+        //d = mathBase.d;
+        setWithMathBase(mathBase);
 
-		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(String.valueOf(n));
+        d = d.subtract(val2);
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param double d
-	 *     Set current object to mathBase-d
-	*/
-	public MathSubtract(MathBase mathBase, double d)
-	{
-		//d = mathBase.d;
-		setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param double d
+     *     Set current object to mathBase-d
+    */
+    public MathSubtract(MathBase mathBase, double d)
+    {
+        //d = mathBase.d;
+        setWithMathBase(mathBase);
 
-		BigDecimal val2 = new BigDecimal(d);
-		this.d = this.d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(d);
+        this.d = this.d.subtract(val2);
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param String s
-	 *     Set current object to mathBase-s
-	*/
-	public MathSubtract(MathBase mathBase, String s)
-	{
-		//d = mathBase.d;
-		setWithMathBase(mathBase);
+    /**
+     * @param MathBase mathBase
+     * @param String s
+     *     Set current object to mathBase-s
+    */
+    public MathSubtract(MathBase mathBase, String s)
+    {
+        //d = mathBase.d;
+        setWithMathBase(mathBase);
 
-		BigDecimal val2 = new BigDecimal(s);
-		d = d.subtract(val2);
-	}
+        BigDecimal val2 = new BigDecimal(s);
+        d = d.subtract(val2);
+    }
 
-	public MathSubtract(String s, MathBase mathBase)
-	{
-		d = new BigDecimal(s).subtract(mathBase.d);
-	}
+    public MathSubtract(String s, MathBase mathBase)
+    {
+        d = new BigDecimal(s).subtract(mathBase.d);
+    }
 
-	/**
-	 * @param MathBase mathBase1
-	 * @param MathBase mathBase2
-	 *     Set current object to mathBase1-mathBase2
-	*/
-	public MathSubtract(MathBase mathBase1, MathBase mathBase2)
-	{
-		//d = mathBase1.d;
-		setWithMathBase(mathBase1);
+    /**
+     * @param MathBase mathBase1
+     * @param MathBase mathBase2
+     *     Set current object to mathBase1-mathBase2
+    */
+    public MathSubtract(MathBase mathBase1, MathBase mathBase2)
+    {
+        //d = mathBase1.d;
+        setWithMathBase(mathBase1);
 
-		d = d.subtract(mathBase2.d);
-	}
+        d = d.subtract(mathBase2.d);
+    }
 
-	/**
-	 * @param VarAndEdit var
-	 * @return this
-	 *     Set current object to var-current objet
-	 */
-	public MathSubtract from(VarAndEdit var)
-	{
-		String cs = var.getDottedSignedString();
-		BigDecimal val = new BigDecimal(cs);
-		d = val.subtract(d);
-		//d = val ;
-		to(var) ; // store value in var.
-		return this ;
-	}
+    /**
+     * @param VarAndEdit var
+     * @return this
+     *     Set current object to var-current objet
+     */
+    public MathSubtract from(VarAndEdit var)
+    {
+        String cs = var.getDottedSignedString();
+        BigDecimal val = new BigDecimal(cs);
+        d = val.subtract(d);
+        //d = val ;
+        to(var) ; // store value in var.
+        return this ;
+    }
 
 }

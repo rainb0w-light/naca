@@ -19,54 +19,54 @@ import org.w3c.dom.Element;
  */
 public class CBaseProcedure extends CBlocElement
 {
-	public CBaseProcedure(int line)
-	{
-		super(line);
-	}
+    public CBaseProcedure(int line)
+    {
+        super(line);
+    }
 
-	protected boolean DoParsing()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			boolean isparsed = super.DoParsing() ;
-			if (!isparsed)
-			{
-				return false ;
-			}
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok == null)
-			{
-				isdone = true ;
-			}
-			else if (tok.GetType()== CTokenType.DOT)
-			{
-				if (checkForNextSentence.ISSet())
-				{
-					checkForNextSentence.UnSet() ; //
-				}
-				GetNext();
-				//  continue
-			}
-			else
-			{
-				isdone = true ; // this token can't be parsed by this function
-			}
-		}
-		return true;
-	}
+    protected boolean DoParsing()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            boolean isparsed = super.DoParsing() ;
+            if (!isparsed)
+            {
+                return false ;
+            }
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok == null)
+            {
+                isdone = true ;
+            }
+            else if (tok.GetType()== CTokenType.DOT)
+            {
+                if (checkForNextSentence.ISSet())
+                {
+                    checkForNextSentence.UnSet() ; //
+                }
+                GetNext();
+                //  continue
+            }
+            else
+            {
+                isdone = true ; // this token can't be parsed by this function
+            }
+        }
+        return true;
+    }
 
-	protected Element ExportCustom(Document root)
-	{
-		Element eProc = root.createElement("Procedure") ;
-		return eProc;
-	}
+    protected Element ExportCustom(Document root)
+    {
+        Element eProc = root.createElement("Procedure") ;
+        return eProc;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.elements.CBlocElement#isTopLevelBloc()
-	 */
-	protected boolean isTopLevelBloc()
-	{
-		return true ;
-	}
+    /* (non-Javadoc)
+     * @see parser.elements.CBlocElement#isTopLevelBloc()
+     */
+    protected boolean isTopLevelBloc()
+    {
+        return true ;
+    }
 }

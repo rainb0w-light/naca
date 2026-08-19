@@ -33,198 +33,198 @@ import utils.Transcoder;
  */
 public class CCopyInWorking extends CCobolElement
 {
-	/**
-	 * @param line
-	 */
-	public CCopyInWorking(int line) {
-		super(line);
-	}
+    /**
+     * @param line
+     */
+    public CCopyInWorking(int line) {
+        super(line);
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
-	protected boolean DoParsing()
-	{
-		CBaseToken tokCopy = GetCurrentToken() ;
-		if (tokCopy.GetType() != CTokenType.KEYWORD && tokCopy.GetKeyword() != CCobolKeywordList.COPY)
-		{
-			Transcoder.logError(getLine(), "Expecting 'COPY' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokCopy.GetKeyword().name) ;
-		CBaseToken tokRef = GetNext();
-		if (tokRef.GetType() != CTokenType.IDENTIFIER && tokRef.GetType() != CTokenType.STRING)
-		{
-			Transcoder.logError(getLine(), "Expecting an identifier after COPY, instead of : " + tokRef.toString()) ;
-			return false ;
-		}
-		csCopyReference = tokRef.GetValue() ;
-		Transcoder.pushTranscodedUnit(csCopyReference, "");
-		CBaseToken tokSuppr = GetNext() ;
-		if (tokSuppr.GetKeyword() == CCobolKeywordList.SUPPRESS)
-		{
-			issuppress = true ;
-			tokSuppr = GetNext() ;
-		}
-		if (tokSuppr.GetKeyword() == CCobolKeywordList.REPLACING)
-		{
-			CBaseToken tok = GetNext();
-			while (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.IDENTIFIER)
-			{
-				String csReplace = tok.GetValue();
-				replace.add(csReplace);
-				tok = GetNext();
-				if (tok.GetKeyword() != CCobolKeywordList.BY)
-				{
-					Transcoder.logError(getLine(), "Expecting 'BY' keyword") ;
-					Transcoder.popTranscodedUnit();
-					return false ;
-				}
-				tok = GetNext();
-				String csReplaceBy = tok.GetValue();
-				replaceBy.add(csReplaceBy);
-				tok = GetNext();
-			}
-		}
-		tokSuppr = GetCurrentToken() ;
-		if (tokSuppr.GetType() == CTokenType.DOT)
-		{
-			GetNext();
-		}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
+    protected boolean DoParsing()
+    {
+        CBaseToken tokCopy = GetCurrentToken() ;
+        if (tokCopy.GetType() != CTokenType.KEYWORD && tokCopy.GetKeyword() != CCobolKeywordList.COPY)
+        {
+            Transcoder.logError(getLine(), "Expecting 'COPY' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tokCopy.GetKeyword().name) ;
+        CBaseToken tokRef = GetNext();
+        if (tokRef.GetType() != CTokenType.IDENTIFIER && tokRef.GetType() != CTokenType.STRING)
+        {
+            Transcoder.logError(getLine(), "Expecting an identifier after COPY, instead of : " + tokRef.toString()) ;
+            return false ;
+        }
+        csCopyReference = tokRef.GetValue() ;
+        Transcoder.pushTranscodedUnit(csCopyReference, "");
+        CBaseToken tokSuppr = GetNext() ;
+        if (tokSuppr.GetKeyword() == CCobolKeywordList.SUPPRESS)
+        {
+            issuppress = true ;
+            tokSuppr = GetNext() ;
+        }
+        if (tokSuppr.GetKeyword() == CCobolKeywordList.REPLACING)
+        {
+            CBaseToken tok = GetNext();
+            while (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING || tok.GetType() == CTokenType.IDENTIFIER)
+            {
+                String csReplace = tok.GetValue();
+                replace.add(csReplace);
+                tok = GetNext();
+                if (tok.GetKeyword() != CCobolKeywordList.BY)
+                {
+                    Transcoder.logError(getLine(), "Expecting 'BY' keyword") ;
+                    Transcoder.popTranscodedUnit();
+                    return false ;
+                }
+                tok = GetNext();
+                String csReplaceBy = tok.GetValue();
+                replaceBy.add(csReplaceBy);
+                tok = GetNext();
+            }
+        }
+        tokSuppr = GetCurrentToken() ;
+        if (tokSuppr.GetType() == CTokenType.DOT)
+        {
+            GetNext();
+        }
 
-		boolean b = ParseContent();
-		Transcoder.popTranscodedUnit();
-		return b;
-	}
+        boolean b = ParseContent();
+        Transcoder.popTranscodedUnit();
+        return b;
+    }
 
-	protected boolean ParseContent()
-	{
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tokEntry = GetCurrentToken();
-			if (tokEntry.GetType()==CTokenType.NUMBER)
-			{
-				int level = tokEntry.GetIntValue();
-				if (level > 1)
-				{
-					CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
-					if (!Parse(eEntry))
-					{
-						Transcoder.logError(getLine(), "Error while parsing wotking entry") ;
-						return false ;
-					}
-					AddChild(eEntry) ;
-				}
-				else
-				{
-					isdone = true ; // this entry is a top-level entry
-				}
-			}
-			else
-			{
-				isdone = true ;	// this token is not parsed by this function, go back to caller
-			}
-		}
-		return true ;
-	}
+    protected boolean ParseContent()
+    {
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tokEntry = GetCurrentToken();
+            if (tokEntry.GetType()==CTokenType.NUMBER)
+            {
+                int level = tokEntry.GetIntValue();
+                if (level > 1)
+                {
+                    CCobolElement eEntry = new CWorkingEntry(tokEntry.getLine()) ;
+                    if (!Parse(eEntry))
+                    {
+                        Transcoder.logError(getLine(), "Error while parsing wotking entry") ;
+                        return false ;
+                    }
+                    AddChild(eEntry) ;
+                }
+                else
+                {
+                    isdone = true ; // this entry is a top-level entry
+                }
+            }
+            else
+            {
+                isdone = true ; // this token is not parsed by this function, go back to caller
+            }
+        }
+        return true ;
+    }
 
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element eCopy = root.createElement("Copy") ;
-		eCopy.setAttribute("Reference", csCopyReference);
-		if (issuppress)
-		{
-			eCopy.setAttribute("Suppress", "true") ;
-		}
-		for (int i = 0; i< replace.size(); i++)
-		{
-			Element e = root.createElement("Replacing");
-			eCopy.appendChild(e);
-			e.setAttribute("Replace", replace.get(i));
-			e.setAttribute("ReplaceBy", replaceBy.get(i));
-		}
-		return eCopy;
-	}
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element eCopy = root.createElement("Copy") ;
+        eCopy.setAttribute("Reference", csCopyReference);
+        if (issuppress)
+        {
+            eCopy.setAttribute("Suppress", "true") ;
+        }
+        for (int i = 0; i< replace.size(); i++)
+        {
+            Element e = root.createElement("Replacing");
+            eCopy.appendChild(e);
+            e.setAttribute("Replace", replace.get(i));
+            e.setAttribute("ReplaceBy", replaceBy.get(i));
+        }
+        return eCopy;
+    }
 
-	protected String csCopyReference = "" ;
-	protected ArrayList<String> replace = new ArrayList<String>() ;
-	protected ArrayList<String> replaceBy = new ArrayList<String>() ;
-	protected boolean issuppress = false ;
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), csCopyReference) ;
-		CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(csCopyReference, factory) ;
-		if (e == null)
-		{
-			CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), csCopyReference) ;
-			return null ;
-		}
-		boolean isotherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
+    protected String csCopyReference = "" ;
+    protected ArrayList<String> replace = new ArrayList<String>() ;
+    protected ArrayList<String> replaceBy = new ArrayList<String>() ;
+    protected boolean issuppress = false ;
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CGlobalEntityCounter.GetInstance().RegisterCopy(parent.GetProgramName(), csCopyReference) ;
+        CBaseExternalEntity e = factory.programCatalog.GetExternalDataReference(csCopyReference, factory) ;
+        if (e == null)
+        {
+            CGlobalEntityCounter.GetInstance().RegisterMissingCopy(parent.GetProgramName(), csCopyReference) ;
+            return null ;
+        }
+        boolean isotherData = factory.programCatalog.IsExistingDataEntity(e.GetName(), "");
 
-		if (replace.size()>0 && replaceBy.size()>0)
-		{
-			String cs1 = replace.get(0);
-			String cs2 = replaceBy.get(0);
-			int n1 = Integer.parseInt(cs1) ;
-			int n2 = Integer.parseInt(cs2);
-			if (n1 > 0 && n2 > 0)
-			{
-				e.ReplaceLevel(n1, n2) ;
-			}
-		}
+        if (replace.size()>0 && replaceBy.size()>0)
+        {
+            String cs1 = replace.get(0);
+            String cs2 = replaceBy.get(0);
+            int n1 = Integer.parseInt(cs1) ;
+            int n2 = Integer.parseInt(cs2);
+            if (n1 > 0 && n2 > 0)
+            {
+                e.ReplaceLevel(n1, n2) ;
+            }
+        }
 
-		CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
-		if (ent == null)
-		{
-			ent = parent ;
-		}
+        CBaseLanguageEntity ent = parent.FindLastEntityAvailableForLevel(e.GetInternalLevel());
+        if (ent == null)
+        {
+            ent = parent ;
+        }
 
-		CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
-		e.InitDependences(factory) ;
-		ent.AddChild(eil) ;
-		e.SetParent(eil);
+        CEntityInline eil = factory.NewEntityInline(getLine(), e) ;
+        e.InitDependences(factory) ;
+        ent.AddChild(eil) ;
+        e.SetParent(eil);
 
-		ListIterator i = children.listIterator() ;
-		CCobolElement le = null ;
-		try
-		{
-			le = (CCobolElement)i.next() ;
-		}
-		catch (NoSuchElementException ex)
-		{
-		}
-		while (le != null)
-		{
-			CBaseLanguageEntity eSub = le.DoSemanticAnalysis(null, factory) ;
-			int level = eSub.GetInternalLevel() ;
-			CBaseLanguageEntity newParent = parent.FindLastEntityAvailableForLevel(level);
-			if (newParent != null)
-			{
-				//eil.ReplaceParentForChild(eSub, newParent);
-				newParent.AddChild(eSub) ;
-			}
-			else
-			{
-				eil.AddChild(eSub) ;
-			}
-			try
-			{
-				le = (CCobolElement)i.next() ;
-			}
-			catch (NoSuchElementException exp)
-			{
-				le = null ;
-			}
-		}
-		bAnalysisDoneForChildren = true ;
+        ListIterator i = children.listIterator() ;
+        CCobolElement le = null ;
+        try
+        {
+            le = (CCobolElement)i.next() ;
+        }
+        catch (NoSuchElementException ex)
+        {
+        }
+        while (le != null)
+        {
+            CBaseLanguageEntity eSub = le.DoSemanticAnalysis(null, factory) ;
+            int level = eSub.GetInternalLevel() ;
+            CBaseLanguageEntity newParent = parent.FindLastEntityAvailableForLevel(level);
+            if (newParent != null)
+            {
+                //eil.ReplaceParentForChild(eSub, newParent);
+                newParent.AddChild(eSub) ;
+            }
+            else
+            {
+                eil.AddChild(eSub) ;
+            }
+            try
+            {
+                le = (CCobolElement)i.next() ;
+            }
+            catch (NoSuchElementException exp)
+            {
+                le = null ;
+            }
+        }
+        bAnalysisDoneForChildren = true ;
 
-		return eil ;
-	}
+        return eil ;
+    }
 }

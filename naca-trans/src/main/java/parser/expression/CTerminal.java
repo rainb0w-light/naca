@@ -17,33 +17,33 @@ import semantic.CBaseEntityFactory;
  */
 public abstract class CTerminal
 {
-//	public abstract String GetType() ;
-//	public abstract String GetValue() ;
+//  public abstract String GetType() ;
+//  public abstract String GetValue() ;
 
-	protected CTerminal()
-	{
-	}
+    protected CTerminal()
+    {
+    }
 
-	public abstract String GetValue() ;
-	public abstract boolean IsReference() ;
-//	public abstract boolean IsOne();
-//	public abstract boolean IsMinusOne();
+    public abstract String GetValue() ;
+    public abstract boolean IsReference() ;
+//  public abstract boolean IsOne();
+//  public abstract boolean IsMinusOne();
 
 
-	public abstract void ExportTo(Element e, Document root);
-	//public abstract void ExportTo(CBaseLanguageExporter e) ;
+    public abstract void ExportTo(Element e, Document root);
+    //public abstract void ExportTo(CBaseLanguageExporter e) ;
 
-//	public CIdentifier GetIdentifier()
-//	{
-//		return null ;
-//	}
+//  public CIdentifier GetIdentifier()
+//  {
+//      return null ;
+//  }
 
-	public abstract CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory) ;
+    public abstract CDataEntity GetDataEntity(int nLine, CBaseEntityFactory factory) ;
 
-	public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
-	{
-		return null;
-	}
+    public CDataEntity GetDataReference(int nLine, CBaseEntityFactory factory)
+    {
+        return null;
+    }
 
-	public abstract boolean IsNumber() ;
+    public abstract boolean IsNumber() ;
 }

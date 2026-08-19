@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.varEx;
 
@@ -16,17 +16,17 @@ package nacaLib.varEx;
  */
 public class Pic9BufferSupportManager
 {
-//	public static Pic9Comp3BufferSupport getPic9Comp3BufferSupport()
-//	{
-//		return new Pic9Comp3BufferSupport();
-//	}
-//	
-////	public static Pic9Comp0BufferSupport getPic9Comp0BufferSupport()
-////	{
-////		return new Pic9Comp0BufferSupport();
-////	}
-//	
-//	public static void release(Pic9Comp3BufferSupport nibbles)
-//	{
-//	}
+//  public static Pic9Comp3BufferSupport getPic9Comp3BufferSupport()
+//  {
+//      return new Pic9Comp3BufferSupport();
+//  }
+//
+////    public static Pic9Comp0BufferSupport getPic9Comp0BufferSupport()
+////    {
+////        return new Pic9Comp0BufferSupport();
+////    }
+//
+//  public static void release(Pic9Comp3BufferSupport nibbles)
+//  {
+//  }
 }

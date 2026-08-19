@@ -15,60 +15,60 @@ import java.util.ListIterator;
  */
 public class CTokenList
 {
-	LinkedList<CBaseToken> listtokens = new LinkedList<CBaseToken>() ;
-	ListIterator iter = null ;
-	CBaseToken curToken = null ;
+    LinkedList<CBaseToken> listtokens = new LinkedList<CBaseToken>() ;
+    ListIterator iter = null ;
+    CBaseToken curToken = null ;
 
 
-	public void Add(CBaseToken tok)
-	{
-		listtokens.add(tok) ;
-	}
+    public void Add(CBaseToken tok)
+    {
+        listtokens.add(tok) ;
+    }
 
-	public CBaseToken GetCurrentToken()
-	{
-		return curToken ;
-	}
+    public CBaseToken GetCurrentToken()
+    {
+        return curToken ;
+    }
 
-	public void StartIter()
-	{
-		try
-		{
-			iter = listtokens.listIterator() ;
-			curToken = (CBaseToken)iter.next() ;
-		}
-		catch (Exception e)
-		{
-			iter = null ;
-			curToken = null ;
-		}
-	}
-	public CBaseToken GetNext()
-	{
-		try
-		{
-			if (iter == null)
-			{
-				iter = listtokens.listIterator() ;
-			}
-			curToken = (CBaseToken)iter.next();
-			return curToken;
-		}
-		catch (Exception e)
-		{
-			curToken = null ;
-			return null ;
-		}
-	}
-	public int GetNbTokens()
-	{
-		return listtokens.size();
-	}
+    public void StartIter()
+    {
+        try
+        {
+            iter = listtokens.listIterator() ;
+            curToken = (CBaseToken)iter.next() ;
+        }
+        catch (Exception e)
+        {
+            iter = null ;
+            curToken = null ;
+        }
+    }
+    public CBaseToken GetNext()
+    {
+        try
+        {
+            if (iter == null)
+            {
+                iter = listtokens.listIterator() ;
+            }
+            curToken = (CBaseToken)iter.next();
+            return curToken;
+        }
+        catch (Exception e)
+        {
+            curToken = null ;
+            return null ;
+        }
+    }
+    public int GetNbTokens()
+    {
+        return listtokens.size();
+    }
 
-	public void Clear()
-	{
-		curToken = null ;
-		iter = null ;
-		listtokens.clear() ;
-	}
+    public void Clear()
+    {
+        curToken = null ;
+        iter = null ;
+        listtokens.clear() ;
+    }
 }

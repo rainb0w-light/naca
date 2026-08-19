@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.bdb;
 
@@ -16,7 +16,7 @@ package nacaLib.bdb;
  */
 public class BtreeKeySegmentType
 {
-	public static final int AlphaNum = 0;
-	public static final int Binary = 4;
-	public static final int Comp3 = 3;
+    public static final int AlphaNum = 0;
+    public static final int Binary = 4;
+    public static final int Comp3 = 3;
 }

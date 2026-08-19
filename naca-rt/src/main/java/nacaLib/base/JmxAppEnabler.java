@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.base;
 
@@ -18,39 +18,39 @@ import jlib.jmxMBean.BaseCloseMBean;
  */
 public class JmxAppEnabler extends BaseCloseMBean
 {
-	private boolean ms_bClosed = false;
-	
-	public JmxAppEnabler()
-	{
-		super("# ApplicationEnabler", "# ApplicationEnabler");
-	}
-	
-	protected void buildDynamicMBeanInfo()
-	{
-		addOperation("Close", getClass(), "setClose", boolean.class);
-	}
-	
-	public boolean getClose()
-	{
-		return ms_bClosed;
-	}
+    private boolean ms_bClosed = false;
 
-	public boolean getOpen()
-	{
-		return !ms_bClosed;
-	}
+    public JmxAppEnabler()
+    {
+        super("# ApplicationEnabler", "# ApplicationEnabler");
+    }
 
-	public void setClose(boolean b)
-	{
-		ms_bClosed = b;
-		unregisterMBean();
-		createMBean("# ApplicationEnabler", "# ApplicationEnabler");
-	}
-	
-	public void setOpen(boolean b)
-	{
-		ms_bClosed = !b;
-		unregisterMBean();
-		createMBean("# ApplicationEnabler", "# ApplicationEnabler");
-	}
+    protected void buildDynamicMBeanInfo()
+    {
+        addOperation("Close", getClass(), "setClose", boolean.class);
+    }
+
+    public boolean getClose()
+    {
+        return ms_bClosed;
+    }
+
+    public boolean getOpen()
+    {
+        return !ms_bClosed;
+    }
+
+    public void setClose(boolean b)
+    {
+        ms_bClosed = b;
+        unregisterMBean();
+        createMBean("# ApplicationEnabler", "# ApplicationEnabler");
+    }
+
+    public void setOpen(boolean b)
+    {
+        ms_bClosed = !b;
+        unregisterMBean();
+        createMBean("# ApplicationEnabler", "# ApplicationEnabler");
+    }
 }

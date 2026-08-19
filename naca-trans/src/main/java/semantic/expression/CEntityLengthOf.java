@@ -15,13 +15,13 @@ import utils.CObjectCatalog;
  */
 public class CEntityLengthOf extends CBaseEntityFunction
 {
-	public CEntityLengthOf(CObjectCatalog cat, CDataEntity data)
-	{
-		super(cat, data);
-	}
+    public CEntityLengthOf(CObjectCatalog cat, CDataEntity data)
+    {
+        super(cat, data);
+    }
 
-	public boolean isValNeeded()
-	{
-		return true;
-	}
+    public boolean isValNeeded()
+    {
+        return true;
+    }
 }

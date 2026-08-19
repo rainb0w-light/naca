@@ -12,20 +12,20 @@ package nacaLib.varEx;
  */
 public class IncWrapper
 {
-	IncWrapper()
-	{
-		n = 0;
-	}
+    IncWrapper()
+    {
+        n = 0;
+    }
 
-	void inc()
-	{
-		n++;
-	}
+    void inc()
+    {
+        n++;
+    }
 
-	int get()
-	{
-		return n;
-	}
+    int get()
+    {
+        return n;
+    }
 
-	private int n;
+    private int n;
 }

@@ -25,56 +25,56 @@ import semantic.SQL.CEntitySQLLock;
  */
 public class CExecSQLLock extends CBaseExecSQLAction
 {
-	/**
-	 *
-	 */
-	public CExecSQLLock(int line)
-	{
-		super(line);
-	}
-	public Element ExportCustom(Document root)
-	{
-		Element eExe = root.createElement("SQLLock");
-		eExe.setAttribute("Table", idTable.GetName());
-		return eExe;
-	}
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntitySQLLock lock = factory.NewEntitySQLLock(getLine()) ;
-		lock.setTable(idTable.GetName()) ;
-		parent.AddChild(lock) ;
-		return lock ;
-	}
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetNext() ;
-		if (tok.GetKeyword() == CCobolKeywordList.TABLE)
-		{
-			tok = GetNext();
-		}
-		if (tok.GetType() == CTokenType.IDENTIFIER)
-		{
-			idTable = new CIdentifier(tok.GetValue()) ;
-			tok = GetNext() ;
-		}
-		else
-		{
-			return false ;
-		}
-		if (tok.GetKeyword() == CCobolKeywordList.IN)
-		{
-			tok = GetNext() ;
-		}
-		if (tok.GetKeyword() == CCobolKeywordList.EXCLUSIVE)
-		{
-			tok = GetNext() ;
-		}
-		if (tok.GetKeyword() == CCobolKeywordList.MODE)
-		{
-			tok = GetNext() ;
-		}
-		return true ;
-	}
+    /**
+     *
+     */
+    public CExecSQLLock(int line)
+    {
+        super(line);
+    }
+    public Element ExportCustom(Document root)
+    {
+        Element eExe = root.createElement("SQLLock");
+        eExe.setAttribute("Table", idTable.GetName());
+        return eExe;
+    }
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntitySQLLock lock = factory.NewEntitySQLLock(getLine()) ;
+        lock.setTable(idTable.GetName()) ;
+        parent.AddChild(lock) ;
+        return lock ;
+    }
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetNext() ;
+        if (tok.GetKeyword() == CCobolKeywordList.TABLE)
+        {
+            tok = GetNext();
+        }
+        if (tok.GetType() == CTokenType.IDENTIFIER)
+        {
+            idTable = new CIdentifier(tok.GetValue()) ;
+            tok = GetNext() ;
+        }
+        else
+        {
+            return false ;
+        }
+        if (tok.GetKeyword() == CCobolKeywordList.IN)
+        {
+            tok = GetNext() ;
+        }
+        if (tok.GetKeyword() == CCobolKeywordList.EXCLUSIVE)
+        {
+            tok = GetNext() ;
+        }
+        if (tok.GetKeyword() == CCobolKeywordList.MODE)
+        {
+            tok = GetNext() ;
+        }
+        return true ;
+    }
 
-	protected CIdentifier idTable = null ;
+    protected CIdentifier idTable = null ;
 }

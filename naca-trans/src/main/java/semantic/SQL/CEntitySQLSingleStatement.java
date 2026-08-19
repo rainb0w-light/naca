@@ -28,39 +28,39 @@ import utils.CObjectCatalog;
  */
 public class CEntitySQLSingleStatement extends CBaseActionEntity
 {
-	protected String csStatement = "" ;
+    protected String csStatement = "" ;
 
-	/**
-	 * @param line
-	 * @param cat
-	 * @param st
-	 */
-	public CEntitySQLSingleStatement(int line, CObjectCatalog cat, String st)
-	{
-		super(line, cat);
-		csStatement = st ;
-	}
+    /**
+     * @param line
+     * @param cat
+     * @param st
+     */
+    public CEntitySQLSingleStatement(int line, CObjectCatalog cat, String st)
+    {
+        super(line, cat);
+        csStatement = st ;
+    }
 
-	public boolean ignore()
-	{
-		return false ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getter for the recursive ST4 assembler (template
-	// recursiveSQLSingleStatementEntity). No formatting/output happens here:
-	// wrapping the statement in the getDBConnection().execSQL("...") runtime
-	// call is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getter for the recursive ST4 assembler (template
+    // recursiveSQLSingleStatementEntity). No formatting/output happens here:
+    // wrapping the statement in the getDBConnection().execSQL("...") runtime
+    // call is done by the template, never here.
 
-	/**
-	 * The raw SQL statement text carried by this entity, read by
-	 * {@code <entity.statement>}. The template wraps it verbatim as a Java
-	 * string literal inside the legacy {@code getDBConnection().execSQL(...)}
-	 * call, exactly what the retired backend's
-	 * historical generator emitted.
-	 */
-	public String getStatement()
-	{
-		return csStatement ;
-	}
+    /**
+     * The raw SQL statement text carried by this entity, read by
+     * {@code <entity.statement>}. The template wraps it verbatim as a Java
+     * string literal inside the legacy {@code getDBConnection().execSQL(...)}
+     * call, exactly what the retired backend's
+     * historical generator emitted.
+     */
+    public String getStatement()
+    {
+        return csStatement ;
+    }
 }

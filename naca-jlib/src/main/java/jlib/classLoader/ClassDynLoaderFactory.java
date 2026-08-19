@@ -8,26 +8,26 @@ package jlib.classLoader;
 
 public class ClassDynLoaderFactory
 {
-	protected static ClassDynLoaderFactory ms_instance =  null;
-	
-	protected ClassDynLoaderFactory()
-	{
-	}
-	
-	public static ClassDynLoaderFactory getInstance()
-	{
-		if(ms_instance == null)
-			ms_instance = new ClassDynLoaderFactory();
-		return ms_instance;
-	}
-	
-	public ClassDynLoader make()
-	{
-		return new ClassDynLoader(); 
-	}
-	
-	public void preloadJar(String csJarFile)
-	{
-		int n = 0;
-	}
+    protected static ClassDynLoaderFactory ms_instance =  null;
+
+    protected ClassDynLoaderFactory()
+    {
+    }
+
+    public static ClassDynLoaderFactory getInstance()
+    {
+        if(ms_instance == null)
+            ms_instance = new ClassDynLoaderFactory();
+        return ms_instance;
+    }
+
+    public ClassDynLoader make()
+    {
+        return new ClassDynLoader();
+    }
+
+    public void preloadJar(String csJarFile)
+    {
+        int n = 0;
+    }
 }

@@ -20,39 +20,39 @@ import semantic.Verbs.CEntityGoto;
 public class CFPacGoEnd extends CFPacElement
 {
 
-	public CFPacGoEnd(int line)
-	{
-		super(line);
-	}
+    public CFPacGoEnd(int line)
+    {
+        super(line);
+    }
 
-	@Override
-	protected boolean DoParsing()
-	{
-		CBaseToken tok = GetCurrentToken() ;
-		if (tok.GetKeyword() == CFPacKeywordList.GOEND)
-		{
-			tok = GetNext() ;
-		}
-		else if (tok.GetKeyword() == CFPacKeywordList.GOABEND)
-		{
-			tok = GetNext() ;
-		}
-		return true ;
-	}
+    @Override
+    protected boolean DoParsing()
+    {
+        CBaseToken tok = GetCurrentToken() ;
+        if (tok.GetKeyword() == CFPacKeywordList.GOEND)
+        {
+            tok = GetNext() ;
+        }
+        else if (tok.GetKeyword() == CFPacKeywordList.GOABEND)
+        {
+            tok = GetNext() ;
+        }
+        return true ;
+    }
 
-	@Override
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CEntityGoto egoto = factory.NewEntityGoto(getLine(), "END", null) ;
-		parent.AddChild(egoto) ;
-		return egoto ;
-	}
+    @Override
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CEntityGoto egoto = factory.NewEntityGoto(getLine(), "END", null) ;
+        parent.AddChild(egoto) ;
+        return egoto ;
+    }
 
-	@Override
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("GoEnd") ;
-		return e;
-	}
+    @Override
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("GoEnd") ;
+        return e;
+    }
 
 }

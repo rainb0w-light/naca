@@ -14,23 +14,23 @@ import utils.NacaTransLauncher;
 
 public class NacaTrans
 {
-//	protected class bmsfilter implements FilenameFilter
-//	{
-//		public boolean accept(File arg0, String arg1)
-//		{
-//			return arg1.endsWith(".bms");
-//		}
-//	}
-//	protected class cblfilter implements FilenameFilter
-//	{
-//		public boolean accept(File arg0, String arg1)
-//		{
-//			return arg1.endsWith(".cbl");
-//		}
-//	}
+//  protected class bmsfilter implements FilenameFilter
+//  {
+//      public boolean accept(File arg0, String arg1)
+//      {
+//          return arg1.endsWith(".bms");
+//      }
+//  }
+//  protected class cblfilter implements FilenameFilter
+//  {
+//      public boolean accept(File arg0, String arg1)
+//      {
+//          return arg1.endsWith(".cbl");
+//      }
+//  }
 
-	public static void main(String[] args)
-	{
-		NacaTransLauncher.launchMain(args);
-	}
+    public static void main(String[] args)
+    {
+        NacaTransLauncher.launchMain(args);
+    }
 }

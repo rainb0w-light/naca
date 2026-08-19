@@ -19,265 +19,265 @@ import nacaLib.varEx.VarAndEdit;
 
 public class MathAdd extends MathBase
 {
-	/**
-	 * @param VarAndEdit VarAndEdit1: VarAndEditiable to be added
-	 * Set current object to VarAndEdit1's numeric value
-	 */
-//	public MathAdd(VarAndEdit VarAndEdit1)
-//	{
-//		String s1 = VarAndEdit1.getDottedSignedString();
-//		d = new BigDecimal(s1);
-//	}
+    /**
+     * @param VarAndEdit VarAndEdit1: VarAndEditiable to be added
+     * Set current object to VarAndEdit1's numeric value
+     */
+//  public MathAdd(VarAndEdit VarAndEdit1)
+//  {
+//      String s1 = VarAndEdit1.getDottedSignedString();
+//      d = new BigDecimal(s1);
+//  }
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param VarAndEdit VarAndEdit2
-	 *     Set current object to VarAndEdit1+VarAndEdit2 (VarAndEdit are treated as numeric optionnaly decimals / signed)
-	 */
-	public MathAdd(VarAndEdit VarAndEdit1, VarAndEdit VarAndEdit2)
-	{
-		String s1 = VarAndEdit1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param VarAndEdit VarAndEdit2
+     *     Set current object to VarAndEdit1+VarAndEdit2 (VarAndEdit are treated as numeric optionnaly decimals / signed)
+     */
+    public MathAdd(VarAndEdit VarAndEdit1, VarAndEdit VarAndEdit2)
+    {
+        String s1 = VarAndEdit1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		String s2 = VarAndEdit2.getDottedSignedString();
-		BigDecimal val2 = new BigDecimal(s2);
-		d = d.add(val2);
-	}
+        String s2 = VarAndEdit2.getDottedSignedString();
+        BigDecimal val2 = new BigDecimal(s2);
+        d = d.add(val2);
+    }
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param int n
-	 *     Set current object to VarAndEdit1+n
-	 */
-	public MathAdd(VarAndEdit VarAndEdit1, int n)
-	{
-		String s1 = VarAndEdit1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param int n
+     *     Set current object to VarAndEdit1+n
+     */
+    public MathAdd(VarAndEdit VarAndEdit1, int n)
+    {
+        String s1 = VarAndEdit1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.add(val2);
-	}
+        BigDecimal val2 = new BigDecimal(String.valueOf(n));
+        d = d.add(val2);
+    }
 
-	/**
-	 * @param int m
-	 * @param int n
-	 *     Set current object to m+n
-	 */
-	public MathAdd(int m, int n)
-	{
-		d = new BigDecimal(String.valueOf(m));
+    /**
+     * @param int m
+     * @param int n
+     *     Set current object to m+n
+     */
+    public MathAdd(int m, int n)
+    {
+        d = new BigDecimal(String.valueOf(m));
 
-		BigDecimal val2 = new BigDecimal(String.valueOf(n));
-		d = d.add(val2);
-	}
+        BigDecimal val2 = new BigDecimal(String.valueOf(n));
+        d = d.add(val2);
+    }
 
-	/**
-	 * @param int n
-	 *     Set current object to n
-	 */
-	public MathAdd(int n)
-	{
-		d = new BigDecimal(String.valueOf(n));
-	}
+    /**
+     * @param int n
+     *     Set current object to n
+     */
+    public MathAdd(int n)
+    {
+        d = new BigDecimal(String.valueOf(n));
+    }
 
-	/**
-	 * @param double
-	 *     Set current object to d
-	 */
-	public MathAdd(double d)
-	{
-		this.d = new BigDecimal(d);
-	}
+    /**
+     * @param double
+     *     Set current object to d
+     */
+    public MathAdd(double d)
+    {
+        this.d = new BigDecimal(d);
+    }
 
-	public MathAdd(String s1, int n)
-	{
-		d = new BigDecimal(s1);
-		BigDecimal val2 = new BigDecimal(n);
-		d = d.add(val2);
-	}
+    public MathAdd(String s1, int n)
+    {
+        d = new BigDecimal(s1);
+        BigDecimal val2 = new BigDecimal(n);
+        d = d.add(val2);
+    }
 
-	public MathAdd(CStr s1, int n)
-	{
-		d = s1.makeBigDecimal();
-		BigDecimal val2 = new BigDecimal(n);
-		d = d.add(val2);
-	}
+    public MathAdd(CStr s1, int n)
+    {
+        d = s1.makeBigDecimal();
+        BigDecimal val2 = new BigDecimal(n);
+        d = d.add(val2);
+    }
 
-//	public MathAdd(String s1, BigDecimal val2)
-//	{
-//		d = new BigDecimal(s1);
-//		d = d.add(val2);
-//	}
+//  public MathAdd(String s1, BigDecimal val2)
+//  {
+//      d = new BigDecimal(s1);
+//      d = d.add(val2);
+//  }
 
-	public MathAdd(String s1, MathBase mathBase)
-	{
-		d = new BigDecimal(s1);
-		d = d.add(mathBase.d);
-	}
+    public MathAdd(String s1, MathBase mathBase)
+    {
+        d = new BigDecimal(s1);
+        d = d.add(mathBase.d);
+    }
 
-//	public static Dec inc(String s1, BigDecimal val2)
-//	{
-//		BigDecimal bd = new BigDecimal(s1);
-//		bd = bd.add(val2);
-//		return MathBase.toDec(bd);
-//	}
+//  public static Dec inc(String s1, BigDecimal val2)
+//  {
+//      BigDecimal bd = new BigDecimal(s1);
+//      bd = bd.add(val2);
+//      return MathBase.toDec(bd);
+//  }
 
-	public static Dec inc(CStr s1, BigDecimal val2)
-	{
-		BigDecimal bd = s1.makeBigDecimal();
-		bd = bd.add(val2);
-		return MathBase.toDec(bd);
-	}
+    public static Dec inc(CStr s1, BigDecimal val2)
+    {
+        BigDecimal bd = s1.makeBigDecimal();
+        bd = bd.add(val2);
+        return MathBase.toDec(bd);
+    }
 
-//	public static Dec inc(String s1, int n)
-//	{
-//		BigDecimal bds1 = new BigDecimal(s1);
-//		BigDecimal bdn = new BigDecimal(n);
-//		bds1 = bds1.add(bdn);
-//		return MathBase.toDec(bds1);
-//	}
+//  public static Dec inc(String s1, int n)
+//  {
+//      BigDecimal bds1 = new BigDecimal(s1);
+//      BigDecimal bdn = new BigDecimal(n);
+//      bds1 = bds1.add(bdn);
+//      return MathBase.toDec(bds1);
+//  }
 
-	public static Dec inc(CStr s1, int n)
-	{
-		BigDecimal bds1 = s1.makeBigDecimal();
-		BigDecimal bdn = new BigDecimal(n);
-		bds1 = bds1.add(bdn);
-		return MathBase.toDec(bds1);
-	}
+    public static Dec inc(CStr s1, int n)
+    {
+        BigDecimal bds1 = s1.makeBigDecimal();
+        BigDecimal bdn = new BigDecimal(n);
+        bds1 = bds1.add(bdn);
+        return MathBase.toDec(bds1);
+    }
 
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param double d
-	 *     Set current object to VarAndEdit1+d
-	 */
-	public MathAdd(VarAndEdit VarAndEdit1, double d)
-	{
-		String s1 = VarAndEdit1.getDottedSignedString();
-		this.d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param double d
+     *     Set current object to VarAndEdit1+d
+     */
+    public MathAdd(VarAndEdit VarAndEdit1, double d)
+    {
+        String s1 = VarAndEdit1.getDottedSignedString();
+        this.d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(d);
-		this.d = this.d.add(val2);
-	}
+        BigDecimal val2 = new BigDecimal(d);
+        this.d = this.d.add(val2);
+    }
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param String s, will be converted to a number
-	 *     Set current object to VarAndEdit1+s
-	 */
-	public MathAdd(VarAndEdit VarAndEdit1, String s)
-	{
-		String s1 = VarAndEdit1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param String s, will be converted to a number
+     *     Set current object to VarAndEdit1+s
+     */
+    public MathAdd(VarAndEdit VarAndEdit1, String s)
+    {
+        String s1 = VarAndEdit1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		BigDecimal val2 = new BigDecimal(s);
-		d = d.add(val2);
-	}
+        BigDecimal val2 = new BigDecimal(s);
+        d = d.add(val2);
+    }
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param MathBase mathBase
-	 *     Set current object to VarAndEdit1+mathBase
-	 */
-	public MathAdd(VarAndEdit VarAndEdit1, MathBase mathBase)
-	{
-		String s1 = VarAndEdit1.getDottedSignedString();
-		d = new BigDecimal(s1);
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param MathBase mathBase
+     *     Set current object to VarAndEdit1+mathBase
+     */
+    public MathAdd(VarAndEdit VarAndEdit1, MathBase mathBase)
+    {
+        String s1 = VarAndEdit1.getDottedSignedString();
+        d = new BigDecimal(s1);
 
-		d = d.add(mathBase.d);
-	}
+        d = d.add(mathBase.d);
+    }
 
-	/**
-	 * @param VarAndEdit VarAndEdit1
-	 * @param MathBase mathBase
-	 *     Set current object to VarAndEdit1+mathBase
-	 */
-	public MathAdd(MathBase VarAndEdit1, MathBase mathBase)
-	{
-		d = VarAndEdit1.d ;
+    /**
+     * @param VarAndEdit VarAndEdit1
+     * @param MathBase mathBase
+     *     Set current object to VarAndEdit1+mathBase
+     */
+    public MathAdd(MathBase VarAndEdit1, MathBase mathBase)
+    {
+        d = VarAndEdit1.d ;
 
-		d = d.add(mathBase.d);
-	}
+        d = d.add(mathBase.d);
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 * @param int n
-	 *     Set current object to mathBase+n
-	 */
-	public MathAdd(MathBase mathBase, int n)
-	{
-		String s1 = String.valueOf(n);
-		d = new BigDecimal(s1);
+    /**
+     * @param MathBase mathBase
+     * @param int n
+     *     Set current object to mathBase+n
+     */
+    public MathAdd(MathBase mathBase, int n)
+    {
+        String s1 = String.valueOf(n);
+        d = new BigDecimal(s1);
 
-		d = d.add(mathBase.d);
-	}
+        d = d.add(mathBase.d);
+    }
 
-	/**
-	 * @param int n
-	 * @param MathBase mathBase
-	 *     Set current object to mathBase+n
-	 */
-	public MathAdd(int n, MathBase mathBase)
-	{
-		String s1 = String.valueOf(n);
-		d = new BigDecimal(s1);
+    /**
+     * @param int n
+     * @param MathBase mathBase
+     *     Set current object to mathBase+n
+     */
+    public MathAdd(int n, MathBase mathBase)
+    {
+        String s1 = String.valueOf(n);
+        d = new BigDecimal(s1);
 
-		d = d.add(mathBase.d);
-	}
+        d = d.add(mathBase.d);
+    }
 
-	/**
-	 * @param VarAndEdit VarAndEdit; treated as a number
-	 *     Set current object's value to current object+VarAndEdit
-	 */
-	public MathAdd add(VarAndEdit VarAndEdit)
-	{
-		String s = VarAndEdit.getDottedSignedString();
+    /**
+     * @param VarAndEdit VarAndEdit; treated as a number
+     *     Set current object's value to current object+VarAndEdit
+     */
+    public MathAdd add(VarAndEdit VarAndEdit)
+    {
+        String s = VarAndEdit.getDottedSignedString();
 
-		BigDecimal val = new BigDecimal(s);
-		d = d.add(val);
-		return this;
-	}
+        BigDecimal val = new BigDecimal(s);
+        d = d.add(val);
+        return this;
+    }
 
-	/**
-	 * @param String cs; treated as a number
-	 *     Set current object's value to current object+cs
-	 */
-	public MathAdd add(String cs)
-	{
-		BigDecimal val = new BigDecimal(cs);
-		d = d.add(val);
-		return this;
-	}
+    /**
+     * @param String cs; treated as a number
+     *     Set current object's value to current object+cs
+     */
+    public MathAdd add(String cs)
+    {
+        BigDecimal val = new BigDecimal(cs);
+        d = d.add(val);
+        return this;
+    }
 
-	/**
-	 * @param int n
-	 *     Set current object's value to current object+n
-	 */
-	public MathAdd add(int n)
-	{
-		long l = n;
-		d = d.add(BigDecimal.valueOf(l));
-		return this;
-	}
+    /**
+     * @param int n
+     *     Set current object's value to current object+n
+     */
+    public MathAdd add(int n)
+    {
+        long l = n;
+        d = d.add(BigDecimal.valueOf(l));
+        return this;
+    }
 
-	/**
-	 * @param double d
-	 *     Set current object's value to current object+d
-	 */
-	public MathAdd add(double d)
-	{
-		BigDecimal val = new BigDecimal(d);
-		this.d = this.d.add(val);
-		return this;
-	}
+    /**
+     * @param double d
+     *     Set current object's value to current object+d
+     */
+    public MathAdd add(double d)
+    {
+        BigDecimal val = new BigDecimal(d);
+        this.d = this.d.add(val);
+        return this;
+    }
 
-	/**
-	 * @param MathBase mathBase
-	 *     Set current object's value to current object+mathBase
-	 */
-	public MathAdd add(MathBase mathBase)
-	{
-		d = d.add(mathBase.d);
-		return this;
-	}
+    /**
+     * @param MathBase mathBase
+     *     Set current object's value to current object+mathBase
+     */
+    public MathAdd add(MathBase mathBase)
+    {
+        d = d.add(mathBase.d);
+        return this;
+    }
 }

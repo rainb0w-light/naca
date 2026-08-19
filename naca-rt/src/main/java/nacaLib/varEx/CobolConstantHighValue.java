@@ -13,13 +13,13 @@ package nacaLib.varEx;
  */
 public class CobolConstantHighValue extends CobolConstantBase
 {
-	public char getValue()
-	{
-		return (char) 255;
-	}
+    public char getValue()
+    {
+        return (char) 255;
+    }
 
-	public String getSTCheckValue()
-	{
-		return "CobolConstantHighValue";
-	}
+    public String getSTCheckValue()
+    {
+        return "CobolConstantHighValue";
+    }
 }

@@ -41,297 +41,303 @@ import semantic.CBaseLanguageEntity;
  */
 public abstract class TranscoderEngine<T_Elem extends CBaseElement, T_Entity extends CBaseLanguageEntity> extends BaseEngine<T_Entity>
 {
-	protected TranscoderEngine()
-	{
-	}
+    protected TranscoderEngine()
+    {
+    }
 
-	public boolean MainInit(Tag eConf)
-	{
-		String csCallGroupName  = eConf.getVal("ReferenceGroupName") ;
-		String csIncludeGroupName = eConf.getVal("IncludeGroupName") ;
-		String csResGroupName  = eConf.getVal("ResourceGroupName") ;
-		cat = new CGlobalCatalog(transcoder, csCallGroupName, csResGroupName, csIncludeGroupName) ;
-		return CustomInit(eConf) ;
-	}
+    public boolean MainInit(Tag eConf)
+    {
+        String csCallGroupName  = eConf.getVal("ReferenceGroupName") ;
+        String csIncludeGroupName = eConf.getVal("IncludeGroupName") ;
+        String csResGroupName  = eConf.getVal("ResourceGroupName") ;
+        cat = new CGlobalCatalog(transcoder, csCallGroupName, csResGroupName, csIncludeGroupName) ;
+        return CustomInit(eConf) ;
+    }
 
-	/**
-	 * @param conf
-	 * @return
-	 */
-	protected abstract boolean CustomInit(Tag conf) ;
+    /**
+     * @param conf
+     * @return
+     */
+    protected abstract boolean CustomInit(Tag conf) ;
 
-	protected NotificationEngine notificationEngine = new NotificationEngine() ;
-	protected CGlobalCatalog cat = null ;
+    protected NotificationEngine notificationEngine = new NotificationEngine() ;
+    protected CGlobalCatalog cat = null ;
 
-	public CGlobalCatalog getGlobalCatalog()
-	{
-		return cat ;
-	}
+    public CGlobalCatalog getGlobalCatalog()
+    {
+        return cat ;
+    }
 
-	@Override
-	public void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
-	{
-		Transcoder.logDebug("doFileTranscoding: " + filename);
-		T_Entity eSem = doAllAnalysis(filename, csApplication,  grp, bResources) ;
-		if (eSem == null)
-		{
-			Transcoder.logError("doAllAnalysis returned null for: " + filename);
-			return ;
-		}
+    @Override
+    public void doFileTranscoding(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
+    {
+        Transcoder.logDebug("doFileTranscoding: " + filename);
+        T_Entity eSem = doAllAnalysis(filename, csApplication,  grp, bResources) ;
+        if (eSem == null)
+        {
+            Transcoder.logError("doAllAnalysis returned null for: " + filename);
+            return ;
+        }
 
-		Transcoder.logDebug("Starting export for: " + filename);
-		exportRoot(eSem, filename, csApplication, grp, bResources) ;
-		if (cat.CanExportResources(eSem.GetProgramName()))
-		{
-			eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
-		}
-		eSem.Clear();
+        Transcoder.logDebug("Starting export for: " + filename);
+        exportRoot(eSem, filename, csApplication, grp, bResources) ;
+        if (cat.CanExportResources(eSem.GetProgramName()))
+        {
+            eSem.programCatalog.ExportRegisteredFormContainer(bResources) ;
+        }
+        eSem.Clear();
 
-		cat.registerProgram(filename);
-		Transcoder.dumpUnboundReferences();
-	}
+        cat.registerProgram(filename);
+        Transcoder.dumpUnboundReferences();
+    }
 
-	/**
-	 * Renders the analyzed semantic root to its output target. The default drives the
-	 * COBOL/SQL/CICS (and BMS) pipelines exactly as before: either the single recursive
-	 * ST4 assembler with the explicit {@code ROOT} role. A pipeline whose root
-	 * needs a different assembly role overrides this hook.
-	 */
-	protected void exportRoot(T_Entity eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
-	{
-		String rendered = generate.templates.TemplateLoader.getRecursiveAssembler(
-			generate.templates.JavaTemplatePipeline.COBOL)
-			.renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
-		String outPath = grp.csOutputPath
-			+ (csApplication.equals("") ? "" : csApplication + "/")
-			+ generateOutputFileName(filename);
-		try
-		{
-			java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
-				java.nio.charset.StandardCharsets.ISO_8859_1);
-		}
-		catch (java.io.IOException e)
-		{
-			throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
-		}
-	}
+    /**
+     * Renders the analyzed semantic root to its output target. The default drives the
+     * COBOL/SQL/CICS (and BMS) pipelines exactly as before: either the single recursive
+     * ST4 assembler with the explicit {@code ROOT} role. A pipeline whose root
+     * needs a different assembly role overrides this hook.
+     */
+    protected void exportRoot(T_Entity eSem, String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
+    {
+        String rendered = generate.templates.TemplateLoader.getRecursiveAssembler(
+            generate.templates.JavaTemplatePipeline.COBOL)
+            .renderRoot(eSem, generate.templates.recursive.JavaTemplateRole.ROOT);
+        String outPath = grp.csOutputPath
+            + (csApplication.equals("") ? "" : csApplication + "/")
+            + generateOutputFileName(filename);
+        try
+        {
+            java.nio.file.Files.writeString(java.nio.file.Path.of(outPath), rendered,
+                java.nio.charset.StandardCharsets.ISO_8859_1);
+        }
+        catch (java.io.IOException e)
+        {
+            throw new NacaTransAssertException("Cannot write ST4 artifact " + outPath + ": " + e.getMessage());
+        }
+    }
 
-	public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
-	{
-		String outname = generateOutputFileName(filename) ;
-		String csOutputDir = grp.csOutputPath ;
-		if (!csApplication.equals(""))
-		{
-			csOutputDir += csApplication + "/" ;
-			File dir = new File(csOutputDir) ;
-			if (!dir.isDirectory())
-			{
-				if (!dir.mkdirs())
-				{
-					return null ;
-				}
-			}
-		}
+    public T_Entity doAllAnalysis(String filename, String csApplication, CTransApplicationGroup grp, boolean bResources)
+    {
+        String outname = generateOutputFileName(filename) ;
+        String csOutputDir = grp.csOutputPath ;
+        if (!csApplication.equals(""))
+        {
+            csOutputDir += csApplication + "/" ;
+            File dir = new File(csOutputDir) ;
+            if (!dir.isDirectory())
+            {
+                if (!dir.mkdirs())
+                {
+                    return null ;
+                }
+            }
+        }
 
-		doLogs(grp.csInputPath + filename, csOutputDir + outname) ;
-		COriginalLisiting listing = new COriginalLisiting() ;
-		CTokenList lst = doLexing(grp.csInputPath + filename, listing);
-		Transcoder.logDebug("doAllAnalysis: " + filename + " - lexer returned: " + (lst == null ? "null" : lst.GetNbTokens() + " tokens"));
-		if (lst != null)
-		{
-			Transcoder.logDebug("Transcoding " + filename);
-			CParser<T_Elem> p = doParsing(lst) ;
-			Transcoder.logDebug("doAllAnalysis: " + filename + " - parser returned: " + (p == null ? "null" : "OK"));
-			if (p!= null)
-			{
-				Transcoder.logDebug("doAllAnalysis: " + filename + " - mustGenerate: " + transcoder.mustGenerate());
-				if(transcoder.mustGenerate())
-				{
-					NotificationEngine engine = new NotificationEngine() ;
-					doPopulateSpecialActionHandlers(engine) ;
-					CObjectCatalog newCat = new CObjectCatalog(cat, listing, grp.eType, engine) ;
-					try
-					{
-						Transcoder.logDebug("doAllAnalysis: " + filename + " - calling doSemanticAnalysis");
-						T_Entity eSem = doSemanticAnalysis(p, csOutputDir + outname, newCat, grp, bResources) ;
-						Transcoder.logDebug("doAllAnalysis: " + filename + " - doSemanticAnalysis returned: " + (eSem == null ? "null" : "OK"));
-						return eSem ;
-					}
-					catch (NacaTransAssertException e)
-					{
-						Transcoder.logError("Failure while transcoding "+filename+" : "+e.csMessage) ;
-					}
-					catch (Exception e)
-					{
-						Transcoder.logError("Exception while transcoding "+filename+" : "+e.getMessage());
-						e.printStackTrace();
-					}
-					p.Clear() ;
-					lst.Clear();
-					newCat.Clear() ;
-				}
-			}
-		}
-		return null ;
-	}
+        doLogs(grp.csInputPath + filename, csOutputDir + outname) ;
+        COriginalLisiting listing = new COriginalLisiting() ;
+        CTokenList lst = doLexing(grp.csInputPath + filename, listing);
+        Transcoder.logDebug("doAllAnalysis: " + filename + " - lexer returned: " + (lst == null ? "null" : lst.GetNbTokens() + " tokens"));
+        if (lst != null)
+        {
+            Transcoder.logDebug("Transcoding " + filename);
+            CParser<T_Elem> p = doParsing(lst) ;
+            Transcoder.logDebug("doAllAnalysis: " + filename + " - parser returned: " + (p == null ? "null" : "OK"));
+            if (p!= null)
+            {
+                Transcoder.logDebug("doAllAnalysis: " + filename + " - mustGenerate: " + transcoder.mustGenerate());
+                if(transcoder.mustGenerate())
+                {
+                    NotificationEngine engine = new NotificationEngine() ;
+                    doPopulateSpecialActionHandlers(engine) ;
+                    CObjectCatalog newCat = new CObjectCatalog(cat, listing, grp.eType, engine) ;
+                    try
+                    {
+                        Transcoder.logDebug("doAllAnalysis: " + filename + " - calling doSemanticAnalysis");
+                        T_Entity eSem = doSemanticAnalysis(p, csOutputDir + outname, newCat, grp, bResources) ;
+                        Transcoder.logDebug("doAllAnalysis: " + filename + " - doSemanticAnalysis returned: "
+                            + (eSem == null ? "null" : "OK"));
+                        return eSem ;
+                    }
+                    catch (NacaTransAssertException e)
+                    {
+                        Transcoder.logError("Failure while transcoding "+filename+" : "+e.csMessage) ;
+                    }
+                    catch (Exception e)
+                    {
+                        Transcoder.logError("Exception while transcoding "+filename+" : "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                    p.Clear() ;
+                    lst.Clear();
+                    newCat.Clear() ;
+                }
+            }
+        }
+        return null ;
+    }
 
-	/**
-	 * @param filename
-	 * @return
-	 */
-	protected abstract String generateOutputFileName(String filename) ;
-	protected abstract String generateInputFileName(String filename) ;
+    /**
+     * @param filename
+     * @return
+     */
+    protected abstract String generateOutputFileName(String filename) ;
+    protected abstract String generateInputFileName(String filename) ;
 
-	protected void ExportTokens(CTokenList lst, String filename)
-	{
-		try
-		{
-			if (lst != null && lst.GetNbTokens()>0)
-			{
-				FileOutputStream file = new FileOutputStream(filename) ;
-				PrintStream output = new PrintStream(file, true) ;
-				lst.StartIter() ;
-				CBaseToken tok = lst.GetCurrentToken() ;
-				int nCurLine = tok.getLine() ;
-				output.print("" + nCurLine + ":") ;
-				while (tok != null)
-				{
-					//if (tokEntry.getLine() > nCurLine)
-					if (tok.isisNewLine)
-					{
-						output.println("") ;
-						nCurLine = tok.getLine() ;
-						output.print("" + nCurLine + ":") ;
-					}
-					output.print(tok.toString());
-					tok = lst.GetNext() ;
-				}
-			}
-			else
-			{
-				Transcoder.logError("No tokens to export for "+filename);
-			}
-		}
-		catch (Exception e)
-		{
-			Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
-		}
-	}
+    protected void ExportTokens(CTokenList lst, String filename)
+    {
+        try
+        {
+            if (lst != null && lst.GetNbTokens()>0)
+            {
+                FileOutputStream file = new FileOutputStream(filename) ;
+                PrintStream output = new PrintStream(file, true) ;
+                lst.StartIter() ;
+                CBaseToken tok = lst.GetCurrentToken() ;
+                int nCurLine = tok.getLine() ;
+                output.print("" + nCurLine + ":") ;
+                while (tok != null)
+                {
+                    //if (tokEntry.getLine() > nCurLine)
+                    if (tok.isisNewLine)
+                    {
+                        output.println("") ;
+                        nCurLine = tok.getLine() ;
+                        output.print("" + nCurLine + ":") ;
+                    }
+                    output.print(tok.toString());
+                    tok = lst.GetNext() ;
+                }
+            }
+            else
+            {
+                Transcoder.logError("No tokens to export for "+filename);
+            }
+        }
+        catch (Exception e)
+        {
+            Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
+        }
+    }
 
 
-	protected abstract void doPopulateSpecialActionHandlers(NotificationEngine engine) ;
+    protected abstract void doPopulateSpecialActionHandlers(NotificationEngine engine) ;
 
-	protected abstract void doLogs(String csInput, String csOutput) ;
+    protected abstract void doLogs(String csInput, String csOutput) ;
 
-	protected String ReplaceExtensionFileName(String filename, String ext)
-	{
-		int nPos = filename.lastIndexOf('.') ;
-		if (nPos > 0)
-		{
+    protected String ReplaceExtensionFileName(String filename, String ext)
+    {
+        int nPos = filename.lastIndexOf('.') ;
+        if (nPos > 0)
+        {
             // Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
-			return filename.substring(0, nPos) + "." + ext ;
-		}
-		else
-		{
-			return filename + "." + ext ;
-		}
-	}
+            return filename.substring(0, nPos) + "." + ext ;
+        }
+        else
+        {
+            return filename + "." + ext ;
+        }
+    }
 
-	protected String ReplaceExtensionFileNameWithSuffix(String filename, String csSuffix, String ext)
-	{
-		int nPos = filename.lastIndexOf('.') ;
-		if (nPos > 0)
-		{
+    protected String ReplaceExtensionFileNameWithSuffix(String filename, String csSuffix, String ext)
+    {
+        int nPos = filename.lastIndexOf('.') ;
+        if (nPos > 0)
+        {
             // Modification PJD 14/06/07; was return filename.substring(0, nPos) + ext ;
-			return filename.substring(0, nPos) + csSuffix + "." + ext ;
-		}
-		else
-		{
-			return filename + csSuffix + "." + ext ;
-		}
-	}
+            return filename.substring(0, nPos) + csSuffix + "." + ext ;
+        }
+        else
+        {
+            return filename + csSuffix + "." + ext ;
+        }
+    }
 
-	protected CTokenList doLexing(String filename, COriginalLisiting cat)
-	{
-		CTokenList lst = null ;
-		String csFullFileName = generateInputFileName(filename);
-		try
-		{
-			CBaseLexer lexer = getLexer() ;
-			InputStream file = new BufferedInputStream(new FileInputStream(csFullFileName)) ;
-			boolean b = lexer.StartLexer(file, cat) ;
-			if (b)
-			{
-				if (this.cat.canCount(filename))
-				{
-					lexer.DoCount() ;
-				}
-				lexer.DoCount() ;
-				lst = lexer.GetTokenList() ;
-			}
-			else
-			{
-				Transcoder.logError("Lexing failed");
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			//Transcoder.error("File not found : "+csFullFileName);
-			return null ;
-		}
-		catch (Exception e)
-		{
-			Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
-		}
-		return lst ;
-	}
+    protected CTokenList doLexing(String filename, COriginalLisiting cat)
+    {
+        CTokenList lst = null ;
+        String csFullFileName = generateInputFileName(filename);
+        try
+        {
+            CBaseLexer lexer = getLexer() ;
+            InputStream file = new BufferedInputStream(new FileInputStream(csFullFileName)) ;
+            boolean b = lexer.StartLexer(file, cat) ;
+            if (b)
+            {
+                if (this.cat.canCount(filename))
+                {
+                    lexer.DoCount() ;
+                }
+                lexer.DoCount() ;
+                lst = lexer.GetTokenList() ;
+            }
+            else
+            {
+                Transcoder.logError("Lexing failed");
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            //Transcoder.error("File not found : "+csFullFileName);
+            return null ;
+        }
+        catch (Exception e)
+        {
+            Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
+        }
+        return lst ;
+    }
 
 
-	protected abstract CParser<T_Elem> doParsing(CTokenList lst) ;
+    protected abstract CParser<T_Elem> doParsing(CTokenList lst) ;
 
-	protected void exportXMLToFile(CParser<T_Elem> parser, String csFileOut)
-	{
-		Document doc = parser.Export() ;
-		Tag tag = new Tag();
-		tag.setDoc(doc);
-		tag.exportToFile(csFileOut);
-	}
+    protected void exportXMLToFile(CParser<T_Elem> parser, String csFileOut)
+    {
+        Document doc = parser.Export() ;
+        Tag tag = new Tag();
+        tag.setDoc(doc);
+        tag.exportToFile(csFileOut);
+    }
 
-	protected void ExportParser(CParser<T_Elem> parser, String filename)
-	{
-		try
-		{
-			Document doc = parser.Export() ;
-			if (doc != null)
-			{
-				Source source = new DOMSource(doc);
-				FileOutputStream file = new FileOutputStream(filename);
-				StreamResult res = new StreamResult(file) ;
-				Transformer xformer = TransformerFactory.newInstance().newTransformer();
-				xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
-				xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-				xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    protected void ExportParser(CParser<T_Elem> parser, String filename)
+    {
+        try
+        {
+            Document doc = parser.Export() ;
+            if (doc != null)
+            {
+                Source source = new DOMSource(doc);
+                FileOutputStream file = new FileOutputStream(filename);
+                StreamResult res = new StreamResult(file) ;
+                Transformer xformer = TransformerFactory.newInstance().newTransformer();
+                xformer.setOutputProperty(OutputKeys.ENCODING, "ISO8859-1");
+                xformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+                xformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-				xformer.transform(source, res);
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-		}
-		catch (TransformerConfigurationException e)
-		{
-		}
-		catch (TransformerException e)
-		{
-			Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
-		}
-	}
+                xformer.transform(source, res);
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+        }
+        catch (TransformerConfigurationException e)
+        {
+        }
+        catch (TransformerException e)
+        {
+            Transcoder.logError(e.toString() + "\n" + e.getStackTrace());
+        }
+    }
 
-	protected abstract T_Entity doSemanticAnalysis(CParser<T_Elem> parser, String fileName, CObjectCatalog cat, CTransApplicationGroup grp, boolean bResources) ;
+    protected abstract T_Entity doSemanticAnalysis(
+        CParser<T_Elem> parser,
+        String fileName,
+        CObjectCatalog cat,
+        CTransApplicationGroup grp,
+        boolean bResources) ;
 
-	/**
-	 * Lexer Factory
-	 */
-	protected abstract CBaseLexer getLexer() ;
+    /**
+     * Lexer Factory
+     */
+    protected abstract CBaseLexer getLexer() ;
 
 }

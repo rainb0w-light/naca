@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package nacaLib.spServer;
 
@@ -24,43 +24,43 @@ import nacaLib.basePrgEnv.CurrentUserInfo;
 import nacaLib.sqlSupport.SQLConnection;
 
 public class SpServerSession extends BaseSession
-{	
-	private Connection connection = null;
-	
-	public SpServerSession(Connection connection, BaseResourceManager baseResourceManager)
-	{
-		super(baseResourceManager);
-		this.connection = connection;
-		setAsync(true);
-	}
-		
-	public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
-	{
-		BasicLogger.log("SpServerSession::createEnvironment()");
-		SpServerEnvironment env = new SpServerEnvironment(this, connectionManager, baseResourceManager);
-		return env;
-	}
-	
-	public String getType()
-	{
-		return "Batch";
-	}
-	
-	public void RunProgram(BaseProgramLoader seq)
-	{
-	}
-	
-	public void setHelpPage(Document doc)
-	{
-	}
+{
+    private Connection connection = null;
 
-	public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
-	{
-		currentUserInfo.reset();
-	}
-	
-	public Document getLastScreenXMLData()
-	{
-		return null;
-	}
+    public SpServerSession(Connection connection, BaseResourceManager baseResourceManager)
+    {
+        super(baseResourceManager);
+        this.connection = connection;
+        setAsync(true);
+    }
+
+    public BaseEnvironment createEnvironment(DbConnectionManagerBase connectionManager)
+    {
+        BasicLogger.log("SpServerSession::createEnvironment()");
+        SpServerEnvironment env = new SpServerEnvironment(this, connectionManager, baseResourceManager);
+        return env;
+    }
+
+    public String getType()
+    {
+        return "Batch";
+    }
+
+    public void RunProgram(BaseProgramLoader seq)
+    {
+    }
+
+    public void setHelpPage(Document doc)
+    {
+    }
+
+    public void fillCurrentUserInfo(CurrentUserInfo currentUserInfo)
+    {
+        currentUserInfo.reset();
+    }
+
+    public Document getLastScreenXMLData()
+    {
+        return null;
+    }
 }

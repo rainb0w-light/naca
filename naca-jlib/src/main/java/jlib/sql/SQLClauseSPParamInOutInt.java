@@ -5,7 +5,7 @@
  * Licensed under LGPL (LGPL-LICENSE.txt) license.
  */
 /**
- * 
+ *
  */
 package jlib.sql;
 
@@ -19,29 +19,29 @@ import java.sql.Types;
  */
 public class SQLClauseSPParamInOutInt extends SQLClauseSPParamInOut
 {
-	private int tnVal[] = null;
-	
-	public SQLClauseSPParamInOutInt(SQLClauseSPParamWay wayInOut, int tnVal[])
-	{
-		super(wayInOut);
-		this.tnVal = tnVal;
-	}
-	
-	protected void  setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.setInValueWithException(nParamId, tnVal[0]);
-	}
-	
-	protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
-		throws SQLException
-	{
-		stmt.registerOutParameterWithException(nParamId, Types.INTEGER);
-	}
-	
-	protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
-	 	throws SQLException
-	{
-		tnVal[0] = stmt.getOutValueIntWithException(nParamId);
-	}
+    private int tnVal[] = null;
+
+    public SQLClauseSPParamInOutInt(SQLClauseSPParamWay wayInOut, int tnVal[])
+    {
+        super(wayInOut);
+        this.tnVal = tnVal;
+    }
+
+    protected void  setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.setInValueWithException(nParamId, tnVal[0]);
+    }
+
+    protected void registerOutParameterWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        stmt.registerOutParameterWithException(nParamId, Types.INTEGER);
+    }
+
+    protected void retrieveOutValuesWithException(int nParamId, DbPreparedCallableStatement stmt)
+        throws SQLException
+    {
+        tnVal[0] = stmt.getOutValueIntWithException(nParamId);
+    }
 }

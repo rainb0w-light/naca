@@ -22,101 +22,104 @@ import utils.Transcoder;
  */
 public abstract class CExpression
 {
-//	public abstract void WriteTo(CBaseExpressionExporter exporter);
-	//public abstract int GetPriorityLevel() ;
-	public CExpression(int line)
-	{
-		this.line = line ;
-	}
-	private int line = 0 ;
+//  public abstract void WriteTo(CBaseExpressionExporter exporter);
+    //public abstract int GetPriorityLevel() ;
+    public CExpression(int line)
+    {
+        this.line = line ;
+    }
+    private int line = 0 ;
 
-	public int getLine()
-	{
-		return line;
-	}
+    public int getLine()
+    {
+        return line;
+    }
 
-	public abstract CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory);
-	public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory)
-	{
-		return AnalyseCondition(factory, new CDefaultConditionManager(null));
-	}
-	public abstract CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond);
+    public abstract CBaseEntityExpression AnalyseExpression(CBaseEntityFactory factory);
+    public CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory)
+    {
+        return AnalyseCondition(factory, new CDefaultConditionManager(null));
+    }
+    public abstract CBaseEntityCondition AnalyseCondition(CBaseEntityFactory factory, CDefaultConditionManager masterCond);
 
-	public CExpression NewCopy(int line, CExpression term1, CExpression term2)
-	{ // used by some child classes
-		return null ;
-	}
-	public Element Export(Document root)
-	{
-		boolean b = CheckMembersBeforeExport();
-		if(b)
-		{
-			Element e = DoExport(root) ;
-			return e ;
-		}
-		return null;
-	}
-	public abstract Element DoExport(Document root);
-	protected abstract boolean CheckMembersBeforeExport();
+    public CExpression NewCopy(int line, CExpression term1, CExpression term2)
+    { // used by some child classes
+        return null ;
+    }
+    public Element Export(Document root)
+    {
+        boolean b = CheckMembersBeforeExport();
+        if(b)
+        {
+            Element e = DoExport(root) ;
+            return e ;
+        }
+        return null;
+    }
+    public abstract Element DoExport(Document root);
+    protected abstract boolean CheckMembersBeforeExport();
 
-	protected boolean CheckMemberNotNull(Object o)
-	{
-		if(o == null)
-		{
-			Transcoder.logError(getLine(), "ERROR: Expression member is null: Cannot generate");
-			return false;
-		}
-		return true;
-	}
+    protected boolean CheckMemberNotNull(Object o)
+    {
+        if(o == null)
+        {
+            Transcoder.logError(getLine(), "ERROR: Expression member is null: Cannot generate");
+            return false;
+        }
+        return true;
+    }
 
 
-	public boolean IsReference()
-	{
-		return false ;
-	}
-	public boolean IsConstant()
-	{
-		return false ;
-	}
-	public CDataEntity GetReference(CBaseEntityFactory factory)
-	{
-		return null ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    public boolean IsReference()
+    {
+        return false ;
+    }
+    public boolean IsConstant()
+    {
+        return false ;
+    }
+    public CDataEntity GetReference(CBaseEntityFactory factory)
+    {
+        return null ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
-	protected void ASSERT(Object o, CExpression expressionSource)
-	{
-		if (o == null)
-		{
-			if(expressionSource != null)
-				Transcoder.logError(getLine(), "ERROR: generated string is wrong; cannot generate output; please check source syntax; output: "+expressionSource.toString());
-			else
-				Transcoder.logError(getLine(), "ERROR: generated string is wrong; cannot generate output; please check source syntax; output is null");
-			throw new NacaTransAssertException("ASSERTION: Cannot continue transcoding");
-		}
-	}
-	protected void ASSERT()
-	{
-		throw new NacaTransAssertException("ASSERT");
-	}
+    protected void ASSERT(Object o, CExpression expressionSource)
+    {
+        if (o == null)
+        {
+            if(expressionSource != null)
+                Transcoder.logError(getLine(), "ERROR: generated string is wrong; cannot generate output; please check source syntax; " +
+                    "output: "+expressionSource.toString());
+            else
+                Transcoder.logError(
+                    getLine(),
+                    "ERROR: generated string is wrong; cannot generate output; please check source syntax; output is null");
+            throw new NacaTransAssertException("ASSERTION: Cannot continue transcoding");
+        }
+    }
+    protected void ASSERT()
+    {
+        throw new NacaTransAssertException("ASSERT");
+    }
 
-	public abstract CExpression GetFirstConditionOperand() ;
-	public abstract CExpression GetSimilarExpression(CExpression operand) ;
-	public abstract boolean IsBinaryCondition() ;
-	/**
-	 * @return
-	 */
-	public Object GetConditionType()
-	{
-		return null;
-	}
-	/**
-	 * @return
-	 */
-	//public abstract CExpression getMasterBinaryCondition() ;
-	public abstract CExpression GetFirstCalculOperand();
+    public abstract CExpression GetFirstConditionOperand() ;
+    public abstract CExpression GetSimilarExpression(CExpression operand) ;
+    public abstract boolean IsBinaryCondition() ;
+    /**
+     * @return
+     */
+    public Object GetConditionType()
+    {
+        return null;
+    }
+    /**
+     * @return
+     */
+    //public abstract CExpression getMasterBinaryCondition() ;
+    public abstract CExpression GetFirstCalculOperand();
 
 }

@@ -18,67 +18,67 @@ import utils.CobolTranscoder.Notifs.NotifDeclareUseCICSPreprocessor;
 public class CEntityCICSDelay extends CBaseActionEntity
 {
 
-	/**
-	 * @param line
-	 * @param cat
-	 */
-	public CEntityCICSDelay(int line, CObjectCatalog cat)
-	{
-		super(line, cat);
-		// The catalog notification is a production-only side effect; the ST4 render
-		// tests instantiate this entity directly with a null catalog (like the READ
-		// and CICS ABEND exemplars), so guard it instead of dereferencing
-		// unconditionally.
-		if (cat != null)
-		{
-			cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
-		}
-	}
+    /**
+     * @param line
+     * @param cat
+     */
+    public CEntityCICSDelay(int line, CObjectCatalog cat)
+    {
+        super(line, cat);
+        // The catalog notification is a production-only side effect; the ST4 render
+        // tests instantiate this entity directly with a null catalog (like the READ
+        // and CICS ABEND exemplars), so guard it instead of dereferencing
+        // unconditionally.
+        if (cat != null)
+        {
+            cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
+        }
+    }
 
-	public void SetSeconds(CDataEntity entity)
-	{
-		seconds = entity;
-	}
+    public void SetSeconds(CDataEntity entity)
+    {
+        seconds = entity;
+    }
 
-	public void SetInterval(CDataEntity entity)
-	{
-		interval = entity ;
-	}
+    public void SetInterval(CDataEntity entity)
+    {
+        interval = entity ;
+    }
 
-	protected CDataEntity interval = null ;
-	protected CDataEntity seconds = null ;
+    protected CDataEntity interval = null ;
+    protected CDataEntity seconds = null ;
 
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public void Clear()
-	{
-		super.Clear();
-		if (interval != null)
-		{
-			interval.Clear() ;
-		}
-		if (seconds!=null)
-		{
-			seconds.Clear() ;
-			seconds = null ;
-		}
-		interval = null ;
-	}
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public void Clear()
+    {
+        super.Clear();
+        if (interval != null)
+        {
+            interval.Clear() ;
+        }
+        if (seconds!=null)
+        {
+            seconds.Clear() ;
+            seconds = null ;
+        }
+        interval = null ;
+    }
 
-	// ==================== ST4 Template Accessors ====================
-	// Read-only getters for the recursive ST4 assembler (template
-	// recursiveCICSDelayEntity). They expose the already-resolved semantic
-	// sub-entities; rendering is done by the template, never here.
+    // ==================== ST4 Template Accessors ====================
+    // Read-only getters for the recursive ST4 assembler (template
+    // recursiveCICSDelayEntity). They expose the already-resolved semantic
+    // sub-entities; rendering is done by the template, never here.
 
-	public CDataEntity getInterval()
-	{
-		return interval;
-	}
+    public CDataEntity getInterval()
+    {
+        return interval;
+    }
 
-	public CDataEntity getSeconds()
-	{
-		return seconds;
-	}
+    public CDataEntity getSeconds()
+    {
+        return seconds;
+    }
 }

@@ -11,21 +11,21 @@ import java.io.FilenameFilter;
 
 public class FileFilterBySuffix implements FilenameFilter
 {
-	private String csSuffix = null;
-	
-	public FileFilterBySuffix(String csSuffix)
-	{
-		csSuffix = csSuffix.toUpperCase();
-	}
-	
-	public boolean accept(File dir, String csName)
-	{
-		if(csSuffix != null && csName != null)
-		{
-			String cs = csName.toUpperCase();
-			if(cs.endsWith(csSuffix))
-				return true;
-		}
-		return false;
-	}
+    private String csSuffix = null;
+
+    public FileFilterBySuffix(String csSuffix)
+    {
+        csSuffix = csSuffix.toUpperCase();
+    }
+
+    public boolean accept(File dir, String csName)
+    {
+        if(csSuffix != null && csName != null)
+        {
+            String cs = csName.toUpperCase();
+            if(cs.endsWith(csSuffix))
+                return true;
+        }
+        return false;
+    }
 }

@@ -35,375 +35,375 @@ import utils.Transcoder;
  */
 public class CCall extends CCobolElement
 {
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#Parse(lexer.CTokenList)
-	 */
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#Parse(lexer.CTokenList)
+     */
 
-	/**
-	 * @param line
-	 */
-	public CCall(int line) {
-		super(line);
-	}
-	public class CCallParameter
-	{
-		public CTerminal term = null ;
-		public String method = "" ;
-	}
+    /**
+     * @param line
+     */
+    public CCall(int line) {
+        super(line);
+    }
+    public class CCallParameter
+    {
+        public CTerminal term = null ;
+        public String method = "" ;
+    }
 
-	protected boolean DoParsing()
-	{
-		CBaseToken tokPerf = GetCurrentToken();
-		if (tokPerf.GetType() != CTokenType.KEYWORD || tokPerf.GetKeyword() != CCobolKeywordList.CALL)
-		{
-			Transcoder.logError(getLine(), "Expecting 'CALL' keyword") ;
-			return false ;
-		}
-		CGlobalEntityCounter.GetInstance().CountCobolVerb(tokPerf.GetKeyword().name) ;
+    protected boolean DoParsing()
+    {
+        CBaseToken tokPerf = GetCurrentToken();
+        if (tokPerf.GetType() != CTokenType.KEYWORD || tokPerf.GetKeyword() != CCobolKeywordList.CALL)
+        {
+            Transcoder.logError(getLine(), "Expecting 'CALL' keyword") ;
+            return false ;
+        }
+        CGlobalEntityCounter.GetInstance().CountCobolVerb(tokPerf.GetKeyword().name) ;
 
-		// read sub-program name
-		CBaseToken tokRef = GetNext();
-		if (tokRef.GetType()== CTokenType.STRING || tokRef.GetType() == CTokenType.IDENTIFIER)
-		{
-			reference = ReadTerminal();
-			//CGlobalEntityCounter.GetInstance().CountCobolVerbOptions("CALL", reference.GetValue()) ;
-		}
-		else
-		{
-			Transcoder.logError(getLine(), "Expecting a STRING token as reference for CALL") ;
-			return false ;
-		}
+        // read sub-program name
+        CBaseToken tokRef = GetNext();
+        if (tokRef.GetType()== CTokenType.STRING || tokRef.GetType() == CTokenType.IDENTIFIER)
+        {
+            reference = ReadTerminal();
+            //CGlobalEntityCounter.GetInstance().CountCobolVerbOptions("CALL", reference.GetValue()) ;
+        }
+        else
+        {
+            Transcoder.logError(getLine(), "Expecting a STRING token as reference for CALL") ;
+            return false ;
+        }
 
-		//read parameter sent to sub-soutine
-		CBaseToken tokUsing = GetCurrentToken() ;
-		if (tokUsing.GetKeyword() != CCobolKeywordList.USING)
-		{
-			return true ; // parsing is stoping here
-		}
-		GetNext() ;
-		// read each variable
-		boolean isdone = false ;
-		while (!isdone)
-		{
-			CBaseToken tok = GetCurrentToken() ;
-			if (tok.GetType()== CTokenType.IDENTIFIER)
-			{
-				CIdentifier id = ReadIdentifier();
-				if (id == null)
-				{
-					Transcoder.logError(getLine(), "No identifier read as parameter for CALL") ;
-					return false ;
-				}
-				CCallParameter p = new CCallParameter();
-				p.term = new CIdentifierTerminal(id) ;
-				p.method = "BY_REFERENCE" ;
-				arrParams.addElement(p) ;
+        //read parameter sent to sub-soutine
+        CBaseToken tokUsing = GetCurrentToken() ;
+        if (tokUsing.GetKeyword() != CCobolKeywordList.USING)
+        {
+            return true ; // parsing is stoping here
+        }
+        GetNext() ;
+        // read each variable
+        boolean isdone = false ;
+        while (!isdone)
+        {
+            CBaseToken tok = GetCurrentToken() ;
+            if (tok.GetType()== CTokenType.IDENTIFIER)
+            {
+                CIdentifier id = ReadIdentifier();
+                if (id == null)
+                {
+                    Transcoder.logError(getLine(), "No identifier read as parameter for CALL") ;
+                    return false ;
+                }
+                CCallParameter p = new CCallParameter();
+                p.term = new CIdentifierTerminal(id) ;
+                p.method = "BY_REFERENCE" ;
+                arrParams.addElement(p) ;
 
-				// more IDs ?
-				CBaseToken tokComma = GetCurrentToken() ;
-				if (tokComma.GetType() == CTokenType.COMMA)
-				{
-					GetNext() ;
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.END_CALL)
-			{
-				GetNext();
-				isdone = true ;
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.BY)
-			{
-				String csMethod = "BY" ;
-				CBaseToken tokMethod = GetNext();
-				if (tokMethod.GetKeyword()== CCobolKeywordList.REFERENCE)
-				{
-					csMethod += "_REFERENCE" ;
-				}
-				else if (tokMethod.GetKeyword()== CCobolKeywordList.CONTENT)
-				{
-					csMethod += "_CONTENT" ;
-				}
-				else
-				{
-					Transcoder.logError(getLine(), "Unexpecting methode for CALL : " + tokMethod.GetValue()) ;
-					return false ;
-				}
+                // more IDs ?
+                CBaseToken tokComma = GetCurrentToken() ;
+                if (tokComma.GetType() == CTokenType.COMMA)
+                {
+                    GetNext() ;
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.END_CALL)
+            {
+                GetNext();
+                isdone = true ;
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.BY)
+            {
+                String csMethod = "BY" ;
+                CBaseToken tokMethod = GetNext();
+                if (tokMethod.GetKeyword()== CCobolKeywordList.REFERENCE)
+                {
+                    csMethod += "_REFERENCE" ;
+                }
+                else if (tokMethod.GetKeyword()== CCobolKeywordList.CONTENT)
+                {
+                    csMethod += "_CONTENT" ;
+                }
+                else
+                {
+                    Transcoder.logError(getLine(), "Unexpecting methode for CALL : " + tokMethod.GetValue()) ;
+                    return false ;
+                }
 
-				CBaseToken tokNext = GetNext() ;
-				if (tokNext.GetType() == CTokenType.IDENTIFIER)
-				{
-					CIdentifier id = ReadIdentifier();
-					if (id == null)
-					{
-						Transcoder.logError(getLine(), "No identifier read as parameter for CALL") ;
-						return false ;
-					}
-					CCallParameter p = new CCallParameter();
-					p.term = new CIdentifierTerminal(id) ;
-					p.method = csMethod ;
-					arrParams.addElement(p) ;
-					// more IDs ?
-					CBaseToken tokComma = GetCurrentToken() ;
-					if (tokComma.GetType() == CTokenType.COMMA)
-					{
-						GetNext() ;
-					}
-				}
-				else if (tokNext.GetKeyword() == CCobolKeywordList.ADDRESS)
-				{
-					tokNext = GetNext() ;
-					if (tokNext.GetKeyword() == CCobolKeywordList.OF)
-					{
-						tokNext = GetNext();
-						if (tokNext.GetType() == CTokenType.IDENTIFIER)
-						{
-							csMethod += "_ADDRESS_OF" ;
-							CIdentifier id = ReadIdentifier();
-							if (id == null)
-							{
-								Transcoder.logError(getLine(), "No identifier read as parameter for CALL ADDRESS_OF") ;
-								return false ;
-							}
-							CCallParameter p = new CCallParameter();
-							p.term = new CIdentifierTerminal(id) ;
-							p.method = csMethod ;
-							arrParams.addElement(p) ;
-							// more IDs ?
-							CBaseToken tokComma = GetNext() ;
-							if (tokComma.GetType() == CTokenType.COMMA)
-							{
-								GetNext() ;
-							}
-						}
-						else
-						{
-							Transcoder.logError(getLine(), "Expecting an identifier as parameter for CALL") ;
-							return false ;
-						}
-					}
-				}
-				else if (tokNext.GetKeyword() == CCobolKeywordList.LENGTH)
-				{
-					tokNext = GetNext() ;
-					if (tokNext.GetKeyword() == CCobolKeywordList.OF)
-					{
-						tokNext = GetNext();
-						if (tokNext.GetType() == CTokenType.IDENTIFIER)
-						{
-							csMethod += "_LENGTH_OF" ;
-							CIdentifier id = ReadIdentifier();
-							if (id == null)
-							{
-								Transcoder.logError(getLine(), "No identifier read as parameter for CALL LENGTH OF") ;
-								return false ;
-							}
-							CCallParameter p = new CCallParameter();
-							p.term = new CIdentifierTerminal(id) ;
-							p.method = csMethod ;
-							arrParams.addElement(p) ;
-							// more IDs ?
-							CBaseToken tokComma = GetCurrentToken() ;
-							if (tokComma.GetType() == CTokenType.COMMA)
-							{
-								GetNext() ;
-							}
-						}
-						else
-						{
-							Transcoder.logError(getLine(), "Expecting an identifier as parameter for CALL") ;
-							return false ;
-						}
-					}
-				}
-				else
-				{
-					Transcoder.logError(getLine(), "Unexpecting token : " + tokNext.GetValue()) ;
-					return false ;
-				}
-			}
-			else if (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING)
-			{
-				CTerminal term = ReadTerminal() ;
-				CCallParameter p = new CCallParameter();
-				p.term = term ;
-				p.method = "VALUE" ;
-				arrParams.addElement(p) ;
-				// more IDs ?
-				CBaseToken tokComma = GetCurrentToken() ;
-				if (tokComma.GetType() == CTokenType.COMMA)
-				{
-					GetNext() ;
-				}
-			}
-			else if (tok.GetKeyword() == CCobolKeywordList.ON)
-			{
-				tok = GetNext() ;
-				if (tok.GetKeyword() != CCobolKeywordList.EXCEPTION)
-				{
-					Transcoder.logError(getLine(), "Expecting 'EXCEPTION' keyword") ;
-					return false ;
-				}
-				onErrorBloc = new CExceptionBloc(tok.getLine());
-				if (!Parse(onErrorBloc))
-				{
-					return false ;
-				}
-			}
-			else
-			{
-				isdone = true ;
-			}
-		}
-		return true;
-	}
-	/* (non-Javadoc)
-	 * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
-	 */
-	protected Element ExportCustom(Document root)
-	{
-		Element e = root.createElement("Call") ;
-		Element eRef = root.createElement("Reference");
-		e.appendChild(eRef);
-		reference.ExportTo(eRef, root) ;
-		for (int i = 0; i<arrParams.size(); i++)
-		{
-			CCallParameter p = arrParams.get(i) ;
-			Element ePar = root.createElement(p.method);
-			e.appendChild(ePar) ;
-			p.term.ExportTo(ePar, root) ;
-		}
-		return e;
-	}
+                CBaseToken tokNext = GetNext() ;
+                if (tokNext.GetType() == CTokenType.IDENTIFIER)
+                {
+                    CIdentifier id = ReadIdentifier();
+                    if (id == null)
+                    {
+                        Transcoder.logError(getLine(), "No identifier read as parameter for CALL") ;
+                        return false ;
+                    }
+                    CCallParameter p = new CCallParameter();
+                    p.term = new CIdentifierTerminal(id) ;
+                    p.method = csMethod ;
+                    arrParams.addElement(p) ;
+                    // more IDs ?
+                    CBaseToken tokComma = GetCurrentToken() ;
+                    if (tokComma.GetType() == CTokenType.COMMA)
+                    {
+                        GetNext() ;
+                    }
+                }
+                else if (tokNext.GetKeyword() == CCobolKeywordList.ADDRESS)
+                {
+                    tokNext = GetNext() ;
+                    if (tokNext.GetKeyword() == CCobolKeywordList.OF)
+                    {
+                        tokNext = GetNext();
+                        if (tokNext.GetType() == CTokenType.IDENTIFIER)
+                        {
+                            csMethod += "_ADDRESS_OF" ;
+                            CIdentifier id = ReadIdentifier();
+                            if (id == null)
+                            {
+                                Transcoder.logError(getLine(), "No identifier read as parameter for CALL ADDRESS_OF") ;
+                                return false ;
+                            }
+                            CCallParameter p = new CCallParameter();
+                            p.term = new CIdentifierTerminal(id) ;
+                            p.method = csMethod ;
+                            arrParams.addElement(p) ;
+                            // more IDs ?
+                            CBaseToken tokComma = GetNext() ;
+                            if (tokComma.GetType() == CTokenType.COMMA)
+                            {
+                                GetNext() ;
+                            }
+                        }
+                        else
+                        {
+                            Transcoder.logError(getLine(), "Expecting an identifier as parameter for CALL") ;
+                            return false ;
+                        }
+                    }
+                }
+                else if (tokNext.GetKeyword() == CCobolKeywordList.LENGTH)
+                {
+                    tokNext = GetNext() ;
+                    if (tokNext.GetKeyword() == CCobolKeywordList.OF)
+                    {
+                        tokNext = GetNext();
+                        if (tokNext.GetType() == CTokenType.IDENTIFIER)
+                        {
+                            csMethod += "_LENGTH_OF" ;
+                            CIdentifier id = ReadIdentifier();
+                            if (id == null)
+                            {
+                                Transcoder.logError(getLine(), "No identifier read as parameter for CALL LENGTH OF") ;
+                                return false ;
+                            }
+                            CCallParameter p = new CCallParameter();
+                            p.term = new CIdentifierTerminal(id) ;
+                            p.method = csMethod ;
+                            arrParams.addElement(p) ;
+                            // more IDs ?
+                            CBaseToken tokComma = GetCurrentToken() ;
+                            if (tokComma.GetType() == CTokenType.COMMA)
+                            {
+                                GetNext() ;
+                            }
+                        }
+                        else
+                        {
+                            Transcoder.logError(getLine(), "Expecting an identifier as parameter for CALL") ;
+                            return false ;
+                        }
+                    }
+                }
+                else
+                {
+                    Transcoder.logError(getLine(), "Unexpecting token : " + tokNext.GetValue()) ;
+                    return false ;
+                }
+            }
+            else if (tok.GetType() == CTokenType.NUMBER || tok.GetType() == CTokenType.STRING)
+            {
+                CTerminal term = ReadTerminal() ;
+                CCallParameter p = new CCallParameter();
+                p.term = term ;
+                p.method = "VALUE" ;
+                arrParams.addElement(p) ;
+                // more IDs ?
+                CBaseToken tokComma = GetCurrentToken() ;
+                if (tokComma.GetType() == CTokenType.COMMA)
+                {
+                    GetNext() ;
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.ON)
+            {
+                tok = GetNext() ;
+                if (tok.GetKeyword() != CCobolKeywordList.EXCEPTION)
+                {
+                    Transcoder.logError(getLine(), "Expecting 'EXCEPTION' keyword") ;
+                    return false ;
+                }
+                onErrorBloc = new CExceptionBloc(tok.getLine());
+                if (!Parse(onErrorBloc))
+                {
+                    return false ;
+                }
+            }
+            else
+            {
+                isdone = true ;
+            }
+        }
+        return true;
+    }
+    /* (non-Javadoc)
+     * @see parser.CLanguageElement#ExportCustom(org.w3c.dom.Document)
+     */
+    protected Element ExportCustom(Document root)
+    {
+        Element e = root.createElement("Call") ;
+        Element eRef = root.createElement("Reference");
+        e.appendChild(eRef);
+        reference.ExportTo(eRef, root) ;
+        for (int i = 0; i<arrParams.size(); i++)
+        {
+            CCallParameter p = arrParams.get(i) ;
+            Element ePar = root.createElement(p.method);
+            e.appendChild(ePar) ;
+            p.term.ExportTo(ePar, root) ;
+        }
+        return e;
+    }
 
-	protected CTerminal reference = null ;
-	private CExceptionBloc onErrorBloc ;
-	protected Vector<CCallParameter> arrParams = new Vector<CCallParameter>();
-	/* (non-Javadoc)
-	 * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
-	 */
-	protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
-	{
-		CDataEntity eRef = reference.GetDataEntity(getLine(), factory);
-		boolean ischecked = false ;
+    protected CTerminal reference = null ;
+    private CExceptionBloc onErrorBloc ;
+    protected Vector<CCallParameter> arrParams = new Vector<CCallParameter>();
+    /* (non-Javadoc)
+     * @see parser.CBaseElement#DoCustomSemanticAnalysis(semantic.CBaseSemanticEntity, semantic.CBaseSemanticEntityFactory)
+     */
+    protected CBaseLanguageEntity DoCustomSemanticAnalysis(CBaseLanguageEntity parent, CBaseEntityFactory factory)
+    {
+        CDataEntity eRef = reference.GetDataEntity(getLine(), factory);
+        boolean ischecked = false ;
 
-		String prg = "" ;
-		if (reference.IsReference())
-		{
-			int n = eRef.GetNbWrittingActions() ;
-			if (n>0)
-			{// find the last writing action: this is the one that set the name of the called program
-				CBaseActionEntity act = eRef.GetActionWriting(n-1);
-				CDataEntity val = act.getValueAssigned() ;
-				if (val != null)
-				{
-					act.IgnoreVariable(eRef) ;
-					eRef = val ;
-					prg = val.GetConstantValue() ;
-				}
-			}
-		}
+        String prg = "" ;
+        if (reference.IsReference())
+        {
+            int n = eRef.GetNbWrittingActions() ;
+            if (n>0)
+            {// find the last writing action: this is the one that set the name of the called program
+                CBaseActionEntity act = eRef.GetActionWriting(n-1);
+                CDataEntity val = act.getValueAssigned() ;
+                if (val != null)
+                {
+                    act.IgnoreVariable(eRef) ;
+                    eRef = val ;
+                    prg = val.GetConstantValue() ;
+                }
+            }
+        }
 
-		if (!reference.IsReference())
-		{ // reference is a constant string : 'PRGM'
-			prg = reference.GetValue() ;
-		}
+        if (!reference.IsReference())
+        { // reference is a constant string : 'PRGM'
+            prg = reference.GetValue() ;
+        }
 
-		if (!prg.equals(""))
-		{
-			String prgname = parent.GetProgramName();
-			CGlobalEntityCounter.GetInstance().RegisterSubProgram(prgname, prg) ;
+        if (!prg.equals(""))
+        {
+            String prgname = parent.GetProgramName();
+            CGlobalEntityCounter.GetInstance().RegisterSubProgram(prgname, prg) ;
 
-			CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
-			if (emul != null)
-			{
-				CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
-				for (int i=0; i<arrParams.size();i++)
-				{
-					CCallParameter p = arrParams.get(i);
-					CDataEntity eParam = p.term.GetDataEntity(getLine(), factory);
-					if (p.method.equals("BY_CONTENT_LENGTH_OF"))
-					{
-						CEntityLengthOf lenof = factory.NewEntityLengthOf(eParam) ;
-						call.AddParameter(lenof) ;
-						lenof.RegisterReadingAction(call) ;
-					}
-					else
-					{
-						call.AddParameter(eParam) ;
-						eParam.RegisterReadingAction(call);
-					}
-				}
-				parent.AddChild(call);
-				return call ;
-			}
-			else
-			{
-				CCallParameter p = arrParams.get(0);
-				boolean iswithDFHCommarea = false ;
-				int nbParameters = arrParams.size() ;
-				if (p.term.GetValue().equalsIgnoreCase("DFHCOMMAREA"))
-				{
-					iswithDFHCommarea = true ;
-					nbParameters -- ;
-				}
+            CEntityRoutineEmulation emul = factory.programCatalog.getRoutineEmulation(prg) ;
+            if (emul != null)
+            {
+                CEntityRoutineEmulationCall call = emul.NewCall(getLine(), factory) ;
+                for (int i=0; i<arrParams.size();i++)
+                {
+                    CCallParameter p = arrParams.get(i);
+                    CDataEntity eParam = p.term.GetDataEntity(getLine(), factory);
+                    if (p.method.equals("BY_CONTENT_LENGTH_OF"))
+                    {
+                        CEntityLengthOf lenof = factory.NewEntityLengthOf(eParam) ;
+                        call.AddParameter(lenof) ;
+                        lenof.RegisterReadingAction(call) ;
+                    }
+                    else
+                    {
+                        call.AddParameter(eParam) ;
+                        eParam.RegisterReadingAction(call);
+                    }
+                }
+                parent.AddChild(call);
+                return call ;
+            }
+            else
+            {
+                CCallParameter p = arrParams.get(0);
+                boolean iswithDFHCommarea = false ;
+                int nbParameters = arrParams.size() ;
+                if (p.term.GetValue().equalsIgnoreCase("DFHCOMMAREA"))
+                {
+                    iswithDFHCommarea = true ;
+                    nbParameters -- ;
+                }
 
-				if (!factory.programCatalog.CheckProgramReference(prg, iswithDFHCommarea, nbParameters, true))
-				{
-					Transcoder.logDebug(getLine(), "Missing sub program : "+prg) ;
-					CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
-					ischecked = false ;
-				}
-				else
-				{
-					//m_Logger.info("Referenced program found : "+prg) ;
-					ischecked = true ;
-				}
-			}
-		}
-		else
-		{
-			//m_Logger.warn("Call use a variable to identify program") ;
-		}
-		CEntityCallProgram e = factory.NewEntityCallProgram(getLine(), eRef) ;
-		e.setChecked(ischecked) ;
-		parent.AddChild(e) ;
-		for (int i=0; i<arrParams.size();i++)
-		{
-			CCallParameter p = arrParams.get(i);
-			CDataEntity eParam = p.term.GetDataEntity(getLine(), factory);
-			if (p.method.equals("BY_REFERENCE"))
-			{
-				e.SetParameterByRef(eParam) ;
-				eParam.RegisterReadingAction(e);
-//				eParam.RegisterWritingAction(e);
-			}
-			else if (p.method.equals("BY_CONTENT_LENGTH_OF"))
-			{
-				e.SetParameterLengthOf(eParam) ;
-				eParam.RegisterReadingAction(e);
-			}
-			else if (p.method.equals("BY_CONTENT"))
-			{
-				e.SetParameterByContent(eParam) ;
-				eParam.RegisterReadingAction(e);
-			}
-			else if (p.method.equals("BY_VALUE"))
-			{
-				e.SetParameterByValue(eParam) ;
-				eParam.RegisterReadingAction(e);
-			}
-			else
-			{
-				e.SetParameterByRef(eParam) ;
-				eParam.RegisterReadingAction(e);
-				eParam.RegisterWritingAction(e);
-			}
-		}
-		if (onErrorBloc != null)
-		{
-			CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(e, factory) ;
-			e.SetOnErrorBloc(eBloc);
-		}
-		return e;
-	}
+                if (!factory.programCatalog.CheckProgramReference(prg, iswithDFHCommarea, nbParameters, true))
+                {
+                    Transcoder.logDebug(getLine(), "Missing sub program : "+prg) ;
+                    CGlobalEntityCounter.GetInstance().RegisterMissingSubProgram(parent.GetProgramName(), prg) ;
+                    ischecked = false ;
+                }
+                else
+                {
+                    //m_Logger.info("Referenced program found : "+prg) ;
+                    ischecked = true ;
+                }
+            }
+        }
+        else
+        {
+            //m_Logger.warn("Call use a variable to identify program") ;
+        }
+        CEntityCallProgram e = factory.NewEntityCallProgram(getLine(), eRef) ;
+        e.setChecked(ischecked) ;
+        parent.AddChild(e) ;
+        for (int i=0; i<arrParams.size();i++)
+        {
+            CCallParameter p = arrParams.get(i);
+            CDataEntity eParam = p.term.GetDataEntity(getLine(), factory);
+            if (p.method.equals("BY_REFERENCE"))
+            {
+                e.SetParameterByRef(eParam) ;
+                eParam.RegisterReadingAction(e);
+//              eParam.RegisterWritingAction(e);
+            }
+            else if (p.method.equals("BY_CONTENT_LENGTH_OF"))
+            {
+                e.SetParameterLengthOf(eParam) ;
+                eParam.RegisterReadingAction(e);
+            }
+            else if (p.method.equals("BY_CONTENT"))
+            {
+                e.SetParameterByContent(eParam) ;
+                eParam.RegisterReadingAction(e);
+            }
+            else if (p.method.equals("BY_VALUE"))
+            {
+                e.SetParameterByValue(eParam) ;
+                eParam.RegisterReadingAction(e);
+            }
+            else
+            {
+                e.SetParameterByRef(eParam) ;
+                eParam.RegisterReadingAction(e);
+                eParam.RegisterWritingAction(e);
+            }
+        }
+        if (onErrorBloc != null)
+        {
+            CBaseLanguageEntity eBloc = onErrorBloc.DoSemanticAnalysis(e, factory) ;
+            e.SetOnErrorBloc(eBloc);
+        }
+        return e;
+    }
 }

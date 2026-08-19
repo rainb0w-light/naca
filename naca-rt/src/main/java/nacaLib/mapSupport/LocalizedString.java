@@ -14,27 +14,27 @@ import jlib.misc.MapStringByString;
  */
 public class LocalizedString
 {
-	public LocalizedString()
-	{
-	}
-	/*
-	LocalizedString(String cs)
-	{
-		csName = cs ;
-	}
-		*/
-	public String getTextForLanguage(String csLangId)
-	{
-		String cs = tabTexts.get(csLangId.trim());
-		return cs;
-	}
+    public LocalizedString()
+    {
+    }
+    /*
+    LocalizedString(String cs)
+    {
+        csName = cs ;
+    }
+        */
+    public String getTextForLanguage(String csLangId)
+    {
+        String cs = tabTexts.get(csLangId.trim());
+        return cs;
+    }
 
-	public LocalizedString text(String csId, String text)
-	{
-		tabTexts.put(csId, text);
-		return this ;
-	}
+    public LocalizedString text(String csId, String text)
+    {
+        tabTexts.put(csId, text);
+        return this ;
+    }
 
-	//protected String csName = "" ;
-	protected MapStringByString tabTexts = new MapStringByString() ;
+    //protected String csName = "" ;
+    protected MapStringByString tabTexts = new MapStringByString() ;
 }

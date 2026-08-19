@@ -71,127 +71,127 @@ import utils.CObjectCatalog;
  */
 public class CEntitySkipFields extends CEntityResourceField
 {
-	protected int nbFields = 0 ;
-	protected String csLevel = "" ;
-	/**
-	 * @param l
-	 * @param name
-	 * @param cat
-	 */
-	public CEntitySkipFields(int l, String name, CObjectCatalog cat, int nbFields, String level)
-	{
-		super(l, name, cat);
-		if (name.equals(""))
-		{
-			name = GetDefaultName() ;
-			if (!name.equals(""))
-			{
-				SetName(name) ;
-			}
-		}
-		// Fixed latent self-assignment: the legacy constructor assigned the parameter to itself
-		// (the parameter shadows the field), leaving the field 0. Bind the resolved count.
-		this.nbFields = nbFields ;
-		csLevel = level ;
-	}
-	/* (non-Javadoc)
-	 * @see semantic.CBaseDataEntity#GetDataType()
-	 */
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD ;
-	}
-	public boolean ignore()
-	{
-		return false ;
-	}
-	public String GetConstantValue()
-	{
-		return "" ;
-	}
+    protected int nbFields = 0 ;
+    protected String csLevel = "" ;
+    /**
+     * @param l
+     * @param name
+     * @param cat
+     */
+    public CEntitySkipFields(int l, String name, CObjectCatalog cat, int nbFields, String level)
+    {
+        super(l, name, cat);
+        if (name.equals(""))
+        {
+            name = GetDefaultName() ;
+            if (!name.equals(""))
+            {
+                SetName(name) ;
+            }
+        }
+        // Fixed latent self-assignment: the legacy constructor assigned the parameter to itself
+        // (the parameter shadows the field), leaving the field 0. Bind the resolved count.
+        this.nbFields = nbFields ;
+        csLevel = level ;
+    }
+    /* (non-Javadoc)
+     * @see semantic.CBaseDataEntity#GetDataType()
+     */
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD ;
+    }
+    public boolean ignore()
+    {
+        return false ;
+    }
+    public String GetConstantValue()
+    {
+        return "" ;
+    }
 
-	public boolean IsEntryField()
-	{
-		return false;
-	}
+    public boolean IsEntryField()
+    {
+        return false;
+    }
 
-	public String GetTypeDecl()
-	{
-		return null;
-	}
-	public Element DoXMLExport(Document doc, CResourceStrings res)
-	{
-		// Preserved from the retired backend: a skip field contributes no XML/.res node of its
-		// own. Target-neutral semantic state.
-		return null;
-	}
-	protected void RegisterMySelfToCatalog()
-	{
-		String name = GetName() ;
-		programCatalog.RegisterDataEntity(name, this) ;
-	}
+    public String GetTypeDecl()
+    {
+        return null;
+    }
+    public Element DoXMLExport(Document doc, CResourceStrings res)
+    {
+        // Preserved from the retired backend: a skip field contributes no XML/.res node of its
+        // own. Target-neutral semantic state.
+        return null;
+    }
+    protected void RegisterMySelfToCatalog()
+    {
+        String name = GetName() ;
+        programCatalog.RegisterDataEntity(name, this) ;
+    }
 
-	public boolean HasAccessors()
-	{
-		// Preserved from the retired backend: a skip field bears no accessors.
-		return false;
-	}
+    public boolean HasAccessors()
+    {
+        // Preserved from the retired backend: a skip field bears no accessors.
+        return false;
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: a skip field is never declared as a val.
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: a skip field is never declared as a val.
+        return false;
+    }
 
-	/**
-	 * Target-neutral identifier formatter standing in for the retired backend's
-	 * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the generate-layer
-	 * factory ({@code BmsJavaEntities.skipFields} injects the bound output's
-	 * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
-	 * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
-	 * coupling lives in this tree.
-	 */
-	private Function<String, String> identifierFormatter =
-		identifier -> identifier.replace('-', '_').replace('#', '$');
+    /**
+     * Target-neutral identifier formatter standing in for the retired backend's
+     * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the generate-layer
+     * factory ({@code BmsJavaEntities.skipFields} injects the bound output's
+     * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
+     * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
+     * coupling lives in this tree.
+     */
+    private Function<String, String> identifierFormatter =
+        identifier -> identifier.replace('-', '_').replace('#', '$');
 
-	public void setIdentifierFormatter(Function<String, String> formatter)
-	{
-		if (formatter != null)
-		{
-			identifierFormatter = formatter ;
-		}
-	}
+    public void setIdentifierFormatter(Function<String, String> formatter)
+    {
+        if (formatter != null)
+        {
+            identifierFormatter = formatter ;
+        }
+    }
 
-	/**
-	 * Pure read-only getter consumed by both the {@code recursiveSkipFieldEntity} reference
-	 * binding and the {@code recursiveSkipFieldDeclarationEntity} declaration template. Exposes
-	 * the skip-field name formatted through the injected target-specific formatter. A pure
-	 * formatting step over precomputed state — no FormatIdentifier resolution, no data-reference
-	 * resolution, no lowering.
-	 */
-	public String getFormattedName()
-	{
-		return identifierFormatter.apply(GetName()) ;
-	}
+    /**
+     * Pure read-only getter consumed by both the {@code recursiveSkipFieldEntity} reference
+     * binding and the {@code recursiveSkipFieldDeclarationEntity} declaration template. Exposes
+     * the skip-field name formatted through the injected target-specific formatter. A pure
+     * formatting step over precomputed state — no FormatIdentifier resolution, no data-reference
+     * resolution, no lowering.
+     */
+    public String getFormattedName()
+    {
+        return identifierFormatter.apply(GetName()) ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
-	 * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL formal
-	 * level parsed to an int). A pure computation over precomputed state.
-	 */
-	public int getLevel()
-	{
-		return Integer.parseInt(csLevel) ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
+     * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL formal
+     * level parsed to an int). A pure computation over precomputed state.
+     */
+    public int getLevel()
+    {
+        return Integer.parseInt(csLevel) ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the {@code editSkip(<n>)}
-	 * argument — the count of screen bytes the parser resolved for this skip run. A plain field
-	 * read; the latent self-assignment that zeroed this value is fixed in the constructor.
-	 */
-	public int getNbFields()
-	{
-		return nbFields ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the {@code editSkip(<n>)}
+     * argument — the count of screen bytes the parser resolved for this skip run. A plain field
+     * read; the latent self-assignment that zeroed this value is fixed in the constructor.
+     */
+    public int getNbFields()
+    {
+        return nbFields ;
+    }
 
 }

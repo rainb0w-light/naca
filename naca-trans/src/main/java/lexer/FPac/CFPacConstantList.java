@@ -12,13 +12,13 @@ import lexer.CReservedConstant;
 public class CFPacConstantList extends CConstantList
 {
 
-	protected static CFPacConstantList _List_ = new CFPacConstantList() ;
-	public static CReservedConstant NOLOG = new CReservedConstant(_List_, "NOLOG") ;
-	public static CReservedConstant LIST = new CReservedConstant(_List_, "LIST") ;
-	public static CReservedConstant NOSTMT = new CReservedConstant(_List_, "NOSTMT") ;
-	public static CReservedConstant MSG = new CReservedConstant(_List_, "MSG") ;
-	// public static CReservedConstant  = new CReservedConstant(_List_, "") ;
-	// public static CReservedConstant  = new CReservedConstant(_List_, "") ;
-	// public static CReservedConstant  = new CReservedConstant(_List_, "") ;
+    protected static CFPacConstantList _List_ = new CFPacConstantList() ;
+    public static CReservedConstant NOLOG = new CReservedConstant(_List_, "NOLOG") ;
+    public static CReservedConstant LIST = new CReservedConstant(_List_, "LIST") ;
+    public static CReservedConstant NOSTMT = new CReservedConstant(_List_, "NOSTMT") ;
+    public static CReservedConstant MSG = new CReservedConstant(_List_, "MSG") ;
+    // public static CReservedConstant  = new CReservedConstant(_List_, "") ;
+    // public static CReservedConstant  = new CReservedConstant(_List_, "") ;
+    // public static CReservedConstant  = new CReservedConstant(_List_, "") ;
 
 }

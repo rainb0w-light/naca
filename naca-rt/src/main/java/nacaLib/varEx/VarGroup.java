@@ -15,97 +15,97 @@ import nacaLib.tempCache.*;
  */
 public class VarGroup extends Var
 {
-	public VarGroup(DeclareTypeG declareTypeG)
-	{
-		super(declareTypeG);
-	}
+    public VarGroup(DeclareTypeG declareTypeG)
+    {
+        super(declareTypeG);
+    }
 
-	protected VarGroup()
-	{
-		super();
-	}
+    protected VarGroup()
+    {
+        super();
+    }
 
-	protected VarBase allocCopy()
-	{
-		VarGroup v = new VarGroup();
-		return v;
-	}
+    protected VarBase allocCopy()
+    {
+        VarGroup v = new VarGroup();
+        return v;
+    }
 
-	/* (non-Javadoc)
-	 * @see nacaLib.varEx.VarBase#getAsLoggableString()
-	 */
-	protected String getAsLoggableString()
-	{
-		// return varDef.getRawStringIncludingHeader(bufferPos);
-		CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
-		String cs = cstr.getAsString();
-		//cstr.resetManagerCache();
-		return cs;
-	}
+    /* (non-Javadoc)
+     * @see nacaLib.varEx.VarBase#getAsLoggableString()
+     */
+    protected String getAsLoggableString()
+    {
+        // return varDef.getRawStringIncludingHeader(bufferPos);
+        CStr cstr = bufferPos.getOwnCStr(varDef.getLength());
+        String cs = cstr.getAsString();
+        //cstr.resetManagerCache();
+        return cs;
+    }
 
-	public boolean hasType(VarTypeEnum e)
-	{
-		if(e == VarTypeEnum.TypeGroup)
-			return true;
-		return false;
-	}
+    public boolean hasType(VarTypeEnum e)
+    {
+        if(e == VarTypeEnum.TypeGroup)
+            return true;
+        return false;
+    }
 
-	public int compareTo(int nValue)
-	{
-		int nVarValue;
-		if (getString().trim().equals(""))
-			nVarValue = -1;
-		else
-			nVarValue = getInt();
-		return nVarValue - nValue;
-	}
-
-
-	public int compareTo(double dValue)
-	{
-		double varValue = getDouble();
-		double d = varValue - dValue;
-		if(d < -0.00001)	//Consider epsilon precision at 10 e-5
-			return -1;
-		else if(d > 0.00001)	//Consider epsilon precision at 10 e-5
-			return 1;
-		return 0;
-	}
+    public int compareTo(int nValue)
+    {
+        int nVarValue;
+        if (getString().trim().equals(""))
+            nVarValue = -1;
+        else
+            nVarValue = getInt();
+        return nVarValue - nValue;
+    }
 
 
-	protected byte[] convertUnicodeToEbcdic(char [] tChars)
-	{
-		return doConvertUnicodeToEbcdic(tChars);
-	}
+    public int compareTo(double dValue)
+    {
+        double varValue = getDouble();
+        double d = varValue - dValue;
+        if(d < -0.00001)    //Consider epsilon precision at 10 e-5
+            return -1;
+        else if(d > 0.00001)    //Consider epsilon precision at 10 e-5
+            return 1;
+        return 0;
+    }
 
-	protected char[] convertEbcdicToUnicode(byte[] tBytes)
-	{
-		return doConvertEbcdicToUnicode(tBytes);
-	}
+
+    protected byte[] convertUnicodeToEbcdic(char [] tChars)
+    {
+        return doConvertUnicodeToEbcdic(tChars);
+    }
+
+    protected char[] convertEbcdicToUnicode(byte[] tBytes)
+    {
+        return doConvertEbcdicToUnicode(tBytes);
+    }
 
 
-	public VarType getVarType()
-	{
-		return VarType.VarGroup;
-	}
+    public VarType getVarType()
+    {
+        return VarType.VarGroup;
+    }
 
-	public void initialize(InitializeCache initializeCache)
-	{
-		if(initializeCache != null && initializeCache.isFilled())	// initializeCache may be null
-		{
-			initializeCache.applyItems(bufferPos, bufferPos.nAbsolutePosition);
-			//varDef.initializeUsingCache(bufferPos, initializeCache);
-		}
-		else
-		{
-			TempCache tempCache = TempCacheLocator.getTLSTempCache();
-			InitializeManager initializeManagerManager = tempCache.getInitializeManagerNone();
+    public void initialize(InitializeCache initializeCache)
+    {
+        if(initializeCache != null && initializeCache.isFilled())   // initializeCache may be null
+        {
+            initializeCache.applyItems(bufferPos, bufferPos.nAbsolutePosition);
+            //varDef.initializeUsingCache(bufferPos, initializeCache);
+        }
+        else
+        {
+            TempCache tempCache = TempCacheLocator.getTLSTempCache();
+            InitializeManager initializeManagerManager = tempCache.getInitializeManagerNone();
 
-			int nOffset = getInitializeReplacingOffset(tempCache);
-			varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, initializeCache);
+            int nOffset = getInitializeReplacingOffset(tempCache);
+            varDef.initializeItemAndChildren(bufferPos, initializeManagerManager, nOffset, initializeCache);
 
-			if(initializeCache != null)
-				initializeCache.setFilledAndcompress(bufferPos.nAbsolutePosition);
-		}
-	}
+            if(initializeCache != null)
+                initializeCache.setFilledAndcompress(bufferPos.nAbsolutePosition);
+        }
+    }
 }

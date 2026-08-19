@@ -64,118 +64,118 @@ import utils.CObjectCatalog;
  */
 public class CEntityFieldOccurs extends CEntityResourceField
 {
-	protected CDataEntity occurs = null ;
-	protected String csLevel = "" ;
-	public void Clear()
-	{
-		super.Clear() ;
-		occurs = null ;
-	}
+    protected CDataEntity occurs = null ;
+    protected String csLevel = "" ;
+    public void Clear()
+    {
+        super.Clear() ;
+        occurs = null ;
+    }
 
-	public CEntityFieldOccurs(int l, String name, CObjectCatalog cat)
-	{
-		super(l, name, cat);
-		if (name.equals(""))
-		{
-			name = GetDefaultName() ;
-			if (!name.equals(""))
-			{
-				SetName(name) ;
-			}
-		}
-	}
-	public void SetFieldOccurs(String level, CDataEntity occurs)
-	{
-		this.occurs = occurs ;
-		csLevel = level ;
-	}
+    public CEntityFieldOccurs(int l, String name, CObjectCatalog cat)
+    {
+        super(l, name, cat);
+        if (name.equals(""))
+        {
+            name = GetDefaultName() ;
+            if (!name.equals(""))
+            {
+                SetName(name) ;
+            }
+        }
+    }
+    public void SetFieldOccurs(String level, CDataEntity occurs)
+    {
+        this.occurs = occurs ;
+        csLevel = level ;
+    }
 
-	public boolean IsEntryField()
-	{
-		return false;
-	}
+    public boolean IsEntryField()
+    {
+        return false;
+    }
 
-	public String GetTypeDecl()
-	{
-		return null;
-	}
+    public String GetTypeDecl()
+    {
+        return null;
+    }
 
-	public CDataEntityType GetDataType()
-	{
-		return CDataEntityType.FIELD;
-	}
-	protected void RegisterMySelfToCatalog()
-	{
-		String name = GetName() ;
-		programCatalog.RegisterDataEntity(name, this) ;
-//		programCatalog.RegisterDataEntity(name+"I", this) ;
-//		programCatalog.RegisterDataEntity(name+"O", this) ;
-	}
+    public CDataEntityType GetDataType()
+    {
+        return CDataEntityType.FIELD;
+    }
+    protected void RegisterMySelfToCatalog()
+    {
+        String name = GetName() ;
+        programCatalog.RegisterDataEntity(name, this) ;
+//      programCatalog.RegisterDataEntity(name+"I", this) ;
+//      programCatalog.RegisterDataEntity(name+"O", this) ;
+    }
 
-	public boolean isValNeeded()
-	{
-		// Preserved from the retired backend: an occurs group is never declared as a val.
-		return false;
-	}
+    public boolean isValNeeded()
+    {
+        // Preserved from the retired backend: an occurs group is never declared as a val.
+        return false;
+    }
 
-	public Element DoXMLExport(Document doc, CResourceStrings res)
-	{
-		// Preserved from the retired backend: an occurs group contributes no XML/.res node
-		// of its own (its child fields export their own nodes). Target-neutral semantic state.
-		return null ;
-	}
+    public Element DoXMLExport(Document doc, CResourceStrings res)
+    {
+        // Preserved from the retired backend: an occurs group contributes no XML/.res node
+        // of its own (its child fields export their own nodes). Target-neutral semantic state.
+        return null ;
+    }
 
-	/**
-	 * Target-neutral identifier formatter standing in for the retired backend's
-	 * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the
-	 * generate-layer factory ({@code BmsJavaEntities.fieldOccurs} injects the bound output's
-	 * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
-	 * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
-	 * coupling lives in this tree.
-	 */
-	private Function<String, String> identifierFormatter =
-		identifier -> identifier.replace('-', '_').replace('#', '$');
+    /**
+     * Target-neutral identifier formatter standing in for the retired backend's
+     * {@code LegacyLanguageRenderer.formatIdentifier(GetName())}. Installed by the
+     * generate-layer factory ({@code BmsJavaEntities.fieldOccurs} injects the bound output's
+     * {@code FormatIdentifier}); defaults to the neutral legacy fallback so a directly
+     * constructed entity stays well-formed. A pure injected value — no {@code generate.*}
+     * coupling lives in this tree.
+     */
+    private Function<String, String> identifierFormatter =
+        identifier -> identifier.replace('-', '_').replace('#', '$');
 
-	public void setIdentifierFormatter(Function<String, String> formatter)
-	{
-		if (formatter != null)
-		{
-			identifierFormatter = formatter ;
-		}
-	}
+    public void setIdentifierFormatter(Function<String, String> formatter)
+    {
+        if (formatter != null)
+        {
+            identifierFormatter = formatter ;
+        }
+    }
 
-	/**
-	 * Pure read-only getter consumed by both the {@code recursiveFieldOccursEntity} reference
-	 * binding and the {@code recursiveFieldOccursDeclarationEntity} declaration template.
-	 * Exposes the group name formatted through the injected target-specific formatter (the
-	 * retired backend used the same formatted string for the Java variable name and the quoted
-	 * {@code editOccurs} argument). A pure formatting step over precomputed state — no
-	 * FormatIdentifier resolution, no data-reference resolution, no lowering.
-	 */
-	public String getFormattedName()
-	{
-		return identifierFormatter.apply(GetName()) ;
-	}
+    /**
+     * Pure read-only getter consumed by both the {@code recursiveFieldOccursEntity} reference
+     * binding and the {@code recursiveFieldOccursDeclarationEntity} declaration template.
+     * Exposes the group name formatted through the injected target-specific formatter (the
+     * retired backend used the same formatted string for the Java variable name and the quoted
+     * {@code editOccurs} argument). A pure formatting step over precomputed state — no
+     * FormatIdentifier resolution, no data-reference resolution, no lowering.
+     */
+    public String getFormattedName()
+    {
+        return identifierFormatter.apply(GetName()) ;
+    }
 
-	/**
-	 * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
-	 * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL
-	 * formal level parsed to an int). A pure computation over precomputed state.
-	 */
-	public int getLevel()
-	{
-		return Integer.parseInt(csLevel) ;
-	}
+    /**
+     * Pure read-only getter consumed by the declaration template: the {@code declare.level(<n>)}
+     * argument. Mirrors the retired backend's {@code Integer.parseInt(csLevel)} (the COBOL
+     * formal level parsed to an int). A pure computation over precomputed state.
+     */
+    public int getLevel()
+    {
+        return Integer.parseInt(csLevel) ;
+    }
 
-	/**
-	 * Pure read-only view of the {@code OCCURS} reference slot (the {@code OCCURS DEPENDING ON}
-	 * counter the parser resolved via {@code le.occurs.GetDataEntity}). Exposed for the
-	 * generate-layer bridge (and tests); the declaration template reads the pre-rendered
-	 * {@link #getOccursReference()} string, not this entity.
-	 */
-	public CDataEntity getOccurs()
-	{
-		return occurs ;
-	}
+    /**
+     * Pure read-only view of the {@code OCCURS} reference slot (the {@code OCCURS DEPENDING ON}
+     * counter the parser resolved via {@code le.occurs.GetDataEntity}). Exposed for the
+     * generate-layer bridge (and tests); the declaration template reads the pre-rendered
+     * {@link #getOccursReference()} string, not this entity.
+     */
+    public CDataEntity getOccurs()
+    {
+        return occurs ;
+    }
 
 }
