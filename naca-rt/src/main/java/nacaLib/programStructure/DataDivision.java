@@ -126,17 +126,20 @@ public class DataDivision extends Division
 
     /** Executes the map called prg return parameters operation. */
     public void mapCalledPrgReturnParameters(
-        ArrayList<BaseCalledPrgPublicArgPositioned> arrSPClientParam,
+        ArrayList<?> arrSPClientParam,
         ArrayList<Var> arrSPServerDeclaredCallArg)
     {
         if(arrSPClientParam != null && arrSPServerDeclaredCallArg != null)
         {
-            int nNbArg = arrSPClientParam.size();
+            int nNbArg = Math.min(arrSPClientParam.size(), arrSPServerDeclaredCallArg.size());
             for(int nArg=0; nArg<nNbArg; nArg++)
             {
-                BaseCalledPrgPublicArgPositioned callParamSPDest = arrSPClientParam.get(nArg);
-                Var varSource = arrSPServerDeclaredCallArg.get(nArg);
-                callParamSPDest.fillWithVar(varSource);
+                Object parameter = arrSPClientParam.get(nArg);
+                if (parameter instanceof BaseCalledPrgPublicArgPositioned callParamSPDest)
+                {
+                    Var varSource = arrSPServerDeclaredCallArg.get(nArg);
+                    callParamSPDest.fillWithVar(varSource);
+                }
             }
         }
     }

@@ -120,6 +120,25 @@ val cardDemoInventoryCheck = tasks.register<Exec>("cardDemoInventoryCheck") {
     inputs.dir(layout.projectDirectory.dir("src/test/resources/carddemo/app"))
 }
 
+val cardDemoCapabilityInventoryCheck =
+    tasks.register<Exec>("cardDemoCapabilityInventoryCheck") {
+        group = "verification"
+        description = "Validates the offline CardDemo static capability inventory"
+        commandLine(
+            "python3",
+            rootProject.file("tools/carddemo_capability_inventory.py").absolutePath,
+            "--check")
+        inputs.files(
+            rootProject.file("tools/carddemo_capability_inventory.py"),
+            layout.projectDirectory.file(
+                "src/test/resources/carddemo/ACCEPTANCE_INVENTORY.json"),
+            layout.projectDirectory.file(
+                "src/test/resources/carddemo/CAPABILITY_INVENTORY.json"),
+            layout.projectDirectory.file(
+                "src/test/resources/carddemo/PROVENANCE.json"))
+        inputs.dir(layout.projectDirectory.dir("src/test/resources/carddemo/app"))
+    }
+
 tasks.register<Test>("sampleAcceptance") {
     group = "verification"
     description = "Runs the canonical GnuCOBOL vs Naca/Javac/NacaRT acceptance pipeline"
@@ -138,7 +157,7 @@ tasks.register<Test>("sampleAcceptance") {
         includeTags("sample-acceptance")
     }
     shouldRunAfter(tasks.test)
-    dependsOn(cardDemoInventoryCheck)
+    dependsOn(cardDemoInventoryCheck, cardDemoCapabilityInventoryCheck)
 }
 
 // The hand-written compatibility programs are a required runtime regression
@@ -156,7 +175,10 @@ tasks.register<Test>("legacyRuntimeTest") {
 }
 
 tasks.named("check") {
-    dependsOn("legacyRuntimeTest")
+    dependsOn(
+        "legacyRuntimeTest",
+        cardDemoInventoryCheck,
+        cardDemoCapabilityInventoryCheck)
 }
 
 // Configure JaCoCo to include coverage from dependencies

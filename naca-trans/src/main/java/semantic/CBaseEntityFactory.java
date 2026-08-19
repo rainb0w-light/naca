@@ -27,6 +27,7 @@ import semantic.CICS.CEntityCICSReceiveMap;
 import semantic.CICS.CEntityCICSRetrieve;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSendText;
 import semantic.CICS.CEntityCICSSetTDQueue;
 import semantic.CICS.CEntityCICSStart;
 import semantic.CICS.CEntityCICSStartBrowse;
@@ -273,6 +274,8 @@ public abstract class CBaseEntityFactory
     public abstract CEntityCICSWrite NewEntityCICSWrite(int l) ;
     /** Creates the entity cicssend map. */
     public abstract CEntityCICSSendMap NewEntityCICSSendMap(int l) ;
+    /** Creates the entity cicssend text. */
+    public abstract CEntityCICSSendText NewEntityCICSSendText(int l) ;
     /** Creates the entity cicsreturn. */
     public abstract CEntityCICSReturn NewEntityCICSReturn(int l) ;
     /** Creates the entity cicsstart. */

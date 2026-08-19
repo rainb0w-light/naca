@@ -947,6 +947,32 @@ public abstract class BaseProgramManager extends CJMapObject
         return null;
     }
 
+    /** Finds a declared variable by its final COBOL/Java name segment. */
+    public Var findVariable(String localName)
+    {
+        if (arrVarsFullName == null || localName == null)
+        {
+            return null;
+        }
+        for (VarBase candidate : arrVarsFullName)
+        {
+            if (candidate instanceof Var variable && candidate.getVarDef() != null)
+            {
+                String name = candidate.getVarDef().getUnprefixedName(sharedProgramInstanceData);
+                int separator = name.lastIndexOf('.');
+                if (separator >= 0)
+                {
+                    name = name.substring(separator + 1);
+                }
+                if (name.equalsIgnoreCase(localName))
+                {
+                    return variable;
+                }
+            }
+        }
+        return null;
+    }
+
     private void logSevereError(int nId)
     {
         // Severe Error

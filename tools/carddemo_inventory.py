@@ -63,6 +63,18 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def vendored_assets() -> dict[str, Path]:
+    assets = {"LICENSE": CORPUS / "LICENSE"}
+    app = CORPUS / "app"
+    if app.is_dir():
+        assets.update({
+            path.relative_to(CORPUS).as_posix(): path
+            for path in app.rglob("*")
+            if path.is_file()
+        })
+    return dict(sorted(assets.items()))
+
+
 def require(condition: bool, message: str, errors: list[str]) -> None:
     if not condition:
         errors.append(message)
@@ -120,8 +132,12 @@ def validate(report: dict[str, object], provenance: dict[str, object],
             "report and provenance commits differ", errors)
 
     hashes = provenance.get("files", {})
+    assets = vendored_assets()
+    require(set(hashes) == set(assets),
+            "provenance files must enumerate every vendored app asset and LICENSE",
+            errors)
     for relative, expected_hash in hashes.items():
-        asset = CORPUS / relative
+        asset = assets.get(relative, CORPUS / relative)
         require(asset.is_file(), f"missing vendored asset: {relative}", errors)
         if asset.is_file():
             require(sha256(asset) == expected_hash,
@@ -186,6 +202,15 @@ def main() -> int:
         )
 
     provenance = json.loads(PROVENANCE.read_text(encoding="utf-8"))
+    if args.write:
+        provenance["files"] = {
+            relative: sha256(path)
+            for relative, path in vendored_assets().items()
+        }
+        PROVENANCE.write_text(
+            json.dumps(provenance, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
     errors = validate(report, provenance, args.upstream)
     if errors:
         for error in errors:

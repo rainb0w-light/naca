@@ -61,6 +61,7 @@ import semantic.CICS.CEntityCICSReceiveMap;
 import semantic.CICS.CEntityCICSRetrieve;
 import semantic.CICS.CEntityCICSReturn;
 import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSendText;
 import semantic.CICS.CEntityCICSSetTDQueue;
 import semantic.CICS.CEntityCICSStart;
 import semantic.CICS.CEntityCICSStartBrowse;
@@ -445,6 +446,12 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
 
     @Override
     public CEntityCICSSendMap NewEntityCICSSendMap(int l)
+    {
+        throw unsupportedOperation() ;
+    }
+
+    @Override
+    public CEntityCICSSendText NewEntityCICSSendText(int l)
     {
         throw unsupportedOperation() ;
     }

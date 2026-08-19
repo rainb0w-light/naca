@@ -11,6 +11,8 @@
 package idea.manager;
 
 import nacaLib.base.CJMapObject;
+import nacaLib.basePrgEnv.BaseProgramManager;
+import nacaLib.programPool.SharedProgramInstanceData;
 import nacaLib.varEx.Var;
 import nacaLib.varEx.Form;
 
@@ -60,14 +62,14 @@ public class CESMSendMap extends CJMapObject
     public CESMSendMap dataOnlyFrom(Var map)
     {
         assertIfFalse(map == null);
-        // this function may not be called : in this case, a COPY is missing defining a map
+        captureSymbolicFrom(map);
         return this;
     }
     /** Executes the data only from operation. */
     public CESMSendMap dataOnlyFrom(Var map, Var length)
     {
         assertIfFalse(map == null);
-        // Preserve the generated fluent signature; map lookup remains unsupported.
+        captureSymbolicFrom(map);
         return this;
     }
     /** Executes the data from operation. */
@@ -80,14 +82,14 @@ public class CESMSendMap extends CJMapObject
     public CESMSendMap dataFrom(Var map)
     {
         assertIfFalse(map == null);
-        // this function may not be called : in this case, a COPY is missing defining a map
+        captureSymbolicFrom(map);
         return this;
     }
     /** Executes the data from operation. */
     public CESMSendMap dataFrom(Var map, Var length)
     {
         assertIfFalse(map == null);
-        // this function may not be called : in this case, a COPY is missing defining a map
+        captureSymbolicFrom(map);
         return this;
     }
     /** Executes the cursor operation. */
@@ -151,6 +153,22 @@ public class CESMSendMap extends CJMapObject
 
     //protected CBaseMap m_BaseMap = null;
     public Form varFrom = null;
+    public Var symbolicFrom = null;
+    private BaseProgramManager symbolicProgramManager = null;
+    private SharedProgramInstanceData symbolicSharedData = null;
     public String mapName = "" ;
     protected String name = "" ;
+
+    public Document buildSymbolicXML(String language)
+    {
+        return SymbolicBmsMapAdapter.send(symbolicFrom, symbolicProgramManager,
+            symbolicSharedData, mapName, language, nCursorPosition);
+    }
+
+    private void captureSymbolicFrom(Var map)
+    {
+        symbolicFrom = map;
+        symbolicProgramManager = map.getProgramManager();
+        symbolicSharedData = map.getSharedProgramInstanceData();
+    }
 }

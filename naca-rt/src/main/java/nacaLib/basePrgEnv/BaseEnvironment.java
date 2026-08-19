@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,6 +32,8 @@ import nacaLib.accounting.AccountingRecordProgram;
 import nacaLib.accounting.AccountingRecordTrans;
 import nacaLib.accounting.CriteriaEndRunMain;
 import nacaLib.base.CJMapObject;
+import nacaLib.cics.CicsRecordStore;
+import nacaLib.cics.CicsTextOutput;
 import nacaLib.exceptions.AbortSessionException;
 import nacaLib.misc.CCommarea;
 import nacaLib.misc.KeyPressed;
@@ -57,6 +61,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
     private FileManager fileManager = null;
     private boolean isexternalConnection = false;
     private boolean issimulateRealEnvironment = false;
+    private final Map<String, String> runtimeConfigOptions = new ConcurrentHashMap<>();
+    private CicsRecordStore cicsRecordStore;
+    private CicsTextOutput cicsTextOutput;
 
     /** Creates a new base environment instance. */
     public BaseEnvironment(BaseSession baseSession, DbConnectionManagerBase connectionManager, BaseResourceManager baseResourceManager)
@@ -397,11 +404,56 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
      */
     public String getConfigOption(String string)
     {
+        String runtimeValue = runtimeConfigOptions.get(string);
+        if (runtimeValue != null)
+        {
+            return runtimeValue;
+        }
         if (tagConfig != null)
         {
             return tagConfig.getVal(string);
         }
         return "";
+    }
+
+    /**
+     * Overrides one environment option for the lifetime of this execution environment.
+     * Runtime adapters use this hook instead of mutating the legacy XML configuration.
+     */
+    public void setRuntimeConfigOption(String name, String value)
+    {
+        if (value == null)
+        {
+            runtimeConfigOptions.remove(name);
+        }
+        else
+        {
+            runtimeConfigOptions.put(name, value);
+        }
+    }
+
+    /** Sets the request-scoped CICS record-store backend. */
+    public void setCicsRecordStore(CicsRecordStore recordStore)
+    {
+        cicsRecordStore = recordStore;
+    }
+
+    /** Returns the request-scoped CICS record-store backend. */
+    public CicsRecordStore getCicsRecordStore()
+    {
+        return cicsRecordStore;
+    }
+
+    /** Publishes the latest SEND TEXT response. */
+    public void setCicsTextOutput(CicsTextOutput output)
+    {
+        cicsTextOutput = output;
+    }
+
+    /** Returns the latest SEND TEXT response. */
+    public CicsTextOutput getCicsTextOutput()
+    {
+        return cicsTextOutput;
     }
 
     public String getUserLanguageId()

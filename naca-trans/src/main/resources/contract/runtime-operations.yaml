@@ -2016,7 +2016,7 @@ operations:
     runtimeClass: idea.manager.CESMReceive
     runtimeMethod: into
     paramTypes: [nacaLib.varEx.Form]
-    returns: void
+    returns: idea.manager.CESMReceive
 
   # --- CICS SEND MAP ---
   # EXEC CICS SEND MAP(...) END-EXEC emits CESM.sendMap(<map>) followed by a builder
@@ -2334,7 +2334,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readDataSet
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.dataSetVar
     since: 1
@@ -2342,7 +2342,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readDataSet
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.fileString
     since: 1
@@ -2350,7 +2350,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readFile
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.fileVar
     since: 1
@@ -2358,7 +2358,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readFile
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.previousDataSetString
     since: 1
@@ -2366,7 +2366,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readPreviousDataSet
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.previousDataSetVar
     since: 1
@@ -2374,7 +2374,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readPreviousDataSet
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.previousFileString
     since: 1
@@ -2382,7 +2382,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readPreviousFile
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.previousFileVar
     since: 1
@@ -2390,7 +2390,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readPreviousFile
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.nextDataSetString
     since: 1
@@ -2398,7 +2398,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readNextDataSet
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.nextDataSetVar
     since: 1
@@ -2406,7 +2406,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readNextDataSet
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.nextFileString
     since: 1
@@ -2414,7 +2414,7 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readNextFile
     paramTypes: [java.lang.String]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.nextFileVar
     since: 1
@@ -2422,71 +2422,71 @@ operations:
     runtimeClass: nacaLib.basePrgEnv.BaseCESMManager
     runtimeMethod: readNextFile
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.into
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: into
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.lengthVar
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: length
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.lengthInt
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: length
     paramTypes: [int]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.recIDField
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: recIDField
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.keyLengthVar
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: keyLength
     paramTypes: [nacaLib.varEx.Var]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.keyLengthInt
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: keyLength
     paramTypes: [int]
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.equal
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: equal
     paramTypes: []
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   - id: cics.read.update
     since: 1
     capability: CICS
-    runtimeClass: nacaLib.misc.CCESMFakeMethodContainer
+    runtimeClass: nacaLib.cics.CicsReadCommand
     runtimeMethod: update
     paramTypes: []
-    returns: nacaLib.misc.CCESMFakeMethodContainer
+    returns: nacaLib.cics.CicsReadCommand
 
   # --- CICS READQ TD / TS ---
   - id: cics.readq.tempString

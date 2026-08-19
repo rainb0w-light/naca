@@ -1,0 +1,40 @@
+carddemo:
+  enabled: true
+  execution:
+    enabled: true
+    generated-classes-dir: ${CARDDEMO_GENERATED_CLASSES_DIR:build/generated-carddemo/signon/compile-classes}
+  cics:
+    application-id: ${CARDDEMO_CICS_APPLID:CARDDEMO}
+    system-id: ${CARDDEMO_CICS_SYSID:NACA}
+
+naca:
+  database:
+    url: ${NACA_DATABASE_URL:jdbc:postgresql://localhost:5432/carddemo}
+    username: ${NACA_DATABASE_USERNAME:carddemo}
+    password: ${NACA_DATABASE_PASSWORD:carddemo}
+    driver-class-name: ${NACA_DATABASE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    pool:
+      max-size: ${NACA_DATABASE_POOL_MAX_SIZE:20}
+      min-idle: ${NACA_DATABASE_POOL_MIN_IDLE:2}
+      connection-timeout: ${NACA_DATABASE_POOL_CONNECTION_TIMEOUT:30000}
+
+spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration/carddemo
+    default-schema: carddemo_runtime
+    schemas: carddemo_runtime,carddemo_vsam,carddemo,carddemo_compat
+    create-schemas: true
+    validate-on-migrate: true
+    clean-disabled: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      group:
+        readiness:
+          include: readinessState,cardDemoPostgres
+  health:
+    readinessstate:
+      enabled: true

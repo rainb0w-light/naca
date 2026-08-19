@@ -25,6 +25,8 @@ import nacaLib.CESM.CESMStart;
 import nacaLib.CESM.CESMWriteQueue;
 import nacaLib.CESM.CESMXctl;
 import nacaLib.base.CJMapObject;
+import nacaLib.cics.CicsReadCommand;
+import nacaLib.cics.CicsReadCommand.Mode;
 import nacaLib.exceptions.AbortSessionException;
 import nacaLib.exceptions.CESMAbendException;
 import nacaLib.exceptions.CESMReturnException;
@@ -80,6 +82,11 @@ public class BaseCESMManager extends CJMapObject
     public void returnTrans(VarAndEdit varTransaction, Var v1, VarAndEdit len)
     {
         returnTrans(varTransaction.getString(), v1, len.getInt(), true);
+    }
+    /** Executes RETURN TRANSID with a COBOL variable and an intrinsic integer length. */
+    public void returnTrans(VarAndEdit varTransaction, Var v1, int length)
+    {
+        returnTrans(varTransaction.getString(), v1, length, true);
     }
     /** Executes the return trans operation. */
     public void returnTrans(VarAndEdit varTransaction, Var v1)
@@ -321,19 +328,19 @@ public class BaseCESMManager extends CJMapObject
     }
 
     /** Reads the next data set. */
-    public CCESMFakeMethodContainer readNextDataSet(Var resFichier)
+    public CicsReadCommand readNextDataSet(Var resFichier)
     {
         return readNextDataSet(resFichier.getString());
     }
 
     /** Reads the next data set. */
-    public CCESMFakeMethodContainer readNextDataSet(String resFichier)
+    public CicsReadCommand readNextDataSet(String resFichier)
     {
-        throw unsupported("READNEXT DATASET");
+        return new CicsReadCommand(cESMEnv, resFichier, Mode.NEXT);
     }
 
     /** Reads the previous data set. */
-    public CCESMFakeMethodContainer readPreviousDataSet(Var resFichier)
+    public CicsReadCommand readPreviousDataSet(Var resFichier)
     {
         return readPreviousDataSet(resFichier.getString());
     }
@@ -676,56 +683,56 @@ public class BaseCESMManager extends CJMapObject
     }
 
     /** Reads the data set. */
-    public CCESMFakeMethodContainer readDataSet(Var var)
+    public CicsReadCommand readDataSet(Var var)
     {
         return readDataSet(var.getString());
     }
     /** Reads the data set. */
-    public CCESMFakeMethodContainer readDataSet(String string)
+    public CicsReadCommand readDataSet(String string)
     {
-        throw unsupported("READ DATASET");
+        return new CicsReadCommand(cESMEnv, string, Mode.NORMAL);
     }
 
     /** Reads the file. */
-    public CCESMFakeMethodContainer readFile(Var name)
+    public CicsReadCommand readFile(Var name)
     {
         return readFile(name.getString());
     }
 
     /** Reads the file. */
-    public CCESMFakeMethodContainer readFile(String name)
+    public CicsReadCommand readFile(String name)
     {
-        throw unsupported("READ FILE");
+        return new CicsReadCommand(cESMEnv, name, Mode.NORMAL);
     }
 
     /** Reads the previous data set. */
-    public CCESMFakeMethodContainer readPreviousDataSet(String name)
+    public CicsReadCommand readPreviousDataSet(String name)
     {
-        throw unsupported("READPREV DATASET");
+        return new CicsReadCommand(cESMEnv, name, Mode.PREVIOUS);
     }
 
     /** Reads the previous file. */
-    public CCESMFakeMethodContainer readPreviousFile(Var name)
+    public CicsReadCommand readPreviousFile(Var name)
     {
         return readPreviousFile(name.getString());
     }
 
     /** Reads the previous file. */
-    public CCESMFakeMethodContainer readPreviousFile(String name)
+    public CicsReadCommand readPreviousFile(String name)
     {
-        throw unsupported("READPREV FILE");
+        return new CicsReadCommand(cESMEnv, name, Mode.PREVIOUS);
     }
 
     /** Reads the next file. */
-    public CCESMFakeMethodContainer readNextFile(Var name)
+    public CicsReadCommand readNextFile(Var name)
     {
         return readNextFile(name.getString());
     }
 
     /** Reads the next file. */
-    public CCESMFakeMethodContainer readNextFile(String name)
+    public CicsReadCommand readNextFile(String name)
     {
-        throw unsupported("READNEXT FILE");
+        return new CicsReadCommand(cESMEnv, name, Mode.NEXT);
     }
 
     /** Writes the data set. */

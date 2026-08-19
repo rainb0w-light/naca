@@ -46,15 +46,15 @@ class BaseCESMManagerRuntimeTest
         assertThrows(UnsupportedOperationException.class, manager::getMain);
         assertThrows(UnsupportedOperationException.class, manager::inquire);
         assertThrows(UnsupportedOperationException.class,
-            () -> manager.readFile("CUSTOMER"));
+            () -> manager.readFile("CUSTOMER").execute());
         assertThrows(UnsupportedOperationException.class,
             () -> manager.writeDataSet("CUSTOMER"));
     }
 
     @Test
-    void compatibilityBuilderRejectsRemoteSysidOperations()
+    void compatibilityBuilderRequiresAnEnvironmentForSysidAssignment()
     {
-        assertThrows(UnsupportedOperationException.class,
+        assertThrows(IllegalStateException.class,
             () -> new nacaLib.misc.CCESMFakeMethodContainer().sysID(null));
     }
 }

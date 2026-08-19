@@ -1,0 +1,13 @@
+BMSJSM1 DFHMSD TYPE=MAP,                                               *00000010
+               MODE=INOUT,LANG=COBOL                                    00000020
+BMSJS0F DFHMDI SIZE=(024,080),LINE=NEXT,COLUMN=SAME,                   *00000030
+               CTRL=(FREEKB),TIOAPFX=YES,                              *00000040
+               DATA=FIELD,JUSTIFY=(LEFT)                                00000050
+REQUEST DFHMDF POS=(005,010),LENGTH=008,                               *00000060
+               ATTRB=(UNPROT,NORM),                                    *00000070
+               JUSTIFY=(LEFT,BLANK)                                     00000080
+RESULT  DFHMDF POS=(007,010),LENGTH=016,                               *00000090
+               ATTRB=(ASKIP,NORM),                                     *00000100
+               JUSTIFY=(LEFT,BLANK)                                     00000110
+        DFHMSD TYPE=FINAL                                               00000120
+        END                                                             00000130

@@ -1,6 +1,20 @@
-version: '3.8'
-
 services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${CARDDEMO_POSTGRES_DB:-carddemo}
+      POSTGRES_USER: ${CARDDEMO_POSTGRES_USER:-carddemo}
+      POSTGRES_PASSWORD: ${CARDDEMO_POSTGRES_PASSWORD:-carddemo}
+    ports:
+      - "${CARDDEMO_POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - carddemo-postgres-data:/var/lib/postgresql/data
+
   # COBOL compilation environment
   cobol-env:
     build:
@@ -23,3 +37,4 @@ services:
 
 volumes:
   gradle-cache:
+  carddemo-postgres-data:

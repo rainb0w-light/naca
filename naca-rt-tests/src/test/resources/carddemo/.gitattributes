@@ -1,0 +1,3 @@
+# Preserve the pinned mainframe corpus byte-for-byte, including CRLF and
+# fixed-column trailing spaces. Provenance hashes are computed from these bytes.
+app/** -text

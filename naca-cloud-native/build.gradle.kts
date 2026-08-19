@@ -46,22 +46,39 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
+    implementation("org.springframework.boot:spring-boot-starter-jdbc") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-validation") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 
     // Test - exclude default logging. The pinned COBOL parser engine currently shades Logback.
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.testcontainers:junit-jupiter:1.20.6")
+    testImplementation("org.testcontainers:postgresql:1.20.6")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.processResources {
+    from(rootProject.file("naca-rt-tests/src/test/resources/carddemo/CAPABILITY_INVENTORY.json")) {
+        into("carddemo/capabilities")
+    }
+}
+
 // Environment-dependent acceptance suites run only through their dedicated tasks.
 tasks.test {
     useJUnitPlatform {
-        excludeTags("online-corpus-baseline")
+        excludeTags("online-corpus-baseline", "carddemo-online-baseline", "carddemo-postgres")
     }
 }
 
@@ -73,4 +90,39 @@ tasks.register<Test>("onlineCorpusBaseline") {
     useJUnitPlatform {
         includeTags("online-corpus-baseline")
     }
+}
+
+tasks.register<Test>("cardDemoOnlineBaseline") {
+    group = "verification"
+    description = "CardDemo online fail-closed inventory for translated EXEC statements"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("carddemo-online-baseline")
+    }
+}
+
+tasks.register<Test>("cardDemoPostgresAcceptance") {
+    group = "verification"
+    description = "Runs the CardDemo PostgreSQL/Flyway/health acceptance with Testcontainers"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("carddemo-postgres")
+    }
+    dependsOn("cardDemoOnlineBaseline")
+}
+
+tasks.register<Test>("cardDemoMinimalBmsAcceptance") {
+    group = "verification"
+    description = "Translates, compiles and executes the CardDemo JSON/BMS proof program"
+    testClassesDirs = sourceSets["test"].output.classesDirs
+    classpath = sourceSets["test"].runtimeClasspath
+    useJUnitPlatform {
+        includeTags("carddemo-minimal-bms")
+    }
+}
+
+tasks.named("bootRun") {
+    dependsOn("cardDemoOnlineBaseline")
 }

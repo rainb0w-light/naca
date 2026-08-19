@@ -55,6 +55,25 @@ class CICSAssignRenderTest
     }
 
     @Test
+    @DisplayName("ASSIGN SYSID(ref) renders the runtime assignment")
+    void assignWithSysid()
+    {
+        CEntityCICSAssign assign = new CEntityCICSAssign(1, null);
+        MockDataEntity target = new MockDataEntity(2, "W-SYSID")
+        {
+            @Override
+            public boolean ignore()
+            {
+                return GetNbWrittingActions() == 0;
+            }
+        };
+        assign.AddRequest("sysID", target);
+        assertFalse(assign.ignore(), "ASSIGN must register its target as written");
+        String output = render(assign);
+        assertTrue(output.contains("CESM.assign().sysID(W-SYSID) ;"), output);
+    }
+
+    @Test
     @DisplayName("ASSIGN with several requests chains them on one CESM statement in order")
     void assignWithChainedRequests()
     {

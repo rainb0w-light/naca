@@ -20,6 +20,7 @@ import semantic.CBaseEntityFactory;
 import semantic.CBaseLanguageEntity;
 import semantic.CDataEntity;
 import semantic.CICS.CEntityCICSSendMap;
+import semantic.CICS.CEntityCICSSendText;
 import utils.CGlobalEntityCounter;
 import utils.Transcoder;
 
@@ -41,6 +42,7 @@ public class CExecCICSSend extends CCobolElement
         public static CCICSSendType SEND = new CCICSSendType("SEND");
         public static CCICSSendType PAGE = new CCICSSendType("PAGE");
         public static CCICSSendType CONTROL = new CCICSSendType("CONTROL");
+        public static CCICSSendType TEXT = new CCICSSendType("TEXT");
     }
     /**
      * @param line
@@ -105,6 +107,28 @@ public class CExecCICSSend extends CCobolElement
 
             return send ;
         }
+        else if (sendType == CCICSSendType.TEXT)
+        {
+            if (sendFrom == null)
+            {
+                throw new diagnostic.UnsupportedFeatureException(
+                    "cics.send.text.missing-from", "CICS", getLine(), 0,
+                    "EXEC CICS SEND TEXT requires FROM");
+            }
+            CEntityCICSSendText send = factory.NewEntityCICSSendText(getLine());
+            parent.AddChild(send);
+            CDataEntity source = sendFrom.GetDataReference(getLine(), factory);
+            CDataEntity sourceLength = sendLength == null
+                ? null : sendLength.GetDataEntity(getLine(), factory);
+            send.setDataFrom(source, sourceLength);
+            send.setFlags(issendErase, issendFreeKB);
+            CDataEntity responseEntity = sendResponse == null
+                ? null : sendResponse.GetDataReference(getLine(), factory);
+            CDataEntity response2Entity = sendResponse2 == null
+                ? null : sendResponse2.GetDataReference(getLine(), factory);
+            send.setResponses(responseEntity, response2Entity);
+            return send;
+        }
         else
         {
             // Recognized but not lowered: fail closed with a structured diagnostic
@@ -135,7 +159,12 @@ public class CExecCICSSend extends CCobolElement
             CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "MAP") ;
             isret = ParseSendMap();
         }
-        else if (tok.GetKeyword() == CCobolKeywordList.CONTROL)
+        else if (tok.GetValue().equals("TEXT"))
+        {
+            CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "TEXT");
+            isret = ParseSendText();
+        }
+        else if (tok.GetKeyword() == CCobolKeywordList.CONTROL || "CONTROL".equals(tok.GetValue()))
         {
             CGlobalEntityCounter.GetInstance().CountCICSCommandOptions("SEND", "CONTROL") ;
             isret = ParseSendControl();
@@ -152,16 +181,25 @@ public class CExecCICSSend extends CCobolElement
         }
         else
         {
-            Transcoder.logError(getLine(), "Unparsed EXEC CICS SEND statement : "+tok.GetValue());
             String cs = "" ;
             tok = GetCurrentToken() ;
+            String firstUnparsed = tok.GetValue();
             while (tok.GetKeyword() != CCobolKeywordList.END_EXEC)
             {
                 cs += tok.GetDisplay() + " " ;
                 tok = GetNext() ;
             }
             GetNext() ;
-            return true ;
+            String featureId = "cics.send"
+                + (firstUnparsed == null || firstUnparsed.isBlank()
+                ? ""
+                : "." + firstUnparsed.toLowerCase());
+            throw new diagnostic.UnsupportedFeatureException(
+                featureId,
+                "CICS",
+                getLine(),
+                0,
+                "Unparsed EXEC CICS SEND statement : " + cs.trim());
         }
 
         tok = GetCurrentToken() ;
@@ -297,6 +335,87 @@ public class CExecCICSSend extends CCobolElement
 
         }
         return true ;
+    }
+
+    protected boolean ParseSendText()
+    {
+        sendType = CCICSSendType.TEXT;
+        CBaseToken tok = GetCurrentToken();
+        if (tok.GetValue().equals("TEXT"))
+        {
+            tok = GetNext();
+        }
+        boolean isdone = false;
+        while (!isdone)
+        {
+            tok = GetCurrentToken();
+            if (tok.GetKeyword() == CCobolKeywordList.FROM)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    sendFrom = ReadIdentifier();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.LENGTH)
+            {
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    sendLength = ReadTerminal();
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.ERASE)
+            {
+                issendErase = true;
+                tok = GetNext();
+            }
+            else if (tok.GetKeyword() == CCobolKeywordList.FREEKB)
+            {
+                issendFreeKB = true;
+                tok = GetNext();
+            }
+            else if (tok.GetValue().equals("RESP") || tok.GetValue().equals("RESP2"))
+            {
+                boolean secondary = tok.GetValue().equals("RESP2");
+                tok = GetNext();
+                if (tok.GetType() == CTokenType.LEFT_BRACKET)
+                {
+                    tok = GetNext();
+                    CIdentifier target = ReadIdentifier();
+                    if (secondary)
+                    {
+                        sendResponse2 = target;
+                    }
+                    else
+                    {
+                        sendResponse = target;
+                    }
+                    tok = GetCurrentToken();
+                    if (tok.GetType() == CTokenType.RIGHT_BRACKET)
+                    {
+                        tok = GetNext();
+                    }
+                }
+            }
+            else
+            {
+                isdone = true;
+            }
+        }
+        return true;
     }
 
     protected boolean ParseSendMap()
@@ -496,7 +615,7 @@ public class CExecCICSSend extends CCobolElement
             }
             return e;
         }
-        else if (sendType == CCICSSendType.SEND)
+        else if (sendType == CCICSSendType.SEND || sendType == CCICSSendType.TEXT)
         {
             Element e = root.createElement("ExecCICSSend") ;
             if (sendFrom != null)
@@ -564,6 +683,9 @@ public class CExecCICSSend extends CCobolElement
     protected boolean issendErase = false ;
     protected CTerminal sendLength = null ;
     protected boolean issendWait = false ;
+    protected boolean issendFreeKB = false ;
+    protected CIdentifier sendResponse = null ;
+    protected CIdentifier sendResponse2 = null ;
 
     // SEND MAP
     protected CTerminal name = null ;
