@@ -36,14 +36,14 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 		try
 		{
 			Timestamp ts = resultSet.getTimestamp(nCol1Based);
-			String csValue = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
+			String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
 
 			Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
-			String csNano = intNanos.toString();
-			String csNanoPadded = StringUtil.leftPad(csNano, 6, '0');
+			String nano = intNanos.toString();
+			String nanoPadded = StringUtil.leftPad(nano, 6, '0');
 
-			csValue += csNanoPadded;
-			byte[] aBytes = csValue.getBytes();
+			value += nanoPadded;
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
@@ -84,14 +84,14 @@ public class DbColDefinitionTimestamp extends BaseDbColDefinition
 		try
 		{
 			Timestamp ts = resultSet.getTimestamp(nCol1Based);
-			String csValue = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
+			String value = new DateUtil("yyyy-MM-dd-HH.mm.ss.", new java.util.Date(ts.getTime())).toString();
 
 			Integer intNanos = Integer.valueOf(ts.getNanos()/1000);
-			String csNano = intNanos.toString();
-			String csNanoPadded = StringUtil.leftPad(csNano, 6, '0');
-			csValue += csNanoPadded;			
-			csValue = "\"" + csValue + "\"";
-			byte[] aBytes = csValue.getBytes();	// 26 bytes
+			String nano = intNanos.toString();
+			String nanoPadded = StringUtil.leftPad(nano, 6, '0');
+			value += nanoPadded;			
+			value = "\"" + value + "\"";
+			byte[] aBytes = value.getBytes();	// 26 bytes
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;

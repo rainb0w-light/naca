@@ -46,7 +46,7 @@ public class DbConnectionColl
 	//private int nNbConnectionCreated = 0;
 	private ThreadSafeCounter tscNbConnectionCreated = new ThreadSafeCounter(0);
 	private boolean isinit = false;
-	private String csName = null;
+	private String name = null;
 	private boolean isshowRunningConnections = false;
 
 	DbConnectionColl(String csName, int nNbMaxConnection, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, boolean bUseExplain, int nGarbageCollectorStatement_ms)
@@ -58,7 +58,7 @@ public class DbConnectionColl
 		this.nMaxStatementLiveTime_ms = nMaxStatementLiveTime_ms;
 		this.bUseExplain = bUseExplain;
 		this.nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
-		this.csName = csName;
+		this.name = csName;
 	}
 
 	public boolean isInit()
@@ -68,12 +68,12 @@ public class DbConnectionColl
 
 	void setName(String csName)
 	{
-		this.csName = csName;
+		this.name = csName;
 	}
 
 	public String getName()
 	{
-		return csName;
+		return name;
 	}
 
 	void init(DbConnectionParam dbConnectionParam)
@@ -144,28 +144,28 @@ public class DbConnectionColl
 		Time_ms.wait_ms(1000);
 	}
 
-	private String replaceEnvVarsByValue(String csUrl)
+	private String replaceEnvVarsByValue(String url)
 	{
-		int nStartPos = csUrl.indexOf('%');
+		int nStartPos = url.indexOf('%');
 		while(nStartPos >= 0)
 		{
-			int nEndPos = csUrl.indexOf('%', nStartPos+1);
+			int nEndPos = url.indexOf('%', nStartPos+1);
 			if(nEndPos >= 0)
 			{
-				String csLeft = csUrl.substring(0, nStartPos);
-				String csRight = csUrl.substring(nEndPos+1);
-				String csToken = csUrl.substring(nStartPos+1, nEndPos);
-				String csValue = EnvironmentVar.getParamValue(csToken);
-				if(StringUtil.isEmpty(csValue))
-					csValue = "NULL";
-				csUrl = csLeft + csValue + csRight;
+				String left = url.substring(0, nStartPos);
+				String right = url.substring(nEndPos+1);
+				String token = url.substring(nStartPos+1, nEndPos);
+				String value = EnvironmentVar.getParamValue(token);
+				if(StringUtil.isEmpty(value))
+					value = "NULL";
+				url = left + value + right;
 			}
-			nStartPos = csUrl.indexOf('%');
+			nStartPos = url.indexOf('%');
 		}
-		return csUrl;
+		return url;
 	}
 
-	private DbConnectionBase createNewConnection(String csPoolName, boolean bUseStatementCache, DbConnectionManagerBase connectionManager, String csValidationQuery)
+	private DbConnectionBase createNewConnection(String poolName, boolean bUseStatementCache, DbConnectionManagerBase connectionManager, String validationQuery)
 		throws DbConnectionException
 	{
 
@@ -175,35 +175,35 @@ public class DbConnectionColl
 		{
 		    try
 			{
-		    	String csUrl = dbConnectionParam.csUrl;
+		    	String url = dbConnectionParam.csUrl;
 		    	if(dbConnectionParam.csConnectionUrlOptionalParams != null)
-		    		csUrl += dbConnectionParam.csConnectionUrlOptionalParams;
-		    	csUrl = StringUtil.replace(csUrl, "$FoundPoolName", csPoolName, true);
-		    	csUrl = replaceEnvVarsByValue(csUrl);
+		    		url += dbConnectionParam.csConnectionUrlOptionalParams;
+		    	url = StringUtil.replace(url, "$FoundPoolName", poolName, true);
+		    	url = replaceEnvVarsByValue(url);
 
 				Connection connection = null;
-				String csUser = (String)dbConnectionParam.propertiesUserPassword.get("user");
-				String csCryptedPassword = (String)dbConnectionParam.propertiesUserPassword.get("CryptedPassword");
-				String csCryptKey = (String)dbConnectionParam.propertiesUserPassword.get("CryptKey");
-				if(!StringUtil.isEmpty(csCryptedPassword) && !StringUtil.isEmpty(csCryptKey))
+				String user = (String)dbConnectionParam.propertiesUserPassword.get("user");
+				String cryptedPassword = (String)dbConnectionParam.propertiesUserPassword.get("CryptedPassword");
+				String cryptKey = (String)dbConnectionParam.propertiesUserPassword.get("CryptKey");
+				if(!StringUtil.isEmpty(cryptedPassword) && !StringUtil.isEmpty(cryptKey))
 				{
 					// Got a crypted db password
 					// Code to move in a private jar; not distrobuted as a source
-					Blowfish blowfish = new Blowfish(csCryptKey, true);
-					String csPassword = blowfish.decrypt(csCryptedPassword);
+					Blowfish blowfish = new Blowfish(cryptKey, true);
+					String password = blowfish.decrypt(cryptedPassword);
 
 					Properties propertiesUserPassword = new Properties();
-					propertiesUserPassword.setProperty("user", csUser);
-					propertiesUserPassword.setProperty("password", csPassword);
+					propertiesUserPassword.setProperty("user", user);
+					propertiesUserPassword.setProperty("password", password);
 
-					connection = dbConnectionParam.driver.connect(csUrl, propertiesUserPassword);
+					connection = dbConnectionParam.driver.connect(url, propertiesUserPassword);
 //					if(connection != null)
 //						Log.logNormal("Correctly created new DB connection with crypted user/password. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
 
 				}
 				else
 				{
-					connection = dbConnectionParam.driver.connect(csUrl, dbConnectionParam.propertiesUserPassword);
+					connection = dbConnectionParam.driver.connect(url, dbConnectionParam.propertiesUserPassword);
 //					if(connection != null)
 //						Log.logNormal("Correctly created new DB connection. "+ tscNbConnectionCreated.get()+" created connections, out of "+nNbMaxConnection+" allowed.");
 				}
@@ -226,16 +226,16 @@ public class DbConnectionColl
 
 		    	DbDriverId dbDriverId = dbConnectionParam.getDbDriverId();
 
-		    	DbConnectionBase sqlConnection = connectionManager.createConnection(connection, csPoolName, dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
+		    	DbConnectionBase sqlConnection = connectionManager.createConnection(connection, poolName, dbConnectionParam.getEnvironment(), bUseStatementCache, true, dbDriverId);
 		    	sqlConnection.setDbConnectionColl(this);
 
 		    	sqlConnection.setUseExplain(getUseExplain());
 
-				if(sqlConnection.checkWithQuery(csValidationQuery))
+				if(sqlConnection.checkWithQuery(validationQuery))
 				{
 					tscNbConnectionCreated.inc();
-					String csPrefix = connectionManager.getPropertyPrefix();
-					sqlConnection.setOnceUUID(csPrefix);
+					String prefix = connectionManager.getPropertyPrefix();
+					sqlConnection.setOnceUUID(prefix);
 					collUsedConnections.add(sqlConnection);	// this connection is in use
 					sqlConnection.showHideJMXBean(isshowRunningConnections);
 					return sqlConnection;
@@ -263,12 +263,12 @@ public class DbConnectionColl
 		return null;
 	}
 
-	private void setConnectionPackage(Connection connection, String csDbPackage)
+	private void setConnectionPackage(Connection connection, String dbPackage)
 	{
 		try
 		{
 			Statement stmt = connection.createStatement();
-			stmt.execute("SET CURRENT PACKAGESET = '" + csDbPackage + "'");
+			stmt.execute("SET CURRENT PACKAGESET = '" + dbPackage + "'");
 			stmt.close();
 		}
 		catch (Exception ex)

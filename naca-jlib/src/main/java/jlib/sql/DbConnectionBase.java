@@ -30,8 +30,8 @@ import jlib.threads.Threadutil;
 public abstract class DbConnectionBase //extends BaseOpenMBean
 {
 	private boolean isuseJmx = true;
-	private String csPrefId = null;
-	private String csEnvironment = "" ;
+	private String prefId = null;
+	private String environment = "" ;
 	protected Connection dbConnection = null;
 	private boolean isuseRowId = false;	// true if must use RowId to support updates in cursors "select for update" (Oracle needs it)
 	private Hashtable<String, DbPreparedStatement> hashStatement = new Hashtable<String, DbPreparedStatement>();	// Hsah collection of statement; Vey=int (hashed statement string), Value=Statement
@@ -42,13 +42,13 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	public DbConnectionColl dbConnectionColl = null;
 	private boolean isuseExplain = false;
 	private DbDriverId dbDriverId = null;
-	private String csUUID = null;
+	private String uuid = null;
 
 	public DbConnectionBase(Connection conn, String csPrefId, String csEnv, boolean isuseCachedStatements, boolean bUseJmx, DbDriverId dbDriverId)
 	{
 		this.dbDriverId = dbDriverId;
 		//super("DbConnectionBase_"+csPrefId, "DbConnectionBase");
-		this.csPrefId = csPrefId;
+		this.prefId = csPrefId;
 		this.isuseCachedStatements = isuseCachedStatements;
 		dbConnection = conn ;
 		if(csEnv.equals("OracleTest"))	// Tests have no prefixe
@@ -57,7 +57,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		}
 		else
 		{
-			csEnvironment = csEnv ;
+			environment = csEnv ;
 		}
 		stopWatchLastUsage = new StopWatch();
 
@@ -235,12 +235,12 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		while(iterMapEntry.hasNext())
 		{
 			Map.Entry<String, DbPreparedStatement> entry = iterMapEntry.next();
-			String csStatementId = entry.getKey();
+			String statementId = entry.getKey();
 			DbPreparedStatement dbPreparedStatement = entry.getValue();
 
 			if(!dbPreparedStatement.isReserved())
 			{
-				StatementPosInPool pos = new StatementPosInPool(this, csStatementId);
+				StatementPosInPool pos = new StatementPosInPool(this, statementId);
 				mapStatements.put(dbPreparedStatement.getLastUsageTimeValue(), pos);
 			}
 		}
@@ -304,12 +304,12 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	//int nDEBUGCount = 0;
 
-	synchronized private DbPreparedStatement getCachedStatement(String csQueryHash)
+	synchronized private DbPreparedStatement getCachedStatement(String queryHash)
 	{
 		if(hashStatement == null)
 			return null;
 
-		DbPreparedStatement SQLStatement = hashStatement.get(csQueryHash);
+		DbPreparedStatement SQLStatement = hashStatement.get(queryHash);
 		if(SQLStatement != null)
 			SQLStatement.setStatementUsed();
 		return SQLStatement;
@@ -353,8 +353,8 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	public DbPreparedStatement prepareStatement(SQLClause sqlStatement)
 	{
-		String csQuery = sqlStatement.getQuery();
-		DbPreparedStatement preparedStatement = prepareStatement(csQuery, 0, false);
+		String query = sqlStatement.getQuery();
+		DbPreparedStatement preparedStatement = prepareStatement(query, 0, false);
 		sqlStatement.fillParameters(preparedStatement);
 
 		return preparedStatement;
@@ -386,14 +386,14 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	int prepareAndExecuteWithException(SQLClause sqlClause)
 		throws TechnicalException
 	{
-		String csQuery = sqlClause.getQuery();
+		String query = sqlClause.getQuery();
 
-		TechnicalException.throwIfNullOrEmpty(csQuery, TechnicalException.DB_ERROR_PREPARE_STATEMENT,"Query is not set. Call 'SQLClause.set' before trying to execute the query.");
+		TechnicalException.throwIfNullOrEmpty(query, TechnicalException.DB_ERROR_PREPARE_STATEMENT,"Query is not set. Call 'SQLClause.set' before trying to execute the query.");
 
-		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(csQuery, false);
+		SQLTypeOperation typeOperation = SQLTypeOperation.determineOperationType(query, false);
 
-		String csPrefixedQuery = SQLTypeOperation.addEnvironmentPrefix(getEnvironmentPrefix(), csQuery, typeOperation, "");
-		DbPreparedStatement preparedStatement = prepareStatementWithException(csPrefixedQuery, 0, false);
+		String prefixedQuery = SQLTypeOperation.addEnvironmentPrefix(getEnvironmentPrefix(), query, typeOperation, "");
+		DbPreparedStatement preparedStatement = prepareStatementWithException(prefixedQuery, 0, false);
 		if(preparedStatement != null)
 		{
 			sqlClause.fillParameters(preparedStatement);
@@ -423,10 +423,10 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	synchronized public DbPreparedStatement prepareStatement(String csQuery, int nSuffixeHash, boolean bHoldability)
 	{
-		String csQueryHash = csQuery + nSuffixeHash;
+		String queryHash = csQuery + nSuffixeHash;
 		if(isuseCachedStatements)
 		{
-			DbPreparedStatement SQLStatement = getCachedStatement(csQueryHash);
+			DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
 			if(SQLStatement != null)
 				return SQLStatement;
 		}
@@ -435,7 +435,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		if(SQLStatement != null && hashStatement != null)
 		{
 			if(isuseCachedStatements)
-				hashStatement.put(csQueryHash, SQLStatement);
+				hashStatement.put(queryHash, SQLStatement);
 		}
 		return SQLStatement;
 	}
@@ -443,10 +443,10 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	synchronized public DbPreparedStatement prepareStatementWithException(String csQuery, int nSuffixeHash, boolean bHoldability)
 		throws TechnicalException
 	{
-		String csQueryHash = csQuery + nSuffixeHash;
+		String queryHash = csQuery + nSuffixeHash;
 		if(isuseCachedStatements)
 		{
-			DbPreparedStatement SQLStatement = getCachedStatement(csQueryHash);
+			DbPreparedStatement SQLStatement = getCachedStatement(queryHash);
 			if(SQLStatement != null)
 				return SQLStatement;
 		}
@@ -455,7 +455,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		if(SQLStatement != null && hashStatement != null)
 		{
 			if(isuseCachedStatements)
-				hashStatement.put(csQueryHash, SQLStatement);
+				hashStatement.put(queryHash, SQLStatement);
 		}
 		return SQLStatement;
 	}
@@ -581,7 +581,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	public String getEnvironmentPrefix()
 	{
-		return csEnvironment ;
+		return environment ;
 	}
 
 
@@ -622,7 +622,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	String getPrefId()
 	{
-		return csPrefId;
+		return prefId;
 	}
 
 	void setUseExplain(boolean bUseExplain)
@@ -655,7 +655,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 			if(bToShow && !isBeanCreated())
 			{
 				dbConnectionBaseJMXBean = new DbConnectionBaseJMXBean(this);
-				dbConnectionBaseJMXBean.createMBean("Con_"+csUUID, csUUID);
+				dbConnectionBaseJMXBean.createMBean("Con_"+uuid, uuid);
 			}
 			else if(!bToShow && isBeanCreated())
 			{
@@ -669,17 +669,17 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 	public void dumpConnections(StringBuilder sbText)
 	{
 		sbText.append("-------------------------------------------------------------------------\n");
-		sbText.append("Connection: Con_"+csUUID+"\n;");
+		sbText.append("Connection: Con_"+uuid+"\n;");
 		sbText.append("    Last usage"+stopWatchLastUsage.getElapsedTime()+" ms\n;");
 		sbText.append("    Statements:\n");
 
 		Enumeration<String> eStsmt = hashStatement.keys();
 		while(eStsmt.hasMoreElements())
 		{
-			String csStmt = eStsmt.nextElement();
-			DbPreparedStatement statement = hashStatement.get(csStmt);
+			String stmt = eStsmt.nextElement();
+			DbPreparedStatement statement = hashStatement.get(stmt);
 			long lastUsageTimeValue = statement.getLastUsageTimeValue();
-			sbText.append("    " + lastUsageTimeValue + ";  " + csStmt + "\n");
+			sbText.append("    " + lastUsageTimeValue + ";  " + stmt + "\n");
 		}
 	}
 
@@ -692,13 +692,13 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 
 	public void setOnceUUID(String csConnId)
 	{
-		if(csUUID == null)
-			csUUID = csConnId + "_" + Time_ms.getCurrentTime_ms() + "_" + Threadutil.getCurrentThreadId();
+		if(uuid == null)
+			uuid = csConnId + "_" + Time_ms.getCurrentTime_ms() + "_" + Threadutil.getCurrentThreadId();
 	}
 
 	public String getUUID()
 	{
-		return csUUID;
+		return uuid;
 	}
 
 	void createStmtJMXBeans(DbConnectionBaseJMXBean JMXBeanOwner, String csName, String csDescription)
@@ -710,10 +710,10 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
 		Enumeration<String> eStsmt = hashStatement.keys();
 		while(eStsmt.hasMoreElements())
 		{
-			String csStmt = eStsmt.nextElement();
-			DbPreparedStatement statement = hashStatement.get(csStmt);
+			String stmt = eStsmt.nextElement();
+			DbPreparedStatement statement = hashStatement.get(stmt);
 			long lastUsageTimeValue = statement.getLastUsageTimeValue();
-			DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = new DbConnectionBaseStmtJMXBean(csStmt, lastUsageTimeValue);
+			DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = new DbConnectionBaseStmtJMXBean(stmt, lastUsageTimeValue);
 			dbConnectionBaseStmtJMXBean.createMBean(csName + "_" + lastUsageTimeValue, csDescription);
 			JMXBeanOwner.add(dbConnectionBaseStmtJMXBean);
 			n++;

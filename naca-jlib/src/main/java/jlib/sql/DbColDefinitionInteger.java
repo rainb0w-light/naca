@@ -36,8 +36,8 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			int nValue = NumberParser.getAsInt(csValue);
+			String value = resultSet.getString(nCol1Based);
+			int nValue = NumberParser.getAsInt(value);
 			byte aBytes[] = new byte[4];
 			LittleEndingUnsignBinaryBufferStorage.writeInt(aBytes, nValue, 0);
 			return aBytes;
@@ -77,8 +77,8 @@ public class DbColDefinitionInteger extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
 			return aBytes;

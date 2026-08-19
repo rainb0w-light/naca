@@ -21,11 +21,11 @@ import jlib.misc.NumberParser;
  */
 public class DbConnectionManagerContext
 {
-	private String csDBProvider = null;
-	private String csDBUrl = null;
-	private String csDBUser = null;
-	private String csDBPassword = null;
-	private String csEnvironment = null;
+	private String dbProvider = null;
+	private String dbUrl = null;
+	private String dbUser = null;
+	private String dbPassword = null;
+	private String environment = null;
 	private int nNbMaxConnections = 0;
 	private int nTimeBeforeRemoveConnection_ms = 0;
 	private int nMaxStatementLiveTime_ms = 0;
@@ -44,11 +44,11 @@ public class DbConnectionManagerContext
 			csPropertyPrefix += ".";
 
 		PropertyLoader pl = new PropertyLoader();
-		csDBProvider = pl.getProperty(csPropertyPrefix + "driver");
-		csDBUrl = pl.getProperty(csPropertyPrefix + "connectionString");
-		csDBUser = pl.getProperty(csPropertyPrefix + "user");
-		csDBPassword = pl.getProperty(csPropertyPrefix + "password");
-		csEnvironment = pl.getProperty(csPropertyPrefix + "environment", "");
+		dbProvider = pl.getProperty(csPropertyPrefix + "driver");
+		dbUrl = pl.getProperty(csPropertyPrefix + "connectionString");
+		dbUser = pl.getProperty(csPropertyPrefix + "user");
+		dbPassword = pl.getProperty(csPropertyPrefix + "password");
+		environment = pl.getProperty(csPropertyPrefix + "environment", "");
 
 		String cs = pl.getProperty(csPropertyPrefix + "NbMaxConnections", "2");
 		nNbMaxConnections = NumberParser.getAsInt(cs);
@@ -67,11 +67,11 @@ public class DbConnectionManagerContext
 	public boolean create(String csDBProvider, String csUrl, String csUser, String csPassword, String csEnvironment)
 		throws TechnicalException
 	{
-		this.csDBProvider = csDBProvider;
-		csDBUrl = csUrl;
-		csDBUser = csUser;
-		csDBPassword = csPassword;
-		this.csEnvironment = csEnvironment;
+		this.dbProvider = csDBProvider;
+		dbUrl = csUrl;
+		dbUser = csUser;
+		dbPassword = csPassword;
+		this.environment = csEnvironment;
 
 		nNbMaxConnections = 2;		// Resonable default values; Should be parametrized ???
 		nTimeBeforeRemoveConnection_ms = 10 * 60 * 1000; // 10 minutes
@@ -81,16 +81,16 @@ public class DbConnectionManagerContext
 		return iscreated;
 	}
 
-	private boolean doCreateConnection(String csPropertyPrefix)
+	private boolean doCreateConnection(String propertyPrefix)
 		throws TechnicalException
 	{
 		dbConnectionManager = new DbConnectionManager();
-		dbConnectionManager.setPropertyPrefix(csPropertyPrefix);
+		dbConnectionManager.setPropertyPrefix(propertyPrefix);
 		try
 		{
-			iscreated = dbConnectionManager.create(csDBUser, csDBPassword, csDBUrl, csDBProvider, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms);
+			iscreated = dbConnectionManager.create(dbUser, dbPassword, dbUrl, dbProvider, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms);
 			if(iscreated)
-				dbConnectionManager.setEnvironment(csEnvironment);
+				dbConnectionManager.setEnvironment(environment);
 			return iscreated;
 		}
 		catch (TechnicalException e) {
@@ -106,7 +106,7 @@ public class DbConnectionManagerContext
 
 	public boolean isOracle()
 	{
-		if(csDBProvider.equalsIgnoreCase("Oracle"))
+		if(dbProvider.equalsIgnoreCase("Oracle"))
 			return true;
 		return false;
 	}

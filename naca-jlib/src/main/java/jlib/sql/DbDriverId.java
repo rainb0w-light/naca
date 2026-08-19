@@ -18,7 +18,7 @@ import java.util.Hashtable;
  */
 public class DbDriverId
 {
-	private String csName = null;
+	private String name = null;
 	private static Hashtable<String, DbDriverId> ms_hashDriverByClass = new Hashtable<String, DbDriverId>();  
 	
 	public static DbDriverId SQLServer = new DbDriverId("SQLServer", "SQLServerDriver");
@@ -26,25 +26,25 @@ public class DbDriverId
 	public static DbDriverId Oracle = new DbDriverId("Oracle", "Oracle");
 	//public static DbDriverId MySQL = new DbDriverId("MySQL", "");
 	
-	private DbDriverId(String csName, String csClassName)
+	private DbDriverId(String name, String className)
 	{
-		this.csName = csName;
-		put(csClassName, this);
+		this.name = name;
+		put(className, this);
 	}
 	
-	private static synchronized void put(String csClassName, DbDriverId dbDriver)
+	private static synchronized void put(String className, DbDriverId dbDriver)
 	{
-		ms_hashDriverByClass.put(csClassName, dbDriver);
+		ms_hashDriverByClass.put(className, dbDriver);
 	}
 	
 	public static synchronized DbDriverId getByClassName(String csFullyQualifiedClassName)
 	{
-		String csClassName = csFullyQualifiedClassName;
+		String className = csFullyQualifiedClassName;
 		int nIndex = csFullyQualifiedClassName.lastIndexOf(".");
 		if(nIndex != -1)
-			csClassName = csFullyQualifiedClassName.substring(nIndex+1);
+			className = csFullyQualifiedClassName.substring(nIndex+1);
 		
-		DbDriverId dbDriver = ms_hashDriverByClass.get(csClassName);
+		DbDriverId dbDriver = ms_hashDriverByClass.get(className);
 		if(dbDriver != null)
 			return dbDriver;
 		return UDB;
@@ -52,6 +52,6 @@ public class DbDriverId
 	
 	public String toString()
 	{
-		return csName;
+		return name;
 	}
 }

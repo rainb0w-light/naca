@@ -18,16 +18,16 @@ import java.sql.SQLException;
  */
 public class SQLClauseSPParamInString extends SQLClauseSPParamIn
 {
-	private String csVal = null;
+	private String val = null;
 
 	public SQLClauseSPParamInString(String csVal)
 	{
-		this.csVal = csVal;
+		this.val = csVal;
 	}
 
 	protected void setInValueWithException(int nParamId, DbPreparedCallableStatement stmt)
 		throws SQLException
 	{
-		stmt.setInValueWithException(nParamId, csVal);
+		stmt.setInValueWithException(nParamId, val);
 	}
 }

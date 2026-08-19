@@ -46,8 +46,8 @@ public class SQLTypeOperation
 
 	public static SQLTypeOperation determineOperationType(String csQuery, boolean bCursor)
 	{
-		String csSQLOperation = StringUtil.getFirstWordWithStopList(csQuery, ";");
-		return getSQLTypeOperation(csSQLOperation, bCursor);
+		String sqlOperation = StringUtil.getFirstWordWithStopList(csQuery, ";");
+		return getSQLTypeOperation(sqlOperation, bCursor);
 	}
 
 	private static SQLTypeOperation getSQLTypeOperation(String s, boolean bCursor)
@@ -105,7 +105,7 @@ public class SQLTypeOperation
 		return -1;
 	}
 
-	static private String addLeadingTablePrefix(String begining, String env, String csForcedReplacedPrefix, String querry)
+	static private String addLeadingTablePrefix(String begining, String env, String forcedReplacedPrefix, String querry)
 	{
 		int nPos = -1 ;
 		int i = 0;
@@ -119,13 +119,13 @@ public class SQLTypeOperation
 			}
 			if (nPos == -1)
 			{
-				String csRight = querry.substring(i) ;
-				begining += setPrefixIfRequired(env, csRight, csForcedReplacedPrefix);
+				String right = querry.substring(i) ;
+				begining += setPrefixIfRequired(env, right, forcedReplacedPrefix);
 			}
 			else
 			{
-				String csRight = querry.substring(i, nPos) ;
-				begining += setPrefixIfRequired(env, csRight, csForcedReplacedPrefix);
+				String right = querry.substring(i, nPos) ;
+				begining += setPrefixIfRequired(env, right, forcedReplacedPrefix);
 				begining += ',';
 				i = nPos+1 ;
 			}
@@ -135,76 +135,76 @@ public class SQLTypeOperation
 		return begining;
 	}
 
-	private static int getPositionFirstStopListKeywordNextFrom(String csQueryUpper, int nStart)
+	private static int getPositionFirstStopListKeywordNextFrom(String queryUpper, int nStart)
 	{
-		int nEndWhere = csQueryUpper.indexOf("WHERE", nStart) ;
+		int nEndWhere = queryUpper.indexOf("WHERE", nStart) ;
 
 		// search for position of keyword following the where
-		int nEndParenthesis = csQueryUpper.indexOf(")", nStart) ;
+		int nEndParenthesis = queryUpper.indexOf(")", nStart) ;
 		int nEnd = minPositive(nEndWhere, nEndParenthesis);
 
-		int nEndOrder = csQueryUpper.indexOf("ORDER", nStart) ;
+		int nEndOrder = queryUpper.indexOf("ORDER", nStart) ;
 		nEnd = minPositive(nEnd, nEndOrder);
 
-		int nEndGroup = csQueryUpper.indexOf("GROUP BY", nStart) ;
+		int nEndGroup = queryUpper.indexOf("GROUP BY", nStart) ;
 		nEnd = minPositive(nEnd, nEndGroup);
 
-		int nEndForUpdate = csQueryUpper.indexOf("FOR UPDATE", nStart) ;
+		int nEndForUpdate = queryUpper.indexOf("FOR UPDATE", nStart) ;
 		nEnd = minPositive(nEnd, nEndForUpdate);
 
-		int nEndForUnion = csQueryUpper.indexOf("UNION", nStart) ;
+		int nEndForUnion = queryUpper.indexOf("UNION", nStart) ;
 		nEnd = minPositive(nEnd, nEndForUnion);
 
-		int nEndJoin = csQueryUpper.indexOf("JOIN", nStart) ;
+		int nEndJoin = queryUpper.indexOf("JOIN", nStart) ;
 		nEnd = minPositive(nEnd, nEndJoin);
 		return nEnd;
 	}
 
 
-	private static String addEnvironmentPrefixStandardParser(String env, String csQuery, String csQueryUpper, SQLTypeOperation typeOperation, String csForcedReplacedPrefix, boolean bSupportJoin)
+	private static String addEnvironmentPrefixStandardParser(String env, String query, String queryUpper, SQLTypeOperation typeOperation, String forcedReplacedPrefix, boolean bSupportJoin)
 	{
 		int nStart = 0 ;
 
-		int n = csQueryUpper.indexOf("SELECT");
+		int n = queryUpper.indexOf("SELECT");
 		if (n>=0)
 		{
 			nStart = n +7 ;
-			n = csQueryUpper.indexOf("FROM", nStart);
+			n = queryUpper.indexOf("FROM", nStart);
 			while (n>=0)
 			{
 				nStart = n +5 ;
 				int i = 0 ;
-				String begining = csQuery.substring(0, nStart) ;
-				String querry = csQuery.substring(nStart) ;
+				String begining = query.substring(0, nStart) ;
+				String querry = query.substring(nStart) ;
 
-				int nEndWhere = csQueryUpper.indexOf("WHERE", nStart) ;
+				int nEndWhere = queryUpper.indexOf("WHERE", nStart) ;
 
-				int nEndParenthesis = csQueryUpper.indexOf(")", nStart) ;
+				int nEndParenthesis = queryUpper.indexOf(")", nStart) ;
 				int nEnd = minPositive(nEndWhere, nEndParenthesis);
 
-				int nEndOrder = csQueryUpper.indexOf("ORDER", nStart) ;
+				int nEndOrder = queryUpper.indexOf("ORDER", nStart) ;
 				nEnd = minPositive(nEnd, nEndOrder);
 
-				int nEndGroup = csQueryUpper.indexOf("GROUP BY", nStart) ;
+				int nEndGroup = queryUpper.indexOf("GROUP BY", nStart) ;
 				nEnd = minPositive(nEnd, nEndGroup);
 
-				int nEndForUpdate = csQueryUpper.indexOf("FOR UPDATE", nStart) ;
+				int nEndForUpdate = queryUpper.indexOf("FOR UPDATE", nStart) ;
 				nEnd = minPositive(nEnd, nEndForUpdate);
 
-				int nEndForUnion = csQueryUpper.indexOf("UNION", nStart) ;
+				int nEndForUnion = queryUpper.indexOf("UNION", nStart) ;
 				nEnd = minPositive(nEnd, nEndForUnion);
 
 				if(bSupportJoin)
 				{
-					int nEndJoin = csQueryUpper.indexOf("JOIN", nStart) ;
+					int nEndJoin = queryUpper.indexOf("JOIN", nStart) ;
 					nEnd = minPositive(nEnd, nEndJoin);
 				}
 
 				String end = "" ;
 				if (nEnd != -1)
 				{
-					end = csQuery.substring(nEnd) ;
-					querry = csQuery.substring(nStart, nEnd) ;
+					end = query.substring(nEnd) ;
+					querry = query.substring(nStart, nEnd) ;
 				}
 				int nPos = -1 ;
 				do
@@ -217,30 +217,30 @@ public class SQLTypeOperation
 					}
 					if (nPos == -1)
 					{
-						String csRight = querry.substring(i) ;
-						csRight = setPrefixIfRequired(env, csRight, csForcedReplacedPrefix);
-						begining += csRight;
+						String right = querry.substring(i) ;
+						right = setPrefixIfRequired(env, right, forcedReplacedPrefix);
+						begining += right;
 					}
 					else
 					{
-						String csRight = querry.substring(i, nPos) ;
-						csRight = setPrefixIfRequired(env, csRight, csForcedReplacedPrefix);
-						begining += csRight;
+						String right = querry.substring(i, nPos) ;
+						right = setPrefixIfRequired(env, right, forcedReplacedPrefix);
+						begining += right;
 						begining += ',';
 						i = nPos+1 ;
 					}
 				}
 				while (nPos != -1) ;
-				csQuery = begining + " " + end ;
-				csQueryUpper = csQuery.toUpperCase();
-				n = csQueryUpper.indexOf("FROM", nStart);
+				query = begining + " " + end ;
+				queryUpper = query.toUpperCase();
+				n = queryUpper.indexOf("FROM", nStart);
 			}
 		}
 
 		nStart = 0;
 		if(typeOperation == SQLTypeOperation.Insert)
 		{
-			n = csQueryUpper.indexOf("INTO");
+			n = queryUpper.indexOf("INTO");
 			if (n>=0)
 			{
 				nStart = n + 4;
@@ -252,7 +252,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Delete)
 		{
-			n = csQueryUpper.indexOf("FROM");
+			n = queryUpper.indexOf("FROM");
 			if (n>=0)
 			{
 				nStart = n + 4;
@@ -260,7 +260,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Create)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -268,7 +268,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Drop)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -276,7 +276,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Lock)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -284,21 +284,21 @@ public class SQLTypeOperation
 		}
 
 		if (nStart == 0)
-			return csQuery;
+			return query;
 
-		String csLeft = csQuery.substring(0, nStart);
-		String csRight = csQuery.substring(nStart);
-		csRight = StringUtil.trimLeft(csRight);
-		int nWhiteSpace = StringUtil.getNextWhiteSpacePosition(csRight);
+		String left = query.substring(0, nStart);
+		String right = query.substring(nStart);
+		right = StringUtil.trimLeft(right);
+		int nWhiteSpace = StringUtil.getNextWhiteSpacePosition(right);
 		if(nWhiteSpace != -1)
 		{
-			String csTableName = csRight.substring(0, nWhiteSpace);
-			String csRemaining = csRight.substring(nWhiteSpace);
-			csTableName = setPrefixIfRequired(env, csTableName, csForcedReplacedPrefix);
-			csQuery = csLeft + " " + csTableName + " " +  csRemaining;
+			String tableName = right.substring(0, nWhiteSpace);
+			String remaining = right.substring(nWhiteSpace);
+			tableName = setPrefixIfRequired(env, tableName, forcedReplacedPrefix);
+			query = left + " " + tableName + " " +  remaining;
 		}
 
-		return csQuery;
+		return query;
 	}
 
 	// Not prefixed table name are prefixed by env
@@ -316,25 +316,25 @@ public class SQLTypeOperation
 			return csQuery.substring(1);
 		}
 
-		String csQueryUpper = csQuery.toUpperCase();
+		String queryUpper = csQuery.toUpperCase();
 
-		if(csQueryUpper.indexOf(" JOIN ") == -1)	// No JOIN keyword : Use standard parser
-			return addEnvironmentPrefixStandardParser(env, csQuery, csQueryUpper, typeOperation, csForcedReplacedPrefix, false);
+		if(queryUpper.indexOf(" JOIN ") == -1)	// No JOIN keyword : Use standard parser
+			return addEnvironmentPrefixStandardParser(env, csQuery, queryUpper, typeOperation, csForcedReplacedPrefix, false);
 
 		// Custom parser for join keyword support
 		int nStart = 0 ;
-		int nPosSelect = csQueryUpper.indexOf("SELECT");
+		int nPosSelect = queryUpper.indexOf("SELECT");
 		if (nPosSelect >= 0)
 		{
 			nStart = nPosSelect + 7;
-			int nPosFrom = csQueryUpper.indexOf("FROM", nStart);
+			int nPosFrom = queryUpper.indexOf("FROM", nStart);
 			if(nPosFrom >= 0)	// Only 1 FROM keyword in a SELECT clause //while (n>=0)
 			{
 				nStart = nPosFrom + 5;
 				String begining = csQuery.substring(0, nStart) ;
 				String querry = csQuery.substring(nStart) ;
 
-				int nEnd = getPositionFirstStopListKeywordNextFrom(csQueryUpper, nStart);
+				int nEnd = getPositionFirstStopListKeywordNextFrom(queryUpper, nStart);
 				String end = "" ;
 				if (nEnd != -1)
 				{
@@ -344,36 +344,36 @@ public class SQLTypeOperation
 
 				begining = addLeadingTablePrefix(begining, env, csForcedReplacedPrefix, querry);
 				csQuery = begining + " " + end ;
-				csQueryUpper = csQuery.toUpperCase();
+				queryUpper = csQuery.toUpperCase();
 				//n = csQueryUpper.indexOf("FROM", nStart);
 			}
 
-			int nPosJoin = csQueryUpper.indexOf("JOIN", nStart);
+			int nPosJoin = queryUpper.indexOf("JOIN", nStart);
 			if(nPosJoin >= 0)
 			{
 				while(nPosJoin >= 0)
 				{
 					nStart = nPosJoin + 4;
-					String csLeft = csQuery.substring(0, nStart) ;
+					String left = csQuery.substring(0, nStart) ;
 
-					String csRight = csQuery.substring(nStart) ;
-					String csRightUpper = csQueryUpper.substring(nStart) ;
-					int nEnd = csRightUpper.indexOf(" ON ", 0) ;
+					String right = csQuery.substring(nStart) ;
+					String rightUpper = queryUpper.substring(nStart) ;
+					int nEnd = rightUpper.indexOf(" ON ", 0) ;
 					if (nEnd != -1)
 					{
-						String csTableName = StringUtil.getFirstWord(csRight);
-						csRight = StringUtil.removeFirstWord(csRight);
-						csTableName = setPrefixIfRequired(env, csTableName, csForcedReplacedPrefix);
+						String tableName = StringUtil.getFirstWord(right);
+						right = StringUtil.removeFirstWord(right);
+						tableName = setPrefixIfRequired(env, tableName, csForcedReplacedPrefix);
 
-						csQuery = csLeft + " " + csTableName + " " + csRight;
-						csQueryUpper = csQuery.toUpperCase();
+						csQuery = left + " " + tableName + " " + right;
+						queryUpper = csQuery.toUpperCase();
 
-						nPosJoin = csQueryUpper.indexOf("JOIN", nStart);
+						nPosJoin = queryUpper.indexOf("JOIN", nStart);
 					}
 				}
 			}
-			csQueryUpper = csQuery.toUpperCase();
-			csQuery = addEnvironmentPrefixStandardParser(env, csQuery, csQueryUpper, typeOperation, csForcedReplacedPrefix, true);
+			queryUpper = csQuery.toUpperCase();
+			csQuery = addEnvironmentPrefixStandardParser(env, csQuery, queryUpper, typeOperation, csForcedReplacedPrefix, true);
 			return csQuery;
 		}
 
@@ -381,7 +381,7 @@ public class SQLTypeOperation
 		int n;
 		if(typeOperation == SQLTypeOperation.Insert)
 		{
-			n = csQueryUpper.indexOf("INTO");
+			n = queryUpper.indexOf("INTO");
 			if (n>=0)
 			{
 				nStart = n + 4;
@@ -393,7 +393,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Delete)
 		{
-			n = csQueryUpper.indexOf("FROM");
+			n = queryUpper.indexOf("FROM");
 			if (n>=0)
 			{
 				nStart = n + 4;
@@ -401,7 +401,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Create)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -409,7 +409,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Drop)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -417,7 +417,7 @@ public class SQLTypeOperation
 		}
 		else if(typeOperation == SQLTypeOperation.Lock)
 		{
-			n = csQueryUpper.indexOf("TABLE");
+			n = queryUpper.indexOf("TABLE");
 			if (n >= 0)
 			{
 				nStart = n + 5;
@@ -427,35 +427,35 @@ public class SQLTypeOperation
 		if (nStart == 0)
 			return csQuery;
 
-		String csLeft = csQuery.substring(0, nStart);
-		String csRight = csQuery.substring(nStart);
-		csRight = StringUtil.trimLeft(csRight);
-		int nWhiteSpace = StringUtil.getNextWhiteSpacePosition(csRight);
+		String left = csQuery.substring(0, nStart);
+		String right = csQuery.substring(nStart);
+		right = StringUtil.trimLeft(right);
+		int nWhiteSpace = StringUtil.getNextWhiteSpacePosition(right);
 		if(nWhiteSpace != -1)
 		{
-			String csTableName = csRight.substring(0, nWhiteSpace);
-			String csRemaining = csRight.substring(nWhiteSpace);
-			csTableName = setPrefixIfRequired(env, csTableName, csForcedReplacedPrefix);
-			csQuery = csLeft + " " + csTableName + " " +  csRemaining;
+			String tableName = right.substring(0, nWhiteSpace);
+			String remaining = right.substring(nWhiteSpace);
+			tableName = setPrefixIfRequired(env, tableName, csForcedReplacedPrefix);
+			csQuery = left + " " + tableName + " " +  remaining;
 		}
 
 		return csQuery;
 	}
 
-	private static String setPrefixIfRequired(String env, String csRight, String csForcedReplacedPrefix)
+	private static String setPrefixIfRequired(String env, String right, String forcedReplacedPrefix)
 	{
-		if(csRight.indexOf('.') == -1)	// Prefix not already set
-			return env + "." + csRight;
-		if(!StringUtil.isEmpty(csForcedReplacedPrefix))
+		if(right.indexOf('.') == -1)	// Prefix not already set
+			return env + "." + right;
+		if(!StringUtil.isEmpty(forcedReplacedPrefix))
 		{
-			if(StringUtil.startsWithNoCase(csRight, csForcedReplacedPrefix))	// table prefix is a prefix that must be replaced
+			if(StringUtil.startsWithNoCase(right, forcedReplacedPrefix))	// table prefix is a prefix that must be replaced
 			{
-				int nForcedReplacedPrefixLength = csForcedReplacedPrefix.length();
-				String csTable = csRight.substring(nForcedReplacedPrefixLength);
-				return env + "." + csTable;
+				int nForcedReplacedPrefixLength = forcedReplacedPrefix.length();
+				String table = right.substring(nForcedReplacedPrefixLength);
+				return env + "." + table;
 			}
 		}
-		return csRight;
+		return right;
 	}
 
 	public static String updateMarkers(String csQuery)

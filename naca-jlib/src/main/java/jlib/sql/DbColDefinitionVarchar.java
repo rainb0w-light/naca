@@ -36,19 +36,19 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
+			String value = resultSet.getString(nCol1Based);
 			
 			ResultSetMetaData resultSetmetaData = resultSet.getMetaData();
 
 			int nColWidth = resultSetmetaData.getPrecision(nCol1Based);
-			int nValueLength = csValue.length();
+			int nValueLength = value.length();
 			
 			byte[] aBytes = new byte[2 + nColWidth];
 			Asserter.assertIfFalse(nColWidth == nLength);
 			
 			LittleEndingUnsignBinaryBufferStorage.writeUnsignedShort(aBytes, nValueLength, 0);
 			
-			byte[] aBytesValue = csValue.getBytes();
+			byte[] aBytesValue = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytesValue, 0, nValueLength);
 			
@@ -107,12 +107,12 @@ public class DbColDefinitionVarchar extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			csValue = csValue.trim().replace("\"", "'");
-			if (csValue.length() == 0)
-				csValue = " ";
-			csValue = "\"" + csValue + "\"";
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			value = value.trim().replace("\"", "'");
+			if (value.length() == 0)
+				value = " ";
+			value = "\"" + value + "\"";
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
 			return aBytes;

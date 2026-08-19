@@ -34,48 +34,48 @@ public class ColValueGeneric extends ColValue
 
 	public void setParamSQLClause(SQLClause clause)
 	{
-		clause.param(csValue);
+		clause.param(value);
 	}
 
 	public void doFillWithResurltSetCol(ResultSet resultSet, int nCol)
 		throws SQLException
 	{
-		csValue = resultSet.getString(nCol);
+		value = resultSet.getString(nCol);
 	}
 
 	public void setValue(String csValue)
 	{
-		this.csValue = csValue;
+		this.value = csValue;
 	}
 
 	public void setValue(int n)
 	{
-		csValue = String.valueOf(n);
+		value = String.valueOf(n);
 	}
 
 	public void setValue(long l)
 	{
-		csValue = String.valueOf(l);
+		value = String.valueOf(l);
 	}
 
 	public String getValueAsString()
 	{
-		return csValue;
+		return value;
 	}
 
 	public int getValueAsInt()
 	{
-		return NumberParser.getAsInt(csValue);
+		return NumberParser.getAsInt(value);
 	}
 
 	double getValueAsDouble()
 	{
-		return NumberParser.getAsDouble(csValue);
+		return NumberParser.getAsDouble(value);
 	}
 
 	String getDumpValueAsString()
 	{
-		return "(Generic):'"+csValue+"'";
+		return "(Generic):'"+value+"'";
 	}
 
 	String getType()
@@ -90,8 +90,8 @@ public class ColValueGeneric extends ColValue
 
 	Object getValue()
 	{
-		return csValue;
+		return value;
 	}
 
-	private String csValue = null;
+	private String value = null;
 }

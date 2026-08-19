@@ -104,23 +104,23 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 				long lValue = BasePic9Comp3BufferSupport.keepRightMostDigits(originalValue, nNbDigits);
 				if(originalValue != lValue)
 					dbColDefErrorManager.reportTruncationError(originalValue, lValue, getColumnName());
-				String csValue = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
+				String value = BasePic9Comp3BufferSupport.makeDottedString(lValue, nNbDecimals);
 //				if(csValue.startsWith("815"))
 //				{
 //					int n = 0;
 //				}
-				stmt.setColParam(nCol, csValue);
+				stmt.setColParam(nCol, value);
 			}
 		}
 		else	// Cannot use a long (64 bits is not enough ...)
 		{
 			String csOriginalValue = getAsString(arrByteValue, nSourceOffset, nNbDigits, nNbDecimals, nSize, radioButtonnegative);
 			int nPosDot = csOriginalValue.indexOf(".");
-			String csDec = "";
+			String dec = "";
 			String csInt;
 			if(nPosDot >= 0)
 			{
-				csDec = csOriginalValue.substring(nPosDot);
+				dec = csOriginalValue.substring(nPosDot);
 				if(radioButtonnegative[0])	// A leading sign has been added
 					csInt = csOriginalValue.substring(1, nPosDot);
 				else
@@ -132,18 +132,18 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 			if(csInt.length() > nNbDigitsInt)	// Integer part is too long
 			{
 				int nNbDigitsToRemoveOnLeft = csInt.length() - nNbDigitsInt;
-				String csLeft = csInt.substring(0, nNbDigitsToRemoveOnLeft);
+				String left = csInt.substring(0, nNbDigitsToRemoveOnLeft);
 				boolean issignificantTruncation = false;
-				if(NumberParser.getAsLong(csLeft) != 0)	// We truncates significant digits on left
+				if(NumberParser.getAsLong(left) != 0)	// We truncates significant digits on left
 					issignificantTruncation = true;
 
 				csInt = csInt.substring(nNbDigitsToRemoveOnLeft);
 				if(radioButtonnegative[0])
 					csInt = "-" + csInt;
-				String csValue = csInt + csDec;
+				String value = csInt + dec;
 				if(issignificantTruncation)
-					dbColDefErrorManager.reportTruncationError(csOriginalValue, csValue, getColumnName());
-				stmt.setColParam(nCol, csValue);
+					dbColDefErrorManager.reportTruncationError(csOriginalValue, value, getColumnName());
+				stmt.setColParam(nCol, value);
 			}
 		}
 
@@ -265,8 +265,8 @@ public class DbColDefinitionDecimal extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;

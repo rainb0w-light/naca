@@ -32,8 +32,8 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
 			return aBytes;
@@ -58,8 +58,8 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 	{
 		if(bEbcdicInput)	// Must outout in ebcdic
 			AsciiEbcdicConverter.swapByteEbcdicToAscii(arrByteValue, nSourceOffset, nLength);	
-		String csValue = new String(arrByteValue, nSourceOffset, nLength);
-		stmt.setColParam(nCol, csValue);
+		String value = new String(arrByteValue, nSourceOffset, nLength);
+		stmt.setColParam(nCol, value);
 		
 		return nLength;
 	}
@@ -74,12 +74,12 @@ public class DbColDefinitionChar extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			csValue = csValue.trim().replace("\"", "'");
-			if (csValue.length() == 0)
-				csValue = " ";
-			csValue = "\"" + csValue + "\"";
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			value = value.trim().replace("\"", "'");
+			if (value.length() == 0)
+				value = " ";
+			value = "\"" + value + "\"";
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
 			return aBytes;

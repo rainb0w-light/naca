@@ -19,7 +19,7 @@ public abstract class DbConnectionManagerBase
 	DbConnectionParam dbConnectionParam = null;
 	private DbConnectionPool qLConnectionPool = null;
 	private DbDataCacheManager cacheManager = null;
-	private String csPropertyPrefix = "";
+	private String propertyPrefix = "";
 
 	public DbConnectionManagerBase()
 	{
@@ -59,8 +59,8 @@ public abstract class DbConnectionManagerBase
 		{
 			if(!connectionColl.isInit())
 				connectionColl.init(dbConnectionParam);
-			String csPoolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(csValidationQuery, csPoolName, bUseStatementCache, this);
+			String poolName = connectionColl.getName();
+	 		DbConnectionBase sqlConnection = connectionColl.tryGetPooledValidConnection(csValidationQuery, poolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -88,8 +88,8 @@ public abstract class DbConnectionManagerBase
 		{
 			if(!connectionColl.isInit())
 				connectionColl.init(dbConnectionParam);
-			String csPoolName = connectionColl.getName();
-	 		DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, csPoolName, bUseStatementCache, this);
+			String poolName = connectionColl.getName();
+	 		DbConnectionBase sqlConnection = connectionColl.forceNewConnection(csValidationQuery, poolName, bUseStatementCache, this);
 	 		return sqlConnection;
 		}
 		return null;
@@ -111,18 +111,18 @@ public abstract class DbConnectionManagerBase
 		dbConnectionParam.iscloseCursorOnCommit = tagSQLConfig.getValAsBoolean(csDBParameterPrefix+"CloseCursorOnCommit");
 		dbConnectionParam.isautoCommit = tagSQLConfig.getValAsBoolean("AutoCommit");
 
-		String csDriverClass = tagSQLConfig.getVal(csDBParameterPrefix+"driverClass");
-		String csConnectionUrlOptionalParams = tagSQLConfig.getVal(csDBParameterPrefix+"dbConnectionUrlOptionalParams");
+		String driverClass = tagSQLConfig.getVal(csDBParameterPrefix+"driverClass");
+		String connectionUrlOptionalParams = tagSQLConfig.getVal(csDBParameterPrefix+"dbConnectionUrlOptionalParams");
 
-		String csUser = tagSQLConfig.getVal(csDBParameterPrefix+"dbuser");
-		String csCryptedDbPassword = tagSQLConfig.getVal(csDBParameterPrefix+"CryptedDbpassword");
-		String csCryptKey = tagSQLConfig.getVal(csDBParameterPrefix+"CryptKey");
-		if(!StringUtil.isEmpty(csCryptedDbPassword) && !StringUtil.isEmpty(csCryptKey))
-			createDriver(csDriverClass, csUser, csCryptedDbPassword, csCryptKey, csConnectionUrlOptionalParams);
+		String user = tagSQLConfig.getVal(csDBParameterPrefix+"dbuser");
+		String cryptedDbPassword = tagSQLConfig.getVal(csDBParameterPrefix+"CryptedDbpassword");
+		String cryptKey = tagSQLConfig.getVal(csDBParameterPrefix+"CryptKey");
+		if(!StringUtil.isEmpty(cryptedDbPassword) && !StringUtil.isEmpty(cryptKey))
+			createDriver(driverClass, user, cryptedDbPassword, cryptKey, connectionUrlOptionalParams);
 		else
 		{
-			String csPassword = tagSQLConfig.getVal(csDBParameterPrefix+"dbpassword");
-			createDriver(csDriverClass, csUser, csPassword, csConnectionUrlOptionalParams);
+			String password = tagSQLConfig.getVal(csDBParameterPrefix+"dbpassword");
+			createDriver(driverClass, user, password, connectionUrlOptionalParams);
 		}
 
 		qLConnectionPool = new DbConnectionPool(tagSQLConfig);
@@ -131,26 +131,26 @@ public abstract class DbConnectionManagerBase
 
 	public boolean initDB2(String csUrl, String csUser, String csPassword, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		String csDriverClass = "com.ibm.db2.jcc.DB2Driver";
-		return initDriverClass(csUrl, csUser, csPassword, csDriverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
+		String driverClass = "com.ibm.db2.jcc.DB2Driver";
+		return initDriverClass(csUrl, csUser, csPassword, driverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
 	}
 
 	public boolean initOracle(String csUrl, String csUser, String csPassword, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		String csDriverClass = "oracle.jdbc.driver.OracleDriver";
-		return initDriverClass(csUrl, csUser, csPassword, csDriverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
+		String driverClass = "oracle.jdbc.driver.OracleDriver";
+		return initDriverClass(csUrl, csUser, csPassword, driverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
 	}
 
 	public boolean initMySql(String csUrl, String csUser, String csPassword, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		String csDriverClass = "com.mysql.jdbc.Driver";
-		return initDriverClass(csUrl, csUser, csPassword, csDriverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
+		String driverClass = "com.mysql.jdbc.Driver";
+		return initDriverClass(csUrl, csUser, csPassword, driverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
 	}
 
 	public boolean initSqlServer(String csUrl, String csUser, String csPassword, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
 	{
-		String csDriverClass = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
-		return initDriverClass(csUrl, csUser, csPassword, csDriverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
+		String driverClass = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
+		return initDriverClass(csUrl, csUser, csPassword, driverClass, csConnectionUrlOptionalParams, nNbMaxConnections, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, nGarbageCollectorStatement_ms);
 	}
 
 	public boolean initDriverClass(String csUrl, String csUser, String csPassword, String csDriverClass, String csConnectionUrlOptionalParams, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms, int nGarbageCollectorStatement_ms)
@@ -214,8 +214,8 @@ public abstract class DbConnectionManagerBase
 	    }
 	    catch (Exception ex)
 		{
-	    	String csParams = ListCoupleRender.set("Parameters: ").set("DriverClass", csDriverClass).set("User", csUser).set("CryptedPassword", csCryptedPassword).toString();
-	    	TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, csParams, ex);
+	    	String params = ListCoupleRender.set("Parameters: ").set("DriverClass", csDriverClass).set("User", csUser).set("CryptedPassword", csCryptedPassword).toString();
+	    	TechnicalException.throwException(TechnicalException.DB_ERROR_DRIVER_CREATION, params, ex);
 	    }
 //	    if(m_DbConnectionParam.driver == null)
 //	    	Log.logImportant("Could not create driver " + csDriverClass + " for user " + csUser);
@@ -225,19 +225,19 @@ public abstract class DbConnectionManagerBase
 	public boolean create(String csDBUser, String csDBPassword, String csDBUrl, String csDBProvider, int nNbMaxConnections, int nTimeBeforeRemoveConnection_ms, int nMaxStatementLiveTime_ms)
 	{
 		dbConnectionParam.csUrl = csDBUrl;
-		String csDriverClass = null;
+		String driverClass = null;
 		if(csDBProvider.equalsIgnoreCase("DB2"))
-			csDriverClass = "com.ibm.db2.jcc.DB2Driver";
+			driverClass = "com.ibm.db2.jcc.DB2Driver";
 		else if(csDBProvider.equalsIgnoreCase("Oracle"))
-			csDriverClass = "oracle.jdbc.driver.OracleDriver";
+			driverClass = "oracle.jdbc.driver.OracleDriver";
 		else if(csDBProvider.equalsIgnoreCase("MySQL"))
-			csDriverClass = "com.mysql.jdbc.Driver";
+			driverClass = "com.mysql.jdbc.Driver";
 		else if(csDBProvider.equalsIgnoreCase("SqlServer"))
-			csDriverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+			driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 		else
-			csDriverClass = csDBProvider;
+			driverClass = csDBProvider;
 
-		boolean b = createDriver(csDriverClass, csDBUser, csDBPassword, "");
+		boolean b = createDriver(driverClass, csDBUser, csDBPassword, "");
 		if(b)
 		{
 			//Log.logNormal("Created DB driver " + csDriverClass + " for user " + csDBUser + " on url "+csDBUrl);
@@ -318,7 +318,7 @@ public abstract class DbConnectionManagerBase
 	 */
 	public String getPropertyPrefix()
 	{
-		return csPropertyPrefix;
+		return propertyPrefix;
 	}
 
 	/**
@@ -326,6 +326,6 @@ public abstract class DbConnectionManagerBase
 	 */
 	public void setPropertyPrefix(String csPropertyPrefix)
 	{
-		this.csPropertyPrefix = csPropertyPrefix;
+		this.propertyPrefix = csPropertyPrefix;
 	}
 }

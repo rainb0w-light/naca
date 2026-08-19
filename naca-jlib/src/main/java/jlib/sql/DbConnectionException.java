@@ -10,15 +10,15 @@ public class DbConnectionException extends Exception
 {
 	private static final long serialVersionUID = "DbConnectionException".hashCode();
 
-	private String csMessage;
+	private String message;
 
 	public DbConnectionException(String csMessage)
 	{
-		this.csMessage = csMessage;
+		this.message = csMessage;
 	}
 
 	public String toString()
 	{
-		return "DbConnectionException: "+csMessage;
+		return "DbConnectionException: "+message;
 	}
 }

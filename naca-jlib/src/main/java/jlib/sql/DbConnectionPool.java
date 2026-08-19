@@ -47,29 +47,29 @@ public class DbConnectionPool
 				int nTimeBeforeRemoveConnection_ms = tagPool.getValAsInt("TimeBeforeRemoveConnection_ms");
 				int nMaxStatementLiveTime_ms = tagPool.getValAsInt("MaxStatementLiveTime_ms");
 
-				String csPoolName = tagPool.getVal("Name");
-				if(StringUtil.isEmpty(csPoolName))
-					csPoolName = "UnknownPoolName";
-				DbConnectionColl dbConnectionColl = new DbConnectionColl(csPoolName, nMaxConnection, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, bUseExplain, nGarbageCollectorStatement_ms);
+				String poolName = tagPool.getVal("Name");
+				if(StringUtil.isEmpty(poolName))
+					poolName = "UnknownPoolName";
+				DbConnectionColl dbConnectionColl = new DbConnectionColl(poolName, nMaxConnection, nTimeBeforeRemoveConnection_ms, nMaxStatementLiveTime_ms, bUseExplain, nGarbageCollectorStatement_ms);
 
 				// enum all Program
-				String csParentProgramId = tagPool.getVal("ParentProgramId");
-				csParentProgramId = csParentProgramId.trim();
+				String parentProgramId = tagPool.getVal("ParentProgramId");
+				parentProgramId = parentProgramId.trim();
 
-				String csProgramIds = tagPool.getVal("ProgramId");
-				if(!StringUtil.isEmpty(csProgramIds))
+				String programIds = tagPool.getVal("ProgramId");
+				if(!StringUtil.isEmpty(programIds))
 				{
-					int nIndex = csProgramIds.indexOf(',');
+					int nIndex = programIds.indexOf(',');
 					while(nIndex != -1)
 					{
-						String csProgramId = csProgramIds.substring(0, nIndex).trim();
-						addProgram(csProgramId, csParentProgramId, dbConnectionColl);
+						String programId = programIds.substring(0, nIndex).trim();
+						addProgram(programId, parentProgramId, dbConnectionColl);
 
-						csProgramIds = csProgramIds.substring(nIndex+1);
-						nIndex = csProgramIds.indexOf(',');
+						programIds = programIds.substring(nIndex+1);
+						nIndex = programIds.indexOf(',');
 					}
-					String csProgramId = csProgramIds.trim();
-					addProgram(csProgramId, csParentProgramId, dbConnectionColl);
+					String programId = programIds.trim();
+					addProgram(programId, parentProgramId, dbConnectionColl);
 				}
 				else
 				{
@@ -82,18 +82,18 @@ public class DbConnectionPool
 	}
 
 
-	private void addProgram(String csProgramId, String csParentProgramId, DbConnectionColl dbConnectionColl)
+	private void addProgram(String programId, String parentProgramId, DbConnectionColl dbConnectionColl)
 	{
 		if(hashConnectionsByProgramId == null)
 			hashConnectionsByProgramId = new Hashtable<String, DbConnectionColl>();
 
-		if(!StringUtil.isEmpty(csParentProgramId))
+		if(!StringUtil.isEmpty(parentProgramId))
 		{
-			String csFullName = makeFullName(csProgramId, csParentProgramId);
-			hashConnectionsByProgramId.put(csFullName, dbConnectionColl);
+			String fullName = makeFullName(programId, parentProgramId);
+			hashConnectionsByProgramId.put(fullName, dbConnectionColl);
 		}
 		else
-			hashConnectionsByProgramId.put(csProgramId, dbConnectionColl);
+			hashConnectionsByProgramId.put(programId, dbConnectionColl);
 	}
 
 	void releaseConnection(DbConnectionBase sqlConnection)
@@ -108,8 +108,8 @@ public class DbConnectionPool
 
 		if (hashConnectionsByProgramId != null)
 		{
-			String csFullName = makeFullName(csProgramId, csProgramParent);
-			connectionColl = hashConnectionsByProgramId.get(csFullName);
+			String fullName = makeFullName(csProgramId, csProgramParent);
+			connectionColl = hashConnectionsByProgramId.get(fullName);
 
 			if(connectionColl == null && !StringUtil.isEmpty(csProgramParent))	// Not found with a program parent name; try with only required program name
 				connectionColl = hashConnectionsByProgramId.get(csProgramId);
@@ -120,12 +120,12 @@ public class DbConnectionPool
 		return connectionColl;
 	}
 
-	private String makeFullName(String csProgramId, String csProgramParent)
+	private String makeFullName(String programId, String programParent)
 	{
-		if(!StringUtil.isEmpty(csProgramId) && !StringUtil.isEmpty(csProgramParent))
-			return csProgramId + "$" + csProgramParent;
-		else if(!StringUtil.isEmpty(csProgramId))
-			return csProgramId;
+		if(!StringUtil.isEmpty(programId) && !StringUtil.isEmpty(programParent))
+			return programId + "$" + programParent;
+		else if(!StringUtil.isEmpty(programId))
+			return programId;
 		return "";
 	}
 

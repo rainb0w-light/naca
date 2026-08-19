@@ -257,10 +257,10 @@ public class SQLClause
 		{
 			try
 			{
-				String csVal = resultSet.getString(csColName);
-				if(csVal != null)
-					csVal = csVal.trim();
-				return csVal;
+				String val = resultSet.getString(csColName);
+				if(val != null)
+					val = val.trim();
+				return val;
 			}
 			catch (SQLException e)
 			{
@@ -278,10 +278,10 @@ public class SQLClause
 		{
 			try
 			{
-				String csVal = resultSet.getString(nColNumber);
-				if(csVal != null)
-					csVal = csVal.trim();
-				return csVal;
+				String val = resultSet.getString(nColNumber);
+				if(val != null)
+					val = val.trim();
+				return val;
 			}
 			catch (SQLException e)
 			{
@@ -299,8 +299,8 @@ public class SQLClause
 		{
 			try
 			{
-				String csVal = resultSet.getString(csColName);
-				return csVal;
+				String val = resultSet.getString(csColName);
+				return val;
 			}
 			catch (SQLException e)
 			{
@@ -318,8 +318,8 @@ public class SQLClause
 		{
 			try
 			{
-				String csVal = resultSet.getString(nColNumber);
-				return csVal;
+				String val = resultSet.getString(nColNumber);
+				return val;
 			}
 			catch (SQLException e)
 			{

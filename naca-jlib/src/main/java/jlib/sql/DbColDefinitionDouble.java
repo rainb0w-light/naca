@@ -29,8 +29,8 @@ public class DbColDefinitionDouble extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			long lValue = NumberParser.getAsLong(csValue);
+			String value = resultSet.getString(nCol1Based);
+			long lValue = NumberParser.getAsLong(value);
 			byte aBytes[] = new byte[8];
 			LittleEndingUnsignBinaryBufferStorage.writeLong(aBytes, lValue, 0);
 			return aBytes;
@@ -67,8 +67,8 @@ public class DbColDefinitionDouble extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);	
 			return aBytes;

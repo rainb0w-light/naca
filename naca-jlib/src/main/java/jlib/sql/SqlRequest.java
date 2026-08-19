@@ -55,38 +55,38 @@ public class SqlRequest extends DbPreparedStatement
 	
 	public void cmdInsert(String csTable)
 	{
-		this.csTable = csTable;
-		csOperation = "Insert";
+		this.table = csTable;
+		operation = "Insert";
 	}
 	
 	public void cmdUpdate(String csTable, String csWhere)
 	{
-		this.csTable = csTable;
-		this.csWhere = csWhere;
-		csOperation = "Update";
+		this.table = csTable;
+		this.where = csWhere;
+		operation = "Update";
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder)
 	{
-		this.csTable = csTable;
-		this.csWhere = csWhere;
-		this.csOrder = csOrder;
-		csOperation = "Update";
+		this.table = csTable;
+		this.where = csWhere;
+		this.order = csOrder;
+		operation = "Update";
 	}
 
 	public void cmdUpdate(String csTable, String csWhere, String csOrder, int nNbRows)
 	{
-		this.csTable = csTable;
-		this.csWhere = csWhere;
-		this.csOrder = csOrder;
+		this.table = csTable;
+		this.where = csWhere;
+		this.order = csOrder;
 		this.nNbRows = nNbRows;
-		csOperation = "Update";
+		operation = "Update";
 	}
 	
 	public void cmdSelect(String csSelect)
 	{
-		this.csSelect = csSelect;
-		csOperation = "Select";
+		this.select = csSelect;
+		operation = "Select";
 	}
 
 	public void setCol(String csColName, String csValue)
@@ -161,12 +161,12 @@ public class SqlRequest extends DbPreparedStatement
 	public boolean execSQL(DbConnectionBase con)
 	{
 		resultSet = null;
-		if(csOperation != null)
+		if(operation != null)
 		{
-			if(csOperation.equalsIgnoreCase("Select"))
+			if(operation.equalsIgnoreCase("Select"))
 			{
-				csRequest = buildSelectClause();
-				prepare(con, csRequest, false);
+				request = buildSelectClause();
+				prepare(con, request, false);
 				
 				int nNbParam = getNbParam();
 				for(int nParam=0; nParam<nNbParam; nParam++)
@@ -181,10 +181,10 @@ public class SqlRequest extends DbPreparedStatement
 					return true;
 				return false;
 			}
-			else if(csOperation.equalsIgnoreCase("Insert"))
+			else if(operation.equalsIgnoreCase("Insert"))
 			{
-				csRequest = buildInsertClause();
-				prepare(con, csRequest, false);
+				request = buildInsertClause();
+				prepare(con, request, false);
 				
 				if(col != null)
 				{
@@ -200,10 +200,10 @@ public class SqlRequest extends DbPreparedStatement
 					return true;
 				return false;
 			}
-			else if(csOperation.equalsIgnoreCase("Update"))
+			else if(operation.equalsIgnoreCase("Update"))
 			{
-				csRequest = buildUpdateClause();
-				prepare(con, csRequest, false);
+				request = buildUpdateClause();
+				prepare(con, request, false);
 				
 				int nCol=0;
 				if(col != null)
@@ -413,100 +413,100 @@ public class SqlRequest extends DbPreparedStatement
 	
 	private String buildInsertClause()
 	{
-		String csRequest = "Insert into " + csTable;
+		String request = "Insert into " + table;
 		if(col != null)
 		{
-			String csNames = "(";
-			String csValues = "(";
+			String names = "(";
+			String values = "(";
 			for(int n = 0; n< col.size(); n++)
 			{
 				if(n != 0)
 				{
-					csNames += ", ";
-					csValues += ", ";
+					names += ", ";
+					values += ", ";
 				}
 				
 				ColValue col = this.col.get(n);
-				csNames += col.csName;
-				csValues += "?";
+				names += col.csName;
+				values += "?";
 				//csValues += "'" + col.getValueAsString() + "'";
 			}
 			
-			csNames += ")";
-			csValues += ")";
+			names += ")";
+			values += ")";
 	 		
-			csRequest += csNames + " Values " + csValues;
+			request += names + " Values " + values;
 		}
-		return csRequest;		
+		return request;		
 	}
 	
 	private String buildSelectClause()
 	{
-		csWhere = csSelect;
+		where = select;
 		return buildWhere();
 	}
 	
 	private String buildUpdateClause()
 	{
-		String csRequest = "Update " + csTable + " set ";
+		String request = "Update " + table + " set ";
 		for(int n = 0; n< col.size(); n++)
 		{
 			if(n != 0)
-				csRequest += ", ";
+				request += ", ";
 			
 			ColValue col = this.col.get(n);
 			String cs = col.csName + "=?";	// + col.getValueAsString() + "'";
-			csRequest += cs; 
+			request += cs; 
 		}
-		if(csWhere != null)
+		if(where != null)
 		{
-			csRequest += " Where ";
-			String csWhere = buildWhere();
-			csRequest += csWhere;
+			request += " Where ";
+			String where = buildWhere();
+			request += where;
 		}
 		
-		if(csOrder != null)
+		if(order != null)
 		{
-			csRequest += " Order by " + csOrder;
+			request += " Order by " + order;
 		}
 		
 		if(nNbRows != -1)
 		{
-			csRequest += " Limit " + nNbRows;
+			request += " Limit " + nNbRows;
 		}
 		
-		return csRequest;
+		return request;
 	}
 	
 	private String buildWhere()
 	{
 		int nOrder = 0;
-		String csResult = "";
-		String csRight = csWhere;
-		while(csRight != null)
+		String result = "";
+		String right = where;
+		while(right != null)
 		{
-			int nSep = csRight.indexOf(':');
+			int nSep = right.indexOf(':');
 			if(nSep != -1)
 			{
-				String csLeft = csRight.substring(0, nSep);
-				csRight = csRight.substring(nSep+1);			
+				String left = right.substring(0, nSep);
+				right = right.substring(nSep+1);			
 	
-				csResult += csLeft + "? ";
-				int nNext = csRight.indexOf(' ');
-				String csKey = null;
+				result += left + "? ";
+				int nNext = right.indexOf(' ');
+				String key = null;
 				if(nNext != -1)
 				{
-					csKey = csRight.substring(0, nNext);
-					csRight = csRight.substring(nNext+1);
+					key = right.substring(0, nNext);
+					right = right.substring(nNext+1);
 				}
 				else
 				{
-					csKey = csRight;
-					csRight = null;
+					key = right;
+					right = null;
 				}
-				if(csKey != null)
+				if(key != null)
 				{
-					ColValue colValue = getParam(csKey);
+					ColValue colValue = getParam(key);
 					if(colValue != null)
 					{
 						colValue.setOrder(nOrder);
@@ -516,12 +516,12 @@ public class SqlRequest extends DbPreparedStatement
 			}
 			else
 			{
-				csResult += csRight; 
-				csRight = null;
+				result += right; 
+				right = null;
 			}
 		}		
 		
-		return csResult;
+		return result;
 	}
 	
 	private void checkArrCol()
@@ -540,7 +540,7 @@ public class SqlRequest extends DbPreparedStatement
 		}
 	}
 	
-	private ColValue getParam(String csKey)
+	private ColValue getParam(String key)
 	{
 		ColValue colValue = null;
 		if(param != null)
@@ -548,7 +548,7 @@ public class SqlRequest extends DbPreparedStatement
 			for(int n = 0; n< param.size(); n++)
 			{
 				colValue = param.get(n);
-				if(colValue.hasName(csKey))
+				if(colValue.hasName(key))
 					return colValue; 
 			}
 		}
@@ -577,13 +577,13 @@ public class SqlRequest extends DbPreparedStatement
 		return 0;
 	}	
 	
-	private String csRequest = null;
-	private String csTable = null;
-	private String csWhere = null;
-	private String csOrder = null;
-	private String csSelect = null;
+	private String request = null;
+	private String table = null;
+	private String where = null;
+	private String order = null;
+	private String select = null;
 	private int nNbRows = -1;
-	private String csOperation = null;
+	private String operation = null;
 	private ArrayList<ColValue> col = null;
 	private ArrayList<ColValue> param = null;
 	private ResultSet resultSet = null;

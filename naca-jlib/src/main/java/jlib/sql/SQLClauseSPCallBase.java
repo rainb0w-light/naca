@@ -23,20 +23,20 @@ import jlib.exception.TechnicalException;
 public class SQLClauseSPCallBase
 {
 	private boolean ischeckParams = false;
-	private String csName = null;
+	private String name = null;
 	private ArrayList<SQLClauseSPParam> params = new ArrayList<SQLClauseSPParam>();
 	private DbPreparedCallableStatement preparedCallableStatement = null;
 
 	protected SQLClauseSPParamsDesc getStoredProcedureParamsList(DbConnectionBase connection)
 	{
 		SQLClauseSPSupport support = new SQLClauseSPSupport();
-		SQLClauseSPParamsDesc paramsDesc = support.getStoredProcedureParamsList(connection, csName);
+		SQLClauseSPParamsDesc paramsDesc = support.getStoredProcedureParamsList(connection, name);
 		return paramsDesc;
 	}
 
 	protected SQLClauseSPCallBase(String csName, boolean ischeckParams)
 	{
-		this.csName = csName;
+		this.name = csName;
 		this.ischeckParams = ischeckParams;
 	}
 
@@ -60,7 +60,7 @@ public class SQLClauseSPCallBase
 
 	public String toString()
 	{
-		StringBuilder sb = new StringBuilder("StoredProc: "+csName+"\n");
+		StringBuilder sb = new StringBuilder("StoredProc: "+name+"\n");
 		int nNbParams = params.size();
 		for(int n=0; n<nNbParams; n++)
 		{
@@ -78,7 +78,7 @@ public class SQLClauseSPCallBase
 
 		SQLClauseSPParamsDesc paramsDesc = getStoredProcedureParamsList(connection);
 
-		StringBuilder sb = new StringBuilder("StoredProc: "+csName+"\n");
+		StringBuilder sb = new StringBuilder("StoredProc: "+name+"\n");
 		if(paramsDesc == null)
 			sb.append("No Description found in DB for the Stored proc !!!\n");
 		else
@@ -105,18 +105,18 @@ public class SQLClauseSPCallBase
 	private DbPreparedCallableStatement prepareWithException(DbConnectionBase connection)
 		throws TechnicalException
 	{
-		String csSql = "CALL " + csName;
+		String sql = "CALL " + name;
 		int nNbParams = params.size();
 		int n=0;
 		for(; n<nNbParams; n++)
 		{
 			if(n == 0)
-				csSql += " (?";
+				sql += " (?";
 			else
-				csSql += ",?";
+				sql += ",?";
 		}
 		if(n != 0)
-			csSql += ")";
+			sql += ")";
 
 		SQLClauseSPParamsDesc paramsDesc = null;
 		if(ischeckParams)
@@ -124,7 +124,7 @@ public class SQLClauseSPCallBase
 
 		try
 		{
-			CallableStatement call = connection.dbConnection.prepareCall(csSql);
+			CallableStatement call = connection.dbConnection.prepareCall(sql);
 			if(call != null)
 			{
 				DbPreparedCallableStatement preparedCallableStatement = new DbPreparedCallableStatement(call);

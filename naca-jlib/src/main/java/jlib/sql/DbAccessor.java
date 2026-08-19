@@ -31,17 +31,17 @@ import jlib.jmxMBean.BaseCloseMBean;
  */
 public class DbAccessor extends BaseCloseMBean
 {
-	private String csKey = null;	// Gives the section name within the app.properties file. This section is used to provide DB parameters
+	private String key = null;	// Gives the section name within the app.properties file. This section is used to provide DB parameters
 
 	public DbAccessor(String csKey)
 	{
 		super("DbAccessor_" + csKey, csKey);
-		this.csKey = csKey;
+		this.key = csKey;
 	}
 
 	public String getKey()	// Access to the app.properties section's key
 	{
-		return csKey;
+		return key;
 	}
 
 	/**

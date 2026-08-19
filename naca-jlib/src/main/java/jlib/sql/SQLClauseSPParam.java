@@ -32,14 +32,14 @@ public abstract class SQLClauseSPParam
 		throws TechnicalException
 	{
 		nParamId++;	// 1 based
-		String csError = null;
+		String error = null;
 		try
 		{
 			if(wayInOut == SQLClauseSPParamWay.In)
 			{
 				if(paramDesc != null && paramDesc.isColIn())
 				{
-					csError = TechnicalException.STORED_PROC_CALL_IN_PARAM_SET_ERROR;
+					error = TechnicalException.STORED_PROC_CALL_IN_PARAM_SET_ERROR;
 					setInValueWithException(nParamId, callableStatement);
 					return ;
 				}
@@ -49,7 +49,7 @@ public abstract class SQLClauseSPParam
 			{
 				if(paramDesc != null && paramDesc.isColOut())
 				{
-					csError = TechnicalException.STORED_PROC_CALL_OUT_PARAM_SET_ERROR;
+					error = TechnicalException.STORED_PROC_CALL_OUT_PARAM_SET_ERROR;
 					registerOutParameterWithException(nParamId, callableStatement);
 					return ;
 				}	
@@ -59,7 +59,7 @@ public abstract class SQLClauseSPParam
 			{
 				if(paramDesc != null && paramDesc.isColInOut())
 				{
-					csError = TechnicalException.STORED_PROC_CALL_INOUT_PARAM_SET_ERROR;
+					error = TechnicalException.STORED_PROC_CALL_INOUT_PARAM_SET_ERROR;
 					registerOutParameterWithException(nParamId, callableStatement);
 					setInValueWithException(nParamId, callableStatement);
 					return ;
@@ -71,7 +71,7 @@ public abstract class SQLClauseSPParam
 		}
 		catch (SQLException e)
 		{
-			TechnicalException.throwException(csError, "ParameterId (1based): "+nParamId, e);
+			TechnicalException.throwException(error, "ParameterId (1based): "+nParamId, e);
 		}			
 	}
 	

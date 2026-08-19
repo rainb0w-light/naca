@@ -32,12 +32,12 @@ public class DbColDefinitionDate extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			String csYYYY = csValue.substring(0, 4);
-			String csMM = csValue.substring(5, 7);
-			String csDD = csValue.substring(8, 10);
-			csValue = csDD + "." + csMM + "." + csYYYY;
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			String yyyy = value.substring(0, 4);
+			String mm = value.substring(5, 7);
+			String dd = value.substring(8, 10);
+			value = dd + "." + mm + "." + yyyy;
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;
@@ -85,13 +85,13 @@ public class DbColDefinitionDate extends BaseDbColDefinition
 	{
 		try
 		{
-			String csValue = resultSet.getString(nCol1Based);
-			String csYYYY = csValue.substring(0, 4);
-			String csMM = csValue.substring(5, 7);
-			String csDD = csValue.substring(8, 10);
-			csValue = csDD + "." + csMM + "." + csYYYY;
-			csValue = "\"" + csValue + "\"";
-			byte[] aBytes = csValue.getBytes();
+			String value = resultSet.getString(nCol1Based);
+			String yyyy = value.substring(0, 4);
+			String mm = value.substring(5, 7);
+			String dd = value.substring(8, 10);
+			value = dd + "." + mm + "." + yyyy;
+			value = "\"" + value + "\"";
+			byte[] aBytes = value.getBytes();
 			if(bEbcdicOutput)	// Must outout in ebcdic
 				AsciiEbcdicConverter.swapByteAsciiToEbcdic(aBytes, 0, aBytes.length);
 			return aBytes;

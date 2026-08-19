@@ -18,7 +18,7 @@ import java.sql.ResultSet;
  */
 public abstract class BaseDbColDefinition
 {
-	private String csName = null;
+	private String name = null;
 	
 	public class ColInsertValue
 	{
@@ -28,12 +28,12 @@ public abstract class BaseDbColDefinition
 	
 	public BaseDbColDefinition(ColDescriptionInfo colDescription)
 	{
-		csName = colDescription.getColName();
+		name = colDescription.getColName();
 	}
 	
 	public String getColumnName()
 	{
-		return csName;
+		return name;
 	}
 	
 	public abstract boolean fillCallableStatementParam(int nParamId, StoredProcParamDescBase storedProcParamDescBase, DbPreparedCallableStatement callableStatement);
