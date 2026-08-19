@@ -1,0 +1,9 @@
+{
+  "applied": true,
+  "filesChanged": 46,
+  "fixed": 52,
+  "maximum": 140,
+  "observed": 52,
+  "rule": "RegexpSinglelineJavaTaskComment",
+  "skipped": 0
+}

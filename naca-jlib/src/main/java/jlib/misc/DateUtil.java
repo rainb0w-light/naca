@@ -18,8 +18,10 @@ import java.util.GregorianCalendar;
 import jlib.exception.ProgrammingException;
 
 /**
- * <p>Utilitaire pour formattage de date/heure</p>
+ * Utilitaire pour formattage de date/heure
+ *
  * <p>Copyright: Copyright (c) 2003</p>
+ *
  * <p>Company: Consultas</p>
  * @author <a href=mailto:dbarman@consultas.ch>Barman Dominique</a>
  * @version 1.0

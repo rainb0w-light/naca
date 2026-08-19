@@ -18,6 +18,7 @@ import nacaLib.program.Section;
  * Error context for COBOL SQL error handling.
  * Supports COBOL WHENEVER SQLERROR GOTO semantics.
  *
+ * <p>
  * Usage:
  * <pre>
  * // Equivalent to: EXEC SQL WHENEVER SQLERROR GOTO SQL-ERROR END-EXEC

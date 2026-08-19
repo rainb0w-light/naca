@@ -21,6 +21,7 @@ import javax.sql.DataSource;
  * Database configuration for Naca runtime.
  * Configures HikariCP connection pool and JdbcTemplate.
  *
+ * <p>
  * This configuration is externalized and can be customized via:
  * - application.properties/yml
  * - Environment variables

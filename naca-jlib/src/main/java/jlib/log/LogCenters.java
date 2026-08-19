@@ -36,6 +36,7 @@ public class LogCenters
  * reads the [LogCenter] tag and builds a new {@link LogCenter} instance with it,
  * and then registers the new instance to the {@link Log} singleton.<p/>
  *
+ * <p>
  * The general effect of calling this method is that all log centers described in
  * the specified configuration are registered to the {@link Log} singleton.
  *

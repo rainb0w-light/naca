@@ -103,11 +103,11 @@ public class CESMManager extends BaseCESMManager
 
     public void retrieveSet(Var pointer)
     {
-        // TODO implement pointer-based RETRIEVE; preserve generated contract.
+        // TODO(quality-governance): implement pointer-based RETRIEVE; preserve generated contract.
     }
 
     public void retrieveSet(Var pointer, Var length)
     {
-        // TODO implement pointer-based RETRIEVE; preserve generated contract.
+        // TODO(quality-governance): implement pointer-based RETRIEVE; preserve generated contract.
     }
 }

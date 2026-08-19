@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMapping;
  * http://easystruts.sf.net
  * created on 01-26-2005
  *
+ * <p>
  * XDoclet definition:
  * @struts:form name="helpForm"
  */

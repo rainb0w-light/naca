@@ -25,8 +25,9 @@ import java.util.Vector;
 /**
  * A simple static API for listing classes loaded in a JVM. {@link #getClassLocation(Class)}
  * from http://www.javaworld.com/javaworld/javaqa/2003-07/01-qa-0711-classsrc.html
- * also thrown in for a good measure. See individual methods for further details.<P>
+ * also thrown in for a good measure. See individual methods for further details.
  *
+ * <p>
  * NOTE: use for testing/debugging only.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003

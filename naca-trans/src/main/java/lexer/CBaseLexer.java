@@ -25,7 +25,7 @@ import utils.NacaTransAssertException;
 
 public abstract class CBaseLexer
 {
-    // TODO Dodgy - but I need this to work NOW
+    // TODO(quality-governance): Dodgy - but I need this to work NOW
     private static final char QUOTE_MARKER = '\1';
     protected char cCurrent = 0 ;
     protected int nCurrentPositionInLine = 0;

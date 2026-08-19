@@ -5004,7 +5004,7 @@ public abstract class BaseProgram extends CJMapObject
             Log.logFineDebug("moveReferenceTo_Ptr_Ptr:");
         }
 
-        //TODO fake function moveReferenceTo
+        //TODO(quality-governance): fake function moveReferenceTo
     }
 
     /**
@@ -5569,7 +5569,7 @@ public abstract class BaseProgram extends CJMapObject
             Log.logFineDebug("sqlCursorSection");
         }
 
-        //TODO fake function sqlCursorSection
+        //TODO(quality-governance): fake function sqlCursorSection
         return null ;
     }
 
@@ -6474,7 +6474,7 @@ public abstract class BaseProgram extends CJMapObject
             tempCache.resetTempIndex(v);
         }
 
-        // TODO fake method
+        // TODO(quality-governance): fake method
         // getProgramManager().cESMEnv.setTime(v) ;
     }
     protected void setTime(MathBase v)
@@ -6483,7 +6483,7 @@ public abstract class BaseProgram extends CJMapObject
             Log.logFineDebug("setTime_M:" + v.getSTCheckValue());
         }
 
-        // TODO fake method
+        // TODO(quality-governance): fake method
         //getProgramManager().cESMEnv.setTime(v) ;
     }
 
@@ -6554,7 +6554,7 @@ public abstract class BaseProgram extends CJMapObject
          * This number appears in trace entries generated while the task is in control.
          * For COBOL: PIC S9(7) COMP-3
          */
-        //TODO fake function getTaskNumber
+        //TODO(quality-governance): fake function getTaskNumber
         if (IsSTCheck) {
             Log.logFineDebug("getTaskNumber:");
         }
@@ -6594,7 +6594,6 @@ public abstract class BaseProgram extends CJMapObject
     }
 
     /**
-     *
      * Forget last key pressed
      * Internal usage only
      */

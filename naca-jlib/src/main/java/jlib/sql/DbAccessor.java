@@ -21,12 +21,14 @@ import jlib.jmxMBean.BaseCloseMBean;
  * The app.properties file section must be accessible in the classpath, and must contains
  * the following values in the case of PUB2000Db:
  *
+ * <p>
  * PUB2000Db.driver=com.ibm.db2.jcc.DB2Driver
  * PUB2000Db.connectionString=jdbc:db2://db2002.consultas.ch:50002/PUB2000T
  * PUB2000Db.user=<User>
  * PUB2000Db.password=<Password>
  * PUB2000Db.environment=TEST
  *
+ * <p>
  * In that sample, csKey must be set to "PUB2000Db"
  */
 public class DbAccessor extends BaseCloseMBean

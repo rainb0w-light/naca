@@ -6,10 +6,12 @@ import org.stringtemplate.v4.ST;
 /**
  * StringTemplate4 Template Loader
  *
+ * <p>
  * Provides centralized access to ST4 templates for code generation.
  * The current full profile is exposed through a validated template catalog. Template
  * modules can be split without changing callers or the recursive rendering protocol.
  *
+ * <p>
  * Design Principle (PUSH Model):
  * - Controllers push entity objects to templates
  * - Templates handle all formatting, conditionals, and nested rendering
@@ -24,7 +26,8 @@ public class TemplateLoader {
 
     /**
      * Get a template instance from the Java template group.
-     * 
+     *
+     * <p>
      * Usage:
      * <pre>
      * ST template = TemplateLoader.getTemplate("condition");

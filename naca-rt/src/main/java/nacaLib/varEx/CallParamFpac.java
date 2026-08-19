@@ -36,7 +36,7 @@ public class CallParamFpac extends CCallParam
         int nNbCharsToCopy = charBuffer.getBufferSize();
         int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
         int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
-        //TODO Contrôle si contrôle sur longueur du buffer ou longueur de varLinkageSection
+        //TODO(quality-governance): Contrôle si contrôle sur longueur du buffer ou longueur de varLinkageSection
         if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
         {
             assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy

@@ -1137,7 +1137,7 @@ public class VarDefFPacAlphaNum extends VarDefVariable
     int compare(ComparisonMode mode, VarBufferPos buffer2, VarDefNumEdited varDef1, VarBufferPos buffer1)
     {
         assertIfFalse(false);
-        // TODO how to compare with num edited ?
+        // TODO(quality-governance): how to compare with num edited ?
         return 0;
     }
 

@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Utility class for handling users access rights to resources or applications.
+ *
  * <p>(Examples are given in Xml, even if the implementation is not necessarily Xml).</p>
  * There are three different structures:
  * <ul>
@@ -62,6 +63,7 @@ import java.util.Map;
  *  [/accesstree]
  * </pre>
  *
+ * <p>
  * Requests for access have to specify:
  * <ul>
  *  <li>A function path: <code>administration / customers / changePassword</code>.</li>
@@ -70,6 +72,7 @@ import java.util.Map;
  *  <li>Possibly, a parameter name, and a parameter value.</li>
  * </ul>
  *
+ * <p>
  * Access rules are the following:
  * <ul>
  *  <li>Initially, the user hasn't access to the requested function. A <code>hasAccess</code> flag is

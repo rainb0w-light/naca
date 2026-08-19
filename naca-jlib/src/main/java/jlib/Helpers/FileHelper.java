@@ -381,7 +381,6 @@ public class FileHelper implements FilenameFilter
     }
 
 /**
- *
  * Copies a file to a folder or to a file.
  * @param origin The source file to copy. The file must exist, and it must be a
  *     file (not a folder).

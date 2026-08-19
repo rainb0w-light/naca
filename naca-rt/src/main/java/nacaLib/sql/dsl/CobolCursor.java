@@ -29,6 +29,7 @@ import nacaLib.varEx.VarAndEdit;
  * Cursor management for COBOL to Java translated programs.
  * Supports COBOL-style cursor operations: DECLARE, OPEN, FETCH, CLOSE.
  *
+ * <p>
  * Usage example:
  * <pre>
  * // Equivalent to:

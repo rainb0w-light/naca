@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionMapping;
  * http://easystruts.sf.net
  * created on 01-05-2005
  *
+ * <p>
  * XDoclet definition:
  * @struts:action path="/popup" name="FormCompat" input="/form/.jsp" validate="true"
  * @struts:action-forward name="/PopupServlet" path="/PopupServlet"

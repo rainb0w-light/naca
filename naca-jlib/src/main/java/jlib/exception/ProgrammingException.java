@@ -16,13 +16,16 @@ import jlib.sql.SQLClause;
  * Notifies all programming exceptions detected during a processing.
  * A programming exception is any abnormal condition detected during a process.<p/>
  *
+ * <p>
  * As opposite to {@link TechnicalException}, a <i>programming error</i>, is communicating to the
  * calling system that currently the requested operation cannot be achieved, and won't succeed
  * in the future until the application is corrected.<p/>
  *
+ * <p>
  * The  programming exception are raised as {@link RuntimeException} to avoid forcing the calling system
  * to explicitly deal with it.<p/>
  *
+ * <p>
  * The programming exception has the following properties:
  * <ul>
  *  <li>An error code ({@link #getCode()}), used to classify the exceptions into categories.</li>

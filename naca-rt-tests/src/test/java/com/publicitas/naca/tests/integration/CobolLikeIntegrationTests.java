@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Integration tests for COBOL-like programs.
  * These tests verify the runtime behavior of programs that simulate COBOL operations.
  *
+ * <p>
  * Test categories:
  * - Variable handling (VarNum, VarTypes, VarMisc, etc.)
  * - Math operations (Math)

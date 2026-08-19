@@ -57,6 +57,7 @@ import jlib.xml.Tag;
  * For that second kind of report, an additional identifier is needed to specify the
  * client, product, brand, source, etc. This additional identifier is the <i>Product</i>.<p/>
  *
+ * <p>
  * This is a typical <i>LogCenterDbFlat</i> configuration:
  * <pre>
  * </pre>

@@ -17,15 +17,18 @@ import jlib.sql.SQLClause;
  * Usually an application is connected to several other systems (databases, web services,
  * servers...). A <i>technical error</i> signals that one of those systems is malfunctioning.<p/>
  *
+ * <p>
  * A technical exception is by definition a temporary error. A technical exception is communicating
  * to the calling system that currently the requested operation cannot be achieved, but the same
  * operation may succeed later on. Some configuration errors (for example a bad database connection string),
  * lead to systematic technical errors. It is not possible to diagnose such misconfiguration as the
  * configuration is not missing nor misformated.<p/>
  *
+ * <p>
  * The  technical exception are raised as {@link RuntimeException} to avoid forcing the calling system
  * to explicitly deal with it.<p/>
  *
+ * <p>
  * The technical exception has the following properties:
  * <ul>
  *  <li>An error code ({@link #getCode()}), used to classify the exceptions into categories.</li>

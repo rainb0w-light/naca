@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
  * http://easystruts.sf.net
  * created on 01-26-2005
  *
+ * <p>
  * XDoclet definition:
  * @struts:action path="/help" name="helpForm" input="/help.jsp" validate="true"
  */

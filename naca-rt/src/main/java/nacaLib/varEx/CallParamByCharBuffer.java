@@ -30,7 +30,7 @@ public class CallParamByCharBuffer extends CCallParam
         int nNbCharsToCopy = charBuffer.getBufferSize();
         int nPositionDest = varLinkageSection.getBodyAbsolutePosition();
         int nBuffetDestSize = varLinkageSection.bufferPos.getBufferSize();
-        //TODO Contr�le si contr�le sur longueur du buffer ou longueur de varLinkageSection
+        //TODO(quality-governance): Contr�le si contr�le sur longueur du buffer ou longueur de varLinkageSection
         if(nPositionDest + nNbCharsToCopy > nBuffetDestSize)
         {
             assertIfFalse(false, "Assertion: CallParamByCharBuffer.MapOn; Destination Buffer too small; Source length=" + nNbCharsToCopy

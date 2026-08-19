@@ -11,8 +11,10 @@ import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
 /**
- * <p>Envoi de mail</p>
+ * Envoi de mail
+ *
  * <p>Copyright: Copyright (c) 2003</p>
+ *
  * <p>Company: Consultas</p>
  * @author <a href=mailto:dbarman@consultas.ch>Barman Dominique</a>
  * @version 1.0

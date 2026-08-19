@@ -64,7 +64,7 @@ public class OnlineProgram extends BaseProgram
          * or Basic Mapping Support (BMS) input operation from a display device such as a terminal.
          * For COBOL: PIC S9(4) COMP
          */
-        //TODO fake function getCursorPosition
+        //TODO(quality-governance): fake function getCursorPosition
         if (IsSTCheck) {
             Log.logFineDebug("getCursorPosition:");
         }
@@ -87,7 +87,7 @@ public class OnlineProgram extends BaseProgram
             Log.logFineDebug("getCommareaR:");
         }
 
-        //TODO fake function getCommareaR
+        //TODO(quality-governance): fake function getCommareaR
         // return new Var(null, 5, false) ;
         assertIfFalse(false);
         return null;

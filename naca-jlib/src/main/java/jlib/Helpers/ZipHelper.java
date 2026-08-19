@@ -252,7 +252,7 @@ public class ZipHelper {
  *  for (int n=0;n&lt;files.length;n++)
  *      if (files[n].isFile())
  *          list.add(files[n].getAbsolutePath());
- *
+ * <p>
  *  ApplicationHelper.zipFiles(list,new File("C:\\MyFolder\MyArchive.zip"),false);
  * </pre>
  * @param files The list of files to add to the zip archive. Entries in the list

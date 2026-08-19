@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-//TODO replace this class with a JLIB implementation !!!!
+//TODO(quality-governance): replace this class with a JLIB implementation !!!!
 public class StreamUtil {
 
     //private static Logger _logger = Logger.getLogger(StreamUtil.class.getName());

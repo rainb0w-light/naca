@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
  * Unified logging utility for NacaRT.
  * Replaces System.out.println and direct Log4j calls with SLF4J.
  *
+ * <p>
  * Usage:
  * <pre>
  * // Debug logging

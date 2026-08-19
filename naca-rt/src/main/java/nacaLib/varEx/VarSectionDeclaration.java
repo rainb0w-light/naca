@@ -104,7 +104,7 @@ public class VarSectionDeclaration extends VarDeclarationInMap
 
     public DataSection variableSection()
     {
-        // TODO fake method
+        // TODO(quality-governance): fake method
         return null;
     }
 

@@ -671,7 +671,7 @@ public abstract class Edit extends VarAndEdit
 
     public void setLength(int n)
     {
-        // TODO fake method
+        // TODO(quality-governance): fake method
         throw new AssertException("unsupported action : Edit.setLength()");
     }
 

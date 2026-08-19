@@ -59,10 +59,12 @@ import org.xml.sax.InputSource;
  *  the elements of the document.
  * </ul>
  *
+ * <p>
  * After the document has been edited, it can be saved with the methods
  * {@link #exportToFile}, {@link #exportToFileUTF8}, {@link #exportToStream} and
  * {@link #exportToString}.<p/>
  *
+ * <p>
  * This class is typically used for loading the JLib.log configuration files, which
  * are xml files.
  *

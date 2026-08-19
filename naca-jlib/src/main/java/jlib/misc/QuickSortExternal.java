@@ -18,6 +18,7 @@ public class QuickSortExternal<Item>
     * algorithm.  This will handle arrays that are already
     * sorted, and arrays with duplicate keys.
     *
+    * <p>
     * If you think of a one dimensional array as going from
     * the lowest index on the left to the highest index on the right
     * then the parameters to this function are lowest index or
