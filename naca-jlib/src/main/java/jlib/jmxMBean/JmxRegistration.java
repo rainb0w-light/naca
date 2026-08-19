@@ -58,14 +58,14 @@ public class JmxRegistration
         return true;
     }
 
-    static public boolean registerMBean(String csName, Object MBeanObject)
+    static public boolean registerMBean(String csName, Object mBeanObject)
     {
         register();
 
         try
         {
             ObjectName name = new ObjectName("jmxMbean:type="+csName);
-            ms_MBeanServer.registerMBean(MBeanObject, name);
+            ms_MBeanServer.registerMBean(mBeanObject, name);
 
         }
         catch (InstanceAlreadyExistsException e)

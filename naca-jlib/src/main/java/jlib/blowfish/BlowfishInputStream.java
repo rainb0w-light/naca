@@ -120,14 +120,14 @@ public class BlowfishInputStream extends InputStream {
       int end = _in.read();
       if ( end == -1 ) {
          // all done
-         int pad_count = _in_buffer[_in_buffer.length - 1];
-         if ( pad_count > _in_buffer.length || pad_count < 1 ) {
+         int padCount = _in_buffer[_in_buffer.length - 1];
+         if ( padCount > _in_buffer.length || padCount < 1 ) {
             // the last byte wasn't a number, so it must be good data
             return;
          }
          else {
             // adjust bytes read to reflect the number of 'good' bytes
-            _bytes_read = _in_buffer.length - pad_count;
+            _bytes_read = _in_buffer.length - padCount;
             if ( _bytes_read == 0 ) {
                _bytes_read = -1;
             }

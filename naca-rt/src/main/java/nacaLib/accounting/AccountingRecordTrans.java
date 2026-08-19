@@ -55,8 +55,8 @@ public class AccountingRecordTrans
     {
         if(BaseResourceManager.getUsingJmx())
         {
-            long runtimeTrans_ns = swnDbTimeRunTransaction.getElapsedTime();
-            JmxGeneralStat.endRunTransaction(criteria, runtimeTrans_ns / 1000000, sumDbTimeIO_ns / 1000000);
+            long runtimeTransNs = swnDbTimeRunTransaction.getElapsedTime();
+            JmxGeneralStat.endRunTransaction(criteria, runtimeTransNs / 1000000, sumDbTimeIO_ns / 1000000);
         }
 
         endRunProgram(criteria);

@@ -62,11 +62,11 @@ public class SQL
         {
             BaseEnvironment env = programManager.getEnv();
             accountingRecordManager = env.getAccountingRecordManager();
-            DbConnectionBase SQLConnection = env.getSQLConnection();
-            if(SQLConnection != null)
+            DbConnectionBase sqlConnection = env.getSQLConnection();
+            if(sqlConnection != null)
             {
                 CSQLStatus sqlstatus = programManager.getSQLStatus();
-                create(programManager, SQLConnection, csQuery, cursor, sqlstatus);
+                create(programManager, sqlConnection, csQuery, cursor, sqlstatus);
             }
         }
         //JmxGeneralStat.incNbSQLObjects(1);
@@ -391,19 +391,19 @@ public class SQL
                         executeOnceExplainQuery();
                     }
 
-                    CSQLPreparedStatement SQLStatement = executePrepareSelect();
+                    CSQLPreparedStatement sqlStatement = executePrepareSelect();
 
-                    if (SQLStatement != null)
+                    if (sqlStatement != null)
                     {
                         if (sQLConnection.supportCursorName())
                         {
                             if (cursor != null && cursor.getMustNameCursor())
                             {
                                 String csCursorName = cursor.getUniqueCursorName();
-                                SQLStatement.setCursorName(csCursorName, this);
+                                sqlStatement.setCursorName(csCursorName, this);
                             }
                         }
-                        qLCursorResultSet = SQLStatement.executeQueryCursor(this);
+                        qLCursorResultSet = sqlStatement.executeQueryCursor(this);
                     }
                 }
                 if (nNbIntoParamToProvide == nNbIntoParamDeclared && qLCursorResultSet != null) // All
@@ -1267,8 +1267,8 @@ public class SQL
         // SQLStatement.executeQueryAndFillInto(this, sqlStatus, arrIntoItems,
         // arrColSelectType, bOneStarOnly, accountingRecordManager,
         // m_hashParam, m_hashValue);
-        CSQLResultSet SQLResultSet = SQLStatement.executeQueryAndFillInto(this, nNbFetch);
-        return SQLResultSet;
+        CSQLResultSet sqlResultSet = SQLStatement.executeQueryAndFillInto(this, nNbFetch);
+        return sqlResultSet;
     }
 
     /**

@@ -25,9 +25,9 @@ public class CMenuDef
 
     CMenuOptionDef createAndRegisterNewOption()
     {
-        CMenuOptionDef MenuOptionDef = new CMenuOptionDef();
-        options.add(MenuOptionDef);
-        return MenuOptionDef;
+        CMenuOptionDef menuOptionDef = new CMenuOptionDef();
+        options.add(menuOptionDef);
+        return menuOptionDef;
     }
 
     public String buildHTMLMenu()

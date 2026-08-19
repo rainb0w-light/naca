@@ -527,9 +527,9 @@ public abstract class Var extends VarAndEdit
         return n;
     }
 
-    public boolean equals(MathBase MathValue)
+    public boolean equals(MathBase mathValue)
     {
-        if (compareTo(MathValue) == 0) {
+        if (compareTo(mathValue) == 0) {
             return true;
         }
         return false;

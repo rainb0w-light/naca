@@ -75,16 +75,16 @@ public class CESMStart extends CJMapObject
     }
 
     /**
-     * @param trans_Time
+     * @param transTime
      * @return
      */
-    public CESMStart time(Var trans_Time)
+    public CESMStart time(Var transTime)
     {
         // trans_Time uses format HHMMSS
-        int nNbSecondsSinceMidnightFromNow_s = DateUtil.getNbSecondSinceMidnight();
-        int nNextTime_s = DateUtil.getNbSecondsFromHour(trans_Time.getInt());
-        if (nNbSecondsSinceMidnightFromNow_s < nNextTime_s) { // We are before next time
-            nIntervalTimeSeconds = nNextTime_s - nNbSecondsSinceMidnightFromNow_s;
+        int nNbSecondsSinceMidnightFromNowS = DateUtil.getNbSecondSinceMidnight();
+        int nNextTimeS = DateUtil.getNbSecondsFromHour(transTime.getInt());
+        if (nNbSecondsSinceMidnightFromNowS < nNextTimeS) { // We are before next time
+            nIntervalTimeSeconds = nNextTimeS - nNbSecondsSinceMidnightFromNowS;
         } else {
             nIntervalTimeSeconds = 0;
         }

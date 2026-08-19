@@ -599,9 +599,9 @@ public class DbPreparedStatement
         return csQueryString;
     }
 
-    boolean isTimeOut(int nMaxStatementLiveTime_ms)
+    boolean isTimeOut(int nMaxStatementLiveTimeMs)
     {
-        return swLastTimeUsed.isTimeElapsed(nMaxStatementLiveTime_ms);
+        return swLastTimeUsed.isTimeElapsed(nMaxStatementLiveTimeMs);
     }
 
     public boolean isReserved()

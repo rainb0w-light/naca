@@ -37,9 +37,9 @@ public class VarDefEditInMapRedefineNumEdited extends VarDefEditInMapRedefineBas
         super();
     }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
-        Dest.varDef.write(Dest.bufferPos, this, bufferSource);
+        dest.varDef.write(dest.bufferPos, this, bufferSource);
     }
 
     CSQLItemType getSQLType()

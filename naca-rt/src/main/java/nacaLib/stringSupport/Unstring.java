@@ -27,8 +27,8 @@ public class Unstring
 
     public Unstring delimitedBy(String csDelimiter)
     {
-        UnstringDelimiter Delimiter = new UnstringDelimiter(csDelimiter, false);
-        unstringManager.delimiters.add(Delimiter);
+        UnstringDelimiter delimiter = new UnstringDelimiter(csDelimiter, false);
+        unstringManager.delimiters.add(delimiter);
         return this;
     }
 

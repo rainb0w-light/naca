@@ -22,7 +22,7 @@
       "spotbugsTest": 10
     },
     "naca-jlib": {
-      "checkstyleMain": 1924,
+      "checkstyleMain": 1888,
       "checkstyleTest": 0,
       "pmdMain": 4030,
       "pmdTest": 0,
@@ -30,7 +30,7 @@
       "spotbugsTest": 0
     },
     "naca-rt": {
-      "checkstyleMain": 3580,
+      "checkstyleMain": 3484,
       "checkstyleTest": 0,
       "pmdMain": 9630,
       "pmdTest": 44,
@@ -45,7 +45,7 @@
       "spotbugsTest": 6
     },
     "naca-trans": {
-      "checkstyleMain": 2656,
+      "checkstyleMain": 2623,
       "checkstyleTest": 53,
       "pmdMain": 7305,
       "pmdTest": 2623,

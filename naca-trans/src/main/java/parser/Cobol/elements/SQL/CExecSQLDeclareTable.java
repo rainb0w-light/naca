@@ -160,31 +160,31 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
 
         while (!isdone)
         {
-            CSQLTableColDescriptor SQLTableColDescriptor = new CSQLTableColDescriptor();
+            CSQLTableColDescriptor sqlTableColDescriptor = new CSQLTableColDescriptor();
 
             CBaseToken tok = GetCurrentToken() ;
 
             if (tok.GetType() == CTokenType.IDENTIFIER || tok.GetType() == CTokenType.STRING)
             {
                 String csName = new String(tok.GetValue());
-                SQLTableColDescriptor.SetName(csName);
+                sqlTableColDescriptor.SetName(csName);
                 tok = GetNext();
                 if (tok.GetType() == CTokenType.IDENTIFIER) // Type
                 {
                     String csType = new String(tok.GetValue());
-                    SQLTableColDescriptor.SetType(csType);
+                    sqlTableColDescriptor.SetType(csType);
                     tok = GetNext();
                 }
                 else if (tok.GetKeyword() == CCobolKeywordList.DATE)
                 {
                     String csType = "DATE" ;
-                    SQLTableColDescriptor.SetType(csType);
+                    sqlTableColDescriptor.SetType(csType);
                     tok = GetNext();
                 }
                 else if (tok.GetKeyword() == CCobolKeywordList.TIME)
                 {
                     String csType = "TIME" ;
-                    SQLTableColDescriptor.SetType(csType);
+                    sqlTableColDescriptor.SetType(csType);
                     tok = GetNext();
                 }
             }
@@ -200,7 +200,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
                 if (tok.GetType() == CTokenType.NUMBER)
                 {
                     String csLength = new String(tok.GetValue());
-                    SQLTableColDescriptor.SetLength(Integer.parseInt(csLength));
+                    sqlTableColDescriptor.SetLength(Integer.parseInt(csLength));
                     tok = GetNext();
                     if (tok.GetType() == CTokenType.COMMA)  // Precision
                     {
@@ -208,7 +208,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
                         if (tok.GetType() == CTokenType.NUMBER)
                         {
                             String csPrecision = new String(tok.GetValue());
-                            SQLTableColDescriptor.SetDecimal(Integer.parseInt(csPrecision));
+                            sqlTableColDescriptor.SetDecimal(Integer.parseInt(csPrecision));
                             tok = GetNext();
                         }
                     }
@@ -223,7 +223,7 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
                 tok = GetNext();
                 if (tok.GetKeyword() == CCobolKeywordList.NULL)
                 {
-                    SQLTableColDescriptor.SetNull(false);
+                    sqlTableColDescriptor.SetNull(false);
                     tok = GetNext();
                 }
                 else
@@ -233,18 +233,18 @@ public class CExecSQLDeclareTable extends CBaseExecSQLAction
             }
             else if (tok.GetKeyword() == CCobolKeywordList.NULL)
             {
-                SQLTableColDescriptor.SetNull(true);
+                sqlTableColDescriptor.SetNull(true);
                 tok = GetNext();
             }
 
             if (tok.GetType() == CTokenType.COMMA)
             {
                 tok = GetNext();
-                arrTableColDescription.add(SQLTableColDescriptor);
+                arrTableColDescription.add(sqlTableColDescriptor);
             }
             else if (tok.GetType() == CTokenType.RIGHT_BRACKET) // Last ')'
             {
-                arrTableColDescription.add(SQLTableColDescriptor);
+                arrTableColDescription.add(sqlTableColDescriptor);
                 tok = GetNext();
             }
 

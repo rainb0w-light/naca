@@ -32,8 +32,8 @@ public class CalendarCacheManager
 
     boolean mustCheckServiceOpenState()
     {
-        long currentTime_ms = currentDate.setNow();
-        if (currentTime_ms >= timeNextCheck_ms) {  // No need to check: not enough tine has elaped
+        long currentTimeMs = currentDate.setNow();
+        if (currentTimeMs >= timeNextCheck_ms) {  // No need to check: not enough tine has elaped
             return true;
         }
         return false;

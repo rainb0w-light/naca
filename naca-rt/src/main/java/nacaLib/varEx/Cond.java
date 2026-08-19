@@ -71,9 +71,9 @@ public class Cond extends CJMapObject
         return false;
     }
 
-    public Cond getAt(Var x_Cmaj)
+    public Cond getAt(Var xCmaj)
     {
-        return getAt(x_Cmaj.getInt());
+        return getAt(xCmaj.getInt());
     }
 
     public Cond getAt(int x_Cmaj)   // 1 based

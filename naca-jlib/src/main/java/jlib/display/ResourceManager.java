@@ -67,9 +67,9 @@ public class ResourceManager extends BaseCloseMBean
         Log.logImportant("unloadCachedResources ended");
     }
 
-    public void setXSLFilePath(String ID, File filePath)
+    public void setXSLFilePath(String id, File filePath)
     {
-        tabXSLFiles.put(ID, filePath) ;
+        tabXSLFiles.put(id, filePath) ;
     }
 
     public void setXSLFilePath(String ID, String csXSLFilePath)

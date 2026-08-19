@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "scope": "all maintained Java main and test source sets",
+  "recipe": "com.publicitas.naca.NormalizeAllVariableNames",
+  "sourceFilesScanned": 1796,
+  "filesChanged": 111,
+  "parameterName": {
+    "before": 190,
+    "after": 84,
+    "reduced": 106
+  },
+  "localVariableName": {
+    "before": 128,
+    "after": 69,
+    "reduced": 59
+  },
+  "memberName": {
+    "before": 111,
+    "after": 111,
+    "reduced": 0,
+    "status": "requires cross-file symbol index"
+  },
+  "checkstyle": {
+    "before": 8307,
+    "after": 8142,
+    "reduced": 165
+  },
+  "verification": {
+    "fileTabCharacter": 0,
+    "lineLength": 0,
+    "activeHungarianMIdentifiers": 0,
+    "pmdGrowth": 0,
+    "spotbugsGrowth": 0
+  }
+}

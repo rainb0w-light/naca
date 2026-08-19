@@ -22,13 +22,13 @@ public class Time_ms
 
     public static String formatHHMMSS_ms(long l)
     {
-        int nNb_ms = (int)(l % 1000);
+        int nNbMs = (int)(l % 1000);
         l = l / 1000;
-        int nNb_s = (int)(l % 60);
+        int nNbS = (int)(l % 60);
         l = l / 60;
-        int nNb_min = (int)(l % 60);
-        int nNb_h = (int)(l / 60);
-        String cs = nNb_h + ":" + nNb_min + ":" + nNb_s + "." + nNb_ms;
+        int nNbMin = (int)(l % 60);
+        int nNbH = (int)(l / 60);
+        String cs = nNbH + ":" + nNbMin + ":" + nNbS + "." + nNbMs;
         return cs;
     }
 

@@ -61,9 +61,9 @@ public class EditAttributManager
         return cs;
     }
 
-    public void attrib(MapFieldAttrModified Modified)
+    public void attrib(MapFieldAttrModified modified)
     {
-        setModified(Modified);
+        setModified(modified);
     }
 
     public void setModified(MapFieldAttrModified Modified)

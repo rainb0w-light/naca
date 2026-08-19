@@ -51,9 +51,9 @@ public class VarDefNumIntComp0 extends VarDefNum
 //      return new VarDefNumIntComp0(this);
 //  }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
-        Dest.varDef.write(Dest.bufferPos, this, bufferSource);
+        dest.varDef.write(dest.bufferPos, this, bufferSource);
     }
 
     protected VarDefBuffer allocCopy()

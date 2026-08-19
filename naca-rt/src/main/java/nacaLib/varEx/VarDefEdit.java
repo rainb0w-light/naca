@@ -24,7 +24,7 @@ public abstract class VarDefEdit extends VarDefBuffer
         super();
     }
 
-    void transfer(VarBufferPos bufferSource, Var Dest)
+    void transfer(VarBufferPos bufferSource, Var dest)
     {
     }
 

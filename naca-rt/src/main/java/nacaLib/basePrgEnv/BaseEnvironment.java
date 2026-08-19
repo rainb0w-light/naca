@@ -643,9 +643,9 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
         envStatus = EnvironmentStatus.RUNNING;
     }
 
-    void offsetMaxTimeLimit(long lOffset_ms)
+    void offsetMaxTimeLimit(long lOffsetMs)
     {
-        sessionRequestEndBefore_ms += lOffset_ms;
+        sessionRequestEndBefore_ms += lOffsetMs;
     }
 
     private void endSessionRequest()
@@ -723,8 +723,8 @@ public abstract class BaseEnvironment extends CJMapObject implements SessionEnvi
 
         if(sessionRequestEndBefore_ms != 0)
         {
-            long almostCurrentTime_ms = Time_ms.getCurrentTime_ms();
-            if(almostCurrentTime_ms > sessionRequestEndBefore_ms)
+            long almostCurrentTimeMs = Time_ms.getCurrentTime_ms();
+            if(almostCurrentTimeMs > sessionRequestEndBefore_ms)
             {
                 AbortSessionException exp = new AbortSessionException() ;
                 exp.reason = new Error("SessionTimeoutInternal");

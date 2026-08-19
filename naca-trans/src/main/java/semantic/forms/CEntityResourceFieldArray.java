@@ -93,14 +93,14 @@ public class CEntityResourceFieldArray extends CEntityResourceField
         return false;
     }
 
-    public void SetArray(int nbItems, int NbCol, boolean bVerticalFilling)
+    public void SetArray(int nbItems, int nbCol, boolean bVerticalFilling)
     {
         // Fixed latent self-assignment: the legacy body assigned the parameters to themselves
         // (nbItems = nbItems; bVerticalFilling = bVerticalFilling;), leaving the nbItems field 0
         // and the isverticalFilling field false regardless of the parser-resolved values. Bind
         // the real counts so the XML artifact reports the true motif layout.
         this.nbItems = nbItems ;
-        nbColumns = NbCol ;
+        nbColumns = nbCol ;
         this.isverticalFilling = bVerticalFilling ;
     }
 
@@ -108,10 +108,10 @@ public class CEntityResourceFieldArray extends CEntityResourceField
     protected int nbColumns = 0 ;
     protected boolean isverticalFilling = false ;
 
-    public void SetPosition(int Line, int Col)
+    public void SetPosition(int line, int col)
     {
-        nPosCol = Col ;
-        nPosLine = Line ;
+        nPosCol = col ;
+        nPosLine = line ;
     }
     public void InitDependences(CBaseEntityFactory factory)
     {

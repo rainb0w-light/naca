@@ -90,9 +90,9 @@ public class CExecSQL extends CCobolElement
             CBaseToken tokNext = GetNext();
             if (tokNext.GetValue().equals("GLOBAL"))
             {
-                CExecSQLSessionDeclare ExecSQLSessionDeclare = new CExecSQLSessionDeclare(getLine());
-                Parse(ExecSQLSessionDeclare);
-                action = ExecSQLSessionDeclare;
+                CExecSQLSessionDeclare execSQLSessionDeclare = new CExecSQLSessionDeclare(getLine());
+                Parse(execSQLSessionDeclare);
+                action = execSQLSessionDeclare;
             }
             else
             {
@@ -112,10 +112,10 @@ public class CExecSQL extends CCobolElement
                         if(tokNext.GetType() == CTokenType.LEFT_BRACKET)
                         {
                             tokNext = GetNext();    // Skip the (
-                            CExecSQLDeclareTable ExecSQLDeclareTable = new CExecSQLDeclareTable(tok.getLine());
-                            ExecSQLDeclareTable.SetTableName(csLastIndentifier);
-                            Parse(ExecSQLDeclareTable);
-                            action = ExecSQLDeclareTable;
+                            CExecSQLDeclareTable execSQLDeclareTable = new CExecSQLDeclareTable(tok.getLine());
+                            execSQLDeclareTable.SetTableName(csLastIndentifier);
+                            Parse(execSQLDeclareTable);
+                            action = execSQLDeclareTable;
                         }
                     }
                     if(tok.GetKeyword() == CCobolKeywordList.CURSOR)
@@ -138,10 +138,10 @@ public class CExecSQL extends CCobolElement
                             // Cursor for select
                             if (tokNext.GetKeyword() == CCobolKeywordList.SELECT)
                             {
-                                CExecSQLSelect ExecSQLSelect = new CExecSQLSelect(tok.getLine());
-                                ExecSQLSelect.SetCursorName(csLastIndentifier, iswithHold);
-                                Parse(ExecSQLSelect);
-                                action = ExecSQLSelect;
+                                CExecSQLSelect execSQLSelect = new CExecSQLSelect(tok.getLine());
+                                execSQLSelect.SetCursorName(csLastIndentifier, iswithHold);
+                                Parse(execSQLSelect);
+                                action = execSQLSelect;
                             }
                             else if (tokNext.GetType() == CTokenType.IDENTIFIER)
                             {
@@ -175,63 +175,63 @@ public class CExecSQL extends CCobolElement
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.OPEN)
         {
-            CExecSQLOpen ExecSQLOpen = new CExecSQLOpen(getLine());
-            Parse(ExecSQLOpen);
-            action = ExecSQLOpen;
+            CExecSQLOpen execSQLOpen = new CExecSQLOpen(getLine());
+            Parse(execSQLOpen);
+            action = execSQLOpen;
         }
         else if (tokAction.GetValue().equals("FETCH"))
         {
-            CExecSQLFetch ExecSQLFetch = new CExecSQLFetch(getLine());
-            Parse(ExecSQLFetch);
-            action = ExecSQLFetch;
+            CExecSQLFetch execSQLFetch = new CExecSQLFetch(getLine());
+            Parse(execSQLFetch);
+            action = execSQLFetch;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.CLOSE)
         {
-            CExecSQLClose ExecSQLClose = new CExecSQLClose(getLine());
-            Parse(ExecSQLClose);
-            action = ExecSQLClose;
+            CExecSQLClose execSQLClose = new CExecSQLClose(getLine());
+            Parse(execSQLClose);
+            action = execSQLClose;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.CALL)
         {
-            CExecSQLCall ExecSQLCall = new CExecSQLCall(getLine());
-            Parse(ExecSQLCall);
-            action = ExecSQLCall;
+            CExecSQLCall execSQLCall = new CExecSQLCall(getLine());
+            Parse(execSQLCall);
+            action = execSQLCall;
         }
         else if (tokAction.GetValue().equals("ROLLBACK"))
         {
-            CExecSQLRollBack ExecSQLRollback = new CExecSQLRollBack(getLine());
-            Parse(ExecSQLRollback);
-            action = ExecSQLRollback;
+            CExecSQLRollBack execSQLRollback = new CExecSQLRollBack(getLine());
+            Parse(execSQLRollback);
+            action = execSQLRollback;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.PREPARE)
         {
-            CExecSQLPrepare ExecSQLPrepare = new CExecSQLPrepare(getLine());
-            Parse(ExecSQLPrepare);
-            action = ExecSQLPrepare;
+            CExecSQLPrepare execSQLPrepare = new CExecSQLPrepare(getLine());
+            Parse(execSQLPrepare);
+            action = execSQLPrepare;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.COMMIT)
         {
-            CExecSQLCommit ExecSQLCommit = new CExecSQLCommit(getLine());
-            Parse(ExecSQLCommit);
-            action = ExecSQLCommit;
+            CExecSQLCommit execSQLCommit = new CExecSQLCommit(getLine());
+            Parse(execSQLCommit);
+            action = execSQLCommit;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.EXECUTE)
         {
-            CExecSQLExecute ExecSQLExecute = new CExecSQLExecute(getLine());
-            Parse(ExecSQLExecute);
-            action = ExecSQLExecute ;
+            CExecSQLExecute execSQLExecute = new CExecSQLExecute(getLine());
+            Parse(execSQLExecute);
+            action = execSQLExecute ;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.LOCK)
         {
-            CExecSQLLock ExecSQLLock = new CExecSQLLock(getLine());
-            Parse(ExecSQLLock);
-            action = ExecSQLLock;
+            CExecSQLLock execSQLLock = new CExecSQLLock(getLine());
+            Parse(execSQLLock);
+            action = execSQLLock;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.DROP)
         {
-            CExecSQLSessionDrop ExecSQLSessionDrop = new CExecSQLSessionDrop(getLine());
-            Parse(ExecSQLSessionDrop);
-            action = ExecSQLSessionDrop;
+            CExecSQLSessionDrop execSQLSessionDrop = new CExecSQLSessionDrop(getLine());
+            Parse(execSQLSessionDrop);
+            action = execSQLSessionDrop;
         }
         else if (tokAction.GetKeyword() == CCobolKeywordList.WHENEVER)
         { // EXEC SQL WHENEVER SQLERROR GO TO identifier END-EXEC

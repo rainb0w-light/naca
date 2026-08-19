@@ -60,9 +60,9 @@ public abstract class Timer extends Thread
     {
     }
 
-    public void startTimer(int nPeriodWait_ms)
+    public void startTimer(int nPeriodWaitMs)
     {
-        this.nPeriodWait_ms = nPeriodWait_ms;
+        this.nPeriodWait_ms = nPeriodWaitMs;
         start();
     }
 

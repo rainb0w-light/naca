@@ -532,8 +532,8 @@ public class NacaToolBox extends CJMapObject
                 calendar.add(GregorianCalendar.YEAR, diffYears);
                 // int DiffDayOfYear = elapsedTime(calendar, calendarEnd, GregorianCalendar.DATE);
                 diffMillis = calendarEnd.getTimeInMillis() - calendar.getTimeInMillis();
-                long DiffDayOfYear = diffMillis/(24*60*60*1000);
-                csDiffDayOfYear = StringUtil.leftPad(String.valueOf(DiffDayOfYear), 3, '0');
+                long diffDayOfYear = diffMillis/(24*60*60*1000);
+                csDiffDayOfYear = StringUtil.leftPad(String.valueOf(diffDayOfYear), 3, '0');
             }
             else
             {

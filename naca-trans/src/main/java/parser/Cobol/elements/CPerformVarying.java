@@ -56,10 +56,10 @@ public class CPerformVarying extends CBlocElement
         protected CExpression condUntilAfter = null ;
     }
 
-    public CPerformVarying(CIdentifier Ref, CIdentifier refThru, int line, boolean bBefore)
+    public CPerformVarying(CIdentifier ref, CIdentifier refThru, int line, boolean bBefore)
     {
         super(line);
-        reference = Ref ;
+        reference = ref ;
         this.refThru = refThru ;
         istestBefore = bBefore ;
     }

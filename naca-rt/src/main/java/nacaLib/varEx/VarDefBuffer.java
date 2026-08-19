@@ -781,7 +781,7 @@ public abstract class VarDefBuffer extends VarDefBase
 
     abstract public void moveIntoSameType(VarBufferPos bufferPosDest, VarDefBuffer varDefSource, VarBufferPos bufferSource);
 
-    abstract void transfer(VarBufferPos bufferSource, VarAndEdit Dest);
+    abstract void transfer(VarBufferPos bufferSource, VarAndEdit dest);
 
     abstract void write(VarBufferPos buffer, VarDefG varSource, VarBufferPos bufferSource);
     abstract void write(VarBufferPos buffer, VarDefX varSource, VarBufferPos bufferSource);

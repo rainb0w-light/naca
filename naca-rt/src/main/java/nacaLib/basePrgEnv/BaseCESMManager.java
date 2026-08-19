@@ -279,7 +279,7 @@ public class BaseCESMManager extends CJMapObject
         cESMEnv.setCommandReturnCode(CESMReturnCode.Select(n)) ;
     }
 
-    public CCESMFakeMethodContainer startBrowseDataSet(String ws_Fichier)
+    public CCESMFakeMethodContainer startBrowseDataSet(String wsFichier)
     {
         throw unsupported("STARTBR DATASET");
     }
@@ -289,9 +289,9 @@ public class BaseCESMManager extends CJMapObject
         return startBrowseDataSet(ws_Fichier.getString());
     }
 
-    public CCESMFakeMethodContainer readNextDataSet(Var res_Fichier)
+    public CCESMFakeMethodContainer readNextDataSet(Var resFichier)
     {
-        return readNextDataSet(res_Fichier.getString());
+        return readNextDataSet(resFichier.getString());
     }
 
     public CCESMFakeMethodContainer readNextDataSet(String res_Fichier)
@@ -320,10 +320,10 @@ public class BaseCESMManager extends CJMapObject
     public void delayInterval(Var delay)
     {
         // delay uses format HHMMSS
-        int nNextTime_s = DateUtil.getNbSecondsFromHour(delay.getInt());
-        long waitTime_ms = nNextTime_s * 1000;
-        cESMEnv.offsetMaxTimeLimit(waitTime_ms);
-        Time_ms.wait_ms(waitTime_ms);
+        int nNextTimeS = DateUtil.getNbSecondsFromHour(delay.getInt());
+        long waitTimeMs = nNextTimeS * 1000;
+        cESMEnv.offsetMaxTimeLimit(waitTimeMs);
+        Time_ms.wait_ms(waitTimeMs);
     }
     public void delaySeconds(Var delay)
     {

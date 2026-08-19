@@ -59,16 +59,16 @@ public class CESMManager extends BaseCESMManager
         order.setMap(mapName);
         return order;
     }
-    public CESMReceive receiveMap(Var MapToReceive)
+    public CESMReceive receiveMap(Var mapToReceive)
     {
         if (isLogCESM) {
-            Log.logDebug("receiveMap Var=" + MapToReceive.getLoggableValue());
+            Log.logDebug("receiveMap Var=" + mapToReceive.getLoggableValue());
         }
         cESMEnv.setLastCommandCode(CESMCommandCode.RECEIVE_MAP) ;
         //XMLUtil.ExportXML(cESMEnv.getXMLData(), "DataReceived.xml");
         //cESMEnv.recordInput() ;
         CESMReceive order = new CESMReceive(cESMEnv.getXMLData(), cESMEnv);
-        order.setMap(MapToReceive.getString());
+        order.setMap(mapToReceive.getString());
         return order;
     }
 

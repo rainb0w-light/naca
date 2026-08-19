@@ -23,9 +23,9 @@ public class CIdentifierTerminal extends CTerminal
     /* (non-Javadoc)
      * @see parser.condition.CConditionalTerminal#Export()
      */
-    public CIdentifierTerminal(CIdentifier Id)
+    public CIdentifierTerminal(CIdentifier id)
     {
-        identifier = Id;
+        identifier = id;
     }
 
 //  public String GetType()

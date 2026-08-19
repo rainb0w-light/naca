@@ -34,20 +34,20 @@ public class CurrentDateInfo
         calendar.set(nYear, nMonth, nDay, nHourOfDay, nMinute, nSecond);
     }
 
-    public void setDateDDDotMMDotYYYY(String csDD_MM_YYYY)
+    public void setDateDDDotMMDotYYYY(String csDDMMYYYY)
     {
-        int nDay = NumberParser.getAsInt(csDD_MM_YYYY.substring(0, 2));
-        int nMonth = NumberParser.getAsInt(csDD_MM_YYYY.substring(3, 5));
+        int nDay = NumberParser.getAsInt(csDDMMYYYY.substring(0, 2));
+        int nMonth = NumberParser.getAsInt(csDDMMYYYY.substring(3, 5));
         nMonth--;   // Month is 0 based (January = 0)
-        int nYear = NumberParser.getAsInt(csDD_MM_YYYY.substring(6, 10));
+        int nYear = NumberParser.getAsInt(csDDMMYYYY.substring(6, 10));
         calendar.set(nYear, nMonth, nDay, 0, 0, 0);
     }
 
-    public void setHourHHDotMMDotSS(String csHH_MM_SS)
+    public void setHourHHDotMMDotSS(String csHHMMSS)
     {
-        int nHour = NumberParser.getAsInt(csHH_MM_SS.substring(0, 2));
-        int nMinute = NumberParser.getAsInt(csHH_MM_SS.substring(3, 5));
-        int nSecond = NumberParser.getAsInt(csHH_MM_SS.substring(6, 8));
+        int nHour = NumberParser.getAsInt(csHHMMSS.substring(0, 2));
+        int nMinute = NumberParser.getAsInt(csHHMMSS.substring(3, 5));
+        int nSecond = NumberParser.getAsInt(csHHMMSS.substring(6, 8));
         calendar.set(1970, 0, 1, nHour, nMinute, nSecond);
     }
 

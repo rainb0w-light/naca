@@ -60,7 +60,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
         return CSQLItemType.SQL_TYPE_STRING;
     }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
 //      boolean bMoveTextOnly = true;
 //      boolean bDestIsEditInMapRedefine = Dest.varDef.isEditInMapRedefine();
@@ -80,7 +80,7 @@ public class VarDefEditInMapRedefine extends VarDefEditInMapRedefineBase
 //          }
 //      }
 //      if(bMoveTextOnly)
-            Dest.varDef.write(Dest.bufferPos, this, bufferSource);
+            dest.varDef.write(dest.bufferPos, this, bufferSource);
 //      else
 //      {
             // Sauver tous les attributs des edits dans le buffer

@@ -230,12 +230,12 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
     }
 
     /**
-     * @param ProgId
+     * @param progId
      * @return
      */
-    public static String ResolveTransID(String ProgId)
+    public static String ResolveTransID(String progId)
     {
-        return ms_tabTransID.get(ProgId);
+        return ms_tabTransID.get(progId);
     }
 
 
@@ -252,10 +252,10 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
             {
                 String csTransactionId = tagTransid.getVal("id") ;
                 String csProg = tagTransid.getVal("program") ;
-                String csMaxExecutionTime_ms = tagTransid.getVal("MaxExecutionTime_ms") ;
+                String csMaxExecutionTimeMs = tagTransid.getVal("MaxExecutionTime_ms") ;
                 ms_tabTransID.put(csTransactionId, csProg);
                 ms_tabPrograms.put(csProg, csTransactionId);
-                BaseResourceManager.registerTransactionMaxExecTime(csTransactionId, csMaxExecutionTime_ms);
+                BaseResourceManager.registerTransactionMaxExecTime(csTransactionId, csMaxExecutionTimeMs);
 
                 tagTransid = tagRoot.getEnumChild();
             }
@@ -579,7 +579,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
     }
 
-    public void runSubProgram(String csProgramID, ArrayList<CCallParam> arrCallerCallParam, BaseEnvironment CESMEnv)
+    public void runSubProgram(String csProgramID, ArrayList<CCallParam> arrCallerCallParam, BaseEnvironment cesmEnv)
     {
         BaseProgram currentProgram = null ;
 
@@ -596,7 +596,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         {
             BaseProgramManager baseProgramManager = currentProgram.getProgramManager();
             boolean isnewProgramInstance = baseProgramManager.isNewProgramInstance();
-            baseProgramManager.prepareCall(this, currentProgram, arrCallerCallParam, CESMEnv, isnewProgramInstance) ;
+            baseProgramManager.prepareCall(this, currentProgram, arrCallerCallParam, cesmEnv, isnewProgramInstance) ;
 
             ms_lock.unlock();
         }
@@ -614,17 +614,17 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
             if (isLogFlow) {
                 Log.logVerbose("Calling program: " + currentProgram.getSimpleName());
             }
-            CESMEnv.startRunProgram(currentProgram.getSimpleName());
+            cesmEnv.startRunProgram(currentProgram.getSimpleName());
             currentProgram.getProgramManager().prepareRunMain(currentProgram);
             currentProgram.getProgramManager().runMain();
             TempCacheLocator.getTLSTempCache().popCurrentProgram();
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Normal);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Normal);
         }
         catch (CESMReturnException e)
         {
             // program out...
             TempCacheLocator.getTLSTempCache().popCurrentProgram();
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Exit);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Exit);
             if (isLogCESM || isLogFlow) {
                 Log.logVerbose("Program finished: " + currentProgram.getSimpleName());
             }
@@ -633,14 +633,14 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         {
             // program out...
             TempCacheLocator.getTLSTempCache().popCurrentProgram();
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Exit);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Exit);
             if (isLogCESM || isLogFlow) {
                 Log.logVerbose("Program finished: " + currentProgram.getSimpleName());
             }
         }
         catch (AbortSessionException e)
         {
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Abort);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Abort);
             e.programName = currentProgram.getSimpleName();
             doNotReturnProgramInstanceToPool(currentProgram);
             currentProgram = null;
@@ -648,7 +648,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
         catch (AssertException e)
         {
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Abort);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Abort);
             String csProgramName = currentProgram.getSimpleName();
             doNotReturnProgramInstanceToPool(currentProgram);
             currentProgram = null;
@@ -656,7 +656,7 @@ public abstract class BaseProgramLoader extends ProgramSequencer    //ProgramSeq
         }
         catch (Exception e)
         {
-            CESMEnv.endRunProgram(CriteriaEndRunMain.Abort);
+            cesmEnv.endRunProgram(CriteriaEndRunMain.Abort);
             String csProgramName = currentProgram.getSimpleName();
             doNotReturnProgramInstanceToPool(currentProgram);
             currentProgram = null;

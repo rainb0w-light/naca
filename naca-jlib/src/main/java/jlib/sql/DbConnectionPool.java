@@ -28,18 +28,18 @@ public class DbConnectionPool
     DbConnectionPool(
         String csPoolName,
         int nNbMaxConnections,
-        int nTimeBeforeRemoveConnection_ms,
-        int nMaxStatementLiveTime_ms,
-        int nGarbageCollectorStatement_ms)
+        int nTimeBeforeRemoveConnectionMs,
+        int nMaxStatementLiveTimeMs,
+        int nGarbageCollectorStatementMs)
     {
-        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
+        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatementMs;
         DbConnectionColl dbConnectionColl = new DbConnectionColl(
             csPoolName,
             nNbMaxConnections,
-            nTimeBeforeRemoveConnection_ms,
-            nMaxStatementLiveTime_ms,
+            nTimeBeforeRemoveConnectionMs,
+            nMaxStatementLiveTimeMs,
             false,
-            nGarbageCollectorStatement_ms);
+            nGarbageCollectorStatementMs);
         addProgram("", null, dbConnectionColl);
     }
 

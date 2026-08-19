@@ -740,9 +740,9 @@ public class CObjectCatalog
     }
 
     protected Vector<CDataEntity> transID = new Vector<CDataEntity>();
-    public void RegisterVariableTransID(CDataEntity TID)
+    public void RegisterVariableTransID(CDataEntity tid)
     {
-        transID.add(TID) ;
+        transID.add(tid) ;
     }
     public int GetNbVariableTransID()
     {

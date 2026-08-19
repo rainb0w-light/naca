@@ -89,7 +89,7 @@ public abstract class CBaseEntityFactory
     public abstract CEntityCICSWrite NewEntityCICSWrite(int l) ;
     public abstract CEntityCICSSendMap NewEntityCICSSendMap(int l) ;
     public abstract CEntityCICSReturn NewEntityCICSReturn(int l) ;
-    public abstract CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID) ;
+    public abstract CEntityCICSStart NewEntityCICSStart(int l, CDataEntity tid) ;
     public abstract CEntityCICSRetrieve NewEntityCICSRetreive(int l, boolean bPointer) ;
     public abstract CEntityCICSIgnoreCondition NewEntityCICSIgnoreCondition(int l) ;
     public abstract CEntityCICSHandleCondition NewEntityCICSHandleCondition(int line) ;

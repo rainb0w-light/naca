@@ -15,11 +15,11 @@ public abstract class PersistentDequeueObjectThread extends BaseThread
     private int nLoopWait_ms = 0;
     private BaseQueueItemFactory baseQueueItemFactory = null;
 
-    protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWait_ms)
+    protected PersistentDequeueObjectThread(PersistantQueue persistantQueue, BaseQueueItemFactory baseQueueItemFactory, int nLoopWaitMs)
     {
         this.baseQueueItemFactory = baseQueueItemFactory;
         this.persistantQueue = persistantQueue;
-        this.nLoopWait_ms = nLoopWait_ms;
+        this.nLoopWait_ms = nLoopWaitMs;
     }
 
     public void run()

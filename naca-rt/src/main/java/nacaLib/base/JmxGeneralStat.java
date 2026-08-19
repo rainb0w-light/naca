@@ -230,7 +230,7 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
 //      ms_nNbCurrentRunningTrans++;
 //  }
 
-    public synchronized static void endRunTransaction(CriteriaEndRunMain criteria, long lRuntimeTrans_ms, long lSumDbTimeIOForATrans_ms)
+    public synchronized static void endRunTransaction(CriteriaEndRunMain criteria, long lRuntimeTransMs, long lSumDbTimeIOForATransMs)
     {
         ms_tTransaction[criteria.getIndex()]++;
         //m_lSumTimeTransaction_ms += lRuntimeTrans_ms;
@@ -490,14 +490,14 @@ public class JmxGeneralStat extends BaseJmxGeneralStat
         TransThreadManager.hide();
     }
 
-    public void setZ_MinTransExecTime_s(Integer iMinTransExecTime_s)
+    public void setZ_MinTransExecTime_s(Integer iMinTransExecTimeS)
     {
-        ms_nMinTransExecTime_s = iMinTransExecTime_s;
+        ms_nMinTransExecTime_s = iMinTransExecTimeS;
     }
 
-    public void setW_ParamMaxPermanentHeap_Mo(Integer iMaxPermanentHeap_Mo)
+    public void setW_ParamMaxPermanentHeap_Mo(Integer iMaxPermanentHeapMo)
     {
-        BaseResourceManager.setCurrentMaxPermanentHeap_Mo(iMaxPermanentHeap_Mo);
+        BaseResourceManager.setCurrentMaxPermanentHeap_Mo(iMaxPermanentHeapMo);
     }
 
     public Integer getW_ParamMaxPermanentHeap_Mo()

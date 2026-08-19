@@ -21,10 +21,10 @@ public class CEntityCICSStart extends CBaseActionEntity
      * @param line
      * @param cat
      */
-    public CEntityCICSStart(int line, CObjectCatalog cat, CDataEntity TID)
+    public CEntityCICSStart(int line, CObjectCatalog cat, CDataEntity tid)
     {
         super(line, cat);
-        transID = TID ;
+        transID = tid ;
         if (cat != null)
         {
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;

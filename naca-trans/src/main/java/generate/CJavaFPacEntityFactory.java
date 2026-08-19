@@ -279,7 +279,7 @@ public class CJavaFPacEntityFactory extends CBaseEntityFactory
     }
 
     @Override
-    public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)
+    public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity tid)
     {
         throw unsupportedOperation() ;
     }

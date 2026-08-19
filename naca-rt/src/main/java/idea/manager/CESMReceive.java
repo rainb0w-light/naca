@@ -23,9 +23,9 @@ import org.w3c.dom.Document;
 
 public class CESMReceive extends CJMapObject
 {
-    CESMReceive(Document Loader, BaseEnvironment env)
+    CESMReceive(Document loader, BaseEnvironment env)
     {
-        this.xmlData = Loader;
+        this.xmlData = loader;
         this.env = env;
     }
 

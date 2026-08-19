@@ -1325,9 +1325,9 @@ public abstract class BaseProgram extends CJMapObject
         return false;
     }
 
-    protected boolean isDifferent(MathBase Math1, MathBase Math2)
+    protected boolean isDifferent(MathBase Math1, MathBase math2)
     {
-        return !isEqual(Math1, Math2);
+        return !isEqual(Math1, math2);
     }
 
     protected boolean isDifferent(MathBase Math2, int i)

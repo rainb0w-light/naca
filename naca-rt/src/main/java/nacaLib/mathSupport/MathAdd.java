@@ -34,12 +34,12 @@ public class MathAdd extends MathBase
      * @param VarAndEdit VarAndEdit2
      *     Set current object to VarAndEdit1+VarAndEdit2 (VarAndEdit are treated as numeric optionnaly decimals / signed)
      */
-    public MathAdd(VarAndEdit VarAndEdit1, VarAndEdit VarAndEdit2)
+    public MathAdd(VarAndEdit varAndEdit1, VarAndEdit varAndEdit2)
     {
-        String s1 = VarAndEdit1.getDottedSignedString();
+        String s1 = varAndEdit1.getDottedSignedString();
         d = new BigDecimal(s1);
 
-        String s2 = VarAndEdit2.getDottedSignedString();
+        String s2 = varAndEdit2.getDottedSignedString();
         BigDecimal val2 = new BigDecimal(s2);
         d = d.add(val2);
     }
@@ -226,12 +226,12 @@ public class MathAdd extends MathBase
     }
 
     /**
-     * @param VarAndEdit VarAndEdit; treated as a number
+     * @param varAndEdit VarAndEdit; treated as a number
      *     Set current object's value to current object+VarAndEdit
      */
-    public MathAdd add(VarAndEdit VarAndEdit)
+    public MathAdd add(VarAndEdit varAndEdit)
     {
-        String s = VarAndEdit.getDottedSignedString();
+        String s = varAndEdit.getDottedSignedString();
 
         BigDecimal val = new BigDecimal(s);
         d = d.add(val);

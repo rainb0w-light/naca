@@ -56,9 +56,9 @@ public class AccountingRecordProgram
         return 0;
     }
 
-    void reportDBIOTime(long lDBIOTime_ns)
+    void reportDBIOTime(long lDBIOTimeNs)
     {
-        nRunTimeIO_ns += lDBIOTime_ns;
+        nRunTimeIO_ns += lDBIOTimeNs;
     }
 
     String getProgramName()

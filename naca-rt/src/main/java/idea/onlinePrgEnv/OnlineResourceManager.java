@@ -324,9 +324,9 @@ public class OnlineResourceManager extends BaseResourceManager
 
             csJarXMLFile = tagRoot.getVal("JarXMLFile") ;
 
-            int nMaxSizeMemPoolCodeCache_Mb = tagRoot.getValAsInt("MaxSizeMemPoolCodeCache_Mb") ;
-            int nMaxSizeMemPoolPermGen_Mb = tagRoot.getValAsInt("MaxSizeMemPoolPermGen_Mb") ;
-            CodeManager.initCodeSizeLimits(nMaxSizeMemPoolCodeCache_Mb, nMaxSizeMemPoolPermGen_Mb);
+            int nMaxSizeMemPoolCodeCacheMb = tagRoot.getValAsInt("MaxSizeMemPoolCodeCache_Mb") ;
+            int nMaxSizeMemPoolPermGenMb = tagRoot.getValAsInt("MaxSizeMemPoolPermGen_Mb") ;
+            CodeManager.initCodeSizeLimits(nMaxSizeMemPoolCodeCacheMb, nMaxSizeMemPoolPermGenMb);
 
             csServerName = tagRoot.getVal("ServerName") ;
             csLDAPServer = tagRoot.getVal("LDAPServer") ;

@@ -153,9 +153,9 @@ public abstract class DbConnectionManagerBase
         String csPassword,
         String csConnectionUrlOptionalParams,
         int nNbMaxConnections,
-        int nTimeBeforeRemoveConnection_ms,
-        int nMaxStatementLiveTime_ms,
-        int nGarbageCollectorStatement_ms)
+        int nTimeBeforeRemoveConnectionMs,
+        int nMaxStatementLiveTimeMs,
+        int nGarbageCollectorStatementMs)
     {
         String driverClass = "com.ibm.db2.jcc.DB2Driver";
         return initDriverClass(
@@ -165,9 +165,9 @@ public abstract class DbConnectionManagerBase
             driverClass,
             csConnectionUrlOptionalParams,
             nNbMaxConnections,
-            nTimeBeforeRemoveConnection_ms,
-            nMaxStatementLiveTime_ms,
-            nGarbageCollectorStatement_ms);
+            nTimeBeforeRemoveConnectionMs,
+            nMaxStatementLiveTimeMs,
+            nGarbageCollectorStatementMs);
     }
 
     public boolean initOracle(

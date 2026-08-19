@@ -141,7 +141,7 @@ public class CCESMFakeMethodContainer
     {
         return this ;
     }
-    public CCESMFakeMethodContainer  termID(String S)
+    public CCESMFakeMethodContainer  termID(String s)
     {
         return this ;
     }
@@ -213,7 +213,7 @@ public class CCESMFakeMethodContainer
         throw new UnsupportedOperationException(
             "Remote CICS SYSID operations require a configured transport backend");
     }
-    public CCESMFakeMethodContainer countAll(String string, Var nb_Class)
+    public CCESMFakeMethodContainer countAll(String string, Var nbClass)
     {
         return this ;
     }

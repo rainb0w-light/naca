@@ -34,10 +34,10 @@ public class FPacFileDescriptor extends BaseFileDescriptor
         init(program);
     }
 
-    void setRecordFillers(FPacRecordFiller FPacRecordFillerInput, FPacRecordFiller FPacRecordFillerOutput)
+    void setRecordFillers(FPacRecordFiller fPacRecordFillerInput, FPacRecordFiller fPacRecordFillerOutput)
     {
-        pacRecordFillerInput = FPacRecordFillerInput;
-        pacRecordFillerOutput = FPacRecordFillerOutput;
+        pacRecordFillerInput = fPacRecordFillerInput;
+        pacRecordFillerOutput = fPacRecordFillerOutput;
     }
 
     public FPacFileDescriptor openOutput()

@@ -53,18 +53,18 @@ public class DbConnectionColl
     DbConnectionColl(
         String csName,
         int nNbMaxConnection,
-        int nTimeBeforeRemoveConnection_ms,
-        int nMaxStatementLiveTime_ms,
+        int nTimeBeforeRemoveConnectionMs,
+        int nMaxStatementLiveTimeMs,
         boolean bUseExplain,
-        int nGarbageCollectorStatement_ms)
+        int nGarbageCollectorStatementMs)
     {
         collFreeConnections = new LinkedList<DbConnectionBase>();
         collUsedConnections = new LinkedList<DbConnectionBase>();
         this.nNbMaxConnection = nNbMaxConnection;
-        this.nTimeBeforeRemoveConnection_ms = nTimeBeforeRemoveConnection_ms;
-        this.nMaxStatementLiveTime_ms = nMaxStatementLiveTime_ms;
+        this.nTimeBeforeRemoveConnection_ms = nTimeBeforeRemoveConnectionMs;
+        this.nMaxStatementLiveTime_ms = nMaxStatementLiveTimeMs;
         this.bUseExplain = bUseExplain;
-        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatement_ms;
+        this.nGarbageCollectorStatement_ms = nGarbageCollectorStatementMs;
         this.name = csName;
     }
 

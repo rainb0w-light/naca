@@ -127,8 +127,8 @@ public class AsyncThreadMBean extends BaseCloseMBean
         } else {
             cs = "Running since " + csLastWaitEvent;
         }
-        long elapsedTime_s = sw.getElapsedTime() / 1000;
-        cs = cs + " (" + elapsedTime_s + " s)";
+        long elapsedTimeS = sw.getElapsedTime() / 1000;
+        cs = cs + " (" + elapsedTimeS + " s)";
         return cs;
     }
 

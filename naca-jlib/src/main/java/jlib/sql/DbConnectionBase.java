@@ -119,11 +119,11 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         nGenerationId = -1; // This connection won't reused
     }
 
-    boolean canBeUsed(int nTimeBeforeRemoveConnection_ms, String csValidationQuery)
+    boolean canBeUsed(int nTimeBeforeRemoveConnectionMs, String csValidationQuery)
     {
         if(ConnectionGenerationManager.isGenerationCurrent(nGenerationId))
         {
-            if(isValid(nTimeBeforeRemoveConnection_ms) && isOpen())
+            if(isValid(nTimeBeforeRemoveConnectionMs) && isOpen())
             {
                 if (checkWithQuery(csValidationQuery)) {
                     return true;
@@ -745,7 +745,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
         return uuid;
     }
 
-    void createStmtJMXBeans(DbConnectionBaseJMXBean JMXBeanOwner, String csName, String csDescription)
+    void createStmtJMXBeans(DbConnectionBaseJMXBean jmxBeanOwner, String csName, String csDescription)
     {
         if (hashStatement == null) {
             return;
@@ -760,7 +760,7 @@ public abstract class DbConnectionBase //extends BaseOpenMBean
             long lastUsageTimeValue = statement.getLastUsageTimeValue();
             DbConnectionBaseStmtJMXBean dbConnectionBaseStmtJMXBean = new DbConnectionBaseStmtJMXBean(stmt, lastUsageTimeValue);
             dbConnectionBaseStmtJMXBean.createMBean(csName + "_" + lastUsageTimeValue, csDescription);
-            JMXBeanOwner.add(dbConnectionBaseStmtJMXBean);
+            jmxBeanOwner.add(dbConnectionBaseStmtJMXBean);
             n++;
         }
     }

@@ -31,11 +31,11 @@ public class CEntitySqlOnErrorGoto extends CBaseActionEntity
     /**
      * @param cat
      */
-    public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, String Reference, boolean OnWarning)
+    public CEntitySqlOnErrorGoto(int l, CObjectCatalog cat, String reference, boolean onWarning)
     {
         super(l, cat);
-        csRef = Reference ;
-        isonWarning = OnWarning ;
+        csRef = reference ;
+        isonWarning = onWarning ;
     }
 
     protected String csRef = "" ;

@@ -104,8 +104,8 @@ public abstract class BaseProgramManager extends CJMapObject
                 arrCallerCallParam = new ArrayList<CCallParam>();
             }
 
-            CCallParam CallParam = env.getCommarea().buildCallParam();
-            arrCallerCallParam.add(CallParam);
+            CCallParam callParam = env.getCommarea().buildCallParam();
+            arrCallerCallParam.add(callParam);
         }
 
 //      int nParametersTotalLength = calcCallParametersTotalLength(arrCallerCallParam);

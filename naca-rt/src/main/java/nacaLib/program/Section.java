@@ -232,9 +232,9 @@ public class Section extends CJMapRunnable
     {
         if(paragraph.size() > 0)
         {
-            Paragraph ParaFirst = paragraph.get(0);
-            if (ParaFirst != null) {
-                ParaFirst.run();
+            Paragraph paraFirst = paragraph.get(0);
+            if (paraFirst != null) {
+                paraFirst.run();
             }
         }
     }

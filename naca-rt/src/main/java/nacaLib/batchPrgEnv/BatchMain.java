@@ -106,8 +106,8 @@ public class BatchMain
                 }
                 else if(argUpper.startsWith("ALLOCMEMORY="))
                 {
-                    String cs_ms = arg.substring(12);
-                    long nbItems = NumberParser.getAsLong(cs_ms);
+                    String csMs = arg.substring(12);
+                    long nbItems = NumberParser.getAsLong(csMs);
                     int nNb = (int) nbItems;
                     nt = new Object[nNb];
                 }

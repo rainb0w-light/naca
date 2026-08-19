@@ -247,8 +247,8 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
             createDirIsRequired(grp.csOutputPath, csApplication);   // For .java output
 
         }
-        CBMSParser BMSParser = parseRESResource(tagRoot);
-        if (BMSParser != null)
+        CBMSParser bmsParser = parseRESResource(tagRoot);
+        if (bmsParser != null)
         {
             Transcoder.logDebug("Transcoding resource " + inputFileName);
             //exportXMLToFile(BMSParser, "D:/Dev/naca/Pub2000Cobol/Inter/BMS/RS01A05b.xml") ; // Reexport XML
@@ -264,7 +264,7 @@ public class BMSTranscoderEngine extends TranscoderEngine<CMapSetElement, CEntit
                     String csJavaOutFileName = FileSystem.appendFilePath(
                             grp.csOutputPath + csApplication,
                             ReplaceExtensionFileName(csOutputFile, "java"));
-                    CEntityResourceFormContainer ext = doSemanticAnalysis(BMSParser, csJavaOutFileName, newCat, grp, bResources);
+                    CEntityResourceFormContainer ext = doSemanticAnalysis(bmsParser, csJavaOutFileName, newCat, grp, bResources);
                     if (ext != null)
                     {
                         cat.RegisterFormContainer(inputFileName, ext);

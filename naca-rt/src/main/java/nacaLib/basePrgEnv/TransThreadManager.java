@@ -25,10 +25,10 @@ public class TransThreadManager
     {
     }
 
-    public static synchronized void view(int nMinRunTime_s)
+    public static synchronized void view(int nMinRunTimeS)
     {
         show(false, 0);
-        show(true, nMinRunTime_s);
+        show(true, nMinRunTimeS);
     }
 
 //  static void registerTransBean(TransThreadMBean transThreadMBean)

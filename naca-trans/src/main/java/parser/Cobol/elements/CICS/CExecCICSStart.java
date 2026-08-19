@@ -49,12 +49,12 @@ public class CExecCICSStart extends CCobolElement
                 "EXEC CICS START requires TRANSID");
             return null;
         }
-        CDataEntity TID ;
+        CDataEntity tid ;
         boolean ischecked = false ;
         if (transID.IsReference())
         {
-            TID = transID.GetDataEntity(getLine(), factory);
-            factory.programCatalog.RegisterVariableTransID(TID) ;
+            tid = transID.GetDataEntity(getLine(), factory);
+            factory.programCatalog.RegisterVariableTransID(tid) ;
         }
         else
         {
@@ -62,20 +62,20 @@ public class CExecCICSStart extends CCobolElement
             String programID = factory.programCatalog.GetProgramForTransaction(transIDValue);
             if (programID.equals(""))
             {
-                TID = transID.GetDataEntity(getLine(), factory);
-                factory.programCatalog.RegisterVariableTransID(TID) ;
+                tid = transID.GetDataEntity(getLine(), factory);
+                factory.programCatalog.RegisterVariableTransID(tid) ;
             }
             else
             {
-                TID = factory.NewEntityString(programID) ;
+                tid = factory.NewEntityString(programID) ;
                 if (factory.programCatalog.CheckProgramReference(programID, true, 0, false))
                 {
                     ischecked = true ;
                 }
             }
         }
-        CEntityCICSStart start = factory.NewEntityCICSStart(getLine(), TID);
-        TID.RegisterReadingAction(start) ;
+        CEntityCICSStart start = factory.NewEntityCICSStart(getLine(), tid);
+        tid.RegisterReadingAction(start) ;
         parent.AddChild(start);
 
         start.setVerified(ischecked) ;

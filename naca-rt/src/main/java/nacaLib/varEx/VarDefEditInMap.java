@@ -36,9 +36,9 @@ public class VarDefEditInMap extends VarDefEdit
         super();
     }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
-        Dest.varDef.write(Dest.bufferPos, this, bufferSource);  // PJD EditInMap TO Var
+        dest.varDef.write(dest.bufferPos, this, bufferSource);  // PJD EditInMap TO Var
     }
 
     CSQLItemType getSQLType()

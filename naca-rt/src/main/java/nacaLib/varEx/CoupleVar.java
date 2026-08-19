@@ -16,10 +16,10 @@ package nacaLib.varEx;
  */
 public class CoupleVar
 {
-    public CoupleVar(VarDefBuffer varDefBuffer, VarBase var_edit)
+    public CoupleVar(VarDefBuffer varDefBuffer, VarBase varEdit)
     {
         this.varDefBuffer = varDefBuffer;
-        this.variable = var_edit;
+        this.variable = varEdit;
     }
 
     public VarDefBuffer getVarDefItem()

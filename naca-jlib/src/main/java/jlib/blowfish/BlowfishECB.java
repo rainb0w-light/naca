@@ -155,53 +155,53 @@ public class BlowfishECB
     // test vector #1 (checking for the "signed bug")
     byte[] testKey1 = { (byte) 0x1c, (byte) 0x58, (byte) 0x7f, (byte) 0x1c,
                         (byte) 0x13, (byte) 0x92, (byte) 0x4f, (byte) 0xef };
-    int[] tv_p1 = { 0x30553228, 0x6d6f295a };
-    int[] tv_c1 = { 0x55cb3774, 0xd13ef201 };
-    int[] tv_t1 = new int[2];
+    int[] tvP1 = { 0x30553228, 0x6d6f295a };
+    int[] tvC1 = { 0x55cb3774, 0xd13ef201 };
+    int[] tvT1 = new int[2];
 
     // test vector #2 (offical vector by Bruce Schneier)
     String sTestKey2 = "Who is John Galt?";
     byte[] testKey2 = sTestKey2.getBytes();
 
-    int[] tv_p2 = { 0xfedcba98, 0x76543210 };
-    int[] tv_c2 = { 0xcc91732b, 0x8022f684 };
-    int[] tv_t2 = new int[2];
+    int[] tvP2 = { 0xfedcba98, 0x76543210 };
+    int[] tvC2 = { 0xcc91732b, 0x8022f684 };
+    int[] tvT2 = new int[2];
 
 
     // start the tests, check for a proper decryption, too
 
     BlowfishECB testbf1 = new BlowfishECB(testKey1);
 
-    testbf1.encrypt(tv_p1, tv_t1);
+    testbf1.encrypt(tvP1, tvT1);
 
-    if ((tv_t1[0] != tv_c1[0]) ||
-        (tv_t1[1] != tv_c1[1]))
+    if ((tvT1[0] != tvC1[0]) ||
+        (tvT1[1] != tvC1[1]))
     {
       return false;
     }
 
-    testbf1.decrypt(tv_t1);
+    testbf1.decrypt(tvT1);
 
-    if ((tv_t1[0] != tv_p1[0]) ||
-        (tv_t1[1] != tv_p1[1]))
+    if ((tvT1[0] != tvP1[0]) ||
+        (tvT1[1] != tvP1[1]))
     {
       return false;
     }
 
     BlowfishECB testbf2 = new BlowfishECB(testKey2);
 
-    testbf2.encrypt(tv_p2, tv_t2);
+    testbf2.encrypt(tvP2, tvT2);
 
-    if ((tv_t2[0] != tv_c2[0]) ||
-        (tv_t2[1] != tv_c2[1]))
+    if ((tvT2[0] != tvC2[0]) ||
+        (tvT2[1] != tvC2[1]))
     {
       return false;
     }
 
-    testbf2.decrypt(tv_t2);
+    testbf2.decrypt(tvT2);
 
-    if ((tv_t2[0] != tv_p2[0]) ||
-        (tv_t2[1] != tv_p2[1]))
+    if ((tvT2[0] != tvP2[0]) ||
+        (tvT2[1] != tvP2[1]))
     {
       return false;
     }

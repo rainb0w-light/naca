@@ -126,9 +126,9 @@ public class SemanticManager extends CJMapObject
                                         String csLabel = elOption.getAttribute("Label") ;
                                         String csActionId = elOption.getAttribute("ActionId") ;
 
-                                        CMenuOptionDef MenuOptionDef = MenuDef.createAndRegisterNewOption();
-                                        MenuOptionDef.setActionId(csActionId);
-                                        MenuOptionDef.setLabel(csLabel);
+                                        CMenuOptionDef menuOptionDef = MenuDef.createAndRegisterNewOption();
+                                        menuOptionDef.setActionId(csActionId);
+                                        menuOptionDef.setLabel(csLabel);
 
                                         nOption++;
                                         // Enum all conditions

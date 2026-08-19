@@ -77,9 +77,9 @@ public class ThreadStatementGC extends Thread
         }
     }
 
-    public synchronized void setCurrentMaxPermanentHeap_Mo(int nMaxPermanentHeap_Mo)
+    public synchronized void setCurrentMaxPermanentHeap_Mo(int nMaxPermanentHeapMo)
     {
-        this.nMaxPermanentHeap_Mo = nMaxPermanentHeap_Mo;
+        this.nMaxPermanentHeap_Mo = nMaxPermanentHeapMo;
         ismaxPermanentHeap_MoSet = true;
     }
 

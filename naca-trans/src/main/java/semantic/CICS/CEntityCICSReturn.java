@@ -32,9 +32,9 @@ public class CEntityCICSReturn extends CBaseActionEntity
             cat.SendNotifRequest(new NotifDeclareUseCICSPreprocessor()) ;
         }
     }
-    public void SetTransID(CDataEntity TID, CDataEntity comma, CDataEntity comlen, boolean bChecked)
+    public void SetTransID(CDataEntity tid, CDataEntity comma, CDataEntity comlen, boolean bChecked)
     {
-        transID = TID;
+        transID = tid;
         commArea = comma ;
         commLenght = comlen ;
         ischecked = bChecked ;

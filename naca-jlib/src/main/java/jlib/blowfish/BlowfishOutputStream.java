@@ -61,9 +61,9 @@ public class BlowfishOutputStream extends OutputStream {
       // make sure the iv is written to output stream -- this is always the
       // first 8 bytes written out.
       if ( !_started ) {
-         byte[] iv_bytes = new byte[ BlowfishCBC.BLOCKSIZE ];
-         BinConverter.longToByteArray( _iv, iv_bytes, 0 );
-         _out.write( iv_bytes, 0, iv_bytes.length );
+         byte[] ivBytes = new byte[ BlowfishCBC.BLOCKSIZE ];
+         BinConverter.longToByteArray( _iv, ivBytes, 0 );
+         _out.write( ivBytes, 0, ivBytes.length );
          _cbc.setCBCIV( _iv );
          _started = true;
       }
@@ -101,10 +101,10 @@ public class BlowfishOutputStream extends OutputStream {
       // number between 1 and 8, inclusive. If this means adding
       // an extra block just for the pad count, then so be it.
       // Minor correction: 8 isn't the magic number, rather it's BlowfishECB.BLOCKSIZE.
-      byte pad_val = ( byte ) ( _in_buffer.length - _bytes_in_buffer );
-      if ( pad_val > 0 ) {
+      byte padVal = ( byte ) ( _in_buffer.length - _bytes_in_buffer );
+      if ( padVal > 0 ) {
          while ( _bytes_in_buffer < _in_buffer.length ) {
-            _in_buffer[ _bytes_in_buffer ] = pad_val;
+            _in_buffer[ _bytes_in_buffer ] = padVal;
             ++ _bytes_in_buffer;
          }
          // encrypt the buffer

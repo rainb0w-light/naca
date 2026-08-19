@@ -104,28 +104,28 @@ public class LogCenterDbFlat extends LogCenter
     boolean open()
     {
         boolean b = false;
-        int nTime_Ms = 1000 * 60 * 10;      // 10 minutes
+        int nTimeMs = 1000 * 60 * 10;      // 10 minutes
         manager = new DbConnectionManager();
 
         if(csDbProvider.equalsIgnoreCase("MySql"))
         {
-            b = manager.initMySql(csDbUrl, csDbUser, csDbPassword, null, 8, nTime_Ms, -1, 0);
+            b = manager.initMySql(csDbUrl, csDbUser, csDbPassword, null, 8, nTimeMs, -1, 0);
         }
         else if(csDbProvider.equalsIgnoreCase("Oracle"))
         {
-            b = manager.initOracle(csDbUrl, csDbUser, csDbPassword, null, 8, nTime_Ms, -1, 0);
+            b = manager.initOracle(csDbUrl, csDbUser, csDbPassword, null, 8, nTimeMs, -1, 0);
         }
         else if(csDbProvider.equalsIgnoreCase("SqlServer"))
         {
-            b = manager.initSqlServer(csDbUrl, csDbUser, csDbPassword, null, 8, nTime_Ms, -1, 0);
+            b = manager.initSqlServer(csDbUrl, csDbUser, csDbPassword, null, 8, nTimeMs, -1, 0);
         }
         else if(csDbProvider.equalsIgnoreCase("DB2"))
         {
-            b = manager.initDB2(csDbUrl, csDbUser, csDbPassword, null, 8, nTime_Ms, -1, 0);
+            b = manager.initDB2(csDbUrl, csDbUser, csDbPassword, null, 8, nTimeMs, -1, 0);
         }
         else
         {
-            b = manager.initDriverClass(csDbUrl, csDbUser, csDbPassword, null, csDbProvider, 8, nTime_Ms, -1, 0);
+            b = manager.initDriverClass(csDbUrl, csDbUser, csDbPassword, null, csDbProvider, 8, nTimeMs, -1, 0);
         }
 
         try

@@ -34,7 +34,7 @@ public class VarDefInternalBool extends VarDefNum
         this.var = var;
     }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
         int n = 0;
     }

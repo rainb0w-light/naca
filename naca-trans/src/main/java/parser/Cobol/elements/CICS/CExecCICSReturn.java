@@ -47,13 +47,13 @@ public class CExecCICSReturn extends CCobolElement
 
         if (transID != null)
         {
-            CDataEntity TID ;
+            CDataEntity tid ;
             boolean ischecked = false ;
             if (transID.IsReference())
             {
-                TID = transID.GetDataEntity(getLine(), factory);
-                TID.RegisterReadingAction(ret) ;
-                factory.programCatalog.RegisterVariableTransID(TID) ;
+                tid = transID.GetDataEntity(getLine(), factory);
+                tid.RegisterReadingAction(ret) ;
+                factory.programCatalog.RegisterVariableTransID(tid) ;
             }
             else
             {
@@ -61,13 +61,13 @@ public class CExecCICSReturn extends CCobolElement
                 String programID = factory.programCatalog.GetProgramForTransaction(transIDValue);
                 if (programID.equals(""))
                 {
-                    TID = this.transID.GetDataEntity(getLine(), factory);
-                    TID.RegisterReadingAction(ret) ;
-                    factory.programCatalog.RegisterVariableTransID(TID) ;
+                    tid = this.transID.GetDataEntity(getLine(), factory);
+                    tid.RegisterReadingAction(ret) ;
+                    factory.programCatalog.RegisterVariableTransID(tid) ;
                 }
                 else
                 {
-                    TID = factory.NewEntityString(programID) ;
+                    tid = factory.NewEntityString(programID) ;
                     if (factory.programCatalog.CheckProgramReference(programID, true, 0, false))
                     {
                         ischecked = true ;
@@ -86,7 +86,7 @@ public class CExecCICSReturn extends CCobolElement
                     comlen.RegisterReadingAction(ret) ;
                 }
             }
-            ret.SetTransID(TID, comma, comlen, ischecked);
+            ret.SetTransID(tid, comma, comlen, ischecked);
         }
         return ret;
     }

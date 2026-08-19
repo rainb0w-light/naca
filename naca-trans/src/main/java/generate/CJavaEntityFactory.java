@@ -909,8 +909,8 @@ public class CJavaEntityFactory extends CBaseEntityFactory
         CEntityCICSRetrieve e = new CEntityCICSRetrieve(l, programCatalog, bPointer);
         return e;
     }
-    public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity TID)  {
-        CEntityCICSStart e = new CEntityCICSStart(l, programCatalog, TID);
+    public CEntityCICSStart NewEntityCICSStart(int l, CDataEntity tid)  {
+        CEntityCICSStart e = new CEntityCICSStart(l, programCatalog, tid);
         return e;
     }
     public CEntityCICSReturn NewEntityCICSReturn(int l) {

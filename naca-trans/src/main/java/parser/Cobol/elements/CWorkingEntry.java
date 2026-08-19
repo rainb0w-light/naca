@@ -1339,7 +1339,7 @@ public class CWorkingEntry extends CCobolElement
                     CDataEntity eRedef = le.redefines.GetDataReference(getLine(), factory) ;
                     if (eRedef.GetParent() == eParent && eRedef.HasChildren())
                     {
-                        CEntityResourceForm.CFormByteConsumingState state_sav = eForm.getCurrentConsumingState();
+                        CEntityResourceForm.CFormByteConsumingState stateSav = eForm.getCurrentConsumingState();
                         CEntityResourceForm.CFormByteConsumingState state = tabPassedStates.get(eRedef) ;
                         if (state == null)
                         {
@@ -1352,7 +1352,7 @@ public class CWorkingEntry extends CCobolElement
                             CBaseLanguageEntity eData = le.DoCustomSemanticAnalysis(eParent, factory) ;
                             int n = le.DoSemanticAnalysisForMapRedefineForChildren(eForm, factory, eData, bSaveMap, structure) ;
 
-                            eForm.setCurrentConsumingState(state_sav) ;
+                            eForm.setCurrentConsumingState(stateSav) ;
                         }
                     }
                     else

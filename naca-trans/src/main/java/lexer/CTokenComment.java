@@ -12,10 +12,10 @@ package lexer;
  */
 public class CTokenComment extends CBaseToken
 {
-    public CTokenComment(String Comm, int line, boolean newline)
+    public CTokenComment(String comm, int line, boolean newline)
     {
         super(line, newline);
-        value = Comm ;
+        value = comm ;
     }
 
     public CTokenType GetType()

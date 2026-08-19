@@ -50,9 +50,9 @@ public class VarDefNumIntSignComp0Long extends VarDefNum
 //      return new VarDefNumIntSignComp0Long(this);
 //  }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
-        Dest.varDef.write(Dest.bufferPos, this, bufferSource);  // PJD Var TO EditInMapRedefine; // PJD Var TO EditInMap
+        dest.varDef.write(dest.bufferPos, this, bufferSource);  // PJD Var TO EditInMapRedefine; // PJD Var TO EditInMap
     }
 
     CSQLItemType getSQLType()

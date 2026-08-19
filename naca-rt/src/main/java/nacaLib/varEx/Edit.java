@@ -145,9 +145,9 @@ public abstract class Edit extends VarAndEdit
         return getAt(x);
     };
     public abstract Edit getAt(int x);
-    public Edit getAt(MathBase Index)
+    public Edit getAt(MathBase index)
     {
-        int nIndex = Index.d.intValue() ;
+        int nIndex = index.d.intValue() ;
         return getAt(nIndex) ;
     }
     public abstract Edit getAt(int y, int x);
@@ -236,9 +236,9 @@ public abstract class Edit extends VarAndEdit
 
 
 
-    public Edit attrib(MapFieldAttrModified Modified)
+    public Edit attrib(MapFieldAttrModified modified)
     {
-        attrManager.attrib(Modified);
+        attrManager.attrib(modified);
         return this;
     }
 

@@ -131,9 +131,9 @@ public class VarLevel extends CJMapObject
         return this;
     }
 
-    public VarLevel redefines(Var VarRedefineOrigin)
+    public VarLevel redefines(Var varRedefineOrigin)
     {
-        varDefRedefineOrigin = VarRedefineOrigin.getVarDef();
+        varDefRedefineOrigin = varRedefineOrigin.getVarDef();
         return this;
     }
 

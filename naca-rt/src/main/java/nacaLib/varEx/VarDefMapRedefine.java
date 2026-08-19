@@ -46,7 +46,7 @@ public class VarDefMapRedefine extends VarDefBuffer
 //      return new VarDefMapRedefine(this);
 //  }
 
-    void transfer(VarBufferPos bufferSource, VarAndEdit Dest)
+    void transfer(VarBufferPos bufferSource, VarAndEdit dest)
     {
     }
 

@@ -147,9 +147,9 @@ public abstract class BaseSession
     {
         return nNetwork_ms;
     }
-    public void setNetwork_ms(int nNetwork_ms)
+    public void setNetwork_ms(int nNetworkMs)
     {
-        this.nNetwork_ms = nNetwork_ms;
+        this.nNetwork_ms = nNetworkMs;
     }
 
     public Object getSpecialObject(String csKey)

@@ -107,14 +107,14 @@ public class CSQLPreparedStatement extends DbPreparedStatement
     public CSQLResultSet executeQueryAndFillInto(SQL sql, int nNbFetch)
     {
         // sql.sqlStatus, sql.arrColSelectType, sql.accountingRecordManager, sql.m_hashParam, sql.m_hashValue);
-        CSQLResultSet SQLResultSet = executeQuery(sql);
-        if (SQLResultSet != null)
+        CSQLResultSet sqlResultSet = executeQuery(sql);
+        if (sqlResultSet != null)
         {
-            if(SQLResultSet.next())
+            if(sqlResultSet.next())
             {
-                SQLResultSet.fillIntoValues(sql, false, false, nNbFetch);
-                SQLResultSet.close();
-                return SQLResultSet;
+                sqlResultSet.fillIntoValues(sql, false, false, nNbFetch);
+                sqlResultSet.close();
+                return sqlResultSet;
             }
         }
         return null;

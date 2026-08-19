@@ -152,7 +152,7 @@ public class CobolTranscoderEngine extends TranscoderEngine<CProgram, CEntityCla
             {
                 if (var.startsWith("DEFINE TRANSACTION"))
                 {
-                    String TID = var.substring(19, 23) ;
+                    String tid = var.substring(19, 23) ;
                     int i = 0 ;
                     do
                     {

@@ -220,10 +220,10 @@ public abstract class BaseResourceManager extends CJMapObject
         ms_arrayDbConnectionPool.forceRemoveAllDBConnections();
     }
 
-    static public void setCurrentMaxPermanentHeap_Mo(int currentMaxPermanentHeap_Mo)
+    static public void setCurrentMaxPermanentHeap_Mo(int currentMaxPermanentHeapMo)
     {
         if (ms_threadStatementGC != null) {
-            ms_threadStatementGC.setCurrentMaxPermanentHeap_Mo(currentMaxPermanentHeap_Mo);
+            ms_threadStatementGC.setCurrentMaxPermanentHeap_Mo(currentMaxPermanentHeapMo);
         }
     }
 
@@ -324,13 +324,13 @@ public abstract class BaseResourceManager extends CJMapObject
 
     public static long getSessionRequestEndTimeLimit(String csTransactionId)
     {
-        Long LMaxSessionExecTime_ms = ms_hashMaxExecutionTimeByTrans.get(csTransactionId);
-        if(LMaxSessionExecTime_ms == null)
+        Long lMaxSessionExecTimeMs = ms_hashMaxExecutionTimeByTrans.get(csTransactionId);
+        if(lMaxSessionExecTimeMs == null)
         {
             long l = Time_ms.getCurrentTime_ms() + ms_lMaxSessionExecTime_ms;
             return l;
         }
-        long l = Time_ms.getCurrentTime_ms() + LMaxSessionExecTime_ms.longValue();
+        long l = Time_ms.getCurrentTime_ms() + lMaxSessionExecTimeMs.longValue();
         return l;
     }
 
@@ -714,14 +714,14 @@ public abstract class BaseResourceManager extends CJMapObject
         return ms_bLoadCopyByPrimordialLoader;
     }
 
-    public static void registerTransactionMaxExecTime(String csTransactionId, String csMaxExecutionTime_ms)
+    public static void registerTransactionMaxExecTime(String csTransactionId, String csMaxExecutionTimeMs)
     {
-        if (StringUtil.isEmpty(csMaxExecutionTime_ms)) {
+        if (StringUtil.isEmpty(csMaxExecutionTimeMs)) {
             ms_hashMaxExecutionTimeByTrans.put(csTransactionId, ms_lMaxSessionExecTime_ms);
         } else
         {
-            long maxExecutionTime_ms = NumberParser.getAsLong(csMaxExecutionTime_ms);
-            ms_hashMaxExecutionTimeByTrans.put(csTransactionId, maxExecutionTime_ms);
+            long maxExecutionTimeMs = NumberParser.getAsLong(csMaxExecutionTimeMs);
+            ms_hashMaxExecutionTimeByTrans.put(csTransactionId, maxExecutionTimeMs);
         }
     }
 

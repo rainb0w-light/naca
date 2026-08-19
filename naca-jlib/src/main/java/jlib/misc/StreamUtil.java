@@ -129,23 +129,23 @@ public class StreamUtil {
 
       InputStreamReader inputTxtStream = new InputStreamReader(inputStream, "ISO-8859-1");
 
-    String StrTemp = "";
+    String strTemp = "";
 
     if (inputTxtStream != null) {
-      final int DATA_BLOCK_SIZE = 2048;
+      final int dataBlockSize = 2048;
 
       // Create the byte array to hold the data
-      char[] bytes = new char[DATA_BLOCK_SIZE];
+      char[] bytes = new char[dataBlockSize];
 
       // Read in the bytes
       int numRead = 0;
 
       while ((numRead = inputTxtStream.read(bytes, 0, bytes.length)) >= 0) {
-        StrTemp += new String(bytes, 0, numRead);
+        strTemp += new String(bytes, 0, numRead);
       }
     }
 
-    return StrTemp;
+    return strTemp;
   }
 
 //----------------------------------------------------------

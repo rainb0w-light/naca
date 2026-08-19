@@ -87,11 +87,11 @@ public class VarBuffer extends InternalCharBuffer
 //      return nPositionDest;
 //  }
 //
-    public int copyBytesFromSource(int nPositionDest, InternalCharBuffer Source, int nPositionSource, int nNbCharsToCopy)
+    public int copyBytesFromSource(int nPositionDest, InternalCharBuffer source, int nPositionSource, int nNbCharsToCopy)
     {
         for(int n=0; n<nNbCharsToCopy; n++)
         {
-            acBuffer[nPositionDest++] = Source.acBuffer[nPositionSource++];
+            acBuffer[nPositionDest++] = source.acBuffer[nPositionSource++];
         }
         return nPositionDest;
     }
