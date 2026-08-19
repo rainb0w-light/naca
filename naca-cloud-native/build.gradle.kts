@@ -49,6 +49,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
     }
+    implementation("org.springframework.boot:spring-boot-starter-validation") {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+    }
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
@@ -64,6 +67,12 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.processResources {
+    from(rootProject.file("naca-rt-tests/src/test/resources/carddemo/CAPABILITY_INVENTORY.json")) {
+        into("carddemo/capabilities")
+    }
 }
 
 // Environment-dependent acceptance suites run only through their dedicated tasks.

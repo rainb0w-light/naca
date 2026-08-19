@@ -20,6 +20,26 @@ SPRING_PROFILES_ACTIVE=carddemo ./gradlew :naca-cloud-native:bootRun
 curl --fail http://localhost:8000/actuator/health/readiness
 ```
 
+Open `http://localhost:8000/carddemo/` to exercise the JSON terminal adapter,
+or call it directly:
+
+```bash
+curl --fail -H 'Content-Type: application/json' \
+  --data '{"requestId":"00000000-0000-0000-0000-000000000001","conversationId":"00000000-0000-0000-0000-000000000002","transactionId":"CC00","mapSet":"COSGN00","map":"COSGN0A","aid":"ENTER","cursorField":"USERID","fields":{"USERID":{"value":"DEMO0001","modified":true,"cleared":false}}}' \
+  http://localhost:8000/api/carddemo/bms/adapter
+```
+
+The endpoint accepts JSON only. It constructs the internal NacaRT DOM itself,
+so untrusted clients cannot submit XML. Password fields are cleared at the
+outbound JSON boundary. Until `COSGN00C` can lower successfully, the endpoint
+is an adapter diagnostic rather than the real CardDemo sign-on transaction.
+
+`GET /api/carddemo/capabilities` reports all 25 pinned online transactions and
+their current translation/compilation/acceptance state. The build packages this
+report from the corpus inventory rather than maintaining a second handwritten
+transaction list. PostgreSQL also stores terminal and COMMAREA snapshots with
+row locking, optimistic versions, expiry and caller-controlled rollback.
+
 Flyway owns all CardDemo objects. It migrates an empty database through V005
 and creates the `carddemo_runtime`, `carddemo_vsam`, `carddemo` and
 `carddemo_compat` schemas. Docker initialization must not create business
@@ -39,5 +59,6 @@ Spring-to-NacaRT connection binding, transaction rollback, no-data SQLCODE
 
 The online translation gate currently records `COSGN00C` as blocked. It uses
 the upstream symbolic BMS copybook so COBOL/CICS translation can be measured
-separately from full 3270 BMS generation. The later JSON Map gateway will read
-the real BMS source without exposing the legacy XML protocol.
+separately from full 3270 BMS generation. The JSON Map gateway exposes the
+existing RECEIVE/SEND MAP data boundary as a REST contract without exposing
+the legacy XML protocol.
