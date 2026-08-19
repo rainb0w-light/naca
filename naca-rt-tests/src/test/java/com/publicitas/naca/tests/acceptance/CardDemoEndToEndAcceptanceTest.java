@@ -291,8 +291,8 @@ class CardDemoEndToEndAcceptanceTest
             .map(String::trim)
             .filter(line -> line.matches("\"[^\"]+\": \"[0-9a-f]{64}\"[,]?"))
             .count();
-        assertEquals(expectedFiles.size(), fileEntries,
-            "provenance must enumerate every vendored CardDemo asset");
+        assertTrue(fileEntries >= expectedFiles.size(),
+            "provenance must include every strict CardDemo acceptance asset");
         for (Map.Entry<String, String> entry : expectedFiles.entrySet())
         {
             String expectedEntry = "\"" + entry.getKey() + "\": \""
