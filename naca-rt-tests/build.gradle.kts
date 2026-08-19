@@ -105,6 +105,21 @@ tasks.named<Test>("test") {
     finalizedBy(tasks.jacocoTestReport)
 }
 
+val cardDemoInventoryCheck = tasks.register<Exec>("cardDemoInventoryCheck") {
+    group = "verification"
+    description = "Validates the offline CardDemo acceptance inventory"
+    commandLine(
+        "python3",
+        rootProject.file("tools/carddemo_inventory.py").absolutePath,
+        "--check")
+    inputs.files(
+        rootProject.file("tools/carddemo_inventory.py"),
+        layout.projectDirectory.file(
+            "src/test/resources/carddemo/ACCEPTANCE_INVENTORY.json"),
+        layout.projectDirectory.file("src/test/resources/carddemo/PROVENANCE.json"))
+    inputs.dir(layout.projectDirectory.dir("src/test/resources/carddemo/app"))
+}
+
 tasks.register<Test>("sampleAcceptance") {
     group = "verification"
     description = "Runs the canonical GnuCOBOL vs Naca/Javac/NacaRT acceptance pipeline"
@@ -117,17 +132,13 @@ tasks.register<Test>("sampleAcceptance") {
         layout.projectDirectory.file("src/test/resources/naca-samples/source/cobol/CALLMSG.cbl"),
         layout.projectDirectory.file("src/test/resources/naca-samples/source/copybooks/MSGZONE"),
         layout.projectDirectory.file("src/test/resources/testdata/FILEIN.dat"))
-    inputs.files(
-        layout.projectDirectory.file("src/test/resources/carddemo/PROVENANCE.json"),
-        layout.projectDirectory.file("src/test/resources/carddemo/app/cbl/CBACT02C.cbl"),
-        layout.projectDirectory.file("src/test/resources/carddemo/app/cpy/CVACT02Y.cpy"),
-        layout.projectDirectory.file("src/test/resources/carddemo/app/data/ASCII/carddata.txt"),
-        layout.projectDirectory.file("src/test/resources/carddemo/LICENSE"))
+    inputs.dir(layout.projectDirectory.dir("src/test/resources/carddemo"))
     outputs.upToDateWhen { false }
     useJUnitPlatform {
         includeTags("sample-acceptance")
     }
     shouldRunAfter(tasks.test)
+    dependsOn(cardDemoInventoryCheck)
 }
 
 // The hand-written compatibility programs are a required runtime regression

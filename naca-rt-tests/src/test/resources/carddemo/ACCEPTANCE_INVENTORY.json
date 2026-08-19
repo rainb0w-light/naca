@@ -1,0 +1,581 @@
+{
+  "schemaVersion": 1,
+  "reportKind": "CardDemoAcceptanceInventory",
+  "source": {
+    "url": "https://github.com/aws-samples/aws-mainframe-modernization-carddemo.git",
+    "commit": "59cc6c2fd7ebd7ef7925cad552a01a4b8b6e4d5e"
+  },
+  "denominator": {
+    "definition": "Every regular file below app/ at the pinned commit whose filename ends in .cbl, case-insensitively.",
+    "exclusions": "None.",
+    "total": 44
+  },
+  "statusDefinitions": {
+    "strictComplete": "Vendored assets and provenance pass offline through recursive ST4, copybook generation, javac, isolated NacaRT, and exact business-output comparison.",
+    "stageFeasible": "A pinned probe passed one or more stages but has neither completed strict acceptance nor reached a deterministic blocker.",
+    "blocked": "A pinned probe reached a deterministic first blocker before strict completion.",
+    "notStarted": "The program is in the pinned denominator but has not received a pinned feasibility probe."
+  },
+  "summary": {
+    "total": 44,
+    "strictComplete": 3,
+    "stageFeasible": 0,
+    "blocked": 1,
+    "notStarted": 40,
+    "completionRate": {
+      "numerator": 3,
+      "denominator": 44,
+      "percent": 6.82
+    }
+  },
+  "programs": [
+    {
+      "name": "CBPAUP0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/CBPAUP0C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COPAUA0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUA0C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COPAUS0C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS0C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COPAUS1C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS1C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COPAUS2C",
+      "path": "app/app-authorization-ims-db2-mq/cbl/COPAUS2C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "DBUNLDGS",
+      "path": "app/app-authorization-ims-db2-mq/cbl/DBUNLDGS.CBL",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "PAUDBLOD",
+      "path": "app/app-authorization-ims-db2-mq/cbl/PAUDBLOD.CBL",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "PAUDBUNL",
+      "path": "app/app-authorization-ims-db2-mq/cbl/PAUDBUNL.CBL",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COBTUPDT",
+      "path": "app/app-transaction-type-db2/cbl/COBTUPDT.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COTRTLIC",
+      "path": "app/app-transaction-type-db2/cbl/COTRTLIC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COTRTUPC",
+      "path": "app/app-transaction-type-db2/cbl/COTRTUPC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COACCT01",
+      "path": "app/app-vsam-mq/cbl/COACCT01.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CODATE01",
+      "path": "app/app-vsam-mq/cbl/CODATE01.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBACT01C",
+      "path": "app/cbl/CBACT01C.cbl",
+      "status": "blocked",
+      "lastPassedStage": "javac",
+      "firstBlocker": {
+        "code": "NACART_OUTPUT_FILE_STATUS_NOT_SET",
+        "stage": "isolatedNacaRT",
+        "detail": "OPEN OUTPUT creates OUT-FILE but leaves its COBOL FILE STATUS unset instead of 00; CBACT01C deterministically takes its ERROR OPENING OUTFILE path before the first account record."
+      },
+      "probeEvidence": {
+        "pinnedSource": true,
+        "recursiveST4": "passed",
+        "copybooks": {
+          "CVACT01Y": "passed",
+          "CODATECN": "passed"
+        },
+        "javac": "passed",
+        "runtime": "failed",
+        "runtimeMarkers": [
+          "START OF EXECUTION OF PROGRAM CBACT01C",
+          "ERROR OPENING OUTFILE",
+          "ABENDING PROGRAM"
+        ],
+        "secondaryFailure": "The error path calls CEE3ABD, whose generated/runtime class is not available; this occurs after the first blocker."
+      }
+    },
+    {
+      "name": "CBACT02C",
+      "path": "app/cbl/CBACT02C.cbl",
+      "status": "strictComplete",
+      "lastPassedStage": "exactOutput",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "strictEvidence": {
+        "pipeline": [
+          "vendoredSourceAndProvenance",
+          "recursiveST4",
+          "copybookGeneration",
+          "javac",
+          "isolatedNacaRT",
+          "exactBusinessOutput"
+        ],
+        "exactBusinessLines": 52,
+        "assets": [
+          "app/cbl/CBACT02C.cbl",
+          "app/cpy/CVACT02Y.cpy",
+          "app/data/ASCII/carddata.txt"
+        ]
+      }
+    },
+    {
+      "name": "CBACT03C",
+      "path": "app/cbl/CBACT03C.cbl",
+      "status": "strictComplete",
+      "lastPassedStage": "exactOutput",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "strictEvidence": {
+        "pipeline": [
+          "vendoredSourceAndProvenance",
+          "recursiveST4",
+          "copybookGeneration",
+          "javac",
+          "isolatedNacaRT",
+          "exactBusinessOutput"
+        ],
+        "exactBusinessLines": 102,
+        "assets": [
+          "app/cbl/CBACT03C.cbl",
+          "app/cpy/CVACT03Y.cpy",
+          "app/data/ASCII/cardxref.txt"
+        ]
+      }
+    },
+    {
+      "name": "CBACT04C",
+      "path": "app/cbl/CBACT04C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBCUS01C",
+      "path": "app/cbl/CBCUS01C.cbl",
+      "status": "strictComplete",
+      "lastPassedStage": "exactOutput",
+      "firstBlocker": {
+        "code": "NONE",
+        "stage": null,
+        "detail": "No blocker; every strict acceptance stage passes offline."
+      },
+      "strictEvidence": {
+        "pipeline": [
+          "vendoredSourceAndProvenance",
+          "recursiveST4",
+          "copybookGeneration",
+          "javac",
+          "isolatedNacaRT",
+          "exactBusinessOutput"
+        ],
+        "exactBusinessLines": 102,
+        "assets": [
+          "app/cbl/CBCUS01C.cbl",
+          "app/cpy/CVCUS01Y.cpy",
+          "app/data/ASCII/custdata.txt"
+        ]
+      }
+    },
+    {
+      "name": "CBEXPORT",
+      "path": "app/cbl/CBEXPORT.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBIMPORT",
+      "path": "app/cbl/CBIMPORT.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBSTM03A",
+      "path": "app/cbl/CBSTM03A.CBL",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBSTM03B",
+      "path": "app/cbl/CBSTM03B.CBL",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBTRN01C",
+      "path": "app/cbl/CBTRN01C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBTRN02C",
+      "path": "app/cbl/CBTRN02C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CBTRN03C",
+      "path": "app/cbl/CBTRN03C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COACTUPC",
+      "path": "app/cbl/COACTUPC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COACTVWC",
+      "path": "app/cbl/COACTVWC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COADM01C",
+      "path": "app/cbl/COADM01C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COBIL00C",
+      "path": "app/cbl/COBIL00C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COBSWAIT",
+      "path": "app/cbl/COBSWAIT.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COCRDLIC",
+      "path": "app/cbl/COCRDLIC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COCRDSLC",
+      "path": "app/cbl/COCRDSLC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COCRDUPC",
+      "path": "app/cbl/COCRDUPC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COMEN01C",
+      "path": "app/cbl/COMEN01C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CORPT00C",
+      "path": "app/cbl/CORPT00C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COSGN00C",
+      "path": "app/cbl/COSGN00C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COTRN00C",
+      "path": "app/cbl/COTRN00C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COTRN01C",
+      "path": "app/cbl/COTRN01C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COTRN02C",
+      "path": "app/cbl/COTRN02C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COUSR00C",
+      "path": "app/cbl/COUSR00C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COUSR01C",
+      "path": "app/cbl/COUSR01C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COUSR02C",
+      "path": "app/cbl/COUSR02C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "COUSR03C",
+      "path": "app/cbl/COUSR03C.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    },
+    {
+      "name": "CSUTLDTC",
+      "path": "app/cbl/CSUTLDTC.cbl",
+      "status": "notStarted",
+      "lastPassedStage": null,
+      "firstBlocker": {
+        "code": "NOT_PROBED",
+        "stage": null,
+        "detail": "No pinned feasibility probe has been run, so the first technical blocker is intentionally unknown."
+      }
+    }
+  ]
+}

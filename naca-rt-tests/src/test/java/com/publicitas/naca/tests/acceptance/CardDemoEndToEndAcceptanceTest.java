@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-/** Strict offline acceptance for the two pinned CardDemo batch programs. */
+/** Strict offline acceptance for pinned CardDemo batch programs. */
 @Tag("sample-acceptance")
 class CardDemoEndToEndAcceptanceTest
 {
@@ -42,9 +42,21 @@ class CardDemoEndToEndAcceptanceTest
         "app/data/ASCII/carddata.txt",
         "da217240d2567c85f84b571aeb465171c683cfd21dad1754046f6bbb10e76c1d",
         "Cbact02c.java", "Cvact02y.java", "Cbact02c", "CARDFILE",
-        "ascii,fb,150", 150, 1,
+        "ascii,fb,150", 150, 150, 1,
         "START OF EXECUTION OF PROGRAM CBACT02C",
         "END OF EXECUTION OF PROGRAM CBACT02C");
+
+    private static final Scenario CBACT_XREF = new Scenario(
+        "CBACT03C", "app/cbl/CBACT03C.cbl",
+        "ee1019bc3ef7bc4e0f807b6e9b7167c9386ee7c2f647c63dfddc6fc464487855",
+        "CVACT03Y", "app/cpy/CVACT03Y.cpy",
+        "ffc6079e09b28739e154bf6c1e1c36d408209faa91f6cf7008078dc596a1c370",
+        "app/data/ASCII/cardxref.txt",
+        "efec3825ec0d5b791cf54f815bf688abfcc9db832c1600371ed2209df4e97764",
+        "Cbact03c.java", "Cvact03y.java", "Cbact03c", "XREFFILE",
+        "ascii,fb,50", 36, 50, 2,
+        "START OF EXECUTION OF PROGRAM CBACT03C",
+        "END OF EXECUTION OF PROGRAM CBACT03C");
 
     private static final Scenario CBCUS = new Scenario(
         "CBCUS01C", "app/cbl/CBCUS01C.cbl",
@@ -54,7 +66,7 @@ class CardDemoEndToEndAcceptanceTest
         "app/data/ASCII/custdata.txt",
         "d8cfa5b77fa61614329e73ebde9052367ea31cc1b08f9056fa869f949fef9991",
         "Cbcus01c.java", "Cvcus01y.java", "Cbcus01c", "CUSTFILE",
-        "ascii,fb,500", 500, 2,
+        "ascii,fb,500", 500, 500, 2,
         "START OF EXECUTION OF PROGRAM CBCUS01C",
         "END OF EXECUTION OF PROGRAM CBCUS01C");
 
@@ -75,6 +87,13 @@ class CardDemoEndToEndAcceptanceTest
             "CBCUS01C offline acceptance failed");
     }
 
+    @Test
+    void pinnedCrossReferenceProgramRunsWithPaddedRecordsDisplayedTwice()
+    {
+        assertDoesNotThrow(() -> runAcceptance(CBACT_XREF),
+            "CBACT03C offline acceptance failed");
+    }
+
     private void runAcceptance(Scenario scenario) throws Exception
     {
         Path corpus = locateCorpus();
@@ -91,6 +110,8 @@ class CardDemoEndToEndAcceptanceTest
         List<String> records = verifyRecords(dataFile, scenario);
 
         Path scenarioWorkspace = workspace.resolve(scenario.programName());
+        Path runtimeDataFile = prepareRuntimeData(
+            dataFile, records, scenario, scenarioWorkspace);
         Path copyDir = scenarioWorkspace.resolve("copy");
         Files.createDirectories(copyDir);
         Files.copy(copybookFile, copyDir.resolve(scenario.copybookName()));
@@ -129,7 +150,7 @@ class CardDemoEndToEndAcceptanceTest
                 + File.pathSeparator + classes,
             "com.publicitas.naca.tests.acceptance.AcceptanceProgramRunner",
             scenario.runtimeClass(), classes.toString(), scenario.logicalName(),
-            dataFile.toString(), scenario.descriptor());
+            runtimeDataFile.toString(), scenario.descriptor());
         assertEquals(0, run.exitCode(),
             scenario.programName() + " runtime failed: " + run.output());
         assertExactBusinessOutput(run.output(), records, scenario);
@@ -155,6 +176,9 @@ class CardDemoEndToEndAcceptanceTest
             CBCUS.programPath(), CBCUS.programHash(),
             CBCUS.copybookPath(), CBCUS.copybookHash(),
             CBCUS.dataPath(), CBCUS.dataHash(),
+            CBACT_XREF.programPath(), CBACT_XREF.programHash(),
+            CBACT_XREF.copybookPath(), CBACT_XREF.copybookHash(),
+            CBACT_XREF.dataPath(), CBACT_XREF.dataHash(),
             LICENSE_PATH, LICENSE_HASH);
         long fileEntries = provenance.lines()
             .map(String::trim)
@@ -177,16 +201,33 @@ class CardDemoEndToEndAcceptanceTest
         throws Exception
     {
         byte[] data = Files.readAllBytes(dataFile);
-        assertEquals(50 * (scenario.recordLength() + 1), data.length,
+        assertEquals(50 * (scenario.inputRecordLength() + 1), data.length,
             scenario.programName() + " data byte count mismatch");
         List<String> records = Files.readAllLines(
             dataFile, StandardCharsets.ISO_8859_1);
         assertEquals(50, records.size(),
             scenario.programName() + " input must contain 50 records");
         assertTrue(records.stream().allMatch(record -> record.getBytes(
-            StandardCharsets.ISO_8859_1).length == scenario.recordLength()),
+            StandardCharsets.ISO_8859_1).length == scenario.inputRecordLength()),
             scenario.programName() + " records have an invalid byte length");
-        return records;
+        return records.stream()
+            .map(record -> record + " ".repeat(
+                scenario.outputRecordLength() - scenario.inputRecordLength()))
+            .toList();
+    }
+
+    private static Path prepareRuntimeData(Path dataFile, List<String> records,
+        Scenario scenario, Path scenarioWorkspace) throws Exception
+    {
+        if (scenario.inputRecordLength() == scenario.outputRecordLength())
+        {
+            return dataFile;
+        }
+        Files.createDirectories(scenarioWorkspace);
+        Path normalized = scenarioWorkspace.resolve("fixed-records.dat");
+        Files.writeString(normalized, String.join("\n", records) + "\n",
+            StandardCharsets.ISO_8859_1);
+        return normalized;
     }
 
     private static void assertExactBusinessOutput(
@@ -195,7 +236,7 @@ class CardDemoEndToEndAcceptanceTest
         List<String> business = output.lines()
             .filter(line -> scenario.start().equals(line)
                 || scenario.end().equals(line)
-                || line.length() == scenario.recordLength())
+                || line.length() == scenario.outputRecordLength())
             .toList();
         List<String> expected = new ArrayList<>();
         expected.add(scenario.start());
@@ -252,7 +293,8 @@ class CardDemoEndToEndAcceptanceTest
         String copybookName, String copybookPath, String copybookHash,
         String dataPath, String dataHash, String programJava, String copybookJava,
         String runtimeClass, String logicalName, String descriptor,
-        int recordLength, int repetitions, String start, String end)
+        int inputRecordLength, int outputRecordLength, int repetitions,
+        String start, String end)
     {
     }
 

@@ -1,0 +1,45 @@
+# CardDemo acceptance inventory
+
+`ACCEPTANCE_INVENTORY.json` is the machine-readable progress report for the
+pinned AWS CardDemo commit recorded in `PROVENANCE.json`.
+
+The denominator is every regular file below `app/` at that commit whose name
+ends in `.cbl`, case-insensitively. There are no exclusions. The current report
+therefore contains 44 programs: 3 strict completions, 0 stage-feasible items,
+1 blocked item, and 40 not-started items. Strict completion is 3/44, or 6.82%.
+
+Strict completion means that vendored source and hashes pass offline through
+recursive ST4 generation, copybook generation, `javac`, an isolated NacaRT JVM,
+and exact business-output comparison. `CBACT02C` remains a 52-line scenario;
+`CBCUS01C` and `CBACT03C` are 102-line scenarios. The pinned `cardxref.txt`
+omits the copybook's 14-byte trailing filler, so the `CBACT03C` test creates a
+right-space-padded fixed-record input in its temporary workspace. The original
+vendored data and provenance hash remain unchanged.
+
+Regenerate the derived counts and immediately validate the report:
+
+```bash
+python3 tools/carddemo_inventory.py --write --check
+```
+
+Validate the report, every vendored provenance hash, and every strict asset
+without network access:
+
+```bash
+python3 tools/carddemo_inventory.py --check
+```
+
+If the read-only pinned checkout is available, also prove the 44-program
+denominator against its Git commit and filesystem inventory:
+
+```bash
+python3 tools/carddemo_inventory.py --check \
+  --upstream /tmp/carddemo-cbcus.qee18v
+```
+
+Run only the strict CardDemo execution scenarios with:
+
+```bash
+./gradlew :naca-rt-tests:sampleAcceptance \
+  --tests '*CardDemoEndToEndAcceptanceTest'
+```
